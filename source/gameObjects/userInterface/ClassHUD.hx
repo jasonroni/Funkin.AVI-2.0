@@ -52,7 +52,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 
 	var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
 	var diffDisplay:String = CoolUtil.difficultyFromNumber(PlayState.storyDifficulty);
-	var engineDisplay:String = "FOREVER ENGINE v" + Main.gameVersion;
+	var engineDisplay:String = 'Funkin.avi | ${PlayState.SONG.song} (${CoolUtil.difficultyFromNumber(PlayState.storyDifficulty)})';
 
 	// eep
 	public function new()
@@ -93,10 +93,9 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		scoreBar.antialiasing = true;
 		add(scoreBar);
 
-		cornerMark = new FlxText(0, 0, 0, engineDisplay);
+		cornerMark = new FlxText(0, FlxG.height - 18, 0, engineDisplay);
 		cornerMark.setFormat(Paths.font('vcr.ttf'), 18, FlxColor.WHITE);
 		cornerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
-		cornerMark.setPosition(FlxG.width - (cornerMark.width + 5), 5);
 		cornerMark.antialiasing = true;
 		add(cornerMark);
 
@@ -105,7 +104,6 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		centerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		centerMark.screenCenter(X);
 		centerMark.antialiasing = true;
-		add(centerMark);
 
 		// counter
 		if (Init.trueSettings.get('Counter') != 'None')
@@ -188,7 +186,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		}
 	}
 
-	private final divider:String = " • ";
+	private final divider:String = " | ";
 
 	public function updateScoreText()
 	{
@@ -202,9 +200,8 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		var displayAccuracy:Bool = Init.trueSettings.get('Display Accuracy');
 		if (displayAccuracy)
 		{
-			scoreBar.text += divider + 'Accuracy: ' + Std.string(Math.floor(Timings.getAccuracy() * 100) / 100) + '%' + comboDisplay;
 			scoreBar.text += divider + 'Combo Breaks: ' + Std.string(PlayState.misses);
-			scoreBar.text += divider + 'Rank: ' + Std.string(Timings.returnScoreRating().toUpperCase());
+			scoreBar.text += divider + 'Accuracy: ' + Std.string(Math.floor(Timings.getAccuracy() * 100) / 100) + '%' + comboDisplay;
 		}
 		scoreBar.text += '\n';
 		scoreBar.x = Math.floor((FlxG.width / 2) - (scoreBar.width / 2));

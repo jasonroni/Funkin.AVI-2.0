@@ -29,6 +29,8 @@ class MainMenuState extends MusicBeatState
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
 
+	var camFollowPos:FlxObject;
+
 	var optionShit:Array<String> = ['story mode', 'freeplay', 'options'];
 	var canSnap:Array<Float> = [];
 
@@ -51,21 +53,31 @@ class MainMenuState extends MusicBeatState
 		// uh
 		persistentUpdate = persistentDraw = true;
 
-		// background
-		bg = new FlxSprite(-85);
-		bg.loadGraphic(Paths.image('menus/base/menuBG'));
-		bg.scrollFactor.x = 0;
-		bg.scrollFactor.y = 0.18;
-		bg.setGraphicSize(Std.int(bg.width * 1.1));
-		bg.updateHitbox();
-		bg.screenCenter();
-		bg.antialiasing = true;
-		add(bg);
+		var yScroll:Float = Math.max(0.25 - (0.05 * (optionShit.length - 4)), 0.1);
 
-		magenta = new FlxSprite(-85).loadGraphic(Paths.image('menus/base/menuDesat'));
-		magenta.scrollFactor.x = 0;
-		magenta.scrollFactor.y = 0.18;
-		magenta.setGraphicSize(Std.int(magenta.width * 1.1));
+		var eyes:FlxSprite = new FlxSprite().loadGraphic(Paths.menuImage('NEWmenu/HahaSadBoi'));
+		eyes.scrollFactor.set(0, 0);
+		eyes.screenCenter();
+		eyes.updateHitbox();
+		eyes.antialiasing = true;
+		add(eyes);
+
+		var menuart:FlxSprite = new FlxSprite().loadGraphic(Paths.menuImage('NEWmenu/newspaper'));
+		menuart.scrollFactor.set(0, 0);
+		//menuart.setGraphicSize(StdDaInt(menuart.width * 1.175));
+		menuart.updateHitbox();
+		menuart.screenCenter();
+		menuart.antialiasing = true;
+		add(menuart);
+
+		camFollow = new FlxObject(0, 0, 1, 1);
+		camFollowPos = new FlxObject(0, 0, 1, 1);
+		add(camFollow);
+		add(camFollowPos);
+
+		magenta = new FlxSprite(-80).loadGraphic(Paths.menuImage('menuDesat'));
+		magenta.scrollFactor.set(0, yScroll);
+		magenta.setGraphicSize(Std.int(magenta.width * 1.175));
 		magenta.updateHitbox();
 		magenta.screenCenter();
 		magenta.visible = false;
@@ -73,11 +85,6 @@ class MainMenuState extends MusicBeatState
 		magenta.color = 0xFFfd719b;
 		add(magenta);
 
-		// add the camera
-		camFollow = new FlxObject(0, 0, 1, 1);
-		add(camFollow);
-
-		// add the menu items
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 
@@ -130,9 +137,9 @@ class MainMenuState extends MusicBeatState
 
 		// from the base game lol
 
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Funkin.avi v" + Main.gameVersion, 12);
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 34, 0, "Funkin.avi v" + Main.gameVersion, 28);
 		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionShit.setFormat(Paths.font("NewWaltDisneyFontRegular-BPen.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 
 		//

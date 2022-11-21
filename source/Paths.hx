@@ -313,4 +313,10 @@ class Paths
 	{
 		return (FlxAtlasFrames.fromSpriteSheetPacker(image(key, library), file('images/$key.txt', library)));
 	}
+
+	inline static public function menuImage(key:String, ?library:String, ?textureCompression:Bool = false)
+		{
+			var returnAsset:FlxGraphic = returnGraphic('menus/Funkin_avi/$key', library, textureCompression);
+			return returnAsset;
+		}
 }

@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="LunacyMf.png">
+<SubTexture name="LunacyMf Special10000" x="810" y="829" width="784" height="792" frameX="-295" frameY="-258" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf Special10001" x="1458" y="1645" width="780" height="789" frameX="-296" frameY="-261" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf Special10002" x="2461" y="0" width="777" height="788" frameX="-297" frameY="-262" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf Special10003" x="679" y="2436" width="773" height="785" frameX="-298" frameY="-265" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf Special10004" x="1450" y="3223" width="770" height="775" frameX="-299" frameY="-275" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf Special10005" x="3693" y="3223" width="772" height="768" frameX="-298" frameY="-282" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf Special10006" x="4615" y="0" width="772" height="768" frameX="-299" frameY="-282" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf Special10007" x="2926" y="3223" width="767" height="770" frameX="-298" frameY="-280" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf Special10008" x="0" y="4001" width="764" height="767" frameX="-300" frameY="-283" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf Special10009" x="764" y="4001" width="770" height="767" frameX="-302" frameY="-283" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf Special10010" x="4615" y="768" width="771" height="768" frameX="-302" frameY="-282" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf Special10011" x="4615" y="1536" width="771" height="768" frameX="-302" frameY="-282" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf Special10012" x="4615" y="2304" width="764" height="768" frameX="-301" frameY="-282" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf Special10013" x="4615" y="3072" width="763" height="768" frameX="-301" frameY="-282" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf Special10014" x="1534" y="4001" width="765" height="767" frameX="-300" frameY="-283" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf Special10015" x="2299" y="4001" width="766" height="767" frameX="-299" frameY="-283" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf idle ALT0000" x="1594" y="829" width="728" height="792" frameX="-281" frameY="-258" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf idle ALT0001" x="0" y="4768" width="762" height="762" frameX="-276" frameY="-288" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf idle ALT0002" x="3158" y="4768" width="767" height="755" frameX="-274" frameY="-295" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf idle ALT0003" x="3065" y="4001" width="766" height="765" frameX="-277" frameY="-285" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf idle ALT0004" x="708" y="3223" width="742" height="776" frameX="-281" frameY="-274" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf idle ALT0005" x="2461" y="788" width="730" height="787" frameX="-284" frameY="-263" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf idle ALT0006" x="728" y="1645" width="730" height="790" frameX="-282" frameY="-260" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf idle ALT0007" x="0" y="1645" width="728" height="791" frameX="-281" frameY="-259" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf idle0000" x="4679" y="4768" width="753" height="754" frameX="-262" frameY="-296" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf idle0001" x="5959" y="3746" width="751" height="737" frameX="-257" frameY="-313" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf idle0002" x="5959" y="4483" width="751" height="737" frameX="-255" frameY="-313" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf idle0003" x="5959" y="3005" width="747" height="741" frameX="-261" frameY="-309" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf idle0004" x="5959" y="2259" width="751" height="746" frameX="-263" frameY="-304" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf idle0005" x="5959" y="1507" width="751" height="752" frameX="-264" frameY="-298" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf idle0006" x="5959" y="0" width="752" height="754" frameX="-263" frameY="-296" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf idle0007" x="3925" y="4768" width="754" height="755" frameX="-262" frameY="-295" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf up0000" x="0" y="829" width="810" height="816" frameX="-267" frameY="-232" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf up0001" x="0" y="0" width="817" height="829" frameX="-275" frameY="-219" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf up0002" x="817" y="0" width="822" height="821" frameX="-270" frameY="-227" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf up0003" x="1639" y="0" width="822" height="818" frameX="-269" frameY="-230" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf left0000" x="2220" y="3223" width="706" height="772" frameX="-348" frameY="-278" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf left0001" x="0" y="3223" width="708" height="778" frameX="-315" frameY="-272" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf left0002" x="2102" y="2436" width="700" height="780" frameX="-329" frameY="-270" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf left0003" x="3919" y="0" width="696" height="779" frameX="-331" frameY="-271" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf down0000" x="0" y="5530" width="649" height="724" frameX="-447" frameY="-326" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf down0001" x="1974" y="5530" width="697" height="690" frameX="-436" frameY="-359" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf down0002" x="1310" y="5530" width="664" height="700" frameX="-442" frameY="-349" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf down0003" x="649" y="5530" width="661" height="704" frameX="-441" frameY="-346" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf right0000" x="1452" y="2436" width="650" height="782" frameX="-435" frameY="-268" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf right0001" x="3238" y="0" width="681" height="780" frameX="-443" frameY="-270" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf right0002" x="2461" y="1575" width="679" height="787" frameX="-441" frameY="-263" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf right0003" x="0" y="2436" width="679" height="787" frameX="-440" frameY="-263" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf miss up0000" x="3919" y="2320" width="578" height="765" frameX="-419" frameY="-285" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf miss up0001" x="3238" y="780" width="575" height="780" frameX="-419" frameY="-270" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf miss up0002" x="3919" y="779" width="578" height="775" frameX="-419" frameY="-275" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf miss up0003" x="3238" y="1560" width="575" height="780" frameX="-419" frameY="-270" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf miss right0000" x="762" y="4768" width="597" height="762" frameX="-419" frameY="-288" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf miss right0001" x="1359" y="4768" width="605" height="761" frameX="-419" frameY="-289" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf miss right0002" x="1964" y="4768" width="598" height="761" frameX="-419" frameY="-289" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf miss right0003" x="2562" y="4768" width="596" height="761" frameX="-419" frameY="-289" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf miss down0000" x="5387" y="0" width="572" height="763" frameX="-419" frameY="-287" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf miss down0001" x="5959" y="754" width="573" height="753" frameX="-416" frameY="-297" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf miss down0002" x="5387" y="763" width="570" height="756" frameX="-418" frameY="-294" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf miss down0003" x="5387" y="1519" width="571" height="755" frameX="-418" frameY="-295" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf miss left0000" x="3238" y="2340" width="572" height="765" frameX="-418" frameY="-282" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf miss left0001" x="3919" y="1554" width="563" height="766" frameX="-418" frameY="-281" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf miss left0002" x="3831" y="4001" width="566" height="765" frameX="-418" frameY="-282" frameWidth="1350" frameHeight="1050" />
+<SubTexture name="LunacyMf miss left0003" x="4397" y="4001" width="566" height="765" frameX="-418" frameY="-282" frameWidth="1350" frameHeight="1050" />
+</TextureAtlas>
