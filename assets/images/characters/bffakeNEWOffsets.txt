@@ -1,0 +1,13 @@
+idle 0 0
+singUPmiss-loop 0 0
+singRIGHTmiss-loop 0 0
+singRIGHTmiss 0 0
+singUPmiss 0 0
+singLEFTmiss-loop 0 0
+singLEFTmiss 0 0
+singDOWNmiss-loop 0 0
+singDOWNmiss 0 0
+singLEFT 0 0
+singDOWN -2 2
+singUP 20 -4
+singRIGHT 6 -2

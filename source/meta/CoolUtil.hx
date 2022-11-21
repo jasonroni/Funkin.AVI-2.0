@@ -12,7 +12,7 @@ import sys.FileSystem;
 class CoolUtil
 {
 	//don't ask why they're lowercased, is just peak
-	public static var difficultyArray:Array<String> = ['Hard', 'Suicidal', 'X2'];
+	public static var difficultyArray:Array<String> = ['Suicidal', 'Hard', 'X2'];
 	public static var difficultyLength = difficultyArray.length;
 
 	public static function difficultyFromNumber(number:Int):String

@@ -459,6 +459,59 @@ class Character extends FNFSprite
 				animation.addByPrefix('singRIGHT-alt', 'Parent Right Note Mom', 24, false);
 
 				playAnim('idle');
+
+				case 'bffakeNEW':
+					frames = Paths.getSparrowAtlas("characters/FaviBf");
+					animation.addByPrefix('singLEFT', 'FaviBf Left0', 17, false);
+					animation.addByPrefix('singDOWN', 'FaviBf Down0', 20, false);
+					animation.addByPrefix('singUP', 'FaviBf Up0', 18, false);
+					animation.addByPrefix('singRIGHT', 'FaviBf Right0', 19, false);
+					animation.addByPrefix('singLEFTmiss', 'FaviBf LeftMiss', 80, false);
+					animation.addByPrefix('singDOWNmiss', 'FaviBf DownMiss', 80, false);
+					animation.addByPrefix('singUPmiss', 'FaviBf UpMiss', 70, false);
+					animation.addByPrefix('singRIGHTmiss', 'FaviBf RightMiss', 90, false);
+					animation.addByPrefix('singLEFTmiss-loop', 'FaviBf LeftMiss', 80, true);
+					animation.addByPrefix('singDOWNmiss-loop', 'FaviBf DownMiss', 80, true);
+					animation.addByPrefix('singUPmiss-loop', 'FaviBf UpMiss', 70, true);
+					animation.addByPrefix('singRIGHTmiss-loop', 'FaviBf RightMiss', 90, true);
+					animation.addByPrefix('idle', 'FaviBf Idle', 17, false);
+					
+					addOffset('singDOWN', -2, 2);
+					addOffset('singUP', 20, -4);
+					addOffset('singRIGHT', 6, -2);
+	
+					isPlayer = true;
+					flipX = true;
+					
+					setGraphicSize(Std.int(width * 0.6));
+					updateHitbox();
+
+			case 'mickNEW':
+				frames = Paths.getSparrowAtlas("characters/FaviBf");
+				animation.addByPrefix('singLEFT', 'FaviBf Left0', 17, false);
+				animation.addByPrefix('singDOWN', 'FaviBf Down0', 20, false);
+				animation.addByPrefix('singUP', 'FaviBf Up0', 18, false);
+				animation.addByPrefix('singRIGHT', 'FaviBf Right0', 19, false);
+				animation.addByPrefix('singLEFTmiss', 'FaviBf LeftMiss', 80, false);
+				animation.addByPrefix('singDOWNmiss', 'FaviBf DownMiss', 80, false);
+				animation.addByPrefix('singUPmiss', 'FaviBf UpMiss', 70, false);
+				animation.addByPrefix('singRIGHTmiss', 'FaviBf RightMiss', 90, false);
+				animation.addByPrefix('singLEFTmiss-loop', 'FaviBf LeftMiss', 80, true);
+				animation.addByPrefix('singDOWNmiss-loop', 'FaviBf DownMiss', 80, true);
+				animation.addByPrefix('singUPmiss-loop', 'FaviBf UpMiss', 70, true);
+				animation.addByPrefix('singRIGHTmiss-loop', 'FaviBf RightMiss', 90, true);
+				animation.addByPrefix('idle', 'FaviBf Idle', 17, false);
+				
+				addOffset('singDOWN', -2, 2);
+				addOffset('singUP', 20, -4);
+				addOffset('singRIGHT', 6, -2);
+
+				isPlayer = true;
+				flipX = true;
+				
+				setGraphicSize(Std.int(width * 0.6));
+				updateHitbox();
+
 			default:
 				// set up animations if they aren't already
 

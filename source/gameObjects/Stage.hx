@@ -78,6 +78,8 @@ class Stage extends FlxTypedGroup<FlxBasic>
 					curStage = 'school';
 				case 'thorns':
 					curStage = 'schoolEvil';
+				case 'isolated' | 'lunacy' | 'delusional':
+					curStage = "street";
 				default:
 					curStage = 'stage';
 			}
@@ -335,6 +337,46 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				bg.scrollFactor.set(0.8, 0.9);
 				bg.scale.set(6, 6);
 				add(bg);
+
+			case 'street':
+				PlayState.defaultCamZoom = 0.87;
+
+				var stageFront:FNFSprite = new FNFSprite(0, 0).loadGraphic(Paths.image('backgrounds/' + curStage + '/cables'));
+				stageFront.scale.set(2, 1);
+				stageFront.updateHitbox();
+				stageFront.cameras = [PlayState.camHUD];
+				stageFront.antialiasing = true;
+				stageFront.scrollFactor.set(0.9, 0.9);
+				stageFront.active = false;
+				add(stageFront);
+
+				var colorsOrSmthElse:FNFSprite = new FNFSprite(-990, 1600).loadGraphic(Paths.image('backgrounds/' + curStage + '/randomColors'));
+				colorsOrSmthElse.setGraphicSize(Std.int(colorsOrSmthElse.width * 1.1));
+				colorsOrSmthElse.updateHitbox();
+				colorsOrSmthElse.antialiasing = true;
+				colorsOrSmthElse.screenCenter();
+				colorsOrSmthElse.scale.set(3, 3);
+				colorsOrSmthElse.scrollFactor.set(0.9, 0.9);
+				colorsOrSmthElse.active = false;
+				add(colorsOrSmthElse);
+
+				var floor:FNFSprite = new FNFSprite(-500, -70).loadGraphic(Paths.image('backgrounds/street/street'));
+				floor.antialiasing = true;
+				floor.scale.set(2.2, 2);
+				floor.screenCenter(X);
+			    floor.scrollFactor.set(0.9, 0.9);
+				floor.active = false;
+				add(floor);
+				
+				var stageCurtains:FNFSprite = new FNFSprite(0, 0).loadGraphic(Paths.image('backgrounds/' + curStage + '/i_forgor'));
+				stageCurtains.setGraphicSize(Std.int(stageCurtains.width * 0.9));
+				stageCurtains.updateHitbox();
+				stageCurtains.screenCenter();
+				stageCurtains.scale.set(2.8, 2.8);
+				stageCurtains.antialiasing = true;
+				stageCurtains.scrollFactor.set(1.3, 1.3);
+				stageCurtains.active = false;
+				add(stageCurtains);
 
 			default:
 				PlayState.defaultCamZoom = 0.9;
