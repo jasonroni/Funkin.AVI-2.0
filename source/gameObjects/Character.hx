@@ -24,6 +24,7 @@ typedef CharacterData =
 	var camOffsetX:Float;
 	var camOffsetY:Float;
 	var quickDancer:Bool;
+	var healthbarColors:Array<Int>;
 }
 
 class Character extends FNFSprite
@@ -55,7 +56,8 @@ class Character extends FNFSprite
 			offsetX: 0,
 			camOffsetY: 0,
 			camOffsetX: 0,
-			quickDancer: false
+			quickDancer: false,
+			healthbarColors: [0, 0, 0]
 		};
 
 		switch (curCharacter)
@@ -77,6 +79,8 @@ class Character extends FNFSprite
 				animation.addByPrefix('scared', 'GF FEAR', 24);
 
 				playAnim('danceRight');
+				
+				characterData.healthbarColors = [165, 0, 77];
 
 			case 'gf-christmas':
 				tex = Paths.getSparrowAtlas('characters/gfChristmas');
@@ -94,6 +98,8 @@ class Character extends FNFSprite
 				animation.addByPrefix('scared', 'GF FEAR', 24);
 
 				playAnim('danceRight');
+				
+				characterData.healthbarColors = [165, 0, 77];
 
 			case 'gf-car':
 				tex = Paths.getSparrowAtlas('characters/gfCar');
@@ -107,6 +113,8 @@ class Character extends FNFSprite
 				addOffset('danceRight', 0);
 
 				playAnim('danceRight');
+				
+				characterData.healthbarColors = [165, 0, 77];
 
 			case 'gf-pixel':
 				tex = Paths.getSparrowAtlas('characters/gfPixel');
@@ -123,6 +131,8 @@ class Character extends FNFSprite
 				setGraphicSize(Std.int(width * PlayState.daPixelZoom));
 				updateHitbox();
 				antialiasing = false;
+				
+				characterData.healthbarColors = [165, 0, 77];
 
 			case 'gf-tankmen':
 				frames = Paths.getSparrowAtlas('characters/gfTankmen');
@@ -132,6 +142,8 @@ class Character extends FNFSprite
 				animation.addByIndices('danceRight', 'GF Dancing at Gunpoint', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 
 				playAnim('danceRight');
+				
+				characterData.healthbarColors = [165, 0, 77];
 
 			case 'dad':
 				// DAD ANIMATION LOADING CODE
@@ -144,6 +156,9 @@ class Character extends FNFSprite
 				animation.addByPrefix('singLEFT', 'Dad Sing Note LEFT', 24);
 
 				playAnim('idle');
+				
+				characterData.healthbarColors = [175, 102, 206];
+				
 			case 'spooky':
 				tex = Paths.getSparrowAtlas('characters/spooky_kids_assets');
 				frames = tex;
@@ -259,6 +274,7 @@ class Character extends FNFSprite
 				flipX = true;
 
 				characterData.offsetY = 70;
+				characterData.healthbarColors = [49, 176, 209];
 			/*
 				case 'bf-og':
 					frames = Paths.getSparrowAtlas('characters/og/BOYFRIEND');
@@ -310,6 +326,8 @@ class Character extends FNFSprite
 				playAnim('idle');
 
 				flipX = true;
+				
+				characterData.healthbarColors = [49, 176, 209];
 
 			case 'bf-holding-gf-dead':
 				frames = Paths.getSparrowAtlas('characters/bfHoldingGF-DEAD');
@@ -337,6 +355,9 @@ class Character extends FNFSprite
 				playAnim('idle');
 
 				flipX = true;
+				
+				characterData.healthbarColors = [49, 176, 209];
+				
 			case 'bf-car':
 				var tex = Paths.getSparrowAtlas('characters/bfCar');
 				frames = tex;
@@ -354,6 +375,9 @@ class Character extends FNFSprite
 				playAnim('idle');
 
 				flipX = true;
+				
+				characterData.healthbarColors = [49, 176, 209];
+				
 			case 'bf-pixel':
 				frames = Paths.getSparrowAtlas('characters/bfPixel');
 				animation.addByPrefix('idle', 'BF IDLE', 24, false);
@@ -377,6 +401,9 @@ class Character extends FNFSprite
 				antialiasing = false;
 
 				flipX = true;
+				
+				characterData.healthbarColors = [123, 214, 246];
+				
 			case 'bf-pixel-dead':
 				frames = Paths.getSparrowAtlas('characters/bfPixelsDEAD');
 				animation.addByPrefix('singUP', "BF Dies pixel", 24, false);
@@ -460,57 +487,163 @@ class Character extends FNFSprite
 
 				playAnim('idle');
 
-				case 'bffakeNEW':
-					frames = Paths.getSparrowAtlas("characters/FaviBf");
-					animation.addByPrefix('singLEFT', 'FaviBf Left0', 17, false);
-					animation.addByPrefix('singDOWN', 'FaviBf Down0', 20, false);
-					animation.addByPrefix('singUP', 'FaviBf Up0', 18, false);
-					animation.addByPrefix('singRIGHT', 'FaviBf Right0', 19, false);
-					animation.addByPrefix('singLEFTmiss', 'FaviBf LeftMiss', 80, false);
-					animation.addByPrefix('singDOWNmiss', 'FaviBf DownMiss', 80, false);
-					animation.addByPrefix('singUPmiss', 'FaviBf UpMiss', 70, false);
-					animation.addByPrefix('singRIGHTmiss', 'FaviBf RightMiss', 90, false);
-					animation.addByPrefix('singLEFTmiss-loop', 'FaviBf LeftMiss', 80, true);
-					animation.addByPrefix('singDOWNmiss-loop', 'FaviBf DownMiss', 80, true);
-					animation.addByPrefix('singUPmiss-loop', 'FaviBf UpMiss', 70, true);
-					animation.addByPrefix('singRIGHTmiss-loop', 'FaviBf RightMiss', 90, true);
-					animation.addByPrefix('idle', 'FaviBf Idle', 17, false);
-					
-					addOffset('singDOWN', -2, 2);
-					addOffset('singUP', 20, -4);
-					addOffset('singRIGHT', 6, -2);
-	
-					isPlayer = true;
-					flipX = true;
-					
-					setGraphicSize(Std.int(width * 0.6));
-					updateHitbox();
-
-			case 'mickNEW':
-				frames = Paths.getSparrowAtlas("characters/FaviBf");
-				animation.addByPrefix('singLEFT', 'FaviBf Left0', 17, false);
-				animation.addByPrefix('singDOWN', 'FaviBf Down0', 20, false);
-				animation.addByPrefix('singUP', 'FaviBf Up0', 18, false);
-				animation.addByPrefix('singRIGHT', 'FaviBf Right0', 19, false);
-				animation.addByPrefix('singLEFTmiss', 'FaviBf LeftMiss', 80, false);
-				animation.addByPrefix('singDOWNmiss', 'FaviBf DownMiss', 80, false);
-				animation.addByPrefix('singUPmiss', 'FaviBf UpMiss', 70, false);
-				animation.addByPrefix('singRIGHTmiss', 'FaviBf RightMiss', 90, false);
-				animation.addByPrefix('singLEFTmiss-loop', 'FaviBf LeftMiss', 80, true);
-				animation.addByPrefix('singDOWNmiss-loop', 'FaviBf DownMiss', 80, true);
-				animation.addByPrefix('singUPmiss-loop', 'FaviBf UpMiss', 70, true);
-				animation.addByPrefix('singRIGHTmiss-loop', 'FaviBf RightMiss', 90, true);
-				animation.addByPrefix('idle', 'FaviBf Idle', 17, false);
+			//Funkin.avi V2 Peak
+			case 'bffake': //Legacy songs
+				var tex = Paths.getSparrowAtlas('characters/bfGrey');
+				frames = tex;
+				animation.addByPrefix('idle', 'idle', 24, false);
+				animation.addByPrefix('singUP', 'up', 24, false);
+				animation.addByPrefix('singDOWN', 'down', 24, false);
+				animation.addByPrefix('singLEFT', 'right', 24, false); //don't ask why
+				animation.addByPrefix('singRIGHT', 'left', 24, false);
 				
+				addOffset('singUP', 20, 90);
+				addOffset('singDOWN', 30, 40);
+				addOffset('singLEFT', 50, 10);
+				addOffset('singRIGHT', 8, 18);
+
+				/*characterData.offsetX = -260;
+				characterData.offsetY = -110;
+				characterData.camOffsetX = -120;
+				characterData.camOffsetY = 230;*/
+				characterData.healthbarColors = [171, 171, 171];
+
+				setGraphicSize(Std.int(width * 0.6));
+				updateHitbox();
+
+				playAnim('idle');
+
+				isPlayer = true;
+				flipX = true;
+
+			case 'bffakeNEW': //Newer, Better Fake BF sprite
+				var tex = Paths.getSparrowAtlas('characters/FaviBf');
+				frames = tex;
+				animation.addByPrefix('idle', 'FaviBf Idle', 17, false);
+				animation.addByPrefix('singUP', 'FaviBf Up0', 18, false);
+				animation.addByPrefix('singDOWN', 'FaviBf Down0', 20, false);
+				animation.addByPrefix('singLEFT', 'FaviBf Left0', 17, false);
+				animation.addByPrefix('singRIGHT', 'FaviBf Right0', 19, false);
+				
+				animation.addByPrefix('singUPmiss', 'FaviBf UpMiss', 70, true);
+				animation.addByPrefix('singDOWNmiss', 'FaviBf DownMiss', 80, true);
+				animation.addByPrefix('singLEFTmiss', 'FaviBf LeftMiss', 80, true);
+				animation.addByPrefix('singRIGHTmiss', 'FaviBf RightMiss', 90, true);
+
 				addOffset('singDOWN', -2, 2);
 				addOffset('singUP', 20, -4);
 				addOffset('singRIGHT', 6, -2);
 
+				/*characterData.offsetX = -240;
+				characterData.offsetY = -80;
+				characterData.camOffsetX = -120;
+				characterData.camOffsetY = 230;*/
+				characterData.healthbarColors = [171, 171, 171];
+
+				setGraphicSize(Std.int(width * 0.6));
+				updateHitbox();
+
+				playAnim('idle');
+
+				isPlayer = true;
+				flipX = true;
+
+			//case 'fakebf-dead': //game over screen for episode 1 before Delusional
+
+			//case 'bfreal': //The real boy
+
+			case 'bflunacy': //Fake BF phase 2
+				var tex = Paths.getSparrowAtlas('characters/lunacyBF');
+				frames = tex;
+				animation.addByPrefix('idle', 'idle', 12, false);
+				animation.addByPrefix('singUP', 'up', 12, false);
+				animation.addByPrefix('singDOWN', 'down', 13, false);
+				animation.addByPrefix('singLEFT', 'left', 12, false);
+				animation.addByPrefix('singRIGHT', 'right', 13, false);
+
+				animation.addByPrefix('singUPmiss', 'missUp', 90, true);
+				animation.addByPrefix('singDOWNmiss', 'missDown', 90, true);
+				animation.addByPrefix('singLEFTmiss', 'missLeft', 90, true);
+				animation.addByPrefix('singRIGHTmiss', 'missRight', 90, true);
+
+				//special ending animations for Lunacy
+				animation.addByPrefix('singUP-alt', 'altUp', 7, false);
+				animation.addByPrefix('idle-alt', 'altIdle', 11, false);
+
+				/*characterData.offsetX = -240;
+				characterData.offsetY = -80;
+				characterData.camOffsetX = -120;
+				characterData.camOffsetY = 230;*/
+				characterData.healthbarColors = [171, 171, 171];
+
+				setGraphicSize(Std.int(width * 0.6));
+				updateHitbox();
+
+				playAnim('idle');
+				
 				isPlayer = true;
 				flipX = true;
 				
-				setGraphicSize(Std.int(width * 0.6));
-				updateHitbox();
+			//case 'bfdemon': //Delusional moment
+
+			// bro, mickey has so many fucking sprites, oml
+			//case 'mickeyinsane': //Delusional sprite set 1
+
+			//case 'mickeylunatic': //Delusional sprite set 2
+
+			//case 'mickeylastmoment': //Delusional sprite set 3
+
+			/*case 'mickey': //Isolated Legacy, Old, & Beta
+
+			case 'mickeynew': //Isolated sprite set 1
+
+			case 'mickdrop': //Isolated sprite set 2 & Lunacy intro
+
+			case 'mickeysadistic': //Lunacy Legacy
+
+			case 'mickinpainnew': //Lunacy 2nd sprite set
+
+			//case 'minnieManifest': //he just wanted to see her again...
+
+			case 'mrsmiles': //give me your smile
+
+			//case 'coco': //the assistant
+
+			//case 'gfApparition': //lmfao, bro thought gf died
+
+			//bonus song characters
+			//case 'bfmalfunction': // Malfunction is peak
+
+			case 'bfrelapse': // pew pew
+
+			case 'rs': //sicko mode
+
+			case 'relapsemouse-phase1': //le calm
+
+			case 'relapsemouse-phase2': //fuck you, eat my bullets
+
+			case 'glitchedmick-legacy': //old ass bitch
+
+			case 'glitchedmick': //peak
+
+			//case 'pnm': //OMG, IS THAT PHOTO NEGATIVE MICKEY?????
+
+			case 'hunter': //goofy killed donald lmfao.
+
+			case 'mickdctl': //Stop fucking crossing that line dude
+
+			case 'whitenoise':
+
+			//case 'whiteNoisePEAK':
+
+			case 'bfghost':
+
+			case 'waltp1':
+
+			case 'waltp2':
+
+			case 'bf-firstperson':*/
+
 
 			default:
 				// set up animations if they aren't already
