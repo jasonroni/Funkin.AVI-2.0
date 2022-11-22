@@ -62,6 +62,12 @@ class PlayState extends MusicBeatState
 
 	public static var campaignScore:Int = 0;
 
+	public static var blackFade:FlxSprite;
+
+	//for a change character event
+	public static var bfCharacter:String = "bffakeNEW";
+	public static var dadCharacter:String = "mickey";
+
 	public static var dadOpponent:Character;
 	public static var gf:Character;
 	public static var boyfriend:Boyfriend;
@@ -237,9 +243,27 @@ class PlayState extends MusicBeatState
 				gf.alpha = 0;
 			}
 
-		dadOpponent = new Character().setCharacter(50, 850, SONG.player2);
+		dadOpponent = new Character().setCharacter(50, 850, dadCharacter);
 		boyfriend = new Boyfriend();
-		boyfriend.setCharacter(750, 850, SONG.player1);
+		boyfriend.setCharacter(750, 850, bfCharacter);
+
+		//character load
+		switch(SONG.song)
+		{
+			case 'isolated':
+				bfCharacter = 'bffakeNEW';
+				dadCharacter = 'mickey';
+
+			case 'lunacy':
+				bfCharacter = 'bffakeNEW';
+				dadCharacter = 'mickey';
+
+			default:
+				bfCharacter = 'bffakeNEW';
+				dadCharacter = 'mickey';
+		}
+
+				
 		// if you want to change characters later use setCharacter() instead of new or it will break
 
 		var camPos:FlxPoint = new FlxPoint(gf.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
@@ -374,6 +398,17 @@ class PlayState extends MusicBeatState
 		else
 			startCountdown();
 
+		blackFade = new FlxSprite().makeGraphic(1280, 720, FlxColor.BLACK);
+		blackFade.alpha = 0;
+		blackFade.scale.set(6, 6);
+		add(blackFade);
+
+		if(SONG.song == "Isolated")
+			{
+				blackFade.alpha = 1;
+				camHUD.alpha = 0;
+			}
+
 		/**
 		 * SHADERS
 		 *
@@ -400,10 +435,17 @@ class PlayState extends MusicBeatState
 
 		// Uncomment the code below to apply the effect
 
-		/*
-			var shader:GraphicsShader = new GraphicsShader("", File.getContent("./assets/shaders/vhs.frag"));
-			FlxG.camera.setFilters([new ShaderFilter(shader)]);
-		 */
+		
+		switch(SONG.song)
+		{
+			case 'Isolated':
+			/*var shader:GraphicsShader = new GraphicsShader("", File.getContent("./assets/shaders/vhs.frag"));
+			FlxG.camera.setFilters([new ShaderFilter(shader)]);*/
+
+			FlxTween.tween(blackFade, {alpha: 0}, 5, {ease: FlxEase.quadInOut, startDelay: 6});
+			FlxTween.tween(camHUD, {alpha: 1}, 5, {ease: FlxEase.expoInOut, startDelay: 9});
+		}
+		 
 	}
 
 	public static function copyKey(arrayToCopy:Array<FlxKey>):Array<FlxKey>

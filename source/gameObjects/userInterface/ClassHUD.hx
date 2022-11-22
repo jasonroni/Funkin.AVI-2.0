@@ -76,7 +76,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		//the character data thing fucking crash the game so here's a replacement
 		healthBar.createFilledBar(
 
-			switch(PlayState.SONG.player2) {
+			switch(PlayState.dadCharacter) {
 				case 'mickey':
 					FlxColor.fromRGB(171, 171, 171);
 
@@ -84,7 +84,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 					FlxColor.RED;
 			},
 
-			switch(PlayState.SONG.player1) {
+			switch(PlayState.bfCharacter) {
 				case 'bffakeNEW' | 'bflunacy':
 					FlxColor.fromRGB(171, 171, 171);
 
