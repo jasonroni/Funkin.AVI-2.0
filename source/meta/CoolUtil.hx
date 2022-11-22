@@ -20,6 +20,11 @@ class CoolUtil
 		return difficultyArray[number];
 	}
 
+	public static function difficultyString():String
+		{
+			return difficultyArray[PlayState.storyDifficulty].toUpperCase();
+		}
+
 	public static function dashToSpace(string:String):String
 	{
 		return string.replace("-", " ");
