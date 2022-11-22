@@ -535,9 +535,9 @@ class Character extends FNFSprite
 				addOffset('singRIGHT', 6, -2);
 
 				/*characterData.offsetX = -240;
-				characterData.offsetY = -80;
-				characterData.camOffsetX = -120;
-				characterData.camOffsetY = 230;*/
+				characterData.offsetY = -80;*/
+				characterData.camOffsetX = 40;
+				characterData.camOffsetY = 80;
 				characterData.healthbarColors = [171, 171, 171];
 
 				setGraphicSize(Std.int(width * 0.6));
@@ -593,7 +593,29 @@ class Character extends FNFSprite
 
 			//case 'mickeylastmoment': //Delusional sprite set 3
 
-			/*case 'mickey': //Isolated Legacy, Old, & Beta
+			case 'mickey': //Isolated Legacy, Old, & Beta
+				var tex = Paths.getSparrowAtlas('characters/mickeyIsolateDrop');
+				frames = tex;
+				animation.addByPrefix('idle', 'mickeyIsolateDrop idle', 9, false);
+				animation.addByPrefix('singUP', 'mickeyIsolateDrop up', 12, false);
+				animation.addByPrefix('singDOWN', 'mickeyIsolateDrop down', 13, false);
+				animation.addByPrefix('singLEFT', 'mickeyIsolateDrop left', 12, false);
+				animation.addByPrefix('singRIGHT', 'mickeyIsolateDrop right', 13, false);
+
+				/*characterData.offsetX = -240;
+				characterData.offsetY = -80;*/
+				characterData.camOffsetX = -190;
+				characterData.camOffsetY = 150;
+				characterData.healthbarColors = [171, 171, 171];
+
+				setGraphicSize(Std.int(width * 0.6));
+				updateHitbox();
+
+				playAnim('idle');
+				
+				isPlayer = false;
+				flipX = false;
+
 
 			case 'mickeynew': //Isolated sprite set 1
 
@@ -642,7 +664,7 @@ class Character extends FNFSprite
 
 			case 'waltp2':
 
-			case 'bf-firstperson':*/
+			case 'bf-firstperson':
 
 
 			default:

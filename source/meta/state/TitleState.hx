@@ -56,6 +56,10 @@ class TitleState extends MusicBeatState
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 		super.create();
 
+		#if Freeplay
+		Main.switchState(this, new FreeplayState());
+		#end
+
 		startIntro();
 	}
 

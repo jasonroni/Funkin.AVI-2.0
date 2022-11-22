@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<TextureAtlas imagePath="Mickey1.png"><SubTexture name="Mickey1 Idle0000" x="4934" y="1061" width="735" height="1060" frameX="-421" frameY="-298" frameWidth="1650" frameHeight="1400" />
+<TextureAtlas imagePath="Mickey1NEW.png"><SubTexture name="Mickey1 Idle0000" x="4934" y="1061" width="735" height="1060" frameX="-421" frameY="-298" frameWidth="1650" frameHeight="1400" />
 <SubTexture name="Mickey1 Idle0001" x="4934" y="3173" width="735" height="1047" frameX="-424" frameY="-311" frameWidth="1650" frameHeight="1400" />
 <SubTexture name="Mickey1 Idle0002" x="4934" y="2121" width="706" height="1052" frameX="-455" frameY="-306" frameWidth="1650" frameHeight="1400" />
 <SubTexture name="Mickey1 Idle0003" x="4934" y="0" width="796" height="1061" frameX="-365" frameY="-297" frameWidth="1650" frameHeight="1400" />

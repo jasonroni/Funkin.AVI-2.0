@@ -30,6 +30,10 @@
 
 	<define name="DISCORD_RPC" if="desktop" unless="web || neko" />
 
+	<!-- _________________ Game Shortcuts, made for having less time testing _________________ -->
+
+	<define name="Freeplay" />
+
 	<!-- _____________________________ Path Settings ____________________________ -->
 
 	<set name="BUILD_DIR" value="export" />

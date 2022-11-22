@@ -73,7 +73,26 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8));
 		healthBar.scrollFactor.set();
-		healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
+		//the character data thing fucking crash the game so here's a replacement
+		healthBar.createFilledBar(
+
+			switch(PlayState.SONG.player2) {
+				case 'mickey':
+					FlxColor.fromRGB(171, 171, 171);
+
+				default:
+					FlxColor.RED;
+			},
+
+			switch(PlayState.SONG.player1) {
+				case 'bffakeNEW' | 'bflunacy':
+					FlxColor.fromRGB(171, 171, 171);
+
+				default:
+					FlxColor.LIME;
+			}
+
+		);
 		// healthBar
 		add(healthBar);
 

@@ -370,11 +370,11 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				colorsOrSmthElse.active = false;
 				add(colorsOrSmthElse);
 
-				var floor:FNFSprite = new FNFSprite(-500, -70).loadGraphic(Paths.image('backgrounds/street/street'));
+				var floor:FNFSprite = new FNFSprite(-500, 200).loadGraphic(Paths.image('backgrounds/street/street'));
 				floor.antialiasing = true;
 				floor.scale.set(2.2, 2);
 				floor.screenCenter(X);
-			    floor.scrollFactor.set(0.9, 0.9);
+			    floor.scrollFactor.set(1, 1);
 				floor.active = false;
 				add(floor);
 				
