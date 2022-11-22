@@ -1,34 +1,12 @@
-<p align="center">
-  <img src="https://media.discordapp.net/attachments/916918345255751690/930068118938730526/legacy.png" width="750"/></a>
-  <h1 align="center">Forever Engine Legacy</h1>
-  <h2 align="center">An open-source, quality of life and performance driven Friday Night Funkin' mod engine!</h2>
-</p>
+# Funkin.avi Source code
+**This will be privated until the 2.0 release**
 
 ----------------------------------------------
-## Please redirect all future and current enhancements to the [new repository](https://github.com/Yoshubs/FNF-Forever-Engine).
+Also go check the [Forever engine rewrite](https://github.com/Yoshubs/FNF-Forever-Engine).
 ----------------------------------------------
-Forever Engine is currently in *legacy* state as it is being rewritten. 
-
-The legacy version of Forever Engine lacks accessibility and cohesion, something we are currently working to fix with the more newer and updated rewrite.
-
-**FOREVER ENGINE LEGACY IS ONLY MEANT TO BE USED ON DESKTOP! I AM NOT RESPONSIBLE FOR CRASHES/PROBLEMS WITH HTML5, NOR AM I RESPONSIBLE FOR MAINTAINING HTML5.**
 
 ----------------------------------------------
-# Features:
-* Noteskins;
-* Custom UIs;
-* Options Menu with FPS Capping and Adjustments;
-* A lot of modularity and freedom with options
-    * (Hopefully in the future *everything* will be toggleable);
-* A restructure/partial remake of the base game's codebase;
-* ``source/`` folder abstraction;
-* More streamlined code
-    * (only having to set things in one place).
-
-AND MORE!
-
-----------------------------------------------
-# Credits:
+# Engine Credits:
 * [Yoshubs](https://github.com/Yoshubs) (me!):
     * made the engine,
     * happens to be very fucking stupid for accidentally pushing the martian mixtape source code into legacy's base github page;
