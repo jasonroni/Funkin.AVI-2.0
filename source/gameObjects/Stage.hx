@@ -337,6 +337,16 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				bg.scrollFactor.set(0.8, 0.9);
 				bg.scale.set(6, 6);
 				add(bg);
+				
+			case 'endlessLoop':
+				curStage = 'endlessLoop';
+				PlayState.defaultCamZoom = 0.85;
+
+				var street:BGSprite = new FNFSprite(-382, -409).loadGraphic(Paths.image('backgrounds/' + curStage + '/Mickeybg'));
+				street.antialiasing = true;
+				street.scrollFactor.set();
+				street.active = false;
+				add(street);
 
 			case 'street':
 				PlayState.defaultCamZoom = 0.87;
