@@ -177,7 +177,7 @@ class MainMenuState extends MusicBeatState
 						else if (i == 3)
 							curSelected++;
 
-						FlxG.sound.play(Paths.sound('scrollMenu'));
+						FlxG.sound.play(Paths.sound('funkinAVI/menu/scroll_sfx'));
 					}
 					/* idk something about it isn't working yet I'll rewrite it later
 						else
@@ -218,7 +218,7 @@ class MainMenuState extends MusicBeatState
 		{
 			//
 			selectedSomethin = true;
-			FlxG.sound.play(Paths.sound('confirmMenu'));
+			FlxG.sound.play(Paths.sound('funkinAVI/menu/select_sfx'));
 
 			FlxFlicker.flicker(magenta, 0.8, 0.1, false);
 
