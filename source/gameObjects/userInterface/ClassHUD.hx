@@ -44,7 +44,8 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 	private var SONG = PlayState.SONG;
 
 	public var iconP1:HealthIcon;
-	public var iconP2:HealthIcon;
+	public static var iconP2:HealthIcon;
+	public static var lunacyIcon:HealthIcon; //lunacy after character change :boom:
 
 	private var stupidHealth:Float = 0;
 
@@ -52,7 +53,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 
 	var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
 	var diffDisplay:String = CoolUtil.difficultyFromNumber(PlayState.storyDifficulty);
-	var engineDisplay:String = 'Funkin.avi | ${PlayState.SONG.song} (${CoolUtil.difficultyFromNumber(PlayState.storyDifficulty)})';
+	var engineDisplay:String = 'Funkin.avi | ${PlayState.SONG.song}';
 
 	// eep
 	public function new()
@@ -103,6 +104,11 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		iconP2 = new HealthIcon(SONG.player2, false);
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		add(iconP2);
+
+		lunacyIcon = new HealthIcon('mickinpainnew', false);
+		lunacyIcon.y = healthBar.y - (lunacyIcon.height / 2);
+		lunacyIcon.alpha = 0;
+		add(lunacyIcon);
 
 		scoreBar = new FlxText(FlxG.width / 2, Math.floor(healthBarBG.y + 40), 0, scoreDisplay);
 		scoreBar.setFormat(Paths.font('vcr.ttf'), 18, FlxColor.WHITE);
@@ -186,17 +192,21 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		// the new way of scaling the icons lmao
 		iconP1.scale.set(FlxMath.lerp(1, iconP1.scale.x, iconLerp), FlxMath.lerp(1, iconP1.scale.y, iconLerp));
 		iconP2.scale.set(FlxMath.lerp(1, iconP2.scale.x, iconLerp), FlxMath.lerp(1, iconP2.scale.y, iconLerp));
+		lunacyIcon.scale.set(FlxMath.lerp(1, lunacyIcon.scale.x, iconLerp), FlxMath.lerp(1, lunacyIcon.scale.y, iconLerp));
 
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();
+		lunacyIcon.updateHitbox();
 
 		var iconOffset:Int = 26;
 
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
+		lunacyIcon.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 
 		iconP1.updateAnim(healthBar.percent);
 		iconP2.updateAnim(100 - healthBar.percent);
+		lunacyIcon.updateAnim(100 - healthBar.percent);
 
 		if (autoplayMark.visible)
 		{
@@ -246,9 +256,11 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		{
 			iconP1.setGraphicSize(Std.int(iconP1.width + 30));
 			iconP2.setGraphicSize(Std.int(iconP2.width + 30));
+			lunacyIcon.setGraphicSize(Std.int(iconP2.width + 30));
 
 			iconP1.updateHitbox();
 			iconP2.updateHitbox();
+			lunacyIcon.updateHitbox();
 		}
 		//
 	}

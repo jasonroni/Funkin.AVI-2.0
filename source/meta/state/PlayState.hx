@@ -243,9 +243,9 @@ class PlayState extends MusicBeatState
 				gf.alpha = 0;
 			}
 
-		dadOpponent = new Character().setCharacter(50, 850, dadCharacter);
+		dadOpponent = new Character().setCharacter(50, 850, SONG.player2);
 		boyfriend = new Boyfriend();
-		boyfriend.setCharacter(750, 850, bfCharacter);
+		boyfriend.setCharacter(750, 850, SONG.player1);
 
 		//character load
 		switch(SONG.song)
@@ -439,8 +439,8 @@ class PlayState extends MusicBeatState
 		switch(SONG.song)
 		{
 			case 'Isolated':
-			/*var shader:GraphicsShader = new GraphicsShader("", File.getContent("./assets/shaders/vhs.frag"));
-			FlxG.camera.setFilters([new ShaderFilter(shader)]);*/
+			var shader:GraphicsShader = new GraphicsShader("", File.getContent("./assets/shaders/test.frag"));
+			FlxG.camera.setFilters([new ShaderFilter(shader)]);
 
 			FlxTween.tween(blackFade, {alpha: 0}, 5, {ease: FlxEase.quadInOut, startDelay: 6});
 			FlxTween.tween(camHUD, {alpha: 1}, 5, {ease: FlxEase.expoInOut, startDelay: 9});
@@ -1566,6 +1566,18 @@ class PlayState extends MusicBeatState
 		if (songMusic.time >= Conductor.songPosition + 20 || songMusic.time <= Conductor.songPosition - 20)
 			resyncVocals();
 		//*/
+
+		switch(SONG.song)
+		{
+			case 'Lunacy':
+				if(curStep == 640)
+					{
+						changeCharacter('bf', 'bflunacy');
+						changeCharacter('dad', 'mickinpainnew');
+						ClassHUD.iconP2.alpha = 0;
+						ClassHUD.lunacyIcon.alpha = 1;
+					}
+		}
 	}
 
 	private function charactersDance(curBeat:Int)
@@ -1888,6 +1900,8 @@ class PlayState extends MusicBeatState
 						});
 					}
 				});
+
+				case 'isolated':
 			default:
 				callTextbox();
 		}
@@ -2039,5 +2053,29 @@ class PlayState extends MusicBeatState
 		if (Init.trueSettings.get('Disable Antialiasing') && Std.isOfType(Object, FlxSprite))
 			cast(Object, FlxSprite).antialiasing = false;
 		return super.add(Object);
+	}
+
+	/**
+	 * Change's the character mid song (it lags until i figure out something)
+	 * @param charType who's the character your gonna change (dad or bf)
+	 * @param newChar the new character (icon won't affect)
+	 * @return String
+	 */
+	public static function changeCharacter(charType:String, newChar:String) 
+	{
+		var hasChanged:Bool = false;
+
+		if(newChar == SONG.player2 && !hasChanged) return;
+
+		switch(charType)
+		{
+			case 'boyfriend' | 'Boyfriend' | 'bf' | 'player':
+				boyfriend.setCharacter(750, 850, newChar);
+				hasChanged = true;
+
+			case 'dad' | 'opponent':
+				dadOpponent.setCharacter(50, 850, newChar);
+				hasChanged = true;
+		}
 	}
 }

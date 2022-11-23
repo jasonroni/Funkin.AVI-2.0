@@ -57,7 +57,7 @@ class Main extends Sprite
 		[
 			['Isolated', 'Lunacy', 'Delusional'],
 			['mickey', 'dad', 'dad'],
-			[FlxColor.fromRGB(171, 171, 171)],
+			[FlxColor.fromRGB(150, 150, 150)],
 			'Mickey Mouse.'
 		],
 		[

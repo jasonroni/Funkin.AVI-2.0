@@ -571,9 +571,9 @@ class Character extends FNFSprite
 				animation.addByPrefix('idle-alt', 'altIdle', 11, false);
 
 				/*characterData.offsetX = -240;
-				characterData.offsetY = -80;
-				characterData.camOffsetX = -120;
-				characterData.camOffsetY = 230;*/
+				characterData.offsetY = -80;*/
+				characterData.camOffsetX = 40;
+				characterData.camOffsetY = 80;
 				characterData.healthbarColors = [171, 171, 171];
 
 				setGraphicSize(Std.int(width * 0.6));
@@ -624,6 +624,27 @@ class Character extends FNFSprite
 			case 'mickeysadistic': //Lunacy Legacy
 
 			case 'mickinpainnew': //Lunacy 2nd sprite set
+			var tex = Paths.getSparrowAtlas('characters/Mickey2NEW');
+				frames = tex;
+				animation.addByPrefix('idle', 'Mickey2 Idle', 9, false);
+				animation.addByPrefix('singUP', 'Mickey2 Up', 12, false);
+				animation.addByPrefix('singDOWN', 'Mickey2 Down', 13, false);
+				animation.addByPrefix('singLEFT', 'Mickey2 Left', 12, false);
+				animation.addByPrefix('singRIGHT', 'Mickey2 Right', 13, false);
+
+				/*characterData.offsetX = -240;
+				characterData.offsetY = -80;*/
+				characterData.camOffsetX = -190;
+				characterData.camOffsetY = 150;
+				characterData.healthbarColors = [171, 171, 171];
+
+				setGraphicSize(Std.int(width * 0.6));
+				updateHitbox();
+
+				playAnim('idle');
+				
+				isPlayer = false;
+				flipX = false;
 
 			//case 'minnieManifest': //he just wanted to see her again...
 
