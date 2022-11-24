@@ -43,7 +43,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 
 	private var SONG = PlayState.SONG;
 
-	public var iconP1:HealthIcon;
+	public static var iconP1:HealthIcon;
 	public static var iconP2:HealthIcon;
 	public static var lunacyIcon:HealthIcon; //lunacy after character change :boom:
 
@@ -77,7 +77,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		//the character data thing fucking crash the game so here's a replacement
 		healthBar.createFilledBar(
 
-			switch(PlayState.dadCharacter) {
+			switch(PlayState.SONG.player2) {
 				case 'mickey':
 					FlxColor.fromRGB(171, 171, 171);
 
@@ -85,7 +85,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 					FlxColor.RED;
 			},
 
-			switch(PlayState.bfCharacter) {
+			switch(PlayState.SONG.player1) {
 				case 'bffakeNEW' | 'bflunacy':
 					FlxColor.fromRGB(171, 171, 171);
 
@@ -111,21 +111,21 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		add(lunacyIcon);
 
 		scoreBar = new FlxText(FlxG.width / 2, Math.floor(healthBarBG.y + 40), 0, scoreDisplay);
-		scoreBar.setFormat(Paths.font('vcr.ttf'), 18, FlxColor.WHITE);
+		scoreBar.setFormat(Paths.font('NewWaltDisneyFontRegular-BPen.ttf'), 25, FlxColor.WHITE);
 		scoreBar.setBorderStyle(OUTLINE, FlxColor.BLACK, 1.5);
 		updateScoreText();
 		// scoreBar.scrollFactor.set();
 		scoreBar.antialiasing = true;
 		add(scoreBar);
 
-		cornerMark = new FlxText(0, FlxG.height - 18, 0, engineDisplay);
-		cornerMark.setFormat(Paths.font('vcr.ttf'), 18, FlxColor.WHITE);
+		cornerMark = new FlxText(15, FlxG.height - 36, 0, engineDisplay);
+		cornerMark.setFormat(Paths.font('NewWaltDisneyFontRegular-BPen.ttf'), 32, FlxColor.WHITE);
 		cornerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		cornerMark.antialiasing = true;
 		add(cornerMark);
 
 		centerMark = new FlxText(0, (Init.trueSettings.get('Downscroll') ? FlxG.height - 40 : 10), 0, '- ${infoDisplay + " [" + diffDisplay}] -');
-		centerMark.setFormat(Paths.font('vcr.ttf'), 24, FlxColor.WHITE);
+		centerMark.setFormat(Paths.font('NewWaltDisneyFontRegular-BPen.ttf'), 24, FlxColor.WHITE);
 		centerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		centerMark.screenCenter(X);
 		centerMark.antialiasing = true;
@@ -146,7 +146,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 					+ (i * counterTextSize), 0, '', counterTextSize);
 				if (!left)
 					textAsset.x -= textAsset.text.length * counterTextSize;
-				textAsset.setFormat(Paths.font("vcr.ttf"), counterTextSize, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				textAsset.setFormat(Paths.font("NewWaltDisneyFontRegular-BPen.ttf"), counterTextSize, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				textAsset.scrollFactor.set();
 				timingsMap.set(judgementNameArray[i], textAsset);
 				add(textAsset);
@@ -155,7 +155,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		updateScoreText();
 
 		autoplayMark = new FlxText(-5, (Init.trueSettings.get('Downscroll') ? centerMark.y - 60 : centerMark.y + 60), FlxG.width - 800, '[AUTOPLAY]\n', 32);
-		autoplayMark.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER);
+		autoplayMark.setFormat(Paths.font("NewWaltDisneyFontRegular-BPen.ttf"), 32, FlxColor.WHITE, CENTER);
 		autoplayMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		autoplayMark.screenCenter(X);
 		autoplayMark.visible = PlayState.boyfriendStrums.autoplay;

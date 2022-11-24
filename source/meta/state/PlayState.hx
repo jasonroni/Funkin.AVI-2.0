@@ -64,9 +64,6 @@ class PlayState extends MusicBeatState
 
 	public static var blackFade:FlxSprite;
 
-	//for a change character event
-	public static var bfCharacter:String = "bffakeNEW";
-	public static var dadCharacter:String = "mickey";
 
 	public static var dadOpponent:Character;
 	public static var gf:Character;
@@ -246,23 +243,6 @@ class PlayState extends MusicBeatState
 		dadOpponent = new Character().setCharacter(50, 850, SONG.player2);
 		boyfriend = new Boyfriend();
 		boyfriend.setCharacter(750, 850, SONG.player1);
-
-		//character load
-		switch(SONG.song)
-		{
-			case 'isolated':
-				bfCharacter = 'bffakeNEW';
-				dadCharacter = 'mickey';
-
-			case 'lunacy':
-				bfCharacter = 'bffakeNEW';
-				dadCharacter = 'mickey';
-
-			default:
-				bfCharacter = 'bffakeNEW';
-				dadCharacter = 'mickey';
-		}
-
 				
 		// if you want to change characters later use setCharacter() instead of new or it will break
 
@@ -2058,7 +2038,7 @@ class PlayState extends MusicBeatState
 	/**
 	 * Change's the character mid song (it lags until i figure out something)
 	 * @param charType who's the character your gonna change (dad or bf)
-	 * @param newChar the new character (icon won't affect)
+	 * @param newChar the new character
 	 * @return String
 	 */
 	public static function changeCharacter(charType:String, newChar:String) 
@@ -2071,10 +2051,12 @@ class PlayState extends MusicBeatState
 		{
 			case 'boyfriend' | 'Boyfriend' | 'bf' | 'player':
 				boyfriend.setCharacter(750, 850, newChar);
+				ClassHUD.iconP1.updateIcon(newChar);
 				hasChanged = true;
 
 			case 'dad' | 'opponent':
 				dadOpponent.setCharacter(50, 850, newChar);
+				ClassHUD.iconP2.updateIcon(newChar);
 				hasChanged = true;
 		}
 	}

@@ -14,6 +14,9 @@ class HealthIcon extends FlxSprite
 	public var initialWidth:Float = 0;
 	public var initialHeight:Float = 0;
 
+	public var offsetX = 0;
+	public var offsetY = 0;
+
 	public function new(char:String = 'bf', isPlayer:Bool = false)
 	{
 		super();

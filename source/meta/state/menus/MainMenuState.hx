@@ -39,6 +39,8 @@ class MainMenuState extends MusicBeatState
 	{
 		super.create();
 
+		openfl.Lib.application.window.title = "Funkin.avi";
+
 		// set the transitions to the previously set ones
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
@@ -84,6 +86,24 @@ class MainMenuState extends MusicBeatState
 		magenta.antialiasing = true;
 		magenta.color = 0xFFfd719b;
 		add(magenta);
+
+		var scratchStuff:FlxSprite = new FlxSprite();
+		scratchStuff.frames = Paths.getSparrowAtlas('filters/scratchShit');
+		scratchStuff.animation.addByPrefix('idle', 'scratch thing 1', 24, true);
+		scratchStuff.animation.play('idle');
+		scratchStuff.screenCenter();
+		scratchStuff.scale.x = 1.5;
+		scratchStuff.scale.y = 1.5;
+		add(scratchStuff);
+
+		var grain:FlxSprite = new FlxSprite();
+		grain.frames = Paths.getSparrowAtlas('filters/Grainshit');
+		grain.animation.addByPrefix('idle', 'grains 1', 24, true);
+		grain.animation.play('idle');
+		grain.screenCenter();
+		grain.scale.x = 1.5;
+		grain.scale.y = 1.5;
+		add(grain);
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
