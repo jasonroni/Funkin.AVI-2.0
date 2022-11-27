@@ -1,4 +1,4 @@
-package meta.state.menus;
+package meta.state.menus.freeplay;
 
 import flash.text.TextField;
 import flixel.FlxG;
@@ -23,13 +23,14 @@ import openfl.media.Sound;
 import sys.FileSystem;
 import sys.thread.Mutex;
 import sys.thread.Thread;
+import meta.data.GameData as FPClientPrefs;
 
 using StringTools;
 
-class FreeplayState extends MusicBeatState
+class ExtrasState extends MusicBeatState
 {
 	//
-	var songs:Array<SongMetadata> = [];
+	var songs:Array<DataMetaSong> = [];
 
 	var selector:FlxText;
 	var curSelected:Int = 0;
@@ -61,6 +62,34 @@ class FreeplayState extends MusicBeatState
 	override function create()
 	{
 		super.create();
+
+        FPClientPrefs.loadShit();
+
+		if(FPClientPrefs.episode1FPLock == 'unlocked')
+            {
+                if(FPClientPrefs.huntedLock != 'beaten' && FPClientPrefs.huntedLock != 'unlocked') addSong('Hunted', 3, 'mysterymouse', FlxColor.fromRGB(0, 60, 40)); else addSong('Hunted', 3, 'goofy', FlxColor.fromRGB(0, 60, 40));
+                if(FPClientPrefs.oldisolateLock != 'beaten' && FPClientPrefs.oldisolateLock != 'unlocked') addSong('Isolated Old', 3, 'mysterymouse', FlxColor.fromRGB(60, 60, 60)); else addSong('Isolated Old', 3, 'legacy', FlxColor.fromRGB(60, 60, 60));
+                if(FPClientPrefs.betaisolateLock != 'beaten' && FPClientPrefs.betaisolateLock != 'unlocked') addSong('Isolated Beta', 3, 'mysterymouse', FlxColor.fromRGB(60, 60, 60)); else addSong('Isolated Beta', 3, 'legacy', FlxColor.fromRGB(60, 60, 60));
+                if(FPClientPrefs.crossinLock != 'beaten' && FPClientPrefs.crossinLock != 'unlocked') addSong("Don't Cross!", 3, 'mysterymouse', FlxColor.RED); else addSong("Don't Cross!", 3, 'ohgod', FlxColor.RED);
+                if(FPClientPrefs.malfunctionLock != 'beaten' && FPClientPrefs.malfunctionLock != 'unlocked') addSong('Malfunction', 3, 'mysterymouse', FlxColor.fromRGB(140, 120, 180)); else addSong('Malfunction', 3, 'square-pixel', FlxColor.fromRGB(140, 120, 180));
+               // addSong('Revenge', 3, 'face', FlxColor.WHITE, FlxG.save.data.revengeLock);
+            }
+        
+            if(FPClientPrefs.episode2FPLock == 'unlocked')
+            {
+                if(FPClientPrefs.sinsLock != 'beaten' && FPClientPrefs.sinsLock != 'unlocked') addSong('Cycled Sins', 3, 'mysterymouse', FlxColor.fromRGB(115, 86, 86)); else addSong('Cycled Sins', 3, 'relapse-pixel', FlxColor.fromRGB(115, 86, 86));
+                if(FPClientPrefs.warLock != 'beaten' && FPClientPrefs.warLock != 'unlocked') addSong('War Dilemma', 3, 'mysterymouse', FlxColor.fromRGB(105, 17, 10)); else addSong('War Dilemma', 3, 'warmick', FlxColor.fromRGB(105, 17, 10));
+                if(FPClientPrefs.scrappedLock != 'beaten' && FPClientPrefs.scrappedLock != 'unlocked') addSong('Scrapped', 3, 'mysterymouse', FlxColor.BLACK); else addSong('Scrapped', 3, 'rs', FlxColor.BLACK);
+                if(FPClientPrefs.pnmLock != 'beaten' && FPClientPrefs.pnmLock != 'unlocked') addSong('Neglection', 3, 'mysterymouse', FlxColor.CYAN); else addSong('Neglection', 3, 'pnm', FlxColor.CYAN);
+                if(FPClientPrefs.blessLock != 'beaten' && FPClientPrefs.blessLock != 'unlocked') addSong('Bless', 3, 'mysterymouse', FlxColor.WHITE); else addSong('Bless', 3, 'whitenew', FlxColor.WHITE);
+                //if(FPClientPrefs.rbLock != 'beaten' && FPClientPrefs.rbLock != 'unlocked') addSong('BrainStorm', 3, 'mysterymouse', FlxColor.fromRGB(229, 85, 44), FlxG.save.data.rbLock); else addSong('BrainStorm', 3, 'face', FlxColor.fromRGB(229, 85, 84), FlxG.save.data.rbLock); //save it for V3!
+                if(FPClientPrefs.mercyLock != 'beaten' && FPClientPrefs.mercyLock != 'unlocked') addSong('Mercy', 3, 'mysterymouse', FlxColor.fromRGB(153, 148, 112)); else addSong('Mercy', 3, 'walt', FlxColor.fromRGB(153, 148, 112));
+            }
+        
+            if(FPClientPrefs.muckneyLock == "completed") 
+            {
+                addSong('Birthday', 3, 'muckny', FlxColor.fromRGB(255, 131, 122));
+            }
 
 		mutex = new Mutex();
 
@@ -181,12 +210,12 @@ class FreeplayState extends MusicBeatState
 		var coolDifficultyArray = [];
 		for (i in CoolUtil.difficultyArray)
 			if (FileSystem.exists(Paths.songJson(songName, songName + '-' + i))
-				|| (FileSystem.exists(Paths.songJson(songName, songName)) && i == "Hard"))
+				|| (FileSystem.exists(Paths.songJson(songName, songName)) && i == "NORMAL"))
 				coolDifficultyArray.push(i);
 
 		if (coolDifficultyArray.length > 0)
 		{ //*/
-			songs.push(new SongMetadata(songName, weekNum, songCharacter, songColor));
+			songs.push(new DataMetaSong(songName, weekNum, songCharacter, songColor));
 			existingDifficulties.push(coolDifficultyArray);
 		}
 	}
@@ -403,7 +432,7 @@ class FreeplayState extends MusicBeatState
 	var playingSongs:Array<FlxSound> = [];
 }
 
-class SongMetadata
+class DataMetaSong
 {
 	public var songName:String = "";
 	public var week:Int = 0;

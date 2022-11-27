@@ -40,6 +40,7 @@ import openfl.filters.ShaderFilter;
 import openfl.Assets;
 import meta.data.font.Alphabet;
 import meta.data.Conductor;
+import meta.data.GameData;
 
 using StringTools;
 typedef TitleData =
@@ -140,6 +141,8 @@ class TitleState extends MusicBeat.MusicBeatState
 
 		//swagShader = new ColorSwap();
 		super.create();
+
+		GameData.loadShit();
 
 		controls.setKeyboardScheme(None, false);
 		curWacky = FlxG.random.getObject(getIntroTextShit());

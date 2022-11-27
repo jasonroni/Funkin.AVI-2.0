@@ -668,6 +668,27 @@ class Character extends FNFSprite
 			case 'glitchedmick-legacy': //old ass bitch
 
 			case 'glitchedmick': //peak
+			var tex = Paths.getSparrowAtlas('characters/glitchMickNEW');
+				frames = tex;
+				animation.addByPrefix('idle', 'idle', 24, true);
+				animation.addByPrefix('singUP', 'up', 24, false);
+				animation.addByPrefix('singDOWN', 'down', 24, false);
+				animation.addByPrefix('singLEFT', 'left', 24, false);
+				animation.addByPrefix('singRIGHT', 'right', 24, false);
+
+				/*characterData.offsetX = -240;
+				characterData.offsetY = -80;*/
+				characterData.camOffsetX = -210;
+				characterData.camOffsetY = 160;
+				characterData.healthbarColors = [171, 171, 171];
+
+				setGraphicSize(Std.int(width * 1.7));
+				updateHitbox();
+
+				playAnim('idle');
+				
+				isPlayer = false;
+				flipX = false;
 
 			//case 'pnm': //OMG, IS THAT PHOTO NEGATIVE MICKEY?????
 
@@ -686,6 +707,29 @@ class Character extends FNFSprite
 			case 'waltp2':
 
 			case 'bf-firstperson':
+
+			case 'StravedMick': //is that a Friday Night Funkin' Vs Sonic.exe OST - Fight Or Flight Reference?!?!?!!?!??!1''?!?'11''1'111'?!?
+				var tex = Paths.getSparrowAtlas('characters/Mickey2NEW');
+				frames = tex;
+				animation.addByPrefix('idle', 'Mickey2 Idle', 9, false);
+				animation.addByPrefix('singUP', 'Mickey2 Up', 12, false);
+				animation.addByPrefix('singDOWN', 'Mickey2 Down', 13, false);
+				animation.addByPrefix('singLEFT', 'Mickey2 Left', 12, false);
+				animation.addByPrefix('singRIGHT', 'Mickey2 Right', 13, false);
+
+				/*characterData.offsetX = -240;
+				characterData.offsetY = -80;*/
+				characterData.camOffsetX = -190;
+				characterData.camOffsetY = 150;
+				characterData.healthbarColors = [171, 171, 171];
+
+				setGraphicSize(Std.int(width * 0.6));
+				updateHitbox();
+
+				playAnim('idle');
+				
+				isPlayer = false;
+				flipX = false;
 
 
 			default:

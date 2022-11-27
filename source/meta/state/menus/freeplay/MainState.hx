@@ -1,4 +1,4 @@
-package meta.state.menus;
+package meta.state.menus.freeplay;
 
 import flash.text.TextField;
 import flixel.FlxG;
@@ -23,10 +23,16 @@ import openfl.media.Sound;
 import sys.FileSystem;
 import sys.thread.Mutex;
 import sys.thread.Thread;
+import meta.data.GameData;
 
 using StringTools;
 
-class FreeplayState extends MusicBeatState
+/**
+ * This is the Story menu freeplay class, all the story songs are here, depending of your progress, you unlock songs.
+ * 
+ * **(example: if you beat episode 2, you get all Mr.Smiles songs).**
+ */
+class MainState extends MusicBeatState
 {
 	//
 	var songs:Array<SongMetadata> = [];
@@ -61,6 +67,22 @@ class FreeplayState extends MusicBeatState
 	override function create()
 	{
 		super.create();
+
+        GameData.loadShit();
+
+		if(GameData.episode1FPLock == 'unlocked')
+            {
+                addSong('Isolated', 3, 'mickey', FlxColor.fromRGB(60, 60, 60));
+                addSong('Lunacy', 3, 'mickinpainnew', FlxColor.fromRGB(60, 60, 60));
+                addSong('Delusional', 3, 'face', FlxColor.fromRGB(60, 60, 60));
+            }
+    
+            /*if(GameData.episode2FPLock == 'unlocked')
+            {
+                addSong('Twisted Grins', 3, 'smile', FlxColor.fromRGB(115, 86, 86));
+                addSong('Facade', 3, 'smile', FlxColor.fromRGB(115, 86, 86));
+                addSong('Mortiferum Risus', 3, 'smile', FlxColor.fromRGB(115, 86, 86));
+            }*/
 
 		mutex = new Mutex();
 
@@ -181,7 +203,7 @@ class FreeplayState extends MusicBeatState
 		var coolDifficultyArray = [];
 		for (i in CoolUtil.difficultyArray)
 			if (FileSystem.exists(Paths.songJson(songName, songName + '-' + i))
-				|| (FileSystem.exists(Paths.songJson(songName, songName)) && i == "Hard"))
+				|| (FileSystem.exists(Paths.songJson(songName, songName)) && i == "NORMAL"))
 				coolDifficultyArray.push(i);
 
 		if (coolDifficultyArray.length > 0)

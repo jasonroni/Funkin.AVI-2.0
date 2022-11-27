@@ -26,11 +26,11 @@ using StringTools;
 class ClassHUD extends FlxTypedGroup<FlxBasic>
 {
 	// set up variables and stuff here
-	var scoreBar:FlxText;
+	public static var scoreBar:FlxText;
 	var scoreLast:Float = -1;
 
 	// fnf mods
-	var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop';
+	public static var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop';
 
 	var cornerMark:FlxText; // engine mark at the upper right corner
 	var centerMark:FlxText; // song display name and difficulty at the center
@@ -38,8 +38,8 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 	public var autoplayMark:FlxText; // autoplay indicator at the center
 	public var autoplaySine:Float = 0;
 
-	private var healthBarBG:FlxSprite;
-	private var healthBar:FlxBar;
+	public static var healthBarBG:FlxSprite;
+	public static var healthBar:FlxBar;
 
 	private var SONG = PlayState.SONG;
 
@@ -111,7 +111,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		add(lunacyIcon);
 
 		scoreBar = new FlxText(FlxG.width / 2, Math.floor(healthBarBG.y + 40), 0, scoreDisplay);
-		scoreBar.setFormat(Paths.font('NewWaltDisneyFontRegular-BPen.ttf'), 25, FlxColor.WHITE);
+		scoreBar.setFormat((PlayState.curStage == "PixelWorld" ? Paths.font("pixel.otf") : Paths.font("NewWaltDisneyFontRegular-BPen.ttf")), (PlayState.curStage == "PixelWorld" ? 16 : 25), FlxColor.WHITE);
 		scoreBar.setBorderStyle(OUTLINE, FlxColor.BLACK, 1.5);
 		updateScoreText();
 		// scoreBar.scrollFactor.set();
@@ -119,8 +119,9 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		add(scoreBar);
 
 		cornerMark = new FlxText(15, FlxG.height - 36, 0, engineDisplay);
-		cornerMark.setFormat(Paths.font('NewWaltDisneyFontRegular-BPen.ttf'), 32, FlxColor.WHITE);
+		cornerMark.setFormat((PlayState.curStage == "PixelWorld" ? Paths.font("pixel.otf") : Paths.font("NewWaltDisneyFontRegular-BPen.ttf")), (PlayState.curStage == "PixelWorld" ? 16 : 32), FlxColor.WHITE);
 		cornerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
+		cornerMark.cameras = [PlayState.camDetail];
 		cornerMark.antialiasing = true;
 		add(cornerMark);
 
@@ -146,7 +147,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 					+ (i * counterTextSize), 0, '', counterTextSize);
 				if (!left)
 					textAsset.x -= textAsset.text.length * counterTextSize;
-				textAsset.setFormat(Paths.font("NewWaltDisneyFontRegular-BPen.ttf"), counterTextSize, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				textAsset.setFormat((PlayState.curStage == "PixelWorld" ? Paths.font("pixel.otf") : Paths.font("NewWaltDisneyFontRegular-BPen.ttf")), counterTextSize, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				textAsset.scrollFactor.set();
 				timingsMap.set(judgementNameArray[i], textAsset);
 				add(textAsset);
@@ -155,7 +156,12 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		updateScoreText();
 
 		autoplayMark = new FlxText(-5, (Init.trueSettings.get('Downscroll') ? centerMark.y - 60 : centerMark.y + 60), FlxG.width - 800, '[AUTOPLAY]\n', 32);
-		autoplayMark.setFormat(Paths.font("NewWaltDisneyFontRegular-BPen.ttf"), 32, FlxColor.WHITE, CENTER);
+		autoplayMark.setFormat(
+		(PlayState.curStage == "PixelWorld" ? Paths.font("pixel.otf") : Paths.font("NewWaltDisneyFontRegular-BPen.ttf")), 
+		(PlayState.curStage == "PixelWorld" ? 16 : 32), 
+		FlxColor.WHITE, 
+		CENTER
+		);
 		autoplayMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		autoplayMark.screenCenter(X);
 		autoplayMark.visible = PlayState.boyfriendStrums.autoplay;

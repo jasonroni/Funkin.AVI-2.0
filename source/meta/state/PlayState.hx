@@ -117,6 +117,7 @@ class PlayState extends MusicBeatState
 
 	public static var camHUD:FlxCamera;
 	public static var camGame:FlxCamera;
+	public static var camDetail:FlxCamera;
 	public static var dialogueHUD:FlxCamera;
 
 	public var camDisplaceX:Float = 0;
@@ -156,6 +157,17 @@ class PlayState extends MusicBeatState
 	public static var lastRating:FlxSprite;
 	// stores the last combo objects in an array
 	public static var lastCombo:Array<FlxSprite>;
+
+	// - the fear mechanic for the straved mick song, totally not stolen from sonic.exe code
+	var fearUi:FlxSprite;
+	var fearUiBg:FlxSprite;
+	var fearTween:FlxTween;
+	var fearTimer:FlxTimer;
+	public var fearNo:Float = 0;
+	public var fearBar:FlxBar;
+	public static var isFear:Bool = false;
+	var doFearCheck = false;
+	var fearNum:FlxText;
 
 	function resetStatics()
 	{
@@ -198,9 +210,15 @@ class PlayState extends MusicBeatState
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
 
+		// create a camera for the details (example: black fade)
+		camDetail = new FlxCamera();
+		camDetail.bgColor.alpha = 0;
+
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD, false);
 		allUIs.push(camHUD);
+		strumHUD.push(camHUD);
+		FlxG.cameras.add(camDetail, false);
 		FlxG.cameras.setDefaultDrawTarget(camGame, true);
 
 		// default song
@@ -234,7 +252,7 @@ class PlayState extends MusicBeatState
 		gf.setCharacter(300, 100, stageBuild.returnGFtype(curStage));
 		gf.scrollFactor.set(0.95, 0.95);
 
-		if(curStage == "street")
+		if(curStage == "street" || curStage == "PixelWorld")
 			{
 				//gf fucking dies lmao (jason)
 				gf.alpha = 0;
@@ -381,6 +399,7 @@ class PlayState extends MusicBeatState
 		blackFade = new FlxSprite().makeGraphic(1280, 720, FlxColor.BLACK);
 		blackFade.alpha = 0;
 		blackFade.scale.set(6, 6);
+		blackFade.cameras = [camDetail];
 		add(blackFade);
 
 		if(SONG.song == "Isolated")
@@ -425,6 +444,36 @@ class PlayState extends MusicBeatState
 			FlxTween.tween(blackFade, {alpha: 0}, 5, {ease: FlxEase.quadInOut, startDelay: 6});
 			FlxTween.tween(camHUD, {alpha: 1}, 5, {ease: FlxEase.expoInOut, startDelay: 9});
 		}
+
+		if (SONG.player2 == "StravedMick")
+			{
+				fearUi = new FlxSprite().loadGraphic(Paths.image('eventsAndMechanics/straved/fearbar'));
+				fearUi.scrollFactor.set();
+				fearUi.screenCenter();
+				fearUi.x += 580;
+				fearUi.y -= 50;
+	
+				fearUiBg = new FlxSprite(fearUi.x, fearUi.y).loadGraphic(Paths.image('eventsAndMechanics/straved/fearbarBG'));
+				fearUiBg.scrollFactor.set();
+				fearUiBg.screenCenter();
+				fearUiBg.x += 580;
+				fearUiBg.y -= 50;
+				add(fearUiBg);
+	
+				fearBar = new FlxBar(fearUi.x + 30, fearUi.y + 5, BOTTOM_TO_TOP, 21, 275, this, 'fearNo', 0, 100);
+				fearBar.scrollFactor.set();
+				fearBar.visible = true;
+				fearBar.numDivisions = 1000;
+				fearBar.createFilledBar(0x00525252, 0xFFFF3C3C);
+				trace('bar added.');
+	
+				add(fearBar);
+				add(fearUi);
+
+				fearUiBg.cameras = [camHUD];
+				fearBar.cameras = [camHUD];
+				fearUi.cameras = [camHUD];
+			}
 		 
 	}
 
@@ -560,6 +609,41 @@ class PlayState extends MusicBeatState
 		stageBuild.stageUpdateConstant(elapsed, boyfriend, gf, dadOpponent);
 
 		super.update(elapsed);
+
+		//opponent not hit but not note hit
+		if(dadOpponent.animation.curAnim.name.contains('sing') && SONG.player2 == "StravedMick")
+			{
+				fearNo += 0.5;
+			}
+
+		// fear shit for starved :boom:
+		if (SONG.player2 == 'StravedMick')
+			{
+				isFear = true;
+				fearBar.visible = true;
+				fearBar.filledCallback = function()
+				{
+					health = 0;
+				}
+				// this is such a shitcan method i really should come up with something better tbf
+				if (fearNo >= 50 && fearNo < 59)
+					health -= 0.1 * elapsed;
+				else if (fearNo >= 60 && fearNo < 69)
+					health -= 0.13 * elapsed;
+				else if (fearNo >= 70 && fearNo < 79)
+					health -= 0.17 * elapsed;
+				else if (fearNo >= 80 && fearNo < 89)
+					health -= 0.20 * elapsed;
+				else if (fearNo >= 90 && fearNo < 99)
+					health -= 0.35 * elapsed;
+	
+				if (health <= 0.01)
+				{
+					health = 0.01;
+				}
+
+				//yall fellas dont have opponentNoteHit and make me mad
+			}
 
 		if (health > 2)
 			health = 2;
@@ -979,12 +1063,34 @@ class PlayState extends MusicBeatState
 		daNote.destroy();
 	}
 
+	/**
+	        —————————————No opponentNoteHit?—————————————
+				⠀⣞⢽⢪⢣⢣⢣⢫⡺⡵⣝⡮⣗⢷⢽⢽⢽⣮⡷⡽⣜⣜⢮⢺⣜⢷⢽⢝⡽⣝
+				⠸⡸⠜⠕⠕⠁⢁⢇⢏⢽⢺⣪⡳⡝⣎⣏⢯⢞⡿⣟⣷⣳⢯⡷⣽⢽⢯⣳⣫⠇
+				⠀⠀⢀⢀⢄⢬⢪⡪⡎⣆⡈⠚⠜⠕⠇⠗⠝⢕⢯⢫⣞⣯⣿⣻⡽⣏⢗⣗⠏⠀
+				⠀⠪⡪⡪⣪⢪⢺⢸⢢⢓⢆⢤⢀⠀⠀⠀⠀⠈⢊⢞⡾⣿⡯⣏⢮⠷⠁⠀⠀
+				⠀⠀⠀⠈⠊⠆⡃⠕⢕⢇⢇⢇⢇⢇⢏⢎⢎⢆⢄⠀⢑⣽⣿⢝⠲⠉⠀⠀⠀⠀
+				⠀⠀⠀⠀⠀⡿⠂⠠⠀⡇⢇⠕⢈⣀⠀⠁⠡⠣⡣⡫⣂⣿⠯⢪⠰⠂⠀⠀⠀⠀
+				⠀⠀⠀⠀⡦⡙⡂⢀⢤⢣⠣⡈⣾⡃⠠⠄⠀⡄⢱⣌⣶⢏⢊⠂⠀⠀⠀⠀⠀⠀
+				⠀⠀⠀⠀⢝⡲⣜⡮⡏⢎⢌⢂⠙⠢⠐⢀⢘⢵⣽⣿⡿⠁⠁⠀⠀⠀⠀⠀⠀⠀
+				⠀⠀⠀⠀⠨⣺⡺⡕⡕⡱⡑⡆⡕⡅⡕⡜⡼⢽⡻⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+				⠀⠀⠀⠀⣼⣳⣫⣾⣵⣗⡵⡱⡡⢣⢑⢕⢜⢕⡝⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+				⠀⠀⠀⣴⣿⣾⣿⣿⣿⡿⡽⡑⢌⠪⡢⡣⣣⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+				⠀⠀⠀⡟⡾⣿⢿⢿⢵⣽⣾⣼⣘⢸⢸⣞⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+				⠀⠀⠀⠀⠁⠇⠡⠩⡫⢿⣝⡻⡮⣒⢽⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+				————————————————————————————
+	**/
 	function goodNoteHit(coolNote:Note, character:Character, characterStrums:Strumline, ?canDisplayJudgement:Bool = true)
 	{
 		if (!coolNote.wasGoodHit)
 		{
 			coolNote.wasGoodHit = true;
 			vocals.volume = 1;
+
+			if(SONG.player2 == "StravedMick")
+				{
+					fearNo -= 1;
+				}
 
 			characterPlayAnimation(coolNote, character);
 			if (characterStrums.receptors.members[coolNote.noteData] != null)
@@ -1049,6 +1155,11 @@ class PlayState extends MusicBeatState
 			character.playAnim('sing' + stringDirection.toUpperCase() + 'miss', lockMiss);
 		}
 		decreaseCombo(popMiss);
+
+		if(SONG.player2 == "StravedMick")
+			{
+				fearNo += 1;
+			}
 
 		//
 	}

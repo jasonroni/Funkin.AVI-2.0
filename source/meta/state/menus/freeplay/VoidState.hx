@@ -1,4 +1,4 @@
-package meta.state.menus;
+package meta.state.menus.freeplay;
 
 import flash.text.TextField;
 import flixel.FlxG;
@@ -23,13 +23,14 @@ import openfl.media.Sound;
 import sys.FileSystem;
 import sys.thread.Mutex;
 import sys.thread.Thread;
+import meta.data.GameData as FPClientPrefs;
 
 using StringTools;
 
-class FreeplayState extends MusicBeatState
+class VoidState extends MusicBeatState
 {
 	//
-	var songs:Array<SongMetadata> = [];
+	var songs:Array<GoofyAhhMeta> = [];
 
 	var selector:FlxText;
 	var curSelected:Int = 0;
@@ -61,6 +62,11 @@ class FreeplayState extends MusicBeatState
 	override function create()
 	{
 		super.create();
+
+        FPClientPrefs.loadShit();
+        
+
+        addSong('Birthday', 3, 'face', FlxColor.fromRGB(255, 131, 122));
 
 		mutex = new Mutex();
 
@@ -181,12 +187,12 @@ class FreeplayState extends MusicBeatState
 		var coolDifficultyArray = [];
 		for (i in CoolUtil.difficultyArray)
 			if (FileSystem.exists(Paths.songJson(songName, songName + '-' + i))
-				|| (FileSystem.exists(Paths.songJson(songName, songName)) && i == "Hard"))
+				|| (FileSystem.exists(Paths.songJson(songName, songName)) && i == "NORMAL"))
 				coolDifficultyArray.push(i);
 
 		if (coolDifficultyArray.length > 0)
 		{ //*/
-			songs.push(new SongMetadata(songName, weekNum, songCharacter, songColor));
+			songs.push(new GoofyAhhMeta(songName, weekNum, songCharacter, songColor));
 			existingDifficulties.push(coolDifficultyArray);
 		}
 	}
@@ -403,7 +409,7 @@ class FreeplayState extends MusicBeatState
 	var playingSongs:Array<FlxSound> = [];
 }
 
-class SongMetadata
+class GoofyAhhMeta
 {
 	public var songName:String = "";
 	public var week:Int = 0;

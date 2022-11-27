@@ -80,6 +80,8 @@ class Stage extends FlxTypedGroup<FlxBasic>
 					curStage = 'schoolEvil';
 				case 'isolated' | 'lunacy' | 'delusional':
 					curStage = "street";
+				case 'malfunction':
+					curStage = "PixelWorld";
 				default:
 					curStage = 'stage';
 			}
@@ -386,6 +388,20 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				stageCurtains.antialiasing = true;
 				stageCurtains.scrollFactor.set(1.3, 1.3);
 				stageCurtains.active = false;
+				add(stageCurtains);
+
+				case 'PixelWorld':
+				PlayState.defaultCamZoom = 1;
+
+				var stageCurtains:FNFSprite = new FNFSprite(-720, -520).loadGraphic(Paths.image('backgrounds/SQUAREBOILOL/PixelMouse'));
+				stageCurtains.setGraphicSize(Std.int(stageCurtains.width * 0.9));
+				stageCurtains.updateHitbox();
+				stageCurtains.antialiasing = true;
+				stageCurtains.scale.set(0.7, 0.6);
+				stageCurtains.scrollFactor.set(1, 1);
+				stageCurtains.active = false;
+
+				// add to the final array
 				add(stageCurtains);
 
 			default:
