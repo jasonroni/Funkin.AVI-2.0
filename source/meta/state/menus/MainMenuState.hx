@@ -49,7 +49,7 @@ class MainMenuState extends MusicBeatState
 		ForeverTools.resetMenuMusic();
 
 		#if DISCORD_RPC
-		Discord.changePresence('MENU SCREEN', 'Main Menu');
+		Discord.changePresence('MENU SCREEN', 'Main Menu', null, false, 0, 'MainIcon');
 		#end
 
 		// uh

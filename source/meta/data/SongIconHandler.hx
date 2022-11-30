@@ -39,13 +39,13 @@ class SongIconHandler
     switch(meta.state.PlayState.SONG.song)
     {
         case 'Cycled Sins':
-          pauseImage = 'cycledSins';
+          pauseImage = 'assets/images/OSTArt/cycledSins';
         case 'Mercy' | 'Mercy Legacy':
-          pauseImage = 'mercy';
+          pauseImage = 'assets/images/OSTArt/mercy';
         case 'Malfunction' | 'Malfunction Legacy':
-          pauseImage = 'malfunction';
+          pauseImage = 'assets/images/OSTArt/malfunction';
         default:
-          pauseImage = 'unknown';
+          pauseImage = 'assets/images/OSTArt/unknown';
     }
   }
   public static function reloadRPC()
@@ -53,17 +53,17 @@ class SongIconHandler
     switch(meta.state.PlayState.SONG.song)
     {
         case 'Isolated' | 'Lunacy' | 'Delusional':
-          discordIcon = 'episode1';
+          discordIcon = 'assets/images/OSTArt/episode1';
         case 'Twisted Grins' | 'Facade' | 'Mortiferum Risus':
-          discordIcon = 'episode2';
+          discordIcon = 'assets/images/OSTArt/episode2';
         case 'Cycled Sins':
-          discordIcon = 'cycledsins';
+          discordIcon = 'assets/images/OSTArt/cycledsins';
         case 'Mercy' | 'Mercy Legacy':
-          discordIcon = 'mercy';
+          discordIcon = 'assets/images/OSTArt/mercy';
         case 'Malfunction' | 'Malfunction Legacy':
-          discordIcon = 'malfunction';
+          discordIcon = 'assets/images/OSTArt/malfunction';
         default:
-          discordIcon = 'placeholder';
+          discordIcon = 'assets/images/OSTArt/placeholder';
     }
   }
 }

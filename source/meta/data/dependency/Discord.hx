@@ -16,7 +16,7 @@ class Discord
 	public static function initializeRPC()
 	{
 		DiscordRpc.start({
-			clientID: "1031181637863620708",
+			clientID: "1047592291059113999",
 			onReady: onReady,
 			onError: onError,
 			onDisconnected: onDisconnected
@@ -30,10 +30,10 @@ class Discord
 	static function onReady()
 	{
 		DiscordRpc.presence({
-			details: "",
+			details: "Starting the show...",
 			state: null,
 			largeImageKey: 'fel-logo',
-			largeImageText: "Forever Engine Legacy"
+			largeImageText: "Funkin.AVI"
 		});
 	}
 
@@ -49,7 +49,7 @@ class Discord
 
 	//
 
-	public static function changePresence(details:String = '', state:Null<String> = '', ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float, ?RPCIcon:String = 'fel-logo')
+	public static function changePresence(details:String = '', state:Null<String> = '', ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float, ?RPCIcon:String = 'MainIcon')
 	{
 		var startTimestamp:Float = (hasStartTimestamp) ? Date.now().getTime() : 0;
 
@@ -59,8 +59,8 @@ class Discord
 		DiscordRpc.presence({
 			details: details,
 			state: state,
-			largeImageKey: RPCIcon,
-			largeImageText: "Forever Engine Legacy",
+			largeImageKey: 'assets/images/OSTArt/$RPCIcon',
+			largeImageText: "Funkin.AVI",
 			smallImageKey: smallImageKey,
 			// Obtained times are in milliseconds so they are divided so Discord can use it
 			startTimestamp: Std.int(startTimestamp / 1000),
