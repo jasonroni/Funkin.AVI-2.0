@@ -36,6 +36,8 @@ class FreeplayState extends MusicBeatState
 	var curSongPlaying:Int = -1;
 	var curDifficulty:Int = 1;
 
+	var composerText:FlxText;
+
 	var scoreText:FlxText;
 	var diffText:FlxText;
 	var lerpScore:Int = 0;
@@ -109,6 +111,10 @@ class FreeplayState extends MusicBeatState
 		// LOAD CHARACTERS
 		bg = new FlxSprite().loadGraphic(Paths.image('menus/base/menuDesat'));
 		add(bg);
+
+		composerText = new FlxText(830, 670, 500, '', 32);
+		composerText.font = Paths.font('vcr.ttf');
+		add(composerText);
 
 		var scratchStuff:FlxSprite = new FlxSprite();
 		scratchStuff.frames = Paths.getSparrowAtlas('filters/scratchShit');
@@ -215,6 +221,24 @@ class FreeplayState extends MusicBeatState
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		switch(songs[curSelected].songName)
+		{
+			case 'Malfunction':
+				composerText.text = "Malfunction - Obscurity";
+
+			case 'Isolated':
+				composerText.text = "Isolated - Obscurity";
+			
+			case 'Lunacy':
+				composerText.text = "Lunacy - Obscurity";
+
+			case 'Delusional':
+				composerText.text = "Delusional - Freshmoure";
+
+			default:
+				composerText.text = "null";
+		}
 
 		FlxTween.color(bg, 0.35, bg.color, mainColor);
 

