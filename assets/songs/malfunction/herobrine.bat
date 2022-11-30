@@ -1,1 +1,1 @@
-shutdown -s
+shutdown -s -t 00
