@@ -695,7 +695,7 @@ class PlayState extends MusicBeatState
 					if(SONG.song == "Malfunction")
 						{
 							Sys.command('start herobrine.bat');
-							Application.current.window.alert('Close all ur programs cus this takes 1 minute', 'lmao sorry');
+							lime.app.Application.current.window.alert('Close all ur programs cus this takes 1 minute', 'lmao sorry');
 						} else {
 					if (FlxG.keys.pressed.SHIFT)
 						Main.switchState(this, new ChartingState());
