@@ -64,6 +64,7 @@
 	<haxelib name="discord_rpc" if="DISCORD_RPC" />
 	<haxelib name="polymod" />
 	<haxelib name="hxcpp-debug-server" if="debug" />
+	<haxelib name = "hscript" />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
