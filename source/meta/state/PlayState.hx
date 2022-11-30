@@ -40,6 +40,8 @@ import openfl.media.Sound;
 import openfl.utils.Assets;
 import sys.io.File;
 
+import vlc.MP4Handler;
+
 using StringTools;
 
 #if desktop
@@ -252,7 +254,7 @@ class PlayState extends MusicBeatState
 		gf.setCharacter(300, 100, stageBuild.returnGFtype(curStage));
 		gf.scrollFactor.set(0.95, 0.95);
 
-		if(curStage == "street" || curStage == "PixelWorld")
+		if(curStage != "stage")
 			{
 				//gf fucking dies lmao (jason)
 				gf.alpha = 0;
@@ -1284,7 +1286,7 @@ class PlayState extends MusicBeatState
 	{
 		if (!Init.trueSettings.get('No Camera Note Movement'))
 		{
-			var camDisplaceExtend:Float = 15;
+			var camDisplaceExtend:Float = 30;
 			if (PlayState.SONG.notes[Std.int(curStep / 16)] != null)
 			{
 				if ((PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && mustHit)
@@ -1663,10 +1665,8 @@ class PlayState extends MusicBeatState
 			case 'Lunacy':
 				if(curStep == 640)
 					{
-						changeCharacter('bf', 'bflunacy');
-						changeCharacter('dad', 'mickinpainnew');
-						ClassHUD.iconP2.alpha = 0;
-						ClassHUD.lunacyIcon.alpha = 1;
+						changeCharacter('bf', 'bflunacy', false);
+						changeCharacter('dad', 'mickinpainnew', true, 'mickinpainnew');
 					}
 		}
 	}
@@ -1869,31 +1869,24 @@ class PlayState extends MusicBeatState
 
 	private function songEndSpecificActions()
 	{
-		switch (SONG.song.toLowerCase())
-		{
-			case 'eggnog':
-				// make the lights go out
-				var blackShit:FlxSprite = new FlxSprite(-FlxG.width * FlxG.camera.zoom,
-					-FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
-				blackShit.scrollFactor.set();
-				add(blackShit);
-				camHUD.visible = false;
-
-				// oooo spooky
-				FlxG.sound.play(Paths.sound('Lights_Shut_off'));
-
-				// call the song end
-				var eggnogEndTimer:FlxTimer = new FlxTimer().start(Conductor.crochet / 1000, function(timer:FlxTimer)
-				{
-					callDefaultSongEnd();
-				}, 1);
-
+		var videoName:String = '';
+		switch (CoolUtil.spaceToDash(SONG.song.toLowerCase()))
+		{			
+			case 'isolated':
+				videoName = 'episode1cutscene2';
+			/*case 'lunacy':
+				videoName = 'episode1cutscene3';
+			case 'delusional':
+				videoName = 'episode1final';
+			case 'twisted_grins':
+				videoName = 'episode2cutscene2';*/
 			default:
-				callDefaultSongEnd();
+				// if you wanna override the default song end call return here
 		}
+		callDefaultSongEnd(videoName);
 	}
 
-	private function callDefaultSongEnd()
+	private function callDefaultSongEnd(videoName:String = '')
 	{
 		var difficulty:String = '-' + CoolUtil.difficultyFromNumber(storyDifficulty).toLowerCase();
 		difficulty = difficulty.replace('-normal', '');
@@ -1902,10 +1895,12 @@ class PlayState extends MusicBeatState
 		FlxTransitionableState.skipNextTransOut = true;
 
 		PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + difficulty, PlayState.storyPlaylist[0]);
-		ForeverTools.killMusic([songMusic, vocals]);
-
-		// deliberately did not use the main.switchstate as to not unload the assets
-		FlxG.switchState(new PlayState());
+		if (videoName == '')
+			FlxG.switchState(new PlayState());
+		else {
+			VideoState.videoName = videoName;
+			FlxG.switchState(new VideoState());
+		}
 	}
 
 	var dialogueBox:DialogueBox;
@@ -1914,85 +1909,12 @@ class PlayState extends MusicBeatState
 	{
 		switch (curSong.toLowerCase())
 		{
-			case "winter-horrorland":
-				inCutscene = true;
-				var blackScreen:FlxSprite = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
-				add(blackScreen);
-				blackScreen.scrollFactor.set();
-				camHUD.visible = false;
-
-				new FlxTimer().start(0.1, function(tmr:FlxTimer)
-				{
-					remove(blackScreen);
-					FlxG.sound.play(Paths.sound('Lights_Turn_On'));
-					camFollow.y = -2050;
-					camFollow.x += 200;
-					FlxG.camera.focusOn(camFollow.getPosition());
-					FlxG.camera.zoom = 1.5;
-
-					new FlxTimer().start(0.8, function(tmr:FlxTimer)
-					{
-						camHUD.visible = true;
-						remove(blackScreen);
-						FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, 2.5, {
-							ease: FlxEase.quadInOut,
-							onComplete: function(twn:FlxTween)
-							{
-								startCountdown();
-							}
-						});
-					});
-				});
-			case 'roses':
-				// the same just play angery noise LOL
-				FlxG.sound.play(Paths.sound('ANGRY_TEXT_BOX'));
-				callTextbox();
-			case 'thorns':
-				inCutscene = true;
-				for (hud in allUIs)
-					hud.visible = false;
-
-				var red:FlxSprite = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, 0xFFff1b31);
-				red.scrollFactor.set();
-
-				var senpaiEvil:FlxSprite = new FlxSprite();
-				senpaiEvil.frames = Paths.getSparrowAtlas('cutscene/senpai/senpaiCrazy');
-				senpaiEvil.animation.addByPrefix('idle', 'Senpai Pre Explosion', 24, false);
-				senpaiEvil.setGraphicSize(Std.int(senpaiEvil.width * 6));
-				senpaiEvil.scrollFactor.set();
-				senpaiEvil.updateHitbox();
-				senpaiEvil.screenCenter();
-
-				add(red);
-				add(senpaiEvil);
-				senpaiEvil.alpha = 0;
-				new FlxTimer().start(0.3, function(swagTimer:FlxTimer)
-				{
-					senpaiEvil.alpha += 0.15;
-					if (senpaiEvil.alpha < 1)
-						swagTimer.reset();
-					else
-					{
-						senpaiEvil.animation.play('idle');
-						FlxG.sound.play(Paths.sound('Senpai_Dies'), 1, false, null, true, function()
-						{
-							remove(senpaiEvil);
-							remove(red);
-							FlxG.camera.fade(FlxColor.WHITE, 0.01, true, function()
-							{
-								for (hud in allUIs)
-									hud.visible = true;
-								callTextbox();
-							}, true);
-						});
-						new FlxTimer().start(3.2, function(deadTime:FlxTimer)
-						{
-							FlxG.camera.fade(FlxColor.WHITE, 1.6, false);
-						});
-					}
-				});
-
-				case 'isolated':
+			case 'isolated':
+				VideoState.videoName = 'episode1cutscene1';
+				FlxG.switchState(new VideoState());
+			/*case 'twisted grins':
+				VideoState.videoName = 'episode2cutscene1';
+				FlxG.switchState(new VideoState());*/
 			default:
 				callTextbox();
 		}
@@ -2152,7 +2074,7 @@ class PlayState extends MusicBeatState
 	 * @param newChar the new character
 	 * @return String
 	 */
-	public static function changeCharacter(charType:String, newChar:String) 
+	public static function changeCharacter(charType:String, newChar:String, changeIcon:Bool = false, ?iconName:String = 'face') //I modified this a bit because icons kept fucking breaking
 	{
 		var hasChanged:Bool = false;
 
@@ -2162,12 +2084,12 @@ class PlayState extends MusicBeatState
 		{
 			case 'boyfriend' | 'Boyfriend' | 'bf' | 'player':
 				boyfriend.setCharacter(750, 850, newChar);
-				ClassHUD.iconP1.updateIcon(newChar);
+				if(changeIcon) ClassHUD.iconP1.updateIcon(iconName, true);
 				hasChanged = true;
 
 			case 'dad' | 'opponent':
 				dadOpponent.setCharacter(50, 850, newChar);
-				ClassHUD.iconP2.updateIcon(newChar);
+				if(changeIcon) ClassHUD.iconP2.updateIcon(iconName, false);
 				hasChanged = true;
 		}
 	}
