@@ -32,7 +32,7 @@
 
 	<!-- _________________ Game Shortcuts, made for having less time testing _________________ -->
 
-	<!--define name="Freeplay" /-->
+	<define name="HSCRIPT_ALLOWED" />
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
@@ -65,6 +65,8 @@
 	<haxelib name="polymod" />
 	<haxelib name="hxcpp-debug-server" if="debug" />
 	<haxelib name = "hscript" />
+	<haxelib name = "hscript-ex" />
+	<!--haxelib install hscript-ex-->
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
