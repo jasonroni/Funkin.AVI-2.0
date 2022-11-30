@@ -708,7 +708,7 @@ class Character extends FNFSprite
 
 			case 'bf-firstperson':
 
-			case 'StravedMick': //is that a Friday Night Funkin' Vs Sonic.exe OST - Fight Or Flight Reference?!?!?!!?!??!1''?!?'11''1'111'?!?
+			case 'StravedMick': //is that a Friday Night Funkin' Vs Sonic.exe OST - Fight Or Flight Reference?!?!?!!?!??!1''?!?'11''1'111'?!?!
 				var tex = Paths.getSparrowAtlas('characters/Mickey2NEW');
 				frames = tex;
 				animation.addByPrefix('idle', 'Mickey2 Idle', 9, false);
