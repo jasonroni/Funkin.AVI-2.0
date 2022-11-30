@@ -62,6 +62,8 @@ class FreeplayState extends MusicBeatState
 	{
 		super.create();
 
+		addSong('Malfunction', 3, 'face', FlxColor.GRAY);
+
 		mutex = new Mutex();
 
 		/**

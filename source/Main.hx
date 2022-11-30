@@ -230,4 +230,7 @@ class Main extends Sprite
 
 		Sys.exit(1);
 	}
+
+	public static function getOption(option:String)
+		return Init.trueSettings.get(option);
 }

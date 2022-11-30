@@ -69,6 +69,12 @@ class Init extends FlxState
 			'Whether to display approximately how much memory is being used.',
 			NOT_FORCED
 		],
+		'Flashing Lights' => [
+			true, 
+			Checkmark,
+			'Uncheck this if you are sensitive to flashing lights!',
+			FORCED
+		],
 		'Debug Info' => [
 			false,
 			Checkmark,
