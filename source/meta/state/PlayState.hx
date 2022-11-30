@@ -39,6 +39,7 @@ import openfl.filters.ShaderFilter;
 import openfl.media.Sound;
 import openfl.utils.Assets;
 import sys.io.File;
+import meta.data.SongIconHandler;
 
 import vlc.MP4Handler;
 
@@ -91,6 +92,7 @@ class PlayState extends MusicBeatState
 	public static var songDetails:String = "";
 	public static var detailsSub:String = "";
 	public static var detailsPausedText:String = "";
+	public static var RPCSongIcon:String = IconSongHandler.discordIcon;
 
 	private static var prevCamFollow:FlxObject;
 
@@ -827,7 +829,7 @@ class PlayState extends MusicBeatState
 				FlxG.sound.play(Paths.sound('fnf_loss_sfx' + GameOverSubstate.stageSuffix));
 
 				#if DISCORD_RPC
-				Discord.changePresence("Game Over - " + songDetails, detailsSub, iconRPC);
+				Discord.changePresence("Game Over - " + songDetails, detailsSub, iconRPC, RPCSongIcon);
 				#end
 			}
 
@@ -1360,9 +1362,9 @@ class PlayState extends MusicBeatState
 		if (health > 0)
 		{
 			if (Conductor.songPosition > 0 && !pausedRPC)
-				Discord.changePresence(displayRPC, detailsSub, iconRPC, true, songLength - Conductor.songPosition);
+				Discord.changePresence(displayRPC, detailsSub, iconRPC, true, songLength - Conductor.songPosition, RPCSongIcon);
 			else
-				Discord.changePresence(displayRPC, detailsSub, iconRPC);
+				Discord.changePresence(displayRPC, detailsSub, iconRPC, RPCSongIcon);
 		}
 		#end
 	}
