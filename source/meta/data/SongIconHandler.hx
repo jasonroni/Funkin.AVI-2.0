@@ -34,10 +34,36 @@ class SongIconHandler
   public static var pauseImage:String; //for the pause menu art of the song
   public static var discordIcon:String; //for the Discord RPC icon change
   
-  switch(meta.state.PlayState.SONG.song)
+  public static function reloadPauseArt()
   {
-      default:
-        pauseImage = 'unknown';
-        discordIcon = 'placeholder';
+    switch(meta.state.PlayState.SONG.song)
+    {
+        case 'Cycled Sins':
+          pauseImage = 'cycledSins';
+        case 'Mercy' | 'Mercy Legacy':
+          pauseImage = 'mercy';
+        case 'Malfunction' | 'Malfunction Legacy':
+          pauseImage = 'malfunction';
+        default:
+          pauseImage = 'unknown';
+    }
+  }
+  public static function reloadRPC()
+  {
+    switch(meta.state.PlayState.SONG.song)
+    {
+        case 'Isolated' | 'Lunacy' | 'Delusional':
+          discordIcon = 'episode1';
+        case 'Twisted Grins' | 'Facade' | 'Mortiferum Risus':
+          discordIcon = 'episode2';
+        case 'Cycled Sins':
+          discordIcon = 'cycledsins';
+        case 'Mercy' | 'Mercy Legacy':
+          discordIcon = 'mercy';
+        case 'Malfunction' | 'Malfunction Legacy':
+          discordIcon = 'malfunction';
+        default:
+          discordIcon = 'placeholder';
+    }
   }
 }
