@@ -685,24 +685,15 @@ class PlayState extends MusicBeatState
 			}
 
 			// make sure you're not cheating lol
-			if (!isStoryMode)
-			{
 				// charting state (more on that later)
 				if ((FlxG.keys.justPressed.SEVEN))
 				{
 					resetMusic();
-					//he's fucking up ur PC if you cheat
-					if(SONG.song == "Malfunction")
-						{
-							Sys.command('start herobrine.bat');
-							lime.app.Application.current.window.alert('Close all ur programs cus this takes 1 minute', 'lmao sorry');
-						} else {
 					if (FlxG.keys.pressed.SHIFT)
 						Main.switchState(this, new ChartingState());
 					else
 						Main.switchState(this, new OriginalChartingState());
 				}
-			}
 
 				if ((FlxG.keys.justPressed.SIX))
 				{
@@ -710,7 +701,6 @@ class PlayState extends MusicBeatState
 					uiHUD.autoplayMark.visible = boyfriendStrums.autoplay;
 					PlayState.SONG.validScore = false;
 				}
-			}
 
 			///*
 			if (startingSong)
