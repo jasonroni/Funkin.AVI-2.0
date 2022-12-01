@@ -1,5 +1,8 @@
 package hscript;
 
+import flixel.FlxBasic;
+import hscript.Interp;
+import openfl.Lib;
 import flixel.system.macros.FlxMacroUtil;
 import flixel.math.FlxAngle;
 import flixel.addons.display.FlxBackdrop;
@@ -85,198 +88,99 @@ import gameObjects.userInterface.notes.*;
 import gameObjects.system.*;
 import gameObjects.background.*;
 
-using StringTools;
+class FunkinHScript extends FlxBasic
+{
+	public var hscript:Interp;
 
-/**
- * Sets Hscript variables
- */
-class FunkinHScript extends InterpEx {
-	var hscript:Interp;
+	public override function new()
+	{
+		super();
+		hscript = new Interp();
 
-    public function new() {
-        super();
-        //CLASSES
-        //THIS IS PROBABLY MORE THAN ANYONE EVER NEEDS AND YOU CAN IMPORT CLASSES MANUALLY ANYWAYS BUT WHATEVER
-        variables.set('AL', AL);
-        variables.set('Application', Application);
-        variables.set('AudioBuffer', AudioBuffer);
-        variables.set('BitmapData', BitmapData);
-        variables.set('Bytes', Bytes);
-        variables.set('Clipboard', Clipboard);
-        variables.set('Event', Event);
-        variables.set('FlxAngle', FlxAngle);
-        variables.set('FlxAtlasFrames', FlxAtlasFrames);
-        variables.set('FlxBackdrop', FlxBackdrop);
-        variables.set('FlxBar', FlxBar);
-        variables.set('FlxBasic', FlxBasic);
-        variables.set('FlxButton', FlxButton);
-        variables.set('FlxCamera', FlxCamera);
-        variables.set('FlxDestroyUtil', FlxDestroyUtil);
-        variables.set('FlxEase', FlxEase);
-        variables.set('FlxFlicker', FlxFlicker);
-        variables.set('FlxFrame', FlxFrame);
-        variables.set('FlxG', FlxG);
-        variables.set('FlxGradient', FlxGradient);
-        variables.set('FlxGraphic', FlxGraphic);
-        variables.set('FlxGridOverlay', FlxGridOverlay);
-        variables.set('FlxGroup', FlxGroup);
-        variables.set('FlxMath', FlxMath);
-        variables.set('FlxObject', FlxObject);
-        variables.set('FlxRect', FlxRect);
-        variables.set('FlxSave', FlxSave);
-        variables.set('FlxShader', FlxShader);
-        variables.set('FlxSort', FlxSort);
-        variables.set('FlxSound', FlxSound);
-        variables.set('FlxSprite', FlxSprite);
-        variables.set('FlxSpriteGroup', FlxSpriteGroup);
-        variables.set('FlxState', FlxState);
-        variables.set('FlxStringUtil', FlxStringUtil);
-        variables.set('FlxSubState', FlxSubState);
-        variables.set('FlxText', FlxText);
-        variables.set('FlxTimer', FlxTimer);
-        variables.set('FlxTrail', FlxTrail);
-        variables.set('FlxTransitionableState', FlxTransitionableState);
-        variables.set('FlxTween', FlxTween);
-        variables.set('FlxTypedGroup', FlxTypedGroup);
-        variables.set('FlxTypedSpriteGroup', FlxTypedSpriteGroup);
-        variables.set('FlxUI', FlxUI);
-        variables.set('FlxUICheckBox', FlxUICheckBox);
-        variables.set('FlxUIDropDownMenu', FlxUIDropDownMenu);
-        variables.set('FlxUIInputText', FlxUIInputText);
-        variables.set('FlxUINumericStepper', FlxUINumericStepper);
-        variables.set('FlxUITabMenu', FlxUITabMenu);
-        variables.set('FlxTypeText', FlxTypeText);
-        variables.set('IOErrorEvent', IOErrorEvent);
-        variables.set('Json', Json);
-        variables.set('Lib', Lib);
-        variables.set('LimeAssets', LimeAssets);
-        variables.set('OpenFlAssets', OpenFlAssets);
-        variables.set('Path', Path);
-        variables.set('Reflect', Reflect);
-        variables.set('Sound', Sound);
-        variables.set('StringTools', StringTools);
-        variables.set('TextField', TextField);
-        variables.set('TextFormat', TextFormat);
-        #if sys
-        variables.set('File', File);
-        variables.set('FileSystem', FileSystem);
-        #end
-        #if DISCORD_RPC
-        variables.set('Discord', Discord);
-        #end
-	    variables.set('FreeplayState', FreeplayState);
-        variables.set('HealthIcon', HealthIcon);
-        variables.set('Highscore', Highscore);
-        variables.set('MainMenuState', MainMenuState);
-        variables.set('MusicBeatState', MusicBeat.MusicBeatState);
-        variables.set('MusicBeatSubState', MusicBeat.MusicBeatSubState);
-        variables.set('Note', Note);
-        variables.set('NoteSplash', NoteSplash);
-        variables.set('OptionsState', OptionsMenuState);
-        variables.set('Paths', Paths);
-        variables.set('PlayState', PlayState);
-        variables.set('Song', Song);
-        variables.set('StoryMenuState', StoryMenuState);
-        variables.set('TitleState', TitleState);
-
-		// Screen stuff
-		variables.set('screenWidth', FlxG.width);
-		variables.set('screenHeight', FlxG.height);
-
-		// PlayState cringe ass nae nae bullcrap
-		variables.set('curBeat', 0);
-		variables.set('curStep', 0);
-
-		variables.set('score', 0);
-		variables.set('misses', 0);
-		variables.set('hits', 0);
-
-		// Character shit
-		variables.set('player1', PlayState.SONG.player1);
-		variables.set('player2', PlayState.SONG.player2);
-
-		#if windows
-		variables.set('buildTarget', 'windows');
-		#elseif linux
-		variables.set('buildTarget', 'linux');
-		#elseif mac
-		variables.set('buildTarget', 'mac');
-		#elseif html5
-		variables.set('buildTarget', 'browser');
-		#elseif android
-		variables.set('buildTarget', 'android');
-		#else
-		variables.set('buildTarget', 'unknown');
-		#end
-        variables.set('window', Application.current.window);
-
-        //EVENTS
-		var funcs = [
-			'onCreate',
-			'onCreatePost',
-			'onDestroy'
-		];
-		for (i in funcs)
-			variables.set(i, function() {});
-		variables.set('onUpdate', function(elapsed) {});
-		variables.set('onUpdatePost', function(elapsed) {});
-    }
+		setGameVariables();
+	}
 
 	public function runScript(script:String)
-		{
-			var parser = new hscript.Parser();
-	
-			try
-			{
-				var ast = parser.parseString(script);
-	
-				hscript.execute(ast);
-			}
-			catch (e)
-			{
-				openfl.Lib.application.window.alert(e.message, "HSCRIPT ERROR!1111");
-			}
-		}
+	{
+		var parser = new hscript.Parser();
 
-	public function setVariable(name:String, value:Any) {
-		return variables.set(name, value);
+		try
+		{
+			var ast = parser.parseString(script);
+
+			hscript.execute(ast);
+		}
+		catch (e)
+		{
+			Lib.application.window.alert(e.message, "Error on Hscript!");
+		}
+	}
+
+	public function setVariable(name:String, val:Dynamic)
+	{
+		hscript.variables.set(name, val);
+	}
+
+	public function getVariable(name:String):Dynamic
+	{
+		return hscript.variables.get(name);
 	}
 
 	public function executeFunc(funcName:String, ?args:Array<Any>):Dynamic
-		{
-			if (hscript == null)
-				return null;
-	
-			if (variables.exists(funcName))
-			{
-				var func = variables.get(funcName);
-				if (args == null)
-				{
-					var result = null;
-					try
-					{
-						result = func();
-					}
-					catch (e)
-					{
-						trace('$e');
-					}
-					return result;
-				}
-				else
-				{
-					var result = null;
-					try
-					{
-						result = Reflect.callMethod(null, func, args);
-					}
-					catch (e)
-					{
-						trace('$e');
-					}
-					return result;
-				}
-			}
+	{
+		if (hscript == null)
 			return null;
+
+		if (hscript.variables.exists(funcName))
+		{
+			var func = hscript.variables.get(funcName);
+			if (args == null)
+			{
+				var result = null;
+				try
+				{
+					result = func();
+				}
+				catch (e)
+				{
+					trace('$e');
+				}
+				return result;
+			}
+			else
+			{
+				var result = null;
+				try
+				{
+					result = Reflect.callMethod(null, func, args);
+				}
+				catch (e)
+				{
+					trace('$e');
+				}
+				return result;
+			}
+		}
+		return null;
+	}
+
+	public override function destroy()
+	{
+		super.destroy();
+		hscript = null;
+	}
+
+	public function setGameVariables()
+		{
+			var game = hscript.variables;
+
+			game.set('discord',Discord);
+			game.set('gameHUD', ClassHUD);
+			game.set('playState', PlayState);
+			game.set('menuState', MainMenuState);
+			game.set('musicState', MusicBeat.MusicBeatState);
+			game.set('window', Application.current.window);
+			game.set('gameTween', FlxTween);
+			game.set('gameEase', FlxEase);
 		}
 }

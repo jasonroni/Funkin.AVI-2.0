@@ -210,7 +210,7 @@ class PlayState extends MusicBeatState
 
 		if (script != null)
 			{
-				script.executeFunc("onCreate");
+				script.executeFunc("create");
 			}
 
 		resetStatics();
@@ -522,6 +522,11 @@ class PlayState extends MusicBeatState
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(eventKey);
 
+		if (script != null)
+			{
+				script.executeFunc("onPress");
+			}
+
 		if ((key >= 0)
 			&& !boyfriendStrums.autoplay
 			&& (FlxG.keys.checkStatus(eventKey, JUST_PRESSED) || Init.trueSettings.get('Controller Mode'))
@@ -584,6 +589,11 @@ class PlayState extends MusicBeatState
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(eventKey);
 
+		if (script != null)
+			{
+				script.executeFunc("onRelease");
+			}
+
 		if (FlxG.keys.enabled && !paused && (FlxG.state.active || FlxG.state.persistentUpdate))
 		{
 			// receptor reset
@@ -610,6 +620,11 @@ class PlayState extends MusicBeatState
 
 	override public function destroy()
 	{
+		if (script != null)
+			{
+				script.executeFunc("destroy");
+			}
+
 		if (!Init.trueSettings.get('Controller Mode'))
 		{
 			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
@@ -626,6 +641,11 @@ class PlayState extends MusicBeatState
 	override public function update(elapsed:Float)
 	{
 		stageBuild.stageUpdateConstant(elapsed, boyfriend, gf, dadOpponent);
+
+		if (script != null)
+			{
+				script.executeFunc("update");
+			}
 
 		super.update(elapsed);
 
@@ -1187,6 +1207,11 @@ class PlayState extends MusicBeatState
 		var stringArrow:String = '';
 		var altString:String = '';
 
+		if (script != null)
+			{
+				script.executeFunc("playAnim");
+			}
+
 		var baseString = 'sing' + UIStaticArrow.getArrowFromNumber(coolNote.noteData).toUpperCase();
 
 		// I tried doing xor and it didnt work lollll
@@ -1589,6 +1614,11 @@ class PlayState extends MusicBeatState
 	function startSong():Void
 	{
 		startingSong = false;
+
+		if (script != null)
+			{
+				script.executeFunc("onSongStart");
+			}
 
 		previousFrameTime = FlxG.game.ticks;
 		lastReportedPlayheadPosition = 0;
