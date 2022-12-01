@@ -319,4 +319,16 @@ class Paths
 			var returnAsset:FlxGraphic = returnGraphic('menus/Funkin_avi/$key', library, textureCompression);
 			return returnAsset;
 		}
+
+	inline static public function PlayStateHscript(key:String)
+		{
+			return 'assets/songs/${meta.state.PlayState.SONG.song}/$key.hx';
+		}
+
+	inline static public function defaultHscript(key:String)
+		{
+			var returnAsset:String = 'assets/menuScripts/$key.hx';
+			return returnAsset;
+		}
+
 }

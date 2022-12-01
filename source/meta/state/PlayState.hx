@@ -42,6 +42,7 @@ import openfl.media.Sound;
 import openfl.utils.Assets;
 import sys.io.File;
 import meta.data.SongIconHandler;
+import hscript.*;
 
 //import vlc.MP4Handler;
 
@@ -70,6 +71,9 @@ class PlayState extends MusicBeatState
 	public static var campaignScore:Int = 0;
 
 	public static var blackFade:FlxSprite;
+
+	// Hscript
+	public var script:FunkinHScript;
 
 
 	public static var dadOpponent:Character;
@@ -201,6 +205,13 @@ class PlayState extends MusicBeatState
 	override public function create()
 	{
 		super.create();
+
+		startScript();
+
+		if (script != null)
+			{
+				script.executeFunc("onCreate");
+			}
 
 		resetStatics();
 
@@ -2680,4 +2691,34 @@ class PlayState extends MusicBeatState
 						} //T O O  M U C H  C O D E
 				}
 			}
+
+			public function startScript()
+				{
+					var path:String = Paths.PlayStateHscript('script');
+			
+					var hxdata:String = "";
+			
+					if (sys.FileSystem.exists(path))
+						hxdata = sys.io.File.getContent(path);
+			
+					if (hxdata != "")
+					{
+						script = new FunkinHScript();
+			
+						script.setVariable("import", function(lib:String, ?as:Null<String>) // Does this even work?
+						{
+							if (lib != null && Type.resolveClass(lib) != null)
+							{
+								script.setVariable(as != null ? as : lib, Type.resolveClass(lib));
+							}
+						});
+			
+						script.setVariable("fromRGB", function(Red:Int, Green:Int, Blue:Int, ?Alpha:Int = 255)
+						{
+							return FlxColor.fromRGB(Red, Green, Blue, Alpha);
+						});
+			
+						script.runScript(hxdata);
+					}
+				}
 		}
