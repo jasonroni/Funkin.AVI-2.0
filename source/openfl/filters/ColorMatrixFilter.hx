@@ -7,7 +7,6 @@ import openfl.display.Shader;
 import openfl.geom.Point;
 import openfl.geom.Rectangle;
 #if lime
-import lime._internal.graphics.ImageCanvasUtil; // TODO
 import lime.math.RGBA;
 #end
 

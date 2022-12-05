@@ -13,6 +13,8 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import meta.MusicBeat.MusicBeatState;
 import meta.data.dependency.Discord;
+import hscript.FunkinHScript;
+import sys.FileSystem;
 
 using StringTools;
 
@@ -22,22 +24,35 @@ using StringTools;
 **/
 class MainMenuState extends MusicBeatState
 {
-	var menuItems:FlxTypedGroup<FlxSprite>;
-	var curSelected:Float = 0;
+	var script:FunkinHScript;
 
-	var bg:FlxSprite; // the background has been separated for more control
-	var magenta:FlxSprite;
-	var camFollow:FlxObject;
+	public var menuItems:FlxTypedGroup<FlxSprite>;
+	public static var curSelected:Float = 0;
 
-	var camFollowPos:FlxObject;
+	public var bg:FlxSprite; // the background has been separated for more control
+	public var magenta:FlxSprite;
+	public var camFollow:FlxObject;
 
-	var optionShit:Array<String> = ['story mode', 'freeplay', 'options'];
-	var canSnap:Array<Float> = [];
+	public var camFollowPos:FlxObject;
+
+	public static var optionShit:Array<String>;
+	public var canSnap:Array<Float> = [];
+
+	public static var versionShit:FlxText;
 
 	// the create 'state'
-	override function create()
+	override public function create()
 	{
 		super.create();
+
+		startScript();
+
+		optionShit = ['story mode', 'freeplay', 'options'];
+
+		if(script != null)
+			{
+				script.executeFunc('create');
+			}
 
 		openfl.Lib.application.window.title = "Funkin.avi";
 
@@ -157,7 +172,7 @@ class MainMenuState extends MusicBeatState
 
 		// from the base game lol
 
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 34, 0, "Funkin.avi v" + Main.gameVersion, 28);
+		versionShit = new FlxText(5, FlxG.height - 34, 0, "Funkin.avi v" + Main.gameVersion, 28);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat(Paths.font("NewWaltDisneyFontRegular-BPen.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
@@ -169,15 +184,22 @@ class MainMenuState extends MusicBeatState
 	var selectedSomethin:Bool = false;
 	var counterControl:Float = 0;
 
-	override function update(elapsed:Float)
+	override public function update(elapsed:Float)
 	{
 		// colorTest += 0.125;
 		// bg.color = FlxColor.fromHSB(colorTest, 100, 100, 0.5);
+
+		if(script != null)
+			{
+				script.executeFunc('update');
+			}
 
 		var up = controls.UI_UP;
 		var down = controls.UI_DOWN;
 		var up_p = controls.UI_UP_P;
 		var down_p = controls.UI_DOWN_P;
+		var goBack = controls.BACK;
+		var reset = controls.RESET;
 		var controlArray:Array<Bool> = [up, down, up_p, down_p];
 
 		if ((controlArray.contains(true)) && (!selectedSomethin))
@@ -233,6 +255,12 @@ class MainMenuState extends MusicBeatState
 			// reset variables
 			counterControl = 0;
 		}
+
+		if(controls.BACK)
+			Main.switchState(this, new TitleState());
+
+		if(reset)
+			FlxG.switchState(new meta.state.menus.MainMenuState());
 
 		if ((controls.ACCEPT) && (!selectedSomethin))
 		{
@@ -309,4 +337,36 @@ class MainMenuState extends MusicBeatState
 
 		lastCurSelected = Math.floor(curSelected);
 	}
+
+	function startScript()
+		{
+			var path:String;
+
+			path = Paths.hscript('menuScripts/Main');
+	
+			var hxdata:String = "";
+	
+			if (sys.FileSystem.exists(path))
+				hxdata = sys.io.File.getContent(path);
+	
+			if (hxdata != "")
+			{
+				script = new FunkinHScript();
+	
+				script.setVariable("import", function(lib:String, ?as:Null<String>) // Does this even work?
+				{
+					if (lib != null && Type.resolveClass(lib) != null)
+					{
+						script.setVariable(as != null ? as : lib, Type.resolveClass(lib));
+					}
+				});
+	
+				script.setVariable("fromRGB", function(Red:Int, Green:Int, Blue:Int, ?Alpha:Int = 255)
+				{
+					return FlxColor.fromRGB(Red, Green, Blue, Alpha);
+				});
+	
+				script.runScript(hxdata);
+			}
+		}
 }

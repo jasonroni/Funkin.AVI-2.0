@@ -92,6 +92,8 @@ class FunkinHScript extends FlxBasic
 {
 	public var hscript:Interp;
 
+	public var curOption:String;
+
 	public override function new()
 	{
 		super();
@@ -172,15 +174,21 @@ class FunkinHScript extends FlxBasic
 
 	public function setGameVariables()
 		{
-			var game = hscript.variables;
-
-			game.set('discord',Discord);
-			game.set('gameHUD', ClassHUD);
-			game.set('playState', PlayState);
-			game.set('menuState', MainMenuState);
-			game.set('musicState', MusicBeat.MusicBeatState);
-			game.set('window', Application.current.window);
-			game.set('gameTween', FlxTween);
-			game.set('gameEase', FlxEase);
+			hscript.variables.set('discord',Discord);
+			hscript.variables.set('gameHUD', ClassHUD);
+			hscript.variables.set('game', PlayState);
+			hscript.variables.set('menuState', MainMenuState);
+			hscript.variables.set('musicState', MusicBeat.MusicBeatState);
+			hscript.variables.set('window', Application.current.window);
+			hscript.variables.set('gameTween', FlxTween);
+			hscript.variables.set('gameEase', FlxEase);
+			hscript.variables.set('flixel', FlxG);
+			hscript.variables.set('mainMenu', MainMenuState);
+			hscript.variables.set('windowsData', CppAPI);
+			hscript.variables.set('menuItems', MainMenuState.optionShit);
+			hscript.variables.set('mainMenuCurSelected', MainMenuState.curSelected);
+			hscript.variables.set('gameVersion', MainMenuState.versionShit);
+			hscript.variables.set('option', Main.getOption(curOption));
+			hscript.variables.set('gameTimer', FlxTimer);
 		}
 }

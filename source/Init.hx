@@ -1,21 +1,12 @@
+import base.Overlay;
+import base.utils.ScoreUtils;
 import flixel.FlxG;
 import flixel.FlxState;
-import flixel.addons.transition.FlxTransitionableState;
-import flixel.graphics.FlxGraphic;
-import flixel.input.keyboard.FlxKey;
-import meta.CoolUtil;
-import meta.Overlay;
-import meta.data.Highscore;
-import meta.data.dependency.Discord;
-import meta.state.*;
-import meta.state.charting.*;
 import openfl.filters.BitmapFilter;
 import openfl.filters.ColorMatrixFilter;
 
-using StringTools;
-
 /** 
-	Enumerator for settingtypes
+ * Enumerator for settingtypes
 **/
 enum SettingTypes
 {
@@ -23,10 +14,16 @@ enum SettingTypes
 	Selector;
 }
 
+enum SettingState
+{
+	FORCED; // forced at the default value, doesn't show up on the settings menu;
+	NOT_FORCED;
+}
+
 /**
-	This is the initialisation class. if you ever want to set anything before the game starts or call anything then this is probably your best bet.
-	A lot of this code is just going to be similar to the flixel templates' colorblind filters because I wanted to add support for those as I'll
-	most likely need them for skater, and I think it'd be neat if more mods were more accessible.
+ * This is the initialisation class. if you ever want to set anything before the game starts or call anything then this is probably your best bet.
+ * A lot of this code is just going to be similar to the flixel templates' colorblind filters because I wanted to add support for those as I'll
+ * most likely need them for skater, and I think it'd be neat if more mods were more accessible.
 **/
 class Init extends FlxState
 {
@@ -40,21 +37,18 @@ class Init extends FlxState
 		3 - offsets, this is unused but it'd bug me if it were set to 0
 		might redo offset code since I didnt make it and it bugs me that it's hardcoded the the last part of the controls menu
 	 */
-	public static var FORCED = 'forced';
-	public static var NOT_FORCED = 'not forced';
-
 	public static var gameSettings:Map<String, Dynamic> = [
 		'Downscroll' => [
 			false,
 			Checkmark,
-			'Whether to have the strumline vertically flipped in gameplay.',
+			'Whether to have the strumline vertically flipped during Gameplay.',
 			NOT_FORCED
 		],
 		'Controller Mode' => [
 			false,
 			Checkmark,
-			'Whether to use a controller instead of the keyboard to play.',
-			NOT_FORCED
+			'Whether to use a controller instead of a keyboard to play.',
+			FORCED
 		],
 		'Auto Pause' => [
 			true,
@@ -66,32 +60,26 @@ class Init extends FlxState
 		'Memory Counter' => [
 			true,
 			Checkmark,
-			'Whether to display approximately how much memory is being used.',
-			NOT_FORCED
-		],
-		'Flashing Lights' => [
-			true, 
-			Checkmark,
-			'Uncheck this if you are sensitive to flashing lights!',
-			FORCED
-		],
-		'Debug Info' => [
-			false,
-			Checkmark,
-			'Whether to display information like your game state.',
+			'Whether to display approximately how much Memory is being used.',
 			NOT_FORCED
 		],
 		'Reduced Movements' => [
 			false,
 			Checkmark,
-			'Whether to reduce movements, like icons bouncing or beat zooms in gameplay.',
+			'Whether to reduce movements, like icons bouncing or beat zooms during Gameplay.',
 			NOT_FORCED
 		],
 		'Stage Opacity' => [
 			Checkmark,
 			Selector,
-			'Darkens non-ui elements, useful if you find the characters and backgrounds distracting.',
+			'Darkens non-UI elements, useful if you find the characters and backgrounds distracting.',
 			NOT_FORCED
+		],
+		'Colored Health Bar' => [
+			true,
+			Checkmark,
+			'Whether the Health Bar should be colored after the Icons.',
+			NOT_FORCED,
 		],
 		'Counter' => [
 			'None',
@@ -104,7 +92,19 @@ class Init extends FlxState
 		'Disable Antialiasing' => [
 			false,
 			Checkmark,
-			'Whether to disable Anti-aliasing. Helps improve performance in FPS.',
+			'Whether to disable Anti-Aliasing, helps in improving performance.',
+			NOT_FORCED
+		],
+		'Disable Flashing Lights' => [
+			false,
+			Checkmark,
+			'Whether to disable Flashing Lights on Menus, check this if you are sensitive to those.',
+			NOT_FORCED
+		],
+		'Disable Screen Shaders' => [
+			false,
+			Checkmark,
+			'Whether to disable Screen Shaders during gameplay, helps in improving performance.',
 			NOT_FORCED
 		],
 		'No Camera Note Movement' => [
@@ -113,19 +113,13 @@ class Init extends FlxState
 			'When enabled, left and right notes no longer move the camera.',
 			NOT_FORCED
 		],
-		'Disable Note Splashes' => [
-			false,
-			Checkmark,
-			'Whether to disable note splashes in gameplay. Useful if you find them distracting.',
-			NOT_FORCED
-		],
 		// custom ones lol
 		'Offset' => [Checkmark, 3],
 		'Filter' => [
 			'none',
 			Selector,
 			'Choose a filter for colorblindness.',
-			NOT_FORCED,
+			#if neko FORCED, #else NOT_FORCED, #end
 			['none', 'Deuteranopia', 'Protanopia', 'Tritanopia']
 		],
 		"Clip Style" => [
@@ -142,32 +136,49 @@ class Init extends FlxState
 			NOT_FORCED,
 			''
 		],
-		"Note Skin" => ['default', Selector, 'Choose a note skin.', NOT_FORCED, ''],
-		"Framerate Cap" => [120, Selector, 'Define your maximum FPS.', NOT_FORCED, ['']],
-		"Opaque Arrows" => [
-			false,
-			Checkmark,
-			"Makes the arrows at the top of the screen opaque again.",
+		"Note Skin" => [
+			'default',
+			Selector,
+			'Choose a note skin, also affects note splashes.',
+			NOT_FORCED,
+			''
+		],
+		"Framerate Cap" => [60, Selector, 'Define your maximum FPS.', #if neko FORCED #else NOT_FORCED #end],
+		"Arrow Opacity" => [
+			80,
+			Selector,
+			"Sets the opacity for the arrows at the top/bottom of the screen.",
 			NOT_FORCED
 		],
-		"Opaque Holds" => [false, Checkmark, "Huh, why isnt the trail cut off?", NOT_FORCED],
+		"Hold Opacity" => [
+			60,
+			Selector,
+			"Sets the opacity for the Hold Notes... Huh, why isnt the trail cut off?",
+			NOT_FORCED
+		],
+		"Splash Opacity" => [
+			60,
+			Selector,
+			"Sets the opacity for the Note Splashes, shown when hitting \"Sick!\" judgements on notes.",
+			NOT_FORCED
+		],
+		'Accuracy Hightlight' => [
+			true,
+			Checkmark,
+			"Whether to have a color hightlight based on your ranking when hitting a note.",
+			NOT_FORCED
+		],
 		'Ghost Tapping' => [
-			false,
+			true,
 			Checkmark,
 			"Enables Ghost Tapping, allowing you to press inputs without missing.",
 			NOT_FORCED
 		],
 		'Centered Notefield' => [false, Checkmark, "Center the notes, disables the enemy's notes."],
-		"Custom Titlescreen" => [
-			false,
-			Checkmark,
-			"Enables the custom Forever Engine titlescreen! (only effective with a restart)",
-			FORCED
-		],
 		'Skip Text' => [
 			'freeplay only',
 			Selector,
-			'Decides whether to skip cutscenes and dialogue in gameplay. May be always, only in freeplay, or never.',
+			'Decides whether to skip cutscenes and dialogue in gameplay. May be always, only in Freeplay, or never.',
 			NOT_FORCED,
 			['never', 'freeplay only', 'always']
 		],
@@ -180,7 +191,39 @@ class Init extends FlxState
 		'Simply Judgements' => [
 			false,
 			Checkmark,
-			"Simplifies the judgement animations, displaying only one judgement / rating sprite at a time.",
+			"Simplifies the judgement animations, displaying only one judgement sprite at a time.",
+			NOT_FORCED
+		],
+		'Judgement Recycling' => [
+			true,
+			Checkmark,
+			"Recycles judgements and combo rather than adding one every note hit, may cause layering issues.",
+			NOT_FORCED
+		],
+		"Camera Position" => [
+			'none',
+			Selector,
+			"Chooses where the camera should stay; None = move depending on sections.",
+			NOT_FORCED,
+			['none', 'bf', 'gf', 'dad', 'center']
+		],
+		"Timing Preset" => [
+			'forever',
+			Selector,
+			"Chooses what preset should be used for Judgement Timing Windows.",
+			NOT_FORCED,
+			['forever', 'funkin', 'judge four', 'itg']
+		],
+		"Display Miss Judgement" => [
+			true,
+			Checkmark,
+			"Whether to display a miss judgement when missing notes.",
+			NOT_FORCED
+		],
+		"Display Timings" => [
+			false,
+			Checkmark,
+			"Whether to display how early/late you hit a judgement on a note.",
 			NOT_FORCED
 		],
 	];
@@ -188,23 +231,9 @@ class Init extends FlxState
 	public static var trueSettings:Map<String, Dynamic> = [];
 	public static var settingsDescriptions:Map<String, String> = [];
 
-	public static var gameControls:Map<String, Dynamic> = [
-		'UP' => [[FlxKey.UP, W], 2],
-		'DOWN' => [[FlxKey.DOWN, S], 1],
-		'LEFT' => [[FlxKey.LEFT, A], 0],
-		'RIGHT' => [[FlxKey.RIGHT, D], 3],
-		'ACCEPT' => [[FlxKey.SPACE, Z, FlxKey.ENTER], 4],
-		'BACK' => [[FlxKey.BACKSPACE, X, FlxKey.ESCAPE], 5],
-		'PAUSE' => [[FlxKey.ENTER, P], 6],
-		'RESET' => [[R, null], 13],
-		'UI_UP' => [[FlxKey.UP, W], 8],
-		'UI_DOWN' => [[FlxKey.DOWN, S], 9],
-		'UI_LEFT' => [[FlxKey.LEFT, A], 10],
-		'UI_RIGHT' => [[FlxKey.RIGHT, D], 11],
-	];
-
 	public static var filters:Array<BitmapFilter> = []; // the filters the game has active
 	/// initalise filters here
+	#if !neko
 	public static var gameFilters:Map<String, {filter:BitmapFilter, ?onUpdate:Void->Void}> = [
 		"Deuteranopia" => {
 			var matrix:Array<Float> = [
@@ -234,41 +263,37 @@ class Init extends FlxState
 			{filter: new ColorMatrixFilter(matrix)}
 		}
 	];
+	#end
 
 	override public function create():Void
 	{
-		FlxG.save.bind('foreverengine-options');
-		Highscore.load();
+		FlxG.save.bind('gameSettings', "Feather");
 
-		loadSettings();
+		// load controls and highscore
+		ScoreUtils.loadScores();
 		loadControls();
 
-		#if !html5
-		Main.updateFramerate(trueSettings.get("Framerate Cap"));
-		#end
+		loadSettings();
 
+		Main.updateFramerate(trueSettings.get("Framerate Cap"));
+
+		#if !neko
 		// apply saved filters
 		FlxG.game.setFilters(filters);
+		#end
 
 		// Some additional changes to default HaxeFlixel settings, both for ease of debugging and usability.
 		FlxG.fixedTimestep = false; // This ensures that the game is not tied to the FPS
 		FlxG.mouse.useSystemCursor = true; // Use system cursor because it's prettier
 		FlxG.mouse.visible = false; // Hide mouse on start
-		FlxGraphic.defaultPersist = true; // make sure we control all of the memory
 
-		gotoTitleScreen();
-	}
-
-	private function gotoTitleScreen()
-	{
-		if (trueSettings.get("Custom Titlescreen"))
-			Main.switchState(this, new CustomTitlescreen());
-		else
-			Main.switchState(this, new TitleState());
+		Main.switchState(this, cast Type.createInstance(Main.game.initialState, []));
 	}
 
 	public static function loadSettings():Void
 	{
+		FlxG.save.bind('gameSettings', "Feather");
+
 		// set the true settings array
 		// only the first variable will be saved! the rest are for the menu stuffs
 
@@ -287,23 +312,13 @@ class Init extends FlxState
 		}
 
 		// lemme fix that for you
-		if (!Std.isOfType(trueSettings.get("Framerate Cap"), Int)
-			|| trueSettings.get("Framerate Cap") < 30
-			|| trueSettings.get("Framerate Cap") > 360)
-			trueSettings.set("Framerate Cap", 30);
+		setDefaultValue("Framerate Cap", 0, 360, 60);
+		setDefaultValue("Stage Opacity", 0, 100, 100);
+		setDefaultValue("Arrow Opacity", 0, 1, 80);
+		setDefaultValue("Hold Opacity", 0, 1, 60);
+		setDefaultValue("Splash Opacity", 0, 1, 60);
 
-		if (!Std.isOfType(trueSettings.get("Stage Opacity"), Int)
-			|| trueSettings.get("Stage Opacity") < 0
-			|| trueSettings.get("Stage Opacity") > 100)
-			trueSettings.set("Stage Opacity", 100);
-
-		// 'hardcoded' ui skins
-		gameSettings.get("UI Skin")[4] = CoolUtil.returnAssetsLibrary('UI');
-		if (!gameSettings.get("UI Skin")[4].contains(trueSettings.get("UI Skin")))
-			trueSettings.set("UI Skin", 'default');
-		gameSettings.get("Note Skin")[4] = CoolUtil.returnAssetsLibrary('noteskins/notes');
-		if (!gameSettings.get("Note Skin")[4].contains(trueSettings.get("Note Skin")))
-			trueSettings.set("Note Skin", 'default');
+		reloadUISkins();
 
 		saveSettings();
 
@@ -315,10 +330,18 @@ class Init extends FlxState
 			FlxG.sound.muted = FlxG.save.data.mute;
 	}
 
+	public static function setDefaultValue(setting:String, valueMin:Float, valueMax:Float, valueDef:Float)
+	{
+		if (!Std.isOfType(trueSettings.get(setting), Int) || trueSettings.get(setting) < valueMin || trueSettings.get(setting) > valueMax)
+			trueSettings.set(setting, valueDef);
+	}
+
 	public static function loadControls():Void
 	{
-		if ((FlxG.save.data.gameControls != null) && (Lambda.count(FlxG.save.data.gameControls) == Lambda.count(gameControls)))
-			gameControls = FlxG.save.data.gameControls;
+		FlxG.save.bind('gameControls', "Feather");
+
+		if (FlxG.save.data.actionBinds != null)
+			Controls.actions = FlxG.save.data.actionBinds;
 
 		saveControls();
 	}
@@ -326,6 +349,7 @@ class Init extends FlxState
 	public static function saveSettings():Void
 	{
 		// ez save lol
+		FlxG.save.bind('gameSettings', "Feather");
 		FlxG.save.data.settings = trueSettings;
 		FlxG.save.flush();
 
@@ -334,7 +358,8 @@ class Init extends FlxState
 
 	public static function saveControls():Void
 	{
-		FlxG.save.data.gameControls = gameControls;
+		FlxG.save.bind('gameControls', "Feather");
+		FlxG.save.data.actionBinds = Controls.actions;
 		FlxG.save.flush();
 	}
 
@@ -342,14 +367,21 @@ class Init extends FlxState
 	{
 		FlxG.autoPause = trueSettings.get('Auto Pause');
 
-		Overlay.updateDisplayInfo(trueSettings.get('FPS Counter'), trueSettings.get('Debug Info'), trueSettings.get('Memory Counter'));
+		Overlay.updateDisplayInfo(trueSettings.get('FPS Counter'), trueSettings.get('Memory Counter'));
 
-		#if !html5
 		Main.updateFramerate(trueSettings.get("Framerate Cap"));
-		#end
+
+		if (Controls.actions.exists("volUp"))
+			FlxG.sound.volumeUpKeys = Controls.actions.get("volUp");
+		if (Controls.actions.exists("volDown"))
+			FlxG.sound.volumeDownKeys = Controls.actions.get("volDown");
+		if (Controls.actions.exists("volMute"))
+			FlxG.sound.muteKeys = Controls.actions.get("volMute");
 
 		///*
 		filters = [];
+
+		#if !neko
 		FlxG.game.setFilters(filters);
 
 		var theFilter:String = trueSettings.get('Filter');
@@ -362,6 +394,18 @@ class Init extends FlxState
 		}
 
 		FlxG.game.setFilters(filters);
+		#end
 		// */
+	}
+
+	public static function reloadUISkins()
+	{
+		// 'hardcoded' ui skins
+		gameSettings.get("UI Skin")[4] = CoolUtil.returnAssetsLibrary('UI');
+		if (!gameSettings.get("UI Skin")[4].contains(trueSettings.get("UI Skin")))
+			trueSettings.set("UI Skin", 'default');
+		gameSettings.get("Note Skin")[4] = CoolUtil.returnAssetsLibrary('notetypes/default/skins', 'assets/data');
+		if (!gameSettings.get("Note Skin")[4].contains(trueSettings.get("Note Skin")))
+			trueSettings.set("Note Skin", 'default');
 	}
 }

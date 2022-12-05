@@ -3,7 +3,14 @@
 
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Funkin.avi" file="Funkin.avi" packageName="com.yoshubs.foreverenginelegacy" package="com.yoshubs.foreverenginelegacy" main="Main" version="0.3.1" company="Dunkin Funkin Save" />
+	<!-- Application Window Title and Executable File Name -->
+	<app title="Forever Engine Feather" file="FE-Feather" />
+
+	<!-- Package Name (Android, Mac) -->
+	<app packageName="com.beastlyghost.foreverenginefeather" package="com.beastlyghost.foreverenginefeather" />
+
+	<!-- Main Class State, Game Version, Company (save data) Name -->
+	<app main="Main" version="0.1" company="BeastlyGhost" />
 
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
@@ -29,10 +36,8 @@
 	<!-- _____________________________ Custom Defines ____________________________ -->
 
 	<define name="DISCORD_RPC" if="desktop" unless="web || neko" />
-
-	<!-- _________________ Game Shortcuts, made for having less time testing _________________ -->
-
-	<define name="HSCRIPT_ALLOWED" />
+	<define name="VIDEO_PLUGIN" if="windows" unless="32bits || HXCPP_M32 || neko" />
+	<define name="SHOW_CONSOLE" if="debug" />
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
@@ -40,35 +45,29 @@
 	<set name="BUILD_DIR" value="export/debug" if="debug" />
 	<set name="BUILD_DIR" value="export/release" unless="debug" />
 
-	<!--
-		if you ever want to preload specific asset folders, add them here
-		keep in mind that if you don't want said asset folders to be cleared by the game's paths system
-		simply add the files to Paths.hx, on the dumpExclusions array
-	-->
+	<set name="BUILD_DIR" value="export/debug-x86" if="HXCPP_M32 debug" />
+	<set name="BUILD_DIR" value="export/release-x86" if="HXCPP_M32 release" />
 
 	<source path="source" />
 	<assets path="assets" />
-	<assets path="assets/songs" />
-	<assets path="assets/music" preload="true" />
-	<assets path="FE-CrashDialog.exe" type="template" if="windows release" />
 
-	<!--<assets path="mods" />-->
+	<assets path="FEF-CrashDialog.exe" type="template" if="windows release" />
 
 	<!-- _______________________________ Libraries ______________________________ -->
-
-	<haxedev set='webgl' if="html5" />
 
 	<haxelib name="flixel" />
 	<haxelib name="flixel-addons" />
 	<haxelib name="flixel-ui" />
 	<haxelib name="discord_rpc" if="DISCORD_RPC" />
-	<haxelib name="polymod" />
+
+	<haxelib name="hxCodec" if="VIDEO_PLUGIN" />
+	<haxelib name="SScript" if="desktop" />
 	<haxelib name="hxcpp-debug-server" if="debug" />
-	<haxelib name = "hscript" />
-	<haxelib name = "hscript-ex" />
-	<!--haxelib install hscript-ex-->
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
+
+	<haxedef name="hscriptPos" />
+	<haxeflag name="-dce no" />
 
 	<!--Optimise inputs, be careful you will get null errors if you don't use conditionals in your game-->
 	<haxedef name="FLX_NO_TOUCH" if="desktop" />
@@ -89,12 +88,16 @@
 	<haxedef name="HXCPP_CHECK_POINTER" if="release" />
 	<haxedef name="HXCPP_STACK_LINE" if="release" />
 
+	<haxedef name="no-deprecation-warnings" />
+
 	<!-- _________________________________ Custom _______________________________ -->
 
-	<!--NOTE: you have to remove the exe file with the icon.ico file in the export file for get it work-->
 	<icon path="art/icon16.png" size='16' />
 	<icon path="art/icon32.png" size='32' />
 	<icon path="art/icon64.png" size='64' />
+	<icon path="art/icon128.png" size='128' />
+	<icon path="art/icon256.png" size='256' />
+	<icon path="art/icon512.png" size='512' />
 	<icon path="art/iconOG.png" />
 
 </project>

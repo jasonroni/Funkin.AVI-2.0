@@ -73,7 +73,7 @@ class PlayState extends MusicBeatState
 	public static var blackFade:FlxSprite;
 
 	// Hscript
-	public var script:FunkinHScript;
+	public static var script:FunkinHScript;
 
 
 	public static var dadOpponent:Character;
@@ -1699,6 +1699,11 @@ class PlayState extends MusicBeatState
 	override function stepHit()
 	{
 		super.stepHit();
+
+		if (script != null)
+			{
+				script.executeFunc("onCurStepHit");
+			}
 		///*
 		if (songMusic.time >= Conductor.songPosition + 20 || songMusic.time <= Conductor.songPosition - 20)
 			resyncVocals();
@@ -2722,9 +2727,11 @@ class PlayState extends MusicBeatState
 				}
 			}
 
-			public function startScript()
+			function startScript()
 				{
-					var path:String = Paths.PlayStateHscript('script');
+					var path:String;
+
+					path = Paths.hscript('songs/${SONG.song}/script');
 			
 					var hxdata:String = "";
 			

@@ -1,126 +1,179 @@
 package;
 
-import flixel.FlxBasic;
+import base.*;
+import base.Overlay.Console;
+import base.dependency.Discord;
+import base.utils.FNFUtils.FNFGame;
+import base.utils.FNFUtils.FNFTransition;
 import flixel.FlxG;
-import flixel.FlxGame;
-import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.transition.FlxTransitionableState;
-import flixel.util.FlxColor;
-import haxe.CallStack.StackItem;
 import haxe.CallStack;
+import haxe.Json;
 import haxe.io.Path;
 import lime.app.Application;
-import meta.*;
-import meta.data.PlayerSettings;
-import meta.data.dependency.Discord;
-import meta.data.dependency.FNFTransition;
-import meta.data.dependency.FNFUIState;
-import openfl.Assets;
 import openfl.Lib;
-import openfl.display.FPS;
 import openfl.display.Sprite;
-import openfl.events.Event;
 import openfl.events.UncaughtErrorEvent;
 import sys.FileSystem;
 import sys.io.File;
 import sys.io.Process;
+
+typedef GameWeek =
+{
+	var songs:Array<WeekSong>;
+	var characters:Array<String>;
+	@:optional var difficulties:Array<String>; // wip
+	var attachedImage:String;
+	var storyName:String;
+	var startsLocked:Bool;
+	var hideOnStory:Bool;
+	var hideOnFreeplay:Bool;
+	var hideUntilUnlocked:Bool;
+}
+
+typedef WeekSong =
+{
+	var name:String;
+	var opponent:String;
+	var ?player:String; // wanna do something with this later haha;
+	var colors:Array<Int>;
+}
 
 // Here we actually import the states and metadata, and just the metadata.
 // It's nice to have modularity so that we don't have ALL elements loaded at the same time.
 // at least that's how I think it works. I could be stupid!
 class Main extends Sprite
 {
-	// class action variables
-	public static var gameWidth:Int = 1280; // Width of the game in pixels (might be less / more in actual pixels depending on your zoom).
-	public static var gameHeight:Int = 720; // Height of the game in pixels (might be less / more in actual pixels depending on your zoom).
+	public static var game = {
+		width: 1280, // game window width
+		height: 720, // game window height
+		zoom: -1.0, // defines the game's state bounds, -1.0 usually means automatic setup
+		initialState: states.TitleState, // state the game should start at
+		framerate: 60, // the game's default framerate
+		skipSplash: true, // whether to skip the flixel splash screen that appears on release mode
+		fullscreen: false, // whether the game starts at fullscreen mode
+		versionFE: "0.3.1", // version of Forever Engine Legacy
+		versionFF: "0.1", // version of Forever Engine Feather
+	};
 
-	public static var mainClassState:Class<FlxState> = Init; // Determine the main class state of the game
-	public static var framerate:Int = 120; // How many frames per second the game should run at.
+	public static var baseGame:FNFGame;
 
-	public static var gameVersion:String = '2.0.0';
+	private static var infoCounter:Overlay; // initialize the heads up display that shows information before creating it.
+	private static var infoConsole:Console; // intiialize the on-screen console for script debug traces before creating it.
 
-	var zoom:Float = -1; // If -1, zoom is automatically calculated to fit the window dimensions.
-	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
-	var infoCounter:Overlay; // initialize the heads up display that shows information before creating it.
+	// weeks set up!
+	public static var weeksMap:Map<String, GameWeek> = [];
+	public static var weeks:Array<String> = [];
 
-	// heres gameweeks set up!
+	/* public static function loadHardcodedWeeks()
+		{
+			weeksMap = [
+				"myWeek" => {
+					songs: [
+						{
+							"name": "Bopeebo",
+							"opponent": "dad",
+							"colors": [129, 100, 223]
+						}
+					],
 
-	/**
-		Small bit of documentation here, gameweeks are what control everything in my engine
-		this system will eventually be overhauled in favor of using actual week folders within the 
-		assets.
-		Enough of that, here's how it works
-		[ [songs to use], [characters in songs], [color of week], name of week ]
-	**/
-	public static var gameWeeks:Array<Dynamic> = [
-		[
-			['Isolated', 'Lunacy', 'Delusional'],
-			['mickey', 'dad', 'dad'],
-			[FlxColor.fromRGB(150, 150, 150)],
-			'Mickey Mouse.'
-		],
-		[
-			['Twisted Grins', 'Facade', 'Mortiferum Risus'],
-			['spooky', 'spooky', 'monster'],
-			[FlxColor.fromRGB(30, 45, 60)],
-			'Smile...'
-		],
-	];
+					attachedImage: "week1",
+					storyName: "vs. DADDY DEAREST",
+					characters: ["dad", "bf", "gf"],
+
+					startsLocked: false,
+					hideOnStory: false,
+					hideOnFreeplay: false,
+					hideUntilUnlocked: false
+				}
+			];
+			gameWeeks.push('myWeek');
+	}*/
+	public static function loadGameWeeks(isStory:Bool)
+	{
+		weeksMap.clear();
+		weeks = [];
+
+		// loadHardcodedWeeks();
+
+		var weekList:Array<String> = CoolUtil.coolTextFile(Paths.txt('data/weekList'));
+		for (i in 0...weekList.length)
+		{
+			if (!weeksMap.exists(weekList[i]))
+			{
+				if (weekList[i].length > 1)
+				{
+					var week:GameWeek = parseGameWeeks(Paths.file('data/weeks/' + weekList[i] + '.json'));
+					if (week != null)
+					{
+						if ((isStory && (!week.hideOnStory && !week.hideUntilUnlocked))
+							|| (!isStory && (!week.hideOnFreeplay && !week.hideUntilUnlocked)))
+						{
+							weeksMap.set(weekList[i], week);
+							weeks.push(weekList[i]);
+						}
+					}
+				}
+				else
+					weeks = null;
+			}
+		}
+	}
+
+	public static function parseGameWeeks(path:String):GameWeek
+	{
+		var rawJson:String = null;
+
+		if (FileSystem.exists(path))
+			rawJson = File.getContent(path);
+
+		return Json.parse(rawJson);
+	}
 
 	// most of these variables are just from the base game!
 	// be sure to mess around with these if you'd like.
 
 	public static function main():Void
-	{
 		Lib.current.addChild(new Main());
-	}
 
 	// calls a function to set the game up
 	public function new()
 	{
 		super();
 
-		/**
-			ok so, haxe html5 CANNOT do 120 fps. it just cannot.
-			so here i just set the framerate to 60 if its complied in html5.
-			reason why we dont just keep it because the game will act as if its 120 fps, and cause
-			note studders and shit its weird.
-		**/
-
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
 
-		#if (html5 || neko)
+		/**
+		 * locking neko platforms on 60 because similar to html5 it cannot go over that
+		 * avoids note stutters and stuff
+		**/
+		#if neko
 		framerate = 60;
 		#end
 
-		// simply said, a state is like the 'surface' area of the window where everything is drawn.
-		// if you've used gamemaker you'll probably understand the term surface better
-		// this defines the surface bounds
-
+		// define the state bounds
 		var stageWidth:Int = Lib.current.stage.stageWidth;
 		var stageHeight:Int = Lib.current.stage.stageHeight;
 
-		if (zoom == -1)
+		if (game.zoom == -1.0)
 		{
-			var ratioX:Float = stageWidth / gameWidth;
-			var ratioY:Float = stageHeight / gameHeight;
-			zoom = Math.min(ratioX, ratioY);
-			gameWidth = Math.ceil(stageWidth / zoom);
-			gameHeight = Math.ceil(stageHeight / zoom);
-			// this just kind of sets up the camera zoom in accordance to the surface width and camera zoom.
-			// if set to negative one, it is done so automatically, which is the default.
+			var ratioX:Float = stageWidth / game.width;
+			var ratioY:Float = stageHeight / game.height;
+			game.zoom = Math.min(ratioX, ratioY);
+			game.width = Math.ceil(stageWidth / game.zoom);
+			game.height = Math.ceil(stageHeight / game.zoom);
 		}
 
 		FlxTransitionableState.skipNextTransIn = true;
 
 		// here we set up the base game
-		var gameCreate:FlxGame;
-		gameCreate = new FlxGame(gameWidth, gameHeight, mainClassState, #if (flixel < "5.0.0") zoom, #end framerate, framerate, skipSplash);
-		addChild(gameCreate); // and create it afterwards
+		baseGame = new FNFGame(game.width, game.height, Init, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash,
+			game.fullscreen);
+		addChild(baseGame); // and create it afterwards
 
-		// default game FPS settings, I'll probably comment over them later.
-		// addChild(new FPS(10, 3, 0xFFFFFF));
+		// initialize the game controls;
+		Controls.init();
 
 		// begin the discord rich presence
 		#if DISCORD_RPC
@@ -128,11 +181,29 @@ class Main extends Sprite
 		Discord.changePresence('');
 		#end
 
-		// test initialising the player settings
-		PlayerSettings.init();
-
+		#if !mobile
 		infoCounter = new Overlay(0, 0);
 		addChild(infoCounter);
+		#end
+
+		#if SHOW_CONSOLE
+		infoConsole = new Console();
+		addChild(infoConsole);
+		#end
+
+		FlxG.stage.application.window.onClose.add(function()
+		{
+			destroyGame();
+		});
+	}
+
+	function destroyGame()
+	{
+		base.Controls.destroy();
+		#if DISCORD_RPC
+		Discord.shutdownRPC();
+		#end
+		Sys.exit(1);
 	}
 
 	public static function framerateAdjust(input:Float)
@@ -148,7 +219,6 @@ class Main extends Sprite
 	public static function switchState(curState:FlxState, target:FlxState)
 	{
 		// Custom made Trans in
-		mainClassState = Type.getClass(target);
 		if (!FlxTransitionableState.skipNextTransIn)
 		{
 			curState.openSubState(new FNFTransition(0.35, false));
@@ -156,9 +226,10 @@ class Main extends Sprite
 			{
 				FlxG.switchState(target);
 			};
-			return trace('changed state');
+			return;
 		}
 		FlxTransitionableState.skipNextTransIn = false;
+		FlxTransitionableState.skipNextTransOut = false;
 		// load the state
 		FlxG.switchState(target);
 	}
@@ -181,6 +252,7 @@ class Main extends Sprite
 	function onCrash(e:UncaughtErrorEvent):Void
 	{
 		var errMsg:String = "";
+		var errMsgPrint:String = "";
 		var path:String;
 		var callStack:Array<StackItem> = CallStack.exceptionStack(true);
 		var dateNow:String = Date.now().toString();
@@ -188,7 +260,7 @@ class Main extends Sprite
 		dateNow = StringTools.replace(dateNow, " ", "_");
 		dateNow = StringTools.replace(dateNow, ":", "'");
 
-		path = "crash/" + "FE_" + dateNow + ".txt";
+		path = "crash/" + "Feather_" + dateNow + ".txt";
 
 		for (stackItem in callStack)
 		{
@@ -196,22 +268,23 @@ class Main extends Sprite
 			{
 				case FilePos(s, file, line, column):
 					errMsg += file + " (line " + line + ")\n";
+					errMsgPrint += file + ":" + line + "\n"; // if you Ctrl+Mouse Click its go to the line.
 				default:
 					Sys.println(stackItem);
 			}
 		}
 
-		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/Yoshubs/Forever-Engine";
+		errMsg += "\nUncaught Error: " + e.error + " - Please report this error to the\nGitHub page https://github.com/BeastlyGhost/Forever-Engine-Feather";
 
 		if (!FileSystem.exists("crash/"))
 			FileSystem.createDirectory("crash/");
 
 		File.saveContent(path, errMsg + "\n");
 
-		Sys.println(errMsg);
+		Sys.println(errMsgPrint);
 		Sys.println("Crash dump saved in " + Path.normalize(path));
 
-		var crashDialoguePath:String = "FE-CrashDialog";
+		var crashDialoguePath:String = "FEF-CrashDialog";
 
 		#if windows
 		crashDialoguePath += ".exe";
@@ -228,9 +301,6 @@ class Main extends Sprite
 			Application.current.window.alert(errMsg, "Error!");
 		}
 
-		Sys.exit(1);
+		destroyGame();
 	}
-
-	public static function getOption(option:String)
-		return Init.trueSettings.get(option);
 }

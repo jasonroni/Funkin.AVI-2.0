@@ -7,7 +7,7 @@ import flixel.FlxG;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import lime.utils.Assets;
-import meta.CoolUtil;
+import objects.CharacterData;
 import openfl.display.BitmapData;
 import openfl.display3D.textures.Texture;
 import openfl.media.Sound;
@@ -21,10 +21,12 @@ class Paths
 {
 	// Here we set up the paths class. This will be used to
 	// Return the paths of assets and call on those assets as well.
-	inline public static var SOUND_EXT = "ogg";
+	inline public static final SOUND_EXT = "ogg";
 
 	// level we're loading
 	static var currentLevel:String;
+
+	public static var scriptExts:Array<String> = ['hx', 'hxs', 'hscript', 'hxc'];
 
 	// set the current level top the condition of this function if called
 	static public function setCurrentLevel(name:String)
@@ -44,9 +46,9 @@ class Paths
 	}
 
 	public static var dumpExclusions:Array<String> = [
-		'assets/music/freakyMenu.$SOUND_EXT',
-		'assets/music/foreverMenu.$SOUND_EXT',
-		'assets/music/breakfast.$SOUND_EXT',
+		getSound('music/freakyMenu'),
+		getSound('music/foreverMenu'),
+		getSound('music/breakfast'),
 	];
 
 	/// haya I love you for the base cache dump I took to the max
@@ -75,14 +77,12 @@ class Paths
 						openfl.Assets.cache.removeBitmapData(key);
 						FlxG.bitmap._cache.remove(key);
 					}
-					trace('removed $key, ' + (isTexture ? 'is a texture' : 'is not a texture'));
 					obj.destroy();
 					currentTrackedAssets.remove(key);
 					counter++;
 				}
 			}
 		}
-		trace('removed $counter assets');
 		// run the garbage collector for good measure lmfao
 		System.gc();
 	}
@@ -118,16 +118,16 @@ class Paths
 		localTrackedAssets = [];
 	}
 
-	public static function returnGraphic(key:String, ?library:String, ?textureCompression:Bool = false)
+	public static function returnGraphic(key:String, ?folder:String, ?library:String, ?gpuRender:Bool = false)
 	{
-		var path = getPath('images/$key.png', IMAGE, library);
+		var path = getPath(folder.length > 1 ? '$folder/$key.png' : '$key.png', IMAGE, library);
 		if (FileSystem.exists(path))
 		{
 			if (!currentTrackedAssets.exists(key))
 			{
 				var bitmap = BitmapData.fromFile(path);
 				var newGraphic:FlxGraphic;
-				if (textureCompression)
+				if (gpuRender)
 				{
 					var texture = FlxG.stage.context3D.createTexture(bitmap.width, bitmap.height, BGRA, true, 0);
 					texture.uploadFromBitmapData(bitmap);
@@ -135,37 +135,80 @@ class Paths
 					bitmap.dispose();
 					bitmap.disposeImage();
 					bitmap = null;
-					trace('new texture $key, bitmap is $bitmap');
 					newGraphic = FlxGraphic.fromBitmapData(BitmapData.fromTexture(texture), false, key, false);
 				}
 				else
 				{
 					newGraphic = FlxGraphic.fromBitmapData(bitmap, false, key, false);
-					trace('new bitmap $key, not textured');
 				}
+				newGraphic.persist = true;
 				currentTrackedAssets.set(key, newGraphic);
 			}
 			localTrackedAssets.push(key);
 			return currentTrackedAssets.get(key);
 		}
-		trace('oh no ' + key + ' is returning null NOOOO');
+		trace('graphic is returning null at $key');
 		return null;
+	}
+
+	public static function getTextFile(key:String, type:AssetType = TEXT, ?library:Null<String>):String
+	{
+		if (FileSystem.exists(getPath(key, type, library)))
+			return File.getContent(getPath(key, type, library));
+
+		if (currentLevel != null)
+		{
+			var levelPath:String = '';
+			levelPath = getLibraryPathForce(key, '');
+			if (FileSystem.exists(levelPath))
+				return File.getContent(levelPath);
+		}
+		return Assets.getText(getPath(key, type, library));
 	}
 
 	public static function returnSound(path:String, key:String, ?library:String)
 	{
 		// I hate this so god damn much
 		var gottenPath:String = getPath('$path/$key.$SOUND_EXT', SOUND, library);
-		gottenPath = gottenPath.substring(gottenPath.indexOf(':') + 1, gottenPath.length);
-		// trace(gottenPath);
+		var extensionPath = getSound('$path/$key');
+
+		if (FileSystem.exists(extensionPath))
+			gottenPath = extensionPath;
+
+		// gottenPath = gottenPath.substring(gottenPath.indexOf(':') + 1, gottenPath.length);
 		if (!currentTrackedSounds.exists(gottenPath))
 			currentTrackedSounds.set(gottenPath, Sound.fromFile(gottenPath));
 		localTrackedAssets.push(key);
 		return currentTrackedSounds.get(gottenPath);
 	}
 
+	// kind of an afterthought, I don't think i'm gonna clean this up and make it an actual feature until I rework this class or something;
+	public static function getSound(path:String, ?library:String)
+	{
+		final returnExtension:String = SOUND_EXT; // defaults to "ogg";
+		final SOUND_EXTS:Array<String> = [".mp3", ".ogg", ".wav", ".flac"];
+
+		for (i in 0...SOUND_EXTS.length)
+		{
+			var caughtExtension:String = null;
+			if (SOUND_EXTS != null)
+			{
+				if (FileSystem.exists(getPath(path + SOUND_EXTS[i], SOUND, library)))
+					caughtExtension = SOUND_EXTS[i];
+			}
+			// return it;
+			if (caughtExtension != null)
+			{
+				// trace('returning $caughtExtension for $path');
+				return path + caughtExtension;
+			}
+		}
+		// trace('returning $returnExtension for $path');
+		return path + returnExtension;
+	}
+
 	//
-	inline public static function getPath(file:String, type:AssetType, ?library:Null<String>)
+	inline public static function getPath(file:String, ?type:AssetType, ?library:Null<String>)
 	{
 		/*
 				Okay so, from what I understand, this loads in the current path based on the level
@@ -199,22 +242,6 @@ class Paths
 		return getPreloadPath(file);
 	}
 
-	// files!
-	// this is how I'm gonna do it, considering it's much cleaner in my opinion
-
-	/*
-		inline static public function returnFileType(fileName:String, ?library:String, fileExtension:String)
-		{
-			// I don't really use haxe so bare with me
-			var returnFile:String = "$" + fileName + "." + fileExtension;
-			return getPath()
-	}//*/
-	/*  
-		actually I could just combine all of these main functions into one and really call it a day
-		it's similar and would use one function with a switch case
-		for now I'm more focused on getting this to run than anything and I'll clean out the code later as I do want to organise
-		everything later 
-	 */
 	static public function getLibraryPath(file:String, library = "preload")
 	{
 		return if (library == "preload" || library == "default") getPreloadPath(file); else getLibraryPathForce(file, library);
@@ -248,11 +275,6 @@ class Paths
 		return getPath('data/$key.xml', TEXT, library);
 	}
 
-	inline static public function offsetTxt(key:String, ?library:String)
-	{
-		return getPath('images/characters/$key.txt', TEXT, library);
-	}
-
 	inline static public function json(key:String, ?library:String)
 	{
 		return getPath('songs/$key.json', TEXT, library);
@@ -261,15 +283,15 @@ class Paths
 	inline static public function songJson(song:String, secondSong:String, ?library:String)
 		return getPath('songs/${song.toLowerCase()}/${secondSong.toLowerCase()}.json', TEXT, library);
 
-	static public function sound(key:String, ?library:String):Dynamic
+	static public function sound(key:String, folder:String = 'sounds', ?library:String):Dynamic
 	{
-		var sound:Sound = returnSound('sounds', key, library);
+		var sound:Sound = returnSound(folder, key, library);
 		return sound;
 	}
 
-	inline static public function soundRandom(key:String, min:Int, max:Int, ?library:String)
+	inline static public function soundRandom(key:String, folder:String = 'sounds', min:Int, max:Int, ?library:String)
 	{
-		return sound(key + FlxG.random.int(min, max), library);
+		return sound(key + FlxG.random.int(min, max), folder, library);
 	}
 
 	inline static public function music(key:String, ?library:String):Dynamic
@@ -292,43 +314,90 @@ class Paths
 		return inst;
 	}
 
-	inline static public function image(key:String, ?library:String, ?textureCompression:Bool = false)
+	inline static public function image(key:String, folder:String = 'images', ?library:String, ?gpuRender:Bool = false)
 	{
-		var returnAsset:FlxGraphic = returnGraphic(key, library, textureCompression);
+		var returnAsset:FlxGraphic = returnGraphic(key, folder, library, gpuRender);
 		return returnAsset;
 	}
 
-	inline static public function font(key:String)
+	public static function font(key:String, ?library:String)
 	{
-		return 'assets/fonts/$key';
+		var font:String = getPath('fonts/$key.ttf', TEXT, library);
+		var extensions:Array<String> = ['.ttf', '.otf'];
+
+		for (extension in extensions)
+		{
+			var newPath:String = getPath('fonts/$key$extension', TEXT, library);
+			if (FileSystem.exists(newPath))
+			{
+				/*
+					clear any dots, means that something like "vcr.tff" would become "vcr";
+					we are doing this because we already added an extension earlier;
+					EDIT: does this even work?;
+				 */
+				if (key.contains('.'))
+					key.substring(0, key.indexOf('.'));
+				return newPath;
+			}
+		}
+
+		return font; // fallback in case the font or path doesn't exist;
 	}
 
-	inline static public function getSparrowAtlas(key:String, ?library:String)
-		{
-			var graphic:FlxGraphic = returnGraphic(key, library);
-			return (FlxAtlasFrames.fromSparrow(graphic, File.getContent(file('images/$key.xml', library))));
-		}
-
-	inline static public function getPackerAtlas(key:String, ?library:String)
+	inline static public function getSparrowAtlas(key:String, folder:String = 'images', ?library:String)
 	{
-		return (FlxAtlasFrames.fromSpriteSheetPacker(image(key, library), file('images/$key.txt', library)));
+		var graphic:FlxGraphic = returnGraphic(key, folder, library);
+		return (FlxAtlasFrames.fromSparrow(graphic, File.getContent(file('$folder/$key.xml', library))));
 	}
 
-	inline static public function menuImage(key:String, ?library:String, ?textureCompression:Bool = false)
-		{
-			var returnAsset:FlxGraphic = returnGraphic('menus/Funkin_avi/$key', library, textureCompression);
-			return returnAsset;
-		}
+	inline static public function getPackerAtlas(key:String, folder:String = 'images', ?library:String)
+	{
+		return (FlxAtlasFrames.fromSpriteSheetPacker(image(key, folder, library), file('$folder/$key.txt', library)));
+	}
 
-	inline static public function PlayStateHscript(key:String)
-		{
-			return 'assets/songs/${meta.state.PlayState.SONG.song}/$key.hx';
-		}
+	inline static public function module(key:String, folder:String = 'scripts', ?library:String)
+	{
+		var extension = '.hx';
 
-	inline static public function defaultHscript(key:String)
+		for (j in scriptExts)
 		{
-			var returnAsset:String = 'assets/menuScripts/$key.hx';
-			return returnAsset;
+			if (FileSystem.exists(getPath('$folder/$key.$j', TEXT, library)))
+				extension = '.$j';
+			else
+				extension = '.hx';
 		}
+		return getPath('$folder/$key' + extension);
+	}
 
+	inline static public function characterModule(folder:String, character:String, ?type:CharacterOrigin, ?library:String)
+	{
+		var extension:String = '';
+
+		if (folder == null)
+			folder = 'placeholder';
+
+		if (character == null)
+			character = 'placeholder';
+
+		switch (type)
+		{
+			case PSYCH_ENGINE:
+				extension = '.json';
+			case FOREVER_FEATHER:
+				// this is diabolic;
+				for (j in scriptExts)
+				{
+					if (FileSystem.exists(getPath('data/characters/$folder/$character.$j', TEXT, library)))
+						extension = '.$j';
+					else
+						extension = '.hx';
+				}
+				extension = '.hx';
+			case FUNKIN_COCOA:
+				extension = '.yaml';
+			default:
+				extension = '';
+		}
+		return getPath('data/characters/$folder/$character' + extension, TEXT, library);
+	}
 }
