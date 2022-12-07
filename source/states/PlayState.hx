@@ -918,9 +918,43 @@ class PlayState extends MusicBeatState
 						lowestThreshold = myThreshold;
 					}
 				}
+				
+				/*if (coolNote.ignoreNote)
+				{
+					if (coolNote.isError)
+					{
+						ScoreUtils.errorHits++;
+						//crashCounterTxt.text = 'Errors Left: {$ScoreUtils.errorHits}/30'; idk if this works yet, that's why it's commented out, plus the actual mechanic isn't coded in yet lol (don)
+						health -= 0.1;
+						createSplash(coolNote.noteType, coolNote.noteData, strumline);
+					}
+				}*/
+				
+				/*switch (coolNote.noteType)
+				{
+					case 'error':
+						ScoreUtils.errorHits++;
+						//crashCounterTxt.text - 'Errors Left: {$ScoreUtils.errorHits}/30';
+						health -= 0.1;
+						if (coolNote.isError)
+						{
+							createSplash(coolNote.noteType, coolNote.noteData, strumline);
+							//FlxG.sound.play();
+						}
+						
+					case 'poison':
+						//gotta add the base for this before I actually code it
+						
+					case 'instakill': //I TOLD YOU TO NOT CROSS THAT FUCKING LINE!!!!!!
+						health = 0;
+				}*/
 
 				if (!coolNote.ignoreNote)
 				{
+					/*if (coolNote.isDoubleDamage)
+					{
+						
+					}*/
 					if (coolNote.isMine)
 						ScoreUtils.minesHit++;
 					else if (!coolNote.isSustainNote)
