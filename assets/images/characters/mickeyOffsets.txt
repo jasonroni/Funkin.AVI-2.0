@@ -1,5 +1,0 @@
-idle 730 250
-singLEFT 730 250
-singRIGHT 730 250
-singUP 730 250
-singDOWN 730 250
