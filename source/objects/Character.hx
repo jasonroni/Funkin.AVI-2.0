@@ -108,7 +108,7 @@ class Character extends FNFSprite
 
 				playAnim('idle');
 				characterData.healthColor = [161, 161, 161];
-
+				
 			default:
 				switch (characterType)
 				{

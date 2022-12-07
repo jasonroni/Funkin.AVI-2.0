@@ -19,3 +19,5 @@ senpai-angry
 spirit
 placeholder
 bf-psych
+mickeyNEW
+bffakeNEW
