@@ -313,11 +313,11 @@ class PlayState extends MusicBeatState
 		switch (SONG.song)
 		{
 			case 'Isolated' | 'Lunacy' | 'Delusional':
-				Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + ' [' + storyDifficultyText +'] - Composed by: ' + SONG.composer;
+				Application.current.window.title = 'Funkin.avi - Episode 1: ' + PlayState.SONG.song + ' - Composed by: ' + SONG.composer;
 			case 'Twisted Grins' | 'Facade' | 'Resentment' | 'Mortiferum Risus':
-				Application.current.window.title = 'Funkin.avi - Episode 2: ' + SONG.song + ' [' + storyDifficultyText +'] - Composed by: ' + SONG.composer;
+				Application.current.window.title = 'Funkin.avi - Episode 2: ' + PlayState.SONG.song + ' - Composed by: ' + SONG.composer;
 			default:
-				Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + ' [' + storyDifficultyText +'] - Composed by: ' + SONG.composer;	
+				Application.current.window.title = 'Funkin.avi - Freeplay: ' + PlayState.SONG.song + ' - Composed by: ' + SONG.composer;	
 		}
 
 		// default song
@@ -2034,7 +2034,10 @@ class PlayState extends MusicBeatState
 		setVar('openSubState', openSubState);
 		
 		//Funkin.avi Stuff
-		setVar('closeGame', System.exit(0)); //Yes, I'm actually softcoding this for HScript & SScript lmao
+		setVar('closeGame', function()
+			{
+				Sys.exit(1);
+			}); //Yes, I'm actually softcoding this for HScript & SScript lmao
 		setVar('updateWindowTitle', Application.current.window.title);
 		setVar('createAlert', function(windowName:String, message:String)
 		{
