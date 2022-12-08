@@ -308,6 +308,17 @@ class PlayState extends MusicBeatState
 
 		// always draw new objects on the main camera
 		FlxG.cameras.setDefaultDrawTarget(camGame, true);
+		
+		//Window Name
+		switch (SONG.song)
+		{
+			case 'Isolated' | 'Lunacy' | 'Delusional':
+				Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + ' [' + storyDifficultyText +'] - Composed by: ' + SONG.composer;
+			case 'Twisted Grins' | 'Facade' | 'Resentment' | 'Mortiferum Risus':
+				Application.current.window.title = 'Funkin.avi - Episode 2: ' + SONG.song + ' [' + storyDifficultyText +'] - Composed by: ' + SONG.composer;
+			default:
+				Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + ' [' + storyDifficultyText +'] - Composed by: ' + SONG.composer;	
+		}
 
 		// default song
 		if (SONG == null)
