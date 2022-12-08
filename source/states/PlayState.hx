@@ -313,11 +313,11 @@ class PlayState extends MusicBeatState
 		switch (SONG.song)
 		{
 			case 'Isolated' | 'Lunacy' | 'Delusional':
-				Application.current.window.title = 'Funkin.avi - Episode 1: ' + PlayState.SONG.song + ' - Composed by: ' + SONG.composer;
+				Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + ' [' + storyDifficultyText +'] - Composed by: ' + SONG.composer;
 			case 'Twisted Grins' | 'Facade' | 'Resentment' | 'Mortiferum Risus':
-				Application.current.window.title = 'Funkin.avi - Episode 2: ' + PlayState.SONG.song + ' - Composed by: ' + SONG.composer;
+				Application.current.window.title = 'Funkin.avi - Episode 2: ' + SONG.song + ' [' + storyDifficultyText +'] - Composed by: ' + SONG.composer;
 			default:
-				Application.current.window.title = 'Funkin.avi - Freeplay: ' + PlayState.SONG.song + ' - Composed by: ' + SONG.composer;	
+				Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + ' [' + storyDifficultyText +'] - Composed by: ' + SONG.composer;	
 		}
 
 		// default song
@@ -2096,9 +2096,11 @@ class PlayState extends MusicBeatState
 
 		if (bfStrums != null)
 			setVar('bfStrums', bfStrums);
+		if(bfStrums.receptors != null)
 			setVar('bfReceptors', bfStrums.receptors);
 		if (dadStrums != null)
 			setVar('dadStrums', dadStrums);
+		if(dadStrums.receptors != null)
 			setVar('dadReceptors', dadStrums.receptors);
 		if (strumLines != null)
 			setVar('strumLines', strumLines);
