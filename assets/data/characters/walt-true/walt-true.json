@@ -1,0 +1,78 @@
+{
+	"animations": [
+		{
+			"loop": true,
+			"offsets": [
+				2,
+				260
+			],
+			"anim": "idle",
+			"fps": 16,
+			"name": "True_Idle",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				-16,
+				272
+			],
+			"anim": "singLEFT",
+			"fps": 24,
+			"name": "True_Left",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				-70,
+				139
+			],
+			"anim": "singDOWN",
+			"fps": 24,
+			"name": "True_Down",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				34,
+				403
+			],
+			"anim": "singUP",
+			"fps": 24,
+			"name": "True_Up",
+			"indices": []
+		},
+		{
+			"offsets": [
+				16,
+				300
+			],
+			"loop": false,
+			"fps": 24,
+			"anim": "singRIGHT",
+			"indices": [],
+			"name": "True_Right"
+		}
+	],
+	"no_antialiasing": false,
+	"image": "characters/Walt_True",
+	"position": [
+		30,
+		30
+	],
+	"healthicon": "walt",
+	"flip_x": false,
+	"healthbar_colors": [
+		161,
+		161,
+		161
+	],
+	"camera_position": [
+		50,
+		-60
+	],
+	"sing_duration": 6.1,
+	"scale": 0.7
+}

@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="Walt_TRUE.png">
+	<!-- Created with Adobe Animate version 19.0.0.326 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="True_Down0000" x="0" y="0" width="830" height="985"/>
+	<SubTexture name="True_Down0001" x="831" y="0" width="830" height="985"/>
+	<SubTexture name="True_Down0002" x="1662" y="0" width="830" height="985"/>
+	<SubTexture name="True_Down0003" x="2493" y="0" width="830" height="985"/>
+	<SubTexture name="True_Down0004" x="2493" y="0" width="830" height="985"/>
+	<SubTexture name="True_Down0005" x="2493" y="0" width="830" height="985"/>
+	<SubTexture name="True_Down0006" x="2493" y="0" width="830" height="985"/>
+	<SubTexture name="True_Down0007" x="2493" y="0" width="830" height="985"/>
+	<SubTexture name="True_Idle0000" x="3324" y="0" width="1015" height="1144"/>
+	<SubTexture name="True_Idle0001" x="4340" y="0" width="1015" height="1144"/>
+	<SubTexture name="True_Idle0002" x="5356" y="0" width="1015" height="1144"/>
+	<SubTexture name="True_Idle0003" x="6372" y="0" width="1015" height="1144"/>
+	<SubTexture name="True_Idle0004" x="0" y="1145" width="1015" height="1144"/>
+	<SubTexture name="True_Idle0005" x="1016" y="1145" width="1015" height="1144"/>
+	<SubTexture name="True_Idle0006" x="2032" y="1145" width="1015" height="1144"/>
+	<SubTexture name="True_Idle0007" x="3048" y="1145" width="1015" height="1144"/>
+	<SubTexture name="True_Left0000" x="4064" y="1145" width="1201" height="1165"/>
+	<SubTexture name="True_Left0001" x="5266" y="1145" width="1201" height="1165"/>
+	<SubTexture name="True_Left0002" x="6468" y="1145" width="1201" height="1165"/>
+	<SubTexture name="True_Left0003" x="0" y="2311" width="1201" height="1165"/>
+	<SubTexture name="True_Left0004" x="0" y="2311" width="1201" height="1165"/>
+	<SubTexture name="True_Left0005" x="0" y="2311" width="1201" height="1165"/>
+	<SubTexture name="True_Left0006" x="0" y="2311" width="1201" height="1165"/>
+	<SubTexture name="True_Left0007" x="0" y="2311" width="1201" height="1165"/>
+	<SubTexture name="True_Right0000" x="1202" y="2311" width="1261" height="1249"/>
+	<SubTexture name="True_Right0001" x="2464" y="2311" width="1261" height="1249"/>
+	<SubTexture name="True_Right0002" x="3726" y="2311" width="1261" height="1249"/>
+	<SubTexture name="True_Right0003" x="4988" y="2311" width="1261" height="1249"/>
+	<SubTexture name="True_Right0004" x="4988" y="2311" width="1261" height="1249"/>
+	<SubTexture name="True_Right0005" x="4988" y="2311" width="1261" height="1249"/>
+	<SubTexture name="True_Right0006" x="4988" y="2311" width="1261" height="1249"/>
+	<SubTexture name="True_Right0007" x="4988" y="2311" width="1261" height="1249"/>
+	<SubTexture name="True_Up0000" x="6250" y="2311" width="1114" height="1371"/>
+	<SubTexture name="True_Up0001" x="0" y="3683" width="1114" height="1371"/>
+	<SubTexture name="True_Up0002" x="1115" y="3683" width="1114" height="1371"/>
+	<SubTexture name="True_Up0003" x="2230" y="3683" width="1114" height="1371"/>
+	<SubTexture name="True_Up0004" x="2230" y="3683" width="1114" height="1371"/>
+	<SubTexture name="True_Up0005" x="2230" y="3683" width="1114" height="1371"/>
+	<SubTexture name="True_Up0006" x="2230" y="3683" width="1114" height="1371"/>
+	<SubTexture name="True_Up0007" x="2230" y="3683" width="1114" height="1371"/>
+</TextureAtlas>
