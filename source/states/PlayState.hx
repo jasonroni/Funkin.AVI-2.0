@@ -37,6 +37,9 @@ import openfl.media.Sound;
 import states.editors.CharacterOffsetEditor;
 import states.menus.*;
 import states.substates.GameOverSubstate;
+import lime.app.Application;
+import lime.ui.Window;
+import flash.system.System;
 #if desktop
 import base.dependency.Discord;
 #end
@@ -2018,6 +2021,14 @@ class PlayState extends MusicBeatState
 		setVar('add', add);
 		setVar('remove', remove);
 		setVar('openSubState', openSubState);
+		
+		//Funkin.avi Stuff
+		setVar('closeGame', System.exit(0)); //Yes, I'm actually softcoding this for HScript & SScript lmao
+		setVar('updateWindowTitle', Application.current.window.title);
+		setVar('createAlert', function(windowName:String, message:String)
+		{
+			Application.current.window.alert(message, windowName);
+		});
 
 		setVar('logTrace', function(text:String, time:Float, onConsole:Bool = false)
 		{
@@ -2071,8 +2082,10 @@ class PlayState extends MusicBeatState
 
 		if (bfStrums != null)
 			setVar('bfStrums', bfStrums);
+			setVar('bfReceptors', bfStrums.receptors);
 		if (dadStrums != null)
 			setVar('dadStrums', dadStrums);
+			setVar('dadReceptors', dadStrums.receptors);
 		if (strumLines != null)
 			setVar('strumLines', strumLines);
 		if (allUIs != null)
