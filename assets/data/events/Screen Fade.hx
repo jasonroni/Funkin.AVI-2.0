@@ -1,11 +1,3 @@
-function loadedEventAction(params)
-{
-    var screenFadeHelper:FlxSprite = new FlxSprite().makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
-    screenFadeHelper.alpha = 0;
-    screenFadeHelper.cameras = [PlayState.camAlt];
-    add(screenFadeHelper);
-}
-
 function eventTrigger(params)
     {
         switch(params[2].toLowerCase().trim()) {
@@ -16,13 +8,13 @@ function eventTrigger(params)
         
                     switch(charType) {
                         case 0:
-                            screenFadeHelper.alpha = 0;
+                            PlayState.screenFadeHelper.alpha = 0;
                         case 1:
-                            screenFadeHelper.alpha += 0.05;
+                            PlayState.screenFadeHelper.alpha += 0.05;
                         case 2:
-                            screenFadeHelper.alpha -= 0.05;
+                            PlayState.screenFadeHelper.alpha -= 0.05;
                         case 3:
-                            screenFadeHelper.alpha += 1;
+                            PlayState.screenFadeHelper.alpha += 1;
                         //Sorry that you have to fucking spam these events to do the thing
                     }
             
@@ -33,7 +25,7 @@ function eventTrigger(params)
                 if (fadeAlpha > 1) fadeAlpha = 0.3; //The old version of this event still exists in the charts and I had to fucking put this in in hopes of fixing it until I actually update them
                 if (params[1].trim()=='') timer = 1; //Fix for old version of this event aaaaaaa
 
-                FlxTween.tween(screenFadeHelper, {alpha: fadeAlpha}, timer, {ease: FlxEase.sineInOut}); //sine it out supermarcy*/
+                FlxTween.tween(PlayState.screenFadeHelper, {alpha: fadeAlpha}, timer, {ease: FlxEase.sineInOut}); //sine it out supermarcy*/
                 
             default:
                 var charType:Int = Std.parseInt(params[0]);
@@ -41,13 +33,13 @@ function eventTrigger(params)
         
                     switch(charType) {
                         case 0:
-                            screenFadeHelper.alpha = 0;
+                            PlayState.screenFadeHelper.alpha = 0;
                         case 1:
-                            screenFadeHelper.alpha += 0.05;
+                            PlayState.screenFadeHelper.alpha += 0.05;
                         case 2:
-                            screenFadeHelper.alpha -= 0.05;
+                            PlayState.screenFadeHelper.alpha -= 0.05;
                         case 3:
-                            screenFadeHelper.alpha += 1;
+                            PlayState.screenFadeHelper.alpha += 1;
                         //Sorry that you have to fucking spam these events to do the thing
                     }
         }//I had to fucking do this just so it fixes my fucking problem I'm having with this single event crashing the game cause of it using the old version
