@@ -313,11 +313,11 @@ class PlayState extends MusicBeatState
 		switch (SONG.song)
 		{
 			case 'Isolated' | 'Lunacy' | 'Delusional':
-				Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + ' [' + storyDifficultyText +'] - Composed by: ' + SONG.composer;
+				Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song;
 			case 'Twisted Grins' | 'Facade' | 'Resentment' | 'Mortiferum Risus':
-				Application.current.window.title = 'Funkin.avi - Episode 2: ' + SONG.song + ' [' + storyDifficultyText +'] - Composed by: ' + SONG.composer;
+				Application.current.window.title = 'Funkin.avi - Episode 2: ' + SONG.song;
 			default:
-				Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + ' [' + storyDifficultyText +'] - Composed by: ' + SONG.composer;	
+				Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song;	
 		}
 
 		// default song
