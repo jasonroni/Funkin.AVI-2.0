@@ -1,9 +1,1 @@
 stage
-spooky
-philly
-highway
-mall
-mallEvil
-school
-schoolEvil
-street
