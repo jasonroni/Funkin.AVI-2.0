@@ -1,0 +1,539 @@
+{
+	"song": {
+		"speed": 3.5,
+		"stage": "EndlessLoop",
+		"player1": "bf-demon",
+		"player2": "mickeysadistic",
+		"player3": null,
+		"events": [
+			[
+				48000,
+				[
+					[
+						"Scroll Type",
+						"",
+						"Flip"
+					]
+				]
+			],
+			[
+				53189.1891891892,
+				[
+					[
+						"Scroll Type",
+						"Flip",
+						"Default"
+					]
+				]
+			],
+			[
+				58378.3783783784,
+				[
+					[
+						"Scroll Type",
+						"Left",
+						"Right"
+					]
+				]
+			],
+			[
+				68756.7567567568,
+				[
+					[
+						"Scroll Type",
+						"Default",
+						"Left"
+					]
+				]
+			],
+			[
+				88216.2162162162,
+				[
+					[
+						"Scroll Type",
+						"Default",
+						"Default"
+					]
+				]
+			],
+			[
+				89513.5135135135,
+				[
+					[
+						"Scroll Type",
+						"Flip",
+						"Right"
+					]
+				]
+			],
+			[
+				110270.27027027,
+				[
+					[
+						"Scroll Type",
+						"Undyne",
+						"Default"
+					]
+				]
+			],
+			[
+				131027.027027027,
+				[
+					[
+						"Scroll Type",
+						"Default",
+						"Default"
+					]
+				]
+			],
+			[
+				240000.000000001,
+				[
+					[
+						"Scroll Type",
+						"Default",
+						"Flip"
+					]
+				]
+			],
+			[
+				245189.18918919,
+				[
+					[
+						"Scroll Type",
+						"Default",
+						"Default"
+					]
+				]
+			],
+			[
+				250378.378378379,
+				[
+					[
+						"Scroll Type",
+						"Default",
+						"Flip"
+					]
+				]
+			],
+			[
+				255567.567567568,
+				[
+					[
+						"Scroll Type",
+						"Default",
+						"Default"
+					]
+				]
+			],
+			[
+				260756.756756758,
+				[
+					[
+						"Scroll Type",
+						"Flip",
+						"Default"
+					]
+				]
+			],
+			[
+				265945.945945947,
+				[
+					[
+						"Scroll Type",
+						"Default",
+						"Default"
+					]
+				]
+			],
+			[
+				271135.135135136,
+				[
+					[
+						"Scroll Type",
+						"Flip",
+						"Default"
+					]
+				]
+			],
+			[
+				276324.324324325,
+				[
+					[
+						"Scroll Type",
+						"Default",
+						"Default"
+					]
+				]
+			],
+			[
+				294486.486486487,
+				[
+					[
+						"Scroll Type",
+						"Flip",
+						"Left"
+					]
+				]
+			],
+			[
+				294972.972972973,
+				[
+					[
+						"Scroll Type",
+						"Right",
+						"Left"
+					]
+				]
+			],
+			[
+				295459.45945946,
+				[
+					[
+						"Scroll Type",
+						"Default",
+						"Left"
+					]
+				]
+			],
+			[
+				295783.783783784,
+				[
+					[
+						"Scroll Type",
+						"Flip",
+						"Left"
+					]
+				]
+			],
+			[
+				295945.945945946,
+				[
+					[
+						"Scroll Type",
+						"Right",
+						"Left"
+					]
+				]
+			],
+			[
+				296027.027027027,
+				[
+					[
+						"Scroll Type",
+						"Flip",
+						"Left"
+					]
+				]
+			],
+			[
+				296189.18918919,
+				[
+					[
+						"Scroll Type",
+						"Flip",
+						"Left"
+					]
+				]
+			],
+			[
+				296270.270270271,
+				[
+					[
+						"Scroll Type",
+						"Right",
+						"Left"
+					]
+				]
+			],
+			[
+				296432.432432433,
+				[
+					[
+						"Scroll Type",
+						"Flip",
+						"Left"
+					]
+				]
+			],
+			[
+				296594.594594595,
+				[
+					[
+						"Scroll Type",
+						"Default",
+						"Left"
+					]
+				]
+			],
+			[
+				296675.675675676,
+				[
+					[
+						"Scroll Type",
+						"Flip",
+						"Left"
+					]
+				]
+			],
+			[
+				296837.837837838,
+				[
+					[
+						"Scroll Type",
+						"Default",
+						"Left"
+					]
+				]
+			],
+			[
+				296918.918918919,
+				[
+					[
+						"Scroll Type",
+						"Flip",
+						"Left"
+					]
+				]
+			],
+			[
+				297000,
+				[
+					[
+						"Scroll Type",
+						"Left",
+						"Left"
+					]
+				]
+			],
+			[
+				297081.081081081,
+				[
+					[
+						"Scroll Type",
+						"Default",
+						"Left"
+					]
+				]
+			],
+			[
+				297405.405405406,
+				[
+					[
+						"Scroll Type",
+						"Left",
+						"Left"
+					]
+				]
+			],
+			[
+				297486.486486487,
+				[
+					[
+						"Scroll Type",
+						"Flip",
+						"Left"
+					]
+				]
+			],
+			[
+				297567.567567568,
+				[
+					[
+						"Scroll Type",
+						"Right",
+						"Left"
+					]
+				]
+			],
+			[
+				297891.891891892,
+				[
+					[
+						"Scroll Type",
+						"Flip",
+						"Left"
+					]
+				]
+			],
+			[
+				297972.972972973,
+				[
+					[
+						"Scroll Type",
+						"Default",
+						"Left"
+					]
+				]
+			],
+			[
+				298054.054054054,
+				[
+					[
+						"Scroll Type",
+						"Flip",
+						"Left"
+					]
+				]
+			],
+			[
+				298297.297297298,
+				[
+					[
+						"Scroll Type",
+						"Left",
+						"Left"
+					]
+				]
+			],
+			[
+				298378.378378379,
+				[
+					[
+						"Scroll Type",
+						"Undyne",
+						"Left"
+					]
+				]
+			],
+			[
+				298540.540540541,
+				[
+					[
+						"Scroll Type",
+						"Flip",
+						"Left"
+					]
+				]
+			],
+			[
+				298621.621621622,
+				[
+					[
+						"Scroll Type",
+						"Right",
+						"Left"
+					]
+				]
+			],
+			[
+				298783.783783784,
+				[
+					[
+						"Scroll Type",
+						"Flip",
+						"Left"
+					]
+				]
+			],
+			[
+				298864.864864865,
+				[
+					[
+						"Scroll Type",
+						"Default",
+						"Left"
+					]
+				]
+			],
+			[
+				299027.027027027,
+				[
+					[
+						"Scroll Type",
+						"Left",
+						"Left"
+					]
+				]
+			],
+			[
+				299189.18918919,
+				[
+					[
+						"Scroll Type",
+						"Right",
+						"Left"
+					]
+				]
+			],
+			[
+				299270.270270271,
+				[
+					[
+						"Scroll Type",
+						"Flip",
+						"Left"
+					]
+				]
+			],
+			[
+				299351.351351352,
+				[
+					[
+						"Scroll Type",
+						"Default",
+						"Left"
+					]
+				]
+			],
+			[
+				299513.513513514,
+				[
+					[
+						"Scroll Type",
+						"Right",
+						"Left"
+					]
+				]
+			],
+			[
+				299675.675675676,
+				[
+					[
+						"Scroll Type",
+						"Flip",
+						"Left"
+					]
+				]
+			],
+			[
+				304864.864864865,
+				[
+					[
+						"Scroll Type",
+						"Default",
+						"Default"
+					]
+				]
+			],
+			[
+				325621.621621622,
+				[
+					[
+						"Scroll Type",
+						"Undyne",
+						"Default"
+					]
+				]
+			],
+			[
+				346378.378378378,
+				[
+					[
+						"Scroll Type",
+						"Default",
+						"Default"
+					]
+				]
+			]
+		],
+		"notes": [],
+		"splashSkin": null,
+		"validScore": false,
+		"gfVersion": "gf",
+		"bpm": 185,
+		"arrowSkin": "",
+		"needsVoices": true,
+		"song": "Delusional"
+	}
+}
