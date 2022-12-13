@@ -2,7 +2,7 @@
 	"song": {
 		"composer": "AttackPan",
 		"player1": "bf",
-		"player2": "pnm-placeholder",
+		"player2": "placeholder",
 		"events": [
 			[
 				580.645161290322,

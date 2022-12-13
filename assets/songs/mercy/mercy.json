@@ -1,6 +1,6 @@
 {
 	"song": {
-		"player1": "bf-firstperson",
+		"player1": "bf",
 		"events": [
 			[
 				0,
@@ -5852,7 +5852,7 @@
 				"mustHitSection": true
 			}
 		],
-		"player2": "Walt",
+		"player2": "walt",
 		"player3": null,
 		"splashSkin": null,
 		"song": "Mercy",

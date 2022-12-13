@@ -1,6 +1,6 @@
 {
 	"song": {
-		"player1": "GraveyandBf",
+		"player1": "bf",
 		"composer": "END_SELLA",
 		"gfVersion": "gf",
 		"notes": [
@@ -12726,7 +12726,7 @@
 				]
 			]
 		],
-		"player2": "WN",
+		"player2": "white-noise",
 		"player3": null,
 		"charter": "DEMOLITIONDON96",
 		"splashSkin": null,
