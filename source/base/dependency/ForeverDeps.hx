@@ -667,6 +667,19 @@ class ForeverTools
 			case _: FlxTextAlign.LEFT;
 		}
 	}
+			
+	public static function returnTextBorder(str:String):FlxTextBorderStyle //bruh, how was this forgotten?
+	{
+		return switch (str)
+		{
+			case "shadow": FlxTextBorderStyle.SHADOW;
+			case "outline": FlxTextBorderStyle.OUTLINE;
+			case "outline_fast": FlxTextBorderStyle.OUTLINE_FAST;
+			case "none": FlxTextBorderStyle.NONE;
+			case _: FlxTextBorderStyle.NONE;
+		}
+	}
+			
 
 	public static function returnColor(str:String = ''):FlxColor
 	{
