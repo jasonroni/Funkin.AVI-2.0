@@ -4,6 +4,8 @@ var limitThing:Int = 8;
 function onCreate()
 {
 	spawnGirlfriend(false);
+	
+	PlayState.boyfriend.alpha = 0; //havent tested cus done on phone but less character use at least
 	PlayState.defaultCamZoom = 0.75;
 
 	var pissOfGlory:FNFSprite = new FNFSprite(-450, -300).loadGraphic(Paths.image('walt-bg', 'data/stages/waltRoom/images'));
