@@ -2,26 +2,7 @@ import flixel.util.FlxAxes;
 
 function eventTrigger(params)
 {
-  switch(params[0]){
-      case 'x':
-        men(Intensity, Duration);
-      case 'y':
-        women(Intensity, Duration);
-      case 'xy':
-        manfuckingawoman(Intensity, Duration);
-  }
-}
-
-function men(Intensity:Float, Duration:Float){
-  FlxG.game.shake(Intensity, Duration, FlxAxes.X);
-}
-      
-function women(Intensity:Float, Duration:Float){
-  FlxG.game.shake(Intensity, Duration, FlxAxes.X);
-}
-      
-function manfuckingawoman(Intensity:Float, Duration:Float){
-  FlxG.game.shake(Intensity, Duration, FlxAxes.X);
+  FlxG.game.shake(params[0], params[1], FlxAxes.X);
 }
 
 function returnDescription()
