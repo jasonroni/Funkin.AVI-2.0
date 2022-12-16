@@ -3,6 +3,19 @@ function onCreate()
 	spawnGirlfriend(false);
 	PlayState.defaultCamZoom = 0.85;
 	PlayState.cameraSpeed = 1.35;
+	
+	if(PlayState.SONG.song == 'Isolated')
+	{
+	PlayState.camHUD.alpha = 0;
+	
+	var fade:FlxSprite = new FlxSprite(0,0).makeGraphic(1280, 720, 0x000000);
+	fade.scale.set(5,5);
+	fade.screenCenter();
+	add(fade);
+	
+	FlxTween.tween(fade, {alpha: 0}, 3, {ease: FlxEase.sineInOut, startDelay: 6});
+	FlxTween.tween(PlayState.camHUD, {alpha: 1}, 3, {ease: FlxEase.sineInOut, startDelay: 9});
+	}
 
 	var background:FNFSprite = new FNFSprite(-400, -300).loadGraphic(Paths.image('bg', 'data/stages/clubhouse/images'));
 	background.scale.set(1.2, 1.2);
