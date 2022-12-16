@@ -18,6 +18,27 @@ function onCreate()
 	vignette.scrollFactor();
 	vignette.active = false;
 	add(vignette);
+	
+	var waltInstructionsMain:FlxText = new FlxText(350, 500, 0, "Take Advantage of the SPACEBAR!", 30);
+	waltInstructionsMain.cameras = [PlayState.camAlt];
+	waltInstructionsMain.setFormat(Paths.font("splatter"), 30);
+	waltInstructionsMain.borderSize = 2;
+	waltInstructionsMain.borderQuality = 2;
+	waltInstructionsMain.scrollFactor.set();
+	add(waltInstructionsMain);
+
+	var waltSubTxt:FlxText = new FlxText(waltInstructionsMain.x + 70, waltInstructionsMain.y + 40, 0, "(It Will Help You Regain Health When In Need)", 15);
+	waltSubTxt.setFormat(Paths.font("splatter"), 15);
+	waltSubTxt.cameras = [PlayState.camAlt];
+	waltSubTxt.borderSize = 2;
+	waltSubTxt.borderQuality = 2;
+	waltSubTxt.alpha = 0;
+	waltSubTxt.scrollFactor.set();
+	add(waltSubTxt);
+
+	FlxTween.tween(waltInstructionsMain, {alpha: 0}, 1, {ease: FlxEase.quadInOut, startDelay: 8});
+	FlxTween.tween(waltSubTxt, {alpha: 0}, 1, {ease: FlxEase.quadInOut, startDelay: 8});
+	FlxTween.tween(waltSubTxt, {alpha: 1}, 0.7, {ease: FlxEase.quadInOut, startDelay: 3});
 }
 
 function charStagePos(boyfriend:Character, gf:Character, dad:Character)
