@@ -1,4 +1,5 @@
 var blackShit:FlxSprite;
+var limitThing:Int = 8;
 
 function onCreate()
 {
@@ -126,7 +127,7 @@ function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Characte
 		blackShit.alpha = 0;
 	}
 
-	if(FlxG.keys.justPressed.SPACE && PlayState.health < 0.25)
+	if(FlxG.keys.justPressed.SPACE && PlayState.health < 0.25 && limitThing > 0)
 	{
 		PlayState.health += 1.25;
 	}
