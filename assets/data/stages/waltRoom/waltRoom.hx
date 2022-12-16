@@ -1,3 +1,5 @@
+var blackShit:FlxSprite;
+
 function onCreate()
 {
 	spawnGirlfriend(false);
@@ -35,6 +37,14 @@ function onCreate()
 	waltSubTxt.alpha = 0;
 	waltSubTxt.scrollFactor.set();
 	add(waltSubTxt);
+	
+	blackShit = new FlxSprite(-FlxG.width * FlxG.camera.zoom,
+		-FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+	blackShit.scrollFactor.set();
+	blackShit.cameras = [PlayState.camAlt];
+	blackShit.alpha = 0;
+	add(blackShit);
+
 
 	FlxTween.tween(waltInstructionsMain, {alpha: 0}, 1, {ease: FlxEase.quadInOut, startDelay: 8});
 	FlxTween.tween(waltSubTxt, {alpha: 0}, 1, {ease: FlxEase.quadInOut, startDelay: 8});
@@ -54,8 +64,70 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 
 function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Character)
 {
-	if(FlxG.keys.justPressed.SPACE)
+	if(PlayState.health <= 0.1)
 	{
-		PlayState.health += 0.05;
+		blackShit.alpha = 0.95;
+	}else if (PlayState.health <= 0.2)
+	{
+		blackShit.alpha = 0.9;
+	}else if (PlayState.health <= 0.3)
+	{
+		blackShit.alpha = 0.85;
+	}else if (PlayState.health <= 0.4)
+	{
+		blackShit.alpha = 0.8;
+	}else if (PlayState.health <= 0.5)
+	{
+		blackShit.alpha = 0.75;
+	}else if (PlayState.health <= 0.6)
+	{
+		blackShit.alpha = 0.7;
+	}else if (PlayState.health <= 0.7)
+	{
+		blackShit.alpha = 0.65;
+	}else if (PlayState.health <= 0.8)
+	{
+		blackShit.alpha = 0.6;
+	}else if (PlayState.health <= 0.9)
+	{
+		blackShit.alpha = 0.55;
+	}else if (PlayState.health <= 1)
+	{
+		blackShit.alpha = 0.5;
+	}else if (PlayState.health <= 1.1)
+	{
+		blackShit.alpha = 0.45;
+	}else if (PlayState.health <= 1.2)
+	{
+		blackShit.alpha = 0.4;
+	}else if (PlayState.health <= 1.3)
+	{
+		blackShit.alpha = 0.35;
+	}else if (PlayState.health <= 1.4)
+	{
+		blackShit.alpha = 0.3;
+	}else if (PlayState.health <= 1.5)
+	{
+		blackShit.alpha = 0.25;
+	}else if (PlayState.health <= 1.6)
+	{
+		blackShit.alpha = 0.2;
+	}else if (PlayState.health <= 1.7)
+	{
+		blackShit.alpha = 0.15;
+	}else if (PlayState.health <= 1.8)
+	{
+		blackShit.alpha = 0.1;
+	}else if (PlayState.health <= 1.9)
+	{
+		blackShit.alpha = 0.05;
+	}else if (PlayState.health <= 2)
+	{
+		blackShit.alpha = 0;
+	}
+
+	if(FlxG.keys.justPressed.SPACE && PlayState.health < 0.25)
+	{
+		PlayState.health += 1.25;
 	}
 }
