@@ -29,6 +29,7 @@ import objects.ui.menu.Checkmark;
 import openfl.display.BlendMode;
 import states.PlayState;
 import sys.FileSystem;
+import flixel.text.FlxText.FlxTextBorderStyle;
 
 /**
  * Forever Assets is a class that manages the different asset types, basically a compilation of switch statements that are
