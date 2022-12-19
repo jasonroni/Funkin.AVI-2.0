@@ -147,8 +147,8 @@ function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Characte
 	/*
 	Okay, time to explain how the spacebar works, basically, you can't spam it anymore unlike the Psych counterpart.
 	With the conditions given, the spacebar becomes available and accessible when your HP is at exactly 12.5% health or lower.
-	Seems simple, right? Well, people can easily exploit this if there is no limit given, so that's there the "limitThing" variable comes in.
-	As you see at the to, it's at 0, but in the onCreate function, you can see it adds a certain amount based on the song given (by default, it's 5).
+	Seems simple, right? Well, people can easily exploit this if there is no limit given, so that's where the "limitThing" variable comes in.
+	As you see at the top, it's at 0, but in the onCreate function, you can see it adds a certain amount based on the song given (by default, it's 5).
 	The moment it reaches 0, you will no longer be able to use the spacebar key, encouraging players to actually use it wisely.
 	*/
 	if(FlxG.keys.justPressed.SPACE && PlayState.health < 0.25 && limitThing > 0)
