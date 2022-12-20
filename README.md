@@ -8,9 +8,9 @@
 As you can already tell, this version of the mod now runs on a modded version of Forever Engine by @BeastlyGhost instead of Psych Engine. Why is that? I never really liked Psych's coding anyways, and plan to completely scrap my custom build of Psych soon in favor for using this engine instead.
 
 ----------------------------------------------
- <h1 align="center">Funkin.avi V2.0**To compile a build of this game, use one of the setups in the files**.</h1>
+ <h1 align="center">To compile a build of this game, use one of the setups in the files.</h1>
 
- <h2 align="center">**We as the devs of F.AVI or the creator of this engine is NOT responsible for any crashes that may occur with older versions of Flixel, nor maintaining them.**.</h2>
+ <h2 align="center">We as the devs of F.AVI or the creator of this engine is NOT responsible for any crashes that may occur with older versions of Flixel, nor maintaining them..</h2>
 
 ----------------------------------------------
 # Features:
