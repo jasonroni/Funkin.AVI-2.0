@@ -17,6 +17,9 @@ As you can already tell, this version of the mod now runs on a modded version of
 * Everything listed on the original repo of the engine --> https://github.com/BeastlyGhost/Forever-Engine-Feather
 * Some unused content that isn't in the release files
 * A few extra songs
+* some more HSCRIPT variables and functions
+* A GameJolt login system, which has trophies and score leaderboards (Game ID is private lmao)
+* some funny easter eggs :trollface:
 
 ----------------------------------------------
 ### Got issues or have a bug to report?
