@@ -2043,10 +2043,19 @@ class PlayState extends MusicBeatState
 		{
 			Application.current.window.alert(message, windowName);
 		});
+		
+		//havent tested yet, but it should import classes without setting the var for it
+		setVar('importFile', function(libName:String, ?libPackage:String = '') {
+			try {
+				var omgTheNothingFromFortnite:String = '';
+				if(libPackage.length > 0)
+					omgTheNothingFromFortnite = libPackage + '.';
 
-		setVar('logTrace', function(text:String, time:Float, onConsole:Bool = false)
-		{
-			logTrace(text, time, onConsole);
+				setVar(libName, Type.resolveClass(omgTheNothingFromFortnite + libName));
+			}
+			catch (e:Dynamic) {
+				return;
+			}
 		});
 
 		// CHARACTERS
