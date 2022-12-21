@@ -1,6 +1,11 @@
 var gettingSleepy:FlxSprite;
 var limitThing:Int = 0; //Default Value
 
+var vhsFilter:FlxRuntimeShader;
+var grainFilter:FlxRuntimeShader;
+var monitorFilter:FlxRuntimeShader; //I can't get this one to work without covering the entire screen
+var shaderTime:Float = 0;
+
 function onCreate()
 {
 	spawnGirlfriend(false);
@@ -54,6 +59,14 @@ function onCreate()
 	FlxTween.tween(waltSubTxt, {alpha: 1}, 0.7, {ease: FlxEase.quadInOut, startDelay: 3});
 
 	if (PlayState.SONG.song == 'Mercy Legacy') limitThing += 12; else if (PlayState.SONG.song == 'Mercy') limitThing += 8; else limitThing += 5; //This line sets up the limit based on the song it's set on.
+
+	vhsFilter = new FlxRuntimeShader(File.getContent("./assets/shaders/vhs.frag"), null, 130);
+	vhsFilter.setFloat('time', 0);
+	PlayState.camGame.setFilters([new ShaderFilter(vhsFilter)]);
+
+	grainFilter = new FlxRuntimeShader(File.getContent("./assets/shaders/filmgrain.frag"), null, 150);
+	grainFilter.setFloat('time', 0.0);
+	PlayState.camHUD.setFilters([new ShaderFilter(grainFilter)]);
 }
 
 function charStagePos(boyfriend:Character, gf:Character, dad:Character)
@@ -80,6 +93,11 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 
 function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Character)
 {
+	//Shader stuff
+	shaderTime += elapsed;
+	vhsFilter.setFloat('time', shaderTime);
+	grainFilter.setFloat('time', shaderTime);
+
 	//This entire set monitors the brightness of the screen based on the percentage of your health
 	
 	if(PlayState.health <= 0.1) //if 5% HP
