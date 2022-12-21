@@ -2057,6 +2057,10 @@ class PlayState extends MusicBeatState
 				return;
 			}
 		});
+		
+	        setVar('logTrace', function(text:String, time:Float, onConsole:Bool = false)
+ 		{
+ 			logTrace(text, time, onConsole);
 
 		// CHARACTERS
 		setVar('songName', PlayState.SONG.song.toLowerCase());
