@@ -894,7 +894,8 @@ class PlayState extends MusicBeatState
 		{
 			coolNote.wasGoodHit = true;
 			vocals.volume = 1;
-
+           
+			//hell yeah health drain possible
 			callFunc(coolNote.mustPress ? 'goodNoteHit' : 'opponentNoteHit', [coolNote, strumline]);
 
 			var receptors = strumline.receptors.members[coolNote.noteData];
@@ -2061,6 +2062,7 @@ class PlayState extends MusicBeatState
 	        setVar('logTrace', function(text:String, time:Float, onConsole:Bool = false)
  		{
  			logTrace(text, time, onConsole);
+		}
 
 		// CHARACTERS
 		setVar('songName', PlayState.SONG.song.toLowerCase());
