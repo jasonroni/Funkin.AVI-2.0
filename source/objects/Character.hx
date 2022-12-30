@@ -108,7 +108,7 @@ class Character extends FNFSprite
 
 				playAnim('idle');
 				characterData.healthColor = [161, 161, 161];
-				
+
 			default:
 				switch (characterType)
 				{
@@ -138,7 +138,11 @@ class Character extends FNFSprite
 		// "Preloads" animations so they dont lag in the song
 		var allAnims:Array<String> = animation.getNameList();
 		for (anim in allAnims)
+		{
 			playAnim(anim);
+			if (anim.startsWith("sad"))
+				animation.curAnim.finish();
+		}
 
 		recalcDance();
 		dance();

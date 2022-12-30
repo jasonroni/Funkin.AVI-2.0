@@ -37,7 +37,6 @@ class ScoreUtils
 	public static var notesAccuracy:Float;
 	public static var notesHit:Int = 0;
 	public static var minesHit:Int = 0;
-	public static var errorHits:Int = 0; //funi Malfunction life system???
 
 	inline static function get_accuracy():Float
 		return notesAccuracy / notesHit;

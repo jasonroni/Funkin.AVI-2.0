@@ -29,7 +29,6 @@ import objects.ui.menu.Checkmark;
 import openfl.display.BlendMode;
 import states.PlayState;
 import sys.FileSystem;
-import flixel.text.FlxText.FlxTextBorderStyle;
 
 /**
  * Forever Assets is a class that manages the different asset types, basically a compilation of switch statements that are
@@ -668,19 +667,6 @@ class ForeverTools
 			case _: FlxTextAlign.LEFT;
 		}
 	}
-			
-	public static function returnTextBorder(str:String):FlxTextBorderStyle //bruh, how was this forgotten?
-	{
-		return switch (str)
-		{
-			case "shadow": FlxTextBorderStyle.SHADOW;
-			case "outline": FlxTextBorderStyle.OUTLINE;
-			case "outline_fast": FlxTextBorderStyle.OUTLINE_FAST;
-			case "none": FlxTextBorderStyle.NONE;
-			case _: FlxTextBorderStyle.NONE;
-		}
-	}
-			
 
 	public static function returnColor(str:String = ''):FlxColor
 	{

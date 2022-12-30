@@ -279,16 +279,6 @@ class Paths
 	{
 		return getPath('songs/$key.json', TEXT, library);
 	}
-	
-	inline static public function frag(key:String, ?library:String)
-	{
-		return getPath('shaders/$key.frag', TEXT, library);
-	}
-
-	inline static public function vert(key:String, ?library:String)
-	{
-		return getPath('shaders/$key.vert', TEXT, library);
-	}
 
 	inline static public function songJson(song:String, secondSong:String, ?library:String)
 		return getPath('songs/${song.toLowerCase()}/${secondSong.toLowerCase()}.json', TEXT, library);

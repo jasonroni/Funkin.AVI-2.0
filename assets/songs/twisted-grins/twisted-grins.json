@@ -1,8 +1,7 @@
 {
 	"song": {
-		"player1": "bffake",
+		"player1": "bf",
 		"sectionLengths": [],
-		"composer": "Sayan Sama",
 		"notes": [
 			{
 				"typeOfSection": 0,
@@ -11209,12 +11208,11 @@
 			]
 		],
 		"player3": null,
-		"charter": "Dreupy",
 		"song": "Twisted Grins",
 		"needsVoices": true,
 		"sections": 0,
 		"validScore": true,
-		"stage": "Office",
+		"stage": "stage",
 		"bpm": 160,
 		"speed": 1.6
 	}

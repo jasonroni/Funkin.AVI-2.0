@@ -31,14 +31,6 @@ class Note extends FNFSprite
 	public var ignoreNote:Bool = false;
 	public var noteSplash:Bool = false;
 	public var isMine:Bool = false;
-	
-	//Funkin.avi Notes Shit
-	public var isError:Bool = false; //Malfunction
-	public var isPoisonous:Bool = false; //hee hee hee ha
-	public var isInstakill:Bool = false; //death.
-	public var isDoubleDamage:Bool = false; //self-explanatory
-	public var canFlipUI:Bool = false; //Flip Note
-	public var canToggleSprite:Bool = false; //Darkness Note
 
 	// not set initially
 	public var noteQuant:Int = -1;
@@ -87,14 +79,6 @@ class Note extends FNFSprite
 			noteType = 'default';
 
 		isMine = false;
-		
-		//Funkin.avi shit
-		isError = false;
-		isPoisonous = false;
-		isInstakill = false;
-		canFlipUI = false;
-		canToggleSprite = false;
-		isDoubleDamage = false;
 
 		super(x, y);
 
@@ -110,15 +94,6 @@ class Note extends FNFSprite
 			this.noteTimer = parentNote.noteTimer;
 			this.noteQuant = parentNote.noteQuant;
 			this.isMine = parentNote.isMine;
-			
-			//Funkin.avi shit
-			this.isError = parentNote.isError;
-			this.isPoisonous = parentNote.isPoisonous;
-			this.isInstakill = parentNote.isInstakill;
-			this.canFlipUI = parentNote.canFlipUI;
-			this.canToggleSprite = parentNote.canToggleSprite;
-			this.isDoubleDamage = parentNote.isDoubleDamage;
-			
 			while (parentNote.parentNote != null)
 				parentNote = parentNote.parentNote;
 			parentNote.childrenNotes.push(this);
@@ -227,14 +202,6 @@ class Note extends FNFSprite
 		}
 
 		newNote.isMine = false;
-		
-		//Funkin.avi stuff
-		newNote.isError = false;
-		newNote.isPoisonous = false;
-		newNote.isInstakill = false;
-		newNote.canFlipUI = false;
-		newNote.canToggleSprite = false;
-		newNote.isDoubleDamage = false;
 	}
 
 	public function noteHit()

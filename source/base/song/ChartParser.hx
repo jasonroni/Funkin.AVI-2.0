@@ -82,26 +82,17 @@ class ChartParser
 					swagNote.sustainLength = Math.round(swagNote.sustainLength / Conductor.stepCrochet) * Conductor.stepCrochet;
 				swagNote.scrollFactor.set(0, 0);
 
-				if (swagNote.sustainLength > 0)
+				var holdL = swagNote.sustainLength;
+
+				for (susNote in 0...Math.floor(holdL / Conductor.stepCrochet))
 				{
-					var floorSus:Int = Math.round(swagNote.sustainLength / Conductor.stepCrochet);
-					if (floorSus > 0)
-					{
-						if (floorSus == 1)
-							floorSus++;
-						for (susNote in 0...floorSus)
-						{
-							oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
-
-							var sustainNote:Note = ForeverAssets.generateArrow(null, PlayState.assetModifier,
+					oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
+					var sustainNote:Note = ForeverAssets.generateArrow(null, PlayState.assetModifier,
 								daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteData, daNoteType, true, oldNote);
-							sustainNote.mustPress = gottaHitNote;
-							sustainNote.scrollFactor.set();
+					sustainNote.scrollFactor.set();
 
-							if (sustainNote != null)
-								unspawnNotes.push(sustainNote);
-						}
-					}
+					unspawnNotes.push(sustainNote);
+					sustainNote.mustPress = gottaHitNote;
 				}
 			}
 		}

@@ -37,9 +37,6 @@ import openfl.media.Sound;
 import states.editors.CharacterOffsetEditor;
 import states.menus.*;
 import states.substates.GameOverSubstate;
-import lime.app.Application;
-import lime.ui.Window;
-import flash.system.System;
 #if desktop
 import base.dependency.Discord;
 #end
@@ -308,17 +305,6 @@ class PlayState extends MusicBeatState
 
 		// always draw new objects on the main camera
 		FlxG.cameras.setDefaultDrawTarget(camGame, true);
-		
-		//Window Name
-		switch (SONG.song)
-		{
-			case 'Isolated' | 'Lunacy' | 'Delusional':
-				Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song;
-			case 'Twisted Grins' | 'Facade' | 'Resentment' | 'Mortiferum Risus':
-				Application.current.window.title = 'Funkin.avi - Episode 2: ' + SONG.song;
-			default:
-				Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song;	
-		}
 
 		// default song
 		if (SONG == null)
@@ -894,8 +880,7 @@ class PlayState extends MusicBeatState
 		{
 			coolNote.wasGoodHit = true;
 			vocals.volume = 1;
-           
-			//hell yeah health drain possible
+
 			callFunc(coolNote.mustPress ? 'goodNoteHit' : 'opponentNoteHit', [coolNote, strumline]);
 
 			var receptors = strumline.receptors.members[coolNote.noteData];
@@ -933,43 +918,9 @@ class PlayState extends MusicBeatState
 						lowestThreshold = myThreshold;
 					}
 				}
-				
-				/*if (coolNote.ignoreNote)
-				{
-					if (coolNote.isError)
-					{
-						ScoreUtils.errorHits++;
-						//crashCounterTxt.text = 'Errors Left: {$ScoreUtils.errorHits}/30'; idk if this works yet, that's why it's commented out, plus the actual mechanic isn't coded in yet lol (don)
-						health -= 0.1;
-						createSplash(coolNote.noteType, coolNote.noteData, strumline);
-					}
-				}*/
-				
-				/*switch (coolNote.noteType)
-				{
-					case 'error':
-						ScoreUtils.errorHits++;
-						//crashCounterTxt.text - 'Errors Left: {$ScoreUtils.errorHits}/30';
-						health -= 0.1;
-						if (coolNote.isError)
-						{
-							createSplash(coolNote.noteType, coolNote.noteData, strumline);
-							//FlxG.sound.play();
-						}
-						
-					case 'poison':
-						//gotta add the base for this before I actually code it
-						
-					case 'instakill': //I TOLD YOU TO NOT CROSS THAT FUCKING LINE!!!!!!
-						health = 0;
-				}*/
 
 				if (!coolNote.ignoreNote)
 				{
-					/*if (coolNote.isDoubleDamage)
-					{
-						
-					}*/
 					if (coolNote.isMine)
 						ScoreUtils.minesHit++;
 					else if (!coolNote.isSustainNote)
@@ -2033,36 +1984,11 @@ class PlayState extends MusicBeatState
 		setVar('add', add);
 		setVar('remove', remove);
 		setVar('openSubState', openSubState);
-		
-		//Funkin.avi Stuff
-		setVar('closeGame', function()
-			{
-				Sys.exit(1);
-			}); //Yes, I'm actually softcoding this for HScript & SScript lmao
-		setVar('updateWindowTitle', Application.current.window.title);
-		setVar('createAlert', function(windowName:String, message:String)
-		{
-			Application.current.window.alert(message, windowName);
-		});
-		
-		//havent tested yet, but it should import classes without setting the var for it
-		setVar('importFile', function(libName:String, ?libPackage:String = '') {
-			try {
-				var omgTheNothingFromFortnite:String = '';
-				if(libPackage.length > 0)
-					omgTheNothingFromFortnite = libPackage + '.';
 
-				setVar(libName, Type.resolveClass(omgTheNothingFromFortnite + libName));
-			}
-			catch (e:Dynamic) {
-				return;
-			}
+		setVar('logTrace', function(text:String, time:Float, onConsole:Bool = false)
+		{
+			logTrace(text, time, onConsole);
 		});
-		
-	        setVar('logTrace', function(text:String, time:Float, onConsole:Bool = false)
- 		{
- 			logTrace(text, time, onConsole);
-		}
 
 		// CHARACTERS
 		setVar('songName', PlayState.SONG.song.toLowerCase());
@@ -2111,12 +2037,8 @@ class PlayState extends MusicBeatState
 
 		if (bfStrums != null)
 			setVar('bfStrums', bfStrums);
-		if(bfStrums.receptors != null)
-			setVar('bfReceptors', bfStrums.receptors);
 		if (dadStrums != null)
 			setVar('dadStrums', dadStrums);
-		if(dadStrums.receptors != null)
-			setVar('dadReceptors', dadStrums.receptors);
 		if (strumLines != null)
 			setVar('strumLines', strumLines);
 		if (allUIs != null)
