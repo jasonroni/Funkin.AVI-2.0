@@ -33,7 +33,7 @@ class Overlay extends TextField
 		autoSize = LEFT;
 		selectable = false;
 
-		defaultTextFormat = new TextFormat(Paths.font("vcr"), 16, 0xFFFFFF);
+		defaultTextFormat = new TextFormat(Paths.font("vcr"), 18, 0xFFFFFF);
 		text = "";
 
 		addEventListener(Event.ENTER_FRAME, update);
@@ -71,7 +71,7 @@ class Overlay extends TextField
 			text = '' // set up the text itself
 				+ (displayFps ? times.length + " FPS\n" : '') // Framerate
 				+ (displayExtra ? 'Class Object Count: ' + FlxG.state.members.length + "\n" : '') // Current Game State
-				+ (displayMemory ? '${getInterval(mem)} // ${getInterval(memPeak)}\n' : ''); // Current and Total Memory Usage
+				+ (displayMemory ? '${getInterval(mem)} / ${getInterval(memPeak)}\n' : ''); // Current and Total Memory Usage
 		}
 	}
 
