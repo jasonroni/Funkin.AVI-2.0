@@ -70,7 +70,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			if (PlayState.gameplayMode == STORY)
 				Main.switchState(this, new states.menus.StoryMenu());
 			else
-				Main.switchState(this, new states.menus.FreeplayMenu());
+				Main.switchState(this, new states.menus.freeplay.FreeplayState());
 		}
 
 		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.curFrame == 12)

@@ -51,12 +51,11 @@ class MainMenu extends MusicBeatState
 	{
 		super.create();
 
+		openfl.Lib.application.window.title = "Funkin.AVI";
+
 		// set the transitions to the previously set ones
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
-
-		// make sure the music is playing
-		ForeverTools.resetMenuMusic();
 
 		#if DISCORD_RPC
 		Discord.changePresence('MENU SCREEN', 'Main Menu');
@@ -129,7 +128,7 @@ class MainMenu extends MusicBeatState
 		updateSelection();
 
 		// from the base game lol
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, 'Forever Engine: Feather v${Main.game.versionFF} - Legacy v${Main.game.versionFE}', 12);
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, 'Funkin.AVI v2.0.0 - Demolition Engine v0.3.0', 12);
 		versionShit.setFormat(Paths.font("vcr"), 16, 0xFFFFFFFF, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
 		versionShit.scrollFactor.set();
 		add(versionShit);

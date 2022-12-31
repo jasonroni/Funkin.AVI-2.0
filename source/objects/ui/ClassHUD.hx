@@ -37,7 +37,8 @@ class ClassHUD extends FlxSpriteGroup
 	// display texts
 	public var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
 	public var diffDisplay:String = '[${CoolUtil.difficultyString}]';
-	public var engineDisplay:String = "FE FEATHER v" + Main.game.versionFF;
+	// "plan to completely scrap my custom build of Psych soon in favor for using this engine instead." - Demolition, 2022 (jason)
+	public var engineDisplay:String = "Demolition Engine v0.3.0"; 
 
 	// eep
 	public function new()
@@ -82,13 +83,13 @@ class ClassHUD extends FlxSpriteGroup
 		cornerMark.setPosition(FlxG.width - (cornerMark.width + 5), 5);
 		add(cornerMark);
 
-		centerMark = new FlxText(0, (Init.trueSettings.get('Downscroll') ? FlxG.height - 40 : 10), 0, '- $infoDisplay $diffDisplay -');
+		centerMark = new FlxText(0, (Init.trueSettings.get('Downscroll') ? FlxG.height - 40 : 10), 0, '- $infoDisplay -');
 		centerMark.setFormat(Paths.font('vcr'), 24, FlxColor.WHITE);
 		centerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		centerMark.screenCenter(X);
 		add(centerMark);
 
-		autoplayMark = new FlxText(-5, (Init.trueSettings.get('Downscroll') ? centerMark.y - 60 : centerMark.y + 60), FlxG.width - 800, '[AUTOPLAY]\n', 32);
+		autoplayMark = new FlxText(-5, (Init.trueSettings.get('Downscroll') ? centerMark.y - 60 : centerMark.y + 60), FlxG.width - 800, '[SHOWCASE]\n', 32);
 		autoplayMark.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE, CENTER);
 		autoplayMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2.3);
 		autoplayMark.screenCenter(X);
@@ -211,11 +212,8 @@ class ClassHUD extends FlxSpriteGroup
 		var colorOpponent = PlayState.opponent.characterData.healthColor;
 		var colorPlayer = PlayState.boyfriend.characterData.healthColor;
 
-		if (!Init.trueSettings.get('Colored Health Bar'))
-			healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33 - 0xFFFF0000);
-		else
-			healthBar.createFilledBar(FlxColor.fromRGB(Std.int(colorOpponent[0]), Std.int(colorOpponent[1]), Std.int(colorOpponent[2])),
-				FlxColor.fromRGB(Std.int(colorPlayer[0]), Std.int(colorPlayer[1]), Std.int(colorPlayer[2])));
+		healthBar.createFilledBar(FlxColor.fromRGB(Std.int(colorOpponent[0]), Std.int(colorOpponent[1]), Std.int(colorOpponent[2])),
+		FlxColor.fromRGB(Std.int(colorPlayer[0]), Std.int(colorPlayer[1]), Std.int(colorPlayer[2])));
 	}
 
 	public function beatHit(curBeat:Int)
@@ -237,25 +235,6 @@ class ClassHUD extends FlxSpriteGroup
 	}
 
 	var scoreFlashFormat:FlxTextFormat;
-
-	public function colorHighlight(curRating:String)
-	{
-		// highlights the accuracy mark on the score bar;
-		var rankingsMap:Map<String, FlxColor> = [
-			"S+" => FlxColor.fromString('#F8D482'),
-			"S" => FlxColor.CYAN,
-			"A" => FlxColor.LIME,
-			"B" => FlxColor.GREEN,
-			"C" => FlxColor.BROWN,
-			"D" => FlxColor.PINK,
-			"E" => FlxColor.ORANGE,
-			"F" => FlxColor.RED,
-		];
-
-		if (rankingsMap.exists(curRating))
-			if (ScoreUtils.curRating == curRating)
-				scoreFlashFormat = new FlxTextFormat(rankingsMap.get(curRating), true);
-	}
 
 	override function add(Object:FlxSprite):FlxSprite
 	{

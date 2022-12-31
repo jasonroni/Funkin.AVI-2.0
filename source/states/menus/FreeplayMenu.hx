@@ -1,424 +1,335 @@
 package states.menus;
 
 import base.dependency.Discord;
-import base.song.Song;
-import base.song.SongFormat.SwagSong;
-import base.utils.ScoreUtils;
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.FlxCamera;
+import flixel.addons.transition.FlxTransitionableState;
+import flixel.effects.FlxFlicker;
+import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.math.FlxMath;
 import flixel.text.FlxText;
+import flixel.math.FlxMath;
+import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import lime.app.Application;
+import flixel.input.keyboard.FlxKey;
+import openfl.display.BlendMode;
+import openfl.display.StageQuality;
+import openfl.filters.BitmapFilter;
+import openfl.utils.Assets as OpenFlAssets;
+import openfl.filters.ShaderFilter;
 import objects.fonts.Alphabet;
-import objects.ui.HealthIcon;
-import openfl.media.Sound;
-import states.MusicBeatState;
-import sys.FileSystem;
-import sys.thread.Mutex;
-import sys.thread.Thread;
 
-typedef SongMetadata =
-{
-	var name:String;
-	var week:Int;
-	var character:String;
-	var color:FlxColor;
-}
+using StringTools;
 
-class FreeplayMenu extends MusicBeatState
-{
-	//
-	var songs:Array<SongMetadata> = [];
+class FreeplayMenu extends MusicBeatState {
 
-	static var curSelected:Int = 0;
+	var unfinishedText:FlxText;
 
-	var curSongPlaying:Int = -1;
-	var curDifficulty:Int = 1;
+	public var timesToEnter:Int = 30;
+	var debugTxt:FlxText;
 
-	var scoreText:FlxText;
-	var diffText:FlxText;
-	var lerpScore:Int = 0;
-	var intendedScore:Int = 0;
+	//Spooky ass Mystery Effects OooooOOOooo
+	//var 
 
-	var songThread:Thread;
-	var threadActive:Bool = true;
-	var mutex:Mutex;
-	var songToPlay:Sound = null;
+	//public var camFilter:FlxCamera;
+    var freeplayCats:Array<String>;
+	var fpCateBanners:FlxSprite;
+	var grpCats:FlxTypedGroup<Alphabet>;
+	var curSelected:Int = 0;
+	var noFreeplay:FlxText;
+	var leftArrow:FlxSprite;
+	var rightArrow:FlxSprite;
+	var ui_tex = Paths.getSparrowAtlas('menus/base/storymenu/campaign_menu_UI_assets');
+	var noCovers:FlxText;
+	var BG:FlxSprite;
+    override function create(){
 
-	private var grpSongs:FlxTypedGroup<Alphabet>;
+		timesToEnter = 30;
 
-	private var iconArray:Array<HealthIcon> = [];
-
-	private var mainColor:Null<FlxColor> = FlxColor.WHITE;
-	private var bg:Null<FlxSprite>;
-	private var scoreBG:FlxSprite;
-
-	private var existingSongs:Array<String> = [];
-	private var existingDifficulties:Array<Array<String>> = [];
-
-	public var loadCustom:Bool = true;
-
-	public function new(?loadCustom:Bool = true)
-	{
-		super();
-
-		this.loadCustom = loadCustom;
-	}
-
-	override function create()
-	{
-		super.create();
-
-		mutex = new Mutex();
-
-		// load week data;
-		Main.loadGameWeeks(false);
-
-		/**
-		 * Wanna add songs? they are on the Weeks Folder inside the assets folder
-		 * if you wish to hardcode your weeks, make sure to look through the Main State
-		**/
-
-		loadSongs(loadCustom); // set to false in case you don't want custom songs;
-
-		bg = new FlxSprite().loadGraphic(Paths.image('menus/base/menuDesat'));
-		add(bg);
-
-		grpSongs = new FlxTypedGroup<Alphabet>();
-		add(grpSongs);
-
-		for (i in 0...songs.length)
-		{
-			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, CoolUtil.swapSpaceDash(songs[i].name), true, false);
-			songText.isMenuItem = true;
-			songText.targetY = i;
-			grpSongs.add(songText);
-
-			var icon:HealthIcon = new HealthIcon(songs[i].character);
-			icon.sprTracker = songText;
-
-			// using a FlxGroup is too much fuss!
-			iconArray.push(icon);
-			add(icon);
-		}
-
-		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
-		scoreText.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE, RIGHT);
-
-		scoreBG = new FlxSprite(scoreText.x - scoreText.width, 0).makeGraphic(Std.int(FlxG.width * 0.35), 66, 0xFF000000);
-		scoreBG.alpha = 0.6;
-		add(scoreBG);
-
-		diffText = new FlxText(scoreText.x, scoreText.y + 36, 0, "", 24);
-		diffText.alignment = CENTER;
-		diffText.font = scoreText.font;
-		diffText.x = scoreBG.getGraphicMidpoint().x;
-		add(diffText);
-
-		add(scoreText);
-
-		changeSelection();
-		changeDiff();
-	}
-
-	function loadSongs(includeCustom:Bool)
-	{
-		// load in all songs that exist in folder
-		var folderSongs:Array<String> = CoolUtil.returnAssetsLibrary('songs', 'assets');
-
-		try
-		{
-			for (i in 0...Main.weeks.length)
-			{
-				// is the week locked?;
-				if (checkProgression(Main.weeks[i]))
-					continue;
-
-				var gameWeek = Main.weeksMap.get(Main.weeks[i]);
-
-				var storedSongs:Array<String> = [];
-				var storedIcons:Array<String> = [];
-				var storedColors:Array<FlxColor> = [];
-
-				if (!gameWeek.hideOnFreeplay)
-				{
-					//
-					for (i in 0...gameWeek.songs.length)
+		/*if(ClientPrefs.funiShaders)
 					{
-						var songInfo = gameWeek.songs[i];
+						chrom = new ChromaticAberrationEffect();
+						blurThisShit = new TiltshiftEffect(0.4, 0);
+						bloomShit = new WIBloomEffect(0);
+						greyscale = new GreyscaleEffect();
+						//uncomment these fucking pieces of shit if you feel like testing it.
 
-						storedSongs.push(songInfo.name);
-						storedIcons.push(songInfo.opponent);
+						addShader(chrom);
+						addShader(blurThisShit);
+						addShader(bloomShit);
+						addShader(greyscale);
+						//uncomment these fucking pieces of shit if you feel like testing it.
 
-						//
-						if (songInfo.colors != null)
-							storedColors.push(FlxColor.fromRGB(songInfo.colors[0], songInfo.colors[1], songInfo.colors[2]));
-						else
-							storedColors.push(FlxColor.WHITE);
-					}
+						if (chrom != null)
+						chrom.setChrome(0.003);
 
-					// actually add the week;
-					addWeek(storedSongs, i, storedIcons, storedColors);
-				}
+						if (bloomShit != null)
+						bloomShit.setSize(18.0);
 
-				// add week songs to the existing songs array;
-				for (j in storedSongs)
-					existingSongs.push(j.toLowerCase());
-			}
+						if(blurThisShit != null)
+						blurThisShit.setBlur(0.4);
+						//uncomment these fucking pieces of shit if you feel like testing it.
 
-			if (includeCustom)
-			{
-				for (i in folderSongs)
-				{
-					if (!existingSongs.contains(i.toLowerCase()))
-					{
-						var icon:String = 'gf';
-						var chartExists:Bool = FileSystem.exists(Paths.songJson(i, i));
-						if (chartExists)
-						{
-							var castSong:SwagSong = Song.loadFromJson(i, i);
-							icon = (castSong != null) ? castSong.player2 : 'gf';
-							addSong(CoolUtil.spaceToDash(castSong.song), 1, icon, FlxColor.WHITE);
-						}
-					}
-				}
-			}
-		}
-		catch (e)
-			return Main.baseGame.forceSwitch(new MainMenu('[FREEPLAY ERROR] Songs not Found! ($e)'));
-	}
-
-	function checkProgression(week:String):Bool
-	{
-		// here we check if the target week is locked;
-		var weekProgress = Main.weeksMap.get(week);
-		return weekProgress.startsLocked;
-	}
-
-	public function addSong(songName:String, weekNum:Int, songCharacter:String, songColor:FlxColor)
-	{
-		var coolDifficultyArray = [];
-		for (i in CoolUtil.difficulties)
-			if (FileSystem.exists(Paths.songJson(songName, songName + '-' + i))
-				|| (FileSystem.exists(Paths.songJson(songName, songName)) && i == "NORMAL"))
-				coolDifficultyArray.push(i);
-
-		if (coolDifficultyArray.length > 0)
+					}*/
+				//freeplayCats = ['V2 Content', 'Legacy', '???'];
+		/*if(FPClientPrefs.episode2FPLock == 'unlocked' && FPClientPrefs.malfunctionLock == 'beaten' && FPClientPrefs.crossinLock == 'beaten' && FPClientPrefs.warLock == 'beaten' && FPClientPrefs.sinsLock == 'beaten' && FPClientPrefs.huntedLock == 'beaten' && FPClientPrefs.blessLock == 'beaten' && FPClientPrefs.scrappedLock == 'beaten' && FPClientPrefs.mercyLock == 'beaten' && FPClientPrefs.oldisolateLock == 'beaten' && FPClientPrefs.betaisolateLock == 'beaten') //omfg, I hate this, why can't it just work some other, much more SIMPLER way?
 		{
-			songs.push({
-				name: songName,
-				week: weekNum,
-				character: songCharacter,
-				color: songColor
-			});
-			existingDifficulties.push(coolDifficultyArray);
+			if(ClientPrefs.language == "Spanish") freeplayCats = ['Legado', 'Jugar', 'Un Mensaje Para It', 'Cubiertas'];
+			else freeplayCats = ['Legacy', 'Episodes', 'Extras', 'Covers'];
+		}else*/ freeplayCats = ['Episodes', 'Extras'];
+
+        BG = new FlxSprite().loadGraphic(Paths.image('menus/base/menuDesat'));
+		BG.updateHitbox();
+		BG.screenCenter();
+		add(BG);
+
+		#if desktop
+		// Updating Discord Rich Presence
+		Discord.changePresence("In Freeplay", "Category Menu");
+		#end
+
+		Application.current.window.title = "Funkin.avi - Freeplay: Category Menu";
+
+        grpCats = new FlxTypedGroup<Alphabet>();
+		add(grpCats);
+        for (i in 0...freeplayCats.length)
+        {
+			var catsText:Alphabet = new Alphabet(0, (70 * i) + 250, freeplayCats[i], true, false);
+            catsText.targetY = i;
+			catsText.isMenuItem = true;
+			grpCats.add(catsText);
 		}
+
+		leftArrow = new FlxSprite(120, 0);
+		leftArrow.frames = ui_tex;
+		leftArrow.angle = 90;
+		leftArrow.animation.addByPrefix('idle', "arrow left");
+		leftArrow.animation.addByPrefix('press', "arrow push left");
+		leftArrow.animation.play('idle');
+		leftArrow.screenCenter(X);
+		leftArrow.antialiasing = true;
+		add(leftArrow);
+
+		rightArrow = new FlxSprite(leftArrow.x, leftArrow.y + 80);
+		rightArrow.frames = ui_tex;
+		//Im Fucking Lazy
+		rightArrow.flipX = true;
+		rightArrow.screenCenter(X);
+		rightArrow.flipY = true;
+		rightArrow.angle = 270;
+		rightArrow.animation.addByPrefix('idle', 'arrow right');
+		rightArrow.animation.addByPrefix('press', "arrow push right", 24, false);
+		rightArrow.animation.play('idle');
+		rightArrow.antialiasing = true;
+		add(rightArrow);
+
+			unfinishedText = new FlxText(907, FlxG.height - 54, 0, "Currently, The category Menu is Unfinished, The Final Verion Will Be Different!", 25);
+			unfinishedText.scrollFactor.set();
+			unfinishedText.screenCenter(X);
+			unfinishedText.setFormat(Paths.font("NewWaltDisneyFontRegular-BPen.ttf"), 25, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			add(unfinishedText);
+
+		var scratchStuff:FlxSprite = new FlxSprite();
+		scratchStuff.frames = Paths.getSparrowAtlas('filters/scratchShit');
+		scratchStuff.animation.addByPrefix('idle', 'scratch thing 1', 24, true);
+		scratchStuff.animation.play('idle');
+		scratchStuff.screenCenter();
+		scratchStuff.scale.x = 1.1;
+		scratchStuff.scale.y = 1.1;
+		add(scratchStuff);
+
+		var grain:FlxSprite = new FlxSprite();
+		grain.frames = Paths.getSparrowAtlas('filters/Grainshit');
+		grain.animation.addByPrefix('idle', 'grains 1', 24, true);
+		grain.animation.play('idle');
+		grain.screenCenter();
+		grain.scale.x = 1.1;
+		grain.scale.y = 1.1;
+		add(grain);
+
+		debugTxt = new FlxText(0, 0, 0, 'Void Menu Attempts: ${timesToEnter}', 50);
+		//add(debugTxt);
+
+        changeSelection();
+        super.create();
+    }
+
+	function updateCounter()
+	{
+		timesToEnter -= 1;
+		//debugTxt.text = 'Void Menu Attempts: ${timesToEnter}';
 	}
 
-	public function addWeek(songs:Array<String>, weekNum:Int, ?songCharacters:Array<String>, ?songColor:Array<FlxColor>)
-	{
-		if (songCharacters == null)
-			songCharacters = ['bf'];
-		if (songColor == null)
-			songColor = [FlxColor.WHITE];
+    override public function update(elapsed:Float){
 
-		var num:Array<Int> = [0, 0];
-		for (song in songs)
-		{
-			addSong(song, weekNum, songCharacters[num[0]], songColor[num[1]]);
+		var up = Controls.getPressEvent("ui_up", "pressed");
+		var down = Controls.getPressEvent("ui_down", "pressed");
+		var up_p = Controls.getPressEvent("ui_up");
+		var down_p = Controls.getPressEvent("ui_down");
 
-			if (songCharacters.length != 1)
-				num[0]++;
-			if (songColor.length != 1)
-				num[1]++;
-		}
-	}
-
-	override function update(elapsed:Float)
-	{
-		super.update(elapsed);
-
-		if (bg != null && mainColor != null)
-			FlxTween.color(bg, 0.35, bg.color, mainColor);
-
-		var lerpVal = Main.framerateAdjust(0.1);
-		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, lerpVal));
-
-		if (Math.abs(lerpScore - intendedScore) <= 10)
-			lerpScore = intendedScore;
-
-		var upP = Controls.getPressEvent("ui_up");
-		var downP = Controls.getPressEvent("ui_down");
-		var accepted = Controls.getPressEvent("accept");
-
-		if (upP)
+		if (up_p && curSelected != 0) 
 			changeSelection(-1);
-		else if (downP)
+		else if (up_p && curSelected == 0) {
+			updateCounter();
+			FlxG.sound.play(Paths.sound('cancelMenu'));
+		}
+		if (down_p && curSelected != 2) 
 			changeSelection(1);
+		else if (down_p && curSelected == 2) {
+			updateCounter();
+			FlxG.sound.play(Paths.sound('cancelMenu'));
+		}
+		//Mouse supremacy
+		
+		if ((Controls.getPressEvent("back"))) {
+			Main.switchState(this, new states.menus.MainMenu());
+		}
 
-		if (Controls.getPressEvent("ui_left"))
-			changeDiff(-1);
-		if (Controls.getPressEvent("ui_right"))
-			changeDiff(1);
-
-		if (Controls.getPressEvent("back"))
-		{
-			if (!FlxG.keys.pressed.SHIFT)
-			{
-				FlxG.sound.play(Paths.sound('base/menus/cancelMenu'));
-				FlxG.sound.music.stop();
+		//yay
+			/*else if(Flx.mouse.justPressed && curSelected == 2 && timesToEnter == -1)
+				MusicBeatState.switchState(new VoidState());*/
+			//SECRET SONG?!?!?!?!?!
+		if(FlxG.mouse.overlaps(leftArrow)) {
+			if(FlxG.mouse.justPressed && curSelected != 0)
+				changeSelection(-1);
+			else if(FlxG.mouse.justPressed && curSelected == 0) {
+				updateCounter();
+				FlxG.sound.play(Paths.sound('cancelMenu'));
 			}
-			threadActive = false;
-			Main.switchState(this, new MainMenu());
 		}
 
-		if (accepted)
-		{
-			var song = songs[curSelected].name.toLowerCase();
 
-			var poop:String = ScoreUtils.formatSong(song, CoolUtil.difficulties.indexOf(existingDifficulties[curSelected][curDifficulty]));
-
-			PlayState.SONG = Song.loadFromJson(poop, song);
-
-			PlayState.gameplayMode = FREEPLAY;
-			PlayState.storyDifficulty = curDifficulty;
-			PlayState.storyWeek = songs[curSelected].week;
-
-			CoolUtil.difficultyString = existingDifficulties[curSelected][curDifficulty];
-
-			if (FlxG.sound.music != null)
-				FlxG.sound.music.stop();
-
-			threadActive = false;
-
-			if (FlxG.keys.pressed.SHIFT)
-			{
-				PlayState.SONG.validScore = false;
-				Main.switchState(this, new states.editors.OriginalChartingState());
+        if ((Controls.getPressEvent("accept"))){
+            switch(curSelected){
+                case 0:
+					Main.switchState(this, new states.menus.freeplay.FreeplayState());
+                case 1:
+					Main.switchState(this, new states.menus.freeplay.ExtrasState());
+				/*case 3:
+					//MusicBeatState.switchState(new CoversState());
+					/*if(FPClientPrefs.episode2FPLock == 'unlocked' && FPClientPrefs.malfunctionLock == 'beaten' && FPClientPrefs.crossinLock == 'beaten' && FPClientPrefs.warLock == 'beaten' && FPClientPrefs.sinsLock == 'beaten' && FPClientPrefs.huntedLock == 'beaten' && FPClientPrefs.blessLock == 'beaten' && FPClientPrefs.scrappedLock == 'beaten' && FPClientPrefs.mercyLock == 'beaten' && FPClientPrefs.oldisolateLock == 'beaten' && FPClientPrefs.betaisolateLock == 'beaten') //omfg, I hate this, why can't it just work some other, much more SIMPLER way?
+					{
+						MusicBeatState.switchState(new CoversState());
+					}else{
+						FlxG.sound.play(Paths.sound('cancelMenu'));
+						noCovers.alpha = 1;
+						FlxTween.tween(noCovers, {alpha: 0}, 1.5, {ease: FlxEase.quadIn, startDelay: 2});*/
+					//}
 			}
-			else
-				Main.switchState(this, new PlayState());
-		}
+            }
 
-		// Adhere the position of all the things (I'm sorry it was just so ugly before I had to fix it Shubs)
-		scoreText.text = "PERSONAL BEST:" + lerpScore;
-		scoreText.x = FlxG.width - scoreText.width - 5;
-		scoreBG.width = scoreText.width + 8;
-		scoreBG.x = FlxG.width - scoreBG.width;
-		diffText.x = scoreBG.x + (scoreBG.width / 2) - (diffText.width / 2);
+        super.update(elapsed);
+    }
 
-		mutex.acquire();
-		if (songToPlay != null)
-		{
-			FlxG.sound.playMusic(songToPlay);
-
-			if (FlxG.sound.music.fadeTween != null)
-				FlxG.sound.music.fadeTween.cancel();
-
-			FlxG.sound.music.volume = 0.0;
-			FlxG.sound.music.fadeIn(1.0, 0.0, 1.0);
-
-			songToPlay = null;
-		}
-		mutex.release();
-	}
-
-	var lastDifficulty:String;
-
-	function changeDiff(change:Int = 0)
-	{
-		curDifficulty += change;
-		if (lastDifficulty != null && change != 0)
-			while (existingDifficulties[curSelected][curDifficulty] == lastDifficulty)
-				curDifficulty += change;
-
-		if (curDifficulty < 0)
-			curDifficulty = existingDifficulties[curSelected].length - 1;
-		if (curDifficulty > existingDifficulties[curSelected].length - 1)
-			curDifficulty = 0;
-
-		intendedScore = ScoreUtils.getScore(songs[curSelected].name, curDifficulty);
-
-		diffText.text = '< ' + existingDifficulties[curSelected][curDifficulty] + ' >';
-		lastDifficulty = existingDifficulties[curSelected][curDifficulty];
-	}
-
-	function changeSelection(change:Int = 0)
-	{
-		FlxG.sound.play(Paths.sound('base/menus/scrollMenu'), 0.4);
-		curSelected = FlxMath.wrap(curSelected + change, 0, songs.length - 1);
-
-		intendedScore = ScoreUtils.getScore(songs[curSelected].name, curDifficulty);
-
-		// set up color stuffs
-		mainColor = songs[curSelected].color;
-
-		// song switching stuffs
+    function changeSelection(change:Int = 0) {
+		curSelected += change;
+		if (curSelected < 0)
+			curSelected = freeplayCats.length - 1;
+		if (curSelected >= freeplayCats.length)
+			curSelected = 0;
 
 		var bullShit:Int = 0;
 
-		for (i in 0...iconArray.length)
-			iconArray[i].alpha = 0.6;
-
-		iconArray[curSelected].alpha = 1;
-
-		for (item in grpSongs.members)
-		{
+		for (item in grpCats.members) {
 			item.targetY = bullShit - curSelected;
 			bullShit++;
 
 			item.alpha = 0.6;
-			if (item.targetY == 0)
+			if (item.targetY == 0) {
 				item.alpha = 1;
+			}
 		}
+		FlxG.sound.play(Paths.sound('funkinAVI/menu/scroll_sfx'));
 
-		changeDiff();
-		changeSongPlaying();
-		updateDiscord();
-	}
-
-	function changeSongPlaying()
-	{
-		if (songThread == null)
-		{
-			songThread = Thread.create(function()
+		/*if(curSelected == 3)
 			{
-				while (true)
+				if(FPClientPrefs.malfunctionLock != 'beaten' || FPClientPrefs.crossinLock != 'beaten' || FPClientPrefs.warLock != 'beaten' || FPClientPrefs.sinsLock != 'beaten' || FPClientPrefs.huntedLock != 'beaten' || FPClientPrefs.blessLock != 'beaten' || FPClientPrefs.scrappedLock != 'beaten' || FPClientPrefs.mercyLock != 'beaten' || FPClientPrefs.oldisolateLock != 'beaten' || FPClientPrefs.betaisolateLock != 'beaten') //omfg, I hate this, why can't it just work some other, much more SIMPLER way?))
+				{	
+				FlxG.camera.flash(FlxColor.BLACK, 0.6);
+				FlxG.camera.shake(0.004, 99999999);
+				if(ClientPrefs.funiShaders)
 				{
-					if (!threadActive)
-						return;
+				clearShader();
+				chrom = new ChromaticAberrationEffect();
+				blurThisShit = new TiltshiftEffect(0.6, 0);
 
-					var index:Null<Int> = Thread.readMessage(false);
-					if (index != null)
-					{
-						if (index == curSelected && index != curSongPlaying)
-						{
-							var inst:Sound = Paths.inst(songs[curSelected].name);
+				distort = new WIDistortionEffect(0.75, 0.25, false);
+				distort.shader.working.value = [true];
 
-							if (index == curSelected && threadActive)
-							{
-								mutex.acquire();
-								songToPlay = inst;
-								mutex.release();
+				addShader(distort);
+				addShader(chrom);
+				addShader(blurThisShit);
 
-								curSongPlaying = curSelected;
-							}
-						}
-					}
+					if (chrom != null)
+				chrom.setChrome(0.005);
+
+				if(blurThisShit != null)
+				blurThisShit.setBlur(0.6);
+
+				if (distort != null)
+				distort.shader.working.value = [true];
 				}
-			});
-		}
+			}
+		}else if(curSelected == 2 && FPClientPrefs.episode1FPLock != 'unlocked' || curSelected == 1 && FPClientPrefs.episode1FPLock != 'unlocked')
+						{
+							FlxG.camera.flash(FlxColor.BLACK, 0.6);
+							FlxG.camera.shake(0.004, 99999999);
+							if(ClientPrefs.funiShaders)
+							{
+							clearShader();
+							chrom = new ChromaticAberrationEffect();
+							blurThisShit = new TiltshiftEffect(0.6, 0);
 
-		songThread.sendMessage(curSelected);
-	}
+							distort = new WIDistortionEffect(0.75, 0.25, false);
+							distort.shader.working.value = [true];
 
-	function updateDiscord()
-	{
-		var mySong:String = ' [Listening to: ${songs[curSelected].name}]';
-		#if DISCORD_RPC
-		Discord.changePresence('CHOOSING A SONG', 'Freeplay Menu' + mySong);
-		#end
+							addShader(distort);
+							addShader(chrom);
+							addShader(blurThisShit);
+
+								if (chrom != null)
+							chrom.setChrome(0.005);
+
+							if(blurThisShit != null)
+							blurThisShit.setBlur(0.6);
+
+							if (distort != null)
+							distort.shader.working.value = [true];
+							}
+						}else{
+							FlxG.camera.flash(FlxColor.BLACK, 0.2);
+							if(ClientPrefs.funiShaders)
+							{
+							clearShader();
+							chrom = new ChromaticAberrationEffect();
+							blurThisShit = new TiltshiftEffect(0.4, 0);
+							bloomShit = new WIBloomEffect(0);
+							greyscale = new GreyscaleEffect();
+							//uncomment these fucking pieces of shit if you feel like testing it.
+
+							addShader(chrom);
+							addShader(blurThisShit);
+							addShader(bloomShit);
+							addShader(greyscale);
+							//uncomment these fucking pieces of shit if you feel like testing it.
+
+							if(!ClientPrefs.optimization) {
+							if (chrom != null)
+							chrom.setChrome(0.003);
+
+							if (bloomShit != null)
+							bloomShit.setSize(18.0);
+
+							if(blurThisShit != null)
+							blurThisShit.setBlur(0.4);
+							}
+							//uncomment these fucking pieces of shit if you feel like testing it.
+							}
+							FlxG.camera.shake(0.004, 0);
+						}*/
 	}
 }

@@ -303,4 +303,9 @@ class Main extends Sprite
 
 		destroyGame();
 	}
+
+	public static function getOption(e:String)
+		{
+			return Init.trueSettings.get(e);
+		}
 }

@@ -142,7 +142,7 @@ class PauseSubstate extends MusicBeatSubstate
 					if (PlayState.gameplayMode == STORY)
 						Main.switchState(this, new StoryMenu());
 					else
-						Main.switchState(this, new FreeplayMenu());
+						Main.switchState(this, new states.menus.freeplay.FreeplayState());
 			}
 		}
 

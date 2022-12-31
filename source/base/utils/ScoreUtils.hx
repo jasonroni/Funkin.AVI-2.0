@@ -313,7 +313,6 @@ class ScoreUtils
 
 		// this updates the most so uh
 		PlayState.uiHUD.updateScoreText();
-		PlayState.uiHUD.colorHighlight(curRating);
 	}
 
 	public static function setJudgeTiming(rating:Int, newTiming:Float)
