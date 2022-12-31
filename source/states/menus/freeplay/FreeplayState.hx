@@ -74,12 +74,12 @@ class FreeplayState extends MusicBeatState
         lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Main Story";
 
 
-        addSong('Isolated', 3, 'mickey', FlxColor.fromRGB(60, 60, 60));
-        addSong('Lunacy', 3, 'lunamick', FlxColor.fromRGB(60, 60, 60));
+        addSong('Isolated', 3, 'mickey-new', FlxColor.fromRGB(60, 60, 60));
+        addSong('Lunacy', 3, 'lunamick-new', FlxColor.fromRGB(60, 60, 60));
         addSong('Delusional', 3, 'insanemick', FlxColor.fromRGB(60, 60, 60));
-        addSong('Twisted Grins', 3, 'smile', FlxColor.fromRGB(115, 86, 86));
-        addSong('Facade', 3, 'smile', FlxColor.fromRGB(115, 86, 86));
-        addSong('Mortiferum Risus', 3, 'smile', FlxColor.fromRGB(115, 86, 86));
+        addSong('Twisted-Grins', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
+        addSong('Facade', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
+        addSong('Mortiferum-Risus', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
 
 		mutex = new Mutex();
 

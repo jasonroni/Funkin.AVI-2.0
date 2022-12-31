@@ -1932,7 +1932,7 @@ class PlayState extends MusicBeatState
 				ForeverTools.resetMenuMusic();
 				clearStored = true;
 			case FREEPLAY:
-				Main.switchState(this, new FreeplayMenu());
+				Main.switchState(this, new states.menus.freeplay.FreeplayState());
 				clearStored = true;
 			case CHARTING:
 				openSubState(new states.substates.PauseSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y,
