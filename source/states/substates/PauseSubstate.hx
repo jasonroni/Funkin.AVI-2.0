@@ -28,6 +28,8 @@ class PauseSubstate extends MusicBeatSubstate
 
 	var mutex:Mutex;
 
+	var disc:FlxSprite;
+
 	public function new(x:Float, y:Float, ?itemStack:Array<String>)
 	{
 		super();
@@ -62,6 +64,11 @@ class PauseSubstate extends MusicBeatSubstate
 		bg.alpha = 0;
 		bg.scrollFactor.set();
 		add(bg);
+
+		disc = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/pause/disc'));
+		disc.screenCenter();
+		FlxTween.tween(disc, {angle: 360}, 2, {type: FlxTweenType.LOOPING});
+		add(disc);
 
 		var levelInfo:FlxText = new FlxText(20, 15, 0, "", 32);
 		levelInfo.text += CoolUtil.dashToSpace(PlayState.SONG.song) + ' [${CoolUtil.difficultyString}]';
@@ -124,6 +131,7 @@ class PauseSubstate extends MusicBeatSubstate
 			{
 				case "Resume":
 					close();
+					remove(disc);
 				case "Restart Song":
 					Main.switchState(this, new PlayState());
 				case "Back to Charter":

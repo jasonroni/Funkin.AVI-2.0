@@ -125,6 +125,8 @@ class PlayState extends MusicBeatState
 	public static var camHUD:FlxCamera;
 	public static var camGame:FlxCamera;
 	public static var dialogueHUD:FlxCamera;
+	public static var camScratch:FlxCamera;
+	public static var camOther:FlxCamera;
 	public static var camAlt:FlxCamera;
 
 	private static var prevCamFollow:FlxObject;
@@ -169,6 +171,9 @@ class PlayState extends MusicBeatState
 	public var comboGroup:FlxTypedGroup<FNFSprite>;
 
 	public var gfSpeed:Int = 1;
+
+	public var scratch:FlxSprite; // Peter Griffin: This reminds me of the time I met the Scratch cat
+	public var scratchButLessVisible:FlxSprite;
 
 	function resetStatics()
 	{
@@ -292,15 +297,21 @@ class PlayState extends MusicBeatState
 		camHUD = new FlxCamera();
 		dialogueHUD = new FlxCamera();
 		camAlt = new FlxCamera();
+		camScratch = new FlxCamera();
+		camOther = new FlxCamera();
 
 		camHUD.bgColor.alpha = 0;
 		dialogueHUD.bgColor.alpha = 0;
 		camAlt.bgColor.alpha = 0;
+		camOther.bgColor.alpha = 0;
+		camScratch.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
 
 		// HUD Camera so HUD objects stay on screen
 		FlxG.cameras.add(camHUD, false);
+		FlxG.cameras.add(camOther, false);
+		FlxG.cameras.add(camScratch, false);
 		allUIs.push(camHUD);
 
 		// always draw new objects on the main camera
@@ -441,6 +452,22 @@ class PlayState extends MusicBeatState
 
 		Paths.clearUnusedMemory();
 
+
+		scratchButLessVisible = new FlxSprite();
+		scratchButLessVisible.frames = Paths.getSparrowAtlas('filters/scratchShit');
+		scratchButLessVisible.animation.addByPrefix('e', 'scratch thing', 24, true);
+		scratchButLessVisible.animation.play('e');
+		scratchButLessVisible.cameras = [camScratch];
+		scratchButLessVisible.alpha = 0.5;
+		add(scratchButLessVisible);
+
+		scratch = new FlxSprite();
+		scratch.frames = Paths.getSparrowAtlas('filters/scratchShit');
+		scratch.animation.addByPrefix('e', 'scratch thing', 24, true);
+		scratch.animation.play('e');
+		scratch.cameras = [camScratch];
+		add(scratch);
+
 		// call the funny intro cutscene depending on the song
 		songCutscene(false);
 	}
@@ -572,9 +599,6 @@ class PlayState extends MusicBeatState
 	public function updateSectionCamera(value:String, isPlayer:Bool = false)
 	{
 		var char = opponent;
-
-		if (value == "center")
-			return;
 
 		switch (value)
 		{
@@ -1459,32 +1483,34 @@ class PlayState extends MusicBeatState
 
 	public function eventTrigger(name:String, params:Array<String>)
 	{
-		if (name == "Multiply Scroll Speed")
+		switch(name)
 		{
-			var mult:Float = Std.parseFloat(params[0]);
-			var timer:Float = Std.parseFloat(params[1]);
-			if (Math.isNaN(mult))
-				mult = 1;
-			if (Math.isNaN(timer))
-				timer = 0;
+			case 'Multiply Scroll Speed':
+				var mult:Float = Std.parseFloat(params[0]);
+				var timer:Float = Std.parseFloat(params[1]);
+				if (Math.isNaN(mult))
+					mult = 1;
+				if (Math.isNaN(timer))
+					timer = 0;
 
-			var speed = SONG.speed * mult;
+				var speed = SONG.speed * mult;
 
-			if (mult <= 0)
-				songSpeed = speed;
-			else
-			{
-				if (songSpeedTween != null)
-					songSpeedTween.cancel();
-				songSpeedTween = FlxTween.tween(this, {songSpeed: speed}, timer, {
-					ease: ForeverTools.returnTweenEase(params[2]),
-					onComplete: function(twn:FlxTween)
-					{
-						songSpeedTween = null;
-					}
-				});
-			}
+				if (mult <= 0)
+					songSpeed = speed;
+				else
+				{
+					if (songSpeedTween != null)
+						songSpeedTween.cancel();
+					songSpeedTween = FlxTween.tween(this, {songSpeed: speed}, timer, {
+						ease: ForeverTools.returnTweenEase(params[2]),
+						onComplete: function(twn:FlxTween)
+						{
+							songSpeedTween = null;
+						}
+					});
+				}
 		}
+		
 		if (Events.loadedEvents.get(name) != null)
 		{
 			var eventModule:ScriptHandler = Events.loadedEvents.get(name);
@@ -1989,6 +2015,14 @@ class PlayState extends MusicBeatState
 		{
 			logTrace(text, time, onConsole);
 		});
+
+		setVar('GameSystem', Sys);
+
+		setVar('GameWindow', lime.app.Application.current.window);
+		setVar('getGameMeta', function(meta:String)
+			{
+			return lime.app.Application.current.meta.get(meta);
+			});
 
 		// CHARACTERS
 		setVar('songName', PlayState.SONG.song.toLowerCase());

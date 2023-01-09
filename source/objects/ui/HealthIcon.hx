@@ -31,7 +31,7 @@ class HealthIcon extends FlxSprite
 
 	public dynamic function updateAnim(health:Float)
 	{
-		if (frames.frames.length >= 3 && health > 80)
+		if (health > 80)
 			animation.curAnim.curFrame = 2;
 		if (health < 20)
 			animation.curAnim.curFrame = 1;

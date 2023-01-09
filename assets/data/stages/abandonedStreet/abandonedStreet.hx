@@ -1,9 +1,15 @@
+var blackFade;
+
 function onCreate()
 	{
 		spawnGirlfriend(false);
 		PlayState.defaultCamZoom = 0.87;
-		PlayState.cameraSpeed = 1;
+	if (PlayState.SONG.song == "Isolated") {
 		PlayState.camHUD.alpha = 0;
+		PlayState.camGame.alpha = 0;
+	}
+		PlayState.cameraSpeed = 1;
+		PlayState.skipCountdown = true;
 	
 		var colorsOrSmthElse:FNFSprite = new FNFSprite(-990, 1600).loadGraphic(Paths.image('randomColors', 'data/stages/abandonedStreet/images'));
 		colorsOrSmthElse.setGraphicSize(Std.int(colorsOrSmthElse.width * 4));
@@ -33,15 +39,6 @@ function onCreate()
 		stageCurtains.active = false;
 		add(stageCurtains);
 	
-		var blackFade:FNFSprite = new FNFSprite(stageCurtains.x - 200, stageCurtains.y - 300).loadGraphic(Paths.image('black', 'data/stages/abandonedStreet/images'));
-		blackFade.setGraphicSize(Std.int(blackFade.width * 7));
-		blackFade.updateHitbox();
-		blackFade.antialiasing = true;
-		blackFade.cameras = [PlayState.camAlt];
-		blackFade.scrollFactor.set(1.3, 1.3);
-		blackFade.active = false;
-		add(blackFade);
-	
 		var stageFront:FNFSprite = new FNFSprite(-1570, 130).loadGraphic(Paths.image('cables', 'data/stages/abandonedStreet/images'));
 		stageFront.scale.set(5.1, 1.6);
 		stageFront.updateHitbox();
@@ -51,12 +48,27 @@ function onCreate()
 		add(stageFront);
 	
 	
-		FlxTween.tween(PlayState.camHUD, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 9});
-		FlxTween.tween(blackFade, {alpha: 0}, 3, {ease: FlxEase.quadOut, startDelay: 6});
-	}
+		if(PlayState.SONG.song == "Isolated") 
+			FlxTween.tween(PlayState.camHUD, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 9});
+
+	    if (PlayState.SONG.song == "Isolated")
+		FlxTween.tween(PlayState.camGame, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 6});
+		}
 	
 	function charStagePos(boyfriend:Character, gf:Character, dad:Character)
 	{
-		dad.setPosition(-150, 420);
-		boyfriend.setPosition(350, 0);
+		dad.setPosition(-230, 420);
+		boyfriend.setPosition(260, 0);
+	}
+
+function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
+	{
+			if(curBeat == 96)
+			{
+				if(curBeat % 1 == 0)
+				{
+					FlxG.camera.zoom += 0.1;
+					PlayState.camHUD.zoom += 0.11;
+				}
+			}
 	}
