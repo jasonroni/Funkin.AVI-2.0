@@ -48,27 +48,14 @@ function onCreate()
 		add(stageFront);
 	
 	
-		if(PlayState.SONG.song == "Isolated") 
+		if(PlayState.SONG.song == "Isolated") {
 			FlxTween.tween(PlayState.camHUD, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 9});
-
-	    if (PlayState.SONG.song == "Isolated")
-		FlxTween.tween(PlayState.camGame, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 6});
+			FlxTween.tween(PlayState.camGame, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 6});
 		}
+	}
 	
 	function charStagePos(boyfriend:Character, gf:Character, dad:Character)
 	{
 		dad.setPosition(-230, 420);
 		boyfriend.setPosition(260, 0);
-	}
-
-function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
-	{
-			if(curBeat == 96)
-			{
-				if(curBeat % 1 == 0)
-				{
-					FlxG.camera.zoom += 0.1;
-					PlayState.camHUD.zoom += 0.11;
-				}
-			}
 	}
