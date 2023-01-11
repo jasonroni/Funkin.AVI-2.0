@@ -304,8 +304,14 @@ class Main extends Sprite
 		destroyGame();
 	}
 
+	@:deprecated('Use "option" instead')
 	public static function getOption(e:String)
-		{
-			return Init.trueSettings.get(e);
-		}
+	{
+		return Init.trueSettings.get(e);
+	}
+
+	public static function option(e:String)
+	{
+		return Init.trueSettings.get(e);
+	}
 }

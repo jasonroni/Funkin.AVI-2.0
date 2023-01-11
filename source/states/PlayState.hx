@@ -40,6 +40,7 @@ import states.substates.GameOverSubstate;
 #if desktop
 import base.dependency.Discord;
 #end
+import objects.ui.hud.*;
 
 enum GameMode
 {
@@ -141,7 +142,10 @@ class PlayState extends MusicBeatState
 	public static var cameraBumpSpeed:Float = 4;
 
 	// User Interface and Objects
-	public static var uiHUD:ClassHUD;
+	public static var uiHUD:ClassHUD; //default HUD
+	public static var psychHUD:PsychHUD;
+	public static var vanillaHUD:VanillaHUD;
+	public static var demolitionHUD:DemolitionHUD;
 	public static var daPixelZoom:Float = 6;
 
 	public static var stageBuild:Stage;
@@ -428,6 +432,21 @@ class PlayState extends MusicBeatState
 		uiHUD.alpha = 0;
 		add(uiHUD);
 		uiHUD.cameras = [camHUD];
+
+		psychHUD = new PsychHUD();
+		psychHUD.alpha = 0;
+		add(psychHUD);
+		psychHUD.cameras = [camHUD];
+
+		demolitionHUD = new DemolitionHUD();
+		demolitionHUD.alpha = 0;
+		add(demolitionHUD);
+		demolitionHUD.cameras = [camHUD];
+
+		vanillaHUD = new VanillaHUD();
+		vanillaHUD.alpha = 0;
+		add(vanillaHUD);
+		vanillaHUD.cameras = [camHUD];
 
 		if (Init.trueSettings.get('Judgement Recycling'))
 		{
@@ -1888,7 +1907,14 @@ class PlayState extends MusicBeatState
 		}
 		//
 
-		FlxTween.tween(uiHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+		switch(Main.getOption('HUD Style').toLowerCase())
+		{
+			case 'psych':
+				FlxTween.tween(psychHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+
+			default: //forever HUD
+				FlxTween.tween(uiHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+		}
 
 		if (skipCountdown)
 		{

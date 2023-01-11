@@ -373,8 +373,10 @@ class ExtrasState extends MusicBeatState
 
 		var bullShit:Int = 0;
 
-		for (i in 0...iconArray.length)
+		for (i in 0...iconArray.length) {
 			iconArray[i].alpha = 0.6;
+			iconArray[i].scale.set(0.8,0.8);
+		}
 
 		iconArray[curSelected].alpha = 1;
 
@@ -384,9 +386,14 @@ class ExtrasState extends MusicBeatState
 			bullShit++;
 
 			item.alpha = 0.6;
-			if (item.targetY == 0)
+			item.scale.set(0.77, 0.77);
+			item.x += 55;
+			if (item.targetY == 0) {
 				item.alpha = 1;
+				item.scale.set(1, 1);
+				item.x = 0;
 		}
+	}
 
 		changeDiff();
 		changeSongPlaying();
