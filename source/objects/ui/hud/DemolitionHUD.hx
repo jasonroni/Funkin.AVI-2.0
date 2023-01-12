@@ -9,14 +9,19 @@ import flixel.text.FlxText;
 import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
+import base.song.Conductor;
 import states.PlayState;
 
 class DemolitionHUD extends FlxSpriteGroup
 {
 	// bar variables
 	public var scoreBar:FlxText;
+	public var songTime:FlxText;
 	public var healthBarBG:FlxSprite;
 	public var healthBar:FlxBar;
+	public var timeBarBG:FlxSprite;
+	public var timeBar:FlxBar;
+	public var songPercent:Float = 0;
 
 	// mark variables
 	public var cornerMark:FlxText; // engine mark at the upper right corner
@@ -44,17 +49,54 @@ class DemolitionHUD extends FlxSpriteGroup
 	{
 		// call the initializations and stuffs
 		super();
+		
+		// time bar stuff
+		timeBarBG = new FlxSprite(0, 0).loadGraphic(Paths.image(ForeverTools.returnSkinAsset('healthBar', PlayState.assetModifier, PlayState.changeableSkin, 'UI')));
+		timeBarBG.x = 600;
+		if (Init.trueSettings.get('Downscroll')) timeBarBG.y = 0.063 * FlxG.height; else timeBarBG.y = 673;
+		timeBarBG.scrollFactor.set();
+		
+		timeBar = new FlxBar(timeBarBG.x + 4, timeBarBG.y + 4, RIGHT_TO_LEFT, Std.int(timeBarBG.width - 8), Std.int(timeBarBG.height - 8), this, 'songPercent', 0, 100, true);
+		timeBar.scrollFactor.set();
+		switch(PlayState.SONG.song)
+		{
+			case 'Bless':
+				timeBar.createFilledBar(0xFFFF0000, 0xFFFFF200);
+			case 'Scrapped':
+				timeBar.createFilledBar(0xFF0008FF, 0xFF11C700);
+			case 'Sink':
+				timeBar.createFilledBar(0xFF630000, 0xFFD70000);
+			case 'Invincible':
+				timeBar.createFilledBar(0xFF000000, 0xFF52627D);
+			case 'Neglection':
+				timeBar.createFilledBar(0xFF0088FF, 0xFFE2E2E2);
+			case 'Infitrigger':
+				timeBar.createFilledBar(0xFFFFFFFF, 0xFFD400FF);
+			case 'Mercy':
+				timeBar.createFilledBar(0xFFC78800, 0xFFFFF4BA);
+			default:
+				timeBar.createFilledBar(0xFF2E2E2E, 0xFFB7B7B7);
+		}
+		
+		if (Init.trueSettings.get('Downscroll')) songTime = new FlxText(450, 70, 400, "", 32); else songTime = new FlxText(450, 655, 400, "", 32);
+		songTime.setFormat(Paths.font("m40.ttf"), 9, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
+		songTime.scrollFactor.set();
+		songTime.borderSize = 2;
+	
+		add(timeBarBG);
+		add(timeBar);
+		add(songTime);
 
 		// le healthbar setup
-		var barY = FlxG.height * 0.875;
-		if (Init.trueSettings.get('Downscroll'))
-			barY = 64;
-
 		healthBarBG = new FlxSprite(0,
-			barY).loadGraphic(Paths.image(ForeverTools.returnSkinAsset('healthBar', PlayState.assetModifier, PlayState.changeableSkin, 'UI')));
-		healthBarBG.screenCenter(X);
+			0).loadGraphic(Paths.image(ForeverTools.returnSkinAsset('healthBar', PlayState.assetModifier, PlayState.changeableSkin, 'UI')));
+		healthBarBG.y = FlxG.height * 0.95;
+		healthBarBG.x = 230;
+		healthBarBG.scale.set(1.6, 1);
 		healthBarBG.scrollFactor.set();
 		add(healthBarBG);
+		if(Init.trueSettings.get('Downscroll')) healthBarBG.y = 0.05 * FlxG.height;
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8));
 		healthBar.scrollFactor.set();
@@ -62,10 +104,12 @@ class DemolitionHUD extends FlxSpriteGroup
 		add(healthBar);
 
 		iconP1 = new HealthIcon(PlayState.boyfriend.characterData.icon, true);
+		iconP1.scale.set(0.78, 0.78);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
 		add(iconP1);
 
 		iconP2 = new HealthIcon(PlayState.opponent.characterData.icon, false);
+		iconP2.scale.set(0.78, 0.78);
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		add(iconP2);
 
@@ -75,8 +119,9 @@ class DemolitionHUD extends FlxSpriteGroup
 		scoreBar.visible = !PlayState.bfStrums.autoplay;
 		updateScoreText();
 		add(scoreBar);
-
-		cornerMark = new FlxText(0, 0, 0, engineDisplay);
+	
+		// gonna do something with these later, just don't know what...
+		/*cornerMark = new FlxText(0, 0, 0, engineDisplay);
 		cornerMark.setFormat(Paths.font('vcr'), 18, FlxColor.WHITE);
 		cornerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		cornerMark.setPosition(FlxG.width - (cornerMark.width + 5), 5);
@@ -86,7 +131,7 @@ class DemolitionHUD extends FlxSpriteGroup
 		centerMark.setFormat(Paths.font('vcr'), 24, FlxColor.WHITE);
 		centerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		centerMark.screenCenter(X);
-		add(centerMark);
+		add(centerMark);*/
 
 		autoplayMark = new FlxText(-5, (Init.trueSettings.get('Downscroll') ? centerMark.y - 60 : centerMark.y + 60), FlxG.width - 800, '[AUTOPLAY]\n', 32);
 		autoplayMark.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE, CENTER);
@@ -154,14 +199,29 @@ class DemolitionHUD extends FlxSpriteGroup
 		iconP1.updateAnim(healthBar.percent);
 		iconP2.updateAnim(100 - healthBar.percent);
 
-		iconP1.bop(0.15);
-		iconP2.bop(0.15);
+		iconP1.bop(0.2);
+		iconP2.bop(0.2);
 
 		if (autoplayMark.visible)
 		{
 			autoplaySine += 180 * (elapsed / 4);
 			autoplayMark.alpha = 1 - Math.sin((Math.PI * autoplaySine) / 80);
 		}
+		
+		var curTime:Float = Conductor.songPosition;
+		if (curTime < 0)
+			curTime = 0;
+		songPercent = (curTime / PlayState.songLength);
+
+		var songCalc:Float = curTime;
+
+		var secondsTotal:Int = Math.floor(songCalc / 1000);
+		if (secondsTotal < 0)
+			secondsTotal = 0;
+		else if (secondsTotal >= Math.floor(PlayState.songLength / 1000))
+			secondsTotal = Math.floor(PlayState.songLength / 1000);
+
+		songTime.text = '${FlxStringUtil.formatTime(secondsTotal, false)} / ${FlxStringUtil.formatTime(Math.floor(songLength / 1000), false)}';
 	}
 
 	public static var divider:String = " • ";
@@ -178,8 +238,8 @@ class DemolitionHUD extends FlxSpriteGroup
 		if (Init.trueSettings.get('Display Accuracy'))
 		{
 			scoreDisplay += divider + markupDivider + 'Accuracy: ${ScoreUtils.returnAccuracy()}' + markupDivider;
-			scoreDisplay += markupDivider + ScoreUtils.returnRankingStatus() + markupDivider;
-			scoreDisplay += divider + 'Combo Breaks: ${ScoreUtils.misses}';
+			scoreDisplay += markupDivider + ScoreUtils.returnRankingStatus() /*+ markupDivider*/;
+			//scoreDisplay += divider + 'Combo Breaks: ${ScoreUtils.misses}'; // this is removed cause I'm gonna add the other shit later
 		}
 		scoreDisplay += '\n';
 
