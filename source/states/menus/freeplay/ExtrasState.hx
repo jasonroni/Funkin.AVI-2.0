@@ -379,6 +379,7 @@ class ExtrasState extends MusicBeatState
 		}
 
 		iconArray[curSelected].alpha = 1;
+		iconArray[curSelected].scale.set(1,1);
 
 		for (item in grpSongs.members)
 		{

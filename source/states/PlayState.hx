@@ -145,7 +145,8 @@ class PlayState extends MusicBeatState
 	public static var uiHUD:ClassHUD; //default HUD
 	public static var psychHUD:PsychHUD;
 	public static var vanillaHUD:VanillaHUD;
-	public static var demolitionHUD:DemolitionHUD;
+	public static var demolitionHUD:DemoHUD;
+	public static var kadeHUD:KadeHUD;
 	public static var daPixelZoom:Float = 6;
 
 	public static var stageBuild:Stage;
@@ -438,7 +439,7 @@ class PlayState extends MusicBeatState
 		add(psychHUD);
 		psychHUD.cameras = [camHUD];
 
-		demolitionHUD = new DemolitionHUD();
+		demolitionHUD = new DemoHUD();
 		demolitionHUD.alpha = 0;
 		add(demolitionHUD);
 		demolitionHUD.cameras = [camHUD];
@@ -447,6 +448,11 @@ class PlayState extends MusicBeatState
 		vanillaHUD.alpha = 0;
 		add(vanillaHUD);
 		vanillaHUD.cameras = [camHUD];
+
+		kadeHUD = new KadeHUD();
+		kadeHUD.alpha = 0;
+		add(kadeHUD);
+		kadeHUD.cameras = [camHUD];
 
 		if (Init.trueSettings.get('Judgement Recycling'))
 		{
@@ -704,7 +710,6 @@ class PlayState extends MusicBeatState
 						PlayState.SONG.validScore = false;
 						bfStrums.autoplay = !bfStrums.autoplay;
 						uiHUD.autoplayMark.visible = bfStrums.autoplay;
-						uiHUD.scoreBar.visible = !bfStrums.autoplay;
 					}
 
 					if (FlxG.keys.justPressed.SEVEN)
@@ -1911,6 +1916,15 @@ class PlayState extends MusicBeatState
 		{
 			case 'psych':
 				FlxTween.tween(psychHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+
+			case 'vanilla':
+				FlxTween.tween(vanillaHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+
+			case 'demolition':
+				FlxTween.tween(demolitionHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+
+			case 'kade':
+				FlxTween.tween(kadeHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 
 			default: //forever HUD
 				FlxTween.tween(uiHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});

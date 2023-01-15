@@ -134,7 +134,7 @@ class Init extends FlxState
 			Selector,
 			"Chooses a UI Style for gameplay",
 			NOT_FORCED,
-			['demolition', 'vanilla', 'forever', 'psych']
+			['demolition', 'vanilla', 'forever', 'psych', 'kade']
 		],
 		"UI Skin" => [
 			'default',

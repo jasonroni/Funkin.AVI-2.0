@@ -9,11 +9,9 @@ import flixel.text.FlxText;
 import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
-import flixel.util.FlxStringUtil;
-import base.song.Conductor;
 import states.PlayState;
 
-class PsychHUD extends FlxSpriteGroup
+class KadeHUD extends FlxSpriteGroup
 {
 	// bar variables
 	public var scoreBar:FlxText;
@@ -29,11 +27,6 @@ class PsychHUD extends FlxSpriteGroup
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
 
-	var songPercent:Float = 0;
-
-	public var timeTxt:FlxText;
-	public var timeBar:FlxBar;
-
 	// other
 	public var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop'; // fnf mods
 
@@ -42,9 +35,9 @@ class PsychHUD extends FlxSpriteGroup
 	public var timingsMap:Map<String, FlxText> = [];
 
 	// display texts
-	public var infoDisplay:String = '';
-	public var diffDisplay:String = '';
-	public var engineDisplay:String = "";
+	public var infoDisplay:String = "";
+	public var diffDisplay:String = "";
+	public var engineDisplay:String = '';
 
 	// eep
 	public function new()
@@ -76,28 +69,14 @@ class PsychHUD extends FlxSpriteGroup
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		add(iconP2);
 
-		scoreBar = new FlxText(FlxG.width / 2, Math.floor(healthBarBG.y + 40), 0, scoreDisplay);
-		scoreBar.setFormat(Paths.font('vcr'), 20, FlxColor.WHITE);
-		scoreBar.setBorderStyle(OUTLINE, FlxColor.BLACK, 1.25);
+		scoreBar = new FlxText(healthBarBG.x + healthBarBG.width - 190, healthBarBG.y + 30, 0, scoreDisplay, 20);
+		scoreBar.setFormat(Paths.font("vcr"), 16, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreBar.scrollFactor.set();
+		scoreBar.visible = !PlayState.bfStrums.autoplay;
 		updateScoreText();
 		add(scoreBar);
 
-		timeBar = new FlxBar(0, 24, LEFT_TO_RIGHT, 300, 65, this, 'songPercent', 0, 100, true);
-		timeBar.screenCenter(X);
-		timeBar.scrollFactor.set();
-		timeBar.createFilledBar(0x000000, 0xFFFFFF);
-		add(timeBar);
-
-		timeTxt = new FlxText(0, 19, 400, "", 32);
-		timeTxt.setFormat(Paths.font("vcr"), 40, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		timeTxt.scrollFactor.set();
-		timeTxt.borderSize = 2;
-		timeTxt.screenCenter(X);
-		if(Main.option('Downscroll'))
-			timeTxt.y = FlxG.height - 44;
-		add(timeTxt);
-
-		cornerMark = new FlxText(0, 0, 0, '');
+		cornerMark = new FlxText(0, 0, 0, engineDisplay);
 		cornerMark.setFormat(Paths.font('vcr'), 18, FlxColor.WHITE);
 		cornerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		cornerMark.setPosition(FlxG.width - (cornerMark.width + 5), 5);
@@ -109,7 +88,7 @@ class PsychHUD extends FlxSpriteGroup
 		centerMark.screenCenter(X);
 		add(centerMark);
 
-		autoplayMark = new FlxText(-5, (Init.trueSettings.get('Downscroll') ? centerMark.y - 60 : centerMark.y + 60), FlxG.width - 800, 'BOTPLAY\n', 32);
+		autoplayMark = new FlxText(-5, (Init.trueSettings.get('Downscroll') ? centerMark.y - 60 : centerMark.y + 60), FlxG.width - 800, '\n', 32);
 		autoplayMark.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE, CENTER);
 		autoplayMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2.3);
 		autoplayMark.screenCenter(X);
@@ -185,35 +164,20 @@ class PsychHUD extends FlxSpriteGroup
 		}
 
 		updateScoreText();
-
-		
-		var curTime:Float = Conductor.songPosition;
-
-		var songCalc:Float = (PlayState.songLength - curTime);
-
-		var secondsTotal:Int = Math.floor(songCalc / 1000);
-
-		if (curTime < 0)
-			curTime = 0;
-		songPercent = (curTime / PlayState.songLength);
-
-		if (secondsTotal < 0)
-			secondsTotal = 0;
-		else if (secondsTotal >= Math.floor(PlayState.songLength / 1000))
-			secondsTotal = Math.floor(PlayState.songLength / 1000);
-
-		timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
 	}
 
-	public static var divider:String = " | ";
+	public static var divider:String = " • ";
 
 	private var markupDivider:String = '';
 
 	public function updateScoreText()
 	{
-		scoreBar.text = 'Score: ' + ScoreUtils.score + ' | Combo Breaks: ${ScoreUtils.misses} | Accuracy: ${ScoreUtils.returnAccuracy()}';
+		scoreDisplay = 'Score: ' + ScoreUtils.score + ' | Combo Breaks: ${ScoreUtils.misses} | Accuracy: ${ScoreUtils.returnAccuracy()} | ${ScoreUtils.returnRankingStatus()}';
+		scoreDisplay += '\n';
 
-		scoreBar.screenCenter(X);
+		scoreBar.text = scoreDisplay;
+
+        scoreBar.screenCenter(X);
 
 		// update counter
 		if (Init.trueSettings.get('Counter') != 'None')
@@ -235,8 +199,7 @@ class PsychHUD extends FlxSpriteGroup
 		var colorOpponent = PlayState.opponent.characterData.healthColor;
 		var colorPlayer = PlayState.boyfriend.characterData.healthColor;
 
-		healthBar.createFilledBar(FlxColor.fromRGB(Std.int(colorOpponent[0]), Std.int(colorOpponent[1]), Std.int(colorOpponent[2])),
-		FlxColor.fromRGB(Std.int(colorPlayer[0]), Std.int(colorPlayer[1]), Std.int(colorPlayer[2])));
+			healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
 	}
 
 	public function beatHit(curBeat:Int)

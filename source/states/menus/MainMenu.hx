@@ -34,8 +34,14 @@ class MainMenu extends MusicBeatState
 	var bg:FlxSprite; // the background has been separated for more control
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
+	var camFollowPos:FlxObject;
 
 	var optionShit:Array<String> = ['story mode', 'freeplay', 'options'];
+
+	var eyes:FlxSprite;
+	var firstStart:Bool = true;
+	var finishedFunnyMove:Bool = false;
+	var menuart:FlxSprite;
 
 	public var logContent:String;
 
@@ -64,15 +70,20 @@ class MainMenu extends MusicBeatState
 		// uh
 		persistentUpdate = persistentDraw = true;
 
-		// background
-		bg = new FlxSprite(-80);
-		bg.loadGraphic(Paths.image('menus/base/menuBG'));
-		bg.scrollFactor.set(0, 0.18);
-		bg.setGraphicSize(Std.int(bg.width * 1.1));
-		bg.updateHitbox();
-		bg.screenCenter();
-		bg.antialiasing = true;
-		add(bg);
+		eyes = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/NEWmenu/HahaSadBoi'));
+		eyes.scrollFactor.set(0, 0);
+		eyes.screenCenter();
+		eyes.updateHitbox();
+		eyes.antialiasing = true;
+		add(eyes);
+
+		menuart = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/NEWmenu/newspaper'));
+		menuart.scrollFactor.set(0, 0);
+		//menuart.setGraphicSize(StdDaInt(menuart.width * 1.175));
+		menuart.updateHitbox();
+		menuart.screenCenter();
+		menuart.antialiasing = true;
+		add(menuart);
 
 		magenta = new FlxSprite(-80).loadGraphic(Paths.image('menus/base/menuDesat'));
 		magenta.scrollFactor.set(0, 0.18);
@@ -86,40 +97,107 @@ class MainMenu extends MusicBeatState
 
 		// add the camera
 		camFollow = new FlxObject(0, 0, 1, 1);
+		camFollowPos = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
+		add(camFollowPos);
 
 		// add the menu items
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 
-		// loop through the menu options
-		for (i in 0...optionShit.length)
-		{
-			var menuItem:FlxSprite = new FlxSprite(0, 80 + (i * 230));
-			menuItem.frames = Paths.getSparrowAtlas('menus/base/menuItems/' + optionShit[i]);
-
-			// add the animations in a cool way (real
-			menuItem.animation.addByPrefix('idle', optionShit[i] + " basic", 24);
-			menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
-			menuItem.animation.play('idle');
-
-			// set the id
-			menuItem.ID = i;
-
-			// placements
-			menuItem.screenCenter(X);
-			// if the id is divisible by 2
-			if (menuItem.ID % 2 == 0)
-				menuItem.x += 1000;
-			else
-				menuItem.x -= 1000;
-
-			// actually add the item
-			menuItems.add(menuItem);
-			menuItem.scrollFactor.set();
-			menuItem.antialiasing = true;
-			menuItem.updateHitbox();
+		var scale:Float = 0.8;
+		if(optionShit.length > 6) {
+			scale = 0.6 / optionShit.length;
 		}
+
+		// Story Mode
+		var menuItem:FlxSprite = new FlxSprite(700, 100);
+		menuItem.scale.x = scale;
+		menuItem.scale.y = scale;
+		menuItem.frames = Paths.getSparrowAtlas('menus/base/menuItems/' + optionShit[0]);
+		menuItem.animation.addByPrefix('idle', optionShit[0] + " basic", 24);
+		menuItem.animation.addByPrefix('selected', optionShit[0] + " white", 24);
+		menuItem.animation.play('idle');
+		menuItem.ID = 0;
+		//menuItem.screenCenter(X);
+		menuItems.add(menuItem);
+		var scr:Float = (optionShit.length - 2) * 0.135;
+		if(optionShit.length < 6) scr = 0;
+		menuItem.scrollFactor.set(0, scr);
+		menuItem.antialiasing = true;
+		//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
+		menuItem.updateHitbox();
+		if (firstStart)
+			FlxTween.tween(menuItem, {y: 100 + (0 * 90)}, 1 + (0 * 0.25), {
+				ease: FlxEase.elasticInOut,
+				onComplete: function(flxTween:FlxTween)
+				{
+					finishedFunnyMove = true;
+					updateSelection();
+				}
+			});
+		else
+			menuItem.y = 108 + (0 * 90);
+
+		// Freeplay
+		var menuItem:FlxSprite = new FlxSprite(700, 250);
+		menuItem.scale.x = scale;
+		menuItem.scale.y = scale;
+		menuItem.frames = Paths.getSparrowAtlas('menus/base/menuItems/' + optionShit[1]);
+		menuItem.animation.addByPrefix('idle', optionShit[1] + " basic", 24);
+		menuItem.animation.addByPrefix('selected', optionShit[1] + " white", 24);
+		menuItem.animation.play('idle');
+		menuItem.ID = 1;
+		//menuItem.screenCenter(X);
+		menuItems.add(menuItem);
+		var scr:Float = (optionShit.length - 2) * 0.135;
+		if(optionShit.length < 6) scr = 1;
+		menuItem.scrollFactor.set(0, scr);
+		menuItem.antialiasing = true;
+		//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
+		menuItem.updateHitbox();
+		if (firstStart)
+			FlxTween.tween(menuItem, {y: 100 + (0 * 90)}, 1 + (0 * 0.25), {
+				ease: FlxEase.elasticInOut,
+				onComplete: function(flxTween:FlxTween)
+				{
+					finishedFunnyMove = true;
+					updateSelection();
+				}
+			});
+		else
+			menuItem.y = 108 + (0 * 90);
+
+		// Credits
+		var menuItem:FlxSprite = new FlxSprite(700, 400);
+		menuItem.scale.x = scale;
+		menuItem.scale.y = scale;
+		menuItem.frames = Paths.getSparrowAtlas('menus/base/menuItems/' + optionShit[2]);
+		menuItem.animation.addByPrefix('idle', optionShit[2] + " basic", 24);
+		menuItem.animation.addByPrefix('selected', optionShit[2] + " white", 24);
+		menuItem.animation.play('idle');
+		menuItem.ID = 2;
+		//menuItem.screenCenter(X);
+		menuItems.add(menuItem);
+		var scr:Float = (optionShit.length - 2) * 0.135;
+		if(optionShit.length < 6) scr = 2;
+		menuItem.scrollFactor.set(0, scr);
+		menuItem.antialiasing = true;
+		//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
+		menuItem.updateHitbox();
+		if (firstStart)
+			FlxTween.tween(menuItem, {y: 100 + (0 * 90)}, 1 + (0 * 0.25), {
+				ease: FlxEase.elasticInOut,
+				onComplete: function(flxTween:FlxTween)
+				{
+					finishedFunnyMove = true;
+					updateSelection();
+				}
+			});
+		else
+			menuItem.y = 108 + (0 * 90);
+
+		firstStart = false;
 
 		// set the camera to actually follow the camera object that was created before
 		var camLerp = Main.framerateAdjust(0.10);
@@ -136,7 +214,23 @@ class MainMenu extends MusicBeatState
 		if (logContent != null && logContent.length > 1)
 			logTrace('$logContent', 3);
 
-		//
+		var scratchStuff:FlxSprite = new FlxSprite();
+		scratchStuff.frames = Paths.getSparrowAtlas('filters/scratchShit');
+		scratchStuff.animation.addByPrefix('idle', 'scratch thing 1', 24, true);
+		scratchStuff.animation.play('idle');
+		scratchStuff.screenCenter();
+		scratchStuff.scale.x = 1.1;
+		scratchStuff.scale.y = 1.1;
+		add(scratchStuff);
+
+		var grain:FlxSprite = new FlxSprite();
+		grain.frames = Paths.getSparrowAtlas('filters/Grainshit');
+		grain.animation.addByPrefix('idle', 'grains 1', 24, true);
+		grain.animation.play('idle');
+		grain.screenCenter();
+		grain.scale.x = 1.1;
+		grain.scale.y = 1.1;
+		add(grain);
 	}
 
 	var selectedSomethin:Bool = false;
@@ -149,6 +243,9 @@ class MainMenu extends MusicBeatState
 		var up_p = Controls.getPressEvent("ui_up");
 		var down_p = Controls.getPressEvent("ui_down");
 		var controlArray:Array<Bool> = [up, down, up_p, down_p];
+
+		var lerpVal:Float = CoolUtil.boundTo(elapsed * 7.5, 0, 1);
+		camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 
 		if ((controlArray.contains(true)) && (!selectedSomethin))
 		{
@@ -247,7 +344,6 @@ class MainMenu extends MusicBeatState
 
 		menuItems.forEach(function(menuItem:FlxSprite)
 		{
-			menuItem.screenCenter(X);
 		});
 	}
 

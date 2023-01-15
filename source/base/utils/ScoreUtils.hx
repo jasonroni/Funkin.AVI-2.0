@@ -286,6 +286,9 @@ class ScoreUtils
 		var rankingFinal:String = '[$curRating]';
 
 		if (curCombo != null && curCombo != '')
+			if(Main.getOption('HUD Style') == "kade")
+			rankingFinal = '($curCombo) $curRating';
+		else
 			rankingFinal = '[$curRating - $curCombo]';
 
 		return ' $rankingFinal';
@@ -310,6 +313,9 @@ class ScoreUtils
 
 		if (misses > 0 && misses < 10)
 			curCombo = 'SDCB';
+
+		if(misses > 10)
+			curCombo = 'Clear';
 
 		// this updates the most so uh
 		PlayState.uiHUD.updateScoreText();

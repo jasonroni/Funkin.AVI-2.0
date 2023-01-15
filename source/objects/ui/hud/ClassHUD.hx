@@ -39,7 +39,7 @@ class ClassHUD extends FlxSpriteGroup
 	// display texts
 	public var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
 	public var diffDisplay:String = '[${CoolUtil.difficultyString}]';
-	public var engineDisplay:String = "FE FEATHER v" + Main.game.versionFF;
+	public var engineDisplay:String = 'FOREVER ENGINE v0.3.1';
 
 	// eep
 	public function new()
@@ -74,7 +74,6 @@ class ClassHUD extends FlxSpriteGroup
 		scoreBar = new FlxText(FlxG.width / 2, Math.floor(healthBarBG.y + 40), 0, scoreDisplay);
 		scoreBar.setFormat(Paths.font('vcr'), 18, FlxColor.WHITE);
 		scoreBar.setBorderStyle(OUTLINE, FlxColor.BLACK, 1.5);
-		scoreBar.visible = !PlayState.bfStrums.autoplay;
 		updateScoreText();
 		add(scoreBar);
 
@@ -84,7 +83,7 @@ class ClassHUD extends FlxSpriteGroup
 		cornerMark.setPosition(FlxG.width - (cornerMark.width + 5), 5);
 		add(cornerMark);
 
-		centerMark = new FlxText(0, (Init.trueSettings.get('Downscroll') ? FlxG.height - 40 : 10), 0, '- $infoDisplay $diffDisplay -');
+		centerMark = new FlxText(0, (Init.trueSettings.get('Downscroll') ? FlxG.height - 40 : 10), 0, '- $infoDisplay -');
 		centerMark.setFormat(Paths.font('vcr'), 24, FlxColor.WHITE);
 		centerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		centerMark.screenCenter(X);
@@ -161,8 +160,6 @@ class ClassHUD extends FlxSpriteGroup
 
 		if (autoplayMark.visible)
 		{
-			autoplaySine += 180 * (elapsed / 4);
-			autoplayMark.alpha = 1 - Math.sin((Math.PI * autoplaySine) / 80);
 		}
 	}
 
@@ -179,9 +176,9 @@ class ClassHUD extends FlxSpriteGroup
 
 		if (Init.trueSettings.get('Display Accuracy'))
 		{
-			scoreDisplay += divider + markupDivider + 'Accuracy: ${ScoreUtils.returnAccuracy()}' + markupDivider;
-			scoreDisplay += markupDivider + ScoreUtils.returnRankingStatus() + markupDivider;
+			scoreDisplay += divider + 'Accuracy: ${ScoreUtils.returnAccuracy()}';
 			scoreDisplay += divider + 'Combo Breaks: ${ScoreUtils.misses}';
+			scoreDisplay += divider + 'Rank:${ScoreUtils.returnRankingStatus()}';
 		}
 		scoreDisplay += '\n';
 

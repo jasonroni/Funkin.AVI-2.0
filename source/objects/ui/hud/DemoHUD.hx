@@ -9,14 +9,18 @@ import flixel.text.FlxText;
 import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
+import flixel.util.FlxStringUtil;
+import base.song.Conductor;
 import states.PlayState;
 
-class DemolitionHUD extends FlxSpriteGroup
+class DemoHUD extends FlxSpriteGroup
 {
 	// bar variables
 	public var scoreBar:FlxText;
 	public var healthBarBG:FlxSprite;
 	public var healthBar:FlxBar;
+
+	var songLength = PlayState.songLength;
 
 	// mark variables
 	public var cornerMark:FlxText; // engine mark at the upper right corner
@@ -27,6 +31,11 @@ class DemolitionHUD extends FlxSpriteGroup
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
 
+	var songPercent:Float = 0;
+
+	public var timeTxt:FlxText;
+	public var timeBar:FlxBar;
+
 	// other
 	public var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop'; // fnf mods
 
@@ -35,9 +44,9 @@ class DemolitionHUD extends FlxSpriteGroup
 	public var timingsMap:Map<String, FlxText> = [];
 
 	// display texts
-	public var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
-	public var diffDisplay:String = '[${CoolUtil.difficultyString}]';
-	public var engineDisplay:String = "FE FEATHER v" + Main.game.versionFF;
+	public var infoDisplay:String = '';
+	public var diffDisplay:String = '';
+	public var engineDisplay:String = "";
 
 	// eep
 	public function new()
@@ -70,25 +79,39 @@ class DemolitionHUD extends FlxSpriteGroup
 		add(iconP2);
 
 		scoreBar = new FlxText(FlxG.width / 2, Math.floor(healthBarBG.y + 40), 0, scoreDisplay);
-		scoreBar.setFormat(Paths.font('vcr'), 18, FlxColor.WHITE);
-		scoreBar.setBorderStyle(OUTLINE, FlxColor.BLACK, 1.5);
-		scoreBar.visible = !PlayState.bfStrums.autoplay;
+		scoreBar.setFormat(Paths.font('vcr'), 20, FlxColor.WHITE);
+		scoreBar.setBorderStyle(OUTLINE, FlxColor.BLACK, 1.25);
 		updateScoreText();
 		add(scoreBar);
 
-		cornerMark = new FlxText(0, 0, 0, engineDisplay);
+		timeBar = new FlxBar(0, 24, LEFT_TO_RIGHT, 300, 65, this, 'songPercent', 0, 100, true);
+		timeBar.screenCenter(X);
+		timeBar.scrollFactor.set();
+		timeBar.createFilledBar(0x000000, 0xFFFFFF);
+		add(timeBar);
+
+		timeTxt = new FlxText(0, 19, 400, "", 32);
+		timeTxt.setFormat(Paths.font("vcr"), 40, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		timeTxt.scrollFactor.set();
+		timeTxt.borderSize = 2;
+		timeTxt.screenCenter(X);
+		if(Main.option('Downscroll'))
+			timeTxt.y = FlxG.height - 44;
+		add(timeTxt);
+
+		cornerMark = new FlxText(0, 0, 0, '');
 		cornerMark.setFormat(Paths.font('vcr'), 18, FlxColor.WHITE);
 		cornerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		cornerMark.setPosition(FlxG.width - (cornerMark.width + 5), 5);
 		add(cornerMark);
 
-		centerMark = new FlxText(0, (Init.trueSettings.get('Downscroll') ? FlxG.height - 40 : 10), 0, '- $infoDisplay $diffDisplay -');
+		centerMark = new FlxText(0, (Init.trueSettings.get('Downscroll') ? FlxG.height - 40 : 10), 0, '');
 		centerMark.setFormat(Paths.font('vcr'), 24, FlxColor.WHITE);
 		centerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		centerMark.screenCenter(X);
 		add(centerMark);
 
-		autoplayMark = new FlxText(-5, (Init.trueSettings.get('Downscroll') ? centerMark.y - 60 : centerMark.y + 60), FlxG.width - 800, '[AUTOPLAY]\n', 32);
+		autoplayMark = new FlxText(-5, (Init.trueSettings.get('Downscroll') ? centerMark.y - 60 : centerMark.y + 60), FlxG.width - 800, 'BOTPLAY\n', 32);
 		autoplayMark.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE, CENTER);
 		autoplayMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2.3);
 		autoplayMark.screenCenter(X);
@@ -162,32 +185,34 @@ class DemolitionHUD extends FlxSpriteGroup
 			autoplaySine += 180 * (elapsed / 4);
 			autoplayMark.alpha = 1 - Math.sin((Math.PI * autoplaySine) / 80);
 		}
+
+		updateScoreText();
+
+		var curTime:Float = Conductor.songPosition;
+		if (curTime < 0)
+			curTime = 0;
+		songPercent = (curTime / PlayState.songLength);
+
+		var songCalc:Float = (PlayState.songLength - curTime);
+
+		songCalc = curTime;
+
+		var secondsTotal:Int = Math.floor(songCalc / 1000);
+		if (secondsTotal < 0)
+			secondsTotal = 0;
+		else if (secondsTotal >= Math.floor(PlayState.songLength / 1000))
+			secondsTotal = Math.floor(PlayState.songLength / 1000);
+
+		timeTxt.text =  '${FlxStringUtil.formatTime(secondsTotal, false)} / ${FlxStringUtil.formatTime(Math.floor(songLength / 1000), false)}';
 	}
 
-	public static var divider:String = " • ";
+	public static var divider:String = " | ";
 
 	private var markupDivider:String = '';
 
 	public function updateScoreText()
 	{
-		if (ScoreUtils.notesHit > 0 && Init.trueSettings.get('Accuracy Hightlight'))
-			markupDivider = '°';
-
-		scoreDisplay = 'Score: ' + ScoreUtils.score;
-
-		if (Init.trueSettings.get('Display Accuracy'))
-		{
-			scoreDisplay += divider + markupDivider + 'Accuracy: ${ScoreUtils.returnAccuracy()}' + markupDivider;
-			scoreDisplay += markupDivider + ScoreUtils.returnRankingStatus() + markupDivider;
-			scoreDisplay += divider + 'Combo Breaks: ${ScoreUtils.misses}';
-		}
-		scoreDisplay += '\n';
-
-		scoreBar.text = scoreDisplay;
-
-		if (Init.trueSettings.get('Accuracy Hightlight'))
-			if (ScoreUtils.notesHit > 0)
-				scoreBar.applyMarkup(scoreBar.text, [new FlxTextFormatMarkerPair(scoreFlashFormat, markupDivider)]);
+		scoreBar.text = 'Score: ' + ScoreUtils.score + ' | Combo Breaks: ${ScoreUtils.misses} | Accuracy: ${ScoreUtils.returnAccuracy()}';
 
 		scoreBar.screenCenter(X);
 
@@ -211,11 +236,8 @@ class DemolitionHUD extends FlxSpriteGroup
 		var colorOpponent = PlayState.opponent.characterData.healthColor;
 		var colorPlayer = PlayState.boyfriend.characterData.healthColor;
 
-		if (!Init.trueSettings.get('Colored Health Bar'))
-			healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33 - 0xFFFF0000);
-		else
-			healthBar.createFilledBar(FlxColor.fromRGB(Std.int(colorOpponent[0]), Std.int(colorOpponent[1]), Std.int(colorOpponent[2])),
-				FlxColor.fromRGB(Std.int(colorPlayer[0]), Std.int(colorPlayer[1]), Std.int(colorPlayer[2])));
+		healthBar.createFilledBar(FlxColor.fromRGB(Std.int(colorOpponent[0]), Std.int(colorOpponent[1]), Std.int(colorOpponent[2])),
+		FlxColor.fromRGB(Std.int(colorPlayer[0]), Std.int(colorPlayer[1]), Std.int(colorPlayer[2])));
 	}
 
 	public function beatHit(curBeat:Int)
