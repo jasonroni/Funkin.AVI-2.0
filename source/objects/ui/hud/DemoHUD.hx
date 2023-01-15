@@ -10,6 +10,7 @@ import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import base.song.Conductor;
+import flixel.util.FlxStringUtil;
 import states.PlayState;
 
 class DemoHUD extends FlxSpriteGroup
