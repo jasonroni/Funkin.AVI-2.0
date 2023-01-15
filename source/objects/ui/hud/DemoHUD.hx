@@ -220,7 +220,7 @@ class DemoHUD extends FlxSpriteGroup
 		else if (secondsTotal >= Math.floor(PlayState.songLength / 1000))
 			secondsTotal = Math.floor(PlayState.songLength / 1000);
 
-		songTime.text = '${FlxStringUtil.formatTime(secondsTotal, false)} / ${FlxStringUtil.formatTime(Math.floor(songLength / 1000), false)}';
+		songTime.text = '${FlxStringUtil.formatTime(secondsTotal, false)} / ${FlxStringUtil.formatTime(Math.floor(PlayState.songLength / 1000), false)}';
 	}
 
 	public static var divider:String = " • ";
