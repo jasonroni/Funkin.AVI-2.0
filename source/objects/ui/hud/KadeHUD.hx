@@ -221,13 +221,3 @@ class KadeHUD extends FlxSpriteGroup
 	}
 
 	var scoreFlashFormat:FlxTextFormat;
-
-	override function add(Object:FlxSprite):FlxSprite
-	{
-		if (Std.isOfType(Object, FlxText))
-			cast(Object, FlxText).antialiasing = !Init.trueSettings.get('Disable Antialiasing');
-		if (Std.isOfType(Object, FlxSprite))
-			cast(Object, FlxSprite).antialiasing = !Init.trueSettings.get('Disable Antialiasing');
-		return super.add(Object);
-	}
-}
