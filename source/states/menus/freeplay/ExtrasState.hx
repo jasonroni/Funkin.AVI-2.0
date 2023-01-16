@@ -60,7 +60,7 @@ class ExtrasState extends MusicBeatState
 
 	public var loadCustom:Bool = true;
 
-	public function new(?loadCustom:Bool = true)
+	public function new(?loadCustom:Bool = false)
 	{
 		super();
 
@@ -73,19 +73,18 @@ class ExtrasState extends MusicBeatState
 
         lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Extras";
 
-        addSong('Hunted', 3, 'face', FlxColor.fromRGB(0, 60, 40));
-        addSong('Isolated-Old', 3, 'face', FlxColor.fromRGB(60, 60, 60));
-        addSong('Isolated-Beta', 3, 'face', FlxColor.fromRGB(60, 60, 60));
-        addSong("Don't-Cross!", 3, 'face', FlxColor.RED);
-        addSong('Malfunction', 3, 'face', FlxColor.fromRGB(140, 120, 180));
-        // addSong('Revenge', 3, 'face', FlxColor.WHITE, FlxG.save.data.revengeLock);
-        addSong('Cycled-Sins', 3, 'face', FlxColor.fromRGB(115, 86, 86));
-        addSong('War-Dilemma', 3, 'face', FlxColor.fromRGB(105, 17, 10));
-        addSong('Scrapped', 3, 'face', FlxColor.BLACK);
-        addSong('Neglection', 3, 'face', FlxColor.CYAN);
-        addSong('Bless', 3, 'face', FlxColor.WHITE);
-        //if(FPClientPrefs.rbLock != 'beaten' && FPClientPrefs.rbLock != 'unlocked') addSong('BrainStorm', 3, 'mysterymouse', FlxColor.fromRGB(229, 85, 44), FlxG.save.data.rbLock); else addSong('BrainStorm', 3, 'face', FlxColor.fromRGB(229, 85, 84), FlxG.save.data.rbLock); //save it for V3!
-        addSong('Mercy', 3, 'face', FlxColor.fromRGB(153, 148, 112));
+
+        addSong('Hunted', 3, 'face', FlxColor.fromRGB(60, 60, 60));
+		addSong('Isolated-Old', 3, 'face', FlxColor.fromRGB(60, 60, 60));
+		addSong('Isolated-Beta', 3, 'face', FlxColor.fromRGB(60, 60, 60));
+		addSong("Don't-Cross!", 3, 'face', FlxColor.fromRGB(60, 60, 60));
+		addSong('Malfunction', 3, 'face', FlxColor.fromRGB(60, 60, 60));
+		addSong('Neglection', 3, 'face', FlxColor.fromRGB(60, 60, 60));
+		addSong('Bless', 3, 'face', FlxColor.fromRGB(60, 60, 60));
+		addSong('War-Dilemma', 3, 'face', FlxColor.fromRGB(60, 60, 60));
+		addSong('Scrapped', 3, 'face', FlxColor.fromRGB(60, 60, 60));
+		addSong('Cycled-Sins', 3, 'face', FlxColor.fromRGB(60, 60, 60));
+		addSong('Mercy', 3, 'face', FlxColor.fromRGB(60, 60, 60));
 
 		mutex = new Mutex();
 
@@ -96,6 +95,8 @@ class ExtrasState extends MusicBeatState
 		 * Wanna add songs? they are on the Weeks Folder inside the assets folder
 		 * if you wish to hardcode your weeks, make sure to look through the Main State
 		**/
+
+		loadSongs(loadCustom); // set to false in case you don't want custom songs;
 
 		bg = new FlxSprite().loadGraphic(Paths.image('menus/base/menuDesat'));
 		add(bg);
@@ -211,7 +212,7 @@ class ExtrasState extends MusicBeatState
 		return weekProgress.startsLocked;
 	}
 
-	public function addSong(songName:String, weekNum:Int, songCharacter:String, songColor:FlxColor, ?saveThing:Dynamic)
+	public function addSong(songName:String, weekNum:Int, songCharacter:String, songColor:FlxColor)
 	{
 		var coolDifficultyArray = [];
 		for (i in CoolUtil.difficulties)
@@ -285,7 +286,7 @@ class ExtrasState extends MusicBeatState
 				FlxG.sound.music.stop();
 			}
 			threadActive = false;
-			Main.switchState(this, new MainMenu());
+			Main.switchState(this, new states.menus.FreeplayMenu());
 		}
 
 		if (accepted)
@@ -362,6 +363,7 @@ class ExtrasState extends MusicBeatState
 	function changeSelection(change:Int = 0)
 	{
 		FlxG.sound.play(Paths.sound('base/menus/scrollMenu'), 0.4);
+		FlxG.camera.flash(FlxColor.BLACK, 0.4);
 		curSelected = FlxMath.wrap(curSelected + change, 0, songs.length - 1);
 
 		intendedScore = ScoreUtils.getScore(songs[curSelected].name, curDifficulty);
@@ -373,13 +375,10 @@ class ExtrasState extends MusicBeatState
 
 		var bullShit:Int = 0;
 
-		for (i in 0...iconArray.length) {
+		for (i in 0...iconArray.length)
 			iconArray[i].alpha = 0.6;
-			iconArray[i].scale.set(0.8,0.8);
-		}
 
 		iconArray[curSelected].alpha = 1;
-		iconArray[curSelected].scale.set(1,1);
 
 		for (item in grpSongs.members)
 		{
@@ -387,14 +386,9 @@ class ExtrasState extends MusicBeatState
 			bullShit++;
 
 			item.alpha = 0.6;
-			item.scale.set(0.77, 0.77);
-			item.x += 55;
-			if (item.targetY == 0) {
+			if (item.targetY == 0)
 				item.alpha = 1;
-				item.scale.set(1, 1);
-				item.x = 0;
 		}
-	}
 
 		changeDiff();
 		changeSongPlaying();

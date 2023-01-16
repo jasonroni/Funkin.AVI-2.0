@@ -145,8 +145,8 @@ class PlayState extends MusicBeatState
 	public static var uiHUD:ClassHUD; //default HUD
 	public static var psychHUD:PsychHUD;
 	public static var vanillaHUD:VanillaHUD;
-	public static var demolitionHUD:DemoHUD;
 	public static var kadeHUD:KadeHUD;
+	public static var demolitionHUD:DemolitionHUD;
 	public static var daPixelZoom:Float = 6;
 
 	public static var stageBuild:Stage;
@@ -439,7 +439,7 @@ class PlayState extends MusicBeatState
 		add(psychHUD);
 		psychHUD.cameras = [camHUD];
 
-		demolitionHUD = new DemoHUD();
+		demolitionHUD = new DemolitionHUD();
 		demolitionHUD.alpha = 0;
 		add(demolitionHUD);
 		demolitionHUD.cameras = [camHUD];
@@ -709,7 +709,18 @@ class PlayState extends MusicBeatState
 					{
 						PlayState.SONG.validScore = false;
 						bfStrums.autoplay = !bfStrums.autoplay;
-						uiHUD.autoplayMark.visible = bfStrums.autoplay;
+						switch(Main.getOption('HUD Style').toLowerCase())
+						{
+							case 'psych':
+								psychHUD.autoplayMark.visible = bfStrums.autoplay;
+								psychHUD.scoreBar.visible = !bfStrums.autoplay;
+							case 'demolition':
+								demolitionHUD.autoplayMark.visible = bfStrums.autoplay;
+								demolitionHUD.scoreBar.visible = !bfStrums.autoplay;
+							default:
+								uiHUD.autoplayMark.visible = bfStrums.autoplay;
+								uiHUD.scoreBar.visible = !bfStrums.autoplay;
+						}
 					}
 
 					if (FlxG.keys.justPressed.SEVEN)
@@ -1914,17 +1925,11 @@ class PlayState extends MusicBeatState
 
 		switch(Main.getOption('HUD Style').toLowerCase())
 		{
-			case 'psych':
+			case 'psych': //psych engine fans gonna go nuts about this
 				FlxTween.tween(psychHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 
-			case 'vanilla':
-				FlxTween.tween(vanillaHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
-
-			case 'demolition':
+			case 'demolition': //demoliton HUD
 				FlxTween.tween(demolitionHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
-
-			case 'kade':
-				FlxTween.tween(kadeHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 
 			default: //forever HUD
 				FlxTween.tween(uiHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
@@ -1998,7 +2003,15 @@ class PlayState extends MusicBeatState
 				ForeverTools.resetMenuMusic();
 				clearStored = true;
 			case FREEPLAY:
-				Main.switchState(this, new states.menus.freeplay.FreeplayState());
+				switch (CoolUtil.dashToSpace(SONG.song))
+				{
+					case 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Facade' | 'Mortiferum Risus':
+						Main.switchState(this, new states.menus.freeplay.FreeplayState());
+					case 'Isolated Legacy' | 'Lunacy Legacy' | 'Delusional Legacy' | 'Malfunction Legacy' | 'Mercy Legacy':
+						Main.switchState(this, new states.menus.freeplay.LegacyState());
+					default:
+						Main.switchState(this, new states.menus.freeplay.ExtrasState());
+				}
 				clearStored = true;
 			case CHARTING:
 				openSubState(new states.substates.PauseSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y,

@@ -48,7 +48,8 @@ class FreeplayMenu extends MusicBeatState {
 	var BG:FlxSprite;
     override function create(){
 
-		timesToEnter = 30;
+		super.create();
+		//timesToEnter = 30;
 
 		/*if(ClientPrefs.funiShaders)
 					{
@@ -80,7 +81,7 @@ class FreeplayMenu extends MusicBeatState {
 		{
 			if(ClientPrefs.language == "Spanish") freeplayCats = ['Legado', 'Jugar', 'Un Mensaje Para It', 'Cubiertas'];
 			else freeplayCats = ['Legacy', 'Episodes', 'Extras', 'Covers'];
-		}else*/ freeplayCats = ['Episodes', 'Extras'];
+		}else*/ freeplayCats = ['Legacy', 'Episodes', 'Extras'];
 
         BG = new FlxSprite().loadGraphic(Paths.image('menus/base/menuDesat'));
 		BG.updateHitbox();
@@ -89,7 +90,7 @@ class FreeplayMenu extends MusicBeatState {
 
 		#if desktop
 		// Updating Discord Rich Presence
-		Discord.changePresence("In Freeplay", "Category Menu");
+		Discord.changePresence("PICKING CATEGORY", "Freeplay: Category Menu");
 		#end
 
 		Application.current.window.title = "Funkin.avi - Freeplay: Category Menu";
@@ -99,12 +100,12 @@ class FreeplayMenu extends MusicBeatState {
         for (i in 0...freeplayCats.length)
         {
 			var catsText:Alphabet = new Alphabet(0, (70 * i) + 250, freeplayCats[i], true, false);
-            catsText.targetY = i;
 			catsText.isMenuItem = true;
+			catsText.targetY = i;
 			grpCats.add(catsText);
 		}
 
-		leftArrow = new FlxSprite(120, 0);
+		/*leftArrow = new FlxSprite(120, 0);
 		leftArrow.frames = ui_tex;
 		leftArrow.angle = 90;
 		leftArrow.animation.addByPrefix('idle', "arrow left");
@@ -125,7 +126,7 @@ class FreeplayMenu extends MusicBeatState {
 		rightArrow.animation.addByPrefix('press', "arrow push right", 24, false);
 		rightArrow.animation.play('idle');
 		rightArrow.antialiasing = true;
-		add(rightArrow);
+		add(rightArrow);*/
 
 			unfinishedText = new FlxText(907, FlxG.height - 54, 0, "Currently, The category Menu is Unfinished, The Final Verion Will Be Different!", 25);
 			unfinishedText.scrollFactor.set();
@@ -155,7 +156,6 @@ class FreeplayMenu extends MusicBeatState {
 		//add(debugTxt);
 
         changeSelection();
-        super.create();
     }
 
 	function updateCounter()
@@ -166,23 +166,23 @@ class FreeplayMenu extends MusicBeatState {
 
     override public function update(elapsed:Float){
 
-		var up = Controls.getPressEvent("ui_up", "pressed");
-		var down = Controls.getPressEvent("ui_down", "pressed");
+		/*var up = Controls.getPressEvent("ui_up", "pressed");
+		var down = Controls.getPressEvent("ui_down", "pressed");*/
 		var up_p = Controls.getPressEvent("ui_up");
 		var down_p = Controls.getPressEvent("ui_down");
 
 		if (up_p && curSelected != 0) 
 			changeSelection(-1);
-		else if (up_p && curSelected == 0) {
+		/*else if (up_p && curSelected == 0) {
 			updateCounter();
 			FlxG.sound.play(Paths.sound('cancelMenu'));
-		}
+		}*/
 		if (down_p && curSelected != 2) 
 			changeSelection(1);
-		else if (down_p && curSelected == 2) {
+		/*else if (down_p && curSelected == 2) {
 			updateCounter();
 			FlxG.sound.play(Paths.sound('cancelMenu'));
-		}
+		}*/
 		//Mouse supremacy
 		
 		if ((Controls.getPressEvent("back"))) {
@@ -193,34 +193,26 @@ class FreeplayMenu extends MusicBeatState {
 			/*else if(Flx.mouse.justPressed && curSelected == 2 && timesToEnter == -1)
 				MusicBeatState.switchState(new VoidState());*/
 			//SECRET SONG?!?!?!?!?!
-		if(FlxG.mouse.overlaps(leftArrow)) {
+		/*if(FlxG.mouse.overlaps(leftArrow)) {
 			if(FlxG.mouse.justPressed && curSelected != 0)
 				changeSelection(-1);
 			else if(FlxG.mouse.justPressed && curSelected == 0) {
 				updateCounter();
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 			}
-		}
+		}*/
 
 
         if ((Controls.getPressEvent("accept"))){
             switch(curSelected){
                 case 0:
-					Main.switchState(this, new states.menus.freeplay.FreeplayState());
+					Main.switchState(this, new states.menus.freeplay.LegacyState());
                 case 1:
+					Main.switchState(this, new states.menus.freeplay.FreeplayState());
+				case 2:
 					Main.switchState(this, new states.menus.freeplay.ExtrasState());
-				/*case 3:
-					//MusicBeatState.switchState(new CoversState());
-					/*if(FPClientPrefs.episode2FPLock == 'unlocked' && FPClientPrefs.malfunctionLock == 'beaten' && FPClientPrefs.crossinLock == 'beaten' && FPClientPrefs.warLock == 'beaten' && FPClientPrefs.sinsLock == 'beaten' && FPClientPrefs.huntedLock == 'beaten' && FPClientPrefs.blessLock == 'beaten' && FPClientPrefs.scrappedLock == 'beaten' && FPClientPrefs.mercyLock == 'beaten' && FPClientPrefs.oldisolateLock == 'beaten' && FPClientPrefs.betaisolateLock == 'beaten') //omfg, I hate this, why can't it just work some other, much more SIMPLER way?
-					{
-						MusicBeatState.switchState(new CoversState());
-					}else{
-						FlxG.sound.play(Paths.sound('cancelMenu'));
-						noCovers.alpha = 1;
-						FlxTween.tween(noCovers, {alpha: 0}, 1.5, {ease: FlxEase.quadIn, startDelay: 2});*/
-					//}
 			}
-            }
+        }
 
         super.update(elapsed);
     }
@@ -243,7 +235,7 @@ class FreeplayMenu extends MusicBeatState {
 				item.alpha = 1;
 			}
 		}
-		FlxG.sound.play(Paths.sound('funkinAVI/menu/scroll_sfx'));
+		//FlxG.sound.play(Paths.sound('funkinAVI/menu/scroll_sfx'));
 
 		/*if(curSelected == 3)
 			{

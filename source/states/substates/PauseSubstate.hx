@@ -29,6 +29,9 @@ class PauseSubstate extends MusicBeatSubstate
 	var mutex:Mutex;
 
 	var disc:FlxSprite;
+	var songArt:FlxSprite;
+	var songArtOutline:FlxSprite;
+	//var songList:Array<String> = ['cycled-sins', 'malfunction', 'episode2', 'mercy', 'bless', 'hunted', 'unknown-song'];
 
 	public function new(x:Float, y:Float, ?itemStack:Array<String>)
 	{
@@ -66,9 +69,37 @@ class PauseSubstate extends MusicBeatSubstate
 		add(bg);
 
 		disc = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/pause/disc'));
-		disc.screenCenter();
-		FlxTween.tween(disc, {angle: 360}, 2, {type: FlxTweenType.LOOPING});
+		disc.setPosition(200, 0); // sets it off-screen
+		//disc.screenCenter();
+		disc.origin.set(970, 560);
+		FlxTween.tween(disc, {angle: 360}, 2.5, {type: FlxTweenType.LOOPING});
 		add(disc);
+
+		songArt = new FlxSprite(800, 130);
+		switch (CoolUtil.dashToSpace(PlayState.SONG.song))
+		{
+			case 'Hunted':
+				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/hunted'));
+			case 'Twisted Grins' | 'Facade' | 'Mortiferum Risus':
+				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/episode2'));
+			case 'Malfunction' | 'Malfunction Legacy':
+				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/malfunction'));
+			case 'Mercy' | 'Mercy Legacy':
+				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/mercy'));
+			case 'Bless':
+				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/bless'));
+			case 'Cycled Sins':
+				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/cycled-sins'));
+			default:
+				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/unknown-song'));
+		}
+		songArt.scale.set(0.29, 0.29);
+
+		songArtOutline = new FlxSprite(800 - 20, 130 - 20 /*POV: you're lazy to do the math yourself*/).makeGraphic(890, 890, FlxColor.BLACK);
+		songArtOutline.scale.set(0.29, 0.29); // this was easier for me to scale it off the ORIGINAL image size instead of just trying to get the exact graphic size of the song art being SCALED
+
+		add(songArtOutline);
+		add(songArt);
 
 		var levelInfo:FlxText = new FlxText(20, 15, 0, "", 32);
 		levelInfo.text += CoolUtil.dashToSpace(PlayState.SONG.song) + ' [${CoolUtil.difficultyString}]';
@@ -93,6 +124,14 @@ class PauseSubstate extends MusicBeatSubstate
 		FlxTween.tween(bg, {alpha: 0.6}, 0.4, {ease: FlxEase.quartInOut});
 		FlxTween.tween(levelInfo, {alpha: 1, y: 20}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.3});
 		FlxTween.tween(levelDeaths, {alpha: 1, y: levelDeaths.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.7});
+
+		disc.alpha = 0;
+		songArt.alpha = 0;
+		songArtOutline.alpha = 0;
+
+		FlxTween.tween(disc, {x: 0, alpha: 1}, 0.8, {ease: FlxEase.quartInOut});
+		FlxTween.tween(songArt, {x: 675, alpha: 1}, 0.8, {ease: FlxEase.quartInOut});
+		FlxTween.tween(songArtOutline, {x: 655, alpha: 1}, 0.8, {ease: FlxEase.quartInOut});
 
 		grpMenuShit = new FlxTypedGroup<Alphabet>();
 		add(grpMenuShit);
@@ -150,7 +189,17 @@ class PauseSubstate extends MusicBeatSubstate
 					if (PlayState.gameplayMode == STORY)
 						Main.switchState(this, new StoryMenu());
 					else
-						Main.switchState(this, new states.menus.freeplay.FreeplayState());
+						switch (CoolUtil.dashToSpace(PlayState.SONG.song))
+						{
+							case 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Facade' | 'Mortiferum Risus':
+								Main.switchState(this, new states.menus.freeplay.FreeplayState());
+							case 'Isolated Legacy' | 'Lunacy Legacy' | 'Delusional Legacy' | 'Malfunction Legacy' | 'Mercy Legacy':
+								Main.switchState(this, new states.menus.freeplay.LegacyState());
+							default:
+								Main.switchState(this, new states.menus.freeplay.ExtrasState()); // yeah, there's no way I'm making a case for EVERY fucking song in that menu, too much work!
+						}
+						//clearStored = true;
+						//Main.switchState(this, new states.menus.freeplay.FreeplayState());
 			}
 		}
 

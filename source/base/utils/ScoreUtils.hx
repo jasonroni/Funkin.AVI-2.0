@@ -318,7 +318,15 @@ class ScoreUtils
 			curCombo = 'Clear';
 
 		// this updates the most so uh
-		PlayState.uiHUD.updateScoreText();
+		switch(Main.getOption('HUD Style').toLowerCase())
+		{
+			case 'psych':
+				PlayState.psychHUD.updateScoreText();
+			case 'demolition':
+				PlayState.demolitionHUD.updateScoreText();
+			default:
+				PlayState.uiHUD.updateScoreText();
+		}
 	}
 
 	public static function setJudgeTiming(rating:Int, newTiming:Float)

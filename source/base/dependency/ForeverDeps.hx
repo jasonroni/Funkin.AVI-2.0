@@ -27,6 +27,7 @@ import objects.ui.Strumline.Receptor;
 import objects.ui.Strumline;
 import objects.ui.menu.Checkmark;
 import openfl.display.BlendMode;
+import flixel.effects.particles.FlxEmitter;
 import states.PlayState;
 import sys.FileSystem;
 
@@ -535,6 +536,18 @@ class ForeverTools
 				});
 			}
 		}
+	}
+
+	public static function returnFlxEmitterMode(type:String = ''):FlxEmitterMode
+	{
+		switch (type.toLowerCase())
+		{
+			case 'circle':
+				return FlxEmitterMode.CIRCLE;
+			case 'square':
+				return FlxEmitterMode.SQUARE;
+		}
+		return FlxEmitterMode.SQUARE;
 	}
 
 	public static function returnTweenType(type:String = ''):FlxTweenType
