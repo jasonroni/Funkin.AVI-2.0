@@ -1,4 +1,4 @@
-var blackFade;
+using StringTools;
 
 function onCreate()
 	{
@@ -56,6 +56,12 @@ function onCreate()
 	
 	function charStagePos(boyfriend:Character, gf:Character, dad:Character)
 	{
-		dad.setPosition(-230, 420);
+		//lazy to mess with the JSON
+		if(PlayState.SONG.song == "Lunacy")
+		{
+				dad.setPosition(-861, -259);
+		} else {
+				dad.setPosition(-230, 420);
+		}
 		boyfriend.setPosition(260, 0);
 	}

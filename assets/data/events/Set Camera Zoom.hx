@@ -1,13 +1,31 @@
 function eventTrigger(params)
     {
-        var newZoom = Std.parseFloat(params[0]);
-        var zoomTimer = Std.parseFloat(params[1]);
+        var zoomValue:Float = Std.parseFloat(params[0]);
+        var timeTween:Float = Std.parseFloat(params[1]);
 
-	FlxTween.tween(FlxG.camera, {zoom: newZoom}, zoomTimer, {ease: FlxEase.smootherStepInOut, onComplete: function(e)
+        if (!Init.trueSettings.get('Reduced Movements'))
         {
-            PlayState.defaultCamZoom = newZoom;
+            if (Math.isNaN(zoomValue))
+                zoomValue = 1;
+            if (Math.isNaN(timeTween))
+                timeTween = 0.5;
+
+            if (timeTween <= 0)
+            {
+                PlayState.camGame.zoom = zoomValue;
+            }
+            else
+            {
+                 FlxTween.tween(FlxG.camera, {zoom: zoomValue}, timeTween, {
+                    ease: FlxEase.sineInOut,
+                    onComplete: function(twn:FlxTween)
+                    {
+                        camZoomTween = null;
+                    }
+                });
+            }
+            PlayState.defaultCamZoom = zoomValue;
         }
-    });
     }
     
 function returnDescription()
