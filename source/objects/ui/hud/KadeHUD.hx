@@ -221,4 +221,3 @@ class KadeHUD extends FlxSpriteGroup
 	}
 
 	var scoreFlashFormat:FlxTextFormat;
-}

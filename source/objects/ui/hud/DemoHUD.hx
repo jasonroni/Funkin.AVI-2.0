@@ -9,6 +9,7 @@ import flixel.text.FlxText;
 import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
+import flixel.util.FlxStringUtil;
 import base.song.Conductor;
 import flixel.util.FlxStringUtil;
 import states.PlayState;
@@ -17,12 +18,10 @@ class DemoHUD extends FlxSpriteGroup
 {
 	// bar variables
 	public var scoreBar:FlxText;
-	public var songTime:FlxText;
 	public var healthBarBG:FlxSprite;
 	public var healthBar:FlxBar;
-	public var timeBarBG:FlxSprite;
-	public var timeBar:FlxBar;
-	public var songPercent:Float = 0;
+
+	var songLength = PlayState.songLength;
 
 	// mark variables
 	public var cornerMark:FlxText; // engine mark at the upper right corner
@@ -33,6 +32,11 @@ class DemoHUD extends FlxSpriteGroup
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
 
+	var songPercent:Float = 0;
+
+	public var timeTxt:FlxText;
+	public var timeBar:FlxBar;
+
 	// other
 	public var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop'; // fnf mods
 
@@ -41,62 +45,26 @@ class DemoHUD extends FlxSpriteGroup
 	public var timingsMap:Map<String, FlxText> = [];
 
 	// display texts
-	public var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
-	public var diffDisplay:String = '[${CoolUtil.difficultyString}]';
-	public var engineDisplay:String = "FE FEATHER v" + Main.game.versionFF;
+	public var infoDisplay:String = '';
+	public var diffDisplay:String = '';
+	public var engineDisplay:String = "";
 
 	// eep
 	public function new()
 	{
 		// call the initializations and stuffs
 		super();
-		
-		// time bar stuff
-		timeBarBG = new FlxSprite(0, 0).loadGraphic(Paths.image(ForeverTools.returnSkinAsset('healthBar', PlayState.assetModifier, PlayState.changeableSkin, 'UI')));
-		timeBarBG.x = 600;
-		if (Init.trueSettings.get('Downscroll')) timeBarBG.y = 0.063 * FlxG.height; else timeBarBG.y = 673;
-		timeBarBG.scrollFactor.set();
-		
-		timeBar = new FlxBar(timeBarBG.x + 4, timeBarBG.y + 4, RIGHT_TO_LEFT, Std.int(timeBarBG.width - 8), Std.int(timeBarBG.height - 8), this, 'songPercent', 0, 100, true);
-		timeBar.scrollFactor.set();
-		switch(PlayState.SONG.song)
-		{
-			case 'Bless':
-				timeBar.createFilledBar(0xFFFF0000, 0xFFFFF200);
-			case 'Scrapped':
-				timeBar.createFilledBar(0xFF0008FF, 0xFF11C700);
-			case 'Sink':
-				timeBar.createFilledBar(0xFF630000, 0xFFD70000);
-			case 'Invincible':
-				timeBar.createFilledBar(0xFF000000, 0xFF52627D);
-			case 'Neglection':
-				timeBar.createFilledBar(0xFF0088FF, 0xFFE2E2E2);
-			case 'Infitrigger':
-				timeBar.createFilledBar(0xFFFFFFFF, 0xFFD400FF);
-			case 'Mercy':
-				timeBar.createFilledBar(0xFFC78800, 0xFFFFF4BA);
-			default:
-				timeBar.createFilledBar(0xFF2E2E2E, 0xFFB7B7B7);
-		}
-		
-		if (Init.trueSettings.get('Downscroll')) songTime = new FlxText(450, 70, 400, "", 32); else songTime = new FlxText(450, 655, 400, "", 32);
-		songTime.setFormat(Paths.font("m40.ttf"), 9, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		songTime.scrollFactor.set();
-		songTime.borderSize = 2;
-	
-		add(timeBarBG);
-		add(timeBar);
-		add(songTime);
 
 		// le healthbar setup
+		var barY = FlxG.height * 0.875;
+		if (Init.trueSettings.get('Downscroll'))
+			barY = 64;
+
 		healthBarBG = new FlxSprite(0,
-			0).loadGraphic(Paths.image(ForeverTools.returnSkinAsset('healthBar', PlayState.assetModifier, PlayState.changeableSkin, 'UI')));
-		healthBarBG.y = FlxG.height * 0.95;
-		healthBarBG.x = 230;
-		healthBarBG.scale.set(1.6, 1);
+			barY).loadGraphic(Paths.image(ForeverTools.returnSkinAsset('healthBar', PlayState.assetModifier, PlayState.changeableSkin, 'UI')));
+		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
 		add(healthBarBG);
-		if(Init.trueSettings.get('Downscroll')) healthBarBG.y = 0.05 * FlxG.height;
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8));
 		healthBar.scrollFactor.set();
@@ -104,35 +72,47 @@ class DemoHUD extends FlxSpriteGroup
 		add(healthBar);
 
 		iconP1 = new HealthIcon(PlayState.boyfriend.characterData.icon, true);
-		iconP1.scale.set(0.78, 0.78);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
 		add(iconP1);
 
 		iconP2 = new HealthIcon(PlayState.opponent.characterData.icon, false);
-		iconP2.scale.set(0.78, 0.78);
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		add(iconP2);
 
 		scoreBar = new FlxText(FlxG.width / 2, Math.floor(healthBarBG.y + 40), 0, scoreDisplay);
-		scoreBar.setFormat(Paths.font('vcr'), 18, FlxColor.WHITE);
-		scoreBar.setBorderStyle(OUTLINE, FlxColor.BLACK, 1.5);
-		scoreBar.visible = !PlayState.bfStrums.autoplay;
+		scoreBar.setFormat(Paths.font('vcr'), 20, FlxColor.WHITE);
+		scoreBar.setBorderStyle(OUTLINE, FlxColor.BLACK, 1.25);
 		updateScoreText();
 		add(scoreBar);
-	
-		// gonna do something with these later, just don't know what...
-		/*cornerMark = new FlxText(0, 0, 0, engineDisplay);
+
+		timeBar = new FlxBar(0, 24, LEFT_TO_RIGHT, 300, 65, this, 'songPercent', 0, 100, true);
+		timeBar.screenCenter(X);
+		timeBar.scrollFactor.set();
+		timeBar.createFilledBar(0x000000, 0xFFFFFF);
+		add(timeBar);
+
+		timeTxt = new FlxText(0, 19, 400, "", 32);
+		timeTxt.setFormat(Paths.font("vcr"), 40, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		timeTxt.scrollFactor.set();
+		timeTxt.borderSize = 2;
+		timeTxt.screenCenter(X);
+		if(Main.option('Downscroll'))
+			timeTxt.y = FlxG.height - 44;
+		add(timeTxt);
+
+		cornerMark = new FlxText(0, 0, 0, '');
 		cornerMark.setFormat(Paths.font('vcr'), 18, FlxColor.WHITE);
 		cornerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		cornerMark.setPosition(FlxG.width - (cornerMark.width + 5), 5);
 		add(cornerMark);
-		centerMark = new FlxText(0, (Init.trueSettings.get('Downscroll') ? FlxG.height - 40 : 10), 0, '- $infoDisplay $diffDisplay -');
+
+		centerMark = new FlxText(0, (Init.trueSettings.get('Downscroll') ? FlxG.height - 40 : 10), 0, '');
 		centerMark.setFormat(Paths.font('vcr'), 24, FlxColor.WHITE);
 		centerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		centerMark.screenCenter(X);
-		add(centerMark);*/
+		add(centerMark);
 
-		autoplayMark = new FlxText(-5, (Init.trueSettings.get('Downscroll') ? centerMark.y - 60 : centerMark.y + 60), FlxG.width - 800, '[AUTOPLAY]\n', 32);
+		autoplayMark = new FlxText(-5, (Init.trueSettings.get('Downscroll') ? centerMark.y - 60 : centerMark.y + 60), FlxG.width - 800, 'BOTPLAY\n', 32);
 		autoplayMark.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE, CENTER);
 		autoplayMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2.3);
 		autoplayMark.screenCenter(X);
@@ -198,21 +178,25 @@ class DemoHUD extends FlxSpriteGroup
 		iconP1.updateAnim(healthBar.percent);
 		iconP2.updateAnim(100 - healthBar.percent);
 
-		iconP1.bop(0.2);
-		iconP2.bop(0.2);
+		iconP1.bop(0.15);
+		iconP2.bop(0.15);
 
 		if (autoplayMark.visible)
 		{
 			autoplaySine += 180 * (elapsed / 4);
 			autoplayMark.alpha = 1 - Math.sin((Math.PI * autoplaySine) / 80);
 		}
-		
+
+		updateScoreText();
+
 		var curTime:Float = Conductor.songPosition;
 		if (curTime < 0)
 			curTime = 0;
 		songPercent = (curTime / PlayState.songLength);
 
-		var songCalc:Float = curTime;
+		var songCalc:Float = (PlayState.songLength - curTime);
+
+		songCalc = curTime;
 
 		var secondsTotal:Int = Math.floor(songCalc / 1000);
 		if (secondsTotal < 0)
@@ -220,33 +204,16 @@ class DemoHUD extends FlxSpriteGroup
 		else if (secondsTotal >= Math.floor(PlayState.songLength / 1000))
 			secondsTotal = Math.floor(PlayState.songLength / 1000);
 
-		songTime.text = '${FlxStringUtil.formatTime(secondsTotal, false)} / ${FlxStringUtil.formatTime(Math.floor(PlayState.songLength / 1000), false)}';
+		timeTxt.text =  '${FlxStringUtil.formatTime(secondsTotal, false)} / ${FlxStringUtil.formatTime(Math.floor(songLength / 1000), false)}';
 	}
 
-	public static var divider:String = " • ";
+	public static var divider:String = " | ";
 
 	private var markupDivider:String = '';
 
 	public function updateScoreText()
 	{
-		if (ScoreUtils.notesHit > 0 && Init.trueSettings.get('Accuracy Hightlight'))
-			markupDivider = '°';
-
-		scoreDisplay = 'Score: ' + ScoreUtils.score;
-
-		if (Init.trueSettings.get('Display Accuracy'))
-		{
-			scoreDisplay += divider + markupDivider + 'Accuracy: ${ScoreUtils.returnAccuracy()}' + markupDivider;
-			scoreDisplay += markupDivider + ScoreUtils.returnRankingStatus() /*+ markupDivider*/;
-			//scoreDisplay += divider + 'Combo Breaks: ${ScoreUtils.misses}'; // this is removed cause I'm gonna add the other shit later
-		}
-		scoreDisplay += '\n';
-
-		scoreBar.text = scoreDisplay;
-
-		if (Init.trueSettings.get('Accuracy Hightlight'))
-			if (ScoreUtils.notesHit > 0)
-				scoreBar.applyMarkup(scoreBar.text, [new FlxTextFormatMarkerPair(scoreFlashFormat, markupDivider)]);
+		scoreBar.text = 'Score: ' + ScoreUtils.score + ' | Combo Breaks: ${ScoreUtils.misses} | Accuracy: ${ScoreUtils.returnAccuracy()}';
 
 		scoreBar.screenCenter(X);
 
@@ -270,11 +237,8 @@ class DemoHUD extends FlxSpriteGroup
 		var colorOpponent = PlayState.opponent.characterData.healthColor;
 		var colorPlayer = PlayState.boyfriend.characterData.healthColor;
 
-		if (!Init.trueSettings.get('Colored Health Bar'))
-			healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33 - 0xFFFF0000);
-		else
-			healthBar.createFilledBar(FlxColor.fromRGB(Std.int(colorOpponent[0]), Std.int(colorOpponent[1]), Std.int(colorOpponent[2])),
-				FlxColor.fromRGB(Std.int(colorPlayer[0]), Std.int(colorPlayer[1]), Std.int(colorPlayer[2])));
+		healthBar.createFilledBar(FlxColor.fromRGB(Std.int(colorOpponent[0]), Std.int(colorOpponent[1]), Std.int(colorOpponent[2])),
+		FlxColor.fromRGB(Std.int(colorPlayer[0]), Std.int(colorPlayer[1]), Std.int(colorPlayer[2])));
 	}
 
 	public function beatHit(curBeat:Int)
