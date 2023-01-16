@@ -281,7 +281,7 @@ class FreeplayState extends MusicBeatState
 				FlxG.sound.music.stop();
 			}
 			threadActive = false;
-			Main.switchState(this, new MainMenu());
+			Main.switchState(this, new states.menus.FreeplayMenu());
 		}
 
 		if (accepted)
