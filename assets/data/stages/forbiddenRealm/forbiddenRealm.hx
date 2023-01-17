@@ -5,7 +5,11 @@ function onCreate()
 	PlayState.defaultCamZoom = 0.8;
 	spawnGirlfriend(false);
 
-	var fuckingsquares:FNFSprite = new FNFSprite(-750, -850).loadGraphic(Paths.image('PixelMouse', 'data/stages/forbiddenRealm/images'));
+	var fuckingsquares:FNFSprite = new FNFSprite(-750, -850)
+	if (PlayState.SONG.song == 'Malfunction Legacy')
+		fuckingsquares.loadGraphic(Paths.image('PixelMouse', 'data/stages/forbiddenRealm/images'));
+	else
+		fuckingsquares.loadGraphic(Paths.image('PixelMouse', 'data/stages/forbiddenRealm/images')); //i'm gonna get the new stage background later
 	fuckingsquares.scale.set(1.2, 1);
 	fuckingsquares.updateHitbox();
 	fuckingsquares.antialiasing = false;
@@ -23,7 +27,6 @@ function onCreate()
     	greyParticles.lifespan.set(1.9, 4.9);
     	greyParticles.loadParticles(Paths.image('greyParticle', 'data/stages/forbiddenRealm/images'), 500, 16, true);
     	greyParticles.start(false, FlxG.random.float(.0521, .1060), 1000000);
-    	add(greyParticles);
 
     	var blackParticles:FlxEmitter = new FlxEmitter(-2080.5, 912.4);
     	blackParticles.launchMode = 'square';
@@ -35,7 +38,6 @@ function onCreate()
     	blackParticles.lifespan.set(1.9, 4.9);
     	blackParticles.loadParticles(Paths.image('particleBlack', 'data/stages/forbiddenRealm/images'), 500, 16, true);
 		blackParticles.start(false, FlxG.random.float(.0821, .1460), 1000000);
-    	foreground.add(blackParticles);
 	
 	mickeyEmitter = new FlxEmitter(-2099.8, 1620.4);
 	for (i in 0 ... 100)
@@ -57,7 +59,13 @@ function onCreate()
 	mickeyEmitter.lifespan.set(4, 4.5);
 	mickeyEmitter.start(false, FlxG.random.float(.125, .287), 100000);
 	mickeyEmitter.emitting = false;
-	foreground.add(mickeyEmitter);
+	
+	if (PlayState.SONG.song != 'Malfunction Legacy')
+	{
+		add(greyParticles);
+		foreground.add(blackParticles);
+		foreground.add(mickeyEmitter);
+	}
 	
 	//Imposter V4 code for later
 	/*heartEmitter = new FlxEmitter(-1200, 1000);
