@@ -66,34 +66,6 @@ function onCreate()
 		foreground.add(blackParticles);
 		foreground.add(mickeyEmitter);
 	}
-	
-	//Imposter V4 code for later
-	/*heartEmitter = new FlxEmitter(-1200, 1000);
-
-				for (i in 0 ... 100)
-       		 	{
-					var p = new FlxParticle();
-					p.frames = Paths.getSparrowAtlas('mira/littleheart', 'impostor');
-					p.animation.addByPrefix('littleheart', 'littleheart', 24, true);
-					p.animation.play('littleheart');
-        			p.exists = false;
-					p.animation.curAnim.curFrame = FlxG.random.int(0, 2);
-					p.shader = heartColorShader.shader;
-        			heartEmitter.add(p);
-        		}
-				heartEmitter.launchMode = FlxEmitterMode.SQUARE;
-				heartEmitter.velocity.set(-50, -400, 50, -800, -100, 0, 100, -800);
-				heartEmitter.scale.set(3.4, 3.4, 3.4, 3.4, 0, 0, 0, 0);
-				heartEmitter.drag.set(0, 0, 0, 0, 5, 5, 10, 10);
-				heartEmitter.width = 4200.45;
-				heartEmitter.alpha.set(1, 1);
-				heartEmitter.lifespan.set(4, 4.5);
-				//heartEmitter.loadParticles(Paths.image('mira/littleheart', 'impostor'), 500, 16, true);
-						
-				heartEmitter.start(false, FlxG.random.float(0.3, 0.4), 100000);
-
-				heartEmitter.emitting = false;*/
-	//Ignore this, just leaving this here for reference when I finally add the mickey face particles for a trigger mid-song, for I'mm making a different version for the phase 2 section later
 }
 
 function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
