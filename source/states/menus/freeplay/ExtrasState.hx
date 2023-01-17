@@ -75,16 +75,16 @@ class ExtrasState extends MusicBeatState
 
 
         addSong('Hunted', 3, 'face', FlxColor.fromRGB(60, 60, 60));
-		addSong('Isolated-Old', 3, 'face', FlxColor.fromRGB(60, 60, 60));
-		addSong('Isolated-Beta', 3, 'face', FlxColor.fromRGB(60, 60, 60));
-		addSong("Don't-Cross!", 3, 'face', FlxColor.fromRGB(60, 60, 60));
-		addSong('Malfunction', 3, 'face', FlxColor.fromRGB(60, 60, 60));
-		addSong('Neglection', 3, 'face', FlxColor.fromRGB(60, 60, 60));
-		addSong('Bless', 3, 'face', FlxColor.fromRGB(60, 60, 60));
-		addSong('War-Dilemma', 3, 'face', FlxColor.fromRGB(60, 60, 60));
-		addSong('Scrapped', 3, 'face', FlxColor.fromRGB(60, 60, 60));
-		addSong('Cycled-Sins', 3, 'face', FlxColor.fromRGB(60, 60, 60));
-		addSong('Mercy', 3, 'face', FlxColor.fromRGB(60, 60, 60));
+		addSong('Isolated-Old', 3, 'mickey-legacy', FlxColor.fromRGB(60, 60, 60));
+		addSong('Isolated-Beta', 3, 'mickey-legacy', FlxColor.fromRGB(60, 60, 60));
+		addSong("Don't-Cross!", 3, 'dctl-mickey', FlxColor.fromRGB(60, 60, 60));
+		addSong('Malfunction', 3, 'glitched-mickey-new-pixel', FlxColor.fromRGB(60, 60, 60));
+		addSong('Neglection', 3, 'pnm', FlxColor.fromRGB(60, 60, 60));
+		addSong('Bless', 3, 'white-noise', FlxColor.fromRGB(60, 60, 60));
+		addSong('War-Dilemma', 3, 'war-mick', FlxColor.fromRGB(60, 60, 60));
+		addSong('Scrapped', 3, 'rs', FlxColor.fromRGB(60, 60, 60));
+		addSong('Cycled-Sins', 3, 'relapse-pixel', FlxColor.fromRGB(60, 60, 60));
+		addSong('Mercy', 3, 'walt', FlxColor.fromRGB(60, 60, 60));
 
 		mutex = new Mutex();
 
