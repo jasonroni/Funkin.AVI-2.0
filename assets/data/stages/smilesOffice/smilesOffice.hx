@@ -18,6 +18,7 @@ function onCreate()
 	funiLight.antialiasing = true;
 	funiLight.scrollFactor.set(1, 1);
 	funiLight.alpha = 0.6;
+	funiLight.blend = "add";
 	funiLight.active = false;
 	foreground.add(funiLight);
 }
