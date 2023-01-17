@@ -1,5 +1,7 @@
 using StringTools;
 
+var grainFilter:FlxRuntimeShader;
+
 function onCreate()
 	{
 		spawnGirlfriend(false);
@@ -46,7 +48,7 @@ function onCreate()
 		stageFront.scrollFactor.set(3, 2.5);
 		stageFront.active = false;
 		add(stageFront);
-	
+		
 	
 		if(PlayState.SONG.song == "Isolated") {
 			FlxTween.tween(PlayState.camHUD, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 9});
