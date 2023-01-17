@@ -5,7 +5,7 @@ function onCreate()
 	PlayState.defaultCamZoom = 0.8;
 	spawnGirlfriend(false);
 
-	var fuckingsquares:FNFSprite = new FNFSprite(-750, -850)
+	var fuckingsquares:FNFSprite = new FNFSprite(-750, -850);
 	if (PlayState.SONG.song == 'Malfunction Legacy')
 		fuckingsquares.loadGraphic(Paths.image('PixelMouse', 'data/stages/forbiddenRealm/images'));
 	else
