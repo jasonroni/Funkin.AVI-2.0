@@ -5,7 +5,11 @@ function onCreate()
 	PlayState.defaultCamZoom = 0.8;
 	spawnGirlfriend(false);
 
-	var fuckingsquares:FNFSprite = new FNFSprite(-750, -850).loadGraphic(Paths.image('PixelMouse', 'data/stages/forbiddenRealm/images'));
+	var fuckingsquares:FNFSprite = new FNFSprite(-750, -850);
+	if (PlayState.SONG.song == 'Malfunction Legacy')
+		fuckingsquares.loadGraphic(Paths.image('PixelMouse', 'data/stages/forbiddenRealm/images'));
+	else
+		fuckingsquares.loadGraphic(Paths.image('PixelMouse', 'data/stages/forbiddenRealm/images')); //i'm gonna get the new stage background later
 	fuckingsquares.scale.set(1.2, 1);
 	fuckingsquares.updateHitbox();
 	fuckingsquares.antialiasing = false;
@@ -23,7 +27,6 @@ function onCreate()
     	greyParticles.lifespan.set(1.9, 4.9);
     	greyParticles.loadParticles(Paths.image('greyParticle', 'data/stages/forbiddenRealm/images'), 500, 16, true);
     	greyParticles.start(false, FlxG.random.float(.0521, .1060), 1000000);
-    	add(greyParticles);
 
     	var blackParticles:FlxEmitter = new FlxEmitter(-2080.5, 912.4);
     	blackParticles.launchMode = 'square';
@@ -35,7 +38,6 @@ function onCreate()
     	blackParticles.lifespan.set(1.9, 4.9);
     	blackParticles.loadParticles(Paths.image('particleBlack', 'data/stages/forbiddenRealm/images'), 500, 16, true);
 		blackParticles.start(false, FlxG.random.float(.0821, .1460), 1000000);
-    	foreground.add(blackParticles);
 	
 	mickeyEmitter = new FlxEmitter(-2099.8, 1620.4);
 	for (i in 0 ... 100)
@@ -57,35 +59,13 @@ function onCreate()
 	mickeyEmitter.lifespan.set(4, 4.5);
 	mickeyEmitter.start(false, FlxG.random.float(.125, .287), 100000);
 	mickeyEmitter.emitting = false;
-	foreground.add(mickeyEmitter);
 	
-	//Imposter V4 code for later
-	/*heartEmitter = new FlxEmitter(-1200, 1000);
-
-				for (i in 0 ... 100)
-       		 	{
-					var p = new FlxParticle();
-					p.frames = Paths.getSparrowAtlas('mira/littleheart', 'impostor');
-					p.animation.addByPrefix('littleheart', 'littleheart', 24, true);
-					p.animation.play('littleheart');
-        			p.exists = false;
-					p.animation.curAnim.curFrame = FlxG.random.int(0, 2);
-					p.shader = heartColorShader.shader;
-        			heartEmitter.add(p);
-        		}
-				heartEmitter.launchMode = FlxEmitterMode.SQUARE;
-				heartEmitter.velocity.set(-50, -400, 50, -800, -100, 0, 100, -800);
-				heartEmitter.scale.set(3.4, 3.4, 3.4, 3.4, 0, 0, 0, 0);
-				heartEmitter.drag.set(0, 0, 0, 0, 5, 5, 10, 10);
-				heartEmitter.width = 4200.45;
-				heartEmitter.alpha.set(1, 1);
-				heartEmitter.lifespan.set(4, 4.5);
-				//heartEmitter.loadParticles(Paths.image('mira/littleheart', 'impostor'), 500, 16, true);
-						
-				heartEmitter.start(false, FlxG.random.float(0.3, 0.4), 100000);
-
-				heartEmitter.emitting = false;*/
-	//Ignore this, just leaving this here for reference when I finally add the mickey face particles for a trigger mid-song, for I'mm making a different version for the phase 2 section later
+	if (PlayState.SONG.song != 'Malfunction Legacy')
+	{
+		add(greyParticles);
+		foreground.add(blackParticles);
+		foreground.add(mickeyEmitter);
+	}
 }
 
 function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
