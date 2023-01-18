@@ -1,4 +1,4 @@
-.vscode/
+.vscode/settings.json
 export/
 crash-dialog/export
 crash-dialog/build
