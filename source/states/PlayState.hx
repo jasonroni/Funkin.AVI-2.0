@@ -37,6 +37,7 @@ import openfl.media.Sound;
 import states.editors.CharacterOffsetEditor;
 import states.menus.*;
 import states.substates.GameOverSubstate;
+import flixel.addons.display.FlxRuntimeShader;
 #if desktop
 import base.dependency.Discord;
 #end
@@ -90,6 +91,8 @@ class PlayState extends MusicBeatState
 	public static var opponent:Character;
 	public static var gf:Character;
 	public static var boyfriend:Boyfriend;
+
+	var grayScale:FlxRuntimeShader;
 
 	// used by events, stores characters and character names in maps;
 	public static var playerMap:Map<String, Character> = new Map();
@@ -412,6 +415,8 @@ class PlayState extends MusicBeatState
 
 		// strumline camera setup
 		strumHUD = [];
+
+		grayScale = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 120);
 		for (i in 0...strumLines.length)
 		{
 			// generate a new strum camera
@@ -423,6 +428,7 @@ class PlayState extends MusicBeatState
 			FlxG.cameras.add(strumHUD[i], false);
 			// set this strumline's camera to the designated camera
 			strumLines.members[i].cameras = [strumHUD[i]];
+			strumHUD[i].setFilters([new openfl.filters.ShaderFilter(grayScale)]);
 		}
 		add(strumLines);
 
