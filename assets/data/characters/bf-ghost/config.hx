@@ -1,6 +1,6 @@
 function loadAnimations()
 {
-	addByPrefix('idle', 'BlessBf idle', 24);
+	addByPrefix('idle', 'BlessBf idle', 10);
 	addByPrefix('singUP', 'BlessBf up', 24, false);
 	addByPrefix('singLEFT', 'BlessBf left', 24, false);
 	addByPrefix('singRIGHT', 'BlessBf right', 24, false);
