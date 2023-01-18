@@ -40,6 +40,7 @@ import openfl.filters.ShaderFilter;
 import openfl.Assets;
 import objects.fonts.Alphabet;
 import base.song.Conductor;
+import base.dependency.GameData;
 
 using StringTools;
 typedef TitleData =
@@ -118,6 +119,8 @@ class TitleState extends states.MusicBeatState
 			http.request();
 		}
 		#end*/
+		
+		if (FlxG.save.data.episode1FPLock == null) GameData.lockinIt(); // this locks everything to the default state if the player hasn't played it yet, leaving only Episode 1 unlocked
 
 		FlxG.game.focusLostFramerate = 60;
 		FlxG.sound.muteKeys = muteKeys;

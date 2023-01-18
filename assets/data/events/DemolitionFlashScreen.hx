@@ -15,25 +15,25 @@ function eventTrigger(params)
             switch (params[0])
             {
                 case 'white' | 'White' | '0':
-                    PlayState.canGame.flash(FlxColor.WHITE, 3);
+                    PlayState.camGame.flash(FlxColor.WHITE, 3);
                 case 'red' | 'Red' | '1':
-                    PlayState.canGame.flash(FlxColor.RED, 3);
+                    PlayState.camGame.flash(FlxColor.RED, 3);
                 case 'blue' | 'Blue' | '2':
-                    PlayState.canGame.flash(FlxColor.BLUE, 3);
+                    PlayState.camGame.flash(FlxColor.BLUE, 3);
                 case 'black' | 'Black' | '3':
-                    PlayState.canGame.flash(FlxColor.BLACK, 3);
+                    PlayState.camGame.flash(FlxColor.BLACK, 3);
                 case 'cyan' | 'Cyan' | '4':
-                    PlayState.canGame.flash(FlxColor.CYAN, 3);
+                    PlayState.camGame.flash(FlxColor.CYAN, 3);
                 case 'Magenta' | 'magenta' | '5':
-                    PlayState.canGame.flash(FlxColor.MAGENTA, 3);
+                    PlayState.camGame.flash(FlxColor.MAGENTA, 3);
                 case 'pink' | 'Pink' | '6':
-                    PlayState.canGame.flash(FlxColor.PINK, 3);
+                    PlayState.camGame.flash(FlxColor.PINK, 3);
                 case 'orange' | 'Orange' | '7':
-                    PlayState.canGame.flash(FlxColor.ORANGE, 3);
+                    PlayState.camGame.flash(FlxColor.ORANGE, 3);
                 case 'purple' | 'Purple' | '8':
-                    PlayState.canGame.flash(FlxColor.PURPLE, 3);
+                    PlayState.camGame.flash(FlxColor.PURPLE, 3);
                 case 'lime' | 'Lime' | '9': //lime test windows
-                    PlayState.canGame.flash(FlxColor.LIME, 3);
+                    PlayState.camGame.flash(FlxColor.LIME, 3);
             }
         }
 
