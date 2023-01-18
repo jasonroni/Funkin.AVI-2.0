@@ -18,6 +18,10 @@ import states.MusicBeatState;
 import sys.FileSystem;
 import sys.thread.Mutex;
 import sys.thread.Thread;
+import openfl.filters.BitmapFilter;
+import openfl.filters.ShaderFilter;
+import flixel.addons.display.FlxRuntimeShader;
+import flixel.FlxCamera;
 
 typedef SongMetadata =
 {
@@ -27,10 +31,16 @@ typedef SongMetadata =
 	var color:FlxColor;
 }
 
+typedef ShaderEffect = {
+	var shader:Dynamic;
+  }
+
 class ExtrasState extends MusicBeatState
 {
 	//
 	var songs:Array<SongMetadata> = [];
+
+	var shaders:Array<ShaderEffect> = [];
 
 	static var curSelected:Int = 0;
 
@@ -60,6 +70,12 @@ class ExtrasState extends MusicBeatState
 
 	public var loadCustom:Bool = true;
 
+	// The fact is i have to do this for organization and stuff -jason
+	var camGame:FlxCamera; // Main camera
+	var camHUD:FlxCamera; // Shaders and stuff
+
+	var filter:FlxRuntimeShader;
+
 	public function new(?loadCustom:Bool = false)
 	{
 		super();
@@ -69,7 +85,18 @@ class ExtrasState extends MusicBeatState
 
 	override function create()
 	{
+		camGame = new FlxCamera();
+
+		camHUD = new FlxCamera();
+		camHUD.bgColor.alpha = 0;
+
+		FlxG.cameras.reset(camGame);
+		FlxG.cameras.add(camHUD, false);
+		FlxG.cameras.setDefaultDrawTarget(camGame, true); //ain't gonna mess with "FlxCamera.defaultCameras is deprecated" -jason
+		
 		super.create();
+
+		filter = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/bloom.frag'), null, 120);
 
         lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Extras";
 
@@ -80,7 +107,7 @@ class ExtrasState extends MusicBeatState
 		addSong("Don't-Cross!", 3, 'face', FlxColor.fromRGB(60, 60, 60));
 		addSong('Malfunction', 3, 'glitched-mickey-new-pixel', FlxColor.fromRGB(60, 60, 60));
 		addSong('Neglection', 3, 'face', FlxColor.fromRGB(60, 60, 60));
-		addSong('Bless', 3, 'white-noise', FlxColor.fromRGB(60, 60, 60));
+		addSong('Bless', 3, 'white-noise', FlxColor.fromRGB(255, 255, 255));
 		addSong('War-Dilemma', 3, 'face', FlxColor.fromRGB(60, 60, 60));
 		addSong('Scrapped', 3, 'rs', FlxColor.fromRGB(60, 60, 60));
 		addSong('Cycled-Sins', 3, 'relapse-pixel', FlxColor.fromRGB(60, 60, 60));
@@ -255,6 +282,9 @@ class ExtrasState extends MusicBeatState
 	{
 		super.update(elapsed);
 
+		filter.setFloat('iTime', elapsed);
+		filter.setFloat('uTime', elapsed);
+
 		if (bg != null && mainColor != null)
 			FlxTween.color(bg, 0.35, bg.color, mainColor);
 
@@ -393,6 +423,14 @@ class ExtrasState extends MusicBeatState
 		changeDiff();
 		changeSongPlaying();
 		updateDiscord();
+
+		switch(songs[curSelected].name.toLowerCase())
+		{
+			case 'bless':
+				FlxG.camera.setFilters([new ShaderFilter(filter)]);
+
+			default:
+		}
 	}
 
 	function changeSongPlaying()

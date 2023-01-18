@@ -305,8 +305,7 @@ class Main extends Sprite
 	}
 
 	@:deprecated('Use "option" instead')
-	public static function getOption(e:String)
-	{
+	public static var getOption = function(e:String) {
 		return Init.trueSettings.get(e);
 	}
 

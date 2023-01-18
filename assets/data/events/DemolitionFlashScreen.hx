@@ -1,36 +1,39 @@
+import states.PlayState;
+import flixel.util.FlxColor;
+
 function eventTrigger(params)
 {
     var flashing = !Init.trueSettings.get('Disable Flashing Lights');
 
     if (flashing)
         { // This Demolition, is how to make flashing lights disabled
-            if (Math.isNaN(params[1]))
-                params[1] = 'white';
+            if (Math.isNaN(params[0]))
+                params[0] = 'white';
 
             var Game = PlayState;
 
-            switch (params[1])
+            switch (params[0])
             {
                 case 'white' | 'White' | '0':
-                    FlxG.camera.flash(FlxColor.WHITE, 3);
+                    PlayState.canGame.flash(FlxColor.WHITE, 3);
                 case 'red' | 'Red' | '1':
-                    FlxG.camera.flash(FlxColor.RED, 3);
+                    PlayState.canGame.flash(FlxColor.RED, 3);
                 case 'blue' | 'Blue' | '2':
-                    FlxG.camera.flash(FlxColor.BLUE, 3);
+                    PlayState.canGame.flash(FlxColor.BLUE, 3);
                 case 'black' | 'Black' | '3':
-                    FlxG.camera.flash(FlxColor.BLACK, 3);
+                    PlayState.canGame.flash(FlxColor.BLACK, 3);
                 case 'cyan' | 'Cyan' | '4':
-                    FlxG.camera.flash(FlxColor.CYAN, 3);
+                    PlayState.canGame.flash(FlxColor.CYAN, 3);
                 case 'Magenta' | 'magenta' | '5':
-                    FlxG.camera.flash(FlxColor.MAGENTA, 3);
+                    PlayState.canGame.flash(FlxColor.MAGENTA, 3);
                 case 'pink' | 'Pink' | '6':
-                    FlxG.camera.flash(FlxColor.PINK, 3);
+                    PlayState.canGame.flash(FlxColor.PINK, 3);
                 case 'orange' | 'Orange' | '7':
-                    FlxG.camera.flash(FlxColor.ORANGE, 3);
+                    PlayState.canGame.flash(FlxColor.ORANGE, 3);
                 case 'purple' | 'Purple' | '8':
-                    FlxG.camera.flash(FlxColor.PURPLE, 3);
+                    PlayState.canGame.flash(FlxColor.PURPLE, 3);
                 case 'lime' | 'Lime' | '9': //lime test windows
-                    FlxG.camera.flash(FlxColor.LIME, 3);
+                    PlayState.canGame.flash(FlxColor.LIME, 3);
             }
         }
 
@@ -39,11 +42,11 @@ function eventTrigger(params)
             switch (params[1])
             {
                 case 'false' | 'False':
-                    Game.camHUD.visible = true;
+                    PlayState.camHUD.visible = true;
                 case 'true' | 'True':
-                    Game.camHUD.visible = false;
+                    PlayState.camHUD.visible = false;
                 default: 
-                    Game.camHUD.visible = true;
+                    PlayState.camHUD.visible = true;
             }
         }
         else
@@ -51,11 +54,11 @@ function eventTrigger(params)
             switch (params[1])
             {
                 case 'false' | 'False':
-                    FlxTween.tween(Game.camHUD, {alpha: 1}, 1);
+                    FlxTween.tween(PlayState.camHUD, {alpha: 1}, 1);
                 case 'true' | 'True':
-                    FlxTween.tween(Game.camHUD, {alpha: 0}, 1);
+                    FlxTween.tween(PlayState.camHUD, {alpha: 0}, 1);
                 default: 
-                    FlxTween.tween(Game.camHUD, {alpha: 1}, 1);
+                    FlxTween.tween(PlayState.camHUD, {alpha: 1}, 1);
             }
         }
 }

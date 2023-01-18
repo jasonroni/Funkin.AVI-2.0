@@ -138,13 +138,17 @@ class TitleState extends states.MusicBeatState
 
 		base.system.CppAPI.darkMode();
 
+
+
 		#if Freeplay
 		Main.switchState(this, new FreeplayState());
 		#end
 
 		startIntro();
 
-		FlxG.save.bind('funkin', 'ninjamuffin99');
+		FlxG.save.bind('funkin');
+
+		base.dependency.GameData.loadShit();
 
 		//ClientPrefs.loadPrefs();
 
