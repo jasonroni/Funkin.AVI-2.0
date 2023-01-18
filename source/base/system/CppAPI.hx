@@ -1,6 +1,7 @@
 package base.system;
 
 //taken from Wednesday Infidelity Because of This https://twitter.com/lunarcleint/status/1573550933530681344
+#if OnWindows
 class CppAPI
 {
 	#if cpp
@@ -34,7 +35,7 @@ class CppAPI
         WindowsSystem.setWindowOpacity();
     }
 
-    public static function sendNotification(title:String, desc:String) 
+    public static function sendNotification(title:String, desc:String)
     {
         WindowsSystem.sendNotification(title, desc);
     }
@@ -50,3 +51,4 @@ class CppAPI
     }
 	#end
 }
+#end
