@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<TextureAtlas imagePath="BlessBf.png">
+<TextureAtlas imagePath="bf-ghost.png">
 <SubTexture name="BlessBf down0000" x="4058" y="4009" width="985" height="805" frameX="-226" frameY="-780" frameWidth="1650" frameHeight="1650" />
 <SubTexture name="BlessBf down0001" x="872" y="3061" width="1002" height="868" frameX="-223" frameY="-776" frameWidth="1650" frameHeight="1650" />
 <SubTexture name="BlessBf down0002" x="3116" y="3061" width="992" height="854" frameX="-224" frameY="-784" frameWidth="1650" frameHeight="1650" />
