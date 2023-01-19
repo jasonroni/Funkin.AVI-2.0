@@ -92,7 +92,7 @@ class ExtrasState extends MusicBeatState
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD, false);
 		FlxG.cameras.setDefaultDrawTarget(camGame, true); //ain't gonna mess with "FlxCamera.defaultCameras is deprecated" -jason
-		
+
 		super.create();
 
 		// Shader stuff for specific songs
@@ -126,7 +126,7 @@ class ExtrasState extends MusicBeatState
 		addSong('Bless', 3, 'white-noise', FlxColor.fromRGB(255, 255, 255));
 		addSong('War-Dilemma', 3, 'face', FlxColor.fromRGB(60, 60, 60));
 		addSong('Scrapped', 3, 'rs', FlxColor.fromRGB(60, 60, 60));
-		addSong('Cycled-Sins', 3, 'relapse-pixel', FlxColor.fromRGB(60, 60, 60));
+		addSong('Cycled-Sins', 3, 'relapse-gun-pixel', FlxColor.fromRGB(60, 60, 60)); //messing with the saves for this later
 		addSong('Mercy', 3, 'walt', FlxColor.fromRGB(60, 60, 60));
 
 		mutex = new Mutex();
@@ -447,6 +447,7 @@ class ExtrasState extends MusicBeatState
 
 		if (!Init.trueSettings.get('Disable Screen Shaders')) // to prevent lag
 		{
+			//ah yes, formatting made by vsc itself - jason
 			switch(songs[curSelected].name.toLowerCase())
 			{
 				case 'bless':
