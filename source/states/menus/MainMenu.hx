@@ -224,8 +224,8 @@ class MainMenu extends MusicBeatState
 		updateSelection();
 
 		// from the base game lol
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, 'Funkin.AVI v2.0.0 - Demolition Engine v0.3.0', 12);
-		versionShit.setFormat(Paths.font("vcr"), 16, 0xFFFFFFFF, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 25, 0, 'Funkin.AVI v2.0.0 - Demolition Engine v0.3.0', 24);
+		versionShit.setFormat(Paths.font("DisneyFont"), 24, 0xFFFFFFFF, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
 		versionShit.scrollFactor.set();
 		versionShit.cameras = [camHUD];
 		add(versionShit);

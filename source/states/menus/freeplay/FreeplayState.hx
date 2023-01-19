@@ -77,15 +77,17 @@ class FreeplayState extends MusicBeatState
 	{
 		super.create();
 
-        lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Main Story";
+		defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
+		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
 
+      lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Main Story";
 
-        addSong('Isolated', 3, 'mickey-new', FlxColor.fromRGB(60, 60, 60));
-        addSong('Lunacy', 3, 'lunamick-new', FlxColor.fromRGB(60, 60, 60));
-        addSong('Delusional', 3, 'insanemick', FlxColor.fromRGB(60, 60, 60));
-        addSong('Twisted-Grins', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
-        addSong('Facade', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
-        addSong('Mortiferum-Risus', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
+		addSong('Isolated', 3, 'mickey-new', FlxColor.fromRGB(60, 60, 60));
+		addSong('Lunacy', 3, 'lunamick-new', FlxColor.fromRGB(60, 60, 60));
+		addSong('Delusional', 3, 'insanemick', FlxColor.fromRGB(60, 60, 60));
+		addSong('Twisted-Grins', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
+		addSong('Facade', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
+		addSong('Mortiferum-Risus', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
 
 		mutex = new Mutex();
 
@@ -376,24 +378,46 @@ class FreeplayState extends MusicBeatState
 
 		var bullShit:Int = 0;
 
-		for (i in 0...iconArray.length)
-			iconArray[i].alpha = 0.6;
+		for (i in 0...iconArray.length) {
+			iconArray[i].alpha = 0.6; 
+			iconArray[i].scale.set(0.8, 0.8);
+		}
 
 		iconArray[curSelected].alpha = 1;
+		iconArray[curSelected].scale.set(1, 1);
 
 		for (item in grpSongs.members)
 		{
 			item.targetY = bullShit - curSelected;
 			bullShit++;
 
-			item.alpha = 0.6;
-			if (item.targetY == 0)
-				item.alpha = 1;
+			item.alpha = 0.5;
+			item.scale.set(0.85, 0.85);
+			if (item.targetY == 0) {
+				item.alpha = 1; 
+				item.scale.set(1, 1);
 		}
+	}
 
 		changeDiff();
 		changeSongPlaying();
 		updateDiscord();
+
+		switch(songs[curSelected].name.toLowerCase())
+		{
+			case 'isolated' | 'lunacy':
+				FlxG.camera.setFilters(
+					[
+						new ShaderFilter(defaultShader),
+						new ShaderFilter(defaultShader2)
+					]);
+
+			default:
+				FlxG.camera.setFilters(
+					[
+						new ShaderFilter(defaultShader2)
+					]);
+		}
 	}
 
 	function changeSongPlaying()
