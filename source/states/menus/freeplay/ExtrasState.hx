@@ -74,7 +74,18 @@ class ExtrasState extends MusicBeatState
 	var camGame:FlxCamera; // Main camera
 	var camHUD:FlxCamera; // Shaders and stuff
 
-	var filter:FlxRuntimeShader;
+	// Shaders
+	var getBlessed:FlxRuntimeShader;
+	var glitchyStuff:FlxRuntimeShader;
+	var chromAberration:FlxRuntimeShader;
+	var mercyShader:FlxRuntimeShader;
+	var mercyShader2:FlxRuntimeShader;
+	var urFucked:FlxRuntimeShader;
+	var defaultShader:FlxRuntimeShader;
+	var defaultShader2:FlxRuntimeShader;
+	var testThing:FlxRuntimeShader;
+
+	var shaderTime:Float = 0;
 
 	public function new(?loadCustom:Bool = false)
 	{
@@ -96,11 +107,27 @@ class ExtrasState extends MusicBeatState
 		
 		super.create();
 
-		filter = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/bloom.frag'), null, 120);
+		// Shader stuff for specific songs
+		getBlessed = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/bloom.frag'), null, 120);
 
+		glitchyStuff = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/vignetteGlitch.frag'), null, 130);
+
+		chromAberration = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/aberration.frag'), null, 150);
+		chromAberration.setFloat('aberration', 0.12);
+		chromAberration.setFloat('effectTime', 0.24);
+
+		mercyShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/vhs.frag'), null, 130);
+		mercyShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
+
+		urFucked = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/gaussian.frag'), null, 150);
+
+		defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
+		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
+
+		// The rest of the stuff
         lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Extras";
 
-
+		// Songlist setup
         addSong('Hunted', 3, 'face', FlxColor.fromRGB(60, 60, 60));
 		addSong('Isolated-Old', 3, 'mickey-legacy', FlxColor.fromRGB(60, 60, 60));
 		addSong('Isolated-Beta', 3, 'mickey-legacy', FlxColor.fromRGB(60, 60, 60));
@@ -282,8 +309,13 @@ class ExtrasState extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		filter.setFloat('iTime', elapsed);
-		filter.setFloat('uTime', elapsed);
+		shaderTime += elapsed;
+		
+		glitchyStuff.setFloat('time', shaderTime);
+		glitchyStuff.setFloat('prob', shaderTime);
+
+		mercyShader.setFloat('time', shaderTime);
+		mercyShader2.setFloat('time', shaderTime);
 
 		if (bg != null && mainColor != null)
 			FlxTween.color(bg, 0.35, bg.color, mainColor);
@@ -427,9 +459,19 @@ class ExtrasState extends MusicBeatState
 		switch(songs[curSelected].name.toLowerCase())
 		{
 			case 'bless':
-				FlxG.camera.setFilters([new ShaderFilter(filter)]);
+				FlxG.camera.setFilters([new ShaderFilter(getBlessed), new ShaderFilter(defaultShader2)]);
+
+			case 'malfunction':
+				FlxG.camera.setFilters([new ShaderFilter(glitchyStuff), new ShaderFilter(chromAberration), new ShaderFilter(defaultShader2)]);
+
+			case 'mercy':
+				FlxG.camera.setFilters([new ShaderFilter(mercyShader), new ShaderFilter(mercyShader2), new ShaderFilter(defaultShader2)]);
+
+			case "don't-cross!":
+				FlxG.camera.setFilters([new ShaderFilter(chromAberration), new ShaderFilter(urFucked), new ShaderFilter(defaultShader2)]);
 
 			default:
+				FlxG.camera.setFilters([new ShaderFilter(defaultShader), new ShaderFilter(defaultShader2)]);
 		}
 	}
 
