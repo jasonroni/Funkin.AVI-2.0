@@ -9,5 +9,7 @@ using base.Controls;
 using base.dependency.ForeverDeps;
 using base.utils.CoolUtil;
 using flixel.addons.display.FlxRuntimeShader;
-import globals.*; // using doesn't have '*' support
-import globals.TypedefHandler;
+using globals.*; // using doesn't have '*' support
+using globals.TypedefHandler;
+using globals.Init;
+using globals.Paths;
