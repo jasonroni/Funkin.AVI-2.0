@@ -43,9 +43,14 @@ class StoryMenu extends MusicBeatState
 	var leftArrow:FlxSprite;
 	var rightArrow:FlxSprite;
 
+	var defaultShader2:FlxRuntimeShader;
+
 	override function create()
 	{
 		super.create();
+
+		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
+		FlxG.camera.setFilters([new openfl.filters.ShaderFilter(defaultShader2)]);
 
 		// load week data;
 		Main.loadGameWeeks(true);
@@ -366,10 +371,13 @@ class StoryMenu extends MusicBeatState
 		for (item in grpWeekText.members)
 		{
 			item.targetY = bullShit - curWeek;
-			if (item.targetY == 0 && !lockedWeek)
+			if (item.targetY == 0 && !lockedWeek) {
 				item.alpha = 1;
-			else
+				item.scale.set(1, 1);
+			} else {
 				item.alpha = 0.6;
+				item.scale.set(0.7, 0.7);
+			}
 			bullShit++;
 		}
 

@@ -104,7 +104,7 @@ class ExtrasState extends MusicBeatState
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD, false);
 		FlxG.cameras.setDefaultDrawTarget(camGame, true); //ain't gonna mess with "FlxCamera.defaultCameras is deprecated" -jason
-		
+
 		super.create();
 
 		// Shader stuff for specific songs
@@ -137,7 +137,7 @@ class ExtrasState extends MusicBeatState
 		addSong('Bless', 3, 'white-noise', FlxColor.fromRGB(255, 255, 255));
 		addSong('War-Dilemma', 3, 'face', FlxColor.fromRGB(60, 60, 60));
 		addSong('Scrapped', 3, 'rs', FlxColor.fromRGB(60, 60, 60));
-		addSong('Cycled-Sins', 3, 'relapse-pixel', FlxColor.fromRGB(60, 60, 60));
+		addSong('Cycled-Sins', 3, 'relapse-gun-pixel', FlxColor.fromRGB(60, 60, 60)); //messing with the saves for this later
 		addSong('Mercy', 3, 'walt', FlxColor.fromRGB(60, 60, 60));
 
 		mutex = new Mutex();
@@ -460,18 +460,23 @@ class ExtrasState extends MusicBeatState
 		{
 			case 'bless':
 				FlxG.camera.setFilters([new ShaderFilter(getBlessed), new ShaderFilter(defaultShader2)]);
+				FlxG.camera.shake(0, 0);
 
 			case 'malfunction':
 				FlxG.camera.setFilters([new ShaderFilter(glitchyStuff), new ShaderFilter(chromAberration), new ShaderFilter(defaultShader2)]);
+				FlxG.camera.shake(0, 0);
 
 			case 'mercy':
 				FlxG.camera.setFilters([new ShaderFilter(mercyShader), new ShaderFilter(mercyShader2), new ShaderFilter(defaultShader2)]);
+				FlxG.camera.shake(0, 0);
 
 			case "don't-cross!":
 				FlxG.camera.setFilters([new ShaderFilter(chromAberration), new ShaderFilter(urFucked), new ShaderFilter(defaultShader2)]);
+				FlxG.camera.shake(0.01, 99999999);
 
 			default:
 				FlxG.camera.setFilters([new ShaderFilter(defaultShader), new ShaderFilter(defaultShader2)]);
+				FlxG.camera.shake(0, 0);
 		}
 	}
 

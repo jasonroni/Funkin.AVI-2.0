@@ -8,3 +8,5 @@ using StringTools;
 using base.Controls;
 using base.dependency.ForeverDeps;
 using base.utils.CoolUtil;
+using base.dependency.GameData;
+using flixel.addons.display.FlxRuntimeShader;

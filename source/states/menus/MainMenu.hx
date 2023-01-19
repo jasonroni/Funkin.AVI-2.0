@@ -17,6 +17,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import states.MusicBeatState;
+import flixel.addons.display.FlxRuntimeShader;
 
 using StringTools;
 
@@ -43,6 +44,11 @@ class MainMenu extends MusicBeatState
 	var finishedFunnyMove:Bool = false;
 	var menuart:FlxSprite;
 
+	var camGame:FlxCamera;
+	var camHUD:FlxCamera;
+
+	var defaultShader2:FlxRuntimeShader;
+
 	public var logContent:String;
 
 	public function new(?logContent:String)
@@ -55,7 +61,19 @@ class MainMenu extends MusicBeatState
 	// the create 'state'
 	override function create()
 	{
+		camGame = new FlxCamera(); // Main camera for objects and stuff
+
+		camHUD = new FlxCamera(); // for the grain effect and etc
+		camHUD.bgColor.alpha = 0;
+
+		FlxG.cameras.reset(camGame);
+		FlxG.cameras.add(camHUD, false);
+		FlxG.cameras.setDefaultDrawTarget(camGame, true);
+
 		super.create();
+
+		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
+		camGame.setFilters([new openfl.filters.ShaderFilter(defaultShader2)]);
 
 		openfl.Lib.application.window.title = "Funkin.AVI";
 
@@ -209,6 +227,7 @@ class MainMenu extends MusicBeatState
 		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, 'Funkin.AVI v2.0.0 - Demolition Engine v0.3.0', 12);
 		versionShit.setFormat(Paths.font("vcr"), 16, 0xFFFFFFFF, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
 		versionShit.scrollFactor.set();
+		versionShit.cameras = [camHUD];
 		add(versionShit);
 
 		if (logContent != null && logContent.length > 1)
@@ -221,6 +240,7 @@ class MainMenu extends MusicBeatState
 		scratchStuff.screenCenter();
 		scratchStuff.scale.x = 1.1;
 		scratchStuff.scale.y = 1.1;
+		scratchStuff.cameras = [camHUD];
 		add(scratchStuff);
 
 		var grain:FlxSprite = new FlxSprite();
@@ -230,6 +250,7 @@ class MainMenu extends MusicBeatState
 		grain.screenCenter();
 		grain.scale.x = 1.1;
 		grain.scale.y = 1.1;
+		grain.cameras = [camHUD];
 		add(grain);
 	}
 
