@@ -1,4 +1,4 @@
-package;
+package globals;
 
 import openfl.filters.BitmapFilter;
 import openfl.filters.ShaderFilter;
