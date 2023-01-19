@@ -77,6 +77,10 @@ class FreeplayState extends MusicBeatState
 	{
 		super.create();
 
+		//smilesShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/'))
+		defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
+		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
+
         lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Main Story";
 
 
@@ -364,7 +368,7 @@ class FreeplayState extends MusicBeatState
 	function changeSelection(change:Int = 0)
 	{
 		FlxG.sound.play(Paths.sound('base/menus/scrollMenu'), 0.4);
-		FlxG.camera.flash(FlxColor.BLACK, 0.4);
+		FlxG.camera.flash(FlxColor.BLACK, 0.1);
 		curSelected = FlxMath.wrap(curSelected + change, 0, songs.length - 1);
 
 		intendedScore = ScoreUtils.getScore(songs[curSelected].name, curDifficulty);
@@ -394,6 +398,27 @@ class FreeplayState extends MusicBeatState
 		changeDiff();
 		changeSongPlaying();
 		updateDiscord();
+
+		if (!Init.trueSettings.get('Disable Screen Shaders')) // to prevent lag
+			{
+				//ah yes, formatting made by vsc itself - jason
+				switch(songs[curSelected].name.toLowerCase())
+				{
+					/*case 'twisted-grins' | 'facade' | 'mortiferum-risus':
+						FlxG.camera.setFilters(
+							[
+								new ShaderFilter(getBlessed), 
+								new ShaderFilter(defaultShader2)
+							]);*/
+	
+					default:
+						FlxG.camera.setFilters(
+							[
+								new ShaderFilter(defaultShader),
+								new ShaderFilter(defaultShader2)
+							]);
+				}
+			}
 	}
 
 	function changeSongPlaying()

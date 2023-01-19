@@ -46,9 +46,22 @@ class FreeplayMenu extends MusicBeatState {
 	var ui_tex = Paths.getSparrowAtlas('menus/base/storymenu/campaign_menu_UI_assets');
 	var noCovers:FlxText;
 	var BG:FlxSprite;
+
+	var defaultShader:FlxRuntimeShader;
+	var defaultShader2:FlxRuntimeShader;
+	
     override function create(){
 
 		super.create();
+
+		defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
+		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
+		FlxG.camera.setFilters(
+			[
+				new openfl.filters.ShaderFilter(defaultShader),
+				new openfl.filters.ShaderFilter(defaultShader2)
+			]);
+			
 		//timesToEnter = 30;
 
 		/*if(ClientPrefs.funiShaders)

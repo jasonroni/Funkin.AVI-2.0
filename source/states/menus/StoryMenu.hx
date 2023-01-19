@@ -43,14 +43,20 @@ class StoryMenu extends MusicBeatState
 	var leftArrow:FlxSprite;
 	var rightArrow:FlxSprite;
 
+	var defaultShader:FlxRuntimeShader;
 	var defaultShader2:FlxRuntimeShader;
 
 	override function create()
 	{
 		super.create();
 
+		defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
 		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
-		FlxG.camera.setFilters([new openfl.filters.ShaderFilter(defaultShader2)]);
+		FlxG.camera.setFilters(
+			[
+				new openfl.filters.ShaderFilter(defaultShader),
+				new openfl.filters.ShaderFilter(defaultShader2)
+			]);
 
 		// load week data;
 		Main.loadGameWeeks(true);

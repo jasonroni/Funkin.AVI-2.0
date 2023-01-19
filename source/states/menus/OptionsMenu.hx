@@ -13,9 +13,20 @@ class OptionsMenu extends BaseOptions
 	var bg:FlxSprite;
 	var infoText:FlxText;
 
+	var defaultShader:FlxRuntimeShader;
+	var defaultShader2:FlxRuntimeShader;
+
 	override public function create()
 	{
 		super.create();
+
+		defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
+		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
+		FlxG.camera.setFilters(
+			[
+				new openfl.filters.ShaderFilter(defaultShader),
+				new openfl.filters.ShaderFilter(defaultShader2)
+			]);
 
 		bg = new FlxSprite().loadGraphic(Paths.image('menus/base/menuDesat'));
 		bg.scrollFactor.set(0, 0.18);
