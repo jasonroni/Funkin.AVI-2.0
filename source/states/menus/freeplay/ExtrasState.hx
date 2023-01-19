@@ -447,6 +447,7 @@ class ExtrasState extends MusicBeatState
 
 		if (!Init.trueSettings.get('Disable Screen Shaders')) // to prevent lag
 		{
+			//ah yes, formatting made by vsc itself - jason
 			switch(songs[curSelected].name.toLowerCase())
 			{
 				case 'bless':
