@@ -1,6 +1,6 @@
 #pragma header
 
-float zoom = 1.1;
+float zoom = 1;
 void main()
 {
     vec2 uv = openfl_TextureCoordv;

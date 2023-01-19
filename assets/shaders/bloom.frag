@@ -20,8 +20,8 @@ const float amount = 1;
 // GAUSSIAN BLUR SETTINGS
 float dim = 1.4;
 float Directions = 20.0;
-float Quality = 24.0; 
-float Size = 26.0; 
+float Quality = 20.0; 
+float Size = 20.0; 
 vec2 Radius = Size/openfl_TextureSize.xy;
 
 void mainImage()
