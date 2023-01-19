@@ -89,6 +89,9 @@ class TitleState extends states.MusicBeatState
 
 	public static var updateVersion:String = '';
 
+	var defaultShader:FlxRuntimeShader;
+	var defaultShader2:FlxRUntimeShader;
+
 	override public function create():Void
 	{
 		/*if(FlxG.save.data.episode1FPLock == null) FPClientPrefs.lockinIt();
@@ -137,6 +140,14 @@ class TitleState extends states.MusicBeatState
 
 		//swagShader = new ColorSwap();
 		super.create();
+
+		defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
+		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
+		camGame.setFilters(
+			[
+				new openfl.filters.ShaderFilter(defaultShader),
+				new openfl.filters.ShaderFilter(defaultShader2)
+			]);
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 

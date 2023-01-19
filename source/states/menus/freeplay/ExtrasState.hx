@@ -467,6 +467,7 @@ class ExtrasState extends MusicBeatState
 							new ShaderFilter(chromAberration),
 							new ShaderFilter(defaultShader2)
 						]);
+					FlxG.camera.shake(0.01, 0.001);
 
 				case 'mercy':
 					FlxG.camera.setFilters(
@@ -483,6 +484,7 @@ class ExtrasState extends MusicBeatState
 							new ShaderFilter(urFucked),
 							new ShaderFilter(defaultShader2)
 						]);
+					FlxG.camera.shake(0.015, 99999999);
 
 				default:
 					FlxG.camera.setFilters(
@@ -490,6 +492,7 @@ class ExtrasState extends MusicBeatState
 							new ShaderFilter(defaultShader),
 							new ShaderFilter(defaultShader2)
 						]);
+					FlxG.camera.shake(0.01, 0.001);
 			}
 		}
 	}
