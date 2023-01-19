@@ -18,19 +18,17 @@ import states.MusicBeatState;
 import sys.FileSystem;
 import sys.thread.Mutex;
 import sys.thread.Thread;
-
-typedef Metadata =
-{
-	var name:String;
-	var week:Int;
-	var character:String;
-	var color:FlxColor;
-}
+import openfl.filters.BitmapFilter;
+import openfl.filters.ShaderFilter;
+import flixel.addons.display.FlxRuntimeShader;
+import flixel.FlxCamera;
 
 class FreeplayState extends MusicBeatState
 {
 	//
-	var songs:Array<Metadata> = [];
+	var songs:Array<SongMetadata> = [];
+
+	var shaders:Array<ShaderEffect> = [];
 
 	static var curSelected:Int = 0;
 
@@ -57,6 +55,14 @@ class FreeplayState extends MusicBeatState
 
 	private var existingSongs:Array<String> = [];
 	private var existingDifficulties:Array<Array<String>> = [];
+
+	// The fact is i have to do this for organization and stuff -jason
+	var camGame:FlxCamera; // Main camera
+	var camHUD:FlxCamera; // Shaders and stuff
+
+	var defaultShader:FlxRuntimeShader;
+	var defaultShader2:FlxRuntimeShader;
+	var smilesShader:FlxRuntimeShader;
 
 	public var loadCustom:Bool = true;
 

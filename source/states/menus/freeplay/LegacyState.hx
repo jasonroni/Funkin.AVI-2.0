@@ -18,19 +18,15 @@ import states.MusicBeatState;
 import sys.FileSystem;
 import sys.thread.Mutex;
 import sys.thread.Thread;
-
-typedef LegacySong =
-{
-	var name:String;
-	var week:Int;
-	var character:String;
-	var color:FlxColor;
-}
+import openfl.filters.BitmapFilter;
+import openfl.filters.ShaderFilter;
+import flixel.addons.display.FlxRuntimeShader;
+import flixel.FlxCamera;
 
 class LegacyState extends MusicBeatState
 {
 	//
-	var songs:Array<LegacySong> = [];
+	var songs:Array<SongMetadata> = [];
 
 	static var curSelected:Int = 0;
 
@@ -57,6 +53,13 @@ class LegacyState extends MusicBeatState
 
 	private var existingSongs:Array<String> = [];
 	private var existingDifficulties:Array<Array<String>> = [];
+
+	var glitchyStuff:FlxRuntimeShader;
+	var chromAberration:FlxRuntimeShader;
+	var mercyShader:FlxRuntimeShader;
+	var mercyShader2:FlxRuntimeShader;
+	var defaultShader:FlxRuntimeShader;
+	var defaultShader2:FlxRuntimeShader;
 
 	public var loadCustom:Bool = true;
 

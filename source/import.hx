@@ -8,3 +8,4 @@ using StringTools;
 using base.Controls;
 using base.dependency.ForeverDeps;
 using base.utils.CoolUtil;
+using SongShaderHandler;
