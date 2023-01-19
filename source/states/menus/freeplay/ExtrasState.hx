@@ -23,18 +23,6 @@ import openfl.filters.ShaderFilter;
 import flixel.addons.display.FlxRuntimeShader;
 import flixel.FlxCamera;
 
-typedef SongMetadata =
-{
-	var name:String;
-	var week:Int;
-	var character:String;
-	var color:FlxColor;
-}
-
-typedef ShaderEffect = {
-	var shader:Dynamic;
-  }
-
 class ExtrasState extends MusicBeatState
 {
 	//
@@ -120,6 +108,7 @@ class ExtrasState extends MusicBeatState
 		mercyShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
 
 		urFucked = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/gaussian.frag'), null, 150);
+		urFucked.setFloat('amount', 1);
 
 		defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
 		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
@@ -456,27 +445,48 @@ class ExtrasState extends MusicBeatState
 		changeSongPlaying();
 		updateDiscord();
 
-		switch(songs[curSelected].name.toLowerCase())
+		if (!Init.trueSettings.get('Disable Screen Shaders')) // to prevent lag
 		{
-			case 'bless':
-				FlxG.camera.setFilters([new ShaderFilter(getBlessed), new ShaderFilter(defaultShader2)]);
-				FlxG.camera.shake(0, 0);
+			switch(songs[curSelected].name.toLowerCase())
+			{
+				case 'bless':
+					FlxG.camera.setFilters(
+						[
+							new ShaderFilter(getBlessed), 
+							new ShaderFilter(defaultShader2)
+						]);
 
-			case 'malfunction':
-				FlxG.camera.setFilters([new ShaderFilter(glitchyStuff), new ShaderFilter(chromAberration), new ShaderFilter(defaultShader2)]);
-				FlxG.camera.shake(0, 0);
+				case 'malfunction':
+					FlxG.camera.setFilters(
+						[
+							new ShaderFilter(glitchyStuff), 
+							new ShaderFilter(chromAberration),
+							new ShaderFilter(defaultShader2)
+						]);
 
-			case 'mercy':
-				FlxG.camera.setFilters([new ShaderFilter(mercyShader), new ShaderFilter(mercyShader2), new ShaderFilter(defaultShader2)]);
-				FlxG.camera.shake(0, 0);
+				case 'mercy':
+					FlxG.camera.setFilters(
+						[
+							new ShaderFilter(mercyShader),
+							new ShaderFilter(mercyShader2),
+							 new ShaderFilter(defaultShader2)
+						]);
 
-			case "don't-cross!":
-				FlxG.camera.setFilters([new ShaderFilter(chromAberration), new ShaderFilter(urFucked), new ShaderFilter(defaultShader2)]);
-				FlxG.camera.shake(0.01, 99999999);
+				case "don't-cross!":
+					FlxG.camera.setFilters(
+						[
+							new ShaderFilter(chromAberration),
+							new ShaderFilter(urFucked),
+							new ShaderFilter(defaultShader2)
+						]);
 
-			default:
-				FlxG.camera.setFilters([new ShaderFilter(defaultShader), new ShaderFilter(defaultShader2)]);
-				FlxG.camera.shake(0, 0);
+				default:
+					FlxG.camera.setFilters(
+						[
+							new ShaderFilter(defaultShader),
+							new ShaderFilter(defaultShader2)
+						]);
+			}
 		}
 	}
 
