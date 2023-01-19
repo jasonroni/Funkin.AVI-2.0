@@ -24,4 +24,4 @@ As you can already tell, this version of the mod now runs on a modded version of
 ----------------------------------------------
 ### Got issues or have a bug to report?
 
-Join our Discord Server here: https://discord.gg/fdFEnQ8Dst [Dunkin Dunkin' Community]
+Join to our [**Dunkin Dunkin' Community Server**](https://discord.gg/fdFEnQ8Dst)
