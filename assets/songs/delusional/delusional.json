@@ -1,7 +1,7 @@
 {
 	"song": {
-		"player1": "bf",
-		"player2": "dad",
+		"player1": "bf-fake-new",
+		"player2": "lunamick-new",
 		"events": [],
 		"notes": [
 			{
@@ -14736,7 +14736,7 @@
 		"splashSkin": "noteSplashes",
 		"song": "Delusional",
 		"validScore": true,
-		"stage": "stage",
+		"stage": "abandonedStreet",
 		"arrowSkin": "",
 		"needsVoices": true,
 		"speed": 2.9,
