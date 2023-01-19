@@ -1,6 +1,6 @@
 /*
 	add here classes that will be used globally by every class on the source code;
-	to import stuff here, simply type `using YourClassHere;`
+	to import stuff here, simply type `using YourClassHere;` or `import YourClassHere;`
  */
 
 //

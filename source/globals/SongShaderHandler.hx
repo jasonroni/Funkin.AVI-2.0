@@ -1,12 +1,9 @@
 package globals;
-<<<<<<<< HEAD:source/globals/TypedefHandler.hx
-========
 
 import openfl.filters.BitmapFilter;
 import openfl.filters.ShaderFilter;
 import flixel.addons.display.FlxRuntimeShader;
 import flixel.util.FlxColor;
->>>>>>>> a86a9016bbe696c2b7f1ea5888a77243abc2f3c8:source/globals/SongShaderHandler.hx
 
 /*
 	okay, I was getting tired of having to rename the fucking typedef stuff for every menu,
