@@ -1,0 +1,3 @@
+In this folder there are all the globals the engine uses, such as the freeplay and shader typedefs.
+
+This is also used for Paths and Init

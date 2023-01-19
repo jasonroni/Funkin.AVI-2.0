@@ -1,9 +1,4 @@
-package;
-
-import openfl.filters.BitmapFilter;
-import openfl.filters.ShaderFilter;
-import flixel.addons.display.FlxRuntimeShader;
-import flixel.util.FlxColor;
+package globals;
 
 /*
 	okay, I was getting tired of having to rename the fucking typedef stuff for every menu,
@@ -16,10 +11,21 @@ import flixel.util.FlxColor;
 	-don
 */
 
+import openfl.filters.BitmapFilter;
+import openfl.filters.ShaderFilter;
+import flixel.addons.display.FlxRuntimeShader;
+import flixel.util.FlxColor;
+
+/**
+ * Typedef used for Shaders
+ */
 typedef ShaderEffect = {
 	var shader:Dynamic;
   }
 
+/**
+ * Typedef used for Freeplay categories
+ */
 typedef SongMetadata =
 {
 	var name:String;
