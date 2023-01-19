@@ -83,10 +83,11 @@ class Main
 
 				mainView.findComponent("restart-button", Button).onClick = function(_)
 				{
+					//this aint working
 					#if windows
-					new Process("Forever Engine Feather", []);
+					new Process("FunkinAVI.exe", []);
 					#elseif linux
-					new Process("./Forever Engine Feather", []);
+					new Process("./FunkinAVI.exe", []);
 					#end
 
 					Sys.exit(0);
