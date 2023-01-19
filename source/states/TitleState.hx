@@ -90,7 +90,7 @@ class TitleState extends states.MusicBeatState
 	public static var updateVersion:String = '';
 
 	var defaultShader:FlxRuntimeShader;
-	var defaultShader2:FlxRUntimeShader;
+	var defaultShader2:FlxRuntimeShader;
 
 	override public function create():Void
 	{
