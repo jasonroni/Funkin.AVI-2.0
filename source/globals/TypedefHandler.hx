@@ -1,10 +1,5 @@
 package globals;
 
-import openfl.filters.BitmapFilter;
-import openfl.filters.ShaderFilter;
-import flixel.addons.display.FlxRuntimeShader;
-import flixel.util.FlxColor;
-
 /*
 	okay, I was getting tired of having to rename the fucking typedef stuff for every menu,
 	so here's the more better, and more simpler approach to this, 
