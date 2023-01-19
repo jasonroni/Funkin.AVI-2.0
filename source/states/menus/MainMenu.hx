@@ -47,6 +47,7 @@ class MainMenu extends MusicBeatState
 	var camGame:FlxCamera;
 	var camHUD:FlxCamera;
 
+	var defaultShader:FlxRuntimeShader;
 	var defaultShader2:FlxRuntimeShader;
 
 	public var logContent:String;
@@ -72,8 +73,13 @@ class MainMenu extends MusicBeatState
 
 		super.create();
 
+		defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
 		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
-		camGame.setFilters([new openfl.filters.ShaderFilter(defaultShader2)]);
+		camGame.setFilters(
+			[
+				new openfl.filters.ShaderFilter(defaultShader),
+				new openfl.filters.ShaderFilter(defaultShader2)
+			]);
 
 		openfl.Lib.application.window.title = "Funkin.AVI";
 

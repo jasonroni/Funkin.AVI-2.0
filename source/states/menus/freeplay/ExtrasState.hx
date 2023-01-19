@@ -298,13 +298,16 @@ class ExtrasState extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		shaderTime += elapsed;
-		
-		glitchyStuff.setFloat('time', shaderTime);
-		glitchyStuff.setFloat('prob', shaderTime);
+		if (!Init.trueSettings.get('Disable Screen Shaders')) // bye bye lag
+		{
+			shaderTime += elapsed;
+			
+			glitchyStuff.setFloat('time', shaderTime);
+			glitchyStuff.setFloat('prob', shaderTime);
 
-		mercyShader.setFloat('time', shaderTime);
-		mercyShader2.setFloat('time', shaderTime);
+			mercyShader.setFloat('time', shaderTime);
+			mercyShader2.setFloat('time', shaderTime);
+		}
 
 		if (bg != null && mainColor != null)
 			FlxTween.color(bg, 0.35, bg.color, mainColor);
@@ -414,7 +417,7 @@ class ExtrasState extends MusicBeatState
 	function changeSelection(change:Int = 0)
 	{
 		FlxG.sound.play(Paths.sound('base/menus/scrollMenu'), 0.4);
-		FlxG.camera.flash(FlxColor.BLACK, 0.4);
+		FlxG.camera.flash(FlxColor.BLACK, 0.1);
 		curSelected = FlxMath.wrap(curSelected + change, 0, songs.length - 1);
 
 		intendedScore = ScoreUtils.getScore(songs[curSelected].name, curDifficulty);
@@ -464,6 +467,7 @@ class ExtrasState extends MusicBeatState
 							new ShaderFilter(chromAberration),
 							new ShaderFilter(defaultShader2)
 						]);
+					FlxG.camera.shake(0.01, 0.001);
 
 				case 'mercy':
 					FlxG.camera.setFilters(
@@ -480,6 +484,7 @@ class ExtrasState extends MusicBeatState
 							new ShaderFilter(urFucked),
 							new ShaderFilter(defaultShader2)
 						]);
+					FlxG.camera.shake(0.015, 99999999);
 
 				default:
 					FlxG.camera.setFilters(
@@ -487,6 +492,7 @@ class ExtrasState extends MusicBeatState
 							new ShaderFilter(defaultShader),
 							new ShaderFilter(defaultShader2)
 						]);
+					FlxG.camera.shake(0.01, 0.001);
 			}
 		}
 	}
