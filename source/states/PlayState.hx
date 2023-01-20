@@ -1607,10 +1607,16 @@ class PlayState extends MusicBeatState
 							 {
 								  case 'false' | 'False':
 										PlayState.camHUD.visible = true;
+										for(theStrumsWhichAreOnAGoddamnArray in strumHUD)
+											theStrumsWhichAreOnAGoddamnArray.visible = true;
 								  case 'true' | 'True':
 										PlayState.camHUD.visible = false;
+										for(theStrumsWhichAreOnAGoddamnArray in strumHUD)
+											theStrumsWhichAreOnAGoddamnArray.visible = false;
 								  default: 
 										PlayState.camHUD.visible = true;
+										for(theStrumsWhichAreOnAGoddamnArray in strumHUD)
+											theStrumsWhichAreOnAGoddamnArray.visible = true;
 							 }
 						}
 						else
@@ -1619,10 +1625,16 @@ class PlayState extends MusicBeatState
 							 {
 								  case 'false' | 'False':
 										FlxTween.tween(PlayState.camHUD, {alpha: 1}, 1);
+										for(theStrumsWhichAreOnAGoddamnArray in strumHUD)
+											FlxTween.tween(theStrumsWhichAreOnAGoddamnArray, {alpha: 1}, 1);
 								  case 'true' | 'True':
 										FlxTween.tween(PlayState.camHUD, {alpha: 0}, 1);
+										for(theStrumsWhichAreOnAGoddamnArray in strumHUD)
+											FlxTween.tween(theStrumsWhichAreOnAGoddamnArray, {alpha: 0}, 1);
 								  default: 
 										FlxTween.tween(PlayState.camHUD, {alpha: 1}, 1);
+										for(theStrumsWhichAreOnAGoddamnArray in strumHUD)
+											FlxTween.tween(theStrumsWhichAreOnAGoddamnArray, {alpha: 1}, 1);
 							 }
 						}
 		}
