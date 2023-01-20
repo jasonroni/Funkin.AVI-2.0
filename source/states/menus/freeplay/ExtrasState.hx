@@ -69,9 +69,9 @@ class ExtrasState extends MusicBeatState
 	var mercyShader:FlxRuntimeShader;
 	var mercyShader2:FlxRuntimeShader;
 	var urFucked:FlxRuntimeShader;
+	var staticShader:FlxRuntimeShader;
 	var defaultShader:FlxRuntimeShader;
 	var defaultShader2:FlxRuntimeShader;
-	var testThing:FlxRuntimeShader;
 
 	var shaderTime:Float = 0;
 
@@ -110,6 +110,8 @@ class ExtrasState extends MusicBeatState
 		urFucked = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/gaussian.frag'), null, 150);
 		urFucked.setFloat('amount', 1);
 
+		staticShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
+
 		defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
 		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
 
@@ -125,8 +127,8 @@ class ExtrasState extends MusicBeatState
 		addSong('Neglection', 3, 'face', FlxColor.fromRGB(60, 60, 60));
 		addSong('Bless', 3, 'white-noise', FlxColor.fromRGB(255, 255, 255));
 		addSong('War-Dilemma', 3, 'face', FlxColor.fromRGB(60, 60, 60));
-		addSong('Scrapped', 3, 'rs', FlxColor.fromRGB(60, 60, 60));
-		addSong('Cycled-Sins', 3, 'relapse-gun-pixel', FlxColor.fromRGB(60, 60, 60)); //messing with the saves for this later
+		addSong('Scrapped', 3, 'rs', FlxColor.fromRGB(0, 0, 0));
+		addSong('Cycled-Sins', 3, 'relapse-pixel', FlxColor.fromRGB(60, 60, 60)); //messing with the saves for this later
 		addSong('Mercy', 3, 'walt', FlxColor.fromRGB(60, 60, 60));
 
 		mutex = new Mutex();
@@ -307,6 +309,9 @@ class ExtrasState extends MusicBeatState
 
 			mercyShader.setFloat('time', shaderTime);
 			mercyShader2.setFloat('time', shaderTime);
+
+			staticShader.setFloat('uTime', shaderTime);
+			staticShader.setFloat('iTime', shaderTime);
 		}
 
 		if (bg != null && mainColor != null)
@@ -429,20 +434,40 @@ class ExtrasState extends MusicBeatState
 
 		var bullShit:Int = 0;
 
-		for (i in 0...iconArray.length)
-			iconArray[i].alpha = 0.6;
-
-		iconArray[curSelected].alpha = 1;
-
-		for (item in grpSongs.members)
+		switch(songs[curSelected].name.toLowerCase())
 		{
-			item.targetY = bullShit - curSelected;
-			bullShit++;
+			case 'scrapped':
+				for (i in 0...iconArray.length)
+					iconArray[i].alpha = 0;
 
-			item.alpha = 0.6;
-			if (item.targetY == 0)
-				item.alpha = 1;
-		}
+				iconArray[curSelected].alpha = 1;
+
+				for (item in grpSongs.members)
+				{
+					item.targetY = bullShit - curSelected;
+					bullShit++;
+
+					item.alpha = 0;
+					if (item.targetY == 0)
+						item.alpha = 1;
+				}
+
+			default:
+				for (i in 0...iconArray.length)
+					iconArray[i].alpha = 0.6;
+
+				iconArray[curSelected].alpha = 1;
+
+				for (item in grpSongs.members)
+				{
+					item.targetY = bullShit - curSelected;
+					bullShit++;
+
+					item.alpha = 0.6;
+					if (item.targetY == 0)
+						item.alpha = 1;
+				}
+			}
 
 		changeDiff();
 		changeSongPlaying();
@@ -485,6 +510,23 @@ class ExtrasState extends MusicBeatState
 							new ShaderFilter(defaultShader2)
 						]);
 					FlxG.camera.shake(0.015, 99999999);
+
+				case 'scrapped':
+					FlxG.camera.setFilters(
+						[
+							new ShaderFilter(staticShader),
+							new ShaderFilter(chromAberration),
+							new ShaderFilter(defaultShader2)
+						]);
+
+				case 'cycled-sins':
+					FlxG.camera.setFilters(
+						[
+							new ShaderFilter(defaultShader),
+							new ShaderFilter(chromAberration),
+							new ShaderFilter(mercyShader2),
+							new ShaderFilter(defaultShader2)
+						]);
 
 				default:
 					FlxG.camera.setFilters(
