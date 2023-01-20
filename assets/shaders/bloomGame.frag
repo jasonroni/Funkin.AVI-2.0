@@ -18,10 +18,10 @@ uniform vec4 iMouse;
 const float amount = 1;
 
 // GAUSSIAN BLUR SETTINGS
-float dim = 1.8;
-float Directions = 20.0;
+float dim = 2;
+float Directions = 17.0;
 float Quality = 20.0; 
-float Size = 20.0; 
+float Size = 22.0; 
 vec2 Radius = Size/openfl_TextureSize.xy;
 
 void mainImage()
