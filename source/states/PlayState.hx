@@ -1550,6 +1550,81 @@ class PlayState extends MusicBeatState
 						}
 					});
 				}
+
+			case 'Screen Fade':
+				var value1:Float = Std.parseFloat(params[0]);
+				var value2 = params[1];
+
+				//less sprite creation for good reasons
+				switch(value2)
+				{
+					case 'fade in' | 'Fade in' | 'Fade In' | '0':
+					camOther.fade(0x000000, value1, true);
+
+					case 'fade out' | 'Fade out' | 'Fade Out' | '1':
+						camOther.fade(0x000000, value1, false);
+
+					default: 
+						camOther.fade(0x000000, value1, false);
+				}
+
+			case 'Flash Screen':
+				var flashing = !Init.trueSettings.get('Disable Flashing Lights');
+
+				if(flashing)
+					{
+						if (Math.isNaN(params[0]))
+							params[0] = 'white';
+	  
+					  switch (params[0])
+					  {
+							case 'white' | 'White' | '0':
+								 PlayState.camGame.flash(FlxColor.WHITE, 3);
+							case 'red' | 'Red' | '1':
+								 PlayState.camGame.flash(FlxColor.RED, 3);
+							case 'blue' | 'Blue' | '2':
+								 PlayState.camGame.flash(FlxColor.BLUE, 3);
+							case 'black' | 'Black' | '3':
+								 PlayState.camGame.flash(FlxColor.BLACK, 3);
+							case 'cyan' | 'Cyan' | '4':
+								 PlayState.camGame.flash(FlxColor.CYAN, 3);
+							case 'Magenta' | 'magenta' | '5':
+								 PlayState.camGame.flash(FlxColor.MAGENTA, 3);
+							case 'pink' | 'Pink' | '6':
+								 PlayState.camGame.flash(FlxColor.PINK, 3);
+							case 'orange' | 'Orange' | '7':
+								 PlayState.camGame.flash(FlxColor.ORANGE, 3);
+							case 'purple' | 'Purple' | '8':
+								 PlayState.camGame.flash(FlxColor.PURPLE, 3);
+							case 'lime' | 'Lime' | '9': //lime test windows
+								 PlayState.camGame.flash(FlxColor.LIME, 3);
+					  }
+					}
+
+					if (flashing)
+						{
+							 switch (params[1])
+							 {
+								  case 'false' | 'False':
+										PlayState.camHUD.visible = true;
+								  case 'true' | 'True':
+										PlayState.camHUD.visible = false;
+								  default: 
+										PlayState.camHUD.visible = true;
+							 }
+						}
+						else
+						{
+							 switch (params[1])
+							 {
+								  case 'false' | 'False':
+										FlxTween.tween(PlayState.camHUD, {alpha: 1}, 1);
+								  case 'true' | 'True':
+										FlxTween.tween(PlayState.camHUD, {alpha: 0}, 1);
+								  default: 
+										FlxTween.tween(PlayState.camHUD, {alpha: 1}, 1);
+							 }
+						}
 		}
 		
 		if (Events.loadedEvents.get(name) != null)
