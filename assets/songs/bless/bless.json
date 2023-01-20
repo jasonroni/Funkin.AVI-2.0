@@ -11707,6 +11707,26 @@
 				"sectionBeats": 4,
 				"changeBPM": false,
 				"mustHitSection": true
+			},
+			{
+				"lengthInSteps": 16,
+				"altAnim": false,
+				"typeOfSection": 0,
+				"sectionNotes": [],
+				"bpm": 120,
+				"sectionBeats": 4,
+				"changeBPM": false,
+				"mustHitSection": true
+			},
+			{
+				"lengthInSteps": 16,
+				"altAnim": false,
+				"typeOfSection": 0,
+				"sectionNotes": [],
+				"bpm": 120,
+				"sectionBeats": 4,
+				"changeBPM": false,
+				"mustHitSection": true
 			}
 		],
 		"player3": null,
@@ -11716,7 +11736,30 @@
 		"arrowSkin": "",
 		"speed": 2.2,
 		"gfVersion": "gf",
-		"events": [],
+		"events": [
+			[
+				"Change Character",
+				141913.043478261,
+				[
+					[
+						"bf",
+						"bf-ghost",
+						""
+					]
+				]
+			],
+			[
+				"Change Character",
+				158543.47826087,
+				[
+					[
+						"bf",
+						"bf",
+						""
+					]
+				]
+			]
+		],
 		"charter": "DEMOLITIONDON96",
 		"needsVoices": true,
 		"stage": "Vault",
