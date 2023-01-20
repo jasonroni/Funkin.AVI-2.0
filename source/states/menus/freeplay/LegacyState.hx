@@ -118,7 +118,8 @@ class LegacyState extends MusicBeatState
 		for (i in 0...songs.length)
 		{
 			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, CoolUtil.swapSpaceDash(songs[i].name), true, false);
-			songText.isMenuItem = true;
+			songText.isMenuItemCenter = true;
+			songText.xAdd = -80;
 			songText.targetY = i;
 			grpSongs.add(songText);
 
@@ -147,6 +148,24 @@ class LegacyState extends MusicBeatState
 
 		changeSelection();
 		changeDiff();
+
+		var scratchStuff:FlxSprite = new FlxSprite();
+		scratchStuff.frames = Paths.getSparrowAtlas('filters/scratchShit');
+		scratchStuff.animation.addByPrefix('idle', 'scratch thing 1', 24, true);
+		scratchStuff.animation.play('idle');
+		scratchStuff.screenCenter();
+		scratchStuff.scale.x = 1.1;
+		scratchStuff.scale.y = 1.1;
+		add(scratchStuff);
+
+		var grain:FlxSprite = new FlxSprite();
+		grain.frames = Paths.getSparrowAtlas('filters/Grainshit');
+		grain.animation.addByPrefix('idle', 'grains 1', 24, true);
+		grain.animation.play('idle');
+		grain.screenCenter();
+		grain.scale.x = 1.1;
+		grain.scale.y = 1.1;
+		add(grain);
 	}
 
 	function loadSongs(includeCustom:Bool)
@@ -419,9 +438,9 @@ class LegacyState extends MusicBeatState
 		if (!Init.trueSettings.get('Disable Screen Shaders')) // to prevent lag
 			{
 				//ah yes, formatting made by vsc itself - jason
-				switch(songs[curSelected].name.toLowerCase())
+				/*switch(songs[curSelected].name.toLowerCase())
 				{
-					case 'malfunction-legacy':
+					/*case 'malfunction-legacy':
 						FlxG.camera.setFilters(
 							[
 								new ShaderFilter(glitchyStuff), 
@@ -443,7 +462,7 @@ class LegacyState extends MusicBeatState
 								new ShaderFilter(defaultShader),
 								new ShaderFilter(defaultShader2)
 							]);
-				}
+				}*/
 			}
 	}
 
