@@ -1,9 +1,25 @@
 using StringTools;
 
 var grainFilter:FlxRuntimeShader;
+var monitorFilter:FlxRuntimeShader;
+var bloomEffect:FlxRuntimeShader;
+
+var shaderTime:Float = 0;
 
 function onCreate()
 	{
+
+		bloomEffect = new FlxRuntimeShader(File.getContent('./assets/shaders/bloomGame.frag'), null, 120);
+		grainFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
+		monitorFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
+
+
+		PlayState.camGame.setFilters([
+			new ShaderFilter(grainFilter),
+			new ShaderFilter(monitorFilter),
+			new ShaderFilter(bloomEffect)
+		]);
+
 		spawnGirlfriend(false);
 		PlayState.defaultCamZoom = 0.87;
 	if (PlayState.SONG.song == "Isolated") {
@@ -54,6 +70,13 @@ function onCreate()
 			FlxTween.tween(PlayState.camHUD, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 10});
 			FlxTween.tween(PlayState.camGame, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 6});
 		}
+	}
+
+	function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Character)
+	{
+			//Shader stuff
+			shaderTime += elapsed;
+			grainFilter.setFloat('time', shaderTime);
 	}
 	
 	function charStagePos(boyfriend:Character, gf:Character, dad:Character)

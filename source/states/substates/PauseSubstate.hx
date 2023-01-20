@@ -14,6 +14,10 @@ import states.MusicBeatState.MusicBeatSubstate;
 import states.menus.*;
 import sys.thread.Mutex;
 import sys.thread.Thread;
+import openfl.filters.BitmapFilter;
+import openfl.filters.ShaderFilter;
+import flixel.addons.display.FlxRuntimeShader;
+import flixel.FlxCamera;
 
 class PauseSubstate extends MusicBeatSubstate
 {
@@ -90,6 +94,10 @@ class PauseSubstate extends MusicBeatSubstate
 				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/bless'));
 			case 'Cycled Sins':
 				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/cycled-sins'));
+			case 'Scrapped':
+				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/scrapped'));
+			case 'Delusional':
+				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/delusional'));
 			default:
 				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/unknown-song'));
 		}

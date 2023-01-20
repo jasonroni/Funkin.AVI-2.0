@@ -1,8 +1,25 @@
+var staticS:FlxRuntimeShader;
+var greyScale:FlxRuntimeShader;
+var monitor:FlxRuntimeShader;
+
+var shaderTime:Float = 0;
+
 function onCreate()
 {
 	spawnGirlfriend(false);
 	PlayState.defaultCamZoom = 0.9;
 	PlayState.cameraSpeed = 2;
+
+	staticS = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
+	greyScale = new FlxRuntimeShader(File.getContent('./assets/shaders/grayScale.frag'), null, 120);
+	monitor = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
+
+	PlayState.camGame.setFilters(
+		[
+			new ShaderFilter(greyScale),
+			new ShaderFilter(staticS),
+			new ShaderFilter(monitor)
+		]);
 
 	var office:FNFSprite = new FNFSprite(-100, -100).loadGraphic(Paths.image('office', 'data/stages/smilesOffice/images'));
 	office.scale.set(1, 1);
@@ -22,6 +39,14 @@ function onCreate()
 	funiLight.active = false;
 	foreground.add(funiLight);
 }
+
+function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Character)
+	{
+			//Shader stuff
+			shaderTime += elapsed;
+			staticS.setFloat('uTime', shaderTime);
+			staticS.setFloat('iTime', shaderTime);
+	}
 
 function charStagePos(boyfriend:Character, gf:Character, dad:Character)
 {

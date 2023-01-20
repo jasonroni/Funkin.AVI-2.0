@@ -64,6 +64,8 @@ class FreeplayState extends MusicBeatState
 	var defaultShader2:FlxRuntimeShader;
 	var smilesShader:FlxRuntimeShader;
 
+	var shaderTime:Float = 0;
+
 	public var loadCustom:Bool = true;
 
 	public function new(?loadCustom:Bool = false)
@@ -77,18 +79,19 @@ class FreeplayState extends MusicBeatState
 	{
 		super.create();
 
-		//smilesShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/'))
+		smilesShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
 		defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
 		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
 
-      lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Main Story";
+        lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Main Story";
 
-		addSong('Isolated', 3, 'mickey-new', FlxColor.fromRGB(60, 60, 60));
-		addSong('Lunacy', 3, 'lunamick-new', FlxColor.fromRGB(60, 60, 60));
-		addSong('Delusional', 3, 'insanemick', FlxColor.fromRGB(60, 60, 60));
-		addSong('Twisted-Grins', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
-		addSong('Facade', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
-		addSong('Mortiferum-Risus', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
+
+        addSong('Isolated', 3, 'mickey-new', FlxColor.fromRGB(60, 60, 60));
+        addSong('Lunacy', 3, 'lunamick-new', FlxColor.fromRGB(60, 60, 60));
+        addSong('Delusional', 3, 'insanemick', FlxColor.fromRGB(60, 60, 60));
+        addSong('Twisted-Grins', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
+        addSong('Facade', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
+        addSong('Mortiferum-Risus', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
 
 		mutex = new Mutex();
 
@@ -277,6 +280,11 @@ class FreeplayState extends MusicBeatState
 	{
 		super.update(elapsed);
 
+		shaderTime += elapsed;
+
+		smilesShader.setFloat('iTime', shaderTime);
+		smilesShader.setFloat('uTime', shaderTime);
+
 		if (bg != null && mainColor != null)
 			FlxTween.color(bg, 0.35, bg.color, mainColor);
 
@@ -397,30 +405,45 @@ class FreeplayState extends MusicBeatState
 
 		var bullShit:Int = 0;
 
-		for (i in 0...iconArray.length) {
-			iconArray[i].alpha = 0.6; 
-			iconArray[i].scale.set(0.8, 0.8);
-		}
+		for (i in 0...iconArray.length)
+			iconArray[i].alpha = 0.6;
 
 		iconArray[curSelected].alpha = 1;
-		iconArray[curSelected].scale.set(1, 1);
 
 		for (item in grpSongs.members)
 		{
 			item.targetY = bullShit - curSelected;
 			bullShit++;
 
-			item.alpha = 0.5;
-			item.scale.set(0.85, 0.85);
-			if (item.targetY == 0) {
-				item.alpha = 1; 
-				item.scale.set(1, 1);
+			item.alpha = 0.6;
+			if (item.targetY == 0)
+				item.alpha = 1;
 		}
-	}
 
 		changeDiff();
 		changeSongPlaying();
 		updateDiscord();
+
+		if (!Init.trueSettings.get('Disable Screen Shaders')) // to prevent lag
+			{
+				//ah yes, formatting made by vsc itself - jason
+				switch(songs[curSelected].name.toLowerCase())
+				{
+					case 'twisted-grins' | 'facade' | 'mortiferum-risus':
+						FlxG.camera.setFilters(
+							[
+								new ShaderFilter(smilesShader), 
+								new ShaderFilter(defaultShader2)
+							]);
+	
+					default:
+						FlxG.camera.setFilters(
+							[
+								new ShaderFilter(defaultShader),
+								new ShaderFilter(defaultShader2)
+							]);
+				}
+			}
 	}
 
 	function changeSongPlaying()
