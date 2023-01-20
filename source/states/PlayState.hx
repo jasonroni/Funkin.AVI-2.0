@@ -1573,7 +1573,7 @@ class PlayState extends MusicBeatState
 
 				if(flashing)
 					{
-						if (Math.isNaN(params[0]))
+						if(params[0].trim() == "")
 							params[0] = 'white';
 	  
 					  switch (params[0])
