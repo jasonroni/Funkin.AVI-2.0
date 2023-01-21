@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<TextureAtlas imagePath="Mickey2.png">
+<TextureAtlas imagePath="lunamick-new.png">
 <SubTexture name="Mickey2 Idle0000" x="0" y="3397" width="746" height="1057" frameX="-466" frameY="-330" frameWidth="1650" frameHeight="1440" />
 <SubTexture name="Mickey2 Idle0001" x="746" y="3397" width="747" height="1045" frameX="-474" frameY="-341" frameWidth="1650" frameHeight="1440" />
 <SubTexture name="Mickey2 Idle0002" x="3026" y="1098" width="734" height="1055" frameX="-487" frameY="-334" frameWidth="1650" frameHeight="1440" />
