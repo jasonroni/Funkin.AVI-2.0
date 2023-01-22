@@ -23,6 +23,17 @@
 				"$haxe-trace"
 			],
 			"label": "Lime Run (active configuration)"
+		},
+		{
+			"type": "lime",
+			"command": "update",
+			"problemMatcher": [
+				"$haxe-absolute",
+				"$haxe",
+				"$haxe-error",
+				"$haxe-trace"
+			],
+			"label": "Lime Update (Active Configuration)"
 		}
 	]
 }
