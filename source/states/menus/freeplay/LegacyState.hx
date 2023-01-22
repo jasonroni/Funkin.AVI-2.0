@@ -91,9 +91,10 @@ class LegacyState extends MusicBeatState
         lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Legacy";
 
 
-        addSong('Isolated-Legacy', 3, 'mickey-legacy', FlxColor.fromRGB(60, 60, 60));
+      addSong('Isolated-Legacy', 3, 'mickey-legacy', FlxColor.fromRGB(60, 60, 60));
 		addSong('Lunacy-Legacy', 3, 'mickey-lunacy-legacy', FlxColor.fromRGB(60, 60, 60));
 		addSong('Delusional-Legacy', 3, 'mickey-delusional-unused', FlxColor.fromRGB(60, 60, 60));
+		addSong('hunted-legacy', 3, 'HunterGoofy', FlxColor.fromRGB(60, 60, 60));
 		addSong('Mercy-Legacy', 3, 'walt', FlxColor.fromRGB(60, 60, 60));
 		addSong('Malfunction-Legacy', 3, 'glitched-mickey-legacy-pixel', FlxColor.fromRGB(60, 60, 60));
 

@@ -77,6 +77,11 @@ function onCreate()
 			//Shader stuff
 			shaderTime += elapsed;
 			grainFilter.setFloat('time', shaderTime);
+
+			if(dad.curCharacter == "mick-isolated-new")
+				{
+					dad.setGraphicSize(Std.int(dad.width / 1.6));
+				}
 	}
 	
 	function charStagePos(boyfriend:Character, gf:Character, dad:Character)

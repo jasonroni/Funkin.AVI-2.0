@@ -14,18 +14,18 @@ class Main
 		massive thanks to gedehari for the crash dialog code
 	 */
 	static final quotes:Array<String> = [
-		"Blueballed. - gedehari",
-		"fuck flixel rendering stop using like 40 gigs of ram to load 2 spritesheets -doggo",
-		"*Bwoomp* your game crashed. :( - Senshi_Z",
-		"bababoey - Amanddica",
-		"Goodbye cruel world - ShadowMario",
+		"Square boi fucked up.",
+		"Lmao you really got hunted",
+		"i have inserted a virus on your PC /j",
+		"read bellow.",
+		"walter",
 		"Ah bueno adios master - ShadowMario",
-		"Skibidy bah mmm dada *explodes* - ShadowMario",
-		"What have you done, you killed it! - BeastlyGhost",
-		"Have you checked if the variable exists? - BeastlyGhost",
+		"Skibidy bah mmm dada *explodes* - ShadowMario", // Changed my mind, Shadow mario is peak - jason
+		"Well at least it isn't a openGl error",
+		"Let me guess, Null Object Reference",
 		"Have you even read the wiki before trying that? - BeastlyGhost",
-		"Huh, did I forget something? - Yoshubs (?)",
-		"Coder uses Explosion! It's SUPER EFFECTIVE! - NxtVithor"
+		"for your information, that Vs Mouse collab is scrapped",
+		"Not my fault."
 	];
 
 	public static function main()
