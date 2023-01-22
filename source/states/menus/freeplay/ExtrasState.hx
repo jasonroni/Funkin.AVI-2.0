@@ -130,7 +130,7 @@ class ExtrasState extends MusicBeatState
 		addSong('Scrapped', 3, 'rs', FlxColor.fromRGB(0, 0, 0));
 		addSong('Cycled-Sins', 3, 'relapse-pixel', FlxColor.fromRGB(60, 60, 60)); //messing with the saves for this later
 		addSong('Mercy', 3, 'walt', FlxColor.fromRGB(60, 60, 60));
-
+        addSong('Affliction', 3, 'walt', FlxColor.fromRGB(60, 60, 60));
 		mutex = new Mutex();
 
 		// load week data;
@@ -517,8 +517,15 @@ class ExtrasState extends MusicBeatState
 						[
 							new ShaderFilter(mercyShader),
 							new ShaderFilter(mercyShader2),
-							 new ShaderFilter(defaultShader2)
+							new ShaderFilter(defaultShader2)
 						]);
+
+				case 'affliction':
+					FlxG.camera.setFilters([
+						new ShaderFilter(mercyShader),
+						new ShaderFilter(mercyShader2),
+						new ShaderFilter(defaultShader2)
+					]);
 
 				case "don't-cross!":
 					FlxG.camera.setFilters(
