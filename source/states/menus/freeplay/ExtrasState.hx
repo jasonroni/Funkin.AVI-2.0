@@ -128,6 +128,7 @@ class ExtrasState extends MusicBeatState
 		addSong('Bless', 3, 'white-noise', FlxColor.fromRGB(255, 255, 255));
 		addSong('War-Dilemma', 3, 'face', FlxColor.fromRGB(60, 60, 60));
 		addSong('Scrapped', 3, 'rs', FlxColor.fromRGB(0, 0, 0));
+		addSong('Laugh-Track', 3, 'face', FlxColor.fromRGB(60, 60, 60));
 		addSong('Cycled-Sins', 3, 'relapse-pixel', FlxColor.fromRGB(60, 60, 60)); //messing with the saves for this later
 		addSong('Mercy', 3, 'walt', FlxColor.fromRGB(60, 60, 60));
 
@@ -545,6 +546,8 @@ class ExtrasState extends MusicBeatState
 							new ShaderFilter(mercyShader2),
 							new ShaderFilter(defaultShader2)
 						]);
+
+				case 'laugh-track':
 
 				default:
 					FlxG.camera.setFilters(

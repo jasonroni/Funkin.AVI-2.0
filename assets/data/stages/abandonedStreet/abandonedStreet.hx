@@ -81,7 +81,7 @@ function onCreate()
 	
 	function charStagePos(boyfriend:Character, gf:Character, dad:Character)
 	{
-		//lazy to mess with the JSON
+		//JSON aint working
 		if(PlayState.SONG.song == "Lunacy")
 		{
 				dad.setPosition(-861, -259);
