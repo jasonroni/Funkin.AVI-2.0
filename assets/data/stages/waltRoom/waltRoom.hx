@@ -79,7 +79,7 @@ function onCreate()
 
 	monitorFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
 
-	PlayState.camHUD.setFilters(
+	PlayState.camGame.setFilters(
 		[
 			new ShaderFilter(vhsFilter),
 			new ShaderFilter(grainFilter),
