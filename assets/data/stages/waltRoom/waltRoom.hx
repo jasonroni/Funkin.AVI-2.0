@@ -5,7 +5,7 @@ var pissOfGlory:FlxSprite;
 
 var vhsFilter:FlxRuntimeShader;
 var grainFilter:FlxRuntimeShader;
-var monitorFilter:FlxRuntimeShader; //I can't get this one to work without covering the entire screen
+var monitorFilter:FlxRuntimeShader;
 var shaderTime:Float = 0;
 
 function onCreate()
@@ -73,11 +73,18 @@ function onCreate()
 
 	vhsFilter = new FlxRuntimeShader(File.getContent("./assets/shaders/vhs.frag"), null, 130);
 	vhsFilter.setFloat('time', 0);
-	PlayState.camGame.setFilters([new ShaderFilter(vhsFilter)]);
 
 	grainFilter = new FlxRuntimeShader(File.getContent("./assets/shaders/filmgrain.frag"), null, 150);
 	grainFilter.setFloat('time', 0.0);
-	PlayState.camHUD.setFilters([new ShaderFilter(grainFilter)]);
+
+	monitorFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
+
+	PlayState.camHUD.setFilters(
+		[
+			new ShaderFilter(vhsFilter),
+			new ShaderFilter(grainFilter),
+			new ShaderFilter(monitorFilter)
+		]);
 }
 
 function charStagePos(boyfriend:Character, gf:Character, dad:Character)
