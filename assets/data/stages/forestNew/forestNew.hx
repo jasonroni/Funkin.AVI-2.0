@@ -42,7 +42,7 @@ function onCreate()
 	// treesFront.scale.set(1.5, 1.5);
 	treesFront.screenCenter();
 	treesFront.cameras = [PlayState.camOther];
-	add(treesFront);
+	foreground.add(treesFront);
 }
 
 function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Character)
