@@ -1,6 +1,6 @@
 {
 	"song": {
-		"player1": "nogf",
+		"player1": "bf",
 		"events": [
 			[
 				0,
@@ -4907,7 +4907,7 @@
 		"composer": "Yama haki",
 		"charter": "DEMOLITIONDON96",
 		"arrowSkin": "",
-		"stage": "LegacyLoop",
+		"stage": "theLoop",
 		"needsVoices": true,
 		"validScore": true,
 		"bpm": 120,

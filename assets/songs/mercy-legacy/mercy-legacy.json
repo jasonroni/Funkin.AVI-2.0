@@ -5859,7 +5859,7 @@
 		"splashSkin": null,
 		"song": "Mercy Legacy",
 		"arrowSkin": "",
-		"stage": "WaltStage",
+		"stage": "waltRoom",
 		"needsVoices": true,
 		"validScore": true,
 		"bpm": 160,

@@ -1,7 +1,7 @@
 {
 	"song": {
 		"composer": "Yama haki & obscurity",
-		"player1": "bffake",
+		"player1": "bf-fake-legacy",
 		"events": [
 			[
 				44363.6363636364,
@@ -6736,7 +6736,7 @@
 		"charter": "DEMOLITIONDON96",
 		"song": "Isolated Legacy",
 		"arrowSkin": "",
-		"stage": "EndlessLoop",
+		"stage": "theLoop",
 		"needsVoices": true,
 		"validScore": true,
 		"bpm": 165,

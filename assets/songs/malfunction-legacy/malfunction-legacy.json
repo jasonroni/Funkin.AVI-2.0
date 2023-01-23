@@ -1,7 +1,7 @@
 {
 	"song": {
 		"composer": "obscurity",
-		"player1": "bfgrey-pixel",
+		"player1": "bf-pixel",
 		"gfVersion": "gf",
 		"notes": [
 			{
@@ -11858,7 +11858,7 @@
 		"needsVoices": true,
 		"arrowSkin": "",
 		"validScore": true,
-		"stage": "PixelWorld",
+		"stage": "forbiddenRealm",
 		"bpm": 160,
 		"speed": 2.5
 	}

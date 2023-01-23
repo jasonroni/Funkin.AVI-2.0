@@ -67,7 +67,7 @@ function onCreate()
 		
 	
 		if(PlayState.SONG.song == "Isolated") {
-			FlxTween.tween(PlayState.camHUD, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 10});
+			FlxTween.tween(PlayState.camHUD, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 9});
 			FlxTween.tween(PlayState.camGame, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 6});
 		}
 	}
@@ -77,21 +77,10 @@ function onCreate()
 			//Shader stuff
 			shaderTime += elapsed;
 			grainFilter.setFloat('time', shaderTime);
-
-			if(dad.curCharacter == "mick-isolated-new")
-				{
-					dad.setGraphicSize(Std.int(dad.width / 1.6));
-				}
 	}
 	
 	function charStagePos(boyfriend:Character, gf:Character, dad:Character)
 	{
-		//JSON aint working
-		if(PlayState.SONG.song == "Lunacy")
-		{
-				dad.setPosition(-861, -259);
-		} else {
-				dad.setPosition(-230, 420);
-		}
+		dad.setPosition(-861, -259);
 		boyfriend.setPosition(260, 0);
 	}

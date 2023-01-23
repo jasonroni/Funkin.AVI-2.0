@@ -1,7 +1,7 @@
 {
 	"song": {
-		"player1": "bffake",
-		"player2": "mickey-lunacy-legacy",
+		"player1": "bf-fake-legacy",
+		"player2": "mickey-legacy",
 		"events": [
 			[
 				0,
@@ -5166,7 +5166,7 @@
 		"song": "Lunacy Legacy",
 		"composer": "obscurity",
 		"charter": "obscurity",
-		"stage": "EndlessLoop",
+		"stage": "theLoop",
 		"validScore": true,
 		"arrowSkin": "",
 		"needsVoices": true,

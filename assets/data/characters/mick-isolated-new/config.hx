@@ -10,13 +10,17 @@ function loadAnimations()
 		if (!isPlayer)
 		{
 			addOffset("idle", 0, 0);
-			addOffset("singLEFT", 22, 0);
-			addOffset("singDOWN", 17, 0);
-			addOffset("singUP", 8, 0);
-			addOffset("singRIGHT", 50, 0);
+			addOffset("singLEFT", -2, 0);
+			addOffset("singDOWN", 1, 0);
+			addOffset("singUP", 8, 4);
+			addOffset("singRIGHT", -3, 0);
 			characterData.camOffsets = [90, 60];
 			characterData.offsets = [0, -350];
 		}
+
+		setScale(0.6, 0.6);
+		setIcon('mick-isolated-new');
+		setBarColor([216, 216, 216]);
 	
 		playAnim('idle');
 	}

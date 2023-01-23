@@ -1,7 +1,7 @@
 {
 	"song": {
 		"composer": "FR3SHMoure",
-		"player1": "bf-demon",
+		"player1": "bf-demon-old",
 		"events": [
 			[
 				10378.3783783784,
@@ -14393,13 +14393,13 @@
 				"mustHitSection": true
 			}
 		],
-		"player2": "lunamick-new",
+		"player2": "mickey-lunacy-legacy",
 		"player3": null,
 		"charter": "Noppz",
 		"splashSkin": null,
 		"song": "Delusional Legacy",
 		"arrowSkin": "",
-		"stage": "EndlessLoop",
+		"stage": "theLoop",
 		"needsVoices": true,
 		"validScore": true,
 		"bpm": 185,

@@ -1,0 +1,26 @@
+{
+	"events": [
+		[
+			"Play Animation",
+			42333.3333333333,
+			[
+				[
+					"Transition",
+					"dad",
+					"6"
+				]
+			]
+		],
+		[
+			"Change Character",
+			47666.6666666667,
+			[
+				[
+					"dad",
+					"relapse-gun-pixel",
+					"0.001"
+				]
+			]
+		]
+	]
+}

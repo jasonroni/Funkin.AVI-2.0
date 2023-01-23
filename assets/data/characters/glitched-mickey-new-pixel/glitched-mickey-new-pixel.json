@@ -1,79 +1,68 @@
 {
 	"animations": [
 		{
-			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
-			"anim": "singLEFT",
+			"indices": [],
 			"fps": 24,
-			"name": "left",
-			"indices": []
-		},
-		{
-			"loop": true,
-			"offsets": [
-				0,
-				0
-			],
 			"anim": "idle",
-			"fps": 24,
-			"name": "idle",
-			"indices": []
+			"loop": true,
+			"name": "idle"
 		},
 		{
+			"offsets": [
+				-2,
+				0
+			],
+			"indices": [],
+			"fps": 24,
+			"anim": "singLEFT",
 			"loop": false,
+			"name": "left"
+		},
+		{
 			"offsets": [
 				0,
 				0
 			],
+			"indices": [],
+			"fps": 24,
 			"anim": "singDOWN",
-			"fps": 24,
-			"name": "down",
-			"indices": []
+			"loop": false,
+			"name": "down"
 		},
 		{
-			"loop": false,
 			"offsets": [
-				1,
+				0,
 				0
 			],
+			"indices": [],
+			"fps": 24,
 			"anim": "singUP",
-			"fps": 24,
-			"name": "up",
-			"indices": []
+			"loop": false,
+			"name": "up"
 		},
 		{
-			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
+			"indices": [],
+			"fps": 24,
 			"anim": "singRIGHT",
-			"fps": 24,
-			"name": "right",
-			"indices": []
-		},
-		{
 			"loop": false,
-			"offsets": [
-				0,
-				0
-			],
-			"anim": "sadBoi",
-			"fps": 24,
-			"name": "intro",
-			"indices": []
+			"name": "right"
 		}
 	],
-	"no_antialiasing": false,
-	"image": "characters/glitchMickNEW",
+	"no_antialiasing": true,
+	"image": "characters/glitchedMickNEW",
 	"position": [
-		-80,
-		40
+		0,
+		0
 	],
-	"healthicon": "glitched-mickey-new-pixel",
+	"healthicon": "face",
 	"flip_x": false,
 	"healthbar_colors": [
 		0,
@@ -81,8 +70,8 @@
 		0
 	],
 	"camera_position": [
-		-420,
-		-190
+		-80,
+		-200
 	],
 	"sing_duration": 6.1,
 	"scale": 2.3
