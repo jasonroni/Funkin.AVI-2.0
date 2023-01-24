@@ -70,9 +70,9 @@ class PauseSubstate extends MusicBeatSubstate
 			{
 				if (itemStack == null)
 					itemStack = [
-						'continue',
-						'restart',
-						'settings',
+						'mal-continue',
+						'mal-restart',
+						'mal-settings',
 						'rage'
 					];
 			} else {
@@ -241,8 +241,17 @@ class PauseSubstate extends MusicBeatSubstate
 			case 'wd-escape':
 				funnyButton.x = songText.x + 570;
 				funnyButton.y = 595;
+			case 'mal-continue':
+				funnyButton.x = songText.x + 430;
+				funnyButton.y = 134;
+			case 'mal-restart':
+				funnyButton.x = songText.x + 430;
+				funnyButton.y = 290;
+			case 'mal-settings':
+				funnyButton.x = songText.x + 780;
+				funnyButton.y = 440;
 			case 'rage':
-				funnyButton.x = songText.x + 610;
+				funnyButton.x = songText.x + 970;
 				funnyButton.y = 600;
 		}
 
@@ -263,17 +272,17 @@ class PauseSubstate extends MusicBeatSubstate
 
 			switch (daSelected)
 			{
-				case "continue" | 'wd-continue':
+				case "continue" | 'wd-continue' | 'mal-continue':
 					close();
 					remove(disc);
-				case "restart" | 'wd-restart':
+				case "restart" | 'wd-restart' | 'mal-restart':
 					Main.switchState(this, new PlayState());
 				case "Back to Charter":
 					Main.switchState(this, new states.editors.OriginalChartingState());
 				case "Leave Charter Mode":
 					PlayState.gameplayMode = FREEPLAY;
 					Main.switchState(this, new PlayState());
-				case "settings" | 'wd-settings':
+				case "settings" | 'wd-settings' | 'mal-settings':
 					toOptions = true;
 					Main.switchState(this, new OptionsMenu());
 				case "escape" | 'wd-escape' | 'rage' | 'leave':
