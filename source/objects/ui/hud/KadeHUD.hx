@@ -190,7 +190,9 @@ class KadeHUD extends FlxSpriteGroup
 		}
 
 		// update playstate
+		if(Main.option('HUD Style') == "kade")
 		PlayState.detailsSub = scoreBar.text;
+		
 		PlayState.updateRPC(false);
 	}
 

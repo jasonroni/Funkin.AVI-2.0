@@ -204,7 +204,9 @@ class ClassHUD extends FlxSpriteGroup
 		}
 
 		// update playstate
+		if(Main.option('HUD Style') == "forever") //fix i think
 		PlayState.detailsSub = scoreBar.text;
+
 		PlayState.updateRPC(false);
 	}
 

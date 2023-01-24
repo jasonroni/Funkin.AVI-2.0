@@ -1,5 +1,6 @@
 package states.menus.freeplay;
 
+import flixel.tweens.FlxEase;
 import base.dependency.Discord;
 import base.song.Song;
 import base.song.SongFormat.SwagSong;
@@ -343,9 +344,14 @@ class FreeplayState extends MusicBeatState
 				PlayState.SONG.validScore = false;
 				Main.switchState(this, new states.editors.OriginalChartingState());
 			}
-			else
-				Main.switchState(this, new PlayState());
+			else {
+				FlxTween.tween(FlxG.camera, {zoom: 2.5}, 1.5, {ease: FlxEase.expoInOut});
+				new flixel.util.FlxTimer().start(0.7, function(e)
+					{
+						Main.switchState(this, new PlayState());
+					});
 		}
+	}
 
 		// Adhere the position of all the things (I'm sorry it was just so ugly before I had to fix it Shubs)
 		scoreText.text = "PERSONAL BEST:" + lerpScore;

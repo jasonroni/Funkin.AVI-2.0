@@ -329,7 +329,9 @@ class DemolitionHUD extends FlxSpriteGroup
 		}
 
 		// update playstate
+		if(Main.option('HUD Style') == "demolition")
 		PlayState.detailsSub = scoreBar.text;
+		
 		PlayState.updateRPC(false);
 	}
 

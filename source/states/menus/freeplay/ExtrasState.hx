@@ -22,6 +22,8 @@ import openfl.filters.BitmapFilter;
 import openfl.filters.ShaderFilter;
 import flixel.addons.display.FlxRuntimeShader;
 import flixel.FlxCamera;
+import flixel.tweens.FlxEase;
+
 
 class ExtrasState extends MusicBeatState
 {
@@ -131,7 +133,8 @@ class ExtrasState extends MusicBeatState
 		addSong('Laugh-Track', 3, 'face', FlxColor.fromRGB(60, 60, 60));
 		addSong('Cycled-Sins', 3, 'relapse-pixel', FlxColor.fromRGB(60, 60, 60)); //messing with the saves for this later
 		addSong('Mercy', 3, 'walt', FlxColor.fromRGB(60, 60, 60));
-        addSong('Affliction', 3, 'walt', FlxColor.fromRGB(60, 60, 60));
+      addSong('Affliction', 3, 'walt', FlxColor.fromRGB(60, 60, 60));
+		addSong('Birthday', 3, 'muckney', FlxColor.fromRGB(60, 60, 60));
 		mutex = new Mutex();
 
 		// load week data;
@@ -391,9 +394,14 @@ class ExtrasState extends MusicBeatState
 				PlayState.SONG.validScore = false;
 				Main.switchState(this, new states.editors.OriginalChartingState());
 			}
-			else
-				Main.switchState(this, new PlayState());
+			else {
+				FlxTween.tween(FlxG.camera, {zoom: 2.5}, 1.5, {ease: FlxEase.expoInOut});
+				new flixel.util.FlxTimer().start(0.7, function(e)
+					{
+						Main.switchState(this, new PlayState());
+					});
 		}
+	}
 
 		// Adhere the position of all the things (I'm sorry it was just so ugly before I had to fix it Shubs)
 		scoreText.text = "PERSONAL BEST:" + lerpScore;
@@ -554,6 +562,15 @@ class ExtrasState extends MusicBeatState
 							new ShaderFilter(defaultShader2)
 						]);
 
+				case 'birthday':
+					FlxG.camera.setFilters(
+						[
+							new ShaderFilter(defaultShader2)
+					]);
+
+					// trol
+					FlxTween.tween(FlxG.camera, {angle: 360}, 2, {ease: flixel.tweens.FlxEase.sineInOut, type: FlxTweenType.LOOPING});
+
 				default:
 					FlxG.camera.setFilters(
 						[
@@ -561,6 +578,7 @@ class ExtrasState extends MusicBeatState
 							new ShaderFilter(defaultShader2)
 						]);
 					FlxG.camera.shake(0.01, 0.001);
+					FlxTween.tween(FlxG.camera, {angle: 0}, 0.0001, {ease: flixel.tweens.FlxEase.sineInOut});
 			}
 		}
 	}

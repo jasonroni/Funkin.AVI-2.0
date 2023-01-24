@@ -226,7 +226,9 @@ class PsychHUD extends FlxSpriteGroup
 		}
 
 		// update playstate
+		if(Main.option('HUD Style') == "psych")
 		PlayState.detailsSub = scoreBar.text;
+		
 		PlayState.updateRPC(false);
 	}
 
