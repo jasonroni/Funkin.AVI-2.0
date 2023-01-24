@@ -45,20 +45,45 @@ class PauseSubstate extends MusicBeatSubstate
 	{
 		super();
 
-		if (itemStack == null)
-			itemStack = [
-				'continue',
-				'restart',
-				'settings',
-				if (PlayState.SONG.song == 'War Dilemma')
-					'spare'
-				else if (PlayState.SONG.song == 'Birthday')
-					'leave'
-				else if (PlayState.SONG.song == 'Malfunction')
-					'rage'
-				else
-					'escape'
-			];
+			// apprently, it works like this
+			if (PlayState.SONG.song == 'War Dilemma')
+			{
+				if (itemStack == null)
+					itemStack = [
+						'wd-continue',
+						'wd-restart',
+						'wd-settings',
+						'wd-escape'
+					];
+			}
+			else if (PlayState.SONG.song == 'Birthday')
+			{
+				if (itemStack == null)
+					itemStack = [
+						'continue',
+						'restart',
+						'settings',
+						'leave'
+					];
+			}
+			else if (PlayState.SONG.song == 'Malfunction')
+			{
+				if (itemStack == null)
+					itemStack = [
+						'continue',
+						'restart',
+						'settings',
+						'rage'
+					];
+			} else {
+				if (itemStack == null)
+					itemStack = [
+						'continue',
+						'restart',
+						'settings',
+						'escape'
+					];
+			}
 
 		toOptions = false;
 
@@ -193,15 +218,30 @@ class PauseSubstate extends MusicBeatSubstate
 				funnyButton.x = songText.x + 300;
 				funnyButton.y = 140;
 			case 'restart':
-				funnyButton.x = songText.x + 270;
+				funnyButton.x = songText.x + 310;
 				funnyButton.y = 285;
 			case 'settings':
-				funnyButton.x = songText.x + 520;
+				funnyButton.x = songText.x + 540;
 				funnyButton.y = 440;
 			case 'escape':
-				funnyButton.x = songText.x + 310;
+				funnyButton.x = songText.x + 300;
 				funnyButton.y = 600;
-			case 'leave' | 'rage' | 'spare':
+			case 'leave':
+				funnyButton.x = songText.x + 530;
+				funnyButton.y = 600;
+			case 'wd-continue':
+				funnyButton.x = songText.x + 430;
+				funnyButton.y = 134;
+			case 'wd-restart':
+				funnyButton.x = songText.x + 370;
+				funnyButton.y = 290;
+			case 'wd-settings':
+				funnyButton.x = songText.x + 720;
+				funnyButton.y = 440;
+			case 'wd-escape':
+				funnyButton.x = songText.x + 570;
+				funnyButton.y = 595;
+			case 'rage':
 				funnyButton.x = songText.x + 610;
 				funnyButton.y = 600;
 		}
@@ -223,20 +263,20 @@ class PauseSubstate extends MusicBeatSubstate
 
 			switch (daSelected)
 			{
-				case "continue":
+				case "continue" | 'wd-continue':
 					close();
 					remove(disc);
-				case "restart":
+				case "restart" | 'wd-restart':
 					Main.switchState(this, new PlayState());
 				case "Back to Charter":
 					Main.switchState(this, new states.editors.OriginalChartingState());
 				case "Leave Charter Mode":
 					PlayState.gameplayMode = FREEPLAY;
 					Main.switchState(this, new PlayState());
-				case "settings":
+				case "settings" | 'wd-settings':
 					toOptions = true;
 					Main.switchState(this, new OptionsMenu());
-				case "escape" | 'spare' | 'rage' | 'leave':
+				case "escape" | 'wd-escape' | 'rage' | 'leave':
 					if (PlayState.SONG.song == 'Delusional')
 					{
 						FlxG.camera.shake(0.05, 0.15);
