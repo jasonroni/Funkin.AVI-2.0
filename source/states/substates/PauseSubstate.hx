@@ -197,8 +197,15 @@ class PauseSubstate extends MusicBeatSubstate
 			FlxTween.tween(songText, {alpha: 1}, 0.8, {ease: FlxEase.quartInOut});
 		}
 
-		funnyButton = new FlxSprite(0, 0).loadGraphic(Paths.image('menus/Funkin_avi/pause/select'));
-		funnyButton.setGraphicSize(Std.int(funnyButton.width * 2));
+		var skinDirectory:String = 'menus/Funkin_avi/pause/selectorSkin/';
+
+		funnyButton = new FlxSprite(0, 0);
+		if (PlayState.SONG.song == 'War Dilemma')
+			funnyButton.loadGraphic(Paths.image(skinDirectory + 'wd-selector'));
+		else if (PlayState.SONG.song == 'Malfunction')
+			funnyButton.loadGraphic(Paths.image(skinDirectory + 'mal-selector'));
+		else
+			funnyButton.loadGraphic(Paths.image(skinDirectory + 'select'));
 		add(funnyButton);
 
 		funnyButton.alpha = 0;
@@ -216,43 +223,43 @@ class PauseSubstate extends MusicBeatSubstate
 		{
 			case 'continue':
 				funnyButton.x = songText.x + 300;
-				funnyButton.y = 140;
+				funnyButton.y = 120;
 			case 'restart':
 				funnyButton.x = songText.x + 310;
-				funnyButton.y = 285;
+				funnyButton.y = 265;
 			case 'settings':
 				funnyButton.x = songText.x + 540;
-				funnyButton.y = 440;
+				funnyButton.y = 420;
 			case 'escape':
 				funnyButton.x = songText.x + 300;
-				funnyButton.y = 600;
+				funnyButton.y = 580;
 			case 'leave':
 				funnyButton.x = songText.x + 530;
-				funnyButton.y = 600;
+				funnyButton.y = 580;
 			case 'wd-continue':
 				funnyButton.x = songText.x + 430;
-				funnyButton.y = 134;
+				funnyButton.y = 124;
 			case 'wd-restart':
 				funnyButton.x = songText.x + 370;
-				funnyButton.y = 290;
+				funnyButton.y = 280;
 			case 'wd-settings':
 				funnyButton.x = songText.x + 720;
-				funnyButton.y = 440;
+				funnyButton.y = 430;
 			case 'wd-escape':
 				funnyButton.x = songText.x + 570;
-				funnyButton.y = 595;
+				funnyButton.y = 585;
 			case 'mal-continue':
-				funnyButton.x = songText.x + 430;
-				funnyButton.y = 134;
+				funnyButton.x = songText.x + 410;
+				funnyButton.y = 104;
 			case 'mal-restart':
-				funnyButton.x = songText.x + 430;
-				funnyButton.y = 290;
+				funnyButton.x = songText.x + 420;
+				funnyButton.y = 250;
 			case 'mal-settings':
-				funnyButton.x = songText.x + 780;
-				funnyButton.y = 440;
+				funnyButton.x = songText.x + 770;
+				funnyButton.y = 410;
 			case 'rage':
-				funnyButton.x = songText.x + 970;
-				funnyButton.y = 600;
+				funnyButton.x = songText.x + 960;
+				funnyButton.y = 570;
 		}
 
 		super.update(elapsed);
