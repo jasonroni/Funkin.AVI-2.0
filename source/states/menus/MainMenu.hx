@@ -71,6 +71,11 @@ class MainMenu extends MusicBeatState
 		FlxG.cameras.add(camHUD, false);
 		FlxG.cameras.setDefaultDrawTarget(camGame, true);
 
+		if(GameJoltAPI.getStatus())
+			{
+				trace('is logged');
+			}
+
 		super.create();
 
 		defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
@@ -236,6 +241,18 @@ class MainMenu extends MusicBeatState
 		versionShit.cameras = [camHUD];
 		add(versionShit);
 
+		var versionShit:FlxText = new FlxText(700, FlxG.height - 25, 0, '', 24);
+		if(gamejolt.GameJolt.GameJoltAPI.userLogin)
+			{
+				versionShit.text = '';
+			} else {
+				versionShit.text = 'Press 8 to log into GameJolt';
+			}
+		versionShit.setFormat(Paths.font("DisneyFont"), 24, 0xFFFFFFFF, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		versionShit.scrollFactor.set();
+		versionShit.cameras = [camHUD];
+		add(versionShit);
+
 		if (logContent != null && logContent.length > 1)
 			logTrace('$logContent', 3);
 
@@ -368,6 +385,9 @@ class MainMenu extends MusicBeatState
 		if(FlxG.keys.justPressed.SEVEN) 
 			{
 				Main.switchState(this, new SexState());
+			} else if(FlxG.keys.justPressed.EIGHT) 
+			{
+				Main.switchState(this, new gamejolt.GameJolt.GameJoltLogin());
 			}
 
 		if (Math.floor(curSelected) != lastCurSelected)

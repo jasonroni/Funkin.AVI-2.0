@@ -18,6 +18,7 @@ import openfl.events.UncaughtErrorEvent;
 import sys.FileSystem;
 import sys.io.File;
 import sys.io.Process;
+import gamejolt.GameJolt;
 
 typedef GameWeek =
 {
@@ -58,6 +59,8 @@ class Main extends Sprite
 	};
 
 	public static var baseGame:FNFGame;
+
+	public static var gjToastManager:GJToastManager;
 
 	private static var infoCounter:Overlay; // initialize the heads up display that shows information before creating it.
 	private static var infoConsole:Console; // intiialize the on-screen console for script debug traces before creating it.
@@ -195,6 +198,9 @@ class Main extends Sprite
 		{
 			destroyGame();
 		});
+
+		gjToastManager = new GJToastManager();
+		addChild(gjToastManager);
 	}
 
 	function destroyGame()

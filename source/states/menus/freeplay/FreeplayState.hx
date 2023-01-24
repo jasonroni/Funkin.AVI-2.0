@@ -334,9 +334,6 @@ class FreeplayState extends MusicBeatState
 
 			CoolUtil.difficultyString = existingDifficulties[curSelected][curDifficulty];
 
-			if (FlxG.sound.music != null)
-				FlxG.sound.music.stop();
-
 			threadActive = false;
 
 			if (FlxG.keys.pressed.SHIFT)
@@ -348,6 +345,9 @@ class FreeplayState extends MusicBeatState
 				FlxTween.tween(FlxG.camera, {zoom: 2.5}, 1.5, {ease: FlxEase.expoInOut});
 				new flixel.util.FlxTimer().start(0.7, function(e)
 					{
+						if (FlxG.sound.music != null)
+							FlxG.sound.music.stop();
+						
 						Main.switchState(this, new PlayState());
 					});
 		}

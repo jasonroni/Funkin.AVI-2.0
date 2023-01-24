@@ -60,6 +60,8 @@
 	<haxelib name="flixel-addons" />
 	<haxelib name="flixel-ui" />
 	<haxelib name="discord_rpc" if="DISCORD_RPC" />
+	<haxelib name="systools" />
+	<ndll name="systools" haxelib="systools" />
 
 	<haxelib name="hxCodec" if="VIDEO_PLUGIN" />
 	<haxelib name="SScript" if="desktop" />
