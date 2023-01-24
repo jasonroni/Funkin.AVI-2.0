@@ -155,7 +155,7 @@ class PauseSubstate extends MusicBeatSubstate
 		add(songArt);
 
 		var levelInfo:FlxText = new FlxText(20, 15, 0, "", 32);
-		levelInfo.text += CoolUtil.dashToSpace(PlayState.SONG.song) + ' [${CoolUtil.difficultyString}]';
+		levelInfo.text += '${CoolUtil.dashToSpace(PlayState.SONG.song)} - ${PlayState.SONG.composer}';
 		levelInfo.scrollFactor.set();
 		levelInfo.setFormat(Paths.font("vcr"), 32);
 		levelInfo.updateHitbox();

@@ -364,6 +364,12 @@ class MainMenu extends MusicBeatState
 			});
 		}
 
+		// It actually makes sense since some pepole doesn't know we moved to forever or just think we ported the psych editor lol
+		if(FlxG.keys.justPressed.SEVEN) 
+			{
+				Main.switchState(this, new SexState());
+			}
+
 		if (Math.floor(curSelected) != lastCurSelected)
 			updateSelection();
 
