@@ -46,7 +46,19 @@ class PauseSubstate extends MusicBeatSubstate
 		super();
 
 		if (itemStack == null)
-			itemStack = ['continue', 'restart', 'settings', 'escape'];
+			itemStack = [
+				'continue',
+				'restart',
+				'settings',
+				if (PlayState.SONG.song == 'War Dilemma')
+					'spare'
+				else if (PlayState.SONG.song == 'Birthday')
+					'leave'
+				else if (PlayState.SONG.song == 'Malfunction')
+					'rage'
+				else
+					'escape'
+			];
 
 		toOptions = false;
 
@@ -154,7 +166,7 @@ class PauseSubstate extends MusicBeatSubstate
 
 		for (i in 0...menuItems.length)
 		{
-			songText = new FlxSprite(0, (10 * i) + 30).loadGraphic(Paths.image('menus/Funkin_avi/pause/${menuItems[i]}'));
+			songText = new FlxSprite(0, (10 * i) + 30).loadGraphic(Paths.image('menus/Funkin_avi/pause/menuButtons/${menuItems[i]}'));
 			songText.alpha = 0;
 			add(songText);
 			FlxTween.tween(songText, {alpha: 1}, 0.8, {ease: FlxEase.quartInOut});
@@ -189,6 +201,9 @@ class PauseSubstate extends MusicBeatSubstate
 			case 'escape':
 				funnyButton.x = songText.x + 310;
 				funnyButton.y = 600;
+			case 'leave' | 'rage' | 'spare':
+				funnyButton.x = songText.x + 610;
+				funnyButton.y = 600;
 		}
 
 		super.update(elapsed);
@@ -221,7 +236,7 @@ class PauseSubstate extends MusicBeatSubstate
 				case "settings":
 					toOptions = true;
 					Main.switchState(this, new OptionsMenu());
-				case "escape":
+				case "escape" | 'spare' | 'rage' | 'leave':
 					if (PlayState.SONG.song == 'Delusional')
 					{
 						FlxG.camera.shake(0.05, 0.15);
