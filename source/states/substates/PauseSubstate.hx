@@ -151,12 +151,18 @@ class PauseSubstate extends MusicBeatSubstate
 		for (i in 0...menuItems.length)
 		{
 			songText = new FlxSprite(0, (10 * i) + 30).loadGraphic(Paths.image('menus/Funkin_avi/pause/${menuItems[i]}'));
+			songText.alpha = 0;
 			add(songText);
+			FlxTween.tween(songText, {alpha: 1}, 0.8, {ease: FlxEase.quartInOut});
 		}
 
-		funnyButton = new FlxSprite(songText.x + 250, 0).loadGraphic(Paths.image('menus/Funkin_avi/pause/select'));
+		funnyButton = new FlxSprite(0, 0).loadGraphic(Paths.image('menus/Funkin_avi/pause/select'));
 		funnyButton.setGraphicSize(Std.int(funnyButton.width * 2));
-		//add(funnyButton);
+		add(funnyButton);
+
+		funnyButton.alpha = 0;
+
+		FlxTween.tween(funnyButton, {alpha: 1}, 0.8, {ease: FlxEase.quartInOut});
 
 		changeSelection();
 
@@ -165,6 +171,22 @@ class PauseSubstate extends MusicBeatSubstate
 
 	override function update(elapsed:Float)
 	{
+		switch (menuItems[curSelected])
+		{
+			case 'continue':
+				funnyButton.x = songText.x + 300;
+				funnyButton.y = 140;
+			case 'restart':
+				funnyButton.x = songText.x + 270;
+				funnyButton.y = 285;
+			case 'settings':
+				funnyButton.x = songText.x + 520;
+				funnyButton.y = 440;
+			case 'escape':
+				funnyButton.x = songText.x + 310;
+				funnyButton.y = 600;
+		}
+
 		super.update(elapsed);
 
 		var upP = Controls.getPressEvent("ui_up");
@@ -196,24 +218,30 @@ class PauseSubstate extends MusicBeatSubstate
 					toOptions = true;
 					Main.switchState(this, new OptionsMenu());
 				case "escape":
-					PlayState.clearStored = true;
-					PlayState.resetMusic();
-					PlayState.deaths = 0;
+					if (PlayState.SONG.song == 'Delusional')
+					{
+						FlxG.camera.shake(0.05, 0.15);
+						songText.alpha = 0.2;
+					}else{
+						PlayState.clearStored = true;
+						PlayState.resetMusic();
+						PlayState.deaths = 0;
 
-					if (PlayState.gameplayMode == STORY)
-						Main.switchState(this, new StoryMenu());
-					else
-						switch (CoolUtil.dashToSpace(PlayState.SONG.song))
-						{
-							case 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Facade' | 'Mortiferum Risus':
-								Main.switchState(this, new states.menus.freeplay.FreeplayState());
-							case 'Isolated Legacy' | 'Lunacy Legacy' | 'Delusional Legacy' | 'Malfunction Legacy' | 'Mercy Legacy':
-								Main.switchState(this, new states.menus.freeplay.LegacyState());
-							default:
-								Main.switchState(this, new states.menus.freeplay.ExtrasState()); // yeah, there's no way I'm making a case for EVERY fucking song in that menu, too much work!
-						}
-						//clearStored = true;
-						//Main.switchState(this, new states.menus.freeplay.FreeplayState());
+						if (PlayState.gameplayMode == STORY)
+							Main.switchState(this, new StoryMenu());
+						else
+							switch (CoolUtil.dashToSpace(PlayState.SONG.song))
+							{
+								case 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Facade' | 'Mortiferum Risus':
+									Main.switchState(this, new states.menus.freeplay.FreeplayState());
+								case 'Isolated Legacy' | 'Lunacy Legacy' | 'Delusional Legacy' | 'Malfunction Legacy' | 'Mercy Legacy' | 'Hunted Legacy':
+									Main.switchState(this, new states.menus.freeplay.LegacyState());
+								default:
+									Main.switchState(this, new states.menus.freeplay.ExtrasState()); // yeah, there's no way I'm making a case for EVERY fucking song in that menu, too much work!
+							}
+							//clearStored = true;
+							//Main.switchState(this, new states.menus.freeplay.FreeplayState());
+					}
 			}
 		}
 
