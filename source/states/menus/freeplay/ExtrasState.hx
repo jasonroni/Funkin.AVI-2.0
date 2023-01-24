@@ -424,6 +424,11 @@ class ExtrasState extends MusicBeatState
 			songToPlay = null;
 		}
 		mutex.release();
+
+		if(songs[curSelected].name != "Birthday")
+			{
+				FlxG.camera.angle = 0;
+			}
 	}
 
 	var lastDifficulty:String;
@@ -568,9 +573,6 @@ class ExtrasState extends MusicBeatState
 							new ShaderFilter(defaultShader2)
 					]);
 
-					// trol
-					FlxTween.tween(FlxG.camera, {angle: 360}, 2, {ease: flixel.tweens.FlxEase.sineInOut, type: FlxTweenType.LOOPING});
-
 				default:
 					FlxG.camera.setFilters(
 						[
@@ -578,7 +580,6 @@ class ExtrasState extends MusicBeatState
 							new ShaderFilter(defaultShader2)
 						]);
 					FlxG.camera.shake(0.01, 0.001);
-					FlxTween.tween(FlxG.camera, {angle: 0}, 0.0001, {ease: flixel.tweens.FlxEase.sineInOut});
 			}
 		}
 	}
