@@ -83,27 +83,31 @@ class PauseSubstate extends MusicBeatSubstate
 		FlxTween.tween(disc, {angle: 360}, 2.5, {type: FlxTweenType.LOOPING});
 		add(disc);
 
+		var artFileDirectory:String = 'menus/Funkin_avi/pause/songs/';
+
 		songArt = new FlxSprite(800, 130);
 		switch (CoolUtil.dashToSpace(PlayState.SONG.song))
 		{
 			case 'Hunted':
-				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/hunted'));
+				songArt.loadGraphic(Paths.image(artFileDirectory + 'hunted'));
 			case 'Twisted Grins' | 'Facade' | 'Mortiferum Risus':
-				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/episode2'));
-			case 'Malfunction' | 'Malfunction Legacy':
-				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/malfunction'));
+				songArt.loadGraphic(Paths.image(artFileDirectory + 'episode2'));
+			case 'Malfunction Legacy':
+				songArt.loadGraphic(Paths.image(artFileDirectory + 'malfunction'));
+			case 'Malfunction':
+				songArt.loadGraphic(Paths.image(artFileDirectory + 'malfunction-new'));
 			case 'Mercy' | 'Mercy Legacy':
-				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/mercy'));
+				songArt.loadGraphic(Paths.image(artFileDirectory + 'mercy'));
 			case 'Bless':
-				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/bless'));
+				songArt.loadGraphic(Paths.image(artFileDirectory + 'bless'));
 			case 'Cycled Sins':
-				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/cycled-sins'));
+				songArt.loadGraphic(Paths.image(artFileDirectory + 'cycled-sins'));
 			case 'Scrapped':
-				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/scrapped'));
+				songArt.loadGraphic(Paths.image(artFileDirectory + 'scrapped'));
 			case 'Delusional':
-				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/delusional'));
+				songArt.loadGraphic(Paths.image(artFileDirectory + 'delusional'));
 			default:
-				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/unknown-song'));
+				songArt.loadGraphic(Paths.image(artFileDirectory + 'unknown-song'));
 		}
 		songArt.scale.set(0.29, 0.29);
 
@@ -262,6 +266,8 @@ class PauseSubstate extends MusicBeatSubstate
 
 	function changeSelection(change:Int = 0):Void
 	{
+		FlxG.sound.play(Paths.sound('base/menus/scrollMenu'), 0.6);
+
 		if (menuItems != null)
 			curSelected = FlxMath.wrap(curSelected + change, 0, menuItems.length - 1);
 
