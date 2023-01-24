@@ -1,9 +1,11 @@
 var gettingSleepy:FlxSprite;
 var limitThing:Int = 0; //Default Value
 
+var pissOfGlory:FlxSprite;
+
 var vhsFilter:FlxRuntimeShader;
 var grainFilter:FlxRuntimeShader;
-var monitorFilter:FlxRuntimeShader; //I can't get this one to work without covering the entire screen
+var monitorFilter:FlxRuntimeShader;
 var shaderTime:Float = 0;
 
 function onCreate()
@@ -13,7 +15,16 @@ function onCreate()
 	//PlayState.boyfriend.alpha = 0; //This crashes the game cause apparently, Character.hx doesn't have an "alpha" value.
 	PlayState.defaultCamZoom = 0.75;
 
-	var pissOfGlory:FNFSprite = new FNFSprite(-450, -300).loadGraphic(Paths.image('walt-bg', 'data/stages/waltRoom/images'));
+	if (PlayState.SONG.song == 'Mercy')
+	{
+		pissOfGlory = new FNFSprite(-470, -280);
+		pissOfGlory.loadGraphic(Paths.image('newWaltBG', 'data/stages/waltRoom/images'));
+		pissOfGlory.scale.set(1.7, 1.7);
+	}else{
+		pissOfGlory = new FNFSprite(-450, -300);
+		pissOfGlory.loadGraphic(Paths.image('walt-bg', 'data/stages/waltRoom/images'));
+		pissOfGlory.scale.set(1, 1);
+	}
 	pissOfGlory.scale.set(1, 1);
 	pissOfGlory.updateHitbox();
 	pissOfGlory.antialiasing = true;
@@ -62,11 +73,18 @@ function onCreate()
 
 	vhsFilter = new FlxRuntimeShader(File.getContent("./assets/shaders/vhs.frag"), null, 130);
 	vhsFilter.setFloat('time', 0);
-	PlayState.camGame.setFilters([new ShaderFilter(vhsFilter)]);
 
 	grainFilter = new FlxRuntimeShader(File.getContent("./assets/shaders/filmgrain.frag"), null, 150);
 	grainFilter.setFloat('time', 0.0);
-	PlayState.camHUD.setFilters([new ShaderFilter(grainFilter)]);
+
+	monitorFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
+
+	PlayState.camGame.setFilters(
+		[
+			new ShaderFilter(vhsFilter),
+			new ShaderFilter(grainFilter),
+			new ShaderFilter(monitorFilter)
+		]);
 }
 
 function charStagePos(boyfriend:Character, gf:Character, dad:Character)

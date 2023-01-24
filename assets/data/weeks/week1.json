@@ -1,42 +1,42 @@
 {
 	"songs": [
 		{
-			"name": "Bopeebo",
-			"opponent": "dad",
+			"name": "Isolated",
+			"opponent": "mickey-new",
 			"colors": [
-				129,
-				100,
-				223
+				60,
+				60,
+				60
 			]
 		},
 		{
-			"name": "Fresh",
-			"opponent": "dad",
+			"name": "Lunacy",
+			"opponent": "lunamick-new",
 			"colors": [
-				129,
-				100,
-				223
+				60,
+				60,
+				60
 			]
 		},
 		{
-			"name": "Dadbattle",
-			"opponent": "dad",
+			"name": "Delusional",
+			"opponent": "face",
 			"colors": [
-				129,
-				100,
-				223
+				60,
+				60,
+				60
 			]
 		}
 	],
-	"attachedImage": "week1",
-	"storyName": "Daddy Dearest",
+	"attachedImage": "episode1",
+	"storyName": "Mickey in: Never-Ending Cycle",
 	"characters": [
-		"dad",
-		"bf",
-		"gf"
+		"none",
+		"none",
+		"none"
 	],
 	"startsLocked": false,
 	"hideOnStory": false,
-	"hideOnFreeplay": false,
+	"hideOnFreeplay": true,
 	"hideUntilUnlocked": false
 }

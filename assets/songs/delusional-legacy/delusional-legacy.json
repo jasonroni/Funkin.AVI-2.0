@@ -1,6 +1,6 @@
 {
 	"song": {
-		"player1": "bf",
+		"player1": "bf-demon-old",
 		"events": [
 			[
 				10378.3783783784,
@@ -21680,12 +21680,13 @@
 				"mustHitSection": true
 			}
 		],
-		"player2": "mickeysadistic",
+		"player2": "mickey-lunacy-legacy",
 		"player3": null,
 		"song": "Delusional Legacy",
+		"arrowSkin": "",
+		"stage": "theLoop",
 		"needsVoices": true,
 		"validScore": true,
-		"stage": "EndlessLoop",
 		"bpm": 185,
 		"speed": 2.8
 	}

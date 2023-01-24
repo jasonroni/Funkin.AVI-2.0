@@ -34,7 +34,7 @@ function loadAnimations()
 	set('height', get('width') - 100);
 
 	setOffsets(220, 150);
-	setCamOffsets(0, 0);
+	setCamOffsets(-60, -100);
 
 	setBarColor([123, 214, 246]);
 	setDeathChar('bf-pixel-dead', 'fnf_loss_sfx', 'gameOver-pixel', 'gameOverEnd-pixel');

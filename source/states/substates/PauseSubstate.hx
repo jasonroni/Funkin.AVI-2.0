@@ -45,8 +45,45 @@ class PauseSubstate extends MusicBeatSubstate
 	{
 		super();
 
-		if (itemStack == null)
-			itemStack = ['continue', 'restart', 'settings', 'escape'];
+			// apprently, it works like this
+			if (PlayState.SONG.song == 'War Dilemma')
+			{
+				if (itemStack == null)
+					itemStack = [
+						'wd-continue',
+						'wd-restart',
+						'wd-settings',
+						'wd-escape'
+					];
+			}
+			else if (PlayState.SONG.song == 'Birthday')
+			{
+				if (itemStack == null)
+					itemStack = [
+						'continue',
+						'restart',
+						'settings',
+						'leave'
+					];
+			}
+			else if (PlayState.SONG.song == 'Malfunction')
+			{
+				if (itemStack == null)
+					itemStack = [
+						'continue',
+						'restart',
+						'settings',
+						'rage'
+					];
+			} else {
+				if (itemStack == null)
+					itemStack = [
+						'continue',
+						'restart',
+						'settings',
+						'escape'
+					];
+			}
 
 		toOptions = false;
 
@@ -83,27 +120,31 @@ class PauseSubstate extends MusicBeatSubstate
 		FlxTween.tween(disc, {angle: 360}, 2.5, {type: FlxTweenType.LOOPING});
 		add(disc);
 
+		var artFileDirectory:String = 'menus/Funkin_avi/pause/songs/';
+
 		songArt = new FlxSprite(800, 130);
 		switch (CoolUtil.dashToSpace(PlayState.SONG.song))
 		{
 			case 'Hunted':
-				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/hunted'));
+				songArt.loadGraphic(Paths.image(artFileDirectory + 'hunted'));
 			case 'Twisted Grins' | 'Facade' | 'Mortiferum Risus':
-				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/episode2'));
-			case 'Malfunction' | 'Malfunction Legacy':
-				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/malfunction'));
+				songArt.loadGraphic(Paths.image(artFileDirectory + 'episode2'));
+			case 'Malfunction Legacy':
+				songArt.loadGraphic(Paths.image(artFileDirectory + 'malfunction'));
+			case 'Malfunction':
+				songArt.loadGraphic(Paths.image(artFileDirectory + 'malfunction-new'));
 			case 'Mercy' | 'Mercy Legacy':
-				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/mercy'));
+				songArt.loadGraphic(Paths.image(artFileDirectory + 'mercy'));
 			case 'Bless':
-				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/bless'));
+				songArt.loadGraphic(Paths.image(artFileDirectory + 'bless'));
 			case 'Cycled Sins':
-				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/cycled-sins'));
+				songArt.loadGraphic(Paths.image(artFileDirectory + 'cycled-sins'));
 			case 'Scrapped':
-				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/scrapped'));
+				songArt.loadGraphic(Paths.image(artFileDirectory + 'scrapped'));
 			case 'Delusional':
-				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/delusional'));
+				songArt.loadGraphic(Paths.image(artFileDirectory + 'delusional'));
 			default:
-				songArt.loadGraphic(Paths.image('menus/Funkin_avi/pause/songs/unknown-song'));
+				songArt.loadGraphic(Paths.image(artFileDirectory + 'unknown-song'));
 		}
 		songArt.scale.set(0.29, 0.29);
 
@@ -150,13 +191,19 @@ class PauseSubstate extends MusicBeatSubstate
 
 		for (i in 0...menuItems.length)
 		{
-			songText = new FlxSprite(0, (10 * i) + 30).loadGraphic(Paths.image('menus/Funkin_avi/pause/${menuItems[i]}'));
+			songText = new FlxSprite(0, (10 * i) + 30).loadGraphic(Paths.image('menus/Funkin_avi/pause/menuButtons/${menuItems[i]}'));
+			songText.alpha = 0;
 			add(songText);
+			FlxTween.tween(songText, {alpha: 1}, 0.8, {ease: FlxEase.quartInOut});
 		}
 
-		funnyButton = new FlxSprite(songText.x + 250, 0).loadGraphic(Paths.image('menus/Funkin_avi/pause/select'));
+		funnyButton = new FlxSprite(0, 0).loadGraphic(Paths.image('menus/Funkin_avi/pause/select'));
 		funnyButton.setGraphicSize(Std.int(funnyButton.width * 2));
-		//add(funnyButton);
+		add(funnyButton);
+
+		funnyButton.alpha = 0;
+
+		FlxTween.tween(funnyButton, {alpha: 1}, 0.8, {ease: FlxEase.quartInOut});
 
 		changeSelection();
 
@@ -165,6 +212,40 @@ class PauseSubstate extends MusicBeatSubstate
 
 	override function update(elapsed:Float)
 	{
+		switch (menuItems[curSelected])
+		{
+			case 'continue':
+				funnyButton.x = songText.x + 300;
+				funnyButton.y = 140;
+			case 'restart':
+				funnyButton.x = songText.x + 310;
+				funnyButton.y = 285;
+			case 'settings':
+				funnyButton.x = songText.x + 540;
+				funnyButton.y = 440;
+			case 'escape':
+				funnyButton.x = songText.x + 300;
+				funnyButton.y = 600;
+			case 'leave':
+				funnyButton.x = songText.x + 530;
+				funnyButton.y = 600;
+			case 'wd-continue':
+				funnyButton.x = songText.x + 430;
+				funnyButton.y = 134;
+			case 'wd-restart':
+				funnyButton.x = songText.x + 370;
+				funnyButton.y = 290;
+			case 'wd-settings':
+				funnyButton.x = songText.x + 720;
+				funnyButton.y = 440;
+			case 'wd-escape':
+				funnyButton.x = songText.x + 570;
+				funnyButton.y = 595;
+			case 'rage':
+				funnyButton.x = songText.x + 610;
+				funnyButton.y = 600;
+		}
+
 		super.update(elapsed);
 
 		var upP = Controls.getPressEvent("ui_up");
@@ -182,38 +263,44 @@ class PauseSubstate extends MusicBeatSubstate
 
 			switch (daSelected)
 			{
-				case "continue":
+				case "continue" | 'wd-continue':
 					close();
 					remove(disc);
-				case "restart":
+				case "restart" | 'wd-restart':
 					Main.switchState(this, new PlayState());
 				case "Back to Charter":
 					Main.switchState(this, new states.editors.OriginalChartingState());
 				case "Leave Charter Mode":
 					PlayState.gameplayMode = FREEPLAY;
 					Main.switchState(this, new PlayState());
-				case "settings":
+				case "settings" | 'wd-settings':
 					toOptions = true;
 					Main.switchState(this, new OptionsMenu());
-				case "escape":
-					PlayState.clearStored = true;
-					PlayState.resetMusic();
-					PlayState.deaths = 0;
+				case "escape" | 'wd-escape' | 'rage' | 'leave':
+					if (PlayState.SONG.song == 'Delusional')
+					{
+						FlxG.camera.shake(0.05, 0.15);
+						songText.alpha = 0.2;
+					}else{
+						PlayState.clearStored = true;
+						PlayState.resetMusic();
+						PlayState.deaths = 0;
 
-					if (PlayState.gameplayMode == STORY)
-						Main.switchState(this, new StoryMenu());
-					else
-						switch (CoolUtil.dashToSpace(PlayState.SONG.song))
-						{
-							case 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Facade' | 'Mortiferum Risus':
-								Main.switchState(this, new states.menus.freeplay.FreeplayState());
-							case 'Isolated Legacy' | 'Lunacy Legacy' | 'Delusional Legacy' | 'Malfunction Legacy' | 'Mercy Legacy':
-								Main.switchState(this, new states.menus.freeplay.LegacyState());
-							default:
-								Main.switchState(this, new states.menus.freeplay.ExtrasState()); // yeah, there's no way I'm making a case for EVERY fucking song in that menu, too much work!
-						}
-						//clearStored = true;
-						//Main.switchState(this, new states.menus.freeplay.FreeplayState());
+						if (PlayState.gameplayMode == STORY)
+							Main.switchState(this, new StoryMenu());
+						else
+							switch (CoolUtil.dashToSpace(PlayState.SONG.song))
+							{
+								case 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Facade' | 'Mortiferum Risus':
+									Main.switchState(this, new states.menus.freeplay.FreeplayState());
+								case 'Isolated Legacy' | 'Lunacy Legacy' | 'Delusional Legacy' | 'Malfunction Legacy' | 'Mercy Legacy' | 'Hunted Legacy':
+									Main.switchState(this, new states.menus.freeplay.LegacyState());
+								default:
+									Main.switchState(this, new states.menus.freeplay.ExtrasState()); // yeah, there's no way I'm making a case for EVERY fucking song in that menu, too much work!
+							}
+							//clearStored = true;
+							//Main.switchState(this, new states.menus.freeplay.FreeplayState());
+					}
 			}
 		}
 
@@ -234,6 +321,8 @@ class PauseSubstate extends MusicBeatSubstate
 
 	function changeSelection(change:Int = 0):Void
 	{
+		FlxG.sound.play(Paths.sound('base/menus/scrollMenu'), 0.6);
+
 		if (menuItems != null)
 			curSelected = FlxMath.wrap(curSelected + change, 0, menuItems.length - 1);
 

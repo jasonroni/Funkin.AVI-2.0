@@ -1,42 +1,42 @@
 {
 	"songs": [
 		{
-			"name": "Spookeez",
-			"opponent": "spooky",
+			"name": "Twisted-Grins",
+			"opponent": "mr-smiles",
 			"colors": [
-				30,
-				45,
+				60,
+				60,
 				60
 			]
 		},
 		{
-			"name": "South",
-			"opponent": "spooky",
+			"name": "Facade",
+			"opponent": "mr-smiles",
 			"colors": [
-				30,
-				45,
+				60,
+				60,
 				60
 			]
 		},
 		{
-			"name": "Monster",
-			"opponent": "monster",
+			"name": "Mortiferum-Risus",
+			"opponent": "mr-smiles",
 			"colors": [
-				30,
-				45,
+				60,
+				60,
 				60
 			]
 		}
 	],
-	"attachedImage": "week2",
-	"storyName": "Spooky Month",
+	"attachedImage": "episode2",
+	"storyName": "Boyfriend in: Sinister Smile",
 	"characters": [
-		"spooky",
-		"bf",
-		"gf"
+		"none",
+		"none",
+		"none"
 	],
 	"startsLocked": false,
 	"hideOnStory": false,
-	"hideOnFreeplay": false,
+	"hideOnFreeplay": true,
 	"hideUntilUnlocked": false
 }

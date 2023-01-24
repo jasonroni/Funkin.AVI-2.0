@@ -82,3 +82,9 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 		if (curBeat == 140) PlayState.defaultCamZoom = 0.6;
 	}
 }
+
+function charStagePos(boyfriend:Character, gf:Character, dad:Character)
+{
+	dad.setPosition(-100, 160);
+	boyfriend.setPosition(1300, 600);
+}

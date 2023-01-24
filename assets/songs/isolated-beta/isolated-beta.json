@@ -1,7 +1,7 @@
 {
 	"song": {
 		"composer": "Yama haki",
-		"player1": "nogf",
+		"player1": "bf",
 		"events": [
 			[
 				0,
@@ -6230,7 +6230,7 @@
 		"charter": "DEMOLITIONDON96",
 		"song": "Isolated Beta",
 		"arrowSkin": "",
-		"stage": "LegacyLoop",
+		"stage": "theLoop",
 		"needsVoices": true,
 		"validScore": true,
 		"bpm": 120,

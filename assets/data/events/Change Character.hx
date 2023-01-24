@@ -25,6 +25,8 @@ function eventTrigger(params)
 			case 'bf', 'boyfriend', 'player', '0':
 				PlayState.boyfriend.setCharacter(770, 450, params[1]);
 				PlayState.uiHUD.iconP1.updateIcon(params[1], true);
+				PlayState.demolitionHUD.iconP1.updateIcon(params[1], true);
+				PlayState.psychHUD.iconP1.updateIcon(params[1], true);
 				PlayState.boyfriend.dance(true);
 
 				if (PlayState.playerMap.get(params[1]) != null)
@@ -39,12 +41,16 @@ function eventTrigger(params)
 			default:
 				PlayState.opponent.setCharacter(100, 100, params[1]);
 				PlayState.uiHUD.iconP2.updateIcon(params[1], false);
+				PlayState.demolitionHUD.iconP2.updateIcon(params[1], false);
+				PlayState.psychHUD.iconP2.updateIcon(params[1], false);
 				PlayState.opponent.dance(true);
 
 				if (PlayState.opponentMap.get(params[1]) != null)
 					PlayState.opponentMap.remove(params[1]);
 		}
 		PlayState.uiHUD.reloadHealthBar();
+		PlayState.demolitionHUD.reloadHealthBar();
+		PlayState.psychHUD.reloadHealthBar();
 		PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent);
 	});
 }

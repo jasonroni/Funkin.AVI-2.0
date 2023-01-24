@@ -1,6 +1,6 @@
 {
 	"song": {
-		"player1": "bfgrey-pixel",
+		"player1": "bf-pixel",
 		"composer": "obscurity",
 		"player2": "glitched-mickey-new-pixel",
 		"events": [
@@ -16396,7 +16396,7 @@
 		"charter": "DEMOLITIONDON96",
 		"splashSkin": "NoteSplashSkins/noteSplashesPixel",
 		"song": "Malfunction",
-		"stage": "PixelWorld",
+		"stage": "forbiddenRealm",
 		"validScore": true,
 		"arrowSkin": "",
 		"needsVoices": true,
