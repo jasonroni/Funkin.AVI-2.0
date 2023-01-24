@@ -554,8 +554,6 @@ class ExtrasState extends MusicBeatState
 							new ShaderFilter(defaultShader2)
 						]);
 
-				case 'laugh-track':
-
 				default:
 					FlxG.camera.setFilters(
 						[
