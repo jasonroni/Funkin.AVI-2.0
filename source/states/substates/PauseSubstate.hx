@@ -26,6 +26,10 @@ class PauseSubstate extends MusicBeatSubstate
 	var menuItems:Array<String>;
 	var curSelected:Int = 0;
 
+	var funnyButton:FlxSprite;
+
+	var songText:FlxSprite;
+
 	var pauseMusic:FlxSound;
 
 	public static var toOptions:Bool = false;
@@ -42,7 +46,7 @@ class PauseSubstate extends MusicBeatSubstate
 		super();
 
 		if (itemStack == null)
-			itemStack = ['Resume', 'Restart Song', 'Exit to options', 'Exit to menu'];
+			itemStack = ['continue', 'restart', 'settings', 'escape'];
 
 		toOptions = false;
 
@@ -146,11 +150,13 @@ class PauseSubstate extends MusicBeatSubstate
 
 		for (i in 0...menuItems.length)
 		{
-			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, menuItems[i], true, false);
-			songText.isMenuItem = true;
-			songText.targetY = i;
-			grpMenuShit.add(songText);
+			songText = new FlxSprite(0, (10 * i) + 30).loadGraphic(Paths.image('menus/Funkin_avi/pause/${menuItems[i]}'));
+			add(songText);
 		}
+
+		funnyButton = new FlxSprite(songText.x + 250, 0).loadGraphic(Paths.image('menus/Funkin_avi/pause/select'));
+		funnyButton.setGraphicSize(Std.int(funnyButton.width * 2));
+		//add(funnyButton);
 
 		changeSelection();
 
@@ -176,20 +182,20 @@ class PauseSubstate extends MusicBeatSubstate
 
 			switch (daSelected)
 			{
-				case "Resume":
+				case "continue":
 					close();
 					remove(disc);
-				case "Restart Song":
+				case "restart":
 					Main.switchState(this, new PlayState());
 				case "Back to Charter":
 					Main.switchState(this, new states.editors.OriginalChartingState());
 				case "Leave Charter Mode":
 					PlayState.gameplayMode = FREEPLAY;
 					Main.switchState(this, new PlayState());
-				case "Exit to options":
+				case "settings":
 					toOptions = true;
 					Main.switchState(this, new OptionsMenu());
-				case "Exit to menu":
+				case "escape":
 					PlayState.clearStored = true;
 					PlayState.resetMusic();
 					PlayState.deaths = 0;
