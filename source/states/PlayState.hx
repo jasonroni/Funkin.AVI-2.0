@@ -93,6 +93,8 @@ class PlayState extends MusicBeatState
 	public static var boyfriend:Boyfriend;
 
 	var grayScale:FlxRuntimeShader;
+	var tilt:FlxRuntimeShader;
+	var andromeda:FlxRuntimeShader;
 
 	// used by events, stores characters and character names in maps;
 	public static var playerMap:Map<String, Character> = new Map();
@@ -417,6 +419,14 @@ class PlayState extends MusicBeatState
 		strumHUD = [];
 
 		grayScale = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 120);
+		andromeda = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/andromedaShader.frag'), null, 140);
+		tilt = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/tiltShift.frag'), null, 140);
+		tilt.setFloat('bluramount', 0.1);
+		andromeda.setFloat('glitchModifier', 0.6);
+		andromeda.setBool('perspectiveOn', false);
+		andromeda.setBool('vignetteMoving', true);
+		andromeda.setFloat('iTime', 0);
+
 		for (i in 0...strumLines.length)
 		{
 			// generate a new strum camera
@@ -428,7 +438,20 @@ class PlayState extends MusicBeatState
 			FlxG.cameras.add(strumHUD[i], false);
 			// set this strumline's camera to the designated camera
 			strumLines.members[i].cameras = [strumHUD[i]];
-			strumHUD[i].setFilters([new openfl.filters.ShaderFilter(grayScale)]);
+			switch(curStage)
+			{
+				case 'theLoop':
+					strumHUD[i].setFilters([
+						new openfl.filters.ShaderFilter(andromeda),
+						new openfl.filters.ShaderFilter(tilt),
+						new openfl.filters.ShaderFilter(grayScale)
+					]);
+
+				default:
+					strumHUD[i].setFilters([
+						new openfl.filters.ShaderFilter(grayScale)
+					]);
+			}
 		}
 		add(strumLines);
 

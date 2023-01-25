@@ -2,15 +2,14 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Build + Debug",
+			"name": "Build",
 			"type": "lime",
 			"request": "launch"
 		},
 		{
-			"name": "Debug",
+			"name": "Lime",
 			"type": "lime",
 			"request": "launch",
-			"preLaunchTask": null
 		},
 		{
 			"name": "Macro",

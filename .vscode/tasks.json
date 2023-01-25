@@ -11,7 +11,7 @@
 				"$haxe-trace"
 			],
 			"group": "build",
-			"label": "Lime Build (active configuration)"
+			"label": "lime build windows"
 		},
 		{
 			"type": "lime",
@@ -22,7 +22,7 @@
 				"$haxe-error",
 				"$haxe-trace"
 			],
-			"label": "Lime Run (active configuration)"
+			"label": "lime run windows"
 		},
 		{
 			"type": "lime",
@@ -33,7 +33,7 @@
 				"$haxe-error",
 				"$haxe-trace"
 			],
-			"label": "Lime Update (Active Configuration)"
+			"label": "lime update windows"
 		}
 	]
 }
