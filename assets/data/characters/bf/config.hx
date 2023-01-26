@@ -37,6 +37,7 @@ function loadAnimations()
 		setOffsets(0, 100);
 	else
 		setOffsets(-135, 100);
+	setScale(1, 1);
 }
 
 var isOld:Bool = false;
