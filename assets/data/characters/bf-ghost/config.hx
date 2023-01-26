@@ -6,11 +6,11 @@ function loadAnimations()
 	addByPrefix('singRIGHT', 'BlessBf right', 24, false);
 	addByPrefix('singDOWN', 'BlessBf down', 24, false);
 
-	addOffset('idle', 0, 0);
-	addOffset('singUP', -47, 28);
-	addOffset('singLEFT', 60, 0);
-	addOffset('singRIGHT', -48, -5);
-	addOffset('singDOWN', 0, 70);
+	addOffset("idle", 568, 1010);
+	addOffset("singRIGHT", 598, 1030);
+	addOffset("singDOWN", 623, 1040);
+	addOffset("singLEFT", 650, 1080);
+	addOffset("singUP", 550, 970);
 
 	playAnim('idle');
 
@@ -18,7 +18,7 @@ function loadAnimations()
 	characterData.flipX = true;
 
 	setBarColor([49, 176, 209]);
-	setCamOffsets(380, 580);
+	setCamOffsets(-300, -500);
 	setOffsets(0, 0);
 	setGraphicSize(get('width') * 0.5);
 }
