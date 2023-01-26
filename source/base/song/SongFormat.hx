@@ -21,6 +21,7 @@ typedef SwagSong =
 	var splashSkin:String;
 	var assetModifier:String;
 	var validScore:Bool;
+	var composer:String;
 
 	@:optional dynamic function copy():SwagSong;
 }
