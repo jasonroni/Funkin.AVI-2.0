@@ -121,19 +121,19 @@ class ExtrasState extends MusicBeatState
         lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Extras";
 
 		// Songlist setup
-        addSong('Hunted', 3, 'face', FlxColor.fromRGB(60, 60, 60));
+        addSong('Hunted', 3, 'goofy-new', FlxColor.fromRGB(60, 60, 60));
 		addSong('Isolated-Old', 3, 'mickey-legacy', FlxColor.fromRGB(60, 60, 60));
 		addSong('Isolated-Beta', 3, 'mickey-legacy', FlxColor.fromRGB(60, 60, 60));
 		addSong("Don't-Cross!", 3, 'face', FlxColor.fromRGB(60, 60, 60));
+		addSong('Laugh-Track', 3, 'face', FlxColor.fromRGB(60, 60, 60));
 		addSong('Malfunction', 3, 'glitched-mickey-new-pixel', FlxColor.fromRGB(60, 60, 60));
 		addSong('Neglection', 3, 'face', FlxColor.fromRGB(60, 60, 60));
 		addSong('Bless', 3, 'white-noise', FlxColor.fromRGB(255, 255, 255));
 		addSong('War-Dilemma', 3, 'face', FlxColor.fromRGB(60, 60, 60));
 		addSong('Scrapped', 3, 'rs', FlxColor.fromRGB(0, 0, 0));
-		addSong('Laugh-Track', 3, 'face', FlxColor.fromRGB(60, 60, 60));
 		addSong('Cycled-Sins', 3, 'relapse-pixel', FlxColor.fromRGB(60, 60, 60)); //messing with the saves for this later
 		addSong('Mercy', 3, 'walt', FlxColor.fromRGB(60, 60, 60));
-      addSong('Affliction', 3, 'walt', FlxColor.fromRGB(60, 60, 60));
+     	addSong('Affliction', 3, 'walt', FlxColor.fromRGB(60, 60, 60));
 		addSong('Birthday', 3, 'muckney', FlxColor.fromRGB(60, 60, 60));
 		mutex = new Mutex();
 
@@ -424,11 +424,6 @@ class ExtrasState extends MusicBeatState
 			songToPlay = null;
 		}
 		mutex.release();
-
-		if(songs[curSelected].name != "Birthday")
-			{
-				FlxG.camera.angle = 0;
-			}
 	}
 
 	var lastDifficulty:String;
@@ -566,12 +561,6 @@ class ExtrasState extends MusicBeatState
 							new ShaderFilter(mercyShader2),
 							new ShaderFilter(defaultShader2)
 						]);
-
-				case 'birthday':
-					FlxG.camera.setFilters(
-						[
-							new ShaderFilter(defaultShader2)
-					]);
 
 				default:
 					FlxG.camera.setFilters(

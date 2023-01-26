@@ -97,6 +97,7 @@ class FreeplayMenu extends MusicBeatState {
 		}else*/ freeplayCats = ['Legacy', 'Episodes', 'Extras'];
 
         BG = new FlxSprite().loadGraphic(Paths.image('menus/base/menuDesat'));
+		BG.color = FlxColor.GRAY;
 		BG.updateHitbox();
 		BG.screenCenter();
 		add(BG);

@@ -55,7 +55,8 @@ class Song
 				splashSkin: "noteSplashes",
 				needsVoices: false,
 				validScore: false,
-				assetModifier: "base"
+				assetModifier: "base",
+				composer: "unknown"
 			};
 
 		var oldSong:SwagSong = cast Json.parse(rawJson).song;
@@ -77,6 +78,7 @@ class Song
 				needsVoices: oldSong.needsVoices,
 				validScore: true,
 				assetModifier: oldSong.assetModifier,
+				composer: oldSong.composer,
 			};
 		};
 
