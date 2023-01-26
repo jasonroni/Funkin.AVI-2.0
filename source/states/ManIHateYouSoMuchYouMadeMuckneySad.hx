@@ -12,7 +12,6 @@ class ManIHateYouSoMuchYouMadeMuckneySad extends MusicBeatState
 {
    override function create() {
       super.create();
-      if(!Window.fullscreen)
       Application.current.window.borderless = true;
    }
 

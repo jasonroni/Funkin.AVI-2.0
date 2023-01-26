@@ -9,10 +9,10 @@ import sys.FileSystem;
 class CoolUtil
 {
 	public static var difficulties:Array<String> = []; // Custom Difficulties;
-	public static var difficultyArray:Array<String> = ['EASY', "NORMAL", "HARD"]; // Default Difficulties;
-	public static var difficultyString:String = 'NORMAL'; // shows on HUD / Pause;
+	public static var difficultyArray:Array<String> = ["HARD", "SUICIDAL", "X2"]; // Default Difficulties;
+	public static var difficultyString:String = 'HARD'; // shows on HUD / Pause;
 
-	public static var defaultDifficulty:String = 'NORMAL';
+	public static var defaultDifficulty:String = 'HARD';
 
 	inline public static function difficultyFromNumber(number:Int):String
 		return difficulties[number];
