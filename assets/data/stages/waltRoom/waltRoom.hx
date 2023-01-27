@@ -113,8 +113,17 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 		else if (curBeat >= 256 && curBeat <= 319) PlayState.health -= 0.18;
 		else if (curBeat >= 320) PlayState.health -= 0.01;
 	}else if (PlayState.SONG.song == 'Mercy'){
-		if (curBeat >= 0 && curBeat <= 255) PlayState.health -= 0.005;
-		if (curBeat == 17)
+		if (curBeat >= 0 && curBeat <= 79) PlayState.health -= 0.005;
+		if (curBeat >= 256 && curBeat <= 275) PlayState.health -= 0.005;
+		if (curBeat >= 88 && curBeat <= 95) PlayState.health -= 0.005;
+		if (curBeat >= 80 && curBeat <= 87) PlayState.health -= 0.03;
+		if (curBeat >= 96 && curBeat <= 127) PlayState.health -= 0.01;
+		if (curBeat >= 192 && curBeat <= 239) PlayState.health -= 0.01;
+		if (curBeat >= 128 && curBeat <= 159) PlayState.health -= 0.05;
+		if (curBeat >= 160 && curBeat <= 191) PlayState.health -= 0.08;
+		if (curBeat >= 240 && curBeat <= 255) PlayState.health -= 0.1;
+		if (curBeat >= 276) PlayState.health -= 0.11;
+		if (curBeat == 8)
 		{
 			FlxTween.tween(PlayState.camGame, {alpha: 1}, 5, {ease: FlxEase.sineInOut});
 			FlxTween.tween(PlayState.camHUD, {alpha: 1}, 5, {ease: FlxEase.sineInOut, startDelay: 1.5});
