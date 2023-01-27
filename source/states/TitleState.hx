@@ -93,36 +93,7 @@ class TitleState extends states.MusicBeatState
 	var defaultShader2:FlxRuntimeShader;
 
 	override public function create():Void
-	{
-		/*if(FlxG.save.data.episode1FPLock == null) FPClientPrefs.lockinIt();
-		Paths.clearStoredMemory();
-		Paths.clearUnusedMemory();
-		//FlxG.game.setFilters(filters);
-		//FlxG.game.filtersEnabled = true;
-	//	FXHandler.UpdateColors(filters);
-		// Just to load a mod on start up if ya got one. For mods that change the menu music and bg
-		WeekData.loadTheFirstEnabledMod();
-		#if CHECK_FOR_UPDATES
-		if(!closedState) {
-			trace('checking for update');
-			var http = new haxe.Http("https://raw.githubusercontent.com/DEMOLITIONDON96/Demolition-Engine/main/gitVersion.txt");
-			http.onData = function (data:String)
-			{
-				updateVersion = data.split('\n')[0].trim();
-				var curVersion:String = MainMenuState.psychEngineVersion.trim();
-				trace('version online: ' + updateVersion + ', your version: ' + curVersion);
-				if(updateVersion != curVersion) {
-					trace('versions arent matching!');
-					mustUpdate = true;
-				}
-			}
-			http.onError = function (error) {
-				trace('error: $error');
-			}
-			http.request();
-		}
-		#end*/
-		
+	{	
 		if (FlxG.save.data.episode1FPLock == null) GameData.lockinIt(); // this locks everything to the default state if the player hasn't played it yet, leaving only Episode 1 unlocked
 
 		FlxG.game.focusLostFramerate = 60;
@@ -166,32 +137,7 @@ class TitleState extends states.MusicBeatState
 
 		base.dependency.GameData.loadShit();
 
-		//ClientPrefs.loadPrefs();
-
-		//Highscore.load();
-
 		FlxG.mouse.visible = true;
-		/*FlxG.mouse.load("assets/images/mouse/" + ClientPrefs.cursor + ".png");
-		if(FlxG.save.data.funiShaders == null && !ShadersState.leftState) {
-			FlxTransitionableState.skipNextTransIn = true;
-			FlxTransitionableState.skipNextTransOut = true;
-			MusicBeatState.switchState(new ShadersState());
-		} else {
-			#if desktop
-			if (!DiscordClient.isInitialized)
-			{
-				DiscordClient.initialize();
-				Application.current.onExit.add (function (exitCode) {
-					DiscordClient.shutdown();
-				});
-			}
-			#end
-			new FlxTimer().start(1, function(tmr:FlxTimer)
-			{
-				startIntro();
-			});
-		}
-		#end*/
 	}
 
 	var logoBl:FlxSprite;
@@ -203,25 +149,6 @@ class TitleState extends states.MusicBeatState
 	{
 		if (!initialized)
 		{
-			/*var diamond:FlxGraphic = FlxGraphic.fromClass(GraphicTransTileDiamond);
-			diamond.persist = true;
-			diamond.destroyOnNoUse = false;
-			FlxTransitionableState.defaultTransIn = new TransitionData(FADE, FlxColor.BLACK, 1, new FlxPoint(0, -1), {asset: diamond, width: 32, height: 32},
-				new FlxRect(-300, -300, FlxG.width * 1.8, FlxG.height * 1.8));
-			FlxTransitionableState.defaultTransOut = new TransitionData(FADE, FlxColor.BLACK, 0.7, new FlxPoint(0, 1),
-				{asset: diamond, width: 32, height: 32}, new FlxRect(-300, -300, FlxG.width * 1.8, FlxG.height * 1.8));
-			transIn = FlxTransitionableState.defaultTransIn;
-			transOut = FlxTransitionableState.defaultTransOut;*/
-
-			// HAD TO MODIFY SOME BACKEND SHIT
-			// IF THIS PR IS HERE IF ITS ACCEPTED UR GOOD TO GO
-			// https://github.com/HaxeFlixel/flixel-addons/pull/348
-
-			// var music:FlxSound = new FlxSound();
-			// music.loadStream(Paths.music('funkinAVI/menu/MenuMusic'));
-			// FlxG.sound.list.add(music);
-			// music.play();
-
 			if(FlxG.sound.music == null) {
 				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
 
@@ -231,29 +158,6 @@ class TitleState extends states.MusicBeatState
 
 		Conductor.changeBPM(60);
 		persistentUpdate = true;
-
-		/*if(ClientPrefs.shaders)
-					{
-						chrom = new ChromaticAberrationEffect();
-						blurThisShit = new TiltshiftEffect(0.4, 0);
-						bloomShit = new WIBloomEffect(0);
-						greyscale = new GreyscaleEffect();
-						//uncomment these fucking pieces of shit if you feel like testing it.
-						addShader(chrom);
-						addShader(blurThisShit);
-						addShader(bloomShit);
-						addShader(greyscale);
-						//uncomment these fucking pieces of shit if you feel like testing it.
-						if(!ClientPrefs.optimization) {
-						if (chrom != null)
-						chrom.setChrome(0.003);
-						if (bloomShit != null)
-						bloomShit.setSize(18.0);
-						if(blurThisShit != null)
-						blurThisShit.setBlur(0.4);
-						//uncomment these fucking pieces of shit if you feel like testing it.
-						}
-					}*/
 
 		var bg:FlxSprite = new FlxSprite();
 		bg.loadGraphic(Paths.image('menus/Funkin_avi/Title_bg'), false);
@@ -287,10 +191,6 @@ class TitleState extends states.MusicBeatState
 		var logo:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/logo'));
 		logo.screenCenter();
 		logo.antialiasing = true;
-		// add(logo);
-
-		// FlxTween.tween(logoBl, {y: logoBl.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG});
-		// FlxTween.tween(logo, {y: logoBl.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG, startDelay: 0.1});
 
 		credGroup = new FlxGroup();
 		add(credGroup);
@@ -299,34 +199,12 @@ class TitleState extends states.MusicBeatState
 		blackScreen = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		credGroup.add(blackScreen);
 
-		/*gradientBar = FlxGradient.createGradientFlxSprite(Math.round(FlxG.width), 512, [0x0000BCFF, 0x55007DFF, 0xAA5BF1FF], 1, 90, true);
-		gradientBar.y = 770;
-		gradientBar.scale.y = 0;
-		gradientBar.updateHitbox();
-		add(gradientBar);
-		FlxTween.tween(gradientBar, {'scale.y': 1.3}, 4, {ease: FlxEase.quadInOut});*/
-
 		credTextShit = new Alphabet(0, 0, "", true);
 		credTextShit.screenCenter();
 
 		// credTextShit.alignment = CENTER;
 
 		credTextShit.visible = false;
-
-		/*psychEngine = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('psychLogo'));
-		add(psychEngine);
-		psychEngine.visible = false;
-		psychEngine.setGraphicSize(Std.int(ngSpr.width * 0.8));
-		psychEngine.updateHitbox();
-		psychEngine.screenCenter(X);
-		psychEngine.antialiasing = ClientPrefs.globalAntialiasing;*/
-
-		/*creditsGrid = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('creditsGrid'));
-		add(creditsGrid);
-		creditsGrid.visible = false;
-		creditsGrid.screenCenter(X);
-		creditsGrid.antialiasing = ClientPrefs.globalAntialiasing;*/
-		//???
 
 		FlxTween.tween(credTextShit, {y: credTextShit.y + 20}, 2.9, {ease: FlxEase.quadInOut, type: PINGPONG});
 
@@ -868,20 +746,4 @@ class TitleState extends states.MusicBeatState
 
 			skippedIntro = true;
 		}
-	/*function doChrome(T:FlxTimer, ?setChrom:Bool = true)
-	{
-		if (!ClientPrefs.funiShaders || skippedIntro)
-			return;
-		if (T != null)
-			T.cancel();
-		if (chrom != null && setChrom)
-			chrom.setChrome(FlxG.random.float(0.0, 0.002));
-		new FlxTimer().start(FlxG.random.float(0.08, 0.12), function(tmr:FlxTimer)
-		{
-			new FlxTimer().start(FlxG.random.float(0.7, 1.6), function(tmr:FlxTimer)
-			{
-				doChrome(tmr, true);
-			});
-		});
-	}*/ //fuck this shit, ain't using it no more.
 }
