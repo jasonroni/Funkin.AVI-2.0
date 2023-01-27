@@ -440,17 +440,20 @@ class PlayState extends MusicBeatState
 			strumLines.members[i].cameras = [strumHUD[i]];
 			switch(curStage)
 			{
-				case 'theLoop':
+				case 'theLoop' | 'forestOld':
 					strumHUD[i].setFilters([
 						new openfl.filters.ShaderFilter(andromeda),
 						new openfl.filters.ShaderFilter(tilt),
 						new openfl.filters.ShaderFilter(grayScale)
 					]);
-
-				default:
+					
+				case 'abandonedStreet' | 'forestNew' | 'apartment' | 'smilesOffice' | 'clubhouse' | 'delusionalStreet':
 					strumHUD[i].setFilters([
 						new openfl.filters.ShaderFilter(grayScale)
 					]);
+
+				default:
+					// nothing, you get no shaders lol
 			}
 		}
 		add(strumLines);

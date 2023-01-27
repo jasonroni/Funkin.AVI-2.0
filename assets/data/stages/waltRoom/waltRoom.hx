@@ -1,11 +1,13 @@
+import openfl.filters.ShaderFilter;
+
 var gettingSleepy:FlxSprite;
 var limitThing:Int = 0; //Default Value
 
-var pissOfGlory:FlxSprite;
+var pissOfGlory:FNFSprite;
+var greaterPiss:FNFSprite;
 
 var vhsFilter:FlxRuntimeShader;
 var grainFilter:FlxRuntimeShader;
-var monitorFilter:FlxRuntimeShader;
 var shaderTime:Float = 0;
 
 function onCreate()
@@ -15,8 +17,12 @@ function onCreate()
 	//PlayState.boyfriend.alpha = 0; //This crashes the game cause apparently, Character.hx doesn't have an "alpha" value.
 	PlayState.defaultCamZoom = 0.75;
 
+
 	if (PlayState.SONG.song == 'Mercy')
 	{
+		PlayState.camGame.alpha = 0;
+		PlayState.camHUD.alpha = 0;
+
 		pissOfGlory = new FNFSprite(-470, -280);
 		pissOfGlory.loadGraphic(Paths.image('newWaltBG', 'data/stages/waltRoom/images'));
 		pissOfGlory.scale.set(1.7, 1.7);
@@ -25,12 +31,17 @@ function onCreate()
 		pissOfGlory.loadGraphic(Paths.image('walt-bg', 'data/stages/waltRoom/images'));
 		pissOfGlory.scale.set(1, 1);
 	}
-	pissOfGlory.scale.set(1, 1);
 	pissOfGlory.updateHitbox();
 	pissOfGlory.antialiasing = true;
 	pissOfGlory.scrollFactor(1, 1);
 	pissOfGlory.active = false;
 	add(pissOfGlory);
+
+	greaterPiss = new FNFSprite(-60, -70);
+	greaterPiss.loadGraphic(Paths.image('inkWaltBG', 'data/stages/waltRoom/images'));
+	greaterPiss.scale.set(1.7, 1.7);
+	greaterPiss.alpha = 0;
+	add(greaterPiss);
 
 	var vignette:FNFSprite = new FNFSprite(-250, -140).loadGraphic(Paths.image('vignetteOverlay', 'data/stages/waltRoom/images'));
 	vignette.cameras = [PlayState.camAlt];
@@ -77,13 +88,10 @@ function onCreate()
 	grainFilter = new FlxRuntimeShader(File.getContent("./assets/shaders/filmgrain.frag"), null, 150);
 	grainFilter.setFloat('time', 0.0);
 
-	monitorFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
-
 	PlayState.camGame.setFilters(
 		[
 			new ShaderFilter(vhsFilter),
 			new ShaderFilter(grainFilter),
-			new ShaderFilter(monitorFilter)
 		]);
 }
 
@@ -104,6 +112,31 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 		else if (curBeat >= 192 && curBeat <= 255) PlayState.health -= 0.1;
 		else if (curBeat >= 256 && curBeat <= 319) PlayState.health -= 0.18;
 		else if (curBeat >= 320) PlayState.health -= 0.01;
+	}else if (PlayState.SONG.song == 'Mercy'){
+		if (curBeat >= 0 && curBeat <= 79) PlayState.health -= 0.005;
+		if (curBeat >= 256 && curBeat <= 275) PlayState.health -= 0.005;
+		if (curBeat >= 88 && curBeat <= 95) PlayState.health -= 0.005;
+		if (curBeat >= 80 && curBeat <= 87) PlayState.health -= 0.03;
+		if (curBeat >= 96 && curBeat <= 127) PlayState.health -= 0.01;
+		if (curBeat >= 192 && curBeat <= 239) PlayState.health -= 0.01;
+		if (curBeat >= 128 && curBeat <= 159) PlayState.health -= 0.05;
+		if (curBeat >= 160 && curBeat <= 191) PlayState.health -= 0.08;
+		if (curBeat >= 240 && curBeat <= 255) PlayState.health -= 0.1;
+		if (curBeat >= 276) PlayState.health -= 0.11;
+		if (curBeat == 8)
+		{
+			FlxTween.tween(PlayState.camGame, {alpha: 1}, 5, {ease: FlxEase.sineInOut});
+			FlxTween.tween(PlayState.camHUD, {alpha: 1}, 5, {ease: FlxEase.sineInOut, startDelay: 1.5});
+		}
+		if (curBeat == 256)
+		{
+			FlxTween.tween(PlayState.camGame, {alpha: 0}, 1, {ease: FlxEase.sineInOut});
+		}
+		if (curBeat == 264) FlxTween.tween(PlayState.camGame, {alpha: 1}, 2, {ease: FlxEase.sineInOut});
+		if (curBeat == 275)
+		{
+			FlxTween.tween(greaterPiss, {alpha: 1}, 0.3, {ease: FlxEase.quartInOut});
+		}
 	}else{
 		PlayState.health -= 0.07; //Default drain value
 	}

@@ -14,18 +14,19 @@ class Main
 		massive thanks to gedehari for the crash dialog code
 	 */
 	static final quotes:Array<String> = [
-		"Square boi fucked up.",
-		"Lmao you really got hunted",
-		"i have inserted a virus on your PC /j",
-		"read bellow.",
-		"walter",
+		"I bet you lost to that fucking square. - DEMOLITIONDON96",
+		"Glitched Mickey is in your walls. - DEMOLITIONDON96",
+		"Lmao you really got hunted - Jason",
+		"i have inserted a virus on your PC /j - Jason",
+		"read bellow. - Jason",
+		"walter - Literally everyone in the F.AVI Dev Team",
 		"Ah bueno adios master - ShadowMario",
 		"Skibidy bah mmm dada *explodes* - ShadowMario", // Changed my mind, Shadow mario is peak - jason
-		"Well at least it isn't a openGl error",
-		"Let me guess, Null Object Reference",
+		"Well at least it isn't a openGl error - Jason",
+		"Let me guess, Null Object Reference - Jason",
 		"Have you even read the wiki before trying that? - BeastlyGhost",
-		"for your information, that Vs Mouse collab is scrapped",
-		"Not my fault."
+		"for your information, that Vs Mouse collab is scrapped - Jason",
+		"Not my fault. - Jason"
 	];
 
 	public static function main()
