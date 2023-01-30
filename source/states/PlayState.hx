@@ -238,8 +238,15 @@ class PlayState extends MusicBeatState
 
 		add(stageBuild.layers);
 
-		add(opponent);
-		add(boyfriend);
+		if (curStage == 'fuckingLine')
+		{
+			add(boyfriend);
+			add(opponent);
+		}else{
+			add(opponent);
+			add(boyfriend);
+		}
+		
 		add(stageBuild.foreground);
 
 		// force them to dance
