@@ -45,7 +45,10 @@ class ScoreUtils
 		{
 			name: "sick",
 			score: 350,
-			health: 100,
+			if (PlayState.curStage == 'waltRoom') // THE REASON WHY IT'S LENIENT ON MERCY IS DUE TO THE MECHANIC - don
+				health: 100,
+			else
+				health: 60,
 			accuracy: 100,
 			timing: 45,
 			timingCap: 45,
@@ -54,7 +57,10 @@ class ScoreUtils
 		{
 			name: "good",
 			score: 150,
-			health: 50,
+			if (PlayState.curStage == 'waltRoom')
+				health: 50,
+			else
+				health: 30,
 			accuracy: 85,
 			timing: 90,
 			timingCap: 90,
@@ -63,7 +69,10 @@ class ScoreUtils
 		{
 			name: "bad",
 			score: 50,
-			health: 20,
+			if (PlayState.curStage == 'waltRoom')
+				health: 20,
+			else
+				health: 5,
 			accuracy: 50,
 			timing: 125,
 			timingCap: 125,
@@ -72,7 +81,10 @@ class ScoreUtils
 		{
 			name: "shit",
 			score: -50,
-			health: -50,
+			if (PlayState.curStage == 'waltRoom')
+				health: -50,
+			else
+				health: -100,
 			accuracy: 0,
 			timing: 150,
 			timingCap: 150,
@@ -81,7 +93,10 @@ class ScoreUtils
 		{
 			name: "miss",
 			score: -100,
-			health: -100,
+			if (PlayState.curStage == 'waltRoom')
+				health: -100,
+			else
+				health: -160,
 			accuracy: 0,
 			timing: 175,
 			timingCap: 175,
