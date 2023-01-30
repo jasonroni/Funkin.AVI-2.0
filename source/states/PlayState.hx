@@ -247,6 +247,9 @@ class PlayState extends MusicBeatState
 			add(boyfriend);
 		}
 		
+		if (stageBuild.hideBoyfriend)
+			boyfriend.alpha = 0.001;
+		
 		add(stageBuild.foreground);
 
 		// force them to dance
