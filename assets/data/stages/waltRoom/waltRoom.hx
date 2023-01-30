@@ -19,6 +19,7 @@ var shaderTime:Float = 0;
 function onCreate()
 {
 	spawnGirlfriend(false);
+	hideBoyfriend(true);
 	
 	//PlayState.boyfriend.alpha = 0; //This crashes the game cause apparently, Character.hx doesn't have an "alpha" value.
 	PlayState.defaultCamZoom = 0.75;
