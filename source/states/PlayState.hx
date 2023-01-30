@@ -420,7 +420,10 @@ class PlayState extends MusicBeatState
 		dadStrums = new Strumline(placement - (FlxG.width / 4), height, [opponent], downscroll, false, true, checkTween(true), false, 4);
 		bfStrums = new Strumline(placement + (!centered ? (FlxG.width / 4) : 0), height, [boyfriend], downscroll, true, false, checkTween(false), true, 4);
 
-		dadStrums.visible = !centered;
+		if (curStage == 'waltRoom')
+			dadStrums.visible = false;
+		else
+			dadStrums.visible = !centered;
 
 		strumLines.add(dadStrums);
 		strumLines.add(bfStrums);
