@@ -235,6 +235,12 @@ class Init extends FlxState
 			"Whether to display how early/late you hit a judgement on a note.",
 			NOT_FORCED
 		],
+		"Screen Shake" => [
+			true,
+			Checkmark,
+			"Uncheck this if you're sensitive to screen shaking!",
+			NOT_FORCED
+		],
 	];
 
 	public static var trueSettings:Map<String, Dynamic> = [];
