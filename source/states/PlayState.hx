@@ -185,6 +185,8 @@ class PlayState extends MusicBeatState
 	public var scratch:FlxSprite; // Peter Griffin: This reminds me of the time I met the Scratch cat
 	public var scratchButLessVisible:FlxSprite;
 
+	var fade:FlxSprite;
+
 	function resetStatics()
 	{
 		GameOverSubstate.resetDeathVariables();
@@ -522,7 +524,6 @@ class PlayState extends MusicBeatState
 
 		Paths.clearUnusedMemory();
 
-
 		scratchButLessVisible = new FlxSprite();
 		scratchButLessVisible.frames = Paths.getSparrowAtlas('filters/scratchShit');
 		scratchButLessVisible.animation.addByPrefix('e', 'scratch thing', 24, true);
@@ -537,6 +538,12 @@ class PlayState extends MusicBeatState
 		scratch.animation.play('e');
 		scratch.cameras = [camScratch];
 		add(scratch);
+
+		fade = new FlxSprite().makeGraphic(FlxG.width * 3, FlxG.height * 3, 0x000000);
+		fade.screenCenter();
+		fade.cameras = [camAlt];
+		fade.alpha = 0;
+		add(fade);
 
 		// call the funny intro cutscene depending on the song
 		songCutscene(false);
@@ -1590,23 +1597,6 @@ class PlayState extends MusicBeatState
 					});
 				}
 
-			case 'Screen Fade':
-				var value1:Float = Std.parseFloat(params[0]);
-				var value2 = params[1];
-
-				//less sprite creation for good reasons
-				switch(value2)
-				{
-					case 'fade in' | 'Fade in' | 'Fade In' | '0':
-					camOther.fade(0x000000, value1, true);
-
-					case 'fade out' | 'Fade out' | 'Fade Out' | '1':
-						camOther.fade(0x000000, value1, false);
-
-					default: 
-						camOther.fade(0x000000, value1, false);
-				}
-
 			case 'Flash Screen':
 				var flashing = !Init.trueSettings.get('Disable Flashing Lights');
 
@@ -1676,6 +1666,12 @@ class PlayState extends MusicBeatState
 											FlxTween.tween(theStrumsWhichAreOnAGoddamnArray, {alpha: 1}, 1);
 							 }
 						}
+
+				case 'Screen Fade':
+					var value1:Float = Std.parseFloat(params[0]);
+					var value2 = Std.parseFloat(params[1]);
+
+					FlxTween.tween(fade, {alpha: value1}, value2, {ease: FlxEase.sineInOut});
 		}
 		
 		if (Events.loadedEvents.get(name) != null)

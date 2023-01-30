@@ -5,5 +5,5 @@ function eventTrigger(params)
 
    function returnDescription()
       return
-     "Fades the screen\nValue 1: Timer\nYes, that's it.";
+     "Fades the screen\nFade alpha (1 is 100% black)\nValue 2: Timer";
       
