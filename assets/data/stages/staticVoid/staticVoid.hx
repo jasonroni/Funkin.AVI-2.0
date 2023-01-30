@@ -6,7 +6,9 @@ var shaderTime:Float = 0;
 
 function onCreate()
 {
-  spawnGirlfriend(false);
+  	spawnGirlfriend(false);
+	hideBoyfriend(true);
+	
 	PlayState.defaultCamZoom = 0.85;
 
 	holyShitStatic = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag', null, 120));
