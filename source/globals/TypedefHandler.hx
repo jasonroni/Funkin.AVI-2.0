@@ -48,5 +48,5 @@ typedef CategoryData =
 {
 	var name:String;
 	var dataType:CategoryContent;
-	var assetList:Array<String> = [];
+	var assetList:Array<String>;
 }

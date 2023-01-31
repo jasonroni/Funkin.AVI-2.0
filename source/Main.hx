@@ -19,6 +19,7 @@ import sys.FileSystem;
 import sys.io.File;
 import sys.io.Process;
 import gamejolt.GameJolt;
+import flixel.util.FlxColor;
 
 typedef GameWeek =
 {
@@ -262,7 +263,6 @@ class Main extends Sprite
 
 	function destroyGame()
 	{
-		base.Controls.destroy();
 		#if DISCORD_RPC
 		Discord.shutdownRPC();
 		#end
