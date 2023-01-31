@@ -78,7 +78,7 @@ class Main extends Sprite
 		],
 		[
 			['Mercy', 'Affliction'],
-			['walt', 'walt'],
+			['walt', 'walt'], // Waltuh
 			[FlxColor.fromRGB(60, 60, 60)],
 			'Boyfriend in: Sentient Ink'
 		],

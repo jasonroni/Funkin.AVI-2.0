@@ -2,6 +2,10 @@ function onCreate()
 {
 	spawnGirlfriend(false);
 
+	var whiteVoid:FlxSprite = new FlxSprite().makeGraphic(FlxG.width * 5, FlxG.height * 5, ForeverTools.returnColor('white'));
+	whiteVoid.screenCenter();
+	add(whiteVoid);
+
 	var line:FlxSprite = new FlxSprite(-80, 0).loadGraphic(Paths.image('theLine', 'data/stages/fuckingLine'));
 	line.scale.set(1.3, 1.3);
 	add(line);
