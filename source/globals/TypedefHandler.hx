@@ -38,7 +38,7 @@ typedef SongMetadata =
  * Category Assets used for Freeplay & Story Menus
  */
 	
-enum CategoryContent =
+enum CategoryContent
 {
 	STORY_MENU_WEEKS;
 	FREEPLAY_SONGS;
