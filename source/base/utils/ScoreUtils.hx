@@ -38,14 +38,17 @@ class ScoreUtils
 	public static var notesHit:Int = 0;
 	public static var minesHit:Int = 0;
 
-	inline static function get_accuracy():Float 
+	inline static function get_accuracy():Float
 		return notesAccuracy / notesHit;
 
 	public static final judges:Array<Judgement> = [
 		{
 			name: "sick",
 			score: 350,
-			health: (PlayState.curStage == "waltRoom" ? 100 : 60),  // THE REASON WHY IT'S LENIENT ON MERCY IS DUE TO THE MECHANIC - don
+			if (PlayState.curStage == 'waltRoom') // THE REASON WHY IT'S LENIENT ON MERCY IS DUE TO THE MECHANIC - don
+				health: 100,
+			else
+				health: 60,
 			accuracy: 100,
 			timing: 45,
 			timingCap: 45,
@@ -54,7 +57,10 @@ class ScoreUtils
 		{
 			name: "good",
 			score: 150,
-			health: (PlayState.curStage == "waltRoom" ? 50 : 30),
+			if (PlayState.curStage == 'waltRoom')
+				health: 50,
+			else
+				health: 30,
 			accuracy: 85,
 			timing: 90,
 			timingCap: 90,
@@ -63,7 +69,10 @@ class ScoreUtils
 		{
 			name: "bad",
 			score: 50,
-			health: (PlayState.curStage == "waltRoom" ? 20 : 5),
+			if (PlayState.curStage == 'waltRoom')
+				health: 20,
+			else
+				health: 5,
 			accuracy: 50,
 			timing: 125,
 			timingCap: 125,
@@ -72,7 +81,10 @@ class ScoreUtils
 		{
 			name: "shit",
 			score: -50,
-			health: (PlayState.curStage == "waltRoom" ? -50 : -100),
+			if (PlayState.curStage == 'waltRoom')
+				health: -50,
+			else
+				health: -100,
 			accuracy: 0,
 			timing: 150,
 			timingCap: 150,
@@ -81,7 +93,10 @@ class ScoreUtils
 		{
 			name: "miss",
 			score: -100,
-			health: (PlayState.curStage == "waltRoom" ? -100 : -160),
+			if (PlayState.curStage == 'waltRoom')
+				health: -100,
+			else
+				health: -160,
 			accuracy: 0,
 			timing: 175,
 			timingCap: 175,
