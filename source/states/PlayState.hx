@@ -42,6 +42,7 @@ import flixel.addons.display.FlxRuntimeShader;
 import base.dependency.Discord;
 #end
 import objects.ui.hud.*;
+import hxcodec.VideoHandler;
 
 enum GameMode
 {
@@ -2361,4 +2362,30 @@ class PlayState extends MusicBeatState
 			return Reflect.copy(reflector);
 		});
 	}
+
+	// tested this while i was working on DWTFD, it almost works
+	function playCutscene(name:String, atEndOfSong:Bool = false)
+		{
+			inCutscene = true;
+			FlxG.sound.music.stop();
+			trace('cutscene: $name', {fileName: "Game", lineNumber: 1, className: "Game"});
+
+			var video:VideoHandler = new VideoHandler();
+			video.finishCallback = function()
+			{
+				if (atEndOfSong)
+				{
+					if (storyPlaylist.length <= 0)
+						FlxG.switchState(new states.menus.MainMenu());
+					else
+					{
+						SONG = Song.loadFromJson(storyPlaylist[0].toLowerCase());
+						FlxG.switchState(new PlayState());
+					}
+				}
+				else
+					startCountdown();
+			}
+			video.playVideo(Paths.video(name));
+		}
 }

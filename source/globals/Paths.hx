@@ -400,4 +400,9 @@ class Paths
 		}
 		return getPath('data/characters/$folder/$character' + extension, TEXT, library);
 	}
+
+	inline static public function video(key:String)
+		{
+			return 'assets/videos/$key';
+		}
 }

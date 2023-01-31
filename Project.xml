@@ -62,6 +62,18 @@
 	<haxelib name="discord_rpc" if="DISCORD_RPC" />
 	<haxelib name="systools" />
 	<ndll name="systools" haxelib="systools" />
+	<!--STUFF I THINK:
+	haxelib install hxCodec
+
+	haxelib install refactor
+
+	haxelib run refactor -v replace source *.hx "/vlc\.(MP4Handler|VideoHandler)/hxcodec.VideoHandler/"
+
+	haxelib run refactor -v replace source *.hx "/import hxcodec\.VideoHandler;/$0\nimport hxcodec.VideoSprite;/"
+	
+	haxelib run refactor -v replace source *.hx "/MP4Handler/VideoHandler/"
+	-->
+	<haxelib name="hxCodec" if="desktop || android" />
 
 	<haxelib name="hxCodec" if="VIDEO_PLUGIN" />
 	<haxelib name="SScript" if="desktop" />
