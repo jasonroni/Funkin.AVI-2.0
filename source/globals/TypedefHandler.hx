@@ -33,3 +33,20 @@ typedef SongMetadata =
 	var character:String;
 	var color:FlxColor;
 }
+	
+/**
+ * Category Assets used for Freeplay & Story Menus
+ */
+	
+enum CategoryContent =
+{
+	STORY_MENU_WEEKS;
+	FREEPLAY_SONGS;
+}
+	
+typedef CategoryData =
+{
+	var name:String;
+	var dataType:CategoryContent;
+	var assetList:Array<String> = [];
+}
