@@ -68,22 +68,70 @@ class Main extends Sprite
 	// weeks set up!
 	public static var weeksMap:Map<String, GameWeek> = [];
 	public static var weeks:Array<String> = [];
+	public static var gameWeeks:Array<Dynamic> = [ // Hardcoded Bonus Weeks lmao (might do the same for the main story weeks soon
+		[
+			['Twisted-Grins', 'Facade', 'Mortiferum-Risus'],
+			['mr-smiles', 'mr-smiles', 'mr-smiles'],
+			[FlxColor.fromRGB(60, 60, 60)],
+			'Boyriend in: Sinister Smiles'
+		],
+		[
+			['Mercy', 'Affliction'],
+			['walt', 'walt'],
+			[FlxColor.fromRGB(60, 60, 60)],
+			'Boyfriend in: Sentient Ink'
+		],
+	];
+	
 
-	/* public static function loadHardcodedWeeks()
+	/*public static function loadHardcodedBonusWeeks()
 		{
 			weeksMap = [
-				"myWeek" => {
+				"smilesWeek" => {
 					songs: [
 						{
-							"name": "Bopeebo",
-							"opponent": "dad",
+							"name": "Twisted-Grins",
+							"opponent": "mr-smiles",
+							"colors": [129, 100, 223]
+						},
+						{
+							"name": "Facade",
+							"opponent": "mr-smiles",
+							"colors": [129, 100, 223]
+						},
+						{
+							"name": "Mortiferum Risus",
+							"opponent": "mr-smiles",
 							"colors": [129, 100, 223]
 						}
 					],
 
-					attachedImage: "week1",
-					storyName: "vs. DADDY DEAREST",
-					characters: ["dad", "bf", "gf"],
+					attachedImage: "episode2", //placeholder
+					storyName: "Boyfriend in: Sinister Smiles",
+					characters: ["none", "none", "none"],
+
+					startsLocked: false,
+					hideOnStory: false,
+					hideOnFreeplay: false,
+					hideUntilUnlocked: false
+				},
+				"waltWeek" => {
+					songs: [
+						{
+							"name": "Mercy",
+							"opponent": "walt",
+							"colors": [60, 60, 60]
+						},
+						{
+							"name": "Affliction",
+							"opponent": "walt",
+							"colors": [60, 60, 60]
+						},
+					],
+
+					attachedImage: "episode2", //placeholder
+					storyName: "Boyfriend in: Sentient Ink",
+					characters: ["none", "none", "none"],
 
 					startsLocked: false,
 					hideOnStory: false,
@@ -91,8 +139,17 @@ class Main extends Sprite
 					hideUntilUnlocked: false
 				}
 			];
-			gameWeeks.push('myWeek');
+			weeks.push(['smilesWeek', 'waltWeek']);
+	}
+	
+	public static function loadBonusGameWeeks(isStory:Bool)
+	{
+		weeksMap.clear();
+		weeks = [];
+
+		loadHardcodedBonusWeeks();
 	}*/
+	
 	public static function loadGameWeeks(isStory:Bool)
 	{
 		weeksMap.clear();
