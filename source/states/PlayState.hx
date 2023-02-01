@@ -15,6 +15,7 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
+import flixel.addons.display.FlxRuntimeShader;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.graphics.FlxGraphic;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -29,19 +30,19 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import flixel.util.FlxTimer;
+import hxcodec.VideoHandler;
 import objects.*;
 import objects.Character;
 import objects.ui.*;
 import objects.ui.Strumline.Receptor;
+import objects.ui.hud.*;
 import openfl.media.Sound;
 import states.editors.CharacterOffsetEditor;
 import states.menus.*;
 import states.substates.GameOverSubstate;
-import flixel.addons.display.FlxRuntimeShader;
 #if desktop
 import base.dependency.Discord;
 #end
-import objects.ui.hud.*;
 
 enum GameMode
 {
@@ -220,6 +221,30 @@ class PlayState extends MusicBeatState
 		if (skipCountdown)
 			return false;
 		return true;
+	}
+
+	function playCutscene(name:String, atEndOfSong:Bool = false)
+	{
+		inCutscene = true;
+		FlxG.sound.music.stop();
+
+		var video:VideoHandler = new VideoHandler();
+		video.finishCallback = function()
+		{
+			if (atEndOfSong)
+			{
+				if (storyPlaylist.length <= 0)
+					FlxG.switchState(new states.menus.MainMenu());
+				else
+				{
+					SONG = Song.loadFromJson(storyPlaylist[0].toLowerCase());
+					FlxG.switchState(new states.PlayState());
+				}
+			}
+			else
+				startCountdown();
+		}
+		video.playVideo(Paths.video(name)); // supports all vlc formats such as .avi (totally not a funkin.avi reference)
 	}
 
 	public function generateCharacters()
@@ -1950,16 +1975,17 @@ class PlayState extends MusicBeatState
 		if (skipCutscenes())
 			return onEnd ? endSong() : startCountdown();
 
-		inCutscene = true;
 		canPause = false;
 
-		var cutscenePath = Paths.module('cutscene' + (onEnd ? '-end' : ''), 'songs/' + SONG.song.toLowerCase());
-		callFunc(onEnd ? 'songEndCutscene' : 'songCutscene', []);
-
-		// lol dumb check;
-		if (!sys.FileSystem.exists(cutscenePath))
-			callTextbox();
-		//
+		// ACTUAL cutscenes stuff
+		switch (SONG.song.toLowerCase().replace('-', ' ')) 
+		{
+			case 'isolated':
+				playCutscene('Episode1_Intro.mp4');
+			
+			default:
+				startCountdown();
+		}
 	}
 
 	inline function checkTextbox():Bool
@@ -2196,6 +2222,14 @@ class PlayState extends MusicBeatState
 		{
 			logTrace(text, time, onConsole);
 		});
+
+		//gonna be useful someday
+		setVar('playCutscene', function(video:String, ?endOfSong:Bool = false)
+		{
+			playCutscene(video, endOfSong);
+		});
+
+		setVar('inCutscene', inCutscene);
 
 		setVar('GameSystem', Sys);
 

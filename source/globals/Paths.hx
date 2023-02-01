@@ -369,6 +369,11 @@ class Paths
 		return getPath('$folder/$key' + extension);
 	}
 
+	inline static public function video(key:String):String
+	{
+		return 'assets/videos/$key';
+	}
+
 	inline static public function characterModule(folder:String, character:String, ?type:CharacterOrigin, ?library:String)
 	{
 		var extension:String = '';
