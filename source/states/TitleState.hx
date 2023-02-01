@@ -3,28 +3,20 @@ package states;
 #if desktop
 import sys.thread.Thread;
 #end
-import flixel.FlxG;
+import base.song.Conductor;
+import flash.system.System;
 import flixel.FlxCamera;
-import flixel.util.FlxGradient;
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.input.keyboard.FlxKey;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.transition.TransitionData;
-import haxe.Json;
-import openfl.display.Bitmap;
-import openfl.display.BitmapData;
-import flash.system.System;
-#if MODS_ALLOWED
-import sys.FileSystem;
-import sys.io.File;
-#end
-//import flixel.graphics.FlxGraphic as FlixelGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup;
 import flixel.input.gamepad.FlxGamepad;
+import flixel.input.keyboard.FlxKey;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import flixel.system.FlxSound;
@@ -33,16 +25,23 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import flixel.util.FlxGradient;
 import flixel.util.FlxTimer;
+import haxe.Json;
 import lime.app.Application;
+import objects.fonts.Alphabet;
+import openfl.Assets;
+import openfl.display.Bitmap;
+import openfl.display.BitmapData;
 import openfl.filters.BitmapFilter;
 import openfl.filters.ShaderFilter;
-import openfl.Assets;
-import objects.fonts.Alphabet;
-import base.song.Conductor;
-import base.dependency.GameData;
 
 using StringTools;
+#if MODS_ALLOWED
+import sys.FileSystem;
+import sys.io.File;
+#end
+//import flixel.graphics.FlxGraphic as FlixelGraphic;
 typedef TitleData =
 {
 
@@ -135,7 +134,7 @@ class TitleState extends states.MusicBeatState
 
 		FlxG.save.bind('funkin');
 
-		base.dependency.GameData.loadShit();
+		GameData.loadShit();
 
 		FlxG.mouse.visible = true;
 	}

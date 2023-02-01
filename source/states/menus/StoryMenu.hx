@@ -1,31 +1,31 @@
 package states.menus;
 
 import base.dependency.Discord;
+import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.FlxCamera;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.effects.FlxFlicker;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.text.FlxText;
+import flixel.input.keyboard.FlxKey;
 import flixel.math.FlxMath;
+import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import lime.app.Application;
-import flixel.input.keyboard.FlxKey;
+import objects.fonts.Alphabet;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.BitmapFilter;
-import openfl.utils.Assets as OpenFlAssets;
 import openfl.filters.ShaderFilter;
-import objects.fonts.Alphabet;
+import openfl.utils.Assets as OpenFlAssets;
 
 using StringTools;
 
-class FreeplayMenu extends MusicBeatState {
+class StoryMenu extends MusicBeatState {
 
 	var unfinishedText:FlxText;
 

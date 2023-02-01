@@ -1,5 +1,6 @@
 package states.menus.story;
 
+import base.dependency.Discord;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.transition.FlxTransitionableState;
@@ -12,8 +13,8 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import ibjects.ui.menu.*;
+import objects.MenuItem;
 import states.MusicBeatState;
-import base.dependency.Discord;
 
 using StringTools;
 
@@ -226,7 +227,7 @@ class MainStoryState extends MusicBeatState
 			}
 
 			PlayState.storyPlaylist = Main.gameWeeks[curWeek][0].copy();
-			PlayState.isStoryMode = true;
+			PlayState.gameMode = STORY;
 			selectedWeek = true;
 
 			var diffic:String = '-' + CoolUtil.difficultyFromNumber(curDifficulty).toLowerCase();
@@ -271,7 +272,7 @@ class MainStoryState extends MusicBeatState
 
 		// USING THESE WEIRD VALUES SO THAT IT DOESNT FLOAT UP
 		sprDifficulty.y = leftArrow.y - 15;
-		intendedScore = Highscore.getWeekScore(curWeek, curDifficulty);
+		intendedScore = 0;
 
 		FlxTween.tween(sprDifficulty, {y: leftArrow.y + 15, alpha: 1}, 0.07);
 	}
@@ -319,6 +320,6 @@ class MainStoryState extends MusicBeatState
 		txtTracklist.screenCenter(X);
 		txtTracklist.x -= FlxG.width * 0.35;
 
-		intendedScore = Highscore.getWeekScore(curWeek, curDifficulty);
+		intendedScore = 0;
 	}
 }
