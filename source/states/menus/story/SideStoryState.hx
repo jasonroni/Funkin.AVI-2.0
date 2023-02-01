@@ -1,6 +1,5 @@
 package states.menus.story;
 
-import base.dependency.Discord;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.transition.FlxTransitionableState;
@@ -13,12 +12,12 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import ibjects.ui.menu.*;
-import objects.MenuItem;
 import states.MusicBeatState;
+import base.dependency.Discord;
 
 using StringTools;
 
-class SideStoryState extends MusicBeatState
+class MainStoryState extends MusicBeatState
 {
 	var scoreText:FlxText;
 	var curDifficulty:Int = 1;
@@ -175,36 +174,36 @@ class SideStoryState extends MusicBeatState
 		{
 			if (!selectedWeek)
 			{
-				if (Controls.getPressEvent("ui_up", "pressed"))
+				if (controls.UI_UP_P)
 					changeWeek(-1);
-				else if (Controls.getPressEvent("ui_down", "pressed"))
+				else if (controls.UI_DOWN_P)
 					changeWeek(1);
 
-				if (Controls.getPressEvent("ui_right"))
+				if (controls.UI_RIGHT)
 					rightArrow.animation.play('press')
 				else
 					rightArrow.animation.play('idle');
 
-				if (Controls.getPressEvent("ui_left"))
+				if (controls.UI_LEFT)
 					leftArrow.animation.play('press');
 				else
 					leftArrow.animation.play('idle');
 
-				if (Controls.getPressEvent("ui_right", "pressed"))
+				if (controls.UI_RIGHT_P)
 					changeDifficulty(1);
-				if (Controls.getPressEvent("ui_left", "pressed"))
+				if (controls.UI_LEFT_P)
 					changeDifficulty(-1);
 			}
 
-			if (Controls.getPressEvent("accept"))
+			if (controls.ACCEPT)
 				selectWeek();
 		}
 
-		if (Controls.getPressEvent("back") && !movedBack && !selectedWeek)
+		if (controls.BACK && !movedBack && !selectedWeek)
 		{
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			movedBack = true;
-			Main.switchState(this, new MainMenu());
+			Main.switchState(this, new MainMenuState());
 		}
 
 		super.update(elapsed);
@@ -227,7 +226,7 @@ class SideStoryState extends MusicBeatState
 			}
 
 			PlayState.storyPlaylist = Main.gameWeeks[curWeek][0].copy();
-			PlayState.gameMode = STORY;
+			PlayState.isStoryMode = true;
 			selectedWeek = true;
 
 			var diffic:String = '-' + CoolUtil.difficultyFromNumber(curDifficulty).toLowerCase();
@@ -272,7 +271,7 @@ class SideStoryState extends MusicBeatState
 
 		// USING THESE WEIRD VALUES SO THAT IT DOESNT FLOAT UP
 		sprDifficulty.y = leftArrow.y - 15;
-		intendedScore = 0;
+		intendedScore = Highscore.getWeekScore(curWeek, curDifficulty);
 
 		FlxTween.tween(sprDifficulty, {y: leftArrow.y + 15, alpha: 1}, 0.07);
 	}
@@ -320,6 +319,6 @@ class SideStoryState extends MusicBeatState
 		txtTracklist.screenCenter(X);
 		txtTracklist.x -= FlxG.width * 0.35;
 
-		intendedScore = 0;
+		intendedScore = Highscore.getWeekScore(curWeek, curDifficulty);
 	}
 }
