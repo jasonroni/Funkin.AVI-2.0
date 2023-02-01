@@ -54,13 +54,6 @@ class LegacyState extends MusicBeatState
 	private var existingSongs:Array<String> = [];
 	private var existingDifficulties:Array<Array<String>> = [];
 
-	var glitchyStuff:FlxRuntimeShader;
-	var chromAberration:FlxRuntimeShader;
-	var mercyShader:FlxRuntimeShader;
-	var mercyShader2:FlxRuntimeShader;
-	var defaultShader:FlxRuntimeShader;
-	var defaultShader2:FlxRuntimeShader;
-
 	var shaderTime:Float = 0;
 
 	public var loadCustom:Bool = true;
@@ -76,27 +69,26 @@ class LegacyState extends MusicBeatState
 	{
 		super.create();
 
-		glitchyStuff = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/vignetteGlitch.frag'), null, 130);
-
-		chromAberration = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/aberration.frag'), null, 150);
-		chromAberration.setFloat('aberration', 0.12);
-		chromAberration.setFloat('effectTime', 0.24);
-
-		mercyShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/vhs.frag'), null, 130);
-		mercyShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
-
-		defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
-		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
-
-        lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Legacy";
+        lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Legacy Songs";
 
 
-      	addSong('Isolated-Legacy', 3, 'mickey-legacy', FlxColor.fromRGB(60, 60, 60));
-		addSong('Lunacy-Legacy', 3, 'mickey-lunacy-legacy', FlxColor.fromRGB(60, 60, 60));
-		addSong('Delusional-Legacy', 3, 'mickey-delusional-unused', FlxColor.fromRGB(60, 60, 60));
-		addSong('hunted-legacy', 3, 'goofy', FlxColor.fromRGB(60, 60, 60));
-		addSong('Mercy-Legacy', 3, 'walt', FlxColor.fromRGB(60, 60, 60));
-		addSong('Malfunction-Legacy', 3, 'glitched-mickey-legacy-pixel', FlxColor.fromRGB(60, 60, 60));
+		//if (GameData.episode1FPLock == 'unlocked')
+		//{
+			addSong('Isolated-Legacy', 3, 'mickey-legacy', FlxColor.fromRGB(60, 60, 60));
+			addSong('Lunacy-Legacy', 3, 'mickey-lunacy-legacy', FlxColor.fromRGB(60, 60, 60));
+			addSong('Delusional-Legacy', 3, 'mickey-delusional-unused', FlxColor.fromRGB(60, 60, 60));
+		//}
+		
+		//if (GameData.episodeSFPLock == 'unlocked')
+		//{
+			addSong('hunted-legacy', 3, 'goofy', FlxColor.fromRGB(60, 60, 60));
+		//}
+		
+		//if (GameData.episodeWFPLock == 'unlocked')
+		//{
+			addSong('Mercy-Legacy', 3, 'walt', FlxColor.fromRGB(60, 60, 60));
+			addSong('Malfunction-Legacy', 3, 'glitched-mickey-legacy-pixel', FlxColor.fromRGB(60, 60, 60));
+		//}
 
 		mutex = new Mutex();
 
@@ -286,17 +278,6 @@ class LegacyState extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		if (!Init.trueSettings.get('Disable Screen Shaders')) // bye bye lag
-			{
-				shaderTime += elapsed;
-				
-				glitchyStuff.setFloat('time', shaderTime);
-				glitchyStuff.setFloat('prob', shaderTime);
-	
-				mercyShader.setFloat('time', shaderTime);
-				mercyShader2.setFloat('time', shaderTime);
-			}
-
 		if (bg != null && mainColor != null)
 			FlxTween.color(bg, 0.35, bg.color, mainColor);
 
@@ -435,36 +416,6 @@ class LegacyState extends MusicBeatState
 		changeDiff();
 		changeSongPlaying();
 		updateDiscord();
-
-		if (!Init.trueSettings.get('Disable Screen Shaders')) // to prevent lag
-			{
-				//ah yes, formatting made by vsc itself - jason
-				/*switch(songs[curSelected].name.toLowerCase())
-				{
-					/*case 'malfunction-legacy':
-						FlxG.camera.setFilters(
-							[
-								new ShaderFilter(glitchyStuff), 
-								new ShaderFilter(chromAberration),
-								new ShaderFilter(defaultShader2)
-							]);
-	
-					case 'mercy-legacy':
-						FlxG.camera.setFilters(
-							[
-								new ShaderFilter(mercyShader),
-								new ShaderFilter(mercyShader2),
-								 new ShaderFilter(defaultShader2)
-							]);
-	
-					default:
-						FlxG.camera.setFilters(
-							[
-								new ShaderFilter(defaultShader),
-								new ShaderFilter(defaultShader2)
-							]);
-				}*/
-			}
 	}
 
 	function changeSongPlaying()
