@@ -118,23 +118,39 @@ class ExtrasState extends MusicBeatState
 		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
 
 		// The rest of the stuff
-        lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Extras";
+        	lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Extras";
 
 		// Songlist setup
-        addSong('Hunted', 3, 'goofy-new', FlxColor.fromRGB(60, 60, 60));
-		addSong('Isolated-Old', 3, 'mickey-legacy', FlxColor.fromRGB(60, 60, 60));
-		addSong('Isolated-Beta', 3, 'mickey-legacy', FlxColor.fromRGB(60, 60, 60));
-		addSong("Don't-Cross!", 3, 'face', FlxColor.fromRGB(60, 60, 60));
-		addSong('Laugh-Track', 3, 'face', FlxColor.fromRGB(60, 60, 60));
-		addSong('Malfunction', 3, 'glitched-mickey-new-pixel', FlxColor.fromRGB(60, 60, 60));
-		addSong('Neglection', 3, 'face', FlxColor.fromRGB(60, 60, 60));
-		addSong('Bless', 3, 'white-noise', FlxColor.fromRGB(255, 255, 255));
-		addSong('War-Dilemma', 3, 'face', FlxColor.fromRGB(60, 60, 60));
-		addSong('Scrapped', 3, 'rs', FlxColor.fromRGB(0, 0, 0));
-		addSong('Cycled-Sins', 3, 'relapse-pixel', FlxColor.fromRGB(60, 60, 60)); //messing with the saves for this later
-		addSong('Mercy', 3, 'walt', FlxColor.fromRGB(60, 60, 60));
-     	addSong('Affliction', 3, 'walt', FlxColor.fromRGB(60, 60, 60));
-		addSong('Birthday', 3, 'muckney', FlxColor.fromRGB(60, 60, 60));
+		//if (GameData.episode1FPLock == 'unlocked')
+		//{
+			addSong('Hunted', 3, 'goofy-new', FlxColor.fromRGB(60, 60, 60));
+			addSong('Isolated-Old', 3, 'mickey-legacy', FlxColor.fromRGB(60, 60, 60));
+			addSong('Isolated-Beta', 3, 'mickey-legacy', FlxColor.fromRGB(60, 60, 60));
+			addSong("Don't-Cross!", 3, 'face', FlxColor.fromRGB(60, 60, 60));
+			addSong('Malfunction', 3, 'glitched-mickey-new-pixel', FlxColor.fromRGB(60, 60, 60));
+		//}
+		
+		//if (GameData.episodeSFPLock == 'unlocked')
+		//{
+			addSong('Laugh-Track', 3, 'face', FlxColor.fromRGB(60, 60, 60));
+			addSong('Bless', 3, 'white-noise', FlxColor.fromRGB(255, 255, 255));
+			addSong('War-Dilemma', 3, 'face', FlxColor.fromRGB(60, 60, 60));
+			addSong('Scrapped', 3, 'rs', FlxColor.fromRGB(0, 0, 0));
+		//}
+		
+		//if (GameData.episodeWFPLock == 'unlocked')
+		//{
+			addSong('Neglection', 3, 'face', FlxColor.fromRGB(60, 60, 60));
+			addSong('Cycled-Sins', 3, 'relapse-pixel', FlxColor.fromRGB(60, 60, 60)); //messing with the saves for this later
+			addSong('Mercy', 3, 'walt', FlxColor.fromRGB(60, 60, 60));
+			addSong('Affliction', 3, 'walt', FlxColor.fromRGB(60, 60, 60));
+		//}
+		
+		//if (GameData.muckneyLock == "completed")
+		//{
+			addSong('Birthday', 3, 'muckney', FlxColor.fromRGB(60, 60, 60));
+		//}
+		
 		mutex = new Mutex();
 
 		// load week data;
