@@ -69,7 +69,33 @@ class Main extends Sprite
 	// weeks set up!
 	public static var weeksMap:Map<String, GameWeek> = [];
 	public static var weeks:Array<String> = [];
-	public static var gameWeeks:Array<Dynamic> = [ // Hardcoded Bonus Weeks lmao (might do the same for the main story weeks soon
+	public static var gameWeeksE:Array<Dynamic> = [ // Hardcoded Main Weeks for Main Story Menu
+		[
+			['Isolated', 'Lunacy', 'Delusional'],
+			['mick-isolated-new', 'lunamick-new', 'face'],
+			[FlxColor.fromRGB(60, 60, 60)],
+			'Mickey in: Never-Ending Cycle'
+		],
+		[
+			['???', '???', '???'],
+			['face', 'face', 'face'],
+			[FlxColor.fromRGB(60, 60, 60)],
+			'Coming Soon...'
+		],
+		[
+			['???', '???', '???'],
+			['face', 'face', 'face'],
+			[FlxColor.fromRGB(60, 60, 60)],
+			'Coming Soon...'
+		],
+		[
+			['???', '???', '???'],
+			['face', 'face', 'face'],
+			[FlxColor.fromRGB(60, 60, 60)],
+			'Coming Soon...'
+		],
+	];
+	public static var gameWeeksB:Array<Dynamic> = [ // Hardcoded Bonus Weeks for 2nd Story Menu
 		[
 			['Twisted-Grins', 'Facade', 'Mortiferum-Risus'],
 			['mr-smiles', 'mr-smiles', 'mr-smiles'],
