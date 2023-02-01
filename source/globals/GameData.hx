@@ -17,14 +17,17 @@ import flixel.util.FlxSave;
  */
 class GameData
 {
+    // Progression Shit
     public static var episode1FPLock:String = 'locked';
-    public static var episode2FPLock:String = 'locked';
+	
+    public static var episodeSFPLock:String = 'locked';
+    public static var episodeWFPLock:String = 'locked';
 
+    // Alters the icons in freeplay
     public static var huntedLock:String = 'locked';
     public static var oldisolateLock:String = 'locked';
     public static var betaisolateLock:String = 'locked';
     public static var malfunctionLock:String = 'locked';
-    public static var revengeLock:String = 'locked';
     public static var blessLock:String = 'locked';
     public static var scrappedLock:String = 'locked';
     public static var sinsLock:String = 'locked';
@@ -32,19 +35,28 @@ class GameData
     public static var crossinLock:String = 'locked';
     public static var mercyLock:String = 'locked';
     public static var pnmLock:String = 'locked';
-    public static var rbLock:String = 'locked';
+    public static var rickyLock:String = 'locked';
+	
+    public static var legacyILock:String = 'locked'; //Isolated
+    public static var legacyLLock:String = 'locked'; //Lunacy
+    public static var legacyDLock:String = 'locked'; //Delusional
+    public static var legacyHLock:String = 'locked'; //Hunted
+    public static var legacyMLock:String = 'locked'; //Malfunction
+    public static var legacyWLock:String = 'locked'; //Mercy
+	
     public static var muckneyLock:String = "uncompleted";
 
     public static function lockinIt() {
    
         if (FlxG.save.data.episode1FPLock == null) FlxG.save.data.episode1FPLock = 'locked';
-        if (FlxG.save.data.episode2FPLock == null) FlxG.save.data.episode2FPLock = 'locked';
+	    
+        if (FlxG.save.data.episodeSFPLock == null) FlxG.save.data.episodeSFPLock = 'locked';
+	if (FlxG.save.data.episodeWFPLock == null) FlxG.save.data.episodeWFPLock = 'locked';
 
         if (FlxG.save.data.huntedLock == null) FlxG.save.data.huntedLock = 'locked';
         if (FlxG.save.data.oldisolateLock == null) FlxG.save.data.oldisolateLock = 'locked';
         if (FlxG.save.data.betaisolateLock == null) FlxG.save.data.betaisolateLock = 'locked';
         if (FlxG.save.data.malfunctionLock == null) FlxG.save.data.malfunctionLock = 'locked';
-        if (FlxG.save.data.revengeLock == null) FlxG.save.data.revengeLock = 'locked';
         if (FlxG.save.data.blessLock == null) FlxG.save.data.blessLock = 'locked';
         if (FlxG.save.data.scrappedLock == null) FlxG.save.data.scrappedLock = 'locked';
         if (FlxG.save.data.sinsLock == null) FlxG.save.data.sinsLock = 'locked';
@@ -52,21 +64,31 @@ class GameData
         if (FlxG.save.data.crossinLock == null) FlxG.save.data.crossinLock = 'locked';
         if (FlxG.save.data.mercyLock == null) FlxG.save.data.mercyLock = 'locked';
         if (FlxG.save.data.pnmLock == null) FlxG.save.data.pnmLock = 'locked';
-        if (FlxG.save.data.rbLock == null) FlxG.save.data.rbLock = 'locked';
-        if (FlxG.save.data.muckneyLock == null) FlxG.save.data.muckneyLock = "uncompleted";
+        if (FlxG.save.data.rickyLock == null) FlxG.save.data.rickyLock = 'locked';
+	    
+	if (FlxG.save.data.legacyILock == null) FlxG.save.data.legacyILock = 'locked';
+	if (FlxG.save.data.legacyLLock == null) FlxG.save.data.legacyLLock = 'locked';
+	if (FlxG.save.data.legacyDLock == null) FlxG.save.data.legacyDLock = 'locked';
+	if (FlxG.save.data.legacyHLock == null) FlxG.save.data.legacyHLock = 'locked';
+	if (FlxG.save.data.legacyMLock == null) FlxG.save.data.legacyMLock = 'locked';
+	if (FlxG.save.data.legacyWLock == null) FlxG.save.data.legacyWLock = 'locked';
+	    
+	if (FlxG.save.data.muckneyLock == null) FlxG.save.data.muckneyLock = "uncompleted";
+	    
         FlxG.save.flush();
     }
 
     public static function saveShit() {
         
         FlxG.save.data.episode1FPLock = episode1FPLock;
-        FlxG.save.data.episode2FPLock = episode2FPLock;
+	    
+        FlxG.save.data.episodeSFPLock = episodeSFPLock;
+	FlxG.save.data.episodeWFPLock = episodeWFPLock;
 
         FlxG.save.data.huntedLock = huntedLock;
         FlxG.save.data.oldisolateLock = oldisolateLock;
         FlxG.save.data.betaisolateLock = betaisolateLock;
         FlxG.save.data.malfunctionLock = malfunctionLock;
-        FlxG.save.data.revengeLock = revengeLock;
         FlxG.save.data.blessLock = blessLock;
         FlxG.save.data.scrappedLock = scrappedLock;
         FlxG.save.data.sinsLock = sinsLock;
@@ -74,7 +96,15 @@ class GameData
         FlxG.save.data.crossinLock = crossinLock;
         FlxG.save.data.mercyLock = mercyLock;
         FlxG.save.data.pnmLock = pnmLock;
-        FlxG.save.data.rbLock = rbLock;
+        FlxG.save.data.rickyLock = rickyLock;
+	    
+	FlxG.save.data.legacyILock = legacyILock;
+	FlxG.save.data.legacyLLock = legacyLLock;
+	FlxG.save.data.legacyDLock = legacyDLock;
+	FlxG.save.data.legacyHLock = legacyHLock;
+	FlxG.save.data.legacyMLock = legacyMLock;
+	FlxG.save.data.legacyWLock = legacyWLock;
+	    
         FlxG.save.data.muckneyLock = muckneyLock;
 
         FlxG.save.flush();
@@ -89,13 +119,14 @@ class GameData
     public static function loadShit() {
 
         episode1FPLock = FlxG.save.data.episode1FPLock;
-        episode2FPLock = FlxG.save.data.episode2FPLock;
+	    
+        episodeSFPLock = FlxG.save.data.episodeSFPLock;
+	episodeWFPLock = FlxG.save.data.episodeWFPLock;
 
         huntedLock = FlxG.save.data.huntedLock;
         oldisolateLock = FlxG.save.data.oldisolateLock;
         betaisolateLock = FlxG.save.data.betaisolateLock;
         malfunctionLock = FlxG.save.data.malfunctionLock;
-        revengeLock = FlxG.save.data.revengeLock;
         blessLock = FlxG.save.data.blessLock;
         scrappedLock = FlxG.save.data.scrappedLock;
         sinsLock = FlxG.save.data.sinsLock;
@@ -103,8 +134,17 @@ class GameData
         crossinLock = FlxG.save.data.crossinLock;
         mercyLock = FlxG.save.data.mercyLock;
         pnmLock = FlxG.save.data.pnmLock;
-        rbLock = FlxG.save.data.rbLock;
+        rickyLock = FlxG.save.data.rickyLock;
+	    
+	legacyILock = FlxG.save.data.legacyILock;
+	legacyLLock = FlxG.save.data.legacyLLock;
+	legacyDLock = FlxG.save.data.legacyDLock;
+	legacyHLock = FlxG.save.data.legacyHLock;
+	legacyMLock = FlxG.save.data.legacyMLock;
+	legacyWLock = FlxG.save.data.legacyWLock;
+	    
         muckneyLock = FlxG.save.data.muckneyLock;
+	    
         FlxG.save.flush();
     }
 }
