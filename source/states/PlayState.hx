@@ -187,6 +187,69 @@ class PlayState extends MusicBeatState
 	public var scratchButLessVisible:FlxSprite;
 
 	var fade:FlxSprite;
+	
+	function setFreeplayData()
+	{
+		switch (SONG.song.toLowerCase())
+		{
+				case 'hunted': if (FlxG.save.data.huntedLock != 'beaten') GameData.huntedLock = 'unlocked';
+				case 'isolated old': if (FlxG.save.data.oldisolateLock != 'beaten') GameData.olsisolateLock = 'unlocked';
+				case 'isolated beta': if (FlxG.save.data.betaisolateLock != 'beaten') GameData.betaisolateLock = 'unlocked';
+				case 'neglection': if (FlxG.save.data.pnmLock != 'beaten') GameData.pnmLock = 'unlocked';
+				case "don't cross!": if (FlxG.save.data.crossinLock != 'beaten') GameData.crossinLock = 'unlocked';
+				case 'war dilemma': if (FlxG.save.data.warLock != 'beaten') GameData.warLock = 'unlocked';
+				case 'cycled sins': if (FlxG.save.data.sinsLock != 'beaten') GameData.sinsLock = 'unlocked';
+				case 'malfunction': if (FlxG.save.data.malfunctionLock != 'beaten') GameData.malfunctionLock = 'unlocked';
+				case 'scrapped': if (FlxG.save.data.scrappedLock != 'beaten') GameData.scrappedLock = 'unlocked';
+				case 'bless': if (FlxG.save.data.blessLock != 'beaten') GameData.blessLock = 'unlocked';
+				case 'laugh track': if (FlxG.save.data.rickyLock != 'beaten') GameData.rickyLock = 'unlocked';
+				case 'birthday': if (FlxG.save.data.muckneyLock != "completed") GameData.muckneyLock = "voidIsOpen";
+				case 'mercy legacy': if (FlxG.save.data.legacyWLock != 'beaten') GameData.legacyWLock = 'unlocked';
+				case 'isolated legacy': if (FlxG.save.data.legacyILock != 'beaten') GameData.legacyILock = 'unlocked';
+				case 'lunacy legacy': if (FlxG.save.data.legacyLLock != 'beaten') GameData.legacyLLock = 'unlocked';
+				case 'delusional legacy': if (FlxG.save.data.legacyDLock != 'beaten') GameData.legacyDLock = 'unlocked';
+				case 'hunted legacy': if (FlxG.save.data.legacyHLock != 'beaten') GameData.legacyHLock = 'unlocked';
+				case 'malfunction legacy': if (FlxG.save.data.legacyMLock != 'beaten') GameData.legacyMLock = 'unlocked';
+		}
+		GameData.saveShit();
+	}
+	
+	function completeFPSong()
+	{
+		switch (SONG.song.toLowerCase())
+		{
+				case 'hunted': GameData.huntedLock = 'beaten';
+				case 'isolated old': GameData.oldisolateLock = 'beaten';
+				case 'isolated beta': GameData.betaisolateLock = 'beaten';
+				case 'neglection': GameData.pnmLock = 'beaten';
+				case "don't cross!": GameData.crossinLock = 'beaten';
+				case 'war dilemma': GameData.warLock = 'beaten';
+				case 'cycled sins': GameData.sinsLock = 'beaten';
+				case 'malfunction': GameData.malfunctionLock = 'beaten';
+				case 'scrapped': GameData.scrappedLock = 'beaten';
+				case 'bless': GameData.blessLock = 'beaten';
+				case 'laugh track': GameData.rickyLock = 'beaten';
+				case 'birthday': GameData.muckneyLock = "completed";
+				case 'mercy legacy': GameData.legacyWLock = 'beaten';
+				case 'isolated legacy': GameData.legacyILock = 'beaten';
+				case 'lunacy legacy': GameData.legacyLLock = 'beaten';
+				case 'delusional legacy': GameData.legacyDLock = 'beaten';
+				case 'hunted legacy': GameData.legacyHLock = 'beaten';
+				case 'malfunction legacy': GameData.legacyMLock = 'beaten';
+		}
+		GameData.saveShit();
+	}
+	
+	function completeEpisode()
+	{
+		switch (SONG.song.toLowerCase())
+		{
+				case 'delusional': GameData.episode1FPLock = 'unlocked';
+				case 'mortiferum risus': GameData.episodeSFPLock = 'unlocked';
+				case 'affliction': GameData.episodeWLock = 'unlocked';
+		}
+		GameData.saveShit();
+	}
 
 	function resetStatics()
 	{
@@ -324,6 +387,8 @@ class PlayState extends MusicBeatState
 	override public function create()
 	{
 		super.create();
+		
+		setFreeplayData();
 
 		FlxG.mouse.visible = false;
 
@@ -2153,10 +2218,12 @@ class PlayState extends MusicBeatState
 		switch (gameplayMode)
 		{
 			case STORY:
+				completeEpisode();
 				Main.switchState(this, new StoryMenu());
 				ForeverTools.resetMenuMusic();
 				clearStored = true;
 			case FREEPLAY:
+				completeFPSong();
 				switch (CoolUtil.dashToSpace(SONG.song))
 				{
 					case 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Facade' | 'Mortiferum Risus':
