@@ -94,7 +94,7 @@ class FreeplayMenu extends MusicBeatState {
 		{
 			if(ClientPrefs.language == "Spanish") freeplayCats = ['Legado', 'Jugar', 'Un Mensaje Para It', 'Cubiertas'];
 			else freeplayCats = ['Legacy', 'Episodes', 'Extras', 'Covers'];
-		}else*/ freeplayCats = ['Legacy', 'Episodes', 'Extras'];
+		}else*/ freeplayCats = ['Episodes', 'Extras', 'Legacy'];
 
         BG = new FlxSprite().loadGraphic(Paths.image('menus/base/menuDesat'));
 		BG.color = FlxColor.GRAY;
@@ -220,11 +220,11 @@ class FreeplayMenu extends MusicBeatState {
         if ((Controls.getPressEvent("accept"))){
             switch(curSelected){
                 case 0:
-					Main.switchState(this, new states.menus.freeplay.LegacyState());
-                case 1:
 					Main.switchState(this, new states.menus.freeplay.FreeplayState());
-				case 2:
+                case 1:
 					Main.switchState(this, new states.menus.freeplay.ExtrasState());
+				case 2:
+					Main.switchState(this, new states.menus.freeplay.LegacyState());
 			}
         }
 
