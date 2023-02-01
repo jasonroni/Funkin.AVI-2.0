@@ -246,7 +246,7 @@ class PlayState extends MusicBeatState
 		{
 				case 'delusional': GameData.episode1FPLock = 'unlocked';
 				case 'mortiferum risus': GameData.episodeSFPLock = 'unlocked';
-				case 'affliction': GameData.episodeWLock = 'unlocked';
+				case 'affliction': GameData.episodeWFPLock = 'unlocked';
 		}
 		GameData.saveShit();
 	}
