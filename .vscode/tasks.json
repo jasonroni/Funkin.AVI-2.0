@@ -1,5 +1,4 @@
 {
-	"version": "2.0.0",
 	"tasks": [
 		{
 			"type": "lime",
@@ -11,7 +10,7 @@
 				"$haxe-trace"
 			],
 			"group": "build",
-			"label": "lime build windows"
+			"label": "Build"
 		},
 		{
 			"type": "lime",
@@ -22,7 +21,7 @@
 				"$haxe-error",
 				"$haxe-trace"
 			],
-			"label": "lime run windows"
+			"label": "Launch"
 		},
 		{
 			"type": "lime",
@@ -33,7 +32,7 @@
 				"$haxe-error",
 				"$haxe-trace"
 			],
-			"label": "lime update windows"
+			"label": "Update Assets"
 		}
 	]
 }
