@@ -16,6 +16,9 @@ class Song
 	public var player1:String = 'bf';
 	public var player2:String = 'dad';
 	public var gfVersion:String = 'gf';
+	
+	public var composer:String = 'unknown';
+	public var charter:String = 'unknown';
 
 	public function new(song, notes, bpm)
 	{
@@ -56,7 +59,8 @@ class Song
 				needsVoices: false,
 				validScore: false,
 				assetModifier: "base",
-				composer: "unknown"
+				composer: "unknown",
+				charter: "unknown"
 			};
 
 		var oldSong:SwagSong = cast Json.parse(rawJson).song;
@@ -79,6 +83,7 @@ class Song
 				validScore: true,
 				assetModifier: oldSong.assetModifier,
 				composer: oldSong.composer,
+				charter: oldSong.charter
 			};
 		};
 
