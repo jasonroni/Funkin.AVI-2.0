@@ -100,7 +100,7 @@ function onCreate()
 	FlxTween.tween(waltSubTxt, {alpha: 0}, 1, {ease: FlxEase.quadInOut, startDelay: 8});
 	FlxTween.tween(waltSubTxt, {alpha: 1}, 0.7, {ease: FlxEase.quadInOut, startDelay: 3});
 
-	if (PlayState.SONG.song == 'Mercy Legacy') limitThing += 12; else if (PlayState.SONG.song == 'Mercy') limitThing += 16; else limitThing += 5; //This line sets up the limit based on the song it's set on.
+	if (PlayState.SONG.song == 'Mercy Legacy') limitThing += 23; else if (PlayState.SONG.song == 'Mercy') limitThing += 16; else limitThing += 5; //This line sets up the limit based on the song it's set on.
 
 	vhsFilter = new FlxRuntimeShader(File.getContent("./assets/shaders/vhs.frag"), null, 130);
 
