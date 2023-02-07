@@ -199,7 +199,7 @@ class PlayState extends MusicBeatState
 				case 'mercy legacy': iconRPC = 'mercyold';
 				case 'scrapped': iconRPC = 'scrapped';
 				case 'bless': iconRPC = 'bless';
-				case 'hunted' | 'hunted legacy': iconRPC = 'bless';
+				case 'hunted' | 'hunted legacy': iconRPC = 'hunted';
 				case 'malfunction': iconRPC = 'malfunction';
 				case 'malfunction legacy': iconRPC = 'malold';
 				case 'cycled sins': iconRPC = 'cycledsins';
