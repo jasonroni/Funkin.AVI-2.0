@@ -22,6 +22,7 @@ typedef SwagSong =
 	var assetModifier:String;
 	var validScore:Bool;
 	var composer:String;
+	var charter:String;
 
 	@:optional dynamic function copy():SwagSong;
 }
