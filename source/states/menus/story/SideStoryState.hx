@@ -158,7 +158,7 @@ class MainStoryState extends MusicBeatState
 
 		scoreText.text = "WEEK SCORE:" + lerpScore;
 
-		txtWeekTitle.text = Main.gameWeeks[curWeek][3].toUpperCase();
+		txtWeekTitle.text = Main.gameWeeksB[curWeek][3].toUpperCase();
 		txtWeekTitle.x = FlxG.width - (txtWeekTitle.width + 10);
 
 		// FlxG.watch.addQuick('font', scoreText.font);
@@ -225,7 +225,7 @@ class MainStoryState extends MusicBeatState
 				stopspamming = true;
 			}
 
-			PlayState.storyPlaylist = Main.gameWeeks[curWeek][0].copy();
+			PlayState.storyPlaylist = Main.gameWeeksB[curWeek][0].copy();
 			PlayState.isStoryMode = true;
 			selectedWeek = true;
 
@@ -283,10 +283,10 @@ class MainStoryState extends MusicBeatState
 	{
 		curWeek += change;
 
-		if (curWeek >= Main.gameWeeks.length)
+		if (curWeek >= Main.gameWeeksB.length)
 			curWeek = 0;
 		if (curWeek < 0)
-			curWeek = Main.gameWeeks.length - 1;
+			curWeek = Main.gameWeeksB.length - 1;
 
 		var bullShit:Int = 0;
 
@@ -309,7 +309,7 @@ class MainStoryState extends MusicBeatState
 	{
 		txtTracklist.text = "Tracks\n";
 
-		var stringThing:Array<String> = Main.gameWeeks[curWeek][0];
+		var stringThing:Array<String> = Main.gameWeeksB[curWeek][0];
 		for (i in stringThing)
 			txtTracklist.text += "\n" + CoolUtil.dashToSpace(i);
 
