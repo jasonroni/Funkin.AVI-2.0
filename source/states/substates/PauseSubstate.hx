@@ -120,31 +120,31 @@ class PauseSubstate extends MusicBeatSubstate
 		FlxTween.tween(disc, {angle: 360}, 2.5, {type: FlxTweenType.LOOPING});
 		add(disc);
 
-		var artFileDirectory:String = 'menus/Funkin_avi/pause/songs/';
+		var getArt:String = 'menus/Funkin_avi/pause/songs/';
 
 		songArt = new FlxSprite(800, 130);
 		switch (CoolUtil.dashToSpace(PlayState.SONG.song))
 		{
 			case 'Hunted':
-				songArt.loadGraphic(Paths.image(artFileDirectory + 'hunted'));
+				songArt.loadGraphic(Paths.image(getArt + 'hunted'));
 			case 'Twisted Grins' | 'Facade' | 'Mortiferum Risus':
-				songArt.loadGraphic(Paths.image(artFileDirectory + 'episode2'));
+				songArt.loadGraphic(Paths.image(getArt + 'episode2'));
 			case 'Malfunction Legacy':
-				songArt.loadGraphic(Paths.image(artFileDirectory + 'malfunction'));
+				songArt.loadGraphic(Paths.image(getArt + 'malfunction'));
 			case 'Malfunction':
-				songArt.loadGraphic(Paths.image(artFileDirectory + 'malfunction-new'));
+				songArt.loadGraphic(Paths.image(getArt + 'malfunction-new'));
 			case 'Mercy' | 'Mercy Legacy':
-				songArt.loadGraphic(Paths.image(artFileDirectory + 'mercy'));
+				songArt.loadGraphic(Paths.image(getArt + 'mercy'));
 			case 'Bless':
-				songArt.loadGraphic(Paths.image(artFileDirectory + 'bless'));
+				songArt.loadGraphic(Paths.image(getArt + 'bless'));
 			case 'Cycled Sins':
-				songArt.loadGraphic(Paths.image(artFileDirectory + 'cycled-sins'));
+				songArt.loadGraphic(Paths.image(getArt + 'cycled-sins'));
 			case 'Scrapped':
-				songArt.loadGraphic(Paths.image(artFileDirectory + 'scrapped'));
+				songArt.loadGraphic(Paths.image(getArt + 'scrapped'));
 			case 'Delusional':
-				songArt.loadGraphic(Paths.image(artFileDirectory + 'delusional'));
+				songArt.loadGraphic(Paths.image(getArt + 'delusional'));
 			default:
-				songArt.loadGraphic(Paths.image(artFileDirectory + 'unknown-song'));
+				songArt.loadGraphic(Paths.image(getArt + 'unknown-song'));
 		}
 		songArt.scale.set(0.29, 0.29);
 
