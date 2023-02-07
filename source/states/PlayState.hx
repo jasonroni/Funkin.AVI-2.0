@@ -188,6 +188,24 @@ class PlayState extends MusicBeatState
 
 	var fade:FlxSprite;
 	
+	function loadRPCIcon()
+	{
+		switch (SONG.song.toLowerCase())
+		{
+				case 'isolated' | 'lunacy' | 'affliction' | 'laugh track' | 'birthday' | 'isolated legacy' | 'lunacy legacy' | 'delusional legacy' | 'neglection' | 'war dilemma' | "don't cross!" | 'isolated beta' | 'isolated old': iconRPC = 'placeholder';
+				case 'delusional': iconRPC = 'delusional';
+				case 'twisted grins' | 'facade' | 'mortiferum risus': iconRPC = 'episode2';
+				case 'mercy': iconRPC = 'mercy';
+				case 'mercy legacy': iconRPC = 'mercyold';
+				case 'scrapped': iconRPC = 'scrapped';
+				case 'bless': iconRPC = 'bless';
+				case 'hunted' | 'hunted legacy': iconRPC = 'bless';
+				case 'malfunction': iconRPC = 'malfunction';
+				case 'malfunction legacy': iconRPC = 'malold';
+				case 'cycled sins': iconRPC = 'cycledsins';
+		}
+	}
+	
 	function setFreeplayData()
 	{
 		switch (SONG.song.toLowerCase())
@@ -389,6 +407,7 @@ class PlayState extends MusicBeatState
 		super.create();
 		
 		setFreeplayData();
+		loadRPCIcon();
 
 		FlxG.mouse.visible = false;
 
