@@ -57,7 +57,7 @@ import flash.media.Sound;
 
 using StringTools;
 
-class ChartingState extends MusicBeatState
+class DemoEngineChartEditor extends MusicBeatState
 {
 	public static var noteTypeList:Array<String> = //Used for backwards compatibility with 0.1 - 0.3.2 charts, though, you should add your hardcoded custom note types here too.
 	[
@@ -239,7 +239,7 @@ class ChartingState extends MusicBeatState
 				splashSkin: 'noteSplashes',//idk it would crash if i didn't
 				player1: 'bf', //bf
 				player2: 'dad', //bitch bad ass
-				player3: null, //removed
+				assetModifier: 'base',
 				gfVersion: 'gf', //*insert bobs joke
 				speed: 2, //speed
 				stage: 'stage', //stage
@@ -253,7 +253,7 @@ class ChartingState extends MusicBeatState
 
 		#if desktop
 		// Updating Discord Rich Presence
-		DiscordClient.changePresence("Chart Editor", StringTools.replace(_song.song, '-', ' '));
+		DiscordClient.changePresence("CHART EDITOR", StringTools.replace(_song.song, '-', ' '));
 		#end
 			
 		Application.current.window.title = "Funkin.avi - Chart Editor - Editing: " + StringTools.replace(_song.song, '-', ' ');
@@ -2044,60 +2044,21 @@ class ChartingState extends MusicBeatState
 			audioBuffers[0].dispose();
 		}
 		audioBuffers[0] = null;
-		#if MODS_ALLOWED
-		if(FileSystem.exists(Paths.modFolders('songs/' + currentSongName + '/Inst.ogg'))) {
-			audioBuffers[0] = AudioBuffer.fromFile(Paths.modFolders('songs/' + currentSongName + '/Inst.ogg'));
-			//trace('Custom vocals found');
-		}
-		#if MP3_ALLOWED
- 		else if(FileSystem.exists(Paths.modFolders('songs/' + currentSongName + '/Inst.mp3'))) {
- 				audioBuffers[0] = AudioBuffer.fromFile(Paths.modFolders('songs/' + currentSongName + '/Inst.mp3'));
- 		}
- 		#end
-		#if WAV_ALLOWED
- 		else if(FileSystem.exists(Paths.modFolders('songs/' + currentSongName + '/Inst.wav'))) {
- 				audioBuffers[0] = AudioBuffer.fromFile(Paths.modFolders('songs/' + currentSongName + '/Inst.wav'));
- 		}
- 		#end
-		else { #end
 			var leVocals:String = Paths.getPath(currentSongName + '/Inst.' + Paths.SOUND_EXT, SOUND, 'songs');
 			if (OpenFlAssets.exists(leVocals)) { //Vanilla inst
 				audioBuffers[0] = AudioBuffer.fromFile('./' + leVocals.substr(6));
 				//trace('Inst found');
 			}
-		#if MODS_ALLOWED
-		}
-		#end
 
 		if(audioBuffers[1] != null) {
 			audioBuffers[1].dispose();
 		}
 		audioBuffers[1] = null;
-		#if MODS_ALLOWED
-		if(FileSystem.exists(Paths.modFolders('songs/' + currentSongName + '/Voices.ogg'))) {
-			audioBuffers[1] = AudioBuffer.fromFile(Paths.modFolders('songs/' + currentSongName + '/Voices.ogg'));
-			//trace('Custom vocals found');
-		
-		} 
- 		#if MP3_ALLOWED // in the new Psych Engine update this is not longer necessary
- 		else if(FileSystem.exists(Paths.modFolders('songs/' + currentSongName + '/Voices.mp3'))) {
- 			audioBuffers[1] = AudioBuffer.fromFile(Paths.modFolders('songs/' + currentSongName + '/Voices.mp3'));
- 		}
-		#end
- 		#if WAV_ALLOWED
- 		else if(FileSystem.exists(Paths.modFolders('songs/' + currentSongName + '/Voices.wav'))) {
- 			audioBuffers[1] = AudioBuffer.fromFile(Paths.modFolders('songs/' + currentSongName + '/Voices.wav'));
- 		}
- 		#end
- 			else { #end
 			var leVocals:String = Paths.getPath(currentSongName + '/Voices.' + Paths.SOUND_EXT, SOUND, 'songs');
 			if (OpenFlAssets.exists(leVocals)) { //Vanilla voices
 				audioBuffers[1] = AudioBuffer.fromFile('./' + leVocals.substr(6));
 				//trace('Voices found, LETS FUCKING GOOOO');
 			}
-		#if MODS_ALLOWED
-		}
-		#end
 	}
 	function reloadGridLayer() {
 		gridLayer.clear();
