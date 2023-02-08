@@ -133,8 +133,10 @@ class PauseSubstate extends MusicBeatSubstate
 				songArt.loadGraphic(Paths.image(getArt + 'malfunction'));
 			case 'Malfunction':
 				songArt.loadGraphic(Paths.image(getArt + 'malfunction-new'));
-			case 'Mercy' | 'Mercy Legacy':
+			case 'Mercy':
 				songArt.loadGraphic(Paths.image(getArt + 'mercy'));
+			case 'Mercy Legacy':
+				songArt.loadGraphic(Paths.image(getArt + 'mercy-old'));
 			case 'Bless':
 				songArt.loadGraphic(Paths.image(getArt + 'bless'));
 			case 'Cycled Sins':
