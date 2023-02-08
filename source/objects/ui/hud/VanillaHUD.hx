@@ -144,10 +144,7 @@ class VanillaHUD extends FlxSpriteGroup
 	override public function update(elapsed:Float)
 	{
 		// pain, this is like the 7th attempt
-		if (PlayState.curStage == 'waltRoom')
-			healthBar.percent = (PlayState.health * 50); // so it doesn't make the mechanic worthless
-		else
-			healthBar.percent = (PlayState.health * 100); // Doubled health so it makes it slightly more difficult to recover health when missing a note
+		healthBar.percent = (PlayState.health * 50); // so it doesn't make the mechanic worthless
 
 		var iconOffset:Int = 26;
 
