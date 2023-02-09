@@ -29,6 +29,9 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
+import lime.app.Application;
+import lime.ui.Window;
+import flash.system.System;
 import flixel.util.FlxTimer;
 import hxcodec.VideoHandler;
 import objects.*;
@@ -188,6 +191,33 @@ class PlayState extends MusicBeatState
 
 	var fade:FlxSprite;
 	
+	function loadWindowTitleData()
+	{
+		switch (SONG.song)
+		{
+			if (gameplayMode == STORY)
+			{
+				case 'Isolated' | 'Lunacy' | 'Delusional':
+					Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+				case 'Twisted Grins' | 'Facade' | 'Mortiferum Risus':
+					Application.current.window.title = 'Funkin.avi - Episode S: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+				case 'Mercy' | 'Affliction':
+					Application.current.window.title = 'Funkin.avi - Episode W: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+				default:
+					Application.current.window.title = 'Funkin.avi - Episode ???: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+			} else if (gameplayMode == CHARTING)
+			{
+				case 'Malfunction' | 'Malfunction Legacy':
+					Application.current.window.title = 'glitchedMickey.xml - CHEATER MODE ACTIVATED: ' + SONG.song + " - Composed by: I CAN SEE YOU CHEATING! - [!CHEATER DETECTED!]";
+				default:
+					Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+			} else {
+				default:
+					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+			}
+		}
+	}
+	
 	function loadRPCIcon()
 	{
 		switch (SONG.song.toLowerCase())
@@ -277,7 +307,7 @@ class PlayState extends MusicBeatState
 		ScoreUtils.resetAccuracy();
 		PlayState.SONG.validScore = true;
 		deaths = 0;
-		health = (curStage == "waltRoom" ? 1 : 0.5);
+		health = (curStage == "waltRoom") ? 1 : 0.5;
 
 		timedEvents = [];
 		moduleArray = [];
@@ -408,6 +438,7 @@ class PlayState extends MusicBeatState
 		
 		setFreeplayData();
 		loadRPCIcon();
+		loadWindowTitleData();
 
 		FlxG.mouse.visible = false;
 
