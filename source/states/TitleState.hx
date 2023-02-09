@@ -135,7 +135,7 @@ class TitleState extends states.MusicBeatState
 
 		FlxG.save.bind('funkin');
 
-		base.dependency.GameData.loadShit();
+		GameData.loadShit();
 
 		FlxG.mouse.visible = true;
 	}
