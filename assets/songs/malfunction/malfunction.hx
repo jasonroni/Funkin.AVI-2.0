@@ -19,7 +19,7 @@ function opponentNoteHit()
   	chrom.setFloat('effectTime', 0.4);
   	tiltShift.setFloat('bluramount', 6);
   
-	// okay, this is better, but it's still broken :/
+	// unoptimized asf, but it works
   	new FlxTimer().start(0.01, function(tmr:FlxTimer){
     		chrom.setFloat('aberration', 0.225);
     		chrom.setFloat('effectTime', 0.35);
@@ -46,6 +46,21 @@ function opponentNoteHit()
     		tiltShift.setFloat('bluramount', 1);
   	});
 	new FlxTimer().start(0.06, function(tmr:FlxTimer){
+    		chrom.setFloat('aberration', 0.1);
+    		chrom.setFloat('effectTime', 0.1);
+    		tiltShift.setFloat('bluramount', 0.001);
+  	});
+	new FlxTimer().start(0.07, function(tmr:FlxTimer){
+    		chrom.setFloat('aberration', 0.1);
+    		chrom.setFloat('effectTime', 0.1);
+    		tiltShift.setFloat('bluramount', 0.001);
+  	});
+	new FlxTimer().start(0.08, function(tmr:FlxTimer){
+    		chrom.setFloat('aberration', 0.1);
+    		chrom.setFloat('effectTime', 0.1);
+    		tiltShift.setFloat('bluramount', 0.001);
+  	});
+	new FlxTimer().start(0.09, function(tmr:FlxTimer){
     		chrom.setFloat('aberration', 0.1);
     		chrom.setFloat('effectTime', 0.1);
     		tiltShift.setFloat('bluramount', 0.001);
