@@ -1,11 +1,21 @@
 public var mickeyEmitter:FlxEmitter;
+var fuckingsquares:FlxSprite;
+
+var glitchBG:FlxRuntimeShader;
+var staticBG:FlxRuntimeShader;
+
+var shaderTime:Float = 0;
 
 function onCreate()
 {
 	PlayState.defaultCamZoom = 0.8;
 	spawnGirlfriend(false);
 
-	var fuckingsquares:FNFSprite = new FNFSprite(-750, -850);
+	
+    	staticBG = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
+    	glitchBG = new FlxRuntimeShader(File.getContent('./assets/shaders/vignetteGlitch.frag'), null, 130);
+
+	fuckingsquares = new FlxSprite(-750, -850);
 	if (PlayState.SONG.song == 'Malfunction Legacy')
 		fuckingsquares.loadGraphic(Paths.image('PixelMouse', 'data/stages/forbiddenRealm/images'));
 	else
@@ -74,13 +84,48 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 	{
 		if (curBeat == 72) PlayState.defaultCamZoom = 0.65;
 		if (curBeat >= 72 && curBeat <= 135) mickeyEmitter.emitting = true;
+		if (curBeat == 136)
+		{
+			PlayState.camGame.alpha = 0;
+			
+		}
 		if (curBeat >= 136 && curBeat <= 139)
-			{
-				mickeyEmitter.emitting = false;
-				PlayState.defaultCamZoom = 0.9;
-			}
-		if (curBeat == 140) PlayState.defaultCamZoom = 0.6;
+		{
+			mickeyEmitter.emitting = false;
+			PlayState.defaultCamZoom = 0.9;
+		}
+		if (curBeat == 140)
+		{ 
+			PlayState.defaultCamZoom = 0.6;
+			PlayState.camGame.alpha = 1;
+			PlayState.camGame.flash(ForeverTools.returnColor("white"), 2);
+			fuckingsquares.shader = staticBG;
+		}
+		if (curBeat == 204)
+		{ 
+			PlayState.defaultCamZoom = 1.1;
+			FlxTween.tween(fuckingsquares, {alpha: 0.2}, 0.3, {ease: FlxEase.quartInOut});
+		}
+		if (curBeat == 206)
+		{
+			PlayState.defaultCamZoom = 0.65;
+			PlayState.camGame.flash(ForeverTools.returnColor("white"), 2.5);
+			fuckingsquares.alpha = 1;
+			fuckingsquares.shader = glitchBG;
+			glitchBG.setFloat('vignetteIntensity', 0.8);
+		}
 	}
+}
+
+function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Character)
+{
+    	shaderTime += elapsed;
+
+    	glitchBG.setFloat('time', shaderTime);
+    	glitchBG.setFloat('prob', shaderTime);
+
+    	staticBG.setFloat('uTime', shaderTime);
+    	staticBG.setFloat('iTime', shaderTime);
 }
 
 function charStagePos(boyfriend:Character, gf:Character, dad:Character)
