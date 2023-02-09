@@ -14,6 +14,17 @@ function opponentNoteHit()
   		new ShaderFilter(chrom),
   		new ShaderFilter(tiltShift)
 	]);
+
+	PlayState.camHUD.setFilters(
+	[
+		new ShaderFilter(tiltShift)
+	]);
+
+	for(hud in PlayState.strumHUD)
+		hud.setFilters(
+		[
+			new ShaderFilter(tiltShift)
+		]);
   
   	chrom.setFloat('aberration', 0.25);
   	chrom.setFloat('effectTime', 0.4);
@@ -24,45 +35,72 @@ function opponentNoteHit()
     		chrom.setFloat('aberration', 0.225);
     		chrom.setFloat('effectTime', 0.35);
     		tiltShift.setFloat('bluramount', 5);
+		PlayState.camHUD.filtersEnabled = true;
+		for (hud in PlayState.strumHUD)
+			hud.filtersEnabled = true;
   	});
 	new FlxTimer().start(0.02, function(tmr:FlxTimer){
     		chrom.setFloat('aberration', 0.2);
     		chrom.setFloat('effectTime', 0.3);
     		tiltShift.setFloat('bluramount', 4);
+		PlayState.camHUD.filtersEnabled = true;
+		for (hud in PlayState.strumHUD)
+			hud.filtersEnabled = true;
   	});
 	new FlxTimer().start(0.03, function(tmr:FlxTimer){
     		chrom.setFloat('aberration', 0.175);
     		chrom.setFloat('effectTime', 0.25);
     		tiltShift.setFloat('bluramount', 3);
+		PlayState.camHUD.filtersEnabled = true;
+		for (hud in PlayState.strumHUD)
+			hud.filtersEnabled = true;
   	});
 	new FlxTimer().start(0.04, function(tmr:FlxTimer){
     		chrom.setFloat('aberration', 0.15);
     		chrom.setFloat('effectTime', 0.2);
     		tiltShift.setFloat('bluramount', 2);
+		PlayState.camHUD.filtersEnabled = true;
+		for (hud in PlayState.strumHUD)
+			hud.filtersEnabled = true;
   	});
 	new FlxTimer().start(0.05, function(tmr:FlxTimer){
     		chrom.setFloat('aberration', 0.125);
     		chrom.setFloat('effectTime', 0.15);
     		tiltShift.setFloat('bluramount', 1);
+		PlayState.camHUD.filtersEnabled = true;
+		for (hud in PlayState.strumHUD)
+			hud.filtersEnabled = true;
   	});
 	new FlxTimer().start(0.06, function(tmr:FlxTimer){
     		chrom.setFloat('aberration', 0.1);
     		chrom.setFloat('effectTime', 0.1);
-    		tiltShift.setFloat('bluramount', 0.001);
+    		tiltShift.setFloat('bluramount', 0.0);
+		PlayState.camHUD.filtersEnabled = false;
+		for (hud in PlayState.strumHUD)
+			hud.filtersEnabled = false;
   	});
 	new FlxTimer().start(0.07, function(tmr:FlxTimer){
     		chrom.setFloat('aberration', 0.1);
     		chrom.setFloat('effectTime', 0.1);
-    		tiltShift.setFloat('bluramount', 0.001);
+    		tiltShift.setFloat('bluramount', 0.0);
+		PlayState.camHUD.filtersEnabled = false;
+		for (hud in PlayState.strumHUD)
+			hud.filtersEnabled = false;
   	});
 	new FlxTimer().start(0.08, function(tmr:FlxTimer){
     		chrom.setFloat('aberration', 0.1);
     		chrom.setFloat('effectTime', 0.1);
-    		tiltShift.setFloat('bluramount', 0.001);
+    		tiltShift.setFloat('bluramount', 0.0);
+		PlayState.camHUD.filtersEnabled = false;
+		for (hud in PlayState.strumHUD)
+			hud.filtersEnabled = false;
   	});
 	new FlxTimer().start(0.09, function(tmr:FlxTimer){
     		chrom.setFloat('aberration', 0.1);
     		chrom.setFloat('effectTime', 0.1);
-    		tiltShift.setFloat('bluramount', 0.001);
+    		tiltShift.setFloat('bluramount', 0.0);
+		PlayState.camHUD.filtersEnabled = false;
+		for (hud in PlayState.strumHUD)
+			hud.filtersEnabled = false;
   	});
 }
