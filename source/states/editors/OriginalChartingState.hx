@@ -14,7 +14,7 @@ import flixel.addons.ui.FlxInputText;
 import flixel.addons.ui.FlxUI9SliceSprite;
 import flixel.addons.ui.FlxUI;
 import flixel.addons.ui.FlxUICheckBox;
-import base.FlxUIDropdownCustom;
+import flixel.addons.ui.FlxUIDropDownMenu;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUINumericStepper;
 import flixel.addons.ui.FlxUITabMenu;
@@ -98,7 +98,7 @@ class OriginalChartingState extends MusicBeatState
 
 	public var blockPressInputText:Array<FlxUIInputText>;
 	public var blockPressNumStepper:Array<FlxUINumericStepper>;
-	public var blockPressDropDown:Array<FlxUIDropdownCustom>;
+	public var blockPressDropDown:Array<FlxUIDropDownMenu>;
 
 	override function create()
 	{
@@ -262,7 +262,7 @@ class OriginalChartingState extends MusicBeatState
 		var characters:Array<String> = CoolUtil.coolTextFile(Paths.txt('data/characterList'));
 		var stages:Array<String> = CoolUtil.coolTextFile(Paths.txt('data/stageList'));
 
-		var player1DropDown = new FlxUIDropdownCustom(10, stepperSpeed.y + 45, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true),
+		var player1DropDown = new FlxUIDropDownMenu(10, stepperSpeed.y + 45, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true),
 			function(character:String)
 			{
 				_song.player1 = characters[Std.parseInt(character)];
@@ -272,7 +272,7 @@ class OriginalChartingState extends MusicBeatState
 		player1DropDown.selectedLabel = _song.player1;
 		blockPressDropDown.push(player1DropDown);
 
-		var gfVersionDropDown = new FlxUIDropdownCustom(player1DropDown.x, player1DropDown.y + 40, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true),
+		var gfVersionDropDown = new FlxUIDropDownMenu(player1DropDown.x, player1DropDown.y + 40, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true),
 			function(character:String)
 			{
 				_song.gfVersion = characters[Std.parseInt(character)];
@@ -282,7 +282,7 @@ class OriginalChartingState extends MusicBeatState
 		gfVersionDropDown.selectedLabel = _song.gfVersion;
 		blockPressDropDown.push(gfVersionDropDown);
 
-		var player2DropDown = new FlxUIDropdownCustom(player1DropDown.x, gfVersionDropDown.y + 40, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true),
+		var player2DropDown = new FlxUIDropDownMenu(player1DropDown.x, gfVersionDropDown.y + 40, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true),
 			function(character:String)
 			{
 				_song.player2 = characters[Std.parseInt(character)];
@@ -292,7 +292,7 @@ class OriginalChartingState extends MusicBeatState
 		player2DropDown.selectedLabel = _song.player2;
 		blockPressDropDown.push(player2DropDown);
 
-		var stageDropDown = new FlxUIDropdownCustom(player1DropDown.x + 140, player1DropDown.y, FlxUIDropDownMenu.makeStrIdLabelArray(stages, true),
+		var stageDropDown = new FlxUIDropDownMenu(player1DropDown.x + 140, player1DropDown.y, FlxUIDropDownMenu.makeStrIdLabelArray(stages, true),
 			function(stage:String)
 			{
 				_song.stage = stages[Std.parseInt(stage)];
@@ -301,7 +301,7 @@ class OriginalChartingState extends MusicBeatState
 		stageDropDown.selectedLabel = _song.stage;
 		blockPressDropDown.push(stageDropDown);
 
-		var assetModifierDropDown = new FlxUIDropdownCustom(stageDropDown.x, gfVersionDropDown.y, FlxUIDropDownMenu.makeStrIdLabelArray(assetModifiers, true),
+		var assetModifierDropDown = new FlxUIDropDownMenu(stageDropDown.x, gfVersionDropDown.y, FlxUIDropDownMenu.makeStrIdLabelArray(assetModifiers, true),
 			function(asset:String)
 			{
 				_song.assetModifier = assetModifiers[Std.parseInt(asset)];
@@ -347,7 +347,7 @@ class OriginalChartingState extends MusicBeatState
 
 	var value3InputText:FlxUIInputText;
 	var value3Text:FlxText;
-	var eventDropDown:FlxUIDropdownCustom;
+	var eventDropDown:FlxUIDropDownMenu;
 	var value1InputText:FlxUIInputText;
 	var value2InputText:FlxUIInputText;
 	var descText:FlxText;
@@ -368,7 +368,7 @@ class OriginalChartingState extends MusicBeatState
 		for (i in 0...Events.eventArray.length)
 			leEvents.push(Events.eventArray[i]);
 
-		eventDropDown = new FlxUIDropdownCustom(20, 50, FlxUIDropDownMenu.makeStrIdLabelArray(leEvents.copy(), true), function(pressed:String)
+		eventDropDown = new FlxUIDropDownMenu(20, 50, FlxUIDropDownMenu.makeStrIdLabelArray(leEvents.copy(), true), function(pressed:String)
 		{
 			var selectedEvent:Int = Std.parseInt(pressed);
 			if (curSelectedEvent != null)
@@ -475,7 +475,7 @@ class OriginalChartingState extends MusicBeatState
 	var noteStringInput:FlxUIInputText;
 	var stepperNoteTimer:FlxUINumericStepper;
 	var stepperSusLength:FlxUINumericStepper;
-	var tempNoteDropDown:FlxUIDropdownCustom;
+	var tempNoteDropDown:FlxUIDropDownMenu;
 	var stepperType:FlxUINumericStepper;
 
 	function addNoteUI():Void
@@ -490,7 +490,7 @@ class OriginalChartingState extends MusicBeatState
 
 		var noteTypes:Array<String> = CoolUtil.returnAssetsLibrary('data/notetypes', 'assets');
 
-		tempNoteDropDown = new FlxUIDropDdownCustom(10, stepperSusLength.y + 30, FlxUIDropDownMenu.makeStrIdLabelArray(noteTypes, false), function(type:String)
+		tempNoteDropDown = new FlxUIDropDownMenu(10, stepperSusLength.y + 30, FlxUIDropDownMenu.makeStrIdLabelArray(noteTypes, false), function(type:String)
 		{
 			curNoteType = type;
 			if (curSelectedNote != null)
