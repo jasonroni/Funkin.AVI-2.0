@@ -25,7 +25,7 @@ import objects.fonts.Alphabet;
 
 using StringTools;
 
-class FreeplayMenu extends MusicBeatState {
+class StoryMenu extends MusicBeatState {
 
 	var unfinishedText:FlxText;
 
