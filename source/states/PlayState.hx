@@ -243,7 +243,7 @@ class PlayState extends MusicBeatState
 		switch (SONG.song.toLowerCase())
 		{
 				case 'hunted': if (FlxG.save.data.huntedLock != 'beaten') GameData.huntedLock = 'unlocked';
-				case 'isolated old': if (FlxG.save.data.oldisolateLock != 'beaten') GameData.olsisolateLock = 'unlocked';
+				case 'isolated old': if (FlxG.save.data.oldisolateLock != 'beaten') GameData.oldisolateLock = 'unlocked';
 				case 'isolated beta': if (FlxG.save.data.betaisolateLock != 'beaten') GameData.betaisolateLock = 'unlocked';
 				case 'neglection': if (FlxG.save.data.pnmLock != 'beaten') GameData.pnmLock = 'unlocked';
 				case "don't cross!": if (FlxG.save.data.crossinLock != 'beaten') GameData.crossinLock = 'unlocked';
