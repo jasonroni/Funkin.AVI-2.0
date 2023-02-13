@@ -40,7 +40,6 @@ import openfl.filters.ShaderFilter;
 import openfl.Assets;
 import objects.fonts.Alphabet;
 import base.song.Conductor;
-import base.dependency.GameData;
 
 using StringTools;
 typedef TitleData =
