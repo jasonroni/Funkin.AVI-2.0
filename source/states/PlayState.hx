@@ -227,6 +227,7 @@ class PlayState extends MusicBeatState
 				case 'delusional': iconRPC = 'delusional';
 				case 'twisted grins' | 'facade' | 'mortiferum risus': iconRPC = 'episode2';
 				case 'mercy': iconRPC = 'mercy';
+				case 'affliction': iconRPC = 'mercy';
 				case 'mercy legacy': iconRPC = 'mercyold';
 				case 'scrapped': iconRPC = 'scrapped';
 				case 'bless': iconRPC = 'bless';
