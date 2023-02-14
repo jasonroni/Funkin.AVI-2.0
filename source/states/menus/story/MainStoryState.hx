@@ -2,6 +2,8 @@ package states.menus.story;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
+import base.song.Song;
+import base.utils.ScoreUtils;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -87,7 +89,7 @@ class MainStoryState extends MusicBeatState
 			weekThing.targetY = i;
 			grpWeekText.add(weekThing);
 
-			weekThing.screenCenter(X);
+			weekThing.screenCenter();
 			weekThing.antialiasing = true;
 			// weekThing.updateHitbox();
 
@@ -172,39 +174,40 @@ class MainStoryState extends MusicBeatState
 
 		if (!movedBack)
 		{
-			if (!selectedWeek)
+			if (!selectedWeek && (leftArrow != null && rightArrow != null))
 			{
-				if (controls.UI_UP_P)
+				if (Controls.getPressEvent("ui_up"))
 					changeWeek(-1);
-				else if (controls.UI_DOWN_P)
+				else if (Controls.getPressEvent("ui_down"))
 					changeWeek(1);
 
-				if (controls.UI_RIGHT)
+				if (Controls.getPressEvent("ui_right", "pressed"))
 					rightArrow.animation.play('press')
 				else
 					rightArrow.animation.play('idle');
 
-				if (controls.UI_LEFT)
+				if (Controls.getPressEvent("ui_left", "pressed"))
 					leftArrow.animation.play('press');
 				else
 					leftArrow.animation.play('idle');
 
-				if (controls.UI_RIGHT_P)
+				if (Controls.getPressEvent("ui_right"))
 					changeDifficulty(1);
-				if (controls.UI_LEFT_P)
+				if (Controls.getPressEvent("ui_left"))
 					changeDifficulty(-1);
 			}
 
-			if (controls.ACCEPT)
+			if (Controls.getPressEvent("accept"))
 				selectWeek();
 		}
 
-		if (controls.BACK && !movedBack && !selectedWeek)
+		if (Controls.getPressEvent("back") && !movedBack && !selectedWeek)
 		{
-			FlxG.sound.play(Paths.sound('cancelMenu'));
+			FlxG.sound.play(Paths.sound('base/menus/cancelMenu'));
 			movedBack = true;
-			Main.switchState(this, new states.menus.StoryMenu());
+			Main.switchState(this, new MainMenu());
 		}
+
 
 		super.update(elapsed);
 	}
@@ -226,7 +229,7 @@ class MainStoryState extends MusicBeatState
 			}
 
 			PlayState.storyPlaylist = Main.gameWeeksE[curWeek][0].copy();
-			PlayState.isStoryMode = true;
+			PlayState.gameplayMode = STORY;
 			selectedWeek = true;
 
 			var diffic:String = '-' + CoolUtil.difficultyFromNumber(curDifficulty).toLowerCase();
@@ -243,29 +246,38 @@ class MainStoryState extends MusicBeatState
 			});
 		}
 	}
+	
+	var difficultyTween:FlxTween;
 
 	function changeDifficulty(change:Int = 0):Void
 	{
-		curDifficulty += change;
+		curDifficulty = FlxMath.wrap(curDifficulty + change, 0, CoolUtil.difficulties.length - 1);
+		
+		var coolDifficulty:String = CoolUtil.difficulties[curDifficulty];
+		var diffGraphic:FlxGraphic = Paths.image('menus/base/storymenu/difficulties/' + CoolUtil.swapSpaceDash(coolDifficulty));
 
-		if (curDifficulty < 0)
-			curDifficulty = CoolUtil.difficultyLength - 1;
-		if (curDifficulty > CoolUtil.difficultyLength - 1)
-			curDifficulty = 0;
-
-		sprDifficulty.offset.x = 0;
-
-		var difficultyString = CoolUtil.difficultyFromNumber(curDifficulty).toLowerCase();
-		sprDifficulty.animation.play(difficultyString);
-		switch (curDifficulty)
+		if (sprDifficulty.graphic != diffGraphic)
 		{
-			case 0:
-				sprDifficulty.offset.x = 20;
-			case 1:
-				sprDifficulty.offset.x = 70;
-			case 2:
-				sprDifficulty.offset.x = 20;
+			sprDifficulty.loadGraphic(diffGraphic);
+			sprDifficulty.x = leftArrow.x + 60;
+			sprDifficulty.x += (308 - sprDifficulty.width) / 3;
+			sprDifficulty.y = leftArrow.y - 15;
+			sprDifficulty.alpha = 0;
+
+			if (difficultyTween != null)
+				difficultyTween.cancel();
+			difficultyTween = FlxTween.tween(sprDifficulty, {y: leftArrow.y + 15, alpha: 1}, 0.07, {
+				onComplete: function(twn:FlxTween)
+				{
+					difficultyTween = null;
+				}
+			});
 		}
+		lastDifficulty = coolDifficulty;
+
+		intendedScore = ScoreUtils.getWeekScore(curWeek, curDifficulty);
+
+		FlxTween.tween(sprDifficulty, {y: leftArrow.y + 15, alpha: 1}, 0.07);
 
 		sprDifficulty.alpha = 0;
 
