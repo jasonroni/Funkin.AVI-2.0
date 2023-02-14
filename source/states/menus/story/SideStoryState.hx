@@ -203,7 +203,7 @@ class MainStoryState extends MusicBeatState
 		{
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			movedBack = true;
-			Main.switchState(this, new states.menus.MainMenu());
+			Main.switchState(this, new states.menus.StoryMenu());
 		}
 
 		super.update(elapsed);
