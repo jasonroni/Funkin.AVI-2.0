@@ -203,7 +203,7 @@ class MainStoryState extends MusicBeatState
 		{
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			movedBack = true;
-			Main.switchState(this, new MainMenuState());
+			Main.switchState(this, new states.menus.MainMenu());
 		}
 
 		super.update(elapsed);
@@ -239,7 +239,7 @@ class MainStoryState extends MusicBeatState
 			PlayState.campaignScore = 0;
 			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
-				Main.switchState(this, new PlayState());
+				Main.switchState(this, new states.PlayState());
 			});
 		}
 	}
