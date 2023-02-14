@@ -83,6 +83,8 @@ haxelib git tentools https://github.com/TentaRJ/tentools.git
 haxelib git systools https://github.com/haya3218/systools
 haxelib run lime rebuild systools windows
 echo Press any key to continue with the installation of VSCommunity and its dependencies.
+pause >nul
+cls
 
 
 title Forever Engine Feather Setup - Installing Windows Dependencies
