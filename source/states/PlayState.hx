@@ -2097,7 +2097,7 @@ class PlayState extends MusicBeatState
 		switch (SONG.song.toLowerCase().replace('-', ' ')) 
 		{
 			case 'isolated':
-				playCutscene('Episode1_Intro.mp4');
+				playCutscene('Episode1_Intro.avi');
 			
 			default:
 				startCountdown();
