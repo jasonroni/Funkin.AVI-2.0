@@ -8,6 +8,7 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxGroup;
+import flixel.graphics.FlxGraphic;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
@@ -23,6 +24,8 @@ class MainStoryState extends MusicBeatState
 {
 	var scoreText:FlxText;
 	var curDifficulty:Int = 1;
+	
+	static var lastDifficulty:String = '';
 
 	public static var weekUnlocked:Array<Bool> = [true, false, false, false];
 
@@ -323,6 +326,6 @@ class MainStoryState extends MusicBeatState
 		txtTracklist.screenCenter(X);
 		txtTracklist.x -= FlxG.width * 0.35;
 
-		intendedScore = Highscore.getWeekScore(curWeek, curDifficulty);
+		intendedScore = ScoreUtils.getWeekScore(curWeek, curDifficulty);
 	}
 }
