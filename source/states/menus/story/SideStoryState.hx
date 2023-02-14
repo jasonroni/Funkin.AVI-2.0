@@ -250,6 +250,8 @@ class SideStoryState extends MusicBeatState
 
 	function changeDifficulty(change:Int = 0):Void
 	{
+		curDifficulty = FlxMath.wrap(curDifficulty + change, 0, CoolUtil.difficulties.length - 1);
+		
 		var coolDifficulty:String = CoolUtil.difficulties[curDifficulty];
 		var diffGraphic:FlxGraphic = Paths.image('menus/base/storymenu/difficulties/' + CoolUtil.swapSpaceDash(coolDifficulty));
 
