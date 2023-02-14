@@ -10,6 +10,8 @@ import flixel.FlxG;
  */
 class ManIHateYouSoMuchYouMadeMuckneySad extends MusicBeatState
 {
+   var leMuckney:FlxSprite;
+   
    override function create() {
       super.create();
       Application.current.window.borderless = true;
