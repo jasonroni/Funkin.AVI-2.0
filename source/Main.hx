@@ -75,24 +75,28 @@ class Main extends Sprite
 			['mick-isolated-new', 'lunamick-new', 'face'],
 			[FlxColor.fromRGB(60, 60, 60)],
 			'Mickey in: Never-Ending Cycle'
+			//'episode1-bg'
 		],
 		[
 			['???', '???', '???'],
 			['face', 'face', 'face'],
 			[FlxColor.fromRGB(60, 60, 60)],
 			'Coming Soon...'
+			//'coming_soon-bg'
 		],
 		[
 			['???', '???', '???'],
 			['face', 'face', 'face'],
 			[FlxColor.fromRGB(60, 60, 60)],
 			'Coming Soon...'
+			//'coming_soon-bg'
 		],
 		[
 			['???', '???', '???'],
 			['face', 'face', 'face'],
 			[FlxColor.fromRGB(60, 60, 60)],
 			'Coming Soon...'
+			//'coming_soon-bg'
 		],
 	];
 	public static var gameWeeksB:Array<Dynamic> = [ // Hardcoded Bonus Weeks for 2nd Story Menu
@@ -101,12 +105,14 @@ class Main extends Sprite
 			['mr-smiles', 'mr-smiles', 'mr-smiles'],
 			[FlxColor.fromRGB(60, 60, 60)],
 			'Boyriend in: Sinister Smiles'
+			//'smiles-bg'
 		],
 		[
 			['Mercy', 'Affliction'],
 			['walt', 'walt'], // Waltuh
 			[FlxColor.fromRGB(60, 60, 60)],
 			'Boyfriend in: Sentient Ink'
+			//'walt-bg'
 		],
 	];
 	
