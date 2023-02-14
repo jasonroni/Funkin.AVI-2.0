@@ -367,14 +367,14 @@ class MainMenu extends MusicBeatState
 						switch (daChoice)
 						{
 							case 'story mode':
-								Main.switchState(this, new StoryMenu());
+								Main.switchState(this, new states.menus.StoryMenu());
 							case 'freeplay':
 								CoolUtil.difficulties = CoolUtil.difficultyArray;
-								Main.switchState(this, new FreeplayMenu());
+								Main.switchState(this, new states.menus.FreeplayMenu());
 							case 'options':
 								transIn = FlxTransitionableState.defaultTransIn;
 								transOut = FlxTransitionableState.defaultTransOut;
-								Main.switchState(this, new OptionsMenu());
+								Main.switchState(this, new states.menus.OptionsMenu());
 						}
 					});
 				}
@@ -384,7 +384,7 @@ class MainMenu extends MusicBeatState
 		// It actually makes sense since some pepole doesn't know we moved to forever or just think we ported the psych editor lol
 		if(FlxG.keys.justPressed.SEVEN) 
 			{
-				Main.switchState(this, new SexState());
+				Main.switchState(this, new states.menus.SexState());
 			} else if(FlxG.keys.justPressed.EIGHT) 
 			{
 				Main.switchState(this, new gamejolt.GameJolt.GameJoltLogin());
