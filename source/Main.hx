@@ -82,7 +82,7 @@ class Main extends Sprite
 			['face', 'face', 'face'],
 			[FlxColor.fromRGB(60, 60, 60)],
 			'Coming Soon...'
-			//'coming_soon-bg'
+			//'epi_2_teaser-bg'
 		],
 		[
 			['???', '???', '???'],
