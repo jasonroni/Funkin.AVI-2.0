@@ -91,6 +91,10 @@ class MainMenu extends MusicBeatState
 		// set the transitions to the previously set ones
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
+		
+		#if DISCORD_RPC
+		Discord.changePresence('MENU SCREEN', 'Main Menu', 'icon', 'mouse');
+		#end
 
 		// uh
 		persistentUpdate = persistentDraw = true;
@@ -286,10 +290,6 @@ class MainMenu extends MusicBeatState
 
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 7.5, 0, 1);
 		camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
-		
-		#if DISCORD_RPC
-		Discord.changePresence('MAIN MENU', 'Selecting: ' + optionShit[Math.floor(curSelected)], 'icon', 'mouse');
-		#end
 
 		if ((controlArray.contains(true)) && (!selectedSomethin))
 		{
