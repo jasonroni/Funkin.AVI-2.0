@@ -52,7 +52,7 @@ class SideStoryState extends MusicBeatState
 		transOut = FlxTransitionableState.defaultTransOut;
 
 		#if DISCORD_RPC
-		Discord.changePresence('STORY MENU', 'Category: Bonus Menu');
+		Discord.changePresence('STORY MENU', 'Extra Stories', 'icon', 'tape');
 		#end
 
 		// freeaaaky
