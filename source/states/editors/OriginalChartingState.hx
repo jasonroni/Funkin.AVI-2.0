@@ -142,7 +142,7 @@ class OriginalChartingState extends MusicBeatState
 		Conductor.mapBPMChanges(_song);
 
 		#if DISCORD_RPC
-		Discord.changePresence('CHART EDITOR', 'Song: ' + _song.song);
+		Discord.changePresence('CHART EDITOR', 'Song: ' + _song.song, 'debugger', 'gear');
 		#end
 
 		bpmTxt = new FlxText(1000, 50, 0, "", 16);
