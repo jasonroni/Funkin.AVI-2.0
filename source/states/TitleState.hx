@@ -74,7 +74,7 @@ class TitleState extends states.MusicBeatState
 	var ngSpr:FlxSprite;
 	var psychEngine:FlxSprite;
 	var creditsGrid:FlxSprite;
-	var randomWindowText:Int = FlxG.random.int(0, 99);
+	var randomWindowText:Int = FlxG.random.int(0, 100);
 
 	var curWacky:Array<String> = [];
 
