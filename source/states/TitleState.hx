@@ -2,6 +2,7 @@ package states;
 
 #if desktop
 import sys.thread.Thread;
+import base.dependency.Discord;
 #end
 import flixel.FlxG;
 import flixel.FlxCamera;
@@ -100,6 +101,10 @@ class TitleState extends states.MusicBeatState
 		FlxG.sound.volumeDownKeys = volumeDownKeys;
 		FlxG.sound.volumeUpKeys = volumeUpKeys;
 		FlxG.keys.preventDefaultKeys = [TAB]; //?
+		
+		#if DISCORD_RPC
+		Discord.changePresence("TITLE SCREEN", 'Awaiting input...', 'icon', 'clock'); // dw, I'll make sure to update the RPC shit, if anything, I'm gonna end up making a seperate RPC for this version of the engine
+		#end
 
 		//PlayerSettings.init();
 
