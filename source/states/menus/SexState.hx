@@ -41,27 +41,31 @@ class SexState extends MusicBeatState
 
    override function create() {
 
-      noBitchCam = new FlxCamera();
-      bgCam = new FlxCamera();
-      bgCam.bgColor.alpha = 0;
+      	noBitchCam = new FlxCamera();
+      	bgCam = new FlxCamera();
+      	bgCam.bgColor.alpha = 0;
 
-      FlxG.cameras.reset(noBitchCam);
-      FlxG.cameras.add(bgCam, false);
-      FlxG.cameras.setDefaultDrawTarget(noBitchCam, true);
+      	FlxG.cameras.reset(noBitchCam);
+      	FlxG.cameras.add(bgCam, false);
+      	FlxG.cameras.setDefaultDrawTarget(noBitchCam, true);
+	   
+	#if DISCORD_RPC
+	Discord.changePresence('PSYCH ENGINE KID DETECTED', 'Get a load of this loser lmfao', 'troll', 'psych');
+	#end
 
-      super.create();
+      	super.create();
 
-      bloom = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/bloom.frag'), null, 120);
-      monitor = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
+      	bloom = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/bloom.frag'), null, 120);
+      	monitor = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
 
-      noBitchCam.setFilters([
-            new openfl.filters.ShaderFilter(bloom),
-            new openfl.filters.ShaderFilter(monitor)
-         ]);
+      	noBitchCam.setFilters([
+          	new openfl.filters.ShaderFilter(bloom),
+		new openfl.filters.ShaderFilter(monitor)
+        ]);
 
-         background = new FlxSprite(0, 0).makeGraphic(FlxG.width, 1000, FlxColor.BLACK);
-         background.scale.set(5, 5);
-         background.cameras = [bgCam];
+        background = new FlxSprite(0, 0).makeGraphic(FlxG.width, 1000, FlxColor.BLACK);
+	background.scale.set(5, 5);
+        background.cameras = [bgCam];
 
         /* youGetNoBitches = new FlxSprite();
          //youGetNoBitches.loadGraphic(Paths.image('menus/Funkin_avi/noBitches'));
