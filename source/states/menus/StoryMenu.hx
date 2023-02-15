@@ -70,7 +70,7 @@ class StoryMenu extends MusicBeatState {
 
 		#if desktop
 		// Updating Discord Rich Presence
-		Discord.changePresence("PICKING CATEGORY", "Story: Category Menu");
+		Discord.changePresence("PICKING CATEGORY", "Story: Category Menu", 'icon', 'tape');
 		#end
 
 		Application.current.window.title = "Funkin.avi - Story: Category Menu";
