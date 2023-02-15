@@ -104,7 +104,7 @@ class FreeplayMenu extends MusicBeatState {
 
 		#if desktop
 		// Updating Discord Rich Presence
-		Discord.changePresence("PICKING CATEGORY", "Freeplay: Category Menu");
+		Discord.changePresence("PICKING CATEGORY", "Freeplay: Category Menu", 'icon', 'disc-player');
 		#end
 
 		Application.current.window.title = "Funkin.avi - Freeplay: Category Menu";
