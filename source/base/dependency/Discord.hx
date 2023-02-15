@@ -59,7 +59,7 @@ class Discord
 		DiscordRpc.presence({
 			details: details,
 			state: state,
-			largeImageKey: 'icon',
+			largeImageKey: largeImageKey,
 			largeImageText: "Funkin.avi",
 			smallImageKey: smallImageKey,
 			// Obtained times are in milliseconds so they are divided so Discord can use it
