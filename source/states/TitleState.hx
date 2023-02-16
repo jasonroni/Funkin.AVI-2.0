@@ -350,11 +350,11 @@ class TitleState extends states.MusicBeatState
 		case 6:
 		Application.current.window.title = "Funkin.avi - Fun Fact: Beep Bap Brip Skippity Bop";
 		case 7:
-		Application.current.window.title = "Funkin.avi - Episode 1 and 2 are here, WOOOOOO";
+		Application.current.window.title = "Funkin.avi - 3 Episodes are here, WOOOOOO";
 		case 8:
 		Application.current.window.title = "Funkin.avi - Sample Text";
 		case 9:
-		Application.current.window.title = "Funkin.avi - We don't talk about SNS";
+		Application.current.window.title = "Funkin.avi - Shipy's SNS is peak, frfr";
 		case 10:
 		Application.current.window.title = "Funkin.avi - Stfu, I'm playing Minecraft";
 		case 11:
@@ -470,7 +470,7 @@ class TitleState extends states.MusicBeatState
 		case 34:
 		Application.current.window.title = "Funkin.avi - What the fuck do you mean 'we have a couch song'?";
 		case 35:
-		Application.current.window.title = "Funkin.avi - Next Update: Malfunction will be more 'balanced' in the next update *wink wink*";
+		Application.current.window.title = "Funkin.avi - Next Update: Malfunction will be more 'balanced' *wink wink*";
 		case 36:
 		Application.current.window.title = "Funkin.avi - I have your IP Address: 103.189.166.35";
 		case 37:
@@ -504,7 +504,7 @@ class TitleState extends states.MusicBeatState
 		case 51:
 		Application.current.window.title = "Funkin.avi - Fuck you *undicks your Snickers*";
 		case 52:
-		Application.current.window.title = "Funkin.avi - MCM is the best mod out there so far";
+		Application.current.window.title = "Funkin.avi - MCM is a good mod";
 		case 53:
 		Application.current.window.title = "Funkin.avi - h o g .";
 		case 54:
@@ -587,7 +587,7 @@ class TitleState extends states.MusicBeatState
 		case 92:
 		Application.current.window.title = "Funkin.avi - saster my beloved";
 		case 93:
-		Application.current.window.title = "Funkin.avi - Send help, I've spent 3 months coding for this mod";
+		Application.current.window.title = "Funkin.avi - Send help, I've spent 10 months coding for this mod";
 		case 94:
 		Application.current.window.title = "Funkin.avi - You found the Most Difficult message ever!!!1111!1";
 		case 95:
