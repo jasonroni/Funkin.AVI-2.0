@@ -52,7 +52,7 @@ class Main extends Sprite
 		height: 720, // game window height
 		zoom: -1.0, // defines the game's state bounds, -1.0 usually means automatic setup
 		initialState: states.TitleState, // state the game should start at
-		framerate: 60, // the game's default framerate
+		framerate: 120, // the game's default framerate
 		skipSplash: true, // whether to skip the flixel splash screen that appears on release mode
 		fullscreen: false, // whether the game starts at fullscreen mode
 		versionFE: "0.3.1", // version of Forever Engine Legacy

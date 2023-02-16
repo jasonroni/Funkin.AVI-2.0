@@ -660,7 +660,6 @@ class TitleState extends states.MusicBeatState
 	{
 		if (!skippedIntro)
 		{
-				remove(ngSpr);
 				remove(credGroup);
 				FlxG.camera.flash(FlxColor.WHITE, 4);
 		}
