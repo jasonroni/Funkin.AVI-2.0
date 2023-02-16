@@ -147,6 +147,15 @@ class MainMenu extends MusicBeatState
 
 		openfl.Lib.application.window.title = "Funkin.avi - " + windowShit[FlxG.random.int(0, windowShit.length-1)];
 
+		//shutdowns the game
+		if(openfl.Lib.application.window.title.contains('10 Seconds before I shut your fucking game again >:('))
+			{
+				new flixel.util.FlxTimer().start(10, function(e)
+					{
+						Sys.exit(0);
+					});
+			}
+
 		// set the transitions to the previously set ones
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
