@@ -43,18 +43,7 @@ import objects.fonts.Alphabet;
 import base.song.Conductor;
 
 using StringTools;
-typedef TitleData =
-{
 
-	titlex:Float,
-	titley:Float,
-	startx:Float,
-	starty:Float,
-	gfx:Float,
-	gfy:Float,
-	backgroundSprite:String,
-	bpm:Int
-}
 class TitleState extends states.MusicBeatState
 {
 	public static var muteKeys:Array<FlxKey> = [FlxKey.ZERO];
@@ -71,9 +60,6 @@ class TitleState extends states.MusicBeatState
 	var gradientBar:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, 1, 0xFFB003B0);
 	var credTextShit:Alphabet;
 	var textGroup:FlxGroup;
-	var ngSpr:FlxSprite;
-	var psychEngine:FlxSprite;
-	var creditsGrid:FlxSprite;
 	var randomWindowText:Int = FlxG.random.int(0, 100);
 
 	var curWacky:Array<String> = [];
@@ -84,7 +70,6 @@ class TitleState extends states.MusicBeatState
 
 	var mustUpdate:Bool = false;
 
-	var titleJSON:TitleData;
 	var nonLoginText:FlxText; //Toast Don't Work, Lets Make One
 
 	public static var updateVersion:String = '';
@@ -106,13 +91,9 @@ class TitleState extends states.MusicBeatState
 		Discord.changePresence("TITLE SCREEN", 'Awaiting input...', 'icon', 'clock'); // dw, I'll make sure to update the RPC shit, if anything, I'm gonna end up making a seperate RPC for this version of the engine
 		#end
 
-		//PlayerSettings.init();
-
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 
 		// DEBUG BULLSHIT
-
-		//swagShader = new ColorSwap();
 		super.create();
 
 		defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
@@ -170,11 +151,6 @@ class TitleState extends states.MusicBeatState
 		bg.scale.y = 0.67;
 		add(bg);
 
-		// bg.antialiasing = ClientPrefs.globalAntialiasing;
-		// bg.setGraphicSize(Std.int(bg.width * 0.6));
-		// bg.updateHitbox();
-		add(bg);
-
 		logoBl = new FlxSprite(150, 0);
 		logoBl.frames = Paths.getSparrowAtlas('menus/Funkin_avi/MickeyLogo');
 
@@ -183,8 +159,6 @@ class TitleState extends states.MusicBeatState
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
 		logoBl.screenCenter();
-		// logoBl.color = FlxColor.BLACK;
-
 
 		add(logoBl);
 
@@ -205,8 +179,6 @@ class TitleState extends states.MusicBeatState
 
 		credTextShit = new Alphabet(0, 0, "", true);
 		credTextShit.screenCenter();
-
-		// credTextShit.alignment = CENTER;
 
 		credTextShit.visible = false;
 
@@ -234,8 +206,6 @@ class TitleState extends states.MusicBeatState
 			skipIntro();
 		else
 			initialized = true;
-
-		// credGroup.add(credTextShit);
 	}
 
 	function getIntroTextShit():Array<Array<String>>
@@ -260,12 +230,6 @@ class TitleState extends states.MusicBeatState
 
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
-		// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
-
-		/*Timer += 1;
-		gradientBar.scale.y += Math.sin(Timer / 10) * 0.001;
-		gradientBar.updateHitbox();
-		gradientBar.y = FlxG.height - gradientBar.height;*/
 
 		var pressedEnter:Bool = FlxG.mouse.justPressed || FlxG.keys.justPressed.ENTER;
 
@@ -316,7 +280,6 @@ class TitleState extends states.MusicBeatState
 				FlxG.sound.play(Paths.sound('base/menus/confirmMenu'), 0.7);
 
 				transitioning = true;
-				// FlxG.sound.music.stop();
 
 				FlxTween.tween(logoBl, {y: 2000}, 3, {ease: FlxEase.quadIn});
 				FlxTween.tween(titleText, {y: 2000}, 3, {ease: FlxEase.quadIn});
@@ -324,8 +287,6 @@ class TitleState extends states.MusicBeatState
 				new FlxTimer().start(1.3, function(tmr:FlxTimer){
 					Main.switchState(this, new states.menus.MainMenu());
 				});
-				//FlxTween.tween(gfDance, {y: 2000}, 3, {ease: FlxEase.quadIn});
-				//FlxTween.tween(gradientBar, {y: 2000}, 3, {ease: FlxEase.quadIn});
 			}
 		}
 
@@ -653,64 +614,34 @@ class TitleState extends states.MusicBeatState
 		if(logoBl != null)
 			logoBl.animation.play('bump', true);
 
-		/*if(gfDance != null) {
-			danceLeft = !danceLeft;
-			if (danceLeft)
-				gfDance.animation.play('danceRight');
-			else
-				gfDance.animation.play('danceLeft');
-		}*/
-
 		if(!closedState) {
 			sickBeats++;
 			switch (sickBeats)
 			{
 				case 1:
 					createCoolText(["Dunkin' Funkin' Team"], 15);
-				// credTextShit.visible = true;
 				case 3:
 					addMoreText('Presents', 15);
-					//creditsGrid.visible = true;
-				// credTextShit.text += '\npresent...';
-				// credTextShit.addText();
 				case 4:
 					deleteCoolText();
-					//creditsGrid.visible = false;
-				// credTextShit.visible = false;
-				// credTextShit.text = 'In association \nwith';
-				// credTextShit.screenCenter();
 				case 5:
 					createCoolText(['Yet another mod...'], -40);
 				case 7:
 					addMoreText('..About Suicide Mouse', -40);
-					//ngSpr.visible = true;
-				// credTextShit.text += '\nNewgrounds';
 				case 8:
 					deleteCoolText();
-					//ngSpr.visible = false;
-				// credTextShit.visible = false;
-
-				// credTextShit.text = 'Shoutouts Tom Fulp';
-				// credTextShit.screenCenter();
 				case 9:
 					createCoolText([curWacky[0]]);
-				// credTextShit.visible = true;
 				case 11:
 					addMoreText(curWacky[1]);
-				// credTextShit.text += '\nlmao';
 				case 12:
 					deleteCoolText();
-				// credTextShit.visible = false;
-				// credTextShit.text = "Friday";
-				// credTextShit.screenCenter();
 				case 13:
 					addMoreText('Funkin');
-				// credTextShit.visible = true;
 				case 14:
 					addMoreText('avi');
-				// credTextShit.text += '\nNight';
 				case 15:
-					addMoreText('v2.0'); // credTextShit.text += '\nFunkin';
+					addMoreText('v2.0');
 				case 16:
 					deleteCoolText();
 				case 17:
@@ -732,11 +663,7 @@ class TitleState extends states.MusicBeatState
 				remove(ngSpr);
 				remove(credGroup);
 				FlxG.camera.flash(FlxColor.WHITE, 4);
-
-				var easteregg:String = FlxG.save.data.psychDevsEasterEgg;
-				if (easteregg == null) easteregg = '';
-				easteregg = easteregg.toUpperCase();
-							}
+		}
 			logoBl.angle = -4;
 
 			new FlxTimer().start(0.01, function(tmr:FlxTimer)
