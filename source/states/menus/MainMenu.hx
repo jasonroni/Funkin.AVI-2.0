@@ -324,7 +324,7 @@ class MainMenu extends MusicBeatState
 		"Have fun, you'll be here for like an hour or longer.";
 		case 18:
 		"10 Seconds before I shut your fucking game again >:(";
-		new FlxTimer().start(10, function(tmr:FlxTimer){
+		new flixel.util.FlxTimer().start(10, function(e){
 			System.exit(0);
 		});
 		case 19:
