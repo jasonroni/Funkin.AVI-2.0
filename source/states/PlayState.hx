@@ -1943,6 +1943,10 @@ class PlayState extends MusicBeatState
 				camDisplaceY = 0;
 			}
 		}
+		
+		if (SONG.song == 'Scrapped' && curSection == 16)
+			FlxTween.tween(opponent, {alpha: 1}, 10);
+			
 
 		callFunc('sectionHit', [curSection]);
 	}
