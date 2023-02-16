@@ -26,6 +26,8 @@ function loadAnimations()
 	characterData.antialiasing = false;
 	characterData.assetModifier = 'pixel';
 	characterData.missColor = [174, 181, 229];
+	
+	antialiasing = false;
 
 	if (!isPlayer)
 		characterData.flipX = true;
