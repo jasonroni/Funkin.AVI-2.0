@@ -88,7 +88,7 @@ class SexState extends MusicBeatState
          upText.screenCenter(X);
          add(upText);
 
-         downText = new FlxText(0, 560, 0, 'Man, these psych kids be down bad rn lmfao.\n(Press ESC to leave)', 32);
+         downText = new FlxText(0, 560, 0, 'It\'s on Forever Engine ya bum, silly Psych Engine kid.\n(Press ESC to leave)', 32);
          downText.setFormat(Paths.font('DisneyFont'), 50, ForeverTools.setTextAlign('center'), FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
          downText.screenCenter(X);
          add(downText);
