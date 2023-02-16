@@ -446,6 +446,11 @@ class Character extends FNFSprite
 		{
 			characterData.camOffsets = [x, y];
 		});
+		
+		setVar('antialiasing', function(isPixel:Bool = false)
+		{
+			antialiasing = isPixel;
+		});
 
 		setVar('setScale', function(?x:Float = 1, ?y:Float = 1)
 		{
