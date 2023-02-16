@@ -105,6 +105,8 @@ class ScriptHandler extends SScript
 		set('FlxRuntimeShader', flixel.addons.display.FlxRuntimeShader);
 		set('FlxEmitter', flixel.effects.particles.FlxEmitter);
 		set('FlxParticle', flixel.effects.particles.FlxParticle);
+		set('FlxGradient', flixel.util.FlxGradient);
+		set('FlxMath', flixel.math.FlxMath);
 
 
 		// CLASSES (FUNKIN);
