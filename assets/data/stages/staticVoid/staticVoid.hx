@@ -1,4 +1,5 @@
 var datTV:FlxSprite;
+var redGradThing:FlxSprite = new FlxSprite(-1200, 0).makeGraphic(FlxG.width, 1, 0xFFAA00AA);
 
 var holyShitStatic:FlxRuntimeShader;
 
@@ -19,19 +20,26 @@ function onCreate()
 	]);
 	
   
-  var thePath:String = 'data/stages/staticVoid/images';
-  
-  var whoaBlackBG:FlxSprite = new FlxSprite(0, 0).makeGraphic(2000, 2000, 0x000000);
-  whoaBlackBG.screenCenter();
-  add(whoaBlackBG);
-  
-  datTV = new FlxSprite(-250, -160);
+	var thePath:String = 'data/stages/staticVoid/images';
+
+	var whoaBlackBG:FlxSprite = new FlxSprite(0, 0).makeGraphic(2000, 2000, 0x000000);
+	whoaBlackBG.screenCenter();
+	add(whoaBlackBG);
+
+	datTV = new FlxSprite(-250, -160);
 	datTV.frames = Paths.getSparrowAtlas('white', thePath);
-  datTV.animation.addByPrefix('idle', 'white idle');
-  datTV.animation.play('idle');
+	datTV.animation.addByPrefix('idle', 'white idle');
+	datTV.animation.play('idle');
 	datTV.scale.set(0.6, 0.6);
-  datTV.alpha = 0.001;
-  add(datTV);
+	datTV.alpha = 0.001;
+	add(datTV);
+	
+	redGradThing = FlxGradient.createGradientFlxSprite(2130, 512, [0x00940606, 0x55BF0606, 0xAAFC0505], 1, 90, true);
+	redGradThing.x = -740;
+	redGradThing.y = 770;
+	redGradThing.scale.y = 0;
+	redGradThing.updateHitbox();
+	add(redGradThing);
 }
 
 function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
@@ -41,6 +49,12 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 		datTV.alpha = 1;
 		PlayState.camGame.flash(ForeverTools.returnColor("white"), 1);
 	}
+	
+	if (curBeat == 136 || curBeat == 140 || curBeat == 144 || curBeat == 148 || curBeat == 152 || curBeat == 156 || curBeat == 160 || curBeat == 164)
+		FlxTween.tween(redGradThing, {'scale.y': 1.5}, 0.5, {ease: FlxEase.quadInOut});
+	
+	if (curBeat == 138 || curBeat == 142 || curBeat == 146 || curBeat == 150 || curBeat == 154 || curBeat == 158 || curBeat == 162 || curBeat == 166)
+		FlxTween.tween(redGradThing, {'scale.y': 0}, 0.5, {ease: FlxEase.quadInOut});
 }
 
 function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Character)
