@@ -394,6 +394,9 @@ class PlayState extends MusicBeatState
 			add(boyfriend);
 		}
 		
+		if (curStage == 'staticVoid')
+			opponent.alpha = 0.001;
+		
 		if (stageBuild.hideBoyfriend)
 			boyfriend.alpha = 0.001;
 		

@@ -22,7 +22,7 @@ class Character extends FNFSprite
 
 	public var isPlayer:Bool = false;
 	public var curCharacter:String = 'bf';
-
+	
 	public var holdTimer:Float = 0;
 	public var heyTimer:Float = 0.6;
 
@@ -445,6 +445,11 @@ class Character extends FNFSprite
 		setVar('setCamOffsets', function(x:Float = 0, y:Float = 0)
 		{
 			characterData.camOffsets = [x, y];
+		});
+		
+		setVar('antialiasing', function(isNotPixel:Bool = true)
+		{
+			characterData.antialiasing = isNotPixel;
 		});
 
 		setVar('setScale', function(?x:Float = 1, ?y:Float = 1)

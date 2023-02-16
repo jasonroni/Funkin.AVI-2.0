@@ -11,6 +11,7 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.effects.FlxFlicker;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flash.system.System;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
@@ -49,6 +50,8 @@ class MainMenu extends MusicBeatState
 
 	var defaultShader:FlxRuntimeShader;
 	var defaultShader2:FlxRuntimeShader;
+	
+	var randomWindowText:Int = FlxG.random.int(0, 49);
 
 	public var logContent:String;
 
@@ -86,14 +89,14 @@ class MainMenu extends MusicBeatState
 				new openfl.filters.ShaderFilter(defaultShader2)
 			]);
 
-		openfl.Lib.application.window.title = "Funkin.AVI";
+		openfl.Lib.application.window.title = "Funkin.avi - " + randomWindowText;
 
 		// set the transitions to the previously set ones
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
-
+		
 		#if DISCORD_RPC
-		Discord.changePresence('MENU SCREEN', 'Main Menu');
+		Discord.changePresence('MENU SCREEN', 'Main Menu', 'icon', 'mouse');
 		#end
 
 		// uh
@@ -282,6 +285,112 @@ class MainMenu extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+		switch randomWindowText {
+		case 0:
+		"Anyone up right now?";
+		case 1:
+		"Shipy's SNS Mickey & F.AVI Mickey will make love to each other";
+		case 2:
+		"We lied about Episode 2's release...";
+		case 3:
+		"I trapped Demolition in my basement.";
+		case 4:
+		"V3 will release next year, we need a fucking break";
+		case 5:
+		"Someone put an end to my misery. - Mickey 2023";
+		case 6:
+		"I dare you to press 7 on that keyboard of yours.";
+		case 7:
+		"Cock & ball torture.";
+		case 8:
+		"OKAY, YOU GOT DELUSIONAL, NOW STFU.";
+		case 9:
+		"Cast & Crew (Couch Song) is on Cognitive Crisis, cry about it.";
+		case 10:
+		"Look at that cute little devil, he c00t :3";
+		case 11:
+		"Do you like the new menu art?";
+		case 12:
+		"You're gonna love the final song.";
+		case 13:
+		"Malfunction isn't easy anymore, fuck you, skill issue B)";
+		case 14:
+		"Happy Birthday Muckney!";
+		case 15:
+		"Psych Engine basically corrupted all our shit, which is why it's on Forever Engine now.";
+		case 16:
+		"SOMEONE PLEASE GIVE MICKEY HIS FUCKING SANDWICH";
+		case 17:
+		"Have fun, you'll be here for like an hour or longer.";
+		case 18:
+		"10 Seconds before I shut your fucking game again >:(";
+		new FlxTimer().start(10, function(tmr:FlxTimer){
+			System.exit(0);
+		});
+		case 19:
+		"Oh the misery, everybody wants to be my enemy.";
+		case 20:
+		"Sex, NOW.";
+		case 21:
+		"Quick, hide behind that conveniently shaped lamp!";
+		case 22:
+		"Welcome to hell";
+		case 23:
+		"blue lobster *jumpscare*";
+		case 24:
+		"hi. *starts dancing on the floor*";
+		case 25:
+		"sample text 2: electric boogaloo";
+		case 26:
+		"The bastard named squidward cheated on poor mickey :(";
+		case 27:
+		"D E A T H";
+		case 28:
+		"Man, i'm starving... *Fight or Flight plays*";
+		case 29:
+		"Shit, the mouse got a gun again.";
+		case 30:
+		"You should /kill @s NOW"; //haha, funi Minecraft reference
+		case 31:
+		"Why are you here? FNF is still cancelled.";
+		case 32:
+		"This community is fr the big stinky.";
+		case 33:
+		"Go ahead, cancel us, you'll only make us come back stronger.";
+		case 34:
+		"NOOOOOOOOOOO, YOU CAN'T JUST CHEAT THE GAME!!!!!!!";
+		case 35:
+		"V3 Update in a Nutshell: Suicidal Remixes";
+		case 36:
+		"Mom, can we have Wednesday's Infidelity?";
+		case 37:
+		"GUYS, LOOK, IT'S SHIPY, SAY HELLO TO HER! :D";
+		case 38:
+		"Don't leave Muckney's party, please, you'll make him sad if you do :(";
+		case 39:
+		"It's about drive, it's about power, we stay hungry, we devour.";
+		case 40:
+		"Main Menu Music: idfk, you might've removed the damn menu music by going in and out of freeplay >:(";
+		case 41:
+		"Peter, the horse is here.";
+		case 42:
+		"*horse walks in*";
+		case 43:
+		"Anyone here watch Yahiamice?";
+		case 44:
+		"*cantaloupe jumpscare*";
+		case 45:
+		"POV: You're a YouTuber doing some generic intro right about now";
+		case 46:
+		"Another very well thought out idea of a random message that this game can randomly pick from within the code.";
+		case 47:
+		"AHHH, FUCK, THERE'S RULE 34 OF SUICIDE MOUSE, WHYYYYYY????";
+		case 48:
+		"Check out this cool rare little easter egg that I found, which I want to show to you but I can't cause I'm just a title screen message.";
+		case 49:
+		"There's still uranium in my ass, send help.";
+	}
+		
 		var up = Controls.getPressEvent("ui_up", "pressed");
 		var down = Controls.getPressEvent("ui_down", "pressed");
 		var up_p = Controls.getPressEvent("ui_up");

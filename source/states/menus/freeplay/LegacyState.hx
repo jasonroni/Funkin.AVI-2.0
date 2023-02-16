@@ -457,7 +457,7 @@ class LegacyState extends MusicBeatState
 	{
 		var mySong:String = ' [Listening to: ${songs[curSelected].name}]';
 		#if DISCORD_RPC
-		Discord.changePresence('CHOOSING A SONG', 'Freeplay Menu (LEGACY)' + mySong);
+		Discord.changePresence('CHOOSING A SONG', 'Freeplay Menu (LEGACY)' + mySong, 'icon', 'disc-player');
 		#end
 	}
 }

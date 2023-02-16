@@ -69,9 +69,23 @@ echo Press any key to install polymod.
 haxelib git polymod https://github.com/MasterEric/polymod
 pause >nul
 TIMEOUT 4 >nul
+echo Press any key to continue with the installation of GameJolt dependencies.
+pause >nul
+cls
+
+title GameJolt Setup - Installing Libraries
+echo Now with the base engine components installed, now it's time to install GameJolt's libraries needed for compiling.
+TIMEOUT 2 >nul
+echo Press any key to install GameJolt Components.
+pause >nul
+haxelib install hxcpp
+haxelib git tentools https://github.com/TentaRJ/tentools.git
+haxelib git systools https://github.com/haya3218/systools
+haxelib run lime rebuild systools windows
 echo Press any key to continue with the installation of VSCommunity and its dependencies.
 pause >nul
 cls
+
 
 title Forever Engine Feather Setup - Installing Windows Dependencies
 echo Moving on from apps and libraries, it is time to install VSCommunity and the dependencies needed for compiling.
