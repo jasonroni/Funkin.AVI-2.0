@@ -29,20 +29,10 @@ class StoryMenu extends MusicBeatState {
 
 	var unfinishedText:FlxText;
 
-	public var timesToEnter:Int = 30;
-	var debugTxt:FlxText;
-
-	//Spooky ass Mystery Effects OooooOOOooo
-	//var 
-
-	//public var camFilter:FlxCamera;
-    var storyCats:Array<String>;
+    	var storyCats:Array<String>;
 	var storyCateBanners:FlxSprite;
 	var grpCats:FlxTypedGroup<Alphabet>;
 	var curSelected:Int = 0;
-	var leftArrow:FlxSprite;
-	var rightArrow:FlxSprite;
-	var ui_tex = Paths.getSparrowAtlas('menus/base/storymenu/campaign_menu_UI_assets');
 	var BG:FlxSprite;
 
 	var defaultShader:FlxRuntimeShader;
@@ -108,9 +98,6 @@ class StoryMenu extends MusicBeatState {
 		grain.scale.x = 1.1;
 		grain.scale.y = 1.1;
 		add(grain);
-
-		debugTxt = new FlxText(0, 0, 0, 'Void Menu Attempts: ${timesToEnter}', 50);
-		//add(debugTxt);
 
         changeSelection();
     }
