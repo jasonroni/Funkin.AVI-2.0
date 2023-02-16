@@ -287,108 +287,108 @@ class MainMenu extends MusicBeatState
 	{
 		switch randomWindowText {
 		case 0:
-		Application.current.window.title = "Anyone up right now?";
+		"Anyone up right now?";
 		case 1:
-		Application.current.window.title = "Shipy's SNS Mickey & F.AVI Mickey will make love to each other";
+		"Shipy's SNS Mickey & F.AVI Mickey will make love to each other";
 		case 2:
-		Application.current.window.title = "We lied about Episode 2's release...";
+		"We lied about Episode 2's release...";
 		case 3:
-		Application.current.window.title = "I trapped Demolition in my basement.";
+		"I trapped Demolition in my basement.";
 		case 4:
-		Application.current.window.title = "V3 will release next year, we need a fucking break";
+		"V3 will release next year, we need a fucking break";
 		case 5:
-		Application.current.window.title = "Someone put an end to my misery. - Mickey 2023";
+		"Someone put an end to my misery. - Mickey 2023";
 		case 6:
-		Application.current.window.title = "I dare you to press 7 on that keyboard of yours.";
+		"I dare you to press 7 on that keyboard of yours.";
 		case 7:
-		Application.current.window.title = "Cock & ball torture.";
+		"Cock & ball torture.";
 		case 8:
-		Application.current.window.title = "OKAY, YOU GOT DELUSIONAL, NOW STFU.";
+		"OKAY, YOU GOT DELUSIONAL, NOW STFU.";
 		case 9:
-		Application.current.window.title = "Cast & Crew (Couch Song) is on Cognitive Crisis, cry about it.";
+		"Cast & Crew (Couch Song) is on Cognitive Crisis, cry about it.";
 		case 10:
-		Application.current.window.title = "Look at that cute little devil, he c00t :3";
+		"Look at that cute little devil, he c00t :3";
 		case 11:
-		Application.current.window.title = "Do you like the new menu art?";
+		"Do you like the new menu art?";
 		case 12:
-		Application.current.window.title = "You're gonna love the final song.";
+		"You're gonna love the final song.";
 		case 13:
-		Application.current.window.title = "Malfunction isn't easy anymore, fuck you, skill issue B)";
+		"Malfunction isn't easy anymore, fuck you, skill issue B)";
 		case 14:
-		Application.current.window.title = "Happy Birthday Muckney!";
+		"Happy Birthday Muckney!";
 		case 15:
-		Application.current.window.title = "Psych Engine basically corrupted all our shit, which is why it's on Forever Engine now.";
+		"Psych Engine basically corrupted all our shit, which is why it's on Forever Engine now.";
 		case 16:
-		Application.current.window.title = "SOMEONE PLEASE GIVE MICKEY HIS FUCKING SANDWICH";
+		"SOMEONE PLEASE GIVE MICKEY HIS FUCKING SANDWICH";
 		case 17:
-		Application.current.window.title = "Have fun, you'll be here for like an hour or longer.";
+		"Have fun, you'll be here for like an hour or longer.";
 		case 18:
-		Application.current.window.title = "10 Seconds before I shut your fucking game again >:(";
+		"10 Seconds before I shut your fucking game again >:(";
 		new FlxTimer().start(10, function(tmr:FlxTimer){
 			System.exit(0);
 		});
 		case 19:
-		Application.current.window.title = "Oh the misery, everybody wants to be my enemy.";
+		"Oh the misery, everybody wants to be my enemy.";
 		case 20:
-		Application.current.window.title = "Sex, NOW.";
+		"Sex, NOW.";
 		case 21:
-		Application.current.window.title = "Quick, hide behind that conveniently shaped lamp!";
+		"Quick, hide behind that conveniently shaped lamp!";
 		case 22:
-		Application.current.window.title = "Welcome to hell";
+		"Welcome to hell";
 		case 23:
-		Application.current.window.title = "blue lobster *jumpscare*";
+		"blue lobster *jumpscare*";
 		case 24:
-		Application.current.window.title = "hi. *starts dancing on the floor*";
+		"hi. *starts dancing on the floor*";
 		case 25:
-		Application.current.window.title = "sample text 2: electric boogaloo";
+		"sample text 2: electric boogaloo";
 		case 26:
-		Application.current.window.title = "The bastard named squidward cheated on poor mickey :(";
+		"The bastard named squidward cheated on poor mickey :(";
 		case 27:
-		Application.current.window.title = "D E A T H";
+		"D E A T H";
 		case 28:
-		Application.current.window.title = "Man, i'm starving... *Fight or Flight plays*";
+		"Man, i'm starving... *Fight or Flight plays*";
 		case 29:
-		Application.current.window.title = "Shit, the mouse got a gun again.";
+		"Shit, the mouse got a gun again.";
 		case 30:
-		Application.current.window.title = "You should /kill @s NOW"; //haha, funi Minecraft reference
+		"You should /kill @s NOW"; //haha, funi Minecraft reference
 		case 31:
-		Application.current.window.title = "Why are you here? FNF is still cancelled.";
+		"Why are you here? FNF is still cancelled.";
 		case 32:
-		Application.current.window.title = "This community is fr the big stinky.";
+		"This community is fr the big stinky.";
 		case 33:
-		Application.current.window.title = "Go ahead, cancel us, you'll only make us come back stronger.";
+		"Go ahead, cancel us, you'll only make us come back stronger.";
 		case 34:
-		Application.current.window.title = "NOOOOOOOOOOO, YOU CAN'T JUST CHEAT THE GAME!!!!!!!";
+		"NOOOOOOOOOOO, YOU CAN'T JUST CHEAT THE GAME!!!!!!!";
 		case 35:
-		Application.current.window.title = "V3 Update in a Nutshell: Suicidal Remixes";
+		"V3 Update in a Nutshell: Suicidal Remixes";
 		case 36:
-		Application.current.window.title = "Mom, can we have Wednesday's Infidelity?";
+		"Mom, can we have Wednesday's Infidelity?";
 		case 37:
-		Application.current.window.title = "GUYS, LOOK, IT'S SHIPY, SAY HELLO TO HER! :D";
+		"GUYS, LOOK, IT'S SHIPY, SAY HELLO TO HER! :D";
 		case 38:
-		Application.current.window.title = "Don't leave Muckney's party, please, you'll make him sad if you do :(";
+		"Don't leave Muckney's party, please, you'll make him sad if you do :(";
 		case 39:
-		Application.current.window.title = "It's about drive, it's about power, we stay hungry, we devour.";
+		"It's about drive, it's about power, we stay hungry, we devour.";
 		case 40:
-		Application.current.window.title = "Main Menu Music: idfk, you might've removed the damn menu music by going in and out of freeplay >:(";
+		"Main Menu Music: idfk, you might've removed the damn menu music by going in and out of freeplay >:(";
 		case 41:
-		Application.current.window.title = "Peter, the horse is here.";
+		"Peter, the horse is here.";
 		case 42:
-		Application.current.window.title = "*horse walks in*";
+		"*horse walks in*";
 		case 43:
-		Application.current.window.title = "Anyone here watch Yahiamice?";
+		"Anyone here watch Yahiamice?";
 		case 44:
-		Application.current.window.title = "*cantaloupe jumpscare*";
+		"*cantaloupe jumpscare*";
 		case 45:
-		Application.current.window.title = "POV: You're a YouTuber doing some generic intro right about now";
+		"POV: You're a YouTuber doing some generic intro right about now";
 		case 46:
-		Application.current.window.title = "Another very well thought out idea of a random message that this game can randomly pick from within the code.";
+		"Another very well thought out idea of a random message that this game can randomly pick from within the code.";
 		case 47:
-		Application.current.window.title = "AHHH, FUCK, THERE'S RULE 34 OF SUICIDE MOUSE, WHYYYYYY????";
+		"AHHH, FUCK, THERE'S RULE 34 OF SUICIDE MOUSE, WHYYYYYY????";
 		case 48:
-		Application.current.window.title = "Check out this cool rare little easter egg that I found, which I want to show to you but I can't cause I'm just a title screen message.";
+		"Check out this cool rare little easter egg that I found, which I want to show to you but I can't cause I'm just a title screen message.";
 		case 49:
-		Application.current.window.title = "There's still uranium in my ass, send help.";
+		"There's still uranium in my ass, send help.";
 	}
 		
 		var up = Controls.getPressEvent("ui_up", "pressed");
