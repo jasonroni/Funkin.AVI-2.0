@@ -33,7 +33,11 @@ import lime.app.Application;
 import lime.ui.Window;
 import flash.system.System;
 import flixel.util.FlxTimer;
+#if (hxCodec >= "2.6.1")
 import hxcodec.VideoHandler;
+#else
+import vlc.MP4Handler;
+#end
 import objects.*;
 import objects.Character;
 import objects.ui.*;
@@ -340,7 +344,11 @@ class PlayState extends MusicBeatState
 		inCutscene = true;
 		FlxG.sound.music.stop();
 
+		#if (hxCodec >= "2.6.1")
 		var video:VideoHandler = new VideoHandler();
+		#else
+		var video:MP4Handler = new MP4Handler();
+		#end
 		video.finishCallback = function()
 		{
 			if (atEndOfSong)
