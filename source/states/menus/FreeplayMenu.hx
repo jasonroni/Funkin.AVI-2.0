@@ -29,22 +29,11 @@ class FreeplayMenu extends MusicBeatState {
 
 	var unfinishedText:FlxText;
 
-	public var timesToEnter:Int = 30;
-	var debugTxt:FlxText;
-
-	//Spooky ass Mystery Effects OooooOOOooo
-	//var 
-
-	//public var camFilter:FlxCamera;
-    var freeplayCats:Array<String>;
+    	var freeplayCats:Array<String>;
 	var fpCateBanners:FlxSprite;
 	var grpCats:FlxTypedGroup<Alphabet>;
 	var curSelected:Int = 0;
 	var noFreeplay:FlxText;
-	var leftArrow:FlxSprite;
-	var rightArrow:FlxSprite;
-	var ui_tex = Paths.getSparrowAtlas('menus/base/storymenu/campaign_menu_UI_assets');
-	var noCovers:FlxText;
 	var BG:FlxSprite;
 
 	var defaultShader:FlxRuntimeShader;
@@ -62,34 +51,6 @@ class FreeplayMenu extends MusicBeatState {
 				new openfl.filters.ShaderFilter(defaultShader2)
 			]);
 			
-		//timesToEnter = 30;
-
-		/*if(ClientPrefs.funiShaders)
-					{
-						chrom = new ChromaticAberrationEffect();
-						blurThisShit = new TiltshiftEffect(0.4, 0);
-						bloomShit = new WIBloomEffect(0);
-						greyscale = new GreyscaleEffect();
-						//uncomment these fucking pieces of shit if you feel like testing it.
-
-						addShader(chrom);
-						addShader(blurThisShit);
-						addShader(bloomShit);
-						addShader(greyscale);
-						//uncomment these fucking pieces of shit if you feel like testing it.
-
-						if (chrom != null)
-						chrom.setChrome(0.003);
-
-						if (bloomShit != null)
-						bloomShit.setSize(18.0);
-
-						if(blurThisShit != null)
-						blurThisShit.setBlur(0.4);
-						//uncomment these fucking pieces of shit if you feel like testing it.
-
-					}*/
-				//freeplayCats = ['V2 Content', 'Legacy', '???'];
 		/*if(FPClientPrefs.episode2FPLock == 'unlocked' && FPClientPrefs.malfunctionLock == 'beaten' && FPClientPrefs.crossinLock == 'beaten' && FPClientPrefs.warLock == 'beaten' && FPClientPrefs.sinsLock == 'beaten' && FPClientPrefs.huntedLock == 'beaten' && FPClientPrefs.blessLock == 'beaten' && FPClientPrefs.scrappedLock == 'beaten' && FPClientPrefs.mercyLock == 'beaten' && FPClientPrefs.oldisolateLock == 'beaten' && FPClientPrefs.betaisolateLock == 'beaten') //omfg, I hate this, why can't it just work some other, much more SIMPLER way?
 		{
 			if(ClientPrefs.language == "Spanish") freeplayCats = ['Legado', 'Jugar', 'Un Mensaje Para It', 'Cubiertas'];
@@ -119,29 +80,6 @@ class FreeplayMenu extends MusicBeatState {
 			grpCats.add(catsText);
 		}
 
-		/*leftArrow = new FlxSprite(120, 0);
-		leftArrow.frames = ui_tex;
-		leftArrow.angle = 90;
-		leftArrow.animation.addByPrefix('idle', "arrow left");
-		leftArrow.animation.addByPrefix('press', "arrow push left");
-		leftArrow.animation.play('idle');
-		leftArrow.screenCenter(X);
-		leftArrow.antialiasing = true;
-		add(leftArrow);
-
-		rightArrow = new FlxSprite(leftArrow.x, leftArrow.y + 80);
-		rightArrow.frames = ui_tex;
-		//Im Fucking Lazy
-		rightArrow.flipX = true;
-		rightArrow.screenCenter(X);
-		rightArrow.flipY = true;
-		rightArrow.angle = 270;
-		rightArrow.animation.addByPrefix('idle', 'arrow right');
-		rightArrow.animation.addByPrefix('press', "arrow push right", 24, false);
-		rightArrow.animation.play('idle');
-		rightArrow.antialiasing = true;
-		add(rightArrow);*/
-
 			unfinishedText = new FlxText(907, FlxG.height - 54, 0, "Currently, The category Menu is Unfinished, The Final Verion Will Be Different!", 25);
 			unfinishedText.scrollFactor.set();
 			unfinishedText.screenCenter(X);
@@ -166,55 +104,22 @@ class FreeplayMenu extends MusicBeatState {
 		grain.scale.y = 1.1;
 		add(grain);
 
-		debugTxt = new FlxText(0, 0, 0, 'Void Menu Attempts: ${timesToEnter}', 50);
-		//add(debugTxt);
-
         changeSelection();
     }
 
-	function updateCounter()
-	{
-		timesToEnter -= 1;
-		//debugTxt.text = 'Void Menu Attempts: ${timesToEnter}';
-	}
-
     override public function update(elapsed:Float){
 
-		/*var up = Controls.getPressEvent("ui_up", "pressed");
-		var down = Controls.getPressEvent("ui_down", "pressed");*/
 		var up_p = Controls.getPressEvent("ui_up");
 		var down_p = Controls.getPressEvent("ui_down");
 
 		if (up_p && curSelected != 0) 
 			changeSelection(-1);
-		/*else if (up_p && curSelected == 0) {
-			updateCounter();
-			FlxG.sound.play(Paths.sound('cancelMenu'));
-		}*/
 		if (down_p && curSelected != 2) 
 			changeSelection(1);
-		/*else if (down_p && curSelected == 2) {
-			updateCounter();
-			FlxG.sound.play(Paths.sound('cancelMenu'));
-		}*/
-		//Mouse supremacy
 		
 		if ((Controls.getPressEvent("back"))) {
 			Main.switchState(this, new states.menus.MainMenu());
 		}
-
-		//yay
-			/*else if(Flx.mouse.justPressed && curSelected == 2 && timesToEnter == -1)
-				MusicBeatState.switchState(new VoidState());*/
-			//SECRET SONG?!?!?!?!?!
-		/*if(FlxG.mouse.overlaps(leftArrow)) {
-			if(FlxG.mouse.justPressed && curSelected != 0)
-				changeSelection(-1);
-			else if(FlxG.mouse.justPressed && curSelected == 0) {
-				updateCounter();
-				FlxG.sound.play(Paths.sound('cancelMenu'));
-			}
-		}*/
 
 
         if ((Controls.getPressEvent("accept"))){
@@ -250,92 +155,7 @@ class FreeplayMenu extends MusicBeatState {
 			}
 		}
 		//FlxG.sound.play(Paths.sound('funkinAVI/menu/scroll_sfx'));
-
-		/*if(curSelected == 3)
-			{
-				if(FPClientPrefs.malfunctionLock != 'beaten' || FPClientPrefs.crossinLock != 'beaten' || FPClientPrefs.warLock != 'beaten' || FPClientPrefs.sinsLock != 'beaten' || FPClientPrefs.huntedLock != 'beaten' || FPClientPrefs.blessLock != 'beaten' || FPClientPrefs.scrappedLock != 'beaten' || FPClientPrefs.mercyLock != 'beaten' || FPClientPrefs.oldisolateLock != 'beaten' || FPClientPrefs.betaisolateLock != 'beaten') //omfg, I hate this, why can't it just work some other, much more SIMPLER way?))
-				{	
-				FlxG.camera.flash(FlxColor.BLACK, 0.6);
-				FlxG.camera.shake(0.004, 99999999);
-				if(ClientPrefs.funiShaders)
-				{
-				clearShader();
-				chrom = new ChromaticAberrationEffect();
-				blurThisShit = new TiltshiftEffect(0.6, 0);
-
-				distort = new WIDistortionEffect(0.75, 0.25, false);
-				distort.shader.working.value = [true];
-
-				addShader(distort);
-				addShader(chrom);
-				addShader(blurThisShit);
-
-					if (chrom != null)
-				chrom.setChrome(0.005);
-
-				if(blurThisShit != null)
-				blurThisShit.setBlur(0.6);
-
-				if (distort != null)
-				distort.shader.working.value = [true];
-				}
-			}
-		}else if(curSelected == 2 && FPClientPrefs.episode1FPLock != 'unlocked' || curSelected == 1 && FPClientPrefs.episode1FPLock != 'unlocked')
-						{
-							FlxG.camera.flash(FlxColor.BLACK, 0.6);
-							FlxG.camera.shake(0.004, 99999999);
-							if(ClientPrefs.funiShaders)
-							{
-							clearShader();
-							chrom = new ChromaticAberrationEffect();
-							blurThisShit = new TiltshiftEffect(0.6, 0);
-
-							distort = new WIDistortionEffect(0.75, 0.25, false);
-							distort.shader.working.value = [true];
-
-							addShader(distort);
-							addShader(chrom);
-							addShader(blurThisShit);
-
-								if (chrom != null)
-							chrom.setChrome(0.005);
-
-							if(blurThisShit != null)
-							blurThisShit.setBlur(0.6);
-
-							if (distort != null)
-							distort.shader.working.value = [true];
-							}
-						}else{
-							FlxG.camera.flash(FlxColor.BLACK, 0.2);
-							if(ClientPrefs.funiShaders)
-							{
-							clearShader();
-							chrom = new ChromaticAberrationEffect();
-							blurThisShit = new TiltshiftEffect(0.4, 0);
-							bloomShit = new WIBloomEffect(0);
-							greyscale = new GreyscaleEffect();
-							//uncomment these fucking pieces of shit if you feel like testing it.
-
-							addShader(chrom);
-							addShader(blurThisShit);
-							addShader(bloomShit);
-							addShader(greyscale);
-							//uncomment these fucking pieces of shit if you feel like testing it.
-
-							if(!ClientPrefs.optimization) {
-							if (chrom != null)
-							chrom.setChrome(0.003);
-
-							if (bloomShit != null)
-							bloomShit.setSize(18.0);
-
-							if(blurThisShit != null)
-							blurThisShit.setBlur(0.4);
-							}
-							//uncomment these fucking pieces of shit if you feel like testing it.
-							}
-							FlxG.camera.shake(0.004, 0);
-						}*/
+	    
+	    	//I'll come up with a replacement with the code that used to be here
 	}
 }
