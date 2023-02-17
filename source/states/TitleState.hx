@@ -601,5 +601,9 @@ class TitleState extends states.MusicBeatState
 					{
 						Application.current.window.title = "fuckin.mp3 - i juss shat meseff";
 					}
+				else if(Application.current.window.title.contains("Funkin.avi -  "))
+					{
+						Application.current.window.title = " ";
+					}
 		}
 }
