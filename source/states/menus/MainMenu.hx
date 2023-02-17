@@ -44,6 +44,13 @@ class MainMenu extends MusicBeatState
 	var firstStart:Bool = true;
 	var finishedFunnyMove:Bool = false;
 	var menuart:FlxSprite;
+	
+	var freeplayPopup:FlxText;
+	var freeplayPopupSub:FlxText;
+	var freeplayTxtBox:FlxSprite;
+	var freeplayTxtTween:FlxTween;
+	var freeplayTxtTween2:FlxTween;
+	var freeplayTxtTween3:FlxTween;
 
 	var camGame:FlxCamera;
 	var camHUD:FlxCamera;
@@ -323,6 +330,20 @@ class MainMenu extends MusicBeatState
 
 		if (logContent != null && logContent.length > 1)
 			logTrace('$logContent', 3);
+		
+		freeplayPopup = new FlxText(0, FlxG.height - 80, 0, 'Freeplay is Locked!', 24);
+		freeplayPopup.setFormat(Paths.font("DisneyFont"), 28, 0xFFFFFFFF, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		freeplayPopup.scrollFactor.set();
+		freeplayPopup.cameras = [camHUD];
+		
+		freeplayPopupSub = new FlxText(0, freeplayPopup.y + 15, 0, 'Complete Episode 1 to Unlock this Menu!', 24);
+		freeplayPopupSub.setFormat(Paths.font("DisneyFont"), 20, 0xFFFFFFFF, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		freeplayPopupSub.scrollFactor.set();
+		freeplayPopupSub.cameras = [camHUD];
+		
+		freeplayTxtBox = new FlxSprite(freeplayPopup.x, freeplayPopup.y).makeGraphic(200, 80, FlxColor.BLACK);
+		freeplayTxtBox.scrollFactor.set();
+		freeplayTxtBox.cameras = [camHUD];
 
 		var scratchStuff:FlxSprite = new FlxSprite();
 		scratchStuff.frames = Paths.getSparrowAtlas('filters/scratchShit');
@@ -404,15 +425,9 @@ class MainMenu extends MusicBeatState
 
 		if ((Controls.getPressEvent("accept")) && (!selectedSomethin))
 		{
-			//
-			selectedSomethin = true;
-			FlxG.sound.play(Paths.sound('base/menus/confirmMenu'));
-
 			var flashValue:Float = 0.1;
 			if (Init.trueSettings.get('Disable Flashing Lights'))
 				flashValue = 0.2;
-			else
-				FlxFlicker.flicker(magenta, 0.8, 0.1, false);
 
 			menuItems.forEach(function(spr:FlxSprite)
 			{
@@ -435,11 +450,71 @@ class MainMenu extends MusicBeatState
 						switch (daChoice)
 						{
 							case 'story mode':
+								selectedSomethin = true;
+								FlxG.sound.play(Paths.sound('base/menus/confirmMenu'));
+								FlxTween.tween(menuart, {y: 500}, 0.5, {ease: FlxEase.sineInOut});
+								FlxTween.tween(camGame, {zoom: 1.3}, 0.6, {ease: FlxEase.quartInOut});
 								Main.switchState(this, new states.menus.StoryMenu());
 							case 'freeplay':
-								CoolUtil.difficulties = CoolUtil.difficultyArray;
-								Main.switchState(this, new states.menus.FreeplayMenu());
+								if (GameData.episode1FPLock == 'locked')
+								{
+									FlxG.sound.play(Paths.sound('base/menus/cancelMenu'));
+									// I didn't know any other better way to execute this
+									add(freeplayTxtBox);
+									add(freeplayPopup);
+									add(freeplayPopupSub);
+									freeplayTxtTween = FlxTween.tween(
+										freeplayPopup,
+										{alpha: 0},
+							   			1.5,
+							   			{
+											startDelay: 3,
+											ease: FlxEase.sineInOut,
+											onComplete: function(twn:FlxTween)
+											{
+												freeplayTxtTween = null;
+											}
+										}
+									);
+									freeplayTxtTween2 = FlxTween.tween(
+										freeplayPopupSub,
+										{alpha: 0},
+							   			1.5,
+							   			{
+											startDelay: 3,
+											ease: FlxEase.sineInOut,
+											onComplete: function(twn:FlxTween)
+											{
+												freeplayTxtTween2 = null;
+											}
+										}
+									);
+									freeplayTxtTween3 = FlxTween.tween(
+										freeplayTxtBox,
+										{alpha: 0},
+							   			1.5,
+							   			{
+											startDelay: 3,
+											ease: FlxEase.sineInOut,
+											onComplete: function(twn:FlxTween)
+											{
+												freeplayTxtTween3 = null;
+											}
+										}
+									);
+								} else {
+									selectedSomethin = true;
+									FlxG.sound.play(Paths.sound('base/menus/confirmMenu'));
+									FlxTween.tween(menuart, {y: 500}, 0.5, {ease: FlxEase.sineInOut});
+									FlxTween.tween(camGame, {zoom: 1.3}, 0.6, {ease: FlxEase.quartInOut});
+									CoolUtil.difficulties = CoolUtil.difficultyArray;
+									Main.switchState(this, new states.menus.FreeplayMenu());
+								}
 							case 'options':
+								selectedSomethin = true;
+								FlxG.sound.play(Paths.sound('base/menus/confirmMenu'));
+								FlxTween.tween(menuart, {y: 500}, 0.5, {ease: FlxEase.sineInOut});
+								FlxTween.tween(camGame, {zoom: 1.3}, 0.6, {ease: FlxEase.quartInOut});
 								transIn = FlxTransitionableState.defaultTransIn;
 								transOut = FlxTransitionableState.defaultTransOut;
 								Main.switchState(this, new states.menus.OptionsMenu());
