@@ -71,7 +71,7 @@ class Main extends Sprite
 	public static var weeks:Array<String> = [];
 	public static var gameWeeksE:Array<Dynamic> = [ // Hardcoded Main Weeks for Main Story Menu
 		[
-			['Isolated', 'Lunacy', 'Delusional'],
+			['isolated', 'lunacy', 'delusional'],
 			['mick-isolated-new', 'lunamick-new', 'face'],
 			[FlxColor.fromRGB(60, 60, 60)],
 			'Mickey in: Never-Ending Cycle'

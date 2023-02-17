@@ -240,7 +240,7 @@ class MainStoryState extends MusicBeatState
 
 			PlayState.storyDifficulty = curDifficulty;
 
-			PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase());
+			PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + '-hard', PlayState.storyPlaylist[0].toLowerCase());
 			PlayState.storyWeek = curWeek;
 			PlayState.campaignScore = 0;
 			new FlxTimer().start(1, function(tmr:FlxTimer)
@@ -253,9 +253,7 @@ class MainStoryState extends MusicBeatState
 	var difficultyTween:FlxTween;
 
 	function changeDifficulty(change:Int = 0):Void
-	{
-		curDifficulty = FlxMath.wrap(curDifficulty + change, 0, CoolUtil.difficulties.length - 1);
-		
+	{		
 		var coolDifficulty:String = CoolUtil.difficulties[curDifficulty];
 		var diffGraphic:FlxGraphic = Paths.image('menus/base/storymenu/difficulties/' + CoolUtil.swapSpaceDash(coolDifficulty));
 
