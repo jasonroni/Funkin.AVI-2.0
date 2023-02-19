@@ -1751,34 +1751,37 @@ class PlayState extends MusicBeatState
 
 			case 'Flash Screen':
 				var flashing = !Init.trueSettings.get('Disable Flashing Lights');
+				var val3:Float = Std.parseFloat(params[2]);
 
 				if(flashing)
 					{
 						if(params[0].trim() == "")
 							params[0] = 'white';
+
+						if(Math.isNan(val3)) val3 = 1;
 	  
 					  switch (params[0])
 					  {
 							case 'white' | 'White' | '0':
-								 PlayState.camGame.flash(FlxColor.WHITE, 3);
+								 PlayState.camGame.flash(FlxColor.WHITE, val3);
 							case 'red' | 'Red' | '1':
-								 PlayState.camGame.flash(FlxColor.RED, 3);
+								 PlayState.camGame.flash(FlxColor.RED, val3);
 							case 'blue' | 'Blue' | '2':
-								 PlayState.camGame.flash(FlxColor.BLUE, 3);
+								 PlayState.camGame.flash(FlxColor.BLUE, val3);
 							case 'black' | 'Black' | '3':
-								 PlayState.camGame.flash(FlxColor.BLACK, 3);
+								 PlayState.camGame.flash(FlxColor.BLACK, val3);
 							case 'cyan' | 'Cyan' | '4':
-								 PlayState.camGame.flash(FlxColor.CYAN, 3);
+								 PlayState.camGame.flash(FlxColor.CYAN, val3);
 							case 'Magenta' | 'magenta' | '5':
-								 PlayState.camGame.flash(FlxColor.MAGENTA, 3);
+								 PlayState.camGame.flash(FlxColor.MAGENTA, val3);
 							case 'pink' | 'Pink' | '6':
-								 PlayState.camGame.flash(FlxColor.PINK, 3);
+								 PlayState.camGame.flash(FlxColor.PINK, val3);
 							case 'orange' | 'Orange' | '7':
-								 PlayState.camGame.flash(FlxColor.ORANGE, 3);
+								 PlayState.camGame.flash(FlxColor.ORANGE, val3);
 							case 'purple' | 'Purple' | '8':
-								 PlayState.camGame.flash(FlxColor.PURPLE, 3);
+								 PlayState.camGame.flash(FlxColor.PURPLE, val3);
 							case 'lime' | 'Lime' | '9': //lime test windows
-								 PlayState.camGame.flash(FlxColor.LIME, 3);
+								 PlayState.camGame.flash(FlxColor.LIME, val3);
 					  }
 					}
 

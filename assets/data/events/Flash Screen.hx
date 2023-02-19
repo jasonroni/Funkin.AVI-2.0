@@ -8,3 +8,6 @@ function returnDescription()
     \n
     Value 1: The color\n
     Value 2: Decide if hide the HUD or not (default is false)";
+
+function returnValue3()
+    return true;

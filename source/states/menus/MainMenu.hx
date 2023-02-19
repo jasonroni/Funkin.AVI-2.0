@@ -456,7 +456,7 @@ class MainMenu extends MusicBeatState
 								FlxTween.tween(camGame, {zoom: 1.3}, 0.6, {ease: FlxEase.quartInOut});
 								Main.switchState(this, new states.menus.StoryMenu());
 							case 'freeplay':
-								if (GameData.episode1FPLock == 'locked')
+								/*if (GameData.episode1FPLock == 'locked')
 								{
 									FlxG.sound.play(Paths.sound('base/menus/cancelMenu'));
 									// I didn't know any other better way to execute this
@@ -502,14 +502,14 @@ class MainMenu extends MusicBeatState
 											}
 										}
 									);
-								} else {
+								} else {*/
 									selectedSomethin = true;
 									FlxG.sound.play(Paths.sound('base/menus/confirmMenu'));
 									FlxTween.tween(menuart, {y: 500}, 0.5, {ease: FlxEase.sineInOut});
 									FlxTween.tween(camGame, {zoom: 1.3}, 0.6, {ease: FlxEase.quartInOut});
 									CoolUtil.difficulties = CoolUtil.difficultyArray;
 									Main.switchState(this, new states.menus.FreeplayMenu());
-								}
+								//}
 							case 'options':
 								selectedSomethin = true;
 								FlxG.sound.play(Paths.sound('base/menus/confirmMenu'));
