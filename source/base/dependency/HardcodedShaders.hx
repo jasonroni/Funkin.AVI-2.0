@@ -50,7 +50,7 @@ class BuildingShader extends FlxShader
   }
 }
 
-class ChromaticAberrationShader extends FlxShader
+class LegacyChromaticAberrationShader extends FlxShader
 {
 	@:glFragmentSource('
 		#pragma header
@@ -78,11 +78,11 @@ class ChromaticAberrationShader extends FlxShader
 	}
 }
 
-class ChromaticAberrationEffect extends Effect
+class LegacyChromaticAberrationEffect extends Effect
 {
-	public var shader:ChromaticAberrationShader;
+	public var shader:LegacyChromaticAberrationShader;
   public function new(offset:Float = 0.00){
-	shader = new ChromaticAberrationShader();
+	shader = new LegacyChromaticAberrationShader();
     shader.rOffset.value = [offset];
     shader.gOffset.value = [0.0];
     shader.bOffset.value = [-offset];
@@ -97,9 +97,9 @@ class ChromaticAberrationEffect extends Effect
 
 }
 
-class WIDistortionEffect extends Effect //I'm sorry Box Funkin :(
+class DistortionEffect extends Effect //I'm sorry Box Funkin :(
 {
-	public var shader:WIDistortionShader = new WIDistortionShader();
+	public var shader:DistortionShader = new DistortionShader();
 
 	public function new(glitchFactor:Float, otherglitch:Float, ?pushUpdate:Bool = true)
 	{
@@ -130,7 +130,7 @@ class WIDistortionEffect extends Effect //I'm sorry Box Funkin :(
 	}
 }
 
-class WIDistortionShader extends FlxShader
+class DistortionShader extends FlxShader
 {
 	@:glFragmentSource('
         #pragma header
@@ -304,9 +304,9 @@ class WIDistortionShader extends FlxShader
 	}
 }
 
-class WIBloomEffect extends Effect
+class BlurBloomEffect extends Effect
 {
-	public var shader:WIBloomShader = new WIBloomShader();
+	public var shader:BlurBloomShader = new BlurBloomShader();
 
 	public function new(?size:Float = 18.0, ?qualitly:Float = 8.0, ?dim:Float = 1.8, ?directions:Float = 16.0)
 	{
@@ -331,7 +331,7 @@ class WIBloomEffect extends Effect
 	}
 }
 
-class WIBloomShader extends FlxShader // BLOOM SHADER BY BBPANZU
+class BlurBloomShader extends FlxShader // BLOOM SHADER BY BBPANZU
 {
 	@:glFragmentSource('
 	#pragma header
@@ -630,24 +630,32 @@ class Tiltshift extends FlxShader
 }
 class GreyscaleEffect extends Effect{
 	
-	public var shader:GreyscaleShader = new GreyscaleShader();
+	public var shader:GreyscaleShader;
 	
-	public function new(){
-		
+	public function new(desaturationAmount:Float){
+		shader = new GreyscaleShader();
+		shader.desaturationAmount.value = [desaturationAmount];
+	}
+	
+	public function setDesaturation(desaturationAmount:Float){
+		shader.desaturationAmount.value = [desaturationAmount];
 	}
 	
 	
 }
-class GreyscaleShader extends FlxShader{
+class GreyscaleShader extends FlxShader{ // Greyscale but cooler
 	@:glFragmentSource('
 	#pragma header
+
+	uniform float desaturationAmount = 0.0;
+	uniform float distortionTime = 0.0;
+	uniform float amplitude = -0.1;
+	uniform float frequency = 8.0;
+
 	void main() {
-		vec4 color = texture2D(bitmap, openfl_TextureCoordv);
-		float gray = dot(color.rgb, vec3(0.299, 0.587, 0.114));
-		gl_FragColor = vec4(vec3(gray), color.a);
+    	vec4 desatTexture = texture2D(bitmap, vec2(openfl_TextureCoordv.x + sin((openfl_TextureCoordv.y * frequency) + distortionTime) * amplitude, openfl_TextureCoordv.y));
+    	gl_FragColor = vec4(mix(vec3(dot(desatTexture.xyz, vec3(.2126, .7152, .0722))), desatTexture.xyz, desaturationAmount), desatTexture.a);
 	}
-	
-	
 	')
 	
 	public function new(){
