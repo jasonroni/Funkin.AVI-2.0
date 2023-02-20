@@ -33,11 +33,6 @@ import lime.app.Application;
 import lime.ui.Window;
 import flash.system.System;
 import flixel.util.FlxTimer;
-#if (hxCodec >= "2.6.1")
-import hxcodec.VideoHandler;
-#else
-import vlc.MP4Handler;
-#end
 import objects.*;
 import objects.Character;
 import objects.ui.*;
@@ -47,6 +42,16 @@ import openfl.media.Sound;
 import states.editors.CharacterOffsetEditor;
 import states.menus.*;
 import states.substates.GameOverSubstate;
+
+// This fixes 2.6.0 users
+#if (hxCodec >= "2.6.1") 
+import hxcodec.VideoHandler;
+#elseif (hxCodec == "2.6.0")
+import VideoHandler;
+#else
+import vlc.MP4Handler;
+#end
+	
 #if desktop
 import base.dependency.Discord;
 #end
@@ -344,7 +349,7 @@ class PlayState extends MusicBeatState
 		inCutscene = true;
 		FlxG.sound.music.stop();
 
-		#if (hxCodec >= "2.6.1")
+		#if (hxCodec >= "2.6.0")
 		var video:VideoHandler = new VideoHandler();
 		#else
 		var video:MP4Handler = new MP4Handler();
