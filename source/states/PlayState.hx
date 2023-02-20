@@ -1758,7 +1758,7 @@ class PlayState extends MusicBeatState
 						if(params[0].trim() == "")
 							params[0] = 'white';
 
-						if(Math.isNan(val3)) val3 = 1;
+						if(Math.isNaN(val3)) val3 = 1;
 	  
 					  switch (params[0])
 					  {

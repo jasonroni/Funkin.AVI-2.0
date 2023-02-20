@@ -97,6 +97,12 @@ class Init extends FlxState
 			'Whether to disable Anti-Aliasing, helps in improving performance.',
 			NOT_FORCED
 		],
+		'Epilepsy Mode' => [
+			true,
+			Checkmark,
+			'', // idk what to put lol
+			NOT_FORCED
+		],
 		'Disable Flashing Lights' => [
 			false,
 			Checkmark,
