@@ -21,6 +21,7 @@ function opponentNoteHit()
 		chromHUD = new FlxRuntimeShader(File.getContent('./assets/shaders/aberrationLegacy.frag'), null, 150);
 		tiltShift = new FlxRuntimeShader(File.getContent('./assets/shaders/tiltShift.frag'), null, 140);
 
+		if (Init.trueSettings.get('Epilepsy Mode')) {
 		PlayState.camGame.setFilters(
 		[
   			new ShaderFilter(chrom),
@@ -40,6 +41,7 @@ function opponentNoteHit()
 				new ShaderFilter(chromHUD),
 				new ShaderFilter(tiltShift)
 			]);
+		}
  
   		chrom.setFloat('aberration', 0.25);
   		chrom.setFloat('effectTime', 0.4);

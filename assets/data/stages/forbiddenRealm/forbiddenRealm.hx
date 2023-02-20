@@ -98,7 +98,7 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 		{ 
 			PlayState.defaultCamZoom = 0.6;
 			PlayState.camGame.alpha = 1;
-			PlayState.camGame.flash(ForeverTools.returnColor("white"), 2);
+			if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(ForeverTools.returnColor("white"), 2);
 			if (!Init.trueSettings.get('Disable Screen Shaders')) fuckingsquares.shader = staticBG;
 		}
 		if (curBeat == 204)
@@ -109,7 +109,7 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 		if (curBeat == 206)
 		{
 			PlayState.defaultCamZoom = 0.65;
-			PlayState.camGame.flash(ForeverTools.returnColor("white"), 2.5);
+			if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(ForeverTools.returnColor("white"), 2.5);
 			fuckingsquares.alpha = 1;
 			if (!Init.trueSettings.get('Disable Screen Shaders'))
 			{
