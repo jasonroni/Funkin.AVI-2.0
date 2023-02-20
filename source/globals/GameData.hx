@@ -108,12 +108,6 @@ class GameData
         FlxG.save.data.muckneyLock = muckneyLock;
 
         FlxG.save.flush();
-
-		/*var save:FlxSave = new FlxSave();
-		save.bind('Game_data', CoolUtil.getSavePath()); //Placing this in a separate save so that it can be manually deleted without removing your Score and stuff
-		save.flush();
-		FlxG.log.add("Settings saved!");
-        trace('Setting saved!', {fileName: 'GameData', lineNumber: 102});*/
     }
 
     public static function loadShit() {

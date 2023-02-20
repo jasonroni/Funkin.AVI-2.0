@@ -50,3 +50,15 @@ typedef CategoryData =
 	var dataType:CategoryContent;
 	var assetList:Array<String>;
 }
+	
+/*
+* This has no use, it's just here for the memes lmfao
+*/
+	
+typedef BitchDetector =
+{
+	var hasBitches:Bool;
+	var bitchCounter:Int;
+	var fakeBitchRemover:Int;
+	var finalBitchCount:String;
+}

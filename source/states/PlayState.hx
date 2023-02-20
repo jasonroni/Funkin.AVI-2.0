@@ -33,11 +33,6 @@ import lime.app.Application;
 import lime.ui.Window;
 import flash.system.System;
 import flixel.util.FlxTimer;
-#if (hxCodec >= "2.6.1")
-import hxcodec.VideoHandler;
-#else
-import vlc.MP4Handler;
-#end
 import objects.*;
 import objects.Character;
 import objects.ui.*;
@@ -47,6 +42,17 @@ import openfl.media.Sound;
 import states.editors.CharacterOffsetEditor;
 import states.menus.*;
 import states.substates.GameOverSubstate;
+import base.dependency.HardcodedShaders;
+
+// This fixes 2.6.0 users
+#if (hxCodec >= "2.6.1") 
+import hxcodec.VideoHandler;
+#elseif (hxCodec == "2.6.0")
+import VideoHandler;
+#else
+import vlc.MP4Handler;
+#end
+	
 #if desktop
 import base.dependency.Discord;
 #end
@@ -73,6 +79,15 @@ class PlayState extends MusicBeatState
 	public var notesGroup:Notefield;
 
 	public static var timedEvents:Array<TimedEvent> = [];
+	
+	// lazyness
+	public var canaddshaders = !Init.trueSettings.get('Disable Screen Shaders');
+	
+	// Shader shit
+	public var shaderUpdates:Array<Float->Void> = [];
+	public var camGameShaders:Array<ShaderEffect> = [];
+	public var camHUDShaders:Array<ShaderEffect> = [];
+	public var camOtherShaders:Array<ShaderEffect> = [];
 
 	// Song;
 	public static var SONG:SwagSong;
@@ -344,7 +359,7 @@ class PlayState extends MusicBeatState
 		inCutscene = true;
 		FlxG.sound.music.stop();
 
-		#if (hxCodec >= "2.6.1")
+		#if (hxCodec >= "2.6.0")
 		var video:VideoHandler = new VideoHandler();
 		#else
 		var video:MP4Handler = new MP4Handler();
@@ -996,6 +1011,10 @@ class PlayState extends MusicBeatState
 		}
 
 		callFunc('postUpdate', [elapsed]);
+		
+		// this needs to exist
+		for(shit in shaderUpdates)
+		    shit(elapsed);
 	}
 
 	private var isDead:Bool = false;
