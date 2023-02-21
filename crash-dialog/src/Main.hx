@@ -26,7 +26,9 @@ class Main
 		"Let me guess, Null Object Reference - Jason",
 		"Have you even read the wiki before trying that? - BeastlyGhost",
 		"for your information, that Vs Mouse collab is scrapped - Jason",
-		"Not my fault. - Jason"
+		"Not my fault. - Jason",
+		'We lied, there\'s no sex - Jason',
+		'We gonna fix it i swear - Jason'
 	];
 
 	public static function main()
@@ -49,7 +51,7 @@ class Main
 				app.addComponent(mainView);
 
 				var messageLabel:Label = mainView.findComponent("message-label", Label);
-				messageLabel.text = quotes[Std.random(quotes.length)] + "\nUnfortunately, Forever Engine Feather has crashed.";
+				messageLabel.text = quotes[Std.random(quotes.length)] + "\nUnfortunately, Funkin.AVI has crashed.";
 				messageLabel.percentWidth = 100;
 				messageLabel.textAlign = "center";
 
@@ -82,14 +84,9 @@ class Main
 					#end
 				};
 
-				mainView.findComponent("restart-button", Button).onClick = function(_)
+				mainView.findComponent("report-to-discord", Button).onClick = function(_)
 				{
-					//this aint working
-					#if windows
-					new Process("FunkinAVI.exe", []);
-					#elseif linux
-					new Process("./FunkinAVI.exe", []);
-					#end
+					Sys.command('start https://discord.gg/zbcE9hKkz4');
 
 					Sys.exit(0);
 				};

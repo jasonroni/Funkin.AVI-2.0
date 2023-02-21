@@ -17,3 +17,7 @@ haxelib git hxCodec https://github.com/polybiusproxy/hxCodec
 haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
 haxelib git polymod https://github.com/MasterEric/polymod
 sudo apt install g++
+haxelib install hxcpp
+haxelib git tentools https://github.com/TentaRJ/tentools.git
+haxelib git systools https://github.com/haya3218/systools
+haxelib run lime rebuild systools linux

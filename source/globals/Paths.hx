@@ -299,12 +299,44 @@ class Paths
 		var file:Sound = returnSound('music', key, library);
 		return file;
 	}
-
+	
+	/*
+	* This is still here cause if I removed
+	* this function NOW, then it would fucking
+	* destroy the shit out of this game until
+	* the new functions are fully ported without
+	* any mistakes made
+	*/
 	inline static public function voices(song:String):Any
 	{
 		var songKey:String = '${CoolUtil.swapSpaceDash(song.toLowerCase())}/Voices';
 		var voices = returnSound('songs', songKey);
 		return voices;
+	}
+
+	/* 
+	* I wanna do something with this later,
+	* like selectable player and shit, plus,
+	* this will allow Mickey and other opponents 
+	* to continue singing without being paused or 
+	* inturrupted briefly during duels :)
+	*
+	* - don
+	*/
+	inline static public function voicesPlayer(song:String, diff:String = 'hard', singer:String = 'bf'):Any
+	{
+		var songKey:String = '${CoolUtil.swapSpaceDash(song.toLowerCase())}/Voices-${diff}-${singer}';
+		var voices = returnSound('songs', songKey);
+		trace('loaded: ' + singer + "'s voice");
+		return voices;
+	}
+	
+	inline static public function voicesOpponent(song:String, diff:String = 'hard'):Any
+	{
+		var songKeyOpp:String = '${CoolUtil.swapSpaceDash(song.toLowerCase())}/VoicesOpp-${diff}';
+		var voicesOpp = returnSound('songs', songKeyOpp);
+		trace('found opponent voice');
+		return voicesOpp;
 	}
 
 	inline static public function inst(song:String):Any
