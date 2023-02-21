@@ -1,11 +1,11 @@
 function loadAnimations()
 {
-	addByPrefix('idle', 'Mickey2 Idle', 24);
+	addByPrefix('idle', 'Mickey2 Idle', 11);
 
-	addByPrefix('singUP', 'Mickey2 Up', 24, false);
-	addByPrefix('singLEFT', 'Mickey2 Left', 24, false);
-	addByPrefix('singRIGHT', 'Mickey2 Right', 24, false);
-	addByPrefix('singDOWN', 'Mickey2 Down', 24, false);
+	addByPrefix('singUP', 'Mickey2 Up', 11, false);
+	addByPrefix('singLEFT', 'Mickey2 Left', 11, false);
+	addByPrefix('singRIGHT', 'Mickey2 Right', 11, false);
+	addByPrefix('singDOWN', 'Mickey2 Down', 11, false);
 
 	addOffset('idle', -5, 0);
 
@@ -19,7 +19,7 @@ function loadAnimations()
 	characterData.antialiasing = true;
 	characterData.flipX = false;
 
-	setBarColor([49, 176, 209]);
+	setBarColor([121, 121, 121]);
 	setCamOffsets(420, 370);
     setOffsets(-690, 2000);
 	setGraphicSize(get('width') * 0.6);
