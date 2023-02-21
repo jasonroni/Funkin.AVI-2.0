@@ -12,7 +12,7 @@
         <label text="Crash Reason" id="crash-reason-label" />
         <box width="100%">
             <button horizontalAlign="left" id="view-crash-dump-button" text="View Crash Dump" />
-            <button horizontalAlign="center" id="restart-button" text="Restart" />
+            <button horizontalAlign="center" id="report-to-discord" text="Restart" />
             <button horizontalAlign="right" id="close-button" text="Close" />
         </box>
     </vbox>
