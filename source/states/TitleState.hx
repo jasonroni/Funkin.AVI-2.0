@@ -213,7 +213,7 @@ class TitleState extends states.MusicBeatState
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 
-		#if OnWindows
+		#if windows
 		base.system.CppAPI.darkMode();
       #end
 

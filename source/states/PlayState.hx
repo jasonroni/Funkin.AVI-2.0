@@ -53,6 +53,8 @@ import VideoHandler;
 #else
 import vlc.MP4Handler;
 #end
+
+import states.CutsceneState;
 	
 #if desktop
 import base.dependency.Discord;
@@ -374,25 +376,6 @@ class PlayState extends MusicBeatState
 		if (skipCountdown)
 			return false;
 		return true;
-	}
-
-	function playCutscene(name:String)
-	{
-		inCutscene = true;
-		FlxG.sound.music.stop();
-
-		#if (hxCodec >= "2.6.0")
-		var video:VideoHandler = new VideoHandler();
-		#else
-		var video:MP4Handler = new MP4Handler();
-		#end
-
-		video.playVideo(Paths.video(name)); // supports all vlc formats such as .avi (totally not a funkin.avi reference)
-
-		video.finishCallback = function()
-		{
-			startCountdown();
-		}
 	}
 
 	public function generateCharacters()
@@ -746,7 +729,12 @@ class PlayState extends MusicBeatState
 			limitThing += 16;
 
 		// call the funny intro cutscene depending on the song
-		songCutscene(false);
+		//songCutscene(false);
+
+		if(SONG.song.toLowerCase() == "isolated" && !CutsceneState.completedCutscene)
+			{
+				FlxG.switchState(new CutsceneState('Episode1_Intro.avi'));
+			}
 	}
 
 	var keysHeld:Array<Bool> = [];
@@ -2311,8 +2299,6 @@ class PlayState extends MusicBeatState
 					// flush the save
 					FlxG.save.flush();
 				}
-				else // if there is, try to play an ending cutscene
-					songCutscene(true);
 			case FREEPLAY:
 				if (SONG.validScore && gameplayMode != CHARTING)
 					ScoreUtils.saveScore(SONG.song, ScoreUtils.score, storyDifficulty);
@@ -2355,17 +2341,13 @@ class PlayState extends MusicBeatState
 	public function songCutscene(onEnd:Bool = false)
 	{
 		if (skipCutscenes())
-			return onEnd ? endSong() : startCountdown();
+			return startCountdown();
 
 		canPause = false;
 
 		// ACTUAL cutscenes stuff
 		switch (SONG.song.toLowerCase().replace('-', ' ')) 
 		{
-			case 'isolated':
-				if(!endingSong)
-				playCutscene('Episode1_Intro.avi');
-			
 			default:
 				startCountdown();
 		}
@@ -2611,7 +2593,8 @@ class PlayState extends MusicBeatState
 		//gonna be useful someday
 		setVar('playCutscene', function(video:String)
 		{
-			playCutscene(video);
+			@:privateAccess
+			CutsceneState.playCutscene(video);
 		});
 
 		setVar('inCutscene', inCutscene);

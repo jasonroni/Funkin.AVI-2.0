@@ -329,7 +329,7 @@ class OriginalChartingState extends MusicBeatState
 		playTicksBf = new FlxUICheckBox(check_mute_inst.x, check_mute_inst.y + 25, null, null, 'Play Hitsounds (Boyfriend - in editor)', 100);
 		playTicksBf.checked = false;
 
-		playTicksDad = new FlxUICheckBox(check_mute_inst.x, playTicksBf.y + 25, null, null, 'Play Hitsounds (Opponent - in editor)', 100);
+		playTicksDad = new FlxUICheckBox(check_mute_inst.x, playTicksBf.y + 32, null, null, 'Play Hitsounds (Opponent - in editor)', 100);
 		playTicksDad.checked = false;
 
 		tab_group_song.add(check_voices);
