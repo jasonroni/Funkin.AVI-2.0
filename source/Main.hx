@@ -21,6 +21,7 @@ import sys.io.Process;
 import gamejolt.GameJolt;
 import flixel.util.FlxColor;
 import flixel.system.FlxRes;
+import flixel.util.FlxTimer;
 
 typedef GameWeek =
 {
@@ -81,6 +82,8 @@ class Main extends Sprite
 	var newVol:Float = 0.3;
 
 	public static var focused:Bool = true;
+
+	public static var focusMusicTween:FlxTween;
 
 	// weeks set up!
 	public static var weeksMap:Map<String, GameWeek> = [];
@@ -383,13 +386,12 @@ class Main extends Sprite
 		}
 	}
 
+	// imagine stealing code smh
 	function onWindowFocusOut()
 		{
 			focused = false;
 	
 			// Lower global volume when unfocused
-			if (Type.getClass(FlxG.state) != PlayState) // imagine stealing my code smh
-			{
 				oldVol = FlxG.sound.volume;
 				if (oldVol > 0.3)
 				{
@@ -414,7 +416,6 @@ class Main extends Sprite
 				// Conserve power by lowering draw framerate when unfocuced
 				FlxG.drawFramerate = 60;
 				FlxG.updateFramerate = 60;
-			}
 		}
 	
 		function onWindowFocusIn()
