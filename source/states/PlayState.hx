@@ -1226,6 +1226,7 @@ class PlayState extends MusicBeatState
 
 									vocals.volume = 0;
 									bf_vocals.volume = 0;
+									dad_vocals.volume = 1;
 									missNoteCheck((Init.trueSettings.get('Ghost Tapping')) ? true : false, daNote.noteData, strumline,
 										Init.trueSettings.get("Display Miss Judgement"));
 								}
