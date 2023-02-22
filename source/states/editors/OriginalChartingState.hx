@@ -88,7 +88,8 @@ class OriginalChartingState extends MusicBeatState
 
 	var tempBpm:Float = 0;
 
-	var vocals:FlxSound;
+	var bf_vocals:FlxSound;
+	var dad_vocals:FlxSound;
 
 	var leftIcon:HealthIcon;
 	var rightIcon:HealthIcon;
@@ -231,18 +232,33 @@ class OriginalChartingState extends MusicBeatState
 			songMusic.volume = vol;
 		};
 
-		var check_mute_vocals = new FlxUICheckBox(check_mute_inst.x + 120, check_mute_inst.y - 5, null, null, "Mute Vocals (in editor)", 100);
-		check_mute_vocals.checked = false;
-		check_mute_vocals.callback = function()
+		var check_mute_vocals_bf = new FlxUICheckBox(check_mute_inst.x + 120, check_mute_inst.y - 5, null, null, "Mute Player Vocals (in editor)", 100);
+		check_mute_vocals_bf.checked = false;
+		check_mute_vocals_bf.callback = function()
 		{
-			if (vocals != null)
+			if (bf_vocals != null)
 			{
 				var vol:Float = 1;
 
-				if (check_mute_vocals.checked)
+				if (check_mute_vocals_bf.checked)
 					vol = 0;
 
-				vocals.volume = vol;
+				bf_vocals.volume = vol;
+			}
+		};
+
+		var check_mute_vocals_dad = new FlxUICheckBox(check_mute_vocals_bf.x, check_mute_inst.y + 25, null, null, "Mute Opponent Vocals (in editor)", 100);
+		check_mute_vocals_dad.checked = false;
+		check_mute_vocals_dad.callback = function()
+		{
+			if (dad_vocals != null)
+			{
+				var volOpp:Float = 1;
+
+				if (check_mute_vocals_dad.checked)
+					volOpp = 0;
+
+				dad_vocals.volume = volOpp;
 			}
 		};
 
@@ -313,12 +329,13 @@ class OriginalChartingState extends MusicBeatState
 		playTicksBf = new FlxUICheckBox(check_mute_inst.x, check_mute_inst.y + 25, null, null, 'Play Hitsounds (Boyfriend - in editor)', 100);
 		playTicksBf.checked = false;
 
-		playTicksDad = new FlxUICheckBox(check_mute_inst.x + 120, playTicksBf.y, null, null, 'Play Hitsounds (Opponent - in editor)', 100);
+		playTicksDad = new FlxUICheckBox(check_mute_inst.x, playTicksBf.y + 25, null, null, 'Play Hitsounds (Opponent - in editor)', 100);
 		playTicksDad.checked = false;
 
 		tab_group_song.add(check_voices);
 		tab_group_song.add(check_mute_inst);
-		tab_group_song.add(check_mute_vocals);
+		tab_group_song.add(check_mute_vocals_bf);
+		tab_group_song.add(check_mute_vocals_dad);
 		tab_group_song.add(stepperBPM);
 		tab_group_song.add(stepperSpeed);
 		tab_group_song.add(saveButton);
@@ -531,25 +548,36 @@ class OriginalChartingState extends MusicBeatState
 		if (songMusic != null)
 			songMusic.stop();
 
-		if (vocals != null)
-			vocals.stop();
+		if (bf_vocals != null)
+			bf_vocals.stop();
+
+		if (dad_vocals != null)
+			dad_vocals.stop();
 
 		songMusic = new FlxSound().loadEmbedded(Paths.inst(daSong), false, true);
 		if (_song.needsVoices)
-			vocals = new FlxSound().loadEmbedded(Paths.voices(daSong), false, true);
+			{
+				dad_vocals = new FlxSound().loadEmbedded(Paths.voicesOpponent(daSong, CoolUtil.difficultyString.toLowerCase()), false, true);
+				bf_vocals = new FlxSound().loadEmbedded(Paths.voicesPlayer(daSong, CoolUtil.difficultyString.toLowerCase(), _song.player1), false, true);
+			}
 		else
-			vocals = new FlxSound();
+			{
+				dad_vocals = new FlxSound();
+				bf_vocals = new FlxSound();
+			}
 		FlxG.sound.list.add(songMusic);
-		FlxG.sound.list.add(vocals);
+		FlxG.sound.list.add(dad_vocals);
+		FlxG.sound.list.add(bf_vocals);
 
 		songMusic.play();
-		vocals.play();
+		dad_vocals.play();
+		bf_vocals.play();
 
 		pauseMusic();
 
 		songMusic.onComplete = function()
 		{
-			ForeverTools.killMusic([songMusic, vocals]);
+			ForeverTools.killMusic([songMusic, bf_vocals, dad_vocals]);
 			loadSong(daSong);
 			changeSection();
 		};
@@ -562,7 +590,8 @@ class OriginalChartingState extends MusicBeatState
 		songMusic.time = Math.min(songMusic.time, songMusic.length);
 
 		songMusic.pause();
-		vocals.pause();
+		dad_vocals.pause();
+		bf_vocals.pause();
 	}
 
 	function generateGrid():Void
@@ -815,14 +844,16 @@ class OriginalChartingState extends MusicBeatState
 
 				PlayState.SONG = _song;
 				songMusic.stop();
-				vocals.stop();
+				dad_vocals.stop();
+				bf_vocals.stop();
 				Main.switchState(this, new PlayState());
 			}
 
 			if (FlxG.keys.justPressed.BACKSPACE)
 			{
 				songMusic.stop();
-				vocals.stop();
+				dad_vocals.stop();
+				bf_vocals.stop();
 				Main.switchState(this, new states.menus.FreeplayMenu());
 			}
 
@@ -852,11 +883,13 @@ class OriginalChartingState extends MusicBeatState
 				if (songMusic.playing)
 				{
 					songMusic.pause();
-					vocals.pause();
+					bf_vocals.pause();
+					dad_vocals.pause();
 				}
 				else
 				{
-					vocals.play();
+					dad_vocals.play();
+					bf_vocals.play();
 					songMusic.play();
 				}
 			}
@@ -875,10 +908,12 @@ class OriginalChartingState extends MusicBeatState
 					return resetSection();
 
 				songMusic.pause();
-				vocals.pause();
+				dad_vocals.pause();
+				bf_vocals.pause();
 
 				songMusic.time -= (FlxG.mouse.wheel * Conductor.stepCrochet * 0.4);
-				vocals.time = songMusic.time;
+				bf_vocals.time = songMusic.time;
+				dad_vocals.time = songMusic.time;
 			}
 
 			var holdingShift = FlxG.keys.pressed.SHIFT;
@@ -891,7 +926,8 @@ class OriginalChartingState extends MusicBeatState
 					return resetSection();
 
 				songMusic.pause();
-				vocals.pause();
+				bf_vocals.pause();
+				dad_vocals.pause();
 
 				var daTime:Float = (FlxG.keys.pressed.SHIFT ? Conductor.stepCrochet * 2 : 700 * FlxG.elapsed);
 
@@ -900,7 +936,8 @@ class OriginalChartingState extends MusicBeatState
 				else
 					songMusic.time += daTime;
 
-				vocals.time = songMusic.time;
+				bf_vocals.time = songMusic.time;
+				dad_vocals.time = songMusic.time;
 			}
 
 			var shiftThing:Int = 1;
@@ -986,7 +1023,8 @@ class OriginalChartingState extends MusicBeatState
 		updateGrid();
 
 		songMusic.pause();
-		vocals.pause();
+		bf_vocals.pause();
+		dad_vocals.pause();
 
 		// Basically old shit from changeSection???
 		songMusic.time = sectionStartTime();
@@ -997,7 +1035,8 @@ class OriginalChartingState extends MusicBeatState
 			curSection = 0;
 		}
 
-		vocals.time = songMusic.time;
+		bf_vocals.time = songMusic.time;
+		dad_vocals.time = songMusic.time;
 		updateCurStep();
 
 		updateGrid();
@@ -1018,10 +1057,12 @@ class OriginalChartingState extends MusicBeatState
 			if (updateMusic)
 			{
 				songMusic.pause();
-				vocals.pause();
+				bf_vocals.pause();
+				dad_vocals.pause();
 
 				songMusic.time = sectionStartTime();
-				vocals.time = songMusic.time;
+				bf_vocals.time = songMusic.time;
+				dad_vocals.time = songMusic.time;
 				updateCurStep();
 			}
 
