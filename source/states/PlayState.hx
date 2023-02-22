@@ -376,7 +376,7 @@ class PlayState extends MusicBeatState
 		return true;
 	}
 
-	function playCutscene(name:String, atEndOfSong:Bool = false)
+	function playCutscene(name:String)
 	{
 		inCutscene = true;
 		FlxG.sound.music.stop();
@@ -386,22 +386,13 @@ class PlayState extends MusicBeatState
 		#else
 		var video:MP4Handler = new MP4Handler();
 		#end
+
+		video.playVideo(Paths.video(name)); // supports all vlc formats such as .avi (totally not a funkin.avi reference)
+
 		video.finishCallback = function()
 		{
-			if (atEndOfSong)
-			{
-				if (storyPlaylist.length <= 0)
-					FlxG.switchState(new states.menus.MainMenu());
-				else
-				{
-					SONG = Song.loadFromJson(storyPlaylist[0].toLowerCase());
-					FlxG.switchState(new states.PlayState());
-				}
-			}
-			else
-				startCountdown();
+			startCountdown();
 		}
-		video.playVideo(Paths.video(name)); // supports all vlc formats such as .avi (totally not a funkin.avi reference)
 	}
 
 	public function generateCharacters()
@@ -2372,6 +2363,7 @@ class PlayState extends MusicBeatState
 		switch (SONG.song.toLowerCase().replace('-', ' ')) 
 		{
 			case 'isolated':
+				if(!endingSong)
 				playCutscene('Episode1_Intro.avi');
 			
 			default:
@@ -2617,9 +2609,9 @@ class PlayState extends MusicBeatState
 		});
 
 		//gonna be useful someday
-		setVar('playCutscene', function(video:String, ?endOfSong:Bool = false)
+		setVar('playCutscene', function(video:String)
 		{
-			playCutscene(video, endOfSong);
+			playCutscene(video);
 		});
 
 		setVar('inCutscene', inCutscene);
