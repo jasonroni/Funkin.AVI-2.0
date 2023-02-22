@@ -2,9 +2,11 @@ package base.utils;
 
 import haxe.io.Path;
 import lime.utils.Assets;
+import states.PlayState;
 #if sys
 import sys.FileSystem;
 #end
+using StringTools;
 
 class CoolUtil
 {

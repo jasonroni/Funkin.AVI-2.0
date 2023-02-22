@@ -933,6 +933,8 @@ class PlayState extends MusicBeatState
 		stageBuild.stageUpdateConstant(elapsed, boyfriend, gf, opponent);
 
 		super.update(elapsed);
+
+		vocals.volume = 0;
 		
 		if (curStage == 'waltRoom')
 		{
@@ -1223,6 +1225,7 @@ class PlayState extends MusicBeatState
 										return;
 
 									vocals.volume = 0;
+									bf_vocals.volume = 0;
 									missNoteCheck((Init.trueSettings.get('Ghost Tapping')) ? true : false, daNote.noteData, strumline,
 										Init.trueSettings.get("Display Miss Judgement"));
 								}
@@ -1286,7 +1289,9 @@ class PlayState extends MusicBeatState
 		if (!coolNote.wasGoodHit)
 		{
 			coolNote.wasGoodHit = true;
-			vocals.volume = 1;
+			vocals.volume = 0;
+			bf_vocals.volume = 1;
+			dad_vocals.volume = 1;
 
 			callFunc(coolNote.mustPress ? 'goodNoteHit' : 'opponentNoteHit', [coolNote, strumline]);
 
@@ -1769,6 +1774,8 @@ class PlayState extends MusicBeatState
 		{
 			songMusic.play();
 			vocals.play();
+			bf_vocals.play();
+			dad_vocals.play();
 
 			songMusic.onComplete = finishSong.bind();
 
@@ -1810,8 +1817,8 @@ class PlayState extends MusicBeatState
 
 		if (SONG.needsVoices) {
 			vocals = new FlxSound().loadEmbedded(Paths.voices(SONG.song), false, true);
-			bf_vocals = new FlxSound().loadEmbedded(Paths.voicesPlayer(SONG.song, 'hard'/**placeholder**/, 'bf'/**also placeholder**/), false, true);
-			dad_vocals = new FlxSound().loadEmbedded(Paths.voicesPlayer(SONG.song, 'hard'/**placeholder**/, 'bf'/**also placeholder**/), false, true);
+			bf_vocals = new FlxSound().loadEmbedded(Paths.voicesPlayer(SONG.song, CoolUtil.difficultyString.toLowerCase(), SONG.player1), false, true);
+			dad_vocals = new FlxSound().loadEmbedded(Paths.voicesPlayer(SONG.song, CoolUtil.difficultyString.toLowerCase()), false, true);
 		} else {
 			vocals = new FlxSound();
 			bf_vocals = new FlxSound();
@@ -1820,6 +1827,8 @@ class PlayState extends MusicBeatState
 
 		FlxG.sound.list.add(songMusic);
 		FlxG.sound.list.add(vocals);
+		FlxG.sound.list.add(bf_vocals);
+		FlxG.sound.list.add(dad_vocals);
 
 		notesGroup = new Notefield();
 		add(notesGroup);
@@ -1993,10 +2002,16 @@ class PlayState extends MusicBeatState
 		{
 			songMusic.pause();
 			vocals.pause();
+			bf_vocals.pause();
+			dad_vocals.pause();
 			Conductor.songPosition = songMusic.time;
 			vocals.time = Conductor.songPosition;
+			bf_vocals.time = Conductor.songPosition;
+			dad_vocals.time = Conductor.songPosition;
 			songMusic.play();
 			vocals.play();
+			bf_vocals.play();
+			dad_vocals.play();
 		}
 	}
 
@@ -2192,6 +2207,12 @@ class PlayState extends MusicBeatState
 
 		if (vocals != null)
 			vocals.stop();
+
+		if (bf_vocals != null)
+			bf_vocals.stop();
+
+		if (dad_vocals != null)
+			dad_vocals.stop();
 	}
 
 	override function openSubState(SubState:FlxSubState)
@@ -2202,6 +2223,8 @@ class PlayState extends MusicBeatState
 			{
 				songMusic.pause();
 				vocals.pause();
+				bf_vocals.pause();
+				dad_vocals.pause();
 			}
 		}
 
@@ -2249,7 +2272,11 @@ class PlayState extends MusicBeatState
 
 		songMusic.volume = 0;
 		vocals.volume = 0;
+		bf_vocals.volume = 0;
+		dad_vocals.volume = 0;
 		vocals.pause();
+		bf_vocals.pause();
+		dad_vocals.pause();
 
 		if (ignoreOffset || Init.trueSettings['Offset'] <= 0)
 			onFinish();
