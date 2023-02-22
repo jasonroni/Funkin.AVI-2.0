@@ -12,6 +12,7 @@ import base.utils.ScoreUtils;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
+import flixel.text.FlxText;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
@@ -94,6 +95,8 @@ class PlayState extends MusicBeatState
 	public static var songMusic:FlxSound;
 	public static var songLength:Float = 0;
 	public static var vocals:FlxSound;
+	public static var bf_vocals:FlxSound;
+	public static var dad_vocals:FlxSound;
 
 	public var generatedMusic:Bool = false;
 
@@ -727,7 +730,7 @@ class PlayState extends MusicBeatState
 
 		fade = new FlxSprite().makeGraphic(FlxG.width * 3, FlxG.height * 3, 0x000000);
 		fade.scrollFactor.set();
-		fade.cameras = [camAlt];
+		fade.cameras = [camHUD];
 		fade.alpha = 0;
 		add(fade);
 		
@@ -934,6 +937,7 @@ class PlayState extends MusicBeatState
 		if (curStage == 'waltRoom')
 		{
 			spaceBarCounter.text = 'Health Boosts Left: ' + limitThing;
+			spaceBarCounter.alpha = 1;
 
 			//This entire set monitors the brightness of the screen based on the percentage of your health
 
@@ -1804,10 +1808,15 @@ class PlayState extends MusicBeatState
 
 		songMusic = new FlxSound().loadEmbedded(Paths.inst(SONG.song), false, true);
 
-		if (SONG.needsVoices)
+		if (SONG.needsVoices) {
 			vocals = new FlxSound().loadEmbedded(Paths.voices(SONG.song), false, true);
-		else
+			bf_vocals = new FlxSound().loadEmbedded(Paths.voicesPlayer(SONG.song, 'hard'/**placeholder**/, 'bf'/**also placeholder**/), false, true);
+			dad_vocals = new FlxSound().loadEmbedded(Paths.voicesPlayer(SONG.song, 'hard'/**placeholder**/, 'bf'/**also placeholder**/), false, true);
+		} else {
 			vocals = new FlxSound();
+			bf_vocals = new FlxSound();
+			dad_vocals = new FlxSound();
+		}
 
 		FlxG.sound.list.add(songMusic);
 		FlxG.sound.list.add(vocals);

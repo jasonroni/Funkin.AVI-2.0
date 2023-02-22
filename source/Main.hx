@@ -20,6 +20,7 @@ import sys.io.File;
 import sys.io.Process;
 import gamejolt.GameJolt;
 import flixel.util.FlxColor;
+import flixel.system.FlxRes;
 
 typedef GameWeek =
 {
@@ -62,6 +63,16 @@ class Main extends Sprite
 	public static var baseGame:FNFGame;
 
 	public static var gjToastManager:GJToastManager;
+
+	/**
+	 * The desing width of this game. You will use either this or the design heigh
+	 */
+	 private static inline var DESIGN_WIDTH:Int = 1280;
+
+	 /**
+	  * The desing height of this game. You will use either this or the design width
+	  */
+	 private static inline var DESIGN_HEIGHT:Int = 720;
 
 	private static var infoCounter:Overlay; // initialize the heads up display that shows information before creating it.
 	private static var infoConsole:Console; // intiialize the on-screen console for script debug traces before creating it.
@@ -249,6 +260,26 @@ class Main extends Sprite
 		var stageWidth:Int = Lib.current.stage.stageWidth;
 		var stageHeight:Int = Lib.current.stage.stageHeight;
 
+		var _width:Int;
+		var _height:Int;
+
+		/**
+		 * returnWidth = true : resulted resolution is based on DESIGN_WIDTH
+		 * returnWidth = false : resulted resolution is based on DESIGN_HEIGHT
+		 */
+		var returnWidth:Bool = false;
+
+		if (returnWidth)
+		{
+			_height = DESIGN_HEIGHT;
+			_width = FlxRes.getOtherDimension(_height, returnWidth);
+		}
+		else
+		{
+			_width = DESIGN_WIDTH;
+			_height = FlxRes.getOtherDimension(_width);
+		}
+
 		if (game.zoom == -1.0)
 		{
 			var ratioX:Float = stageWidth / game.width;
@@ -261,7 +292,7 @@ class Main extends Sprite
 		FlxTransitionableState.skipNextTransIn = true;
 
 		// here we set up the base game
-		baseGame = new FNFGame(game.width, game.height, Init, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash,
+		baseGame = new FNFGame(_width, _height, Init, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash,
 			game.fullscreen);
 		addChild(baseGame); // and create it afterwards
 
