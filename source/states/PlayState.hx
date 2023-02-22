@@ -731,9 +731,18 @@ class PlayState extends MusicBeatState
 		// call the funny intro cutscene depending on the song
 		//songCutscene(false);
 
-		if(SONG.song.toLowerCase() == "isolated" && !CutsceneState.completedCutscene)
+		if(!CutsceneState.completedCutscene)
 			{
-				FlxG.switchState(new CutsceneState('Episode1_Intro.avi'));
+				switch(SONG.song.toLowerCase().replace('-', ' '))
+				{
+					case 'isolated':
+						FlxG.switchState(new CutsceneState('Episode1_Intro.avi'));
+
+					default:
+						CutsceneState.completedCutscene = true;
+				}
+			} else {
+				startCountdown();
 			}
 	}
 

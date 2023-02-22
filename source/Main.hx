@@ -112,7 +112,7 @@ class Main extends Sprite
 	];
 	public static var gameWeeksB:Array<Dynamic> = [ // Hardcoded Bonus Weeks for 2nd Story Menu
 		[
-			['Twisted-Grins', 'Facade', 'Mortiferum-Risus'],
+			['Twisted-Grins', 'Resentment', 'Mortiferum-Risus'],
 			['mr-smiles', 'mr-smiles', 'mr-smiles'],
 			[FlxColor.fromRGB(60, 60, 60)],
 			'Boyriend in: Sinister Smiles'
