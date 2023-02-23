@@ -214,6 +214,7 @@ class PlayState extends MusicBeatState
 	public var scratchButLessVisible:FlxSprite;
 	
 	// Waltah, we need to cook.
+	var waltScreenThing:FlxSprite; // idk, this is needed too for some reason
 	var inkFormWarning:FlxText;
 	var spaceBarCounter:FlxText;
 	var limitThing:Int = 0; //Default Value
@@ -703,10 +704,16 @@ class PlayState extends MusicBeatState
 		add(scratch);
 
 		fade = new FlxSprite().makeGraphic(FlxG.width * 3, FlxG.height * 3, 0x000000);
-		fade.scrollFactor.set();
+		fade.screenCenter();
 		fade.cameras = [camHUD];
 		fade.alpha = 0;
 		add(fade);
+		
+		waltScreenThing = new FlxSprite().makeGraphic(FlxG.width * 3, FlxG.height * 3, 0x000000);
+		waltScreenThing.scrollFactor.set();
+		waltScreenThing.cameras = [camAlt];
+		waltScreenThing.alpha = 0;
+		add(waltScreenThing);
 		
 		inkFormWarning = new FlxText(0, 0, 0, "PRESS SPACE!", 15);
 		inkFormWarning.setFormat(Paths.font("splatter"), 50);
@@ -933,64 +940,64 @@ class PlayState extends MusicBeatState
 
 			if(health <= 0.1) //if 5% HP
 			{
-				FlxTween.tween(fade, {alpha: 0.95}, 0.15, {ease: FlxEase.sineInOut});
+				FlxTween.tween(waltScreenThing, {alpha: 0.95}, 0.15, {ease: FlxEase.sineInOut});
 			}else if (health <= 0.2) //if 10% HP
 			{
-				FlxTween.tween(fade, {alpha: 0.9}, 0.15, {ease: FlxEase.sineInOut});
+				FlxTween.tween(waltScreenThing, {alpha: 0.9}, 0.15, {ease: FlxEase.sineInOut});
 			}else if (health <= 0.3) //if 15% HP
 			{
-				FlxTween.tween(fade, {alpha: 0.85}, 0.15, {ease: FlxEase.sineInOut});
+				FlxTween.tween(waltScreenThing, {alpha: 0.85}, 0.15, {ease: FlxEase.sineInOut});
 			}else if (health <= 0.4) //if 20% HP (you get the idea)
 			{
-				FlxTween.tween(fade, {alpha: 0.8}, 0.15, {ease: FlxEase.sineInOut});
+				FlxTween.tween(waltScreenThing, {alpha: 0.8}, 0.15, {ease: FlxEase.sineInOut});
 			}else if (health <= 0.5)
 			{
-				FlxTween.tween(fade, {alpha: 0.75}, 0.15, {ease: FlxEase.sineInOut});
+				FlxTween.tween(waltScreenThing, {alpha: 0.75}, 0.15, {ease: FlxEase.sineInOut});
 			}else if (health <= 0.6)
 			{
-				FlxTween.tween(fade, {alpha: 0.7}, 0.15, {ease: FlxEase.sineInOut});
+				FlxTween.tween(waltScreenThing, {alpha: 0.7}, 0.15, {ease: FlxEase.sineInOut});
 			}else if (health <= 0.7)
 			{
-				FlxTween.tween(fade, {alpha: 0.65}, 0.15, {ease: FlxEase.sineInOut});
+				FlxTween.tween(waltScreenThing, {alpha: 0.65}, 0.15, {ease: FlxEase.sineInOut});
 			}else if (health <= 0.8)
 			{
-				FlxTween.tween(fade, {alpha: 0.6}, 0.15, {ease: FlxEase.sineInOut});
+				FlxTween.tween(waltScreenThing, {alpha: 0.6}, 0.15, {ease: FlxEase.sineInOut});
 			}else if (health <= 0.9)
 			{
-				FlxTween.tween(fade, {alpha: 0.55}, 0.15, {ease: FlxEase.sineInOut});
+				FlxTween.tween(waltScreenThing, {alpha: 0.55}, 0.15, {ease: FlxEase.sineInOut});
 			}else if (health <= 1)
 			{
-				FlxTween.tween(fade, {alpha: 0.5}, 0.15, {ease: FlxEase.sineInOut});
+				FlxTween.tween(waltScreenThing, {alpha: 0.5}, 0.15, {ease: FlxEase.sineInOut});
 			}else if (health <= 1.1)
 			{
-				FlxTween.tween(fade, {alpha: 0.45}, 0.15, {ease: FlxEase.sineInOut});
+				FlxTween.tween(waltScreenThing, {alpha: 0.45}, 0.15, {ease: FlxEase.sineInOut});
 			}else if (health <= 1.2)
 			{
-				FlxTween.tween(fade, {alpha: 0.4}, 0.15, {ease: FlxEase.sineInOut});
+				FlxTween.tween(waltScreenThing, {alpha: 0.4}, 0.15, {ease: FlxEase.sineInOut});
 			}else if (health <= 1.3)
 			{
-				FlxTween.tween(fade, {alpha: 0.35}, 0.15, {ease: FlxEase.sineInOut});
+				FlxTween.tween(waltScreenThing, {alpha: 0.35}, 0.15, {ease: FlxEase.sineInOut});
 			}else if (health <= 1.4)
 			{
-				FlxTween.tween(fade, {alpha: 0.3}, 0.15, {ease: FlxEase.sineInOut});
+				FlxTween.tween(waltScreenThing, {alpha: 0.3}, 0.15, {ease: FlxEase.sineInOut});
 			}else if (health <= 1.5)
 			{
-				FlxTween.tween(fade, {alpha: 0.25}, 0.15, {ease: FlxEase.sineInOut});
+				FlxTween.tween(waltScreenThing, {alpha: 0.25}, 0.15, {ease: FlxEase.sineInOut});
 			}else if (health <= 1.6)
 			{
-				FlxTween.tween(fade, {alpha: 0.2}, 0.15, {ease: FlxEase.sineInOut});
+				FlxTween.tween(waltScreenThing, {alpha: 0.2}, 0.15, {ease: FlxEase.sineInOut});
 			}else if (health <= 1.7)
 			{
-				FlxTween.tween(fade, {alpha: 0.15}, 0.15, {ease: FlxEase.sineInOut});
+				FlxTween.tween(waltScreenThing, {alpha: 0.15}, 0.15, {ease: FlxEase.sineInOut});
 			}else if (health <= 1.8)
 			{
-				FlxTween.tween(fade, {alpha: 0.1}, 0.15, {ease: FlxEase.sineInOut});
+				FlxTween.tween(waltScreenThing, {alpha: 0.1}, 0.15, {ease: FlxEase.sineInOut});
 			}else if (health <= 1.9)
 			{
-				FlxTween.tween(fade, {alpha: 0.05}, 0.15, {ease: FlxEase.sineInOut});
+				FlxTween.tween(waltScreenThing, {alpha: 0.05}, 0.15, {ease: FlxEase.sineInOut});
 			}else if (health <= 2)
 			{
-				FlxTween.tween(fade, {alpha: 0}, 0.15, {ease: FlxEase.sineInOut});
+				FlxTween.tween(waltScreenThing, {alpha: 0}, 0.15, {ease: FlxEase.sineInOut});
 			}
 
 			/*
