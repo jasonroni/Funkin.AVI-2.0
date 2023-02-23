@@ -351,7 +351,7 @@ class PlayState extends MusicBeatState
 		ScoreUtils.resetAccuracy();
 		PlayState.SONG.validScore = true;
 		deaths = 0;
-		health = (curStage == "waltRoom") ? 1 : 0.5;
+		health = 0.5;
 
 		timedEvents = [];
 		moduleArray = [];
