@@ -66,6 +66,9 @@
 	<haxelib name="hxCodec" if="desktop || android" />
 	<haxelib name="SScript" if="desktop" />
 	<haxelib name="hxcpp-debug-server" if="desktop" />
+	
+	<!-- we do a little trolling -->
+	<haxelib name='haxelib' />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
