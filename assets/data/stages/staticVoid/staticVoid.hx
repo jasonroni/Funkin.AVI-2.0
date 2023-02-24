@@ -5,12 +5,14 @@ var holyShitStatic:FlxRuntimeShader;
 
 var shaderTime:Float = 0;
 
+var canZoom:Bool = false;
+
 function onCreate()
 {
   	spawnGirlfriend(false);
 	hideBoyfriend(true);
 	
-	PlayState.defaultCamZoom = 0.85;
+	PlayState.defaultCamZoom = 0.45;
 
 	holyShitStatic = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag', null, 120));
 
@@ -44,17 +46,72 @@ function onCreate()
 
 function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 {
+	if(curBeat == 24)
+		{
+			FlxTween.tween(PlayState.opponent, {alpha: 1}, 4, {ease: FlxEase.sineInOut, startDelay: 0.5});
+		}
+
+	if(curBeat == 32)
+		{
+			PlayState.defaultCamZoom = 0.85;
+		}
+	
 	if (curBeat == 104)
 	{
 		datTV.alpha = 1;
+
+		if(!Init.trueSettings.get('Reduced Movements'))
+		canZoom = true;
+
+		if(!Init.trueSettings.get('Disable Flashing Lights'))
 		PlayState.camGame.flash(ForeverTools.returnColor("white"), 1);
 	}
+
+	if(curBeat == 168)
+		canZoom = false;
+
+	if(curBeat == 232) {
+		if(!Init.trueSettings.get('Reduced Movements'))
+		canZoom = true;
+
+		if(!Init.trueSettings.get('Disable Flashing Lights'))
+		PlayState.camGame.flash(ForeverTools.returnColor("white"), 1);
+	}
+
+	if(curBeat == 356)
+		{
+			PlayState.defaultCamZoom = 0.95;
+		}
+
+	if(curBeat == 360)
+		{
+			PlayState.defaultCamZoom = 0.85;
+
+			if(!Init.trueSettings.get('Disable Flashing Lights'))
+			PlayState.camGame.flash(ForeverTools.returnColor("white"), 1);
+		}
+
+	if(curBeat == 424)
+		{
+			FlxTween.tween(PlayState.camHUD, {alpha: 0}, 2, {ease: FlxEase.cubeInOut});
+			for(bullShit in PlayState.strumHUD)
+				FlxTween.tween(bullShit, {alpha: 0}, 2.3, {ease: FlxEase.cubeInOut});
+		}
 	
 	if (curBeat == 136 || curBeat == 140 || curBeat == 144 || curBeat == 148 || curBeat == 152 || curBeat == 156 || curBeat == 160 || curBeat == 164)
-		FlxTween.tween(redGradThing, {'scale.y': 1.5}, 0.5, {ease: FlxEase.quadInOut});
+		FlxTween.tween(redGradThing.scale, {y: 1.5}, 0.5, {ease: FlxEase.quadInOut});
 	
 	if (curBeat == 138 || curBeat == 142 || curBeat == 146 || curBeat == 150 || curBeat == 154 || curBeat == 158 || curBeat == 162 || curBeat == 166)
-		FlxTween.tween(redGradThing, {'scale.y': 0}, 0.5, {ease: FlxEase.quadInOut});
+		FlxTween.tween(redGradThing.scale, {y: 0}, 0.5, {ease: FlxEase.quadInOut});
+
+	if(canZoom && curBeat % 1 == 0)
+		{
+			PlayState.camGame.zoom += 0.015;
+			PlayState.camHUD.zoom += 0.04;
+
+			for(_strumHUD in PlayState.strumHUD)
+				_strumHUD.zoom += 0.04;
+		}
 }
 
 function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Character)
