@@ -496,7 +496,11 @@ class FreeplayState extends MusicBeatState
 	{
 		var mySong:String = ' [Listening to: ${songs[curSelected].name}]';
 		#if DISCORD_RPC
-		Discord.changePresence('CHOOSING A SONG', 'Freeplay Menu (MAIN STORY)' + mySong, 'icon', 'disc-player');
+		#if DevBuild
+		Discord.changePresence('CHOOSING A SONG', 'Freeplay Menu (EXTRAS) [CLASSIFIED]', 'icon', 'disc-player');
+		#else
+		Discord.changePresence('CHOOSING A SONG', 'Freeplay Menu (EXTRAS)' + mySong, 'icon', 'disc-player');
+		#end
 		#end
 	}
 }
