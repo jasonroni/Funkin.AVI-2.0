@@ -278,32 +278,36 @@ class PlayState extends MusicBeatState
 
 	function loadRPCIcon()
 	{
-		switch (SONG.song.toLowerCase())
-		{
-			case 'isolated' | 'lunacy' | 'affliction' | 'laugh track' | 'birthday' | 'isolated legacy' | 'lunacy legacy' | 'delusional legacy' |
-				'neglection' | 'war dilemma' | "don't cross!" | 'isolated beta' | 'isolated old':
-				iconRPC = 'placeholder';
-			case 'delusional':
-				iconRPC = 'delusional';
-			case 'twisted grins' | 'resentment' | 'mortiferum risus':
-				iconRPC = 'episode2';
-			case 'mercy':
-				iconRPC = 'mercy';
-			case 'mercy legacy':
-				iconRPC = 'mercyold';
-			case 'scrapped':
-				iconRPC = 'scrapped';
-			case 'bless':
-				iconRPC = 'bless';
-			case 'hunted' | 'hunted legacy':
-				iconRPC = 'hunted';
-			case 'malfunction':
-				iconRPC = 'malfunction';
-			case 'malfunction legacy':
-				iconRPC = 'malold';
-			case 'cycled sins':
-				iconRPC = 'cycledsins';
-		}
+		#if DevBuild
+			iconRPC = 'icon';
+		#else
+			switch (SONG.song.toLowerCase())
+			{
+				case 'isolated' | 'lunacy' | 'affliction' | 'laugh track' | 'birthday' | 'isolated legacy' | 'lunacy legacy' | 'delusional legacy' |
+					'neglection' | 'war dilemma' | "don't cross!" | 'isolated beta' | 'isolated old':
+					iconRPC = 'placeholder';
+				case 'delusional':
+					iconRPC = 'delusional';
+				case 'twisted grins' | 'resentment' | 'mortiferum risus':
+					iconRPC = 'episode2';
+				case 'mercy':
+					iconRPC = 'mercy';
+				case 'mercy legacy':
+					iconRPC = 'mercyold';
+				case 'scrapped':
+					iconRPC = 'scrapped';
+				case 'bless':
+					iconRPC = 'bless';
+				case 'hunted' | 'hunted legacy':
+					iconRPC = 'hunted';
+				case 'malfunction':
+					iconRPC = 'malfunction';
+				case 'malfunction legacy':
+					iconRPC = 'malold';
+				case 'cycled sins':
+					iconRPC = 'cycledsins';
+			}
+		#end
 	}
 
 	function setFreeplayData()
@@ -1267,7 +1271,11 @@ class PlayState extends MusicBeatState
 			FlxG.sound.play(Paths.sound('$assetModifier/' + GameOverSubstate.deathNoise));
 
 			#if DISCORD_RPC
+			#if DevBuild
+			Discord.changePresence("- CLASSIFIED CONTENT -", detailsSub, iconRPC);
+			#else
 			Discord.changePresence("GAME OVER - " + songDetails, detailsSub, iconRPC);
+			#end
 			#end
 			isDead = true;
 			return true;
@@ -1919,15 +1927,26 @@ class PlayState extends MusicBeatState
 
 		Conductor.changeBPM(SONG.bpm);
 		Conductor.mapBPMChanges(SONG);
+		
+		#if DevBuild
+			// String that contains the mode defined here so it isn't necessary to call changePresence for each mode
+			songDetails = "- CLASSIFIED CONTENT -";
 
-		// String that contains the mode defined here so it isn't necessary to call changePresence for each mode
-		songDetails = CoolUtil.dashToSpace(SONG.song) + ' - ' + CoolUtil.difficultyString;
+			// String for when the game is paused
+			detailsPausedText = songDetails;
 
-		// String for when the game is paused
-		detailsPausedText = "Paused - " + songDetails;
+			// set details for song stuffs
+			detailsSub = "";
+		#else
+			// String that contains the mode defined here so it isn't necessary to call changePresence for each mode
+			songDetails = CoolUtil.dashToSpace(SONG.song) + ' - ' + CoolUtil.difficultyString;
 
-		// set details for song stuffs
-		detailsSub = "";
+			// String for when the game is paused
+			detailsPausedText = "Paused - " + songDetails;
+
+			// set details for song stuffs
+			detailsSub = "";
+		#end
 
 		// Updating Discord Rich Presence.
 		updateRPC(false);
@@ -2226,6 +2245,10 @@ class PlayState extends MusicBeatState
 		}
 
 		uiHUD.beatHit(curBeat);
+		demolitionHUD.beatHit(curBeat);
+		psychHUD.beatHit(curBeat);
+		vanillaHUD.beatHit(curBeat);
+		kadeHUD.beatHit(curBeat);
 
 		//
 		charactersDance(curBeat);
