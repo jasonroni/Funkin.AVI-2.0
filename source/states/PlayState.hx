@@ -832,7 +832,7 @@ class PlayState extends MusicBeatState
 					FlxG.switchState(new CutsceneState('Episode1_Intro.avi'));
 
 				default:
-					CutsceneState.completedCutscene = true;
+					startCountdown();
 			}
 		}
 		else

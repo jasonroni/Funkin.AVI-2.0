@@ -67,7 +67,7 @@ function onCreate()
 		
 	
 		// doing some fix with this later
-		if(PlayState.SONG.song == "Isolated" && !inCutscene) {
+		if(PlayState.SONG.song == "Isolated") {
 			FlxTween.tween(PlayState.camHUD, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 9});
 			FlxTween.tween(PlayState.camGame, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 6});
 		}
