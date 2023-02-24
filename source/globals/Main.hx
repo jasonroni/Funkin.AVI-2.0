@@ -1,4 +1,4 @@
-package;
+package globals;
 
 import base.*;
 import base.Overlay.Console;
@@ -22,6 +22,7 @@ import gamejolt.GameJolt;
 import flixel.util.FlxColor;
 import flixel.system.FlxRes;
 import flixel.util.FlxTimer;
+import flixel.tweens.*;
 
 typedef GameWeek =
 {

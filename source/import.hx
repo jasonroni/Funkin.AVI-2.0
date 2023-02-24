@@ -15,3 +15,4 @@ using base.utils.CoolUtil;
 using flixel.addons.display.FlxRuntimeShader;
 using globals.TypedefHandler;
 using globals.GameData;
+using globals.Main;
