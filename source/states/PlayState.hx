@@ -2,6 +2,7 @@ package states;
 
 import base.dependency.FeatherDeps.Events;
 import base.dependency.FeatherDeps.ScriptHandler;
+import base.dependency.HardcodedShaders;
 import base.song.ChartParser;
 import base.song.Conductor;
 import base.song.Song;
@@ -9,10 +10,10 @@ import base.song.SongFormat.SwagSong;
 import base.song.SongFormat.TimedEvent;
 import base.utils.FNFUtils.FNFSprite;
 import base.utils.ScoreUtils;
+import flash.system.System;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
-import flixel.text.FlxText;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
@@ -26,24 +27,24 @@ import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import flixel.system.FlxSound;
+import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
+import flixel.util.FlxTimer;
 import lime.app.Application;
 import lime.ui.Window;
-import flash.system.System;
-import flixel.util.FlxTimer;
 import objects.*;
 import objects.Character;
 import objects.ui.*;
 import objects.ui.Strumline.Receptor;
 import objects.ui.hud.*;
 import openfl.media.Sound;
+import states.CutsceneState;
 import states.editors.CharacterOffsetEditor;
 import states.menus.*;
 import states.substates.GameOverSubstate;
-import base.dependency.HardcodedShaders;
 // This fixes 2.6.0 users
 #if (hxCodec >= "2.6.1")
 import hxcodec.VideoHandler;
@@ -52,7 +53,6 @@ import VideoHandler;
 #else
 import vlc.MP4Handler;
 #end
-import states.CutsceneState;
 #if desktop
 import base.dependency.Discord;
 #end
@@ -1947,7 +1947,7 @@ class PlayState extends MusicBeatState
 		if (SONG.needsVoices)
 		{
 			vocals = new FlxSound().loadEmbedded(Paths.voices(SONG.song), false, true);
-			bf_vocals = new FlxSound().loadEmbedded(Paths.voicesPlayer(SONG.song, CoolUtil.difficultyString.toLowerCase()), false, true);
+			bf_vocals = new FlxSound().loadEmbedded(Paths.voicesPlayer(SONG.song, CoolUtil.difficultyString.toLowerCase(), SONG.player1), false, true);
 			opp_vocals = new FlxSound().loadEmbedded(Paths.voicesOpp(SONG.song, CoolUtil.difficultyString.toLowerCase()), false, true);
 		}
 		else

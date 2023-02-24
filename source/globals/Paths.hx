@@ -310,9 +310,9 @@ class Paths
 	*
 	* @author DEMOLITIONDON96
 	*/
-	inline static public function voicesPlayer(song:String, diff:String = 'normal'):Any
+	inline static public function voicesPlayer(song:String, diff:String = 'normal', singer:String = 'bf'):Any
 	{
-		var songKey:String = '${CoolUtil.swapSpaceDash(song.toLowerCase())}/Voices-${diff}';
+		var songKey:String = '${CoolUtil.swapSpaceDash(song.toLowerCase())}/Voices-${diff}-${singer}';
 		var voices = returnSound('songs', songKey);
 		return voices;
 	}
