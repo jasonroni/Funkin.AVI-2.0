@@ -5,6 +5,7 @@
 # you may also need to run "chmod +x setup" to mark this file as an executable
 echo This reqiures Root Permission
 sudo apt install g++ -y
+haxelib install haxelib
 haxelib install lime
 haxelib install openfl
 haxelib install flixel
