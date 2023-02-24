@@ -9,6 +9,8 @@ haxelib install haxelib
 haxelib install lime
 haxelib install openfl
 haxelib install flixel
+haxelib install hscript
+haxelib install newgrounds
 haxelib run lime setup flixel
 haxelib run lime setup
 haxelib install flixel-tools
@@ -22,4 +24,5 @@ haxelib git polymod https://github.com/MasterEric/polymod
 haxelib install hxcpp
 haxelib git tentools https://github.com/TentaRJ/tentools.git
 haxelib git systools https://github.com/haya3218/systools
+haxelib git flixel-addons https://github.com/HaxeFlixel/flixel-addons
 haxelib run lime rebuild systools linux
