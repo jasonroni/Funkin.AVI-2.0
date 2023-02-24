@@ -44,18 +44,15 @@ import states.editors.CharacterOffsetEditor;
 import states.menus.*;
 import states.substates.GameOverSubstate;
 import base.dependency.HardcodedShaders;
-
 // This fixes 2.6.0 users
-#if (hxCodec >= "2.6.1") 
+#if (hxCodec >= "2.6.1")
 import hxcodec.VideoHandler;
 #elseif (hxCodec == "2.6.0")
 import VideoHandler;
 #else
 import vlc.MP4Handler;
 #end
-
 import states.CutsceneState;
-	
 #if desktop
 import base.dependency.Discord;
 #end
@@ -82,10 +79,10 @@ class PlayState extends MusicBeatState
 	public var notesGroup:Notefield;
 
 	public static var timedEvents:Array<TimedEvent> = [];
-	
+
 	// lazyness
 	public var canaddshaders = !Init.trueSettings.get('Disable Screen Shaders');
-	
+
 	// Shader shit
 	public var shaderUpdates:Array<Float->Void> = [];
 	public var camGameShaders:Array<ShaderEffect> = [];
@@ -175,7 +172,7 @@ class PlayState extends MusicBeatState
 	public static var cameraBumpSpeed:Float = 4;
 
 	// User Interface and Objects
-	public static var uiHUD:ClassHUD; //default HUD
+	public static var uiHUD:ClassHUD; // default HUD
 	public static var psychHUD:PsychHUD;
 	public static var vanillaHUD:VanillaHUD;
 	public static var kadeHUD:KadeHUD;
@@ -212,134 +209,218 @@ class PlayState extends MusicBeatState
 
 	public var scratch:FlxSprite; // Peter Griffin: This reminds me of the time I met the Scratch cat
 	public var scratchButLessVisible:FlxSprite;
-	
+
 	// Waltah, we need to cook.
 	var waltScreenThing:FlxSprite; // idk, this is needed too for some reason
 	var inkFormWarning:FlxText;
 	var spaceBarCounter:FlxText;
-	var limitThing:Int = 0; //Default Value
+	var limitThing:Int = 0; // Default Value
 
 	var fade:FlxSprite;
-	
+
 	function loadWindowTitleData()
 	{
 		switch (SONG.song)
 		{
-				case 'Isolated' | 'Lunacy' | 'Delusional':
-					if (gameplayMode == STORY)
-						Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
-					else if (gameplayMode == CHARTING)
-						Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
-					else
-						Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
-				case 'Twisted Grins' | 'Facade' | 'Mortiferum Risus':
-					if (gameplayMode == STORY)
-						Application.current.window.title = 'Funkin.avi - Episode S: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
-					else if (gameplayMode == CHARTING)
-						Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
-					else
-						Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
-				case 'Mercy' | 'Affliction':
-					if (gameplayMode == STORY)
-						Application.current.window.title = 'Funkin.avi - Episode W: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
-					else if (gameplayMode == CHARTING)
-						Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
-					else
-						Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+			case 'Isolated' | 'Lunacy' | 'Delusional':
+				if (gameplayMode == STORY)
+					Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
+						+ CoolUtil.difficultyString + "]";
+				else if (gameplayMode == CHARTING)
+					Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
+						+ CoolUtil.difficultyString + "]";
+				else
+					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
+						+ CoolUtil.difficultyString + "]";
+			case 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus':
+				if (gameplayMode == STORY)
+					Application.current.window.title = 'Funkin.avi - Episode S: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
+						+ CoolUtil.difficultyString + "]";
+				else if (gameplayMode == CHARTING)
+					Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
+						+ CoolUtil.difficultyString + "]";
+				else
+					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
+						+ CoolUtil.difficultyString + "]";
+			case 'Mercy' | 'Affliction':
+				if (gameplayMode == STORY)
+					Application.current.window.title = 'Funkin.avi - Episode W: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
+						+ CoolUtil.difficultyString + "]";
+				else if (gameplayMode == CHARTING)
+					Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
+						+ CoolUtil.difficultyString + "]";
+				else
+					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
+						+ CoolUtil.difficultyString + "]";
 
-				case 'Malfunction' | 'Malfunction Legacy':
-					if (gameplayMode == CHARTING)
-						Application.current.window.title = 'glitchedMickey.xml - CHEATER MODE ACTIVATED: ' + SONG.song + " - Composed by: I CAN SEE YOU CHEATING! - [!CHEATER DETECTED!]";
-					else
-						Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+			case 'Malfunction' | 'Malfunction Legacy':
+				if (gameplayMode == CHARTING)
+					Application.current.window.title = 'glitchedMickey.xml - CHEATER MODE ACTIVATED: '
+						+ SONG.song
+						+ " - Composed by: I CAN SEE YOU CHEATING! - [!CHEATER DETECTED!]";
+				else
+					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
+						+ CoolUtil.difficultyString + "]";
 
-				default:
-					if (gameplayMode == STORY)
-						Application.current.window.title = 'Funkin.avi - Episode ???: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
-					else if (gameplayMode == CHARTING)
-						Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
-					else
-						Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+			default:
+				if (gameplayMode == STORY)
+					Application.current.window.title = 'Funkin.avi - Episode ???: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
+						+ CoolUtil.difficultyString + "]";
+				else if (gameplayMode == CHARTING)
+					Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
+						+ CoolUtil.difficultyString + "]";
+				else
+					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
+						+ CoolUtil.difficultyString + "]";
 		}
 	}
-	
+
 	function loadRPCIcon()
 	{
 		switch (SONG.song.toLowerCase())
 		{
-				case 'isolated' | 'lunacy' | 'affliction' | 'laugh track' | 'birthday' | 'isolated legacy' | 'lunacy legacy' | 'delusional legacy' | 'neglection' | 'war dilemma' | "don't cross!" | 'isolated beta' | 'isolated old': iconRPC = 'placeholder';
-				case 'delusional': iconRPC = 'delusional';
-				case 'twisted grins' | 'facade' | 'mortiferum risus': iconRPC = 'episode2';
-				case 'mercy': iconRPC = 'mercy';
-				case 'mercy legacy': iconRPC = 'mercyold';
-				case 'scrapped': iconRPC = 'scrapped';
-				case 'bless': iconRPC = 'bless';
-				case 'hunted' | 'hunted legacy': iconRPC = 'hunted';
-				case 'malfunction': iconRPC = 'malfunction';
-				case 'malfunction legacy': iconRPC = 'malold';
-				case 'cycled sins': iconRPC = 'cycledsins';
+			case 'isolated' | 'lunacy' | 'affliction' | 'laugh track' | 'birthday' | 'isolated legacy' | 'lunacy legacy' | 'delusional legacy' |
+				'neglection' | 'war dilemma' | "don't cross!" | 'isolated beta' | 'isolated old':
+				iconRPC = 'placeholder';
+			case 'delusional':
+				iconRPC = 'delusional';
+			case 'twisted grins' | 'resentment' | 'mortiferum risus':
+				iconRPC = 'episode2';
+			case 'mercy':
+				iconRPC = 'mercy';
+			case 'mercy legacy':
+				iconRPC = 'mercyold';
+			case 'scrapped':
+				iconRPC = 'scrapped';
+			case 'bless':
+				iconRPC = 'bless';
+			case 'hunted' | 'hunted legacy':
+				iconRPC = 'hunted';
+			case 'malfunction':
+				iconRPC = 'malfunction';
+			case 'malfunction legacy':
+				iconRPC = 'malold';
+			case 'cycled sins':
+				iconRPC = 'cycledsins';
 		}
 	}
-	
+
 	function setFreeplayData()
 	{
 		switch (SONG.song.toLowerCase())
 		{
-				case 'hunted': if (FlxG.save.data.huntedLock != 'beaten') GameData.huntedLock = 'unlocked';
-				case 'isolated old': if (FlxG.save.data.oldisolateLock != 'beaten') GameData.oldisolateLock = 'unlocked';
-				case 'isolated beta': if (FlxG.save.data.betaisolateLock != 'beaten') GameData.betaisolateLock = 'unlocked';
-				case 'neglection': if (FlxG.save.data.pnmLock != 'beaten') GameData.pnmLock = 'unlocked';
-				case "don't cross!": if (FlxG.save.data.crossinLock != 'beaten') GameData.crossinLock = 'unlocked';
-				case 'war dilemma': if (FlxG.save.data.warLock != 'beaten') GameData.warLock = 'unlocked';
-				case 'cycled sins': if (FlxG.save.data.sinsLock != 'beaten') GameData.sinsLock = 'unlocked';
-				case 'malfunction': if (FlxG.save.data.malfunctionLock != 'beaten') GameData.malfunctionLock = 'unlocked';
-				case 'scrapped': if (FlxG.save.data.scrappedLock != 'beaten') GameData.scrappedLock = 'unlocked';
-				case 'bless': if (FlxG.save.data.blessLock != 'beaten') GameData.blessLock = 'unlocked';
-				case 'laugh track': if (FlxG.save.data.rickyLock != 'beaten') GameData.rickyLock = 'unlocked';
-				case 'birthday': if (FlxG.save.data.muckneyLock != "completed") GameData.muckneyLock = "voidIsOpen";
-				case 'mercy legacy': if (FlxG.save.data.legacyWLock != 'beaten') GameData.legacyWLock = 'unlocked';
-				case 'isolated legacy': if (FlxG.save.data.legacyILock != 'beaten') GameData.legacyILock = 'unlocked';
-				case 'lunacy legacy': if (FlxG.save.data.legacyLLock != 'beaten') GameData.legacyLLock = 'unlocked';
-				case 'delusional legacy': if (FlxG.save.data.legacyDLock != 'beaten') GameData.legacyDLock = 'unlocked';
-				case 'hunted legacy': if (FlxG.save.data.legacyHLock != 'beaten') GameData.legacyHLock = 'unlocked';
-				case 'malfunction legacy': if (FlxG.save.data.legacyMLock != 'beaten') GameData.legacyMLock = 'unlocked';
+			case 'hunted':
+				if (FlxG.save.data.huntedLock != 'beaten')
+					GameData.huntedLock = 'unlocked';
+			case 'isolated old':
+				if (FlxG.save.data.oldisolateLock != 'beaten')
+					GameData.oldisolateLock = 'unlocked';
+			case 'isolated beta':
+				if (FlxG.save.data.betaisolateLock != 'beaten')
+					GameData.betaisolateLock = 'unlocked';
+			case 'neglection':
+				if (FlxG.save.data.pnmLock != 'beaten')
+					GameData.pnmLock = 'unlocked';
+			case "don't cross!":
+				if (FlxG.save.data.crossinLock != 'beaten')
+					GameData.crossinLock = 'unlocked';
+			case 'war dilemma':
+				if (FlxG.save.data.warLock != 'beaten')
+					GameData.warLock = 'unlocked';
+			case 'cycled sins':
+				if (FlxG.save.data.sinsLock != 'beaten')
+					GameData.sinsLock = 'unlocked';
+			case 'malfunction':
+				if (FlxG.save.data.malfunctionLock != 'beaten')
+					GameData.malfunctionLock = 'unlocked';
+			case 'scrapped':
+				if (FlxG.save.data.scrappedLock != 'beaten')
+					GameData.scrappedLock = 'unlocked';
+			case 'bless':
+				if (FlxG.save.data.blessLock != 'beaten')
+					GameData.blessLock = 'unlocked';
+			case 'laugh track':
+				if (FlxG.save.data.rickyLock != 'beaten')
+					GameData.rickyLock = 'unlocked';
+			case 'birthday':
+				if (FlxG.save.data.muckneyLock != "completed")
+					GameData.muckneyLock = "voidIsOpen";
+			case 'mercy legacy':
+				if (FlxG.save.data.legacyWLock != 'beaten')
+					GameData.legacyWLock = 'unlocked';
+			case 'isolated legacy':
+				if (FlxG.save.data.legacyILock != 'beaten')
+					GameData.legacyILock = 'unlocked';
+			case 'lunacy legacy':
+				if (FlxG.save.data.legacyLLock != 'beaten')
+					GameData.legacyLLock = 'unlocked';
+			case 'delusional legacy':
+				if (FlxG.save.data.legacyDLock != 'beaten')
+					GameData.legacyDLock = 'unlocked';
+			case 'hunted legacy':
+				if (FlxG.save.data.legacyHLock != 'beaten')
+					GameData.legacyHLock = 'unlocked';
+			case 'malfunction legacy':
+				if (FlxG.save.data.legacyMLock != 'beaten')
+					GameData.legacyMLock = 'unlocked';
 		}
 		GameData.saveShit();
 	}
-	
+
 	function completeFPSong()
 	{
 		switch (SONG.song.toLowerCase())
 		{
-				case 'hunted': GameData.huntedLock = 'beaten';
-				case 'isolated old': GameData.oldisolateLock = 'beaten';
-				case 'isolated beta': GameData.betaisolateLock = 'beaten';
-				case 'neglection': GameData.pnmLock = 'beaten';
-				case "don't cross!": GameData.crossinLock = 'beaten';
-				case 'war dilemma': GameData.warLock = 'beaten';
-				case 'cycled sins': GameData.sinsLock = 'beaten';
-				case 'malfunction': GameData.malfunctionLock = 'beaten';
-				case 'scrapped': GameData.scrappedLock = 'beaten';
-				case 'bless': GameData.blessLock = 'beaten';
-				case 'laugh track': GameData.rickyLock = 'beaten';
-				case 'birthday': GameData.muckneyLock = "completed";
-				case 'mercy legacy': GameData.legacyWLock = 'beaten';
-				case 'isolated legacy': GameData.legacyILock = 'beaten';
-				case 'lunacy legacy': GameData.legacyLLock = 'beaten';
-				case 'delusional legacy': GameData.legacyDLock = 'beaten';
-				case 'hunted legacy': GameData.legacyHLock = 'beaten';
-				case 'malfunction legacy': GameData.legacyMLock = 'beaten';
+			case 'hunted':
+				GameData.huntedLock = 'beaten';
+			case 'isolated old':
+				GameData.oldisolateLock = 'beaten';
+			case 'isolated beta':
+				GameData.betaisolateLock = 'beaten';
+			case 'neglection':
+				GameData.pnmLock = 'beaten';
+			case "don't cross!":
+				GameData.crossinLock = 'beaten';
+			case 'war dilemma':
+				GameData.warLock = 'beaten';
+			case 'cycled sins':
+				GameData.sinsLock = 'beaten';
+			case 'malfunction':
+				GameData.malfunctionLock = 'beaten';
+			case 'scrapped':
+				GameData.scrappedLock = 'beaten';
+			case 'bless':
+				GameData.blessLock = 'beaten';
+			case 'laugh track':
+				GameData.rickyLock = 'beaten';
+			case 'birthday':
+				GameData.muckneyLock = "completed";
+			case 'mercy legacy':
+				GameData.legacyWLock = 'beaten';
+			case 'isolated legacy':
+				GameData.legacyILock = 'beaten';
+			case 'lunacy legacy':
+				GameData.legacyLLock = 'beaten';
+			case 'delusional legacy':
+				GameData.legacyDLock = 'beaten';
+			case 'hunted legacy':
+				GameData.legacyHLock = 'beaten';
+			case 'malfunction legacy':
+				GameData.legacyMLock = 'beaten';
 		}
 		GameData.saveShit();
 	}
-	
+
 	function completeEpisode()
 	{
 		switch (SONG.song.toLowerCase())
 		{
-				case 'delusional': GameData.episode1FPLock = 'unlocked';
-				case 'mortiferum risus': GameData.episodeSFPLock = 'unlocked';
-				case 'affliction': GameData.episodeWFPLock = 'unlocked';
+			case 'delusional':
+				GameData.episode1FPLock = 'unlocked';
+			case 'mortiferum risus':
+				GameData.episodeSFPLock = 'unlocked';
+			case 'affliction':
+				GameData.episodeWFPLock = 'unlocked';
 		}
 		GameData.saveShit();
 	}
@@ -401,17 +482,19 @@ class PlayState extends MusicBeatState
 		{
 			add(boyfriend);
 			add(opponent);
-		}else{
+		}
+		else
+		{
 			add(opponent);
 			add(boyfriend);
 		}
-		
+
 		if (curStage == 'staticVoid')
 			opponent.alpha = 0.001;
-		
+
 		if (stageBuild.hideBoyfriend)
 			boyfriend.alpha = 0.001;
-		
+
 		add(stageBuild.foreground);
 
 		// force them to dance
@@ -459,7 +542,7 @@ class PlayState extends MusicBeatState
 	override public function create()
 	{
 		super.create();
-		
+
 		setFreeplayData();
 		loadRPCIcon();
 		loadWindowTitleData();
@@ -617,7 +700,7 @@ class PlayState extends MusicBeatState
 			FlxG.cameras.add(strumHUD[i], false);
 			// set this strumline's camera to the designated camera
 			strumLines.members[i].cameras = [strumHUD[i]];
-			switch(curStage)
+			switch (curStage)
 			{
 				case 'theLoop' | 'forestOld':
 					strumHUD[i].setFilters([
@@ -625,11 +708,9 @@ class PlayState extends MusicBeatState
 						new openfl.filters.ShaderFilter(tilt),
 						new openfl.filters.ShaderFilter(grayScale)
 					]);
-					
+
 				case 'abandonedStreet' | 'forestNew' | 'apartment' | 'smilesOffice' | 'clubhouse' | 'delusionalStreet':
-					strumHUD[i].setFilters([
-						new openfl.filters.ShaderFilter(grayScale)
-					]);
+					strumHUD[i].setFilters([new openfl.filters.ShaderFilter(grayScale)]);
 
 				default:
 					// nothing, you get no shaders lol
@@ -708,13 +789,13 @@ class PlayState extends MusicBeatState
 		fade.cameras = [camHUD];
 		fade.alpha = 0;
 		add(fade);
-		
+
 		waltScreenThing = new FlxSprite().makeGraphic(FlxG.width * 3, FlxG.height * 3, 0x000000);
 		waltScreenThing.scrollFactor.set();
 		waltScreenThing.cameras = [camAlt];
 		waltScreenThing.alpha = 0;
 		add(waltScreenThing);
-		
+
 		inkFormWarning = new FlxText(0, 0, 0, "PRESS SPACE!", 15);
 		inkFormWarning.setFormat(Paths.font("splatter"), 50);
 		inkFormWarning.cameras = [camAlt];
@@ -722,35 +803,37 @@ class PlayState extends MusicBeatState
 		inkFormWarning.scrollFactor.set();
 		inkFormWarning.screenCenter();
 		add(inkFormWarning);
-		
+
 		spaceBarCounter = new FlxText(0, 680, 0, 'Health Boosts Left: ' + limitThing, 15);
 		spaceBarCounter.setFormat(Paths.font("splatter"), 30);
 		spaceBarCounter.cameras = [camAlt];
 		spaceBarCounter.alpha = 0;
 		spaceBarCounter.scrollFactor.set();
 		add(spaceBarCounter);
-		
-		if (SONG.song == 'Mercy Legacy') 
-			limitThing += 23; 
-		else if (SONG.song == 'Mercy') 
+
+		if (SONG.song == 'Mercy Legacy')
+			limitThing += 23;
+		else if (SONG.song == 'Mercy')
 			limitThing += 16;
 
 		// call the funny intro cutscene depending on the song
-		//songCutscene(false);
+		// songCutscene(false);
 
-		if(!CutsceneState.completedCutscene)
+		if (!CutsceneState.completedCutscene)
+		{
+			switch (SONG.song.toLowerCase().replace('-', ' '))
 			{
-				switch(SONG.song.toLowerCase().replace('-', ' '))
-				{
-					case 'isolated':
-						FlxG.switchState(new CutsceneState('Episode1_Intro.avi'));
+				case 'isolated':
+					FlxG.switchState(new CutsceneState('Episode1_Intro.avi'));
 
-					default:
-						CutsceneState.completedCutscene = true;
-				}
-			} else {
-				startCountdown();
+				default:
+					CutsceneState.completedCutscene = true;
 			}
+		}
+		else
+		{
+			startCountdown();
+		}
 	}
 
 	var keysHeld:Array<Bool> = [];
@@ -930,84 +1013,103 @@ class PlayState extends MusicBeatState
 		super.update(elapsed);
 
 		vocals.volume = 0;
-		
+
 		if (curStage == 'waltRoom')
 		{
 			spaceBarCounter.text = 'Health Boosts Left: ' + limitThing;
 			spaceBarCounter.alpha = 1;
 
-			//This entire set monitors the brightness of the screen based on the percentage of your health
+			// This entire set monitors the brightness of the screen based on the percentage of your health
 
-			if(health <= 0.1) //if 5% HP
+			if (health <= 0.1) // if 5% HP
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0.95}, 0.15, {ease: FlxEase.sineInOut});
-			}else if (health <= 0.2) //if 10% HP
+			}
+			else if (health <= 0.2) // if 10% HP
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0.9}, 0.15, {ease: FlxEase.sineInOut});
-			}else if (health <= 0.3) //if 15% HP
+			}
+			else if (health <= 0.3) // if 15% HP
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0.85}, 0.15, {ease: FlxEase.sineInOut});
-			}else if (health <= 0.4) //if 20% HP (you get the idea)
+			}
+			else if (health <= 0.4) // if 20% HP (you get the idea)
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0.8}, 0.15, {ease: FlxEase.sineInOut});
-			}else if (health <= 0.5)
+			}
+			else if (health <= 0.5)
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0.75}, 0.15, {ease: FlxEase.sineInOut});
-			}else if (health <= 0.6)
+			}
+			else if (health <= 0.6)
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0.7}, 0.15, {ease: FlxEase.sineInOut});
-			}else if (health <= 0.7)
+			}
+			else if (health <= 0.7)
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0.65}, 0.15, {ease: FlxEase.sineInOut});
-			}else if (health <= 0.8)
+			}
+			else if (health <= 0.8)
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0.6}, 0.15, {ease: FlxEase.sineInOut});
-			}else if (health <= 0.9)
+			}
+			else if (health <= 0.9)
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0.55}, 0.15, {ease: FlxEase.sineInOut});
-			}else if (health <= 1)
+			}
+			else if (health <= 1)
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0.5}, 0.15, {ease: FlxEase.sineInOut});
-			}else if (health <= 1.1)
+			}
+			else if (health <= 1.1)
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0.45}, 0.15, {ease: FlxEase.sineInOut});
-			}else if (health <= 1.2)
+			}
+			else if (health <= 1.2)
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0.4}, 0.15, {ease: FlxEase.sineInOut});
-			}else if (health <= 1.3)
+			}
+			else if (health <= 1.3)
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0.35}, 0.15, {ease: FlxEase.sineInOut});
-			}else if (health <= 1.4)
+			}
+			else if (health <= 1.4)
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0.3}, 0.15, {ease: FlxEase.sineInOut});
-			}else if (health <= 1.5)
+			}
+			else if (health <= 1.5)
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0.25}, 0.15, {ease: FlxEase.sineInOut});
-			}else if (health <= 1.6)
+			}
+			else if (health <= 1.6)
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0.2}, 0.15, {ease: FlxEase.sineInOut});
-			}else if (health <= 1.7)
+			}
+			else if (health <= 1.7)
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0.15}, 0.15, {ease: FlxEase.sineInOut});
-			}else if (health <= 1.8)
+			}
+			else if (health <= 1.8)
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0.1}, 0.15, {ease: FlxEase.sineInOut});
-			}else if (health <= 1.9)
+			}
+			else if (health <= 1.9)
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0.05}, 0.15, {ease: FlxEase.sineInOut});
-			}else if (health <= 2)
+			}
+			else if (health <= 2)
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0}, 0.15, {ease: FlxEase.sineInOut});
 			}
 
 			/*
-			Okay, time to explain how the spacebar works, basically, you can't spam it anymore unlike the Psych counterpart.
-			With the conditions given, the spacebar becomes available and accessible when your HP is at exactly 12.5% health or lower.
-			Seems simple, right? Well, people can easily exploit this if there is no limit given, so that's where the "limitThing" variable comes in.
-			As you see at the top, it's at 0, but in the create function, you can see it adds a certain amount based on the song given (by default, it's 5).
-			The moment it reaches 0, you will no longer be able to use the spacebar key, encouraging players to actually use it wisely.
-			*/
-			if(FlxG.keys.justPressed.SPACE && health < 0.3 && limitThing > 0)
+				Okay, time to explain how the spacebar works, basically, you can't spam it anymore unlike the Psych counterpart.
+				With the conditions given, the spacebar becomes available and accessible when your HP is at exactly 12.5% health or lower.
+				Seems simple, right? Well, people can easily exploit this if there is no limit given, so that's where the "limitThing" variable comes in.
+				As you see at the top, it's at 0, but in the create function, you can see it adds a certain amount based on the song given (by default, it's 5).
+				The moment it reaches 0, you will no longer be able to use the spacebar key, encouraging players to actually use it wisely.
+			 */
+			if (FlxG.keys.justPressed.SPACE && health < 0.3 && limitThing > 0)
 			{
 				health += 1.25;
 				limitThing -= 1;
@@ -1050,7 +1152,7 @@ class PlayState extends MusicBeatState
 					{
 						PlayState.SONG.validScore = false;
 						bfStrums.autoplay = !bfStrums.autoplay;
-						switch(Main.getOption('HUD Style').toLowerCase())
+						switch (Main.getOption('HUD Style').toLowerCase())
 						{
 							case 'psych':
 								psychHUD.autoplayMark.visible = bfStrums.autoplay;
@@ -1133,10 +1235,10 @@ class PlayState extends MusicBeatState
 		}
 
 		callFunc('postUpdate', [elapsed]);
-		
+
 		// this needs to exist
-		for(shit in shaderUpdates)
-		    shit(elapsed);
+		for (shit in shaderUpdates)
+			shit(elapsed);
 	}
 
 	private var isDead:Bool = false;
@@ -1811,11 +1913,14 @@ class PlayState extends MusicBeatState
 
 		songMusic = new FlxSound().loadEmbedded(Paths.inst(SONG.song), false, true);
 
-		if (SONG.needsVoices) {
+		if (SONG.needsVoices)
+		{
 			vocals = new FlxSound().loadEmbedded(Paths.voices(SONG.song), false, true);
 			bf_vocals = new FlxSound().loadEmbedded(Paths.voicesPlayer(SONG.song, CoolUtil.difficultyString.toLowerCase(), SONG.player1), false, true);
 			dad_vocals = new FlxSound().loadEmbedded(Paths.voicesOpponent(SONG.song, CoolUtil.difficultyString.toLowerCase()), false, true);
-		} else {
+		}
+		else
+		{
 			vocals = new FlxSound();
 			bf_vocals = new FlxSound();
 			dad_vocals = new FlxSound();
@@ -1876,7 +1981,7 @@ class PlayState extends MusicBeatState
 
 	public function eventTrigger(name:String, params:Array<String>)
 	{
-		switch(name)
+		switch (name)
 		{
 			case 'Multiply Scroll Speed':
 				var mult:Float = Std.parseFloat(params[0]);
@@ -1907,82 +2012,83 @@ class PlayState extends MusicBeatState
 				var flashing = !Init.trueSettings.get('Disable Flashing Lights');
 				var val3:Float = Std.parseFloat(params[2]);
 
-				if(flashing)
+				if (flashing)
+				{
+					if (params[0].trim() == "")
+						params[0] = 'white';
+
+					if (Math.isNaN(val3))
+						val3 = 1;
+
+					switch (params[0])
 					{
-						if(params[0].trim() == "")
-							params[0] = 'white';
-
-						if(Math.isNaN(val3)) val3 = 1;
-	  
-					  switch (params[0])
-					  {
-							case 'white' | 'White' | '0':
-								 PlayState.camGame.flash(FlxColor.WHITE, val3);
-							case 'red' | 'Red' | '1':
-								 PlayState.camGame.flash(FlxColor.RED, val3);
-							case 'blue' | 'Blue' | '2':
-								 PlayState.camGame.flash(FlxColor.BLUE, val3);
-							case 'black' | 'Black' | '3':
-								 PlayState.camGame.flash(FlxColor.BLACK, val3);
-							case 'cyan' | 'Cyan' | '4':
-								 PlayState.camGame.flash(FlxColor.CYAN, val3);
-							case 'Magenta' | 'magenta' | '5':
-								 PlayState.camGame.flash(FlxColor.MAGENTA, val3);
-							case 'pink' | 'Pink' | '6':
-								 PlayState.camGame.flash(FlxColor.PINK, val3);
-							case 'orange' | 'Orange' | '7':
-								 PlayState.camGame.flash(FlxColor.ORANGE, val3);
-							case 'purple' | 'Purple' | '8':
-								 PlayState.camGame.flash(FlxColor.PURPLE, val3);
-							case 'lime' | 'Lime' | '9': //lime test windows
-								 PlayState.camGame.flash(FlxColor.LIME, val3);
-					  }
+						case 'white' | 'White' | '0':
+							PlayState.camGame.flash(FlxColor.WHITE, val3);
+						case 'red' | 'Red' | '1':
+							PlayState.camGame.flash(FlxColor.RED, val3);
+						case 'blue' | 'Blue' | '2':
+							PlayState.camGame.flash(FlxColor.BLUE, val3);
+						case 'black' | 'Black' | '3':
+							PlayState.camGame.flash(FlxColor.BLACK, val3);
+						case 'cyan' | 'Cyan' | '4':
+							PlayState.camGame.flash(FlxColor.CYAN, val3);
+						case 'Magenta' | 'magenta' | '5':
+							PlayState.camGame.flash(FlxColor.MAGENTA, val3);
+						case 'pink' | 'Pink' | '6':
+							PlayState.camGame.flash(FlxColor.PINK, val3);
+						case 'orange' | 'Orange' | '7':
+							PlayState.camGame.flash(FlxColor.ORANGE, val3);
+						case 'purple' | 'Purple' | '8':
+							PlayState.camGame.flash(FlxColor.PURPLE, val3);
+						case 'lime' | 'Lime' | '9': // lime test windows
+							PlayState.camGame.flash(FlxColor.LIME, val3);
 					}
+				}
 
-					if (flashing)
-						{
-							 switch (params[1])
-							 {
-								  case 'false' | 'False':
-										PlayState.camHUD.visible = true;
-										for(theStrumsWhichAreOnAGoddamnArray in strumHUD)
-											theStrumsWhichAreOnAGoddamnArray.visible = true;
-								  case 'true' | 'True':
-										PlayState.camHUD.visible = false;
-										for(theStrumsWhichAreOnAGoddamnArray in strumHUD)
-											theStrumsWhichAreOnAGoddamnArray.visible = false;
-								  default: 
-										PlayState.camHUD.visible = true;
-										for(theStrumsWhichAreOnAGoddamnArray in strumHUD)
-											theStrumsWhichAreOnAGoddamnArray.visible = true;
-							 }
-						}
-						else
-						{
-							 switch (params[1])
-							 {
-								  case 'false' | 'False':
-										FlxTween.tween(PlayState.camHUD, {alpha: 1}, 1);
-										for(theStrumsWhichAreOnAGoddamnArray in strumHUD)
-											FlxTween.tween(theStrumsWhichAreOnAGoddamnArray, {alpha: 1}, 1);
-								  case 'true' | 'True':
-										FlxTween.tween(PlayState.camHUD, {alpha: 0}, 1);
-										for(theStrumsWhichAreOnAGoddamnArray in strumHUD)
-											FlxTween.tween(theStrumsWhichAreOnAGoddamnArray, {alpha: 0}, 1);
-								  default: 
-										FlxTween.tween(PlayState.camHUD, {alpha: 1}, 1);
-										for(theStrumsWhichAreOnAGoddamnArray in strumHUD)
-											FlxTween.tween(theStrumsWhichAreOnAGoddamnArray, {alpha: 1}, 1);
-							 }
-						}
+				if (flashing)
+				{
+					switch (params[1])
+					{
+						case 'false' | 'False':
+							PlayState.camHUD.visible = true;
+							for (theStrumsWhichAreOnAGoddamnArray in strumHUD)
+								theStrumsWhichAreOnAGoddamnArray.visible = true;
+						case 'true' | 'True':
+							PlayState.camHUD.visible = false;
+							for (theStrumsWhichAreOnAGoddamnArray in strumHUD)
+								theStrumsWhichAreOnAGoddamnArray.visible = false;
+						default:
+							PlayState.camHUD.visible = true;
+							for (theStrumsWhichAreOnAGoddamnArray in strumHUD)
+								theStrumsWhichAreOnAGoddamnArray.visible = true;
+					}
+				}
+				else
+				{
+					switch (params[1])
+					{
+						case 'false' | 'False':
+							FlxTween.tween(PlayState.camHUD, {alpha: 1}, 1);
+							for (theStrumsWhichAreOnAGoddamnArray in strumHUD)
+								FlxTween.tween(theStrumsWhichAreOnAGoddamnArray, {alpha: 1}, 1);
+						case 'true' | 'True':
+							FlxTween.tween(PlayState.camHUD, {alpha: 0}, 1);
+							for (theStrumsWhichAreOnAGoddamnArray in strumHUD)
+								FlxTween.tween(theStrumsWhichAreOnAGoddamnArray, {alpha: 0}, 1);
+						default:
+							FlxTween.tween(PlayState.camHUD, {alpha: 1}, 1);
+							for (theStrumsWhichAreOnAGoddamnArray in strumHUD)
+								FlxTween.tween(theStrumsWhichAreOnAGoddamnArray, {alpha: 1}, 1);
+					}
+				}
 
-				case 'Screen Fade':
-					var value1:Float = Std.parseFloat(params[0]);
-					var value2 = Std.parseFloat(params[1]);
+			case 'Screen Fade':
+				var value1:Float = Std.parseFloat(params[0]);
+				var value2 = Std.parseFloat(params[1]);
 
-					FlxTween.tween(fade, {alpha: value1}, value2, {ease: FlxEase.sineInOut});
+				FlxTween.tween(fade, {alpha: value1}, value2, {ease: FlxEase.sineInOut});
 		}
-		
+
 		if (Events.loadedEvents.get(name) != null)
 		{
 			var eventModule:ScriptHandler = Events.loadedEvents.get(name);
@@ -2089,7 +2195,7 @@ class PlayState extends MusicBeatState
 				coolNote.beatHit(curBeat);
 			});
 		}
-		
+
 		// Mechanics we don't want peeps to actually modify when snooping through the release files
 		switch (SONG.song)
 		{
@@ -2099,16 +2205,23 @@ class PlayState extends MusicBeatState
 					case 64: FlxTween.tween(opponent, {alpha: 1}, 10);
 					case 424: FlxTween.tween(opponent, {alpha: 0}, 5);
 				}
-				
+
 			case 'Mercy Legacy':
-				if (curBeat >= 0 && curBeat <= 63) PlayState.health -= 0.02;
-				else if (curBeat >= 64 && curBeat <= 95) PlayState.health -= 0.2;
-				else if (curBeat >= 96 && curBeat <= 127) PlayState.health -= 0.06;
-				else if (curBeat >= 128 && curBeat <= 191) PlayState.health -= 0.16;
-				else if (curBeat >= 192 && curBeat <= 255) PlayState.health -= 0.1;
-				else if (curBeat >= 256 && curBeat <= 319) PlayState.health -= 0.18;
-				else if (curBeat >= 320) PlayState.health -= 0.01;
-				
+				if (curBeat >= 0 && curBeat <= 63)
+					PlayState.health -= 0.02;
+				else if (curBeat >= 64 && curBeat <= 95)
+					PlayState.health -= 0.2;
+				else if (curBeat >= 96 && curBeat <= 127)
+					PlayState.health -= 0.06;
+				else if (curBeat >= 128 && curBeat <= 191)
+					PlayState.health -= 0.16;
+				else if (curBeat >= 192 && curBeat <= 255)
+					PlayState.health -= 0.1;
+				else if (curBeat >= 256 && curBeat <= 319)
+					PlayState.health -= 0.18;
+				else if (curBeat >= 320)
+					PlayState.health -= 0.01;
+
 			case 'Mercy':
 				// Cam Stuff Handler
 				switch (curBeat)
@@ -2117,26 +2230,26 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(camGame, {alpha: 1}, 5, {ease: FlxEase.sineInOut});
 						FlxTween.tween(camHUD, {alpha: 1}, 5, {ease: FlxEase.sineInOut, startDelay: 1.5});
 						defaultCamZoom = 1.3;
-				
+
 					case 32: defaultCamZoom = 1.2;
 					case 40: defaultCamZoom = 1.1;
 					case 48: defaultCamZoom = 1;
 					case 56: defaultCamZoom = 0.9;
 					case 64: defaultCamZoom = 0.75;
-				
+
 					// Very Spooky Phase 2 Walt (real)
 					case 256: FlxTween.tween(camGame, {alpha: 0}, 1, {ease: FlxEase.sineInOut});
-				
+
 					case 264:
 						FlxTween.tween(camGame, {alpha: 1}, 2, {ease: FlxEase.sineInOut});
 						defaultCamZoom = 1.3;
-				
+
 					case 275:
 						defaultCamZoom = 0.8;
 						inkFormWarning.alpha = 1;
-				
+
 					case 276: FlxTween.tween(inkFormWarning, {alpha: 0}, 2, {ease: FlxEase.sineInOut});
-				
+
 					// Final Stretch
 					case 494:
 						camHUD.flash(ForeverTools.returnColor("white"), 3);
@@ -2144,34 +2257,53 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(bfStrums, {alpha: 0}, 1, {ease: FlxEase.sineInOut});
 						FlxTween.tween(camHUD, {alpha: 0}, 1, {ease: FlxEase.sineInOut, startDelay: 3});
 						FlxTween.tween(spaceBarCounter, {alpha: 0}, 2, {ease: FlxEase.sineInOut});
-				
+
 					case 500: bfStrums.visible = false;
-						
 				}
-				
+
 				// Health Drain Shit
-				if (curBeat >= 0 && curBeat <= 63) PlayState.health -= 0.005;
-				else if (curBeat >= 64 && curBeat <= 79) PlayState.health -= 0.01;
-				else if (curBeat >= 80 && curBeat <= 87) PlayState.health -= 0.07;
-				else if (curBeat >= 88 && curBeat <= 95) PlayState.health -= 0.01;
-				else if (curBeat >= 96 && curBeat <= 127) PlayState.health -= 0.03;
-				else if (curBeat >= 128 && curBeat <= 159) PlayState.health -= 0.1;
-				else if (curBeat >= 160 && curBeat <= 191) PlayState.health -= 0.06;
-				else if (curBeat >= 192 && curBeat <= 207) PlayState.health -= 0.01;
-				else if (curBeat >= 208 && curBeat <= 239) PlayState.health -= 0.04;
-				else if (curBeat >= 240 && curBeat <= 255) PlayState.health -= 0.005;
-				else if (curBeat >= 256 && curBeat <= 291) PlayState.health -= 0.03;
-				else if (curBeat >= 292 && curBeat <= 307) PlayState.health -= 0.05;
-				else if (curBeat >= 308 && curBeat <= 339) PlayState.health -= 0.085;
-				else if (curBeat >= 340 && curBeat <= 371) PlayState.health -= 0.1;
-				else if (curBeat >= 372 && curBeat <= 387) PlayState.health -= 0.12;
-				else if (curBeat >= 388 && curBeat <= 403) PlayState.health -= 0.135;
-				else if (curBeat >= 404 && curBeat <= 451) PlayState.health -= 0.15;
-				else if (curBeat >= 452 && curBeat <= 467) PlayState.health -= 0.2;
-				else if (curBeat >= 468 && curBeat <= 475) PlayState.health -= 0.25;
-				else if (curBeat >= 476 && curBeat <= 489) PlayState.health -= 0.3;
-				else if (curBeat >= 490) PlayState.health -= 0.02;
-			
+				if (curBeat >= 0 && curBeat <= 63)
+					PlayState.health -= 0.005;
+				else if (curBeat >= 64 && curBeat <= 79)
+					PlayState.health -= 0.01;
+				else if (curBeat >= 80 && curBeat <= 87)
+					PlayState.health -= 0.07;
+				else if (curBeat >= 88 && curBeat <= 95)
+					PlayState.health -= 0.01;
+				else if (curBeat >= 96 && curBeat <= 127)
+					PlayState.health -= 0.03;
+				else if (curBeat >= 128 && curBeat <= 159)
+					PlayState.health -= 0.1;
+				else if (curBeat >= 160 && curBeat <= 191)
+					PlayState.health -= 0.06;
+				else if (curBeat >= 192 && curBeat <= 207)
+					PlayState.health -= 0.01;
+				else if (curBeat >= 208 && curBeat <= 239)
+					PlayState.health -= 0.04;
+				else if (curBeat >= 240 && curBeat <= 255)
+					PlayState.health -= 0.005;
+				else if (curBeat >= 256 && curBeat <= 291)
+					PlayState.health -= 0.03;
+				else if (curBeat >= 292 && curBeat <= 307)
+					PlayState.health -= 0.05;
+				else if (curBeat >= 308 && curBeat <= 339)
+					PlayState.health -= 0.085;
+				else if (curBeat >= 340 && curBeat <= 371)
+					PlayState.health -= 0.1;
+				else if (curBeat >= 372 && curBeat <= 387)
+					PlayState.health -= 0.12;
+				else if (curBeat >= 388 && curBeat <= 403)
+					PlayState.health -= 0.135;
+				else if (curBeat >= 404 && curBeat <= 451)
+					PlayState.health -= 0.15;
+				else if (curBeat >= 452 && curBeat <= 467)
+					PlayState.health -= 0.2;
+				else if (curBeat >= 468 && curBeat <= 475)
+					PlayState.health -= 0.25;
+				else if (curBeat >= 476 && curBeat <= 489)
+					PlayState.health -= 0.3;
+				else if (curBeat >= 490)
+					PlayState.health -= 0.02;
 		}
 
 		callFunc('beatHit', [curBeat]);
@@ -2362,7 +2494,7 @@ class PlayState extends MusicBeatState
 		canPause = false;
 
 		// ACTUAL cutscenes stuff
-		switch (SONG.song.toLowerCase().replace('-', ' ')) 
+		switch (SONG.song.toLowerCase().replace('-', ' '))
 		{
 			default:
 				startCountdown();
@@ -2458,15 +2590,15 @@ class PlayState extends MusicBeatState
 		}
 		//
 
-		switch(Main.getOption('HUD Style').toLowerCase())
+		switch (Main.getOption('HUD Style').toLowerCase())
 		{
-			case 'psych': //psych engine fans gonna go nuts about this
+			case 'psych': // psych engine fans gonna go nuts about this
 				FlxTween.tween(psychHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 
-			case 'demolition': //demoliton HUD
+			case 'demolition': // demoliton HUD
 				FlxTween.tween(demolitionHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 
-			default: //forever HUD
+			default: // forever HUD
 				FlxTween.tween(uiHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 		}
 
@@ -2542,7 +2674,7 @@ class PlayState extends MusicBeatState
 				completeFPSong();
 				switch (CoolUtil.dashToSpace(SONG.song))
 				{
-					case 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Facade' | 'Mortiferum Risus':
+					case 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus':
 						Main.switchState(this, new states.menus.freeplay.FreeplayState());
 					case 'Isolated Legacy' | 'Lunacy Legacy' | 'Delusional Legacy' | 'Malfunction Legacy' | 'Mercy Legacy':
 						Main.switchState(this, new states.menus.freeplay.LegacyState());
@@ -2606,7 +2738,7 @@ class PlayState extends MusicBeatState
 			logTrace(text, time, onConsole);
 		});
 
-		//gonna be useful someday
+		// gonna be useful someday
 		setVar('playCutscene', function(video:String)
 		{
 			@:privateAccess
@@ -2619,9 +2751,9 @@ class PlayState extends MusicBeatState
 
 		setVar('GameWindow', lime.app.Application.current.window);
 		setVar('getGameMeta', function(meta:String)
-			{
+		{
 			return lime.app.Application.current.meta.get(meta);
-			});
+		});
 
 		// CHARACTERS
 		setVar('songName', PlayState.SONG.song.toLowerCase());

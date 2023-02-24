@@ -39,51 +39,34 @@ class PauseSubstate extends MusicBeatSubstate
 	var disc:FlxSprite;
 	var songArt:FlxSprite;
 	var songArtOutline:FlxSprite;
-	//var songList:Array<String> = ['cycled-sins', 'malfunction', 'episode2', 'mercy', 'bless', 'hunted', 'unknown-song'];
+
+	// var songList:Array<String> = ['cycled-sins', 'malfunction', 'episode2', 'mercy', 'bless', 'hunted', 'unknown-song'];
 
 	public function new(x:Float, y:Float, ?itemStack:Array<String>)
 	{
 		super();
 
-			// apprently, it works like this
-			if (PlayState.SONG.song == 'War Dilemma')
-			{
-				if (itemStack == null)
-					itemStack = [
-						'wd-continue',
-						'wd-restart',
-						'wd-settings',
-						'wd-escape'
-					];
-			}
-			else if (PlayState.SONG.song == 'Birthday')
-			{
-				if (itemStack == null)
-					itemStack = [
-						'continue',
-						'restart',
-						'settings',
-						'leave'
-					];
-			}
-			else if (PlayState.SONG.song == 'Malfunction')
-			{
-				if (itemStack == null)
-					itemStack = [
-						'mal-continue',
-						'mal-restart',
-						'mal-settings',
-						'rage'
-					];
-			} else {
-				if (itemStack == null)
-					itemStack = [
-						'continue',
-						'restart',
-						'settings',
-						'escape'
-					];
-			}
+		// apprently, it works like this
+		if (PlayState.SONG.song == 'War Dilemma')
+		{
+			if (itemStack == null)
+				itemStack = ['wd-continue', 'wd-restart', 'wd-settings', 'wd-escape'];
+		}
+		else if (PlayState.SONG.song == 'Birthday')
+		{
+			if (itemStack == null)
+				itemStack = ['continue', 'restart', 'settings', 'leave'];
+		}
+		else if (PlayState.SONG.song == 'Malfunction')
+		{
+			if (itemStack == null)
+				itemStack = ['mal-continue', 'mal-restart', 'mal-settings', 'rage'];
+		}
+		else
+		{
+			if (itemStack == null)
+				itemStack = ['continue', 'restart', 'settings', 'escape'];
+		}
 
 		toOptions = false;
 
@@ -115,7 +98,7 @@ class PauseSubstate extends MusicBeatSubstate
 
 		disc = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/pause/disc'));
 		disc.setPosition(200, 0); // sets it off-screen
-		//disc.screenCenter();
+		// disc.screenCenter();
 		disc.origin.set(970, 560);
 		FlxTween.tween(disc, {angle: 360}, 2.5, {type: FlxTweenType.LOOPING});
 		add(disc);
@@ -127,7 +110,7 @@ class PauseSubstate extends MusicBeatSubstate
 		{
 			case 'Hunted':
 				songArt.loadGraphic(Paths.image(getArt + 'hunted'));
-			case 'Twisted Grins' | 'Facade' | 'Mortiferum Risus':
+			case 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus':
 				songArt.loadGraphic(Paths.image(getArt + 'episode2'));
 			case 'Malfunction Legacy':
 				songArt.loadGraphic(Paths.image(getArt + 'malfunction'));
@@ -151,7 +134,8 @@ class PauseSubstate extends MusicBeatSubstate
 		songArt.scale.set(0.29, 0.29);
 
 		songArtOutline = new FlxSprite(800 - 20, 130 - 20 /*POV: you're lazy to do the math yourself*/).makeGraphic(890, 890, FlxColor.BLACK);
-		songArtOutline.scale.set(0.29, 0.29); // this was easier for me to scale it off the ORIGINAL image size instead of just trying to get the exact graphic size of the song art being SCALED
+		songArtOutline.scale.set(0.29,
+			0.29); // this was easier for me to scale it off the ORIGINAL image size instead of just trying to get the exact graphic size of the song art being SCALED
 
 		add(songArtOutline);
 		add(songArt);
@@ -299,7 +283,9 @@ class PauseSubstate extends MusicBeatSubstate
 					{
 						FlxG.camera.shake(0.05, 0.15);
 						songText.alpha = 0.2;
-					}else{
+					}
+					else
+					{
 						PlayState.clearStored = true;
 						PlayState.resetMusic();
 						PlayState.deaths = 0;
@@ -309,17 +295,18 @@ class PauseSubstate extends MusicBeatSubstate
 						else
 							switch (CoolUtil.dashToSpace(PlayState.SONG.song))
 							{
-								case 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Facade' | 'Mortiferum Risus':
+								case 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus':
 									Main.switchState(this, new states.menus.freeplay.FreeplayState());
 								case 'Isolated Legacy' | 'Lunacy Legacy' | 'Delusional Legacy' | 'Malfunction Legacy' | 'Mercy Legacy' | 'Hunted Legacy':
 									Main.switchState(this, new states.menus.freeplay.LegacyState());
 								case 'Birthday':
 									Main.switchState(this, new states.ManIHateYouSoMuchYouMadeMuckneySad()); // grah
 								default:
-									Main.switchState(this, new states.menus.freeplay.ExtrasState()); // yeah, there's no way I'm making a case for EVERY fucking song in that menu, too much work!
+									Main.switchState(this,
+										new states.menus.freeplay.ExtrasState()); // yeah, there's no way I'm making a case for EVERY fucking song in that menu, too much work!
 							}
-							//clearStored = true;
-							//Main.switchState(this, new states.menus.freeplay.FreeplayState());
+						// clearStored = true;
+						// Main.switchState(this, new states.menus.freeplay.FreeplayState());
 					}
 			}
 		}

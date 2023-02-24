@@ -69,12 +69,12 @@ class Main extends Sprite
 	/**
 	 * The desing width of this game. You will use either this or the design heigh
 	 */
-	 private static inline var DESIGN_WIDTH:Int = 1280;
+	private static inline var DESIGN_WIDTH:Int = 1280;
 
-	 /**
-	  * The desing height of this game. You will use either this or the design width
-	  */
-	 private static inline var DESIGN_HEIGHT:Int = 720;
+	/**
+	 * The desing height of this game. You will use either this or the design width
+	 */
+	private static inline var DESIGN_HEIGHT:Int = 720;
 
 	private static var infoCounter:Overlay; // initialize the heads up display that shows information before creating it.
 	private static var infoConsole:Console; // intiialize the on-screen console for script debug traces before creating it.
@@ -89,120 +89,114 @@ class Main extends Sprite
 	// weeks set up!
 	public static var weeksMap:Map<String, GameWeek> = [];
 	public static var weeks:Array<String> = [];
-	public static var gameWeeksE:Array<Dynamic> = [ // Hardcoded Main Weeks for Main Story Menu
+	public static var gameWeeksE:Array<Dynamic> = [
+		// Hardcoded Main Weeks for Main Story Menu
 		[
 			['isolated', 'lunacy', 'delusional'],
 			['mick-isolated-new', 'lunamick-new', 'face'],
 			[FlxColor.fromRGB(60, 60, 60)],
-			'Mickey in: Never-Ending Cycle'
-			//'episode1-bg'
+			'Mickey in: Never-Ending Cycle' // 'episode1-bg'
 		],
 		[
 			['???', '???', '???'],
 			['face', 'face', 'face'],
 			[FlxColor.fromRGB(60, 60, 60)],
-			'Coming Soon...'
-			//'epi_2_teaser-bg'
+			'Coming Soon...' // 'epi_2_teaser-bg'
 		],
 		[
 			['???', '???', '???'],
 			['face', 'face', 'face'],
 			[FlxColor.fromRGB(60, 60, 60)],
-			'Coming Soon...'
-			//'coming_soon-bg'
+			'Coming Soon...' // 'coming_soon-bg'
 		],
 		[
 			['???', '???', '???'],
 			['face', 'face', 'face'],
 			[FlxColor.fromRGB(60, 60, 60)],
-			'Coming Soon...'
-			//'coming_soon-bg'
+			'Coming Soon...' // 'coming_soon-bg'
 		],
 	];
-	public static var gameWeeksB:Array<Dynamic> = [ // Hardcoded Bonus Weeks for 2nd Story Menu
+	public static var gameWeeksB:Array<Dynamic> = [
+		// Hardcoded Bonus Weeks for 2nd Story Menu
 		[
 			['Twisted-Grins', 'Resentment', 'Mortiferum-Risus'],
 			['mr-smiles', 'mr-smiles', 'mr-smiles'],
 			[FlxColor.fromRGB(60, 60, 60)],
-			'Boyriend in: Sinister Smiles'
-			//'smiles-bg'
+			'Boyriend in: Sinister Smiles' // 'smiles-bg'
 		],
 		[
 			['Mercy', 'Affliction'],
 			['walt', 'walt'], // Waltuh
 			[FlxColor.fromRGB(60, 60, 60)],
-			'Boyfriend in: Sentient Ink'
-			//'walt-bg'
+			'Boyfriend in: Sentient Ink' // 'walt-bg'
 		],
 	];
-	
 
 	/*public static function loadHardcodedBonusWeeks()
+			{
+				weeksMap = [
+					"smilesWeek" => {
+						songs: [
+							{
+								"name": "Twisted-Grins",
+								"opponent": "mr-smiles",
+								"colors": [129, 100, 223]
+							},
+							{
+								"name": "Resentment",
+								"opponent": "mr-smiles",
+								"colors": [129, 100, 223]
+							},
+							{
+								"name": "Mortiferum Risus",
+								"opponent": "mr-smiles",
+								"colors": [129, 100, 223]
+							}
+						],
+
+						attachedImage: "episode2", //placeholder
+						storyName: "Boyfriend in: Sinister Smiles",
+						characters: ["none", "none", "none"],
+
+						startsLocked: false,
+						hideOnStory: false,
+						hideOnFreeplay: false,
+						hideUntilUnlocked: false
+					},
+					"waltWeek" => {
+						songs: [
+							{
+								"name": "Mercy",
+								"opponent": "walt",
+								"colors": [60, 60, 60]
+							},
+							{
+								"name": "Affliction",
+								"opponent": "walt",
+								"colors": [60, 60, 60]
+							},
+						],
+
+						attachedImage: "episode2", //placeholder
+						storyName: "Boyfriend in: Sentient Ink",
+						characters: ["none", "none", "none"],
+
+						startsLocked: false,
+						hideOnStory: false,
+						hideOnFreeplay: false,
+						hideUntilUnlocked: false
+					}
+				];
+				weeks.push(['smilesWeek', 'waltWeek']);
+		}
+
+		public static function loadBonusGameWeeks(isStory:Bool)
 		{
-			weeksMap = [
-				"smilesWeek" => {
-					songs: [
-						{
-							"name": "Twisted-Grins",
-							"opponent": "mr-smiles",
-							"colors": [129, 100, 223]
-						},
-						{
-							"name": "Facade",
-							"opponent": "mr-smiles",
-							"colors": [129, 100, 223]
-						},
-						{
-							"name": "Mortiferum Risus",
-							"opponent": "mr-smiles",
-							"colors": [129, 100, 223]
-						}
-					],
+			weeksMap.clear();
+			weeks = [];
 
-					attachedImage: "episode2", //placeholder
-					storyName: "Boyfriend in: Sinister Smiles",
-					characters: ["none", "none", "none"],
-
-					startsLocked: false,
-					hideOnStory: false,
-					hideOnFreeplay: false,
-					hideUntilUnlocked: false
-				},
-				"waltWeek" => {
-					songs: [
-						{
-							"name": "Mercy",
-							"opponent": "walt",
-							"colors": [60, 60, 60]
-						},
-						{
-							"name": "Affliction",
-							"opponent": "walt",
-							"colors": [60, 60, 60]
-						},
-					],
-
-					attachedImage: "episode2", //placeholder
-					storyName: "Boyfriend in: Sentient Ink",
-					characters: ["none", "none", "none"],
-
-					startsLocked: false,
-					hideOnStory: false,
-					hideOnFreeplay: false,
-					hideUntilUnlocked: false
-				}
-			];
-			weeks.push(['smilesWeek', 'waltWeek']);
-	}
-	
-	public static function loadBonusGameWeeks(isStory:Bool)
-	{
-		weeksMap.clear();
-		weeks = [];
-
-		loadHardcodedBonusWeeks();
+			loadHardcodedBonusWeeks();
 	}*/
-	
 	public static function loadGameWeeks(isStory:Bool)
 	{
 		weeksMap.clear();
@@ -301,8 +295,7 @@ class Main extends Sprite
 		FlxTransitionableState.skipNextTransIn = true;
 
 		// here we set up the base game
-		baseGame = new FNFGame(_width, _height, Init, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash,
-			game.fullscreen);
+		baseGame = new FNFGame(_width, _height, Init, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash, game.fullscreen);
 		addChild(baseGame); // and create it afterwards
 
 		// initialize the game controls;
@@ -389,54 +382,54 @@ class Main extends Sprite
 
 	// imagine stealing code smh
 	function onWindowFocusOut()
+	{
+		focused = false;
+
+		// Lower global volume when unfocused
+		oldVol = FlxG.sound.volume;
+		if (oldVol > 0.3)
 		{
-			focused = false;
-	
-			// Lower global volume when unfocused
-				oldVol = FlxG.sound.volume;
-				if (oldVol > 0.3)
-				{
-					newVol = 0.3;
-				}
-				else
-				{
-					if (oldVol > 0.1)
-					{
-						newVol = 0.1;
-					}
-					else
-					{
-						newVol = 0;
-					}
-				}
-	
-				if (focusMusicTween != null)
-					focusMusicTween.cancel();
-				focusMusicTween = FlxTween.tween(FlxG.sound, {volume: newVol}, 0.5);
-	
-				// Conserve power by lowering draw framerate when unfocuced
-				FlxG.drawFramerate = 60;
-				FlxG.updateFramerate = 60;
+			newVol = 0.3;
 		}
-	
-		function onWindowFocusIn()
+		else
 		{
-			new FlxTimer().start(0.2, function(tmr:FlxTimer)
+			if (oldVol > 0.1)
 			{
-				focused = true;
-			});
-	
-			// Lower global volume when unfocused
-				// Normal global volume when focused
-				if (focusMusicTween != null)
-					focusMusicTween.cancel();
-	
-				focusMusicTween = FlxTween.tween(FlxG.sound, {volume: oldVol}, 0.5);
-	
-				// Bring framerate back when focused
-				FlxG.drawFramerate = 60;
-				FlxG.updateFramerate = 60;
+				newVol = 0.1;
+			}
+			else
+			{
+				newVol = 0;
+			}
 		}
+
+		if (focusMusicTween != null)
+			focusMusicTween.cancel();
+		focusMusicTween = FlxTween.tween(FlxG.sound, {volume: newVol}, 0.5);
+
+		// Conserve power by lowering draw framerate when unfocuced
+		FlxG.drawFramerate = 60;
+		FlxG.updateFramerate = 60;
+	}
+
+	function onWindowFocusIn()
+	{
+		new FlxTimer().start(0.2, function(tmr:FlxTimer)
+		{
+			focused = true;
+		});
+
+		// Lower global volume when unfocused
+		// Normal global volume when focused
+		if (focusMusicTween != null)
+			focusMusicTween.cancel();
+
+		focusMusicTween = FlxTween.tween(FlxG.sound, {volume: oldVol}, 0.5);
+
+		// Bring framerate back when focused
+		FlxG.drawFramerate = 60;
+		FlxG.updateFramerate = 60;
+	}
 
 	function onCrash(e:UncaughtErrorEvent):Void
 	{
@@ -494,7 +487,8 @@ class Main extends Sprite
 	}
 
 	@:deprecated('Use "option" instead')
-	public static var getOption = function(e:String) {
+	public static var getOption = function(e:String)
+	{
 		return Init.trueSettings.get(e);
 	}
 
