@@ -12,6 +12,7 @@ typedef SwagSong =
 	var events:Array<Dynamic>;
 	var bpm:Float;
 	var needsVoices:Bool;
+	var instType:String;
 	var speed:Float;
 	var player1:String;
 	var player2:String;
@@ -21,8 +22,6 @@ typedef SwagSong =
 	var splashSkin:String;
 	var assetModifier:String;
 	var validScore:Bool;
-	var composer:String;
-	var charter:String;
 
 	@:optional dynamic function copy():SwagSong;
 }

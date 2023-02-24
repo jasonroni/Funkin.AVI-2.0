@@ -20,6 +20,7 @@ jobs:
 
       - name: Install Haxelib
         run: |
+          sudo apt update -y && sudo apt install g++ -y
           haxelib setup ~/haxelib
           haxelib install hxcpp > /dev/null
           haxelib install lime

@@ -72,14 +72,15 @@ class GameOverSubstate extends MusicBeatSubstate
 			else
 				switch (CoolUtil.dashToSpace(PlayState.SONG.song))
 				{
-					case 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Facade' | 'Mortiferum Risus':
+					case 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus':
 						Main.switchState(this, new states.menus.freeplay.FreeplayState());
 					case 'Isolated Legacy' | 'Lunacy Legacy' | 'Delusional Legacy' | 'Malfunction Legacy' | 'Mercy Legacy' | 'Hunted Legacy':
 						Main.switchState(this, new states.menus.freeplay.LegacyState());
 					case 'Birthday':
 						Main.switchState(this, new states.ManIHateYouSoMuchYouMadeMuckneySad()); // grah
 					default:
-						Main.switchState(this, new states.menus.freeplay.ExtrasState()); // yeah, there's no way I'm making a case for EVERY fucking song in that menu, too much work!
+						Main.switchState(this,
+							new states.menus.freeplay.ExtrasState()); // yeah, there's no way I'm making a case for EVERY fucking song in that menu, too much work!
 				}
 		}
 

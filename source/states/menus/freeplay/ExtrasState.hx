@@ -566,6 +566,7 @@ class ExtrasState extends MusicBeatState
 							new ShaderFilter(chromAberration),
 							new ShaderFilter(defaultShader2)
 						]);
+					FlxG.camera.shake(0.01, 0.001);
 
 				case 'cycled-sins':
 					FlxG.camera.setFilters(
@@ -626,7 +627,11 @@ class ExtrasState extends MusicBeatState
 	{
 		var mySong:String = ' [Listening to: ${songs[curSelected].name}]';
 		#if DISCORD_RPC
+		#if DevBuild
+		Discord.changePresence('CHOOSING A SONG', 'Freeplay Menu (EXTRAS) [CLASSIFIED]', 'icon', 'disc-player');
+		#else
 		Discord.changePresence('CHOOSING A SONG', 'Freeplay Menu (EXTRAS)' + mySong, 'icon', 'disc-player');
+		#end
 		#end
 	}
 }

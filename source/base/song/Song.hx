@@ -11,14 +11,12 @@ class Song
 	public var notes:Array<SwagSection>;
 	public var bpm:Float;
 	public var needsVoices:Bool = true;
+	public var instType:String = "Legacy";
 	public var speed:Float = 1;
 
 	public var player1:String = 'bf';
 	public var player2:String = 'dad';
 	public var gfVersion:String = 'gf';
-	
-	public var composer:String = 'unknown';
-	public var charter:String = 'unknown';
 
 	public function new(song, notes, bpm)
 	{
@@ -57,6 +55,7 @@ class Song
 				noteSkin: "",
 				splashSkin: "noteSplashes",
 				needsVoices: false,
+				instType: "Legacy",
 				validScore: false,
 				assetModifier: "base",
 				composer: "unknown",
@@ -80,6 +79,7 @@ class Song
 				splashSkin: oldSong.splashSkin,
 				noteSkin: oldSong.noteSkin,
 				needsVoices: oldSong.needsVoices,
+				instType: oldSong.instType,
 				validScore: true,
 				assetModifier: oldSong.assetModifier,
 				composer: oldSong.composer,
