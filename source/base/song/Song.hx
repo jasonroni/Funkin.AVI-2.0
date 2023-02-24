@@ -13,6 +13,8 @@ class Song
 	public var needsVoices:Bool = true;
 	public var instType:String = "Legacy";
 	public var speed:Float = 1;
+	public var composer:String = "unknown";
+	public var charter:String = "unknown";
 
 	public var player1:String = 'bf';
 	public var player2:String = 'dad';
