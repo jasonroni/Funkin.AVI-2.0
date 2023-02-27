@@ -2470,7 +2470,7 @@ class PlayState extends MusicBeatState
 		var onFinish:Void->Void = endSong;
 
 		songMusic.volume = 0;
-		songMusocNew.volume = 0;
+		songMusicNew.volume = 0;
 		vocals.volume = 0;
 		bf_vocals.volume = 0;
 		opp_vocals.volume = 0;
@@ -2624,7 +2624,7 @@ class PlayState extends MusicBeatState
 				case 'never':
 					return false;
 				case 'freeplay only':
-					if (gameplayMode != STORY)
+					if (gameplayMode != STORY && SONG.song != "Malfunction")
 						return true;
 					else
 						return false;
