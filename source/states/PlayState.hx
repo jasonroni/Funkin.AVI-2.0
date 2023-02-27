@@ -2815,10 +2815,10 @@ class PlayState extends MusicBeatState
 		});
 
 		// gonna be useful someday
-		setVar('playCutscene', function(video:String)
+		setVar('playVideoCutscene', function(video:String, isEnd:Bool = false)
 		{
 			@:privateAccess
-			CutsceneState.playCutscene(video);
+			CutsceneState.playCutscene(video, isEnd);
 		});
 
 		setVar('inCutscene', inCutscene);
