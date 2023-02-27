@@ -20,11 +20,13 @@ using StringTools;
 class CutsceneState extends FlxState
 {
    public static var completedCutscene:Bool = false;
+   public static var isOutro:Bool = false;
    public var cutscene:String;
 
-   public function new(cutscene:String) 
+   public function new(cutscene:String, isEnd:Bool = false) 
       {
          this.cutscene = cutscene;
+         isOutro = isEnd;
          super();
       }
 
@@ -57,6 +59,26 @@ class CutsceneState extends FlxState
    private static function onFinishCallBack():Void
       {
          completedCutscene = true;
-         FlxG.switchState(new PlayState());
+         if (isOutro)
+         {
+            switch PlayState.SONG.song)
+            {
+                  case "Delusional":
+                     FlxG.switchState(new states.menus.story.MainStoryState());
+                  
+                  case "Affliction" | "Mortiferum Risus":
+                     FlxG.switchState(new states.menus.story.SideStoryState());
+                  
+                  case "Malfunction":
+                     FlxG.switchState(new states.menus.freeplay.ExtrasState());
+                  
+                  default:
+                     FlxG.switchState(new states.menus.MainMenu());
+            }           
+         }
+         else
+         {
+            FlxG.switchState(new PlayState());
+         }
       }
 }
