@@ -83,6 +83,12 @@ function onCreate()
 	{
 		if (PlayState.SONG.song == "Isolated")
 		{
+			if (curBeat == 32 || curBeat == 96 || curBeat == 128 || curBeat == 192 || curBeat == 224 || curBeat == 256 || curBeat == 288 || curBeat == 320)
+				if (!Init.trueSettings.get("Disable Flashing Lights")) PlayState.camGame.flash(ForeverTools.returnColor("white"), 1.5);
+			
+			if (curBeat == 48 || curBeat == 112 || curBeat == 144 || curBeat == 208 || curBeat == 240 || curBeat == 272 || curBeat == 304 || curBeat == 336)
+				if (!Init.trueSettings.get("Disable Flashing Lights")) PlayState.camGame.flash(ForeverTools.returnColor("black"), 1.5);
+			
 			if (curBeat == 160 || curBeat == 352)
 			{
 				FlxTween.tween(colorsOrSmthElse, {alpha: 0.15}, 0.5, {ease: FlxEase.quartOut});
