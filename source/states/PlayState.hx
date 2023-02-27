@@ -820,6 +820,32 @@ class PlayState extends MusicBeatState
 			limitThing += 25;
 		else if (SONG.song == 'Mercy')
 			limitThing += 20;
+			
+		if (SONG.song == 'Isolated')
+		{
+			for (i in strumHUD)
+			{
+				i.alpha = 0;
+				FlxTween.tween(i, {alpha: 1}, 5, {ease: FlxEase.quadOut, startDelay: 9));
+			}
+			camGame.alpha = 0;
+			camHUD.alpha = 0;
+			FlxTween.tween(camHUD, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 9});
+			FlxTween.tween(camGame, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 6});
+		}
+			
+		if (SONG.song == 'Lunacy')
+		{
+			for (i in strumHUD)
+			{
+				i.alpha = 0;
+				FlxTween.tween(i, {alpha: 1}, 5, {ease: FlxEase.quadOut, startDelay: 20});
+			}
+			camGame.alpha = 0;
+			camHUD.alpha = 0;
+			FlxTween.tween(camHUD, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 20});
+			FlxTween.tween(camGame, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 6});
+		}
 
 		// call the funny intro cutscene depending on the song
 		songCutscene(false);
@@ -2267,6 +2293,30 @@ class PlayState extends MusicBeatState
 		// Mechanics we don't want peeps to actually modify when snooping through the release files
 		switch (SONG.song)
 		{
+			case 'Isolated':
+				switch (curBeat)
+				{
+					case 32 | 96 | 128 | 192 | 224 | 256 | 288 | 320:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
+				
+					case 48 | 112 | 144 | 208 | 240 | 272 | 304 | 336:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.BLACK, 1.5);
+				
+					case 416:
+						camGame.visible = false;
+						camHUD.visible = false;
+						for (i in strumHUD)
+						{
+							i.visible = false;
+						}
+				}
+		
+			/*se 'Lunacy':
+				switch (curBeat)
+				{
+					
+				}*/
+				
 			case 'Scrapped':
 				switch (curBeat)
 				{
