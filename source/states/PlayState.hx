@@ -2470,8 +2470,13 @@ class PlayState extends MusicBeatState
 		var onFinish:Void->Void = endSong;
 
 		songMusic.volume = 0;
+		songMusocNew.volume = 0;
 		vocals.volume = 0;
+		bf_vocals.volume = 0;
+		opp_vocals.volume = 0;
 		vocals.pause();
+		bf_vocals.pause();
+		opp_vocals.pause();
 
 		if (ignoreOffset || Init.trueSettings['Offset'] <= 0)
 			onFinish();
