@@ -2465,19 +2465,13 @@ class PlayState extends MusicBeatState
 		Extra functions and stuffs
 	 */
 	// song end function at the end of the playstate lmao ironic I guess
-
 	function finishSong(ignoreOffset:Bool = false):Void
 	{
 		var onFinish:Void->Void = endSong;
 
 		songMusic.volume = 0;
-		songMusicNew.volume = 0;
 		vocals.volume = 0;
-		bf_vocals.volume = 0;
-		opp_vocals.volume = 0;
 		vocals.pause();
-		bf_vocals.pause();
-		opp_vocals.pause();
 
 		if (ignoreOffset || Init.trueSettings['Offset'] <= 0)
 			onFinish();
@@ -2520,6 +2514,8 @@ class PlayState extends MusicBeatState
 					// flush the save
 					FlxG.save.flush();
 				}
+				else // if there is, try to play an ending cutscene
+					songCutscene(true);
 			case FREEPLAY:
 				if (SONG.validScore && gameplayMode != CHARTING)
 					ScoreUtils.saveScore(SONG.song, ScoreUtils.score, storyDifficulty);
@@ -2548,7 +2544,7 @@ class PlayState extends MusicBeatState
 			FlxTransitionableState.skipNextTransOut = true;
 
 			PlayState.SONG = Song.loadFromJson(song.toLowerCase() + diff, song);
-			ForeverTools.killMusic([songMusic, songMusicNew, vocals, bf_vocals, opp_vocals]);
+			ForeverTools.killMusic([songMusic, vocals]);
 
 			// deliberately did not use the main.switchstate as to not unload the assets
 			FlxG.switchState(new PlayState());
@@ -2562,16 +2558,18 @@ class PlayState extends MusicBeatState
 	public function songCutscene(onEnd:Bool = false)
 	{
 		if (skipCutscenes())
-			return startCountdown();
+			return onEnd ? endSong() : startCountdown();
 
+		inCutscene = true;
 		canPause = false;
 
-		// ACTUAL cutscenes stuff
-		switch (SONG.song.toLowerCase().replace('-', ' '))
-		{
-			default:
-				startCountdown();
-		}
+		var cutscenePath = Paths.module('cutscene' + (onEnd ? '-end' : ''), 'songs/' + SONG.song.toLowerCase());
+		callFunc(onEnd ? 'songEndCutscene' : 'songCutscene', []);
+
+		// lol dumb check;
+		if (!sys.FileSystem.exists(cutscenePath))
+			callTextbox();
+		//
 	}
 
 	inline function checkTextbox():Bool
