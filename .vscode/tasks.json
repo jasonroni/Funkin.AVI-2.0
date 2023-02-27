@@ -1,4 +1,5 @@
 {
+	"version": "2.0.0",
 	"tasks": [
 		{
 			"type": "lime",
@@ -33,6 +34,18 @@
 				"$haxe-trace"
 			],
 			"label": "Update Assets"
+		},
+		{
+			"type": "lime",
+			"command": "test",
+			"targetConfiguration": "Windows",
+			"problemMatcher": [
+				"$haxe-absolute",
+				"$haxe",
+				"$haxe-error",
+				"$haxe-trace"
+			],
+			"label": "lime test windows"
 		}
 	]
 }
