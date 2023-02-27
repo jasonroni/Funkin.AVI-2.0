@@ -2549,7 +2549,7 @@ class PlayState extends MusicBeatState
 			FlxTransitionableState.skipNextTransOut = true;
 
 			PlayState.SONG = Song.loadFromJson(song.toLowerCase() + diff, song);
-			ForeverTools.killMusic([songMusic, vocals]);
+			ForeverTools.killMusic([songMusic, songMusicNew, vocals, bf_vocals, opp_vocals]);
 
 			// deliberately did not use the main.switchstate as to not unload the assets
 			FlxG.switchState(new PlayState());
