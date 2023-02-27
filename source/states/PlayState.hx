@@ -1966,7 +1966,7 @@ class PlayState extends MusicBeatState
 		if (SONG.needsVoices)
 		{
 			vocals = new FlxSound().loadEmbedded(Paths.voices(SONG.song), false, true);
-			bf_vocals = new FlxSound().loadEmbedded(Paths.voicesPlayer(SONG.song, CoolUtil.difficultyString.toLowerCase(), SONG.player1), false, true);
+			bf_vocals = new FlxSound().loadEmbedded(Paths.voicesPlayer(SONG.song, CoolUtil.difficultyString.toLowerCase()), false, true);
 			opp_vocals = new FlxSound().loadEmbedded(Paths.voicesOpp(SONG.song, CoolUtil.difficultyString.toLowerCase()), false, true);
 		}
 		else
