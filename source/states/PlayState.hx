@@ -817,9 +817,9 @@ class PlayState extends MusicBeatState
 		add(spaceBarCounter);
 
 		if (SONG.song == 'Mercy Legacy')
-			limitThing += 23;
+			limitThing += 25;
 		else if (SONG.song == 'Mercy')
-			limitThing += 16;
+			limitThing += 20;
 
 		// call the funny intro cutscene depending on the song
 		songCutscene(false);
