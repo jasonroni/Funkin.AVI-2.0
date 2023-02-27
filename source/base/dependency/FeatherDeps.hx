@@ -120,7 +120,8 @@ class ScriptHandler extends SScript
 		set('Strumline', objects.ui.Strumline);
 		set('game', states.PlayState.main);
 		set('PlayState', states.PlayState);
-		set('Paths', Paths);
+		set('CutsceneState', states.CutsceneState);
+		set('Paths', globals.Paths);
 
 		// CLASSES (FOREVER);
 		set('Init', Init);

@@ -795,7 +795,7 @@ class PlayState extends MusicBeatState
 		fade.alpha = 0;
 		add(fade);
 
-		waltScreenThing = new FlxSprite().makeGraphic(FlxG.width * 3, FlxG.height * 3, 0x000000);
+		waltScreenThing = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
 		waltScreenThing.scrollFactor.set();
 		waltScreenThing.cameras = [camAlt];
 		waltScreenThing.alpha = 0;
@@ -817,14 +817,14 @@ class PlayState extends MusicBeatState
 		add(spaceBarCounter);
 
 		if (SONG.song == 'Mercy Legacy')
-			limitThing += 23;
+			limitThing += 25;
 		else if (SONG.song == 'Mercy')
-			limitThing += 16;
+			limitThing += 20;
 
 		// call the funny intro cutscene depending on the song
-		// songCutscene(false);
+		songCutscene(false);
 
-		if (!CutsceneState.completedCutscene)
+		/*if (!CutsceneState.completedCutscene)
 		{
 			switch (SONG.song.toLowerCase().replace('-', ' '))
 			{
@@ -838,7 +838,7 @@ class PlayState extends MusicBeatState
 		else
 		{
 			startCountdown();
-		}
+		}*/
 	}
 
 	var keysHeld:Array<Bool> = [];
@@ -1966,7 +1966,7 @@ class PlayState extends MusicBeatState
 		if (SONG.needsVoices)
 		{
 			vocals = new FlxSound().loadEmbedded(Paths.voices(SONG.song), false, true);
-			bf_vocals = new FlxSound().loadEmbedded(Paths.voicesPlayer(SONG.song, CoolUtil.difficultyString.toLowerCase(), SONG.player1), false, true);
+			bf_vocals = new FlxSound().loadEmbedded(Paths.voicesPlayer(SONG.song, CoolUtil.difficultyString.toLowerCase()), false, true);
 			opp_vocals = new FlxSound().loadEmbedded(Paths.voicesOpp(SONG.song, CoolUtil.difficultyString.toLowerCase()), false, true);
 		}
 		else
@@ -2465,7 +2465,6 @@ class PlayState extends MusicBeatState
 		Extra functions and stuffs
 	 */
 	// song end function at the end of the playstate lmao ironic I guess
-
 	function finishSong(ignoreOffset:Bool = false):Void
 	{
 		var onFinish:Void->Void = endSong;
@@ -2520,6 +2519,8 @@ class PlayState extends MusicBeatState
 					// flush the save
 					FlxG.save.flush();
 				}
+				else // if there is, try to play an ending cutscene
+					songCutscene(true);
 			case FREEPLAY:
 				if (SONG.validScore && gameplayMode != CHARTING)
 					ScoreUtils.saveScore(SONG.song, ScoreUtils.score, storyDifficulty);
@@ -2562,16 +2563,18 @@ class PlayState extends MusicBeatState
 	public function songCutscene(onEnd:Bool = false)
 	{
 		if (skipCutscenes())
-			return startCountdown();
+			return onEnd ? endSong() : startCountdown();
 
+		inCutscene = true;
 		canPause = false;
 
-		// ACTUAL cutscenes stuff
-		switch (SONG.song.toLowerCase().replace('-', ' '))
-		{
-			default:
-				startCountdown();
-		}
+		var cutscenePath = Paths.module('cutscene' + (onEnd ? '-end' : ''), 'songs/' + SONG.song.toLowerCase());
+		callFunc(onEnd ? 'songEndCutscene' : 'songCutscene', []);
+
+		// lol dumb check;
+		if (!sys.FileSystem.exists(cutscenePath))
+			callTextbox();
+		//
 	}
 
 	inline function checkTextbox():Bool
@@ -2621,7 +2624,7 @@ class PlayState extends MusicBeatState
 				case 'never':
 					return false;
 				case 'freeplay only':
-					if (gameplayMode != STORY)
+					if (gameplayMode != STORY && SONG.song != "Malfunction")
 						return true;
 					else
 						return false;
@@ -2812,10 +2815,10 @@ class PlayState extends MusicBeatState
 		});
 
 		// gonna be useful someday
-		setVar('playCutscene', function(video:String)
+		setVar('playVideoCutscene', function(video:String, isEnd:Bool = false)
 		{
 			@:privateAccess
-			CutsceneState.playCutscene(video);
+			CutsceneState.playCutscene(video, isEnd);
 		});
 
 		setVar('inCutscene', inCutscene);
