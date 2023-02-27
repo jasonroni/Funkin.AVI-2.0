@@ -795,7 +795,7 @@ class PlayState extends MusicBeatState
 		fade.alpha = 0;
 		add(fade);
 
-		waltScreenThing = new FlxSprite().makeGraphic(FlxG.width * 3, FlxG.height * 3, 0x000000);
+		waltScreenThing = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
 		waltScreenThing.scrollFactor.set();
 		waltScreenThing.cameras = [camAlt];
 		waltScreenThing.alpha = 0;
