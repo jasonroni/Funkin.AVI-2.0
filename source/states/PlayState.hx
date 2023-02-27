@@ -822,9 +822,9 @@ class PlayState extends MusicBeatState
 			limitThing += 16;
 
 		// call the funny intro cutscene depending on the song
-		// songCutscene(false);
+		songCutscene(false);
 
-		if (!CutsceneState.completedCutscene)
+		/*if (!CutsceneState.completedCutscene)
 		{
 			switch (SONG.song.toLowerCase().replace('-', ' '))
 			{
@@ -838,7 +838,7 @@ class PlayState extends MusicBeatState
 		else
 		{
 			startCountdown();
-		}
+		}*/
 	}
 
 	var keysHeld:Array<Bool> = [];
