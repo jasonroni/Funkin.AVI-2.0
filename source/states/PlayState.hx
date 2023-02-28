@@ -1433,7 +1433,12 @@ class PlayState extends MusicBeatState
 			if (strumline == bfStrums) bf_vocals.volume = 1;
 			if (strumline == dadStrums) opp_vocals.volume = 1;
 
-			callFunc(coolNote.mustPress ? 'goodNoteHit' : 'opponentNoteHit', [coolNote, strumline]);
+			if(!coolNote.mustPress)
+				{
+					opponentNoteHit(coolNote, strumline);
+				}
+
+			callFunc('goodNoteHit', [coolNote, strumline]);
 
 			var receptors = strumline.receptors.members[coolNote.noteData];
 			if (receptors != null)
@@ -1506,6 +1511,11 @@ class PlayState extends MusicBeatState
 			}
 		}
 	}
+
+	function opponentNoteHit(coolNote:Note, strumline:Strumline)
+		{
+			callFunc('opponentNoteHit', [coolNote, strumline]);
+		}
 
 	public function missNoteCheck(?includeAnimation:Bool = false, direction:Int = 0, strumline:Strumline, popMiss:Bool = false, lockMiss:Bool = false)
 	{
