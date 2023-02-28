@@ -95,13 +95,15 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 	switch (PlayState.SONG.song)
 	{
 		case 'Isolated':
+			if (curBeat == 160 || curBeat == 352)
+			{
+				FlxTween.tween(colorsOrSmthElse, {alpha: 0.15}, 0.5, {ease: FlxEase.quartOut});
+				FlxTween.tween(floor, {alpha: 0.15}, 0.5, {ease: FlxEase.quartOut});
+				FlxTween.tween(stageCurtains, {alpha: 0.15}, 0.5, {ease: FlxEase.quartOut});
+				FlxTween.tween(stageFront, {alpha: 0.15}, 0.5, {ease: FlxEase.quartOut});
+			}
 			switch (curBeat)
 			{
-				case 150 | 352:
-					FlxTween.tween(colorsOrSmthElse, {alpha: 0.15}, 0.5, {ease: FlxEase.quartOut});
-					FlxTween.tween(floor, {alpha: 0.15}, 0.5, {ease: FlxEase.quartOut});
-					FlxTween.tween(stageCurtains, {alpha: 0.15}, 0.5, {ease: FlxEase.quartOut});
-					FlxTween.tween(stageFront, {alpha: 0.15}, 0.5, {ease: FlxEase.quartOut});
 				case 184:
 					FlxTween.tween(colorsOrSmthElse, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
 					FlxTween.tween(floor, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
@@ -125,18 +127,26 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 			}
 	
 		case 'Lunacy':
-			switch (curBeat)
+			// Brightens BG
+			if (curBeat == 160 || curBeat == 230 || curBeat == 240 || curBeat == 248 || curBeat == 256 || curBeat == 262 || curBeat == 272 || curBeat == 280 || 
+				curBeat == 280 || curBeat == 288 || curBeat == 296 || curBeat == 304 || curBeat == 312 || curBeat == 320 || curBeat == 328 || curBeat == 336 ||
+				curBeat == 344 || curBeat == 352)
 			{
-				case 160 | 230 | 262 | 240 | 272 | 248 | 280:
-					FlxTween.tween(colorsOrSmthElse, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-					FlxTween.tween(floor, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-					FlxTween.tween(stageCurtains, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-					FlxTween.tween(stageFront, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-				case 156 | 228 | 260 | 238 | 270 | 244 | 276:
-					FlxTween.tween(colorsOrSmthElse, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-					FlxTween.tween(floor, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-					FlxTween.tween(stageCurtains, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-					FlxTween.tween(stageFront, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
+				FlxTween.tween(colorsOrSmthElse, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
+				FlxTween.tween(floor, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
+				FlxTween.tween(stageCurtains, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
+				FlxTween.tween(stageFront, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
+			}
+  
+			// Darkens BG
+			if (curBeat == 156 || curBeat == 228 || curBeat == 238 || curBeat == 244 || curBeat == 252 || curBeat == 260 || curBeat == 270 || curBeat == 276 ||
+				curBeat == 284 || curBeat == 292 || curBeat == 300 || curBeat == 308 || curBeat == 316 || curBeat == 324 || curBeat == 332 || curBeat == 340 ||
+				curBeat == 348)
+			{
+				FlxTween.tween(colorsOrSmthElse, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
+				FlxTween.tween(floor, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
+				FlxTween.tween(stageCurtains, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
+				FlxTween.tween(stageFront, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
 			}
 	}
 }
