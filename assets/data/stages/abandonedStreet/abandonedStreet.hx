@@ -68,19 +68,19 @@ function onCreate()
 	stageCurtains.active = false;
 	add(stageCurtains);
 	
+	// dw, I'll make it less flashy
+	whiteBG = new FlxSprite(-800, -200).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+	whiteBG.alpha = 0;
+	whiteBG.active = false;
+	add(whiteBG);
+	
 	stageFront = new FNFSprite(-1270, 130).loadGraphic(Paths.image('cables', 'data/stages/abandonedStreet/images'));
 	stageFront.scale.set(5.1, 2.1);
 	stageFront.updateHitbox();
 	stageFront.antialiasing = true;
 	stageFront.scrollFactor.set(3, 2.5);
 	stageFront.active = false;
-	add(stageFront);
-	
-	// dw, I'll make it less flashy
-	whiteBG = new FlxSprite(-800, -200).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
-	whiteBG.alpha = 0;
-	whiteBG.active = false;
-	add(whiteBG);
+	foreground.add(stageFront);
 
 	// doing some fix with this later
 	if(PlayState.SONG.song == "Isolated") {
@@ -95,6 +95,27 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 	switch (PlayState.SONG.song)
 	{
 		case 'Isolated':
+			if (curBeat == 36 || curBeat == 40 || curBeat == 44 || curBeat == 48 || curBeat == 52 || curBeat == 56 || curBeat == 60 || curBeat == 64 ||
+				curBeat == 68 || curBeat == 72 || curBeat == 76 || curBeat == 80 || curBeat == 84 || curBeat == 88 || curBeat == 92)
+			{
+				whiteBG.alpha = 0.32;
+				FlxTween.tween(whiteBG, {alpha: 0}, 1.2);
+			}
+
+			if (curBeat == 96 || curBeat == 100 || curBeat == 104 || curBeat == 108 || curBeat == 112 || curBeat == 116 || curBeat == 120 || curBeat == 124 ||
+				curBeat == 128 || curBeat == 132 || curBeat == 136 || curBeat == 140 || curBeat == 144 || curBeat == 148 || curBeat == 152 || curBeat == 156)
+			{
+				whiteBG.alpha = 0.4;
+				FlxTween.tween(whiteBG, {alpha: 0}, 0.35);
+			}
+
+			if (curBeat == 98 || curBeat == 102 || curBeat == 106 || curBeat == 110 || curBeat == 114 || curBeat == 118 || curBeat == 122 || curBeat == 126 ||
+				curBeat == 130 || curBeat == 134 || curBeat == 138 || curBeat == 142 || curBeat == 146 || curBeat == 150 || curBeat == 154 || curBeat == 158)
+			{
+				whiteBG.alpha = 0.67;
+				FlxTween.tween(whiteBG, {alpha: 0}, 0.35);
+			}
+			
 			if (curBeat == 160 || curBeat == 352)
 			{
 				FlxTween.tween(colorsOrSmthElse, {alpha: 0.15}, 0.5, {ease: FlxEase.quartOut});
