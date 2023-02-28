@@ -61,7 +61,7 @@ class CutsceneState extends FlxState
          completedCutscene = true;
          if (isOutro)
          {
-            switch PlayState.SONG.song)
+            switch (PlayState.SONG.song)
             {
                   case "Delusional":
                      FlxG.switchState(new states.menus.story.MainStoryState());
