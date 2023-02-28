@@ -82,196 +82,53 @@ function onCreate()
 	
 function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 {
-	if (PlayState.SONG.song == "Isolated")
+	// Stage asset modcharts cause I can't do this in PlayState.hx nor Stage.hx unless I shove FE-Legacy stuff into the code :(
+	switch (PlayState.SONG.song)
 	{
-		if (curBeat == 32 || curBeat == 96 || curBeat == 128 || curBeat == 192 || curBeat == 224 || curBeat == 256 || curBeat == 288 || curBeat == 320)
-			if (!Init.trueSettings.get("Disable Flashing Lights")) PlayState.camGame.flash("white", 1.5);
-			
-		if (curBeat == 48 || curBeat == 112 || curBeat == 144 || curBeat == 208 || curBeat == 240 || curBeat == 272 || curBeat == 304 || curBeat == 336)
-			if (!Init.trueSettings.get("Disable Flashing Lights")) PlayState.camGame.flash("black", 1.5);
-			
-		if (curBeat == 160 || curBeat == 352)
-		{
-			FlxTween.tween(colorsOrSmthElse, {alpha: 0.15}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(floor, {alpha: 0.15}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageCurtains, {alpha: 0.15}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageFront, {alpha: 0.15}, 0.5, {ease: FlxEase.quartOut});
-		}
-		
-		if (curBeat == 184)
-		{
-			FlxTween.tween(colorsOrSmthElse, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(floor, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageCurtains, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageFront, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-		}
-		
-		if (curBeat == 188)
-		{
-			FlxTween.tween(colorsOrSmthElse, {alpha: 0.4}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(floor, {alpha: 0.4}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageCurtains, {alpha: 0.4}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageFront, {alpha: 0.4}, 0.5, {ease: FlxEase.quartOut});
-		}
-			
-		if (curBeat == 192)
-		{
-			FlxTween.tween(colorsOrSmthElse, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(floor, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageCurtains, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageFront, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-		}
-			
-		if (curBeat == 376)
-		{
-			FlxTween.tween(colorsOrSmthElse, {alpha: 1}, 4, {ease: FlxEase.quartInOut});
-			FlxTween.tween(floor, {alpha: 1}, 4, {ease: FlxEase.quartInOut});
-			FlxTween.tween(stageCurtains, {alpha: 1}, 4, {ease: FlxEase.quartInOut});
-			FlxTween.tween(stageFront, {alpha: 1}, 4, {ease: FlxEase.quartInOut});
-		}
-	}
+		case 'Isolated':
+			switch (curBeat)
+			{
+				case 150 | 352:
+					FlxTween.tween(colorsOrSmthElse, {alpha: 0.15}, 0.5, {ease: FlxEase.quartOut});
+					FlxTween.tween(floor, {alpha: 0.15}, 0.5, {ease: FlxEase.quartOut});
+					FlxTween.tween(stageCurtains, {alpha: 0.15}, 0.5, {ease: FlxEase.quartOut});
+					FlxTween.tween(stageFront, {alpha: 0.15}, 0.5, {ease: FlxEase.quartOut});
+				case 184:
+					FlxTween.tween(colorsOrSmthElse, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
+					FlxTween.tween(floor, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
+					FlxTween.tween(stageCurtains, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
+					FlxTween.tween(stageFront, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
+				case 188:
+					FlxTween.tween(colorsOrSmthElse, {alpha: 0.4}, 0.5, {ease: FlxEase.quartOut});
+					FlxTween.tween(floor, {alpha: 0.4}, 0.5, {ease: FlxEase.quartOut});
+					FlxTween.tween(stageCurtains, {alpha: 0.4}, 0.5, {ease: FlxEase.quartOut});
+					FlxTween.tween(stageFront, {alpha: 0.4}, 0.5, {ease: FlxEase.quartOut});
+				case 192:
+					FlxTween.tween(colorsOrSmthElse, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
+					FlxTween.tween(floor, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
+					FlxTween.tween(stageCurtains, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
+					FlxTween.tween(stageFront, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
+				case 376:
+					FlxTween.tween(colorsOrSmthElse, {alpha: 1}, 4, {ease: FlxEase.quartInOut});
+					FlxTween.tween(floor, {alpha: 1}, 4, {ease: FlxEase.quartInOut});
+					FlxTween.tween(stageCurtains, {alpha: 1}, 4, {ease: FlxEase.quartInOut});
+					FlxTween.tween(stageFront, {alpha: 1}, 4, {ease: FlxEase.quartInOut});
+			}
 	
-	if (PlayState.SONG.song == 'Lunacy')
-	{
-		if (curBeat == 96 || curBeat == 128)
-			PlayState.camGame.flash(ForeverTools.returnColor("white"), 1.5);
-
-		
-
-		if (curBeat == 160)
-		{
-			FlxTween.tween(colorsOrSmthElse, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(floor, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageCurtains, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageFront, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-			PlayState.defaultCamZoom = 0.7;
-			PlayState.camGame.flash(ForeverTools.returnColor("white"), 1.5);
-		}
-
-		if (curBeat == 156)
-		{
-			FlxTween.tween(colorsOrSmthElse, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(floor, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageCurtains, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageFront, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-			PlayState.defaultCamZoom = 1.05;
-		}
-
-		if (curBeat == 192)
-			PlayState.defaultCamZoom = 0.75;
-		if (curBeat == 200)
-			PlayState.defaultCamZoom = 0.8;
-		if (curBeat == 208)
-			PlayState.defaultCamZoom = 0.85;
-		if (curBeat == 216)
-			PlayState.defaultCamZoom = 0.9;
-		if (curBeat == 220)
-			PlayState.defaultCamZoom = 0.95;
-		if (curBeat == 222)
-			PlayState.defaultCamZoom = 1;
-
-		if (curBeat == 224 || curBeat == 288)
-		{
-			PlayState.defaultCamZoom = 0.75;
-			PlayState.camGame.flash(ForeverTools.returnColor("white"), 1.5);
-			FlxTween.tween(PlayState.camHUD, {alpha: 0}, 3, {ease: FlxEase.sineInOut});
-			for (i in PlayState.strumHUD)
+		case 'Lunacy':
+			switch (curBeat)
 			{
-				FlxTween.tween(i, {alpha: 0}, 3, {ease: FlxEase.sineInOut});
+				case 160 | 230 | 262 | 240 | 272 | 248 | 280:
+					FlxTween.tween(colorsOrSmthElse, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
+					FlxTween.tween(floor, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
+					FlxTween.tween(stageCurtains, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
+					FlxTween.tween(stageFront, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
+				case 156 | 228 | 260 | 238 | 270 | 244 | 276:
+					FlxTween.tween(colorsOrSmthElse, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
+					FlxTween.tween(floor, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
+					FlxTween.tween(stageCurtains, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
+					FlxTween.tween(stageFront, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
 			}
-		}
-
-		if (curBeat == 228 || curBeat == 260)
-		{
-			FlxTween.tween(colorsOrSmthElse, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(floor, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageCurtains, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageFront, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-			PlayState.defaultCamZoom = 1.1;
-		}
-
-		if (curBeat == 230 || curBeat == 262)
-		{
-			FlxTween.tween(colorsOrSmthElse, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(floor, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageCurtains, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageFront, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-			PlayState.defaultCamZoom = 0.65;
-		}
-		
-		if (curBeat == 232 || curBeat == 264)
-		{
-			PlayState.camGame.flash(ForeverTools.returnColor("white"), 1.5);
-			PlayState.defaultCamZoom = 0.9;
-		}
-
-		if (curBeat == 233 || curBeat == 266)
-			PlayState.defaultCamZoom = 0.7;
-
-		if (curBeat == 235 || curBeat == 267)
-			PlayState.defaultCamZoom = 1;
-
-		if (curBeat == 236 || curBeat == 268)
-			PlayState.defaultCamZoom = 0.65;
-
-		if (curBeat == 238 || curBeat == 270)
-		{
-			FlxTween.tween(colorsOrSmthElse, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(floor, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageCurtains, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageFront, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-			PlayState.defaultCamZoom = 0.8;
-		}
-		
-		if (curBeat == 239 || curBeat == 271)
-			PlayState.defaultCamZoom = 1;
-
-		if (curBeat == 240 || curBeat == 272)
-		{
-			FlxTween.tween(colorsOrSmthElse, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(floor, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageCurtains, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageFront, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-			PlayState.camGame.flash(ForeverTools.returnColor("white"), 1.5);
-			PlayState.defaultCamZoom = 0.7;
-		}
-
-		if (curBeat == 244 || curBeat == 276)
-		{
-			FlxTween.tween(colorsOrSmthElse, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(floor, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageCurtains, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageFront, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-			PlayState.defaultCamZoom = 1.1;
-		}
-		
-		if (curBeat == 248 || curBeat == 280)
-		{
-			FlxTween.tween(colorsOrSmthElse, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(floor, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageCurtains, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-			FlxTween.tween(stageFront, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-			PlayState.camGame.flash(ForeverTools.returnColor("white"), 1.5);
-			PlayState.defaultCamZoom = 0.7;
-		}
-
-		if (curBeat == 252 || curBeat == 284)
-			PlayState.defaultCamZoom = 0.9;
-		
-		if (curBeat == 254 || curBeat == 286)
-			PlayState.defaultCamZoom = 1.1;
-
-		if (curBeat == 254 || curBeat == 318)
-		{
-			FlxTween.tween(PlayState.camHUD, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
-			for (i in PlayState.strumHUD)
-			{
-				FlxTween.tween(i, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
-			}
-		}
-
-		if (curBeat == 256 || curBeat == 320)
-			PlayState.camGame.flash("white", 1.5);
 	}
 }
 
