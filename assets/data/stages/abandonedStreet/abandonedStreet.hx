@@ -17,28 +17,24 @@ var shaderTime:Float = 0;
 
 function onCreate()
 {
-
 	bloomEffect = new FlxRuntimeShader(File.getContent('./assets/shaders/bloomGame.frag'), null, 120);
 	grainFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
 	monitorFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
-
-
+	
 	PlayState.camGame.setFilters([
 		new ShaderFilter(grainFilter),
 		new ShaderFilter(monitorFilter),
 		new ShaderFilter(bloomEffect)
 	]);
-
-	spawnGirlfriend(false);
-	PlayState.defaultCamZoom = 0.87;
 	
+	spawnGirlfriend(false);
+	PlayState.defaultCamZoom = 0.87;	
 	if (PlayState.SONG.song == "Isolated" || PlayState.SONG.song == "Lunacy") {
 		PlayState.camHUD.alpha = 0;
 		PlayState.camGame.alpha = 0;
-	}
-	
+	}	
 	PlayState.cameraSpeed = 1;
-	PlayState.skipCountdown = true;
+	PlayState.skipCountdown = true;	
 	
 	colorsOrSmthElse = new FNFSprite(-990, 1600).loadGraphic(Paths.image('randomColors', 'data/stages/abandonedStreet/images'));
 	colorsOrSmthElse.setGraphicSize(Std.int(colorsOrSmthElse.width * 4));
@@ -48,15 +44,15 @@ function onCreate()
 	colorsOrSmthElse.scale.set(3, 3);
 	colorsOrSmthElse.scrollFactor.set(0.9, 0.9);
 	colorsOrSmthElse.active = false;
-	add(colorsOrSmthElse);
+	add(colorsOrSmthElse);	
 	
 	floor = new FNFSprite(-20, 200).loadGraphic(Paths.image('street', 'data/stages/abandonedStreet/images'));
 	floor.antialiasing = true;
 	floor.scale.set(2.2, 2.1);
 	floor.scrollFactor.set(1, 1);
 	floor.active = false;
-	add(floor);
-		
+	add(floor);		
+	
 	stageCurtains = new FNFSprite(0, 0).loadGraphic(Paths.image('i_forgor', 'data/stages/abandonedStreet/images'));
 	stageCurtains.setGraphicSize(Std.int(stageCurtains.width * 0.9));
 	stageCurtains.updateHitbox();
@@ -66,13 +62,13 @@ function onCreate()
 	stageCurtains.cameras = [PlayState.camAlt];
 	stageCurtains.scrollFactor.set(1.3, 1.3);
 	stageCurtains.active = false;
-	add(stageCurtains);
+	add(stageCurtains);	
 	
 	// dw, I'll make it less flashy
 	whiteBG = new FlxSprite(-800, -200).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFFFFFFF);
 	whiteBG.alpha = 0;
 	whiteBG.active = false;
-	add(whiteBG);
+	add(whiteBG);	
 	
 	stageFront = new FNFSprite(-1270, 130).loadGraphic(Paths.image('cables', 'data/stages/abandonedStreet/images'));
 	stageFront.scale.set(5.1, 2.1);
@@ -81,7 +77,7 @@ function onCreate()
 	stageFront.scrollFactor.set(3, 2.5);
 	stageFront.active = false;
 	foreground.add(stageFront);
-
+	
 	// doing some fix with this later
 	if(PlayState.SONG.song == "Isolated") {
 		FlxTween.tween(PlayState.camHUD, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 9});
@@ -126,6 +122,7 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 				FlxTween.tween(stageCurtains, {alpha: 0.15}, 0.5, {ease: FlxEase.quartOut});
 				FlxTween.tween(stageFront, {alpha: 0.15}, 0.5, {ease: FlxEase.quartOut});
 			}
+			
 			switch (curBeat)
 			{
 				case 184:
