@@ -826,7 +826,7 @@ class PlayState extends MusicBeatState
 			for (i in strumHUD)
 			{
 				i.alpha = 0;
-				FlxTween.tween(i, {alpha: 1}, 5, {ease: FlxEase.quadOut, startDelay: 9));
+				FlxTween.tween(i, {alpha: 1}, 5, {ease: FlxEase.quadOut, startDelay: 9});
 			}
 			camGame.alpha = 0;
 			camHUD.alpha = 0;
