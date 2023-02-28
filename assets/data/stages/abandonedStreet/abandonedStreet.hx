@@ -69,7 +69,7 @@ function onCreate()
 	add(stageCurtains);
 	
 	// dw, I'll make it less flashy
-	whiteBG = new FlxSprite(-800, -200).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+	whiteBG = new FlxSprite(-800, -200).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFFFFFFF);
 	whiteBG.alpha = 0;
 	whiteBG.active = false;
 	add(whiteBG);
