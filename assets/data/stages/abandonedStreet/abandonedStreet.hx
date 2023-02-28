@@ -9,6 +9,9 @@ var floor:FNFSprite;
 var stageCurtains:FNFSprite;
 var stageFront:FNFSprite;
 
+// The Background Flash Thing
+var whiteBG:FlxSprite;
+
 // Shader Animations
 var shaderTime:Float = 0;
 
@@ -47,9 +50,9 @@ function onCreate()
 	colorsOrSmthElse.active = false;
 	add(colorsOrSmthElse);
 	
-	floor = new FNFSprite(0, 200).loadGraphic(Paths.image('street', 'data/stages/abandonedStreet/images'));
+	floor = new FNFSprite(-20, 200).loadGraphic(Paths.image('street', 'data/stages/abandonedStreet/images'));
 	floor.antialiasing = true;
-	floor.scale.set(2.2, 2);
+	floor.scale.set(2.2, 2.1);
 	floor.scrollFactor.set(1, 1);
 	floor.active = false;
 	add(floor);
@@ -65,13 +68,19 @@ function onCreate()
 	stageCurtains.active = false;
 	add(stageCurtains);
 	
-	stageFront = new FNFSprite(-1570, 130).loadGraphic(Paths.image('cables', 'data/stages/abandonedStreet/images'));
-	stageFront.scale.set(5.1, 1.6);
+	stageFront = new FNFSprite(-1270, 130).loadGraphic(Paths.image('cables', 'data/stages/abandonedStreet/images'));
+	stageFront.scale.set(5.1, 2.1);
 	stageFront.updateHitbox();
 	stageFront.antialiasing = true;
 	stageFront.scrollFactor.set(3, 2.5);
 	stageFront.active = false;
 	add(stageFront);
+	
+	// dw, I'll make it less flashy
+	whiteBG = new FlxSprite(-800, -200).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+	whiteBG.alpha = 0;
+	whiteBG.active = false;
+	add(whiteBG);
 
 	// doing some fix with this later
 	if(PlayState.SONG.song == "Isolated") {
