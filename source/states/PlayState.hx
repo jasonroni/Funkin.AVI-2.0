@@ -2340,11 +2340,11 @@ class PlayState extends MusicBeatState
 
 					case 192:
 						defaultCamZoom = 0.75;
-					case 200 | 238 | 270 | 316 | 332 | 344 | 352:
+					case 200 | 238 | 270 | 316 | 332 | 344:
 						defaultCamZoom = 0.8;
 					case 208 | 360:
 						defaultCamZoom = 0.85;
-					case 216 | 368 | 252 | 284 | 408:
+					case 216 | 368 | 252 | 284:
 						defaultCamZoom = 0.9;
 					case 220 | 376:
 						defaultCamZoom = 0.95;
@@ -2360,7 +2360,7 @@ class PlayState extends MusicBeatState
 							FlxTween.tween(i, {alpha: 0}, 3, {ease: FlxEase.sineInOut});
 						}
 
-					case 228 | 260 | 292 | 254 | 286 | 400:
+					case 228 | 260 | 292 | 286 | 400:
 						defaultCamZoom = 1.1;
 
 					case 230 | 262 | 296 | 312 | 236 | 268:
@@ -2373,17 +2373,26 @@ class PlayState extends MusicBeatState
 					case 233 | 266 | 412 | 240 | 272 | 300 | 304 | 320 | 336 | 248 | 280 | 328:
 						defaultCamZoom = 0.7;
 
-					case 254 | 318:
+					case 254:
+						defaultCamZoom = 1.1;
 						FlxTween.tween(camHUD, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
 						for (i in strumHUD)
 						{
 							FlxTween.tween(i, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
 						}
 
+						case 318:
+							FlxTween.tween(camHUD, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
+							for (i in strumHUD)
+							{
+								FlxTween.tween(i, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
+							}
+
 					case 310 | 318 | 342 | 350:
 						defaultCamZoom = 1.25;
 
 					case 352:
+						defaultCamZoom = 0.8;
 						FlxTween.tween(camHUD, {alpha: 0.15}, 8, {ease: FlxEase.sineInOut});
 						for (i in strumHUD)
 						{
@@ -2391,6 +2400,7 @@ class PlayState extends MusicBeatState
 						}
 
 					case 408:
+						defaultCamZoom = 0.9;
 						FlxTween.tween(camHUD, {alpha: 0.36}, 4, {ease: FlxEase.sineInOut});
 						for (i in strumHUD)
 						{
