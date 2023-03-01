@@ -4,7 +4,9 @@
 # you may or may not need to run "haxelib setup"
 # you may also need to run "chmod +x setup" to mark this file as an executable
 echo This reqiures Root Permission
-sudo apt install haxe neko g++ -y
+echo This will also install a frontend for apt known as nala which is faster for downloads
+sudo apt install nala -y
+sudo nala install haxe neko g++ vlc -y
 haxelib install haxelib
 haxelib install lime
 haxelib install openfl
