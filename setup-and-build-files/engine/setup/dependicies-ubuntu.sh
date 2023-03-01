@@ -4,7 +4,7 @@
 # you may or may not need to run "haxelib setup"
 # you may also need to run "chmod +x setup" to mark this file as an executable
 echo This reqiures Root Permission
-sudo apt install g++ -y
+sudo apt install haxe neko g++ -y
 haxelib install haxelib
 haxelib install lime
 haxelib install openfl
