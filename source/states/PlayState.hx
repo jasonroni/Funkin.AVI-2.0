@@ -843,7 +843,7 @@ class PlayState extends MusicBeatState
 			}
 			camGame.alpha = 0;
 			camHUD.alpha = 0;
-			FlxTween.tween(camHUD, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 20});
+			FlxTween.tween(camHUD, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 30});
 			FlxTween.tween(camGame, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 6});
 		}
 
@@ -881,7 +881,11 @@ class PlayState extends MusicBeatState
 			if (generatedMusic)
 			{
 				var previousTime:Float = Conductor.songPosition;
-				Conductor.songPosition = songMusic.time;
+				if (SONG.instType == "Legacy" || SONG.instType == null)
+					Conductor.songPosition = songMusic.time;
+				
+				if (Song.instType == "New")
+					Conductor.songPosition = songMusicNew.time;
 				// improved this a little bit, maybe its a lil
 				var possibleNoteList:Array<Note> = [];
 				var pressedNotes:Array<Note> = [];
@@ -2321,11 +2325,103 @@ class PlayState extends MusicBeatState
 						}
 				}
 		
-			/*se 'Lunacy':
+			case 'Lunacy':
 				switch (curBeat)
 				{
+					case 96 | 128 | 256 | 320:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);	
 					
-				}*/
+					case 156 | 392:
+						defaultCamZoom = 1.05;
+					
+					case 160:
+						defaultCamZoom = 0.7;
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.BLACK, 1.5);
+
+					case 192:
+						defaultCamZoom = 0.75;
+					case 200 | 238 | 270 | 316 | 332 | 344 | 352:
+						defaultCamZoom = 0.8;
+					case 208 | 360:
+						defaultCamZoom = 0.85;
+					case 216 | 368 | 252 | 284 | 408:
+						defaultCamZoom = 0.9;
+					case 220 | 376:
+						defaultCamZoom = 0.95;
+					case 222 | 384 | 235 | 267 | 239 | 271 | 334:
+						defaultCamZoom = 1;
+
+					case 224 | 288:
+						defaultCamZoom = 0.75;
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
+						FlxTween.tween(camHUD, {alpha: 0}, 3, {ease: FlxEase.sineInOut});
+						for (i in strumHUD)
+						{
+							FlxTween.tween(i, {alpha: 0}, 3, {ease: FlxEase.sineInOut});
+						}
+
+					case 228 | 260 | 292 | 254 | 286 | 400:
+						defaultCamZoom = 1.1;
+
+					case 230 | 262 | 296 | 312 | 236 | 268:
+						defaultCamZoom = 0.65;
+
+					case 232 | 264:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
+						defaultCamZoom = 0.9;
+
+					case 233 | 266 | 412 | 240 | 272 | 300 | 304 | 320 | 336 | 248 | 280 | 328:
+						defaultCamZoom = 0.7;
+
+					case 254 | 318:
+						FlxTween.tween(camHUD, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
+						for (i in strumHUD)
+						{
+							FlxTween.tween(i, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
+						}
+
+					case 310 | 318 | 342 | 350:
+						defaultCamZoom = 1.25;
+
+					case 352:
+						FlxTween.tween(camHUD, {alpha: 0.15}, 8, {ease: FlxEase.sineInOut});
+						for (i in strumHUD)
+						{
+							FlxTween.tween(i, {alpha: 0.15}, 8, {ease: FlxEase.sineInOut});
+						}
+
+					case 408:
+						FlxTween.tween(camHUD, {alpha: 0.36}, 4, {ease: FlxEase.sineInOut});
+						for (i in strumHUD)
+						{
+							FlxTween.tween(i, {alpha: 0.36}, 4, {ease: FlxEase.sineInOut});
+						}
+
+					case 480:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.BLACK, 1.5);
+						camHUD.alpha = 0;
+						for (i in strumHUD)
+						{
+							i.alpha = 0;
+						}
+
+					case 506:
+						FlxTween.tween(camHUD, {alpha: 0.5}, 4, {ease: FlxEase.sineInOut});
+						for (i in strumHUD)
+						{
+							FlxTween.tween(i, {alpha: 0.5}, 4, {ease: FlxEase.sineInOut});
+						}
+
+					case 536:
+						FlxTween.tween(camHUD, {alpha: 0}, 2, {ease: FlxEase.sineInOut});
+						for (i in strumHUD)
+						{
+							FlxTween.tween(i, {alpha: 0}, 2, {ease: FlxEase.sineInOut});
+						}
+
+					case 540:
+						FlxTween.tween(camGame, {alpha: 0}, 5, {ease: FlxEase.quartInOut});
+				}
 				
 			case 'Scrapped':
 				switch (curBeat)
