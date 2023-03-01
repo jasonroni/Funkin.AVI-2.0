@@ -844,7 +844,7 @@ class PlayState extends MusicBeatState
 			camGame.alpha = 0;
 			camHUD.alpha = 0;
 			FlxTween.tween(camHUD, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 20});
-			FlxTween.tween(camGame, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 6});
+			FlxTween.tween(camGame, {alpha: 1}, 5, {ease: FlxEase.quadOut, startDelay: 8.6});
 		}
 
 		// call the funny intro cutscene depending on the song

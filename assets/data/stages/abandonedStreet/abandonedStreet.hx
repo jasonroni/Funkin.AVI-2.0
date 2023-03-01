@@ -97,7 +97,7 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 						curBeat == 68 || curBeat == 72 || curBeat == 76 || curBeat == 80 || curBeat == 84 || curBeat == 88 || curBeat == 92)
 				{
 					whiteBG.alpha = 0.32;
-					FlxTween.tween(whiteBG, {alpha: 0}, 1.2);
+					FlxTween.tween(whiteBG, {alpha: 0}, 0.35);
 				}
 	
 				if (curBeat == 96 || curBeat == 100 || curBeat == 104 || curBeat == 108 || curBeat == 112 || curBeat == 116 || curBeat == 120 || curBeat == 124 ||
