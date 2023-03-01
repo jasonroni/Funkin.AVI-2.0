@@ -2757,7 +2757,7 @@ class PlayState extends MusicBeatState
 						startCountdown();
 				} else {
 					FlxG.switchState(new CutsceneState('placeholder.mp4', true));
-					
+				}			
 		}
 
 		var cutscenePath = Paths.module('cutscene' + (onEnd ? '-end' : ''), 'songs/' + SONG.song.toLowerCase());
