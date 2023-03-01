@@ -1518,7 +1518,7 @@ class PlayState extends MusicBeatState
 				}
 			}
 
-			callFunc((coolNote.mustPress ? 'goodNoteHit' : 'opponentNoteHit', [coolNote, strumline]);
+			callFunc(coolNote.mustPress ? 'goodNoteHit' : 'opponentNoteHit', [coolNote, strumline]);
 
 			var receptors = strumline.receptors.members[coolNote.noteData];
 			if (receptors != null)
