@@ -1434,15 +1434,91 @@ class PlayState extends MusicBeatState
 			coolNote.wasGoodHit = true;
 			vocals.volume = 1;
 			
-			if (strumline == bfStrums) bf_vocals.volume = 1;
-			if (strumline == dadStrums) opp_vocals.volume = 1;
-
-			if(!coolNote.mustPress)
+			if (strumline == bfStrums)
+			{
+				bf_vocals.volume = 1;
+				
+				switch (SONG.song)
 				{
-					opponentNoteHit(coolNote, strumline);
+					case "Don't Cross!":
+						PlayState.boyfriend.x -= 1.2;
+						PlayState.boyfriend.y += 1.2;
+						PlayState.boyfriend.scale.x += 0.0012;
+						PlayState.boyfriend.scale.y += 0.0012;
 				}
+			}
+			
+			if (strumline == dadStrums)
+			{
+				opp_vocals.volume = 1;
+				
+				switch (SONG.song)
+				{
+					case 'Lunacy':
+						if (opponent.curCharacter == 'lunamick-new')
+						{
+							if (health > 0.35)
+								health -= 0.01;
+						}
+					
+					case 'Delusional':
+						if (opponent.curCharacter == 'lunamick-new')
+						{
+							if (health > 0.35)
+								health -= 0.01;
+						}
+						else if (opponent.curCharacter == 'mick-delusional-new')
+						{
+							
+							if (health > 0.1)
+								health -= 0.02;
+						}
+						
+					case 'Laugh Track':
+						if (Init.trueSettings.get('Screen Shake'))
+						{
+							camGame.shake(0.005, 0.07);
+							camHUD.shake(0.010, 0.07);
+							for (i in strumHUD)
+								i.shake(0.010, 0.07);
+						}
+						
+					case 'Malfunction':
+						if (health > 0.05)
+    							health -= 0.036;
+						if (Init.trueSettings.get('Screen Shake'))
+						{
+							camGame.shake(0.008, 0.07);
+							camHUD.shake(0.015, 0.07);
+							for (i in strumHUD)
+								i.shake(0.015, 0.07);
+						}
+						// shaders soon
+						
+					case 'Malfunction Legacy': // the reason this gets s separate case is cause shader effects are gonna be different
+						if (health > 0.05)
+    							health -= 0.016;
+						if (Init.trueSettings.get('Screen Shake'))
+						{
+							camGame.shake(0.008, 0.07);
+							camHUD.shake(0.015, 0.07);
+							for (i in strumHUD)
+								i.shake(0.015, 0.07);
+						}
+						// shaders soon
+						
+					case "Don't Cross!":
+						PlayState.boyfriend.x += 1.2;
+					        PlayState.boyfriend.y -= 1.2;
+					        PlayState.boyfriend.scale.x -= 0.0012;
+					        PlayState.boyfriend.scale.y -= 0.0012;
 
-			callFunc('goodNoteHit', [coolNote, strumline]);
+					        if(PlayState.health > 0.05) // trol
+					        	PlayState.health -= 0.035;
+				}
+			}
+
+			callFunc((coolNote.mustPress ? 'goodNoteHit' : 'opponentNoteHit', [coolNote, strumline]);
 
 			var receptors = strumline.receptors.members[coolNote.noteData];
 			if (receptors != null)
@@ -1515,11 +1591,6 @@ class PlayState extends MusicBeatState
 			}
 		}
 	}
-
-	function opponentNoteHit(coolNote:Note, strumline:Strumline)
-		{
-			callFunc('opponentNoteHit', [coolNote, strumline]);
-		}
 
 	public function missNoteCheck(?includeAnimation:Bool = false, direction:Int = 0, strumline:Strumline, popMiss:Bool = false, lockMiss:Bool = false)
 	{
