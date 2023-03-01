@@ -41,7 +41,7 @@ class CutsceneState extends FlxState
          super.update(elapsed);
       }
 
-   private static function playCutscene(name:String)
+   private static function playCutscene(name:String, isEnd:Bool = false)
       {
          FlxG.sound.music.stop();
    
@@ -50,6 +50,8 @@ class CutsceneState extends FlxState
          #else
          var video:MP4Handler = new MP4Handler();
          #end
+         
+         isOutro = isEnd;
    
          video.playVideo(Paths.video(name)); // supports all vlc formats such as .avi (totally not a funkin.avi reference)
    
