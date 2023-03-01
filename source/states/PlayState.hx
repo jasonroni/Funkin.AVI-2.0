@@ -2733,6 +2733,32 @@ class PlayState extends MusicBeatState
 
 		inCutscene = true;
 		canPause = false;
+		
+		switch (SONG.song)
+		{
+			case 'Isolated': 
+				if (!CutsceneState.completedCutscene)
+					FlxG.switchState(new CutsceneState('Episode1_Intro.avi', false));
+				else
+					startCountdown();
+					
+			case 'Lunacy' | 'Twisted Grins' | 'Resentment' | 'Mercy' | 'Affliction':
+				if (!CutsceneState.completedCutscene)
+					FlxG.switchState(new CutsceneState('placeholder.mp4', false));
+				else
+					startCountdown();
+			
+			case 'Delusional' | 'Mortiferum Risus':
+				if (!onEnd)
+				{
+					if (!CutsceneState.completedCutscene)
+						FlxG.switchState(new CutsceneState('placeholder.mp4', false));
+					else
+						startCountdown();
+				} else {
+					FlxG.switchState(new CutsceneState('placeholder.mp4', true));
+					
+		}
 
 		var cutscenePath = Paths.module('cutscene' + (onEnd ? '-end' : ''), 'songs/' + SONG.song.toLowerCase());
 		callFunc(onEnd ? 'songEndCutscene' : 'songCutscene', []);
@@ -2806,6 +2832,7 @@ class PlayState extends MusicBeatState
 
 	public function startCountdown():Void
 	{
+		CutsceneState.completedCutscene = false; // fixes cutscenes not playing after the first song in story mode
 		inCutscene = false;
 		canPause = true;
 
@@ -2858,41 +2885,109 @@ class PlayState extends MusicBeatState
 		var introSounds:Array<Sound> = [];
 
 		for (graphic in introGraphicNames)
-			introGraphics.push(Paths.image(ForeverTools.returnSkinAsset('$graphic', assetModifier, changeableSkin, 'UI')));
+		{
+			switch (curStage)
+			{
+				/*case 'abandonedStreet' | 'forestNew' | 'smilesOffice':
+					introGraphics.push(Paths.image(ForeverTools.returnSkinAsset('$graphic', 'vintage', changeableSkin, 'UI')));
+				case 'delusionalStreet':
+					introGraphics.push(Paths.image(ForeverTools.returnSkinAsset('$graphic', 'satan', changeableSkin, 'UI')));
+				case 'waltRoom' | 'colorlessSight':
+					introGraphics.push(Paths.image(ForeverTools.returnSkinAsset('$graphic', 'walt', changeableSkin, 'UI')));
+				case 'apartment' | 'relapseNew':
+					introGraphics.push(Paths.image(ForeverTools.returnSkinAsset('$graphic', 'relapse', changeableSkin, 'UI')));
+				case 'forestOld' | 'theLoop':
+					introGraphics.push(Paths.image(ForeverTools.returnSkinAsset('$graphic', 'legacy', changeableSkin, 'UI')));*/
+				default:
+					introGraphics.push(Paths.image(ForeverTools.returnSkinAsset('$graphic', assetModifier, changeableSkin, 'UI')));
+			}
+		}
 
 		for (sound in introSoundNames)
-			introSounds.push(Paths.sound('$assetModifier/$sound'));
+		{
+			switch (curStage)
+			{
+				/*case 'abandonedStreet' | 'forestNew' | 'smilesOffice':
+					introSounds.push(Paths.sound('vintage/$sound'));
+				case 'delusionalStreet':
+					introSounds.push(Paths.sound('satan/$sound'));
+				case 'waltRoom' | 'colorlessSight':
+					introSounds.push(Paths.sound('walt/$sound'));
+				case 'apartment' | 'relapseNew':
+					introSounds.push(Paths.sound('relapse/$sound'));
+				case 'forestOld' | 'theLoop':
+					introSounds.push(Paths.sound('legacy/$sound'));*/
+				default:
+					introSounds.push(Paths.sound('$assetModifier/$sound'));
+			}
+		}
 
 		new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
 		{
-			if (introGraphics[countdownPos] != null)
+			if (gameplayMode == STORY)
 			{
-				var count:FlxSprite = new FlxSprite().loadGraphic(introGraphics[countdownPos]);
-				count.scrollFactor.set();
-				count.updateHitbox();
+				switch (SONG.song)
+				{
+					case 'Isolated' | 'Lunacy' | 'Mortiferum Risus' | 'Affliction': // no countdown sounds for the songs in story mode
+						songPosCount--;
+						
+					case 'Delusional' | 'Twisted Grins' | 'Resentment' | 'Mercy':
+						if (introGraphics[countdownPos] != null)
+						{
+							var count:FlxSprite = new FlxSprite().loadGraphic(introGraphics[countdownPos]);
+							count.scrollFactor.set();
+							count.updateHitbox();
 
-				if (assetModifier == 'pixel')
-					count.setGraphicSize(Std.int(count.width * PlayState.daPixelZoom));
+							count.screenCenter();
+							add(count);
+							FlxTween.tween(count, {y: count.y += 50, alpha: 0}, Conductor.crochet / 1000, {
+								ease: FlxEase.cubeInOut,
+								onComplete: function(twn:FlxTween)
+								{
+									count.destroy();
+								}
+							});
+							if (introSounds[countdownPos] != null)
+								FlxG.sound.play(introSounds[countdownPos], 0.6);
+							Conductor.songPosition = -(Conductor.crochet * songPosCount);
 
-				count.screenCenter();
-				add(count);
-				FlxTween.tween(count, {y: count.y += 50, alpha: 0}, Conductor.crochet / 1000, {
-					ease: FlxEase.cubeInOut,
-					onComplete: function(twn:FlxTween)
-					{
-						count.destroy();
-					}
-				});
-				if (introSounds[countdownPos] != null)
-					FlxG.sound.play(introSounds[countdownPos], 0.6);
-				Conductor.songPosition = -(Conductor.crochet * songPosCount);
+							// bop with countdown;
+							charactersDance(curBeat);
+						}
 
-				// bop with countdown;
-				charactersDance(curBeat);
+						songPosCount--;
+						countdownPos++;
+				}
+			} else {
+				if (introGraphics[countdownPos] != null)
+				{
+					var count:FlxSprite = new FlxSprite().loadGraphic(introGraphics[countdownPos]);
+					count.scrollFactor.set();
+					count.updateHitbox();
+
+					if (assetModifier == 'pixel' || assetModifier == 'glitchy')
+						count.setGraphicSize(Std.int(count.width * PlayState.daPixelZoom));
+
+					count.screenCenter();
+					add(count);
+					FlxTween.tween(count, {y: count.y += 50, alpha: 0}, Conductor.crochet / 1000, {
+						ease: FlxEase.cubeInOut,
+						onComplete: function(twn:FlxTween)
+						{
+							count.destroy();
+						}
+					});
+					if (introSounds[countdownPos] != null)
+						FlxG.sound.play(introSounds[countdownPos], 0.6);
+					Conductor.songPosition = -(Conductor.crochet * songPosCount);
+
+					// bop with countdown;
+					charactersDance(curBeat);
+				}
+
+				songPosCount--;
+				countdownPos++;
 			}
-
-			songPosCount--;
-			countdownPos++;
 
 			callFunc('countdownTick', [countdownPos]);
 		}, 5);
