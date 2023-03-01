@@ -43,6 +43,10 @@ class GameData
     public static var legacyHLock:String = 'locked'; //Hunted
     public static var legacyMLock:String = 'locked'; //Malfunction
     public static var legacyWLock:String = 'locked'; //Mercy
+
+    // Gamejolt stuff
+    public static var GJ_username:String = "";
+    public static var GJ_token:String = "";
 	
     public static var muckneyLock:String = "uncompleted";
 
@@ -65,6 +69,9 @@ class GameData
         if (FlxG.save.data.mercyLock == null) FlxG.save.data.mercyLock = 'locked';
         if (FlxG.save.data.pnmLock == null) FlxG.save.data.pnmLock = 'locked';
         if (FlxG.save.data.rickyLock == null) FlxG.save.data.rickyLock = 'locked';
+
+        if(FlxG.save.data.gjUser == null) FlxG.save.data.gjUser = "";
+        if(FlxG.save.data.gjToken == null) FlxG.save.data.gjToken = "";
 	    
 	if (FlxG.save.data.legacyILock == null) FlxG.save.data.legacyILock = 'locked';
 	if (FlxG.save.data.legacyLLock == null) FlxG.save.data.legacyLLock = 'locked';
@@ -104,6 +111,9 @@ class GameData
 	FlxG.save.data.legacyHLock = legacyHLock;
 	FlxG.save.data.legacyMLock = legacyMLock;
 	FlxG.save.data.legacyWLock = legacyWLock;
+
+        FlxG.save.data.gjUser = GJ_username;
+        FlxG.save.data.gjToken = GJ_token;
 	    
         FlxG.save.data.muckneyLock = muckneyLock;
 
