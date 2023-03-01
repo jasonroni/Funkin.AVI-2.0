@@ -884,7 +884,7 @@ class PlayState extends MusicBeatState
 				if (SONG.instType == "Legacy" || SONG.instType == null)
 					Conductor.songPosition = songMusic.time;
 				
-				if (Song.instType == "New")
+				if (SONG.instType == "New")
 					Conductor.songPosition = songMusicNew.time;
 				// improved this a little bit, maybe its a lil
 				var possibleNoteList:Array<Note> = [];

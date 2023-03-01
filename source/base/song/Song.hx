@@ -19,12 +19,12 @@ class Song
 	public var player1:String = 'bf';
 	public var player2:String = 'dad';
 	public var gfVersion:String = 'gf';
-
+	
 	public function new(song, notes, bpm)
 	{
 		this.song = song;
 		this.notes = notes;
-		this.bpm = bpm;
+		this.bpm = bpm;	
 	}
 
 	public static function loadFromJson(jsonInput:String, ?folder:String):SwagSong
