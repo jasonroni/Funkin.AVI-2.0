@@ -1434,15 +1434,91 @@ class PlayState extends MusicBeatState
 			coolNote.wasGoodHit = true;
 			vocals.volume = 1;
 			
-			if (strumline == bfStrums) bf_vocals.volume = 1;
-			if (strumline == dadStrums) opp_vocals.volume = 1;
-
-			if(!coolNote.mustPress)
+			if (strumline == bfStrums)
+			{
+				bf_vocals.volume = 1;
+				
+				switch (SONG.song)
 				{
-					opponentNoteHit(coolNote, strumline);
+					case "Don't Cross!":
+						PlayState.boyfriend.x -= 1.2;
+						PlayState.boyfriend.y += 1.2;
+						PlayState.boyfriend.scale.x += 0.0012;
+						PlayState.boyfriend.scale.y += 0.0012;
 				}
+			}
+			
+			if (strumline == dadStrums)
+			{
+				opp_vocals.volume = 1;
+				
+				switch (SONG.song)
+				{
+					case 'Lunacy':
+						if (opponent.curCharacter == 'lunamick-new')
+						{
+							if (health > 0.35)
+								health -= 0.01;
+						}
+					
+					case 'Delusional':
+						if (opponent.curCharacter == 'lunamick-new')
+						{
+							if (health > 0.35)
+								health -= 0.01;
+						}
+						else if (opponent.curCharacter == 'mick-delusional-new')
+						{
+							
+							if (health > 0.1)
+								health -= 0.02;
+						}
+						
+					case 'Laugh Track':
+						if (Init.trueSettings.get('Screen Shake'))
+						{
+							camGame.shake(0.005, 0.07);
+							camHUD.shake(0.010, 0.07);
+							for (i in strumHUD)
+								i.shake(0.010, 0.07);
+						}
+						
+					case 'Malfunction':
+						if (health > 0.05)
+    							health -= 0.036;
+						if (Init.trueSettings.get('Screen Shake'))
+						{
+							camGame.shake(0.008, 0.07);
+							camHUD.shake(0.015, 0.07);
+							for (i in strumHUD)
+								i.shake(0.015, 0.07);
+						}
+						// shaders soon
+						
+					case 'Malfunction Legacy': // the reason this gets s separate case is cause shader effects are gonna be different
+						if (health > 0.05)
+    							health -= 0.016;
+						if (Init.trueSettings.get('Screen Shake'))
+						{
+							camGame.shake(0.008, 0.07);
+							camHUD.shake(0.015, 0.07);
+							for (i in strumHUD)
+								i.shake(0.015, 0.07);
+						}
+						// shaders soon
+						
+					case "Don't Cross!":
+						PlayState.boyfriend.x += 1.2;
+					        PlayState.boyfriend.y -= 1.2;
+					        PlayState.boyfriend.scale.x -= 0.0012;
+					        PlayState.boyfriend.scale.y -= 0.0012;
 
-			callFunc('goodNoteHit', [coolNote, strumline]);
+					        if(PlayState.health > 0.05) // trol
+					        	PlayState.health -= 0.035;
+				}
+			}
+
+			callFunc(coolNote.mustPress ? 'goodNoteHit' : 'opponentNoteHit', [coolNote, strumline]);
 
 			var receptors = strumline.receptors.members[coolNote.noteData];
 			if (receptors != null)
@@ -1515,11 +1591,6 @@ class PlayState extends MusicBeatState
 			}
 		}
 	}
-
-	function opponentNoteHit(coolNote:Note, strumline:Strumline)
-		{
-			callFunc('opponentNoteHit', [coolNote, strumline]);
-		}
 
 	public function missNoteCheck(?includeAnimation:Bool = false, direction:Int = 0, strumline:Strumline, popMiss:Bool = false, lockMiss:Bool = false)
 	{
@@ -2733,6 +2804,32 @@ class PlayState extends MusicBeatState
 
 		inCutscene = true;
 		canPause = false;
+		
+		switch (SONG.song)
+		{
+			case 'Isolated': 
+				if (!CutsceneState.completedCutscene)
+					FlxG.switchState(new CutsceneState('Episode1_Intro.avi', false));
+				else
+					startCountdown();
+					
+			case 'Lunacy' | 'Twisted Grins' | 'Resentment' | 'Mercy' | 'Affliction':
+				if (!CutsceneState.completedCutscene)
+					FlxG.switchState(new CutsceneState('placeholder.mp4', false));
+				else
+					startCountdown();
+			
+			case 'Delusional' | 'Mortiferum Risus':
+				if (!onEnd)
+				{
+					if (!CutsceneState.completedCutscene)
+						FlxG.switchState(new CutsceneState('placeholder.mp4', false));
+					else
+						startCountdown();
+				} else {
+					FlxG.switchState(new CutsceneState('placeholder.mp4', true));
+				}			
+		}
 
 		var cutscenePath = Paths.module('cutscene' + (onEnd ? '-end' : ''), 'songs/' + SONG.song.toLowerCase());
 		callFunc(onEnd ? 'songEndCutscene' : 'songCutscene', []);
@@ -2806,6 +2903,7 @@ class PlayState extends MusicBeatState
 
 	public function startCountdown():Void
 	{
+		CutsceneState.completedCutscene = false; // fixes cutscenes not playing after the first song in story mode
 		inCutscene = false;
 		canPause = true;
 
@@ -2858,41 +2956,109 @@ class PlayState extends MusicBeatState
 		var introSounds:Array<Sound> = [];
 
 		for (graphic in introGraphicNames)
-			introGraphics.push(Paths.image(ForeverTools.returnSkinAsset('$graphic', assetModifier, changeableSkin, 'UI')));
+		{
+			switch (curStage)
+			{
+				/*case 'abandonedStreet' | 'forestNew' | 'smilesOffice':
+					introGraphics.push(Paths.image(ForeverTools.returnSkinAsset('$graphic', 'vintage', changeableSkin, 'UI')));
+				case 'delusionalStreet':
+					introGraphics.push(Paths.image(ForeverTools.returnSkinAsset('$graphic', 'satan', changeableSkin, 'UI')));
+				case 'waltRoom' | 'colorlessSight':
+					introGraphics.push(Paths.image(ForeverTools.returnSkinAsset('$graphic', 'walt', changeableSkin, 'UI')));
+				case 'apartment' | 'relapseNew':
+					introGraphics.push(Paths.image(ForeverTools.returnSkinAsset('$graphic', 'relapse', changeableSkin, 'UI')));
+				case 'forestOld' | 'theLoop':
+					introGraphics.push(Paths.image(ForeverTools.returnSkinAsset('$graphic', 'legacy', changeableSkin, 'UI')));*/
+				default:
+					introGraphics.push(Paths.image(ForeverTools.returnSkinAsset('$graphic', assetModifier, changeableSkin, 'UI')));
+			}
+		}
 
 		for (sound in introSoundNames)
-			introSounds.push(Paths.sound('$assetModifier/$sound'));
+		{
+			switch (curStage)
+			{
+				/*case 'abandonedStreet' | 'forestNew' | 'smilesOffice':
+					introSounds.push(Paths.sound('vintage/$sound'));
+				case 'delusionalStreet':
+					introSounds.push(Paths.sound('satan/$sound'));
+				case 'waltRoom' | 'colorlessSight':
+					introSounds.push(Paths.sound('walt/$sound'));
+				case 'apartment' | 'relapseNew':
+					introSounds.push(Paths.sound('relapse/$sound'));
+				case 'forestOld' | 'theLoop':
+					introSounds.push(Paths.sound('legacy/$sound'));*/
+				default:
+					introSounds.push(Paths.sound('$assetModifier/$sound'));
+			}
+		}
 
 		new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
 		{
-			if (introGraphics[countdownPos] != null)
+			if (gameplayMode == STORY)
 			{
-				var count:FlxSprite = new FlxSprite().loadGraphic(introGraphics[countdownPos]);
-				count.scrollFactor.set();
-				count.updateHitbox();
+				switch (SONG.song)
+				{
+					case 'Isolated' | 'Lunacy' | 'Mortiferum Risus' | 'Affliction': // no countdown sounds for the songs in story mode
+						songPosCount--;
+						
+					case 'Delusional' | 'Twisted Grins' | 'Resentment' | 'Mercy':
+						if (introGraphics[countdownPos] != null)
+						{
+							var count:FlxSprite = new FlxSprite().loadGraphic(introGraphics[countdownPos]);
+							count.scrollFactor.set();
+							count.updateHitbox();
 
-				if (assetModifier == 'pixel')
-					count.setGraphicSize(Std.int(count.width * PlayState.daPixelZoom));
+							count.screenCenter();
+							add(count);
+							FlxTween.tween(count, {y: count.y += 50, alpha: 0}, Conductor.crochet / 1000, {
+								ease: FlxEase.cubeInOut,
+								onComplete: function(twn:FlxTween)
+								{
+									count.destroy();
+								}
+							});
+							if (introSounds[countdownPos] != null)
+								FlxG.sound.play(introSounds[countdownPos], 0.6);
+							Conductor.songPosition = -(Conductor.crochet * songPosCount);
 
-				count.screenCenter();
-				add(count);
-				FlxTween.tween(count, {y: count.y += 50, alpha: 0}, Conductor.crochet / 1000, {
-					ease: FlxEase.cubeInOut,
-					onComplete: function(twn:FlxTween)
-					{
-						count.destroy();
-					}
-				});
-				if (introSounds[countdownPos] != null)
-					FlxG.sound.play(introSounds[countdownPos], 0.6);
-				Conductor.songPosition = -(Conductor.crochet * songPosCount);
+							// bop with countdown;
+							charactersDance(curBeat);
+						}
 
-				// bop with countdown;
-				charactersDance(curBeat);
+						songPosCount--;
+						countdownPos++;
+				}
+			} else {
+				if (introGraphics[countdownPos] != null)
+				{
+					var count:FlxSprite = new FlxSprite().loadGraphic(introGraphics[countdownPos]);
+					count.scrollFactor.set();
+					count.updateHitbox();
+
+					if (assetModifier == 'pixel' || assetModifier == 'glitchy')
+						count.setGraphicSize(Std.int(count.width * PlayState.daPixelZoom));
+
+					count.screenCenter();
+					add(count);
+					FlxTween.tween(count, {y: count.y += 50, alpha: 0}, Conductor.crochet / 1000, {
+						ease: FlxEase.cubeInOut,
+						onComplete: function(twn:FlxTween)
+						{
+							count.destroy();
+						}
+					});
+					if (introSounds[countdownPos] != null)
+						FlxG.sound.play(introSounds[countdownPos], 0.6);
+					Conductor.songPosition = -(Conductor.crochet * songPosCount);
+
+					// bop with countdown;
+					charactersDance(curBeat);
+				}
+
+				songPosCount--;
+				countdownPos++;
 			}
-
-			songPosCount--;
-			countdownPos++;
 
 			callFunc('countdownTick', [countdownPos]);
 		}, 5);
