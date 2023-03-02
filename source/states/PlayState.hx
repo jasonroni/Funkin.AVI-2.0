@@ -1062,6 +1062,11 @@ class PlayState extends MusicBeatState
 		super.update(elapsed);
 
 		vocals.volume = 0;
+		
+		if (SONG.song == 'Cycled Sins')
+		{
+			detectSpace();
+		}
 
 		if (curStage == 'waltRoom')
 		{
@@ -2289,6 +2294,59 @@ class PlayState extends MusicBeatState
 		}
 
 		callFunc('eventTrigger', [name, params]);
+	}
+		
+	var canDodge:Bool = true;
+	var pressedSpace:Bool = false;
+	var pressCounter = 0;
+	var dodged:Bool;
+	var shootin:Bool;
+	var detectAttack:Bool = false;
+		
+	function detectSpace()
+	{
+		if (FlxG.keys.justPressed.SPACE)
+		{
+			pressCounter += 1;
+			trace('tap');
+			pressedSpace = true;
+			detectAttack = false;
+		}
+	}
+		
+	function relapseGimmick(reactionTime:Float = 2, damageAmount:Float = 0.4)
+	{
+		dodged = false;
+		shootin = true;	
+		FlxG.sound.play(Paths.sound('funkinAVI/relapseMechs/Reload'), 0.6);
+		//holyShitMOVEBITCH.alpha = 1;
+		//holyShitMOVEBITCH.y = -420;
+		opponent.playAnim("reload", true);
+		opponent.specialAnim = true;
+		/*new FlxTimer().start(reactionTime - 1, function(tmr:FlxTimer)
+		{
+			FlxTween.tween(holyShitMOVEBITCH, {alpha: 0, y: -400}, 0.3, {ease: FlxEase.quadInOut});
+		});*/
+		pressCounter = 0;
+		
+		new FlxTimer().start(reactionTime, function(tmr:FlxTimer){
+			FlxG.sound.play(Paths.sound('funkinAVI/relapseMechs/Shoot'), 0.6);
+			opponent.playAnim("attack", true);
+			opponent.specialAnim = true;
+			new FlxTimer().start(0.1, function(tmr:FlxTimer) {
+			if(!dodged) {
+				FlxG.camera.shake(0.05, 0.05);
+				health -= damageAmount;
+				trace("lmfao you got shot depsite the fact this is nerfed");
+				dodged = false;
+			} else {
+				boyfriend.playAnim('dodge');
+				dodged = false;
+				shootin = false;
+				health += 0.05;
+			}
+			});
+		});
 	}
 
 	function resyncVocals():Void
