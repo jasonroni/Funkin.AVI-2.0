@@ -27,7 +27,7 @@ import lime.app.Application;
 import openfl.media.Sound;
 import states.MusicBeatState;
 
-class FlashingState extends MusicBeatState
+class WarningState extends MusicBeatState
 {
         // insert code here
 }
