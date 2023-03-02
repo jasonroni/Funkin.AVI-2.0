@@ -1060,8 +1060,6 @@ class PlayState extends MusicBeatState
 		stageBuild.stageUpdateConstant(elapsed, boyfriend, gf, opponent);
 
 		super.update(elapsed);
-
-		vocals.volume = 0;
 		
 		if (SONG.song == 'Cycled Sins')
 		{
