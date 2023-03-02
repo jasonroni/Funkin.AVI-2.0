@@ -1044,6 +1044,14 @@ class PlayState extends MusicBeatState
 			opp_vocals.volume = 1;
 		}
 	}
+	
+	function tweenWaltScreen(percentage:Float, alpha:Float):Bool {
+		if (health <= percentage)
+			FlxTween.tween(waltScreenThing, {alpha: 0.95}, 0.15, {ease: FlxEase.sineInOut});
+		else
+			return true;
+		return false;
+	}
 
 	override public function update(elapsed:Float)
 	{
@@ -1062,13 +1070,6 @@ class PlayState extends MusicBeatState
 
 			// This entire set monitors the brightness of the screen based on the percentage of your health
 
-			function tweenWaltScreen(percentage:Float, alpha:Float):Bool {
-				if (health <= percentage)
-					FlxTween.tween(waltScreenThing, {alpha: 0.95}, 0.15, {ease: FlxEase.sineInOut});
-				else
-					return true;
-				return false;
-			}
 			var healths:Array<Float> = [for (i in 1...21) i / 10]; // i dont really remember how were this done...
 			var alphas:Array<Float> = [
 				0.95, 0.90, 0.85, 0.80, 0.75, 0.70, 0.65, 0.60, 0.55, 0.50, 0.45, 0.40, 0.35, 0.30, 0.25, 0.20, 0.15, 0.10, 0.05, 0.0
@@ -1079,7 +1080,9 @@ class PlayState extends MusicBeatState
 					lastOne = tweenWaltScreen(healths[i], alphas[i]);
 				}
 			}
-
+			
+			tweenWaltScreen(healths, alphas);
+			
 			/*if (health <= 0.1) // if 5% HP
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0.95}, 0.15, {ease: FlxEase.sineInOut});
