@@ -1081,8 +1081,6 @@ class PlayState extends MusicBeatState
 				}
 			}
 			
-			tweenWaltScreen(healths, alphas);
-			
 			/*if (health <= 0.1) // if 5% HP
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0.95}, 0.15, {ease: FlxEase.sineInOut});
