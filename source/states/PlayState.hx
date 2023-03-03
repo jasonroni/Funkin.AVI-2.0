@@ -800,6 +800,26 @@ class PlayState extends MusicBeatState
 		waltScreenThing.cameras = [camAlt];
 		waltScreenThing.alpha = 0;
 		add(waltScreenThing);
+		
+		if (curStage == 'waltRoom')
+		{
+			var waltInstructionsMain:FlxText = new FlxText(370, 500, 0, "Take Advantage of the SPACEBAR!", 30);
+			waltInstructionsMain.cameras = [camAlt];
+			waltInstructionsMain.setFormat(Paths.font("splatter"), 30);
+			waltInstructionsMain.scrollFactor.set();
+			add(waltInstructionsMain);
+
+			var waltSubTxt:FlxText = new FlxText(waltInstructionsMain.x + 66, waltInstructionsMain.y + 40, 0, "(It will help you regain health when critically low)", 15);
+			waltSubTxt.setFormat(Paths.font("splatter"), 15);
+			waltSubTxt.cameras = [camAlt];
+			waltSubTxt.alpha = 0;
+			waltSubTxt.scrollFactor.set();
+			add(waltSubTxt);
+
+			FlxTween.tween(waltInstructionsMain, {alpha: 0}, 1, {ease: FlxEase.quadInOut, startDelay: 8});
+			FlxTween.tween(waltSubTxt, {alpha: 0}, 1, {ease: FlxEase.quadInOut, startDelay: 8});
+			FlxTween.tween(waltSubTxt, {alpha: 1}, 0.7, {ease: FlxEase.quadInOut, startDelay: 3});
+		}
 
 		inkFormWarning = new FlxText(0, 0, 0, "PRESS SPACE!", 15);
 		inkFormWarning.setFormat(Paths.font("splatter"), 50);
