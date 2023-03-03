@@ -1044,6 +1044,14 @@ class PlayState extends MusicBeatState
 			opp_vocals.volume = 1;
 		}
 	}
+	
+	function tweenWaltScreen(percentage:Float, alpha:Float):Bool {
+		if (health <= percentage)
+			FlxTween.tween(waltScreenThing, {alpha: 0.95}, 0.15, {ease: FlxEase.sineInOut});
+		else
+			return true;
+		return false;
+	}
 
 	override public function update(elapsed:Float)
 	{
@@ -1052,8 +1060,11 @@ class PlayState extends MusicBeatState
 		stageBuild.stageUpdateConstant(elapsed, boyfriend, gf, opponent);
 
 		super.update(elapsed);
-
-		vocals.volume = 0;
+		
+		if (SONG.song == 'Cycled Sins')
+		{
+			detectSpace();
+		}
 
 		if (curStage == 'waltRoom')
 		{
@@ -1062,7 +1073,18 @@ class PlayState extends MusicBeatState
 
 			// This entire set monitors the brightness of the screen based on the percentage of your health
 
-			if (health <= 0.1) // if 5% HP
+			var healths:Array<Float> = [for (i in 1...21) i / 10]; // i dont really remember how were this done...
+			var alphas:Array<Float> = [
+				0.95, 0.90, 0.85, 0.80, 0.75, 0.70, 0.65, 0.60, 0.55, 0.50, 0.45, 0.40, 0.35, 0.30, 0.25, 0.20, 0.15, 0.10, 0.05, 0.0
+			];
+			var lastOne:Bool = true;
+			for(i in 0...healths.length) {
+				if(lastOne) {
+					lastOne = tweenWaltScreen(healths[i], alphas[i]);
+				}
+			}
+			
+			/*if (health <= 0.1) // if 5% HP
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0.95}, 0.15, {ease: FlxEase.sineInOut});
 			}
@@ -1141,7 +1163,7 @@ class PlayState extends MusicBeatState
 			else if (health <= 2)
 			{
 				FlxTween.tween(waltScreenThing, {alpha: 0}, 0.15, {ease: FlxEase.sineInOut});
-			}
+			}*/
 
 			/*
 				Okay, time to explain how the spacebar works, basically, you can't spam it anymore unlike the Psych counterpart.
@@ -1366,8 +1388,11 @@ class PlayState extends MusicBeatState
 									if (daNote.ignoreNote || daNote.isMine)
 										return;
 
-									vocals.volume = 0;
-									bf_vocals.volume = 0;
+									if (vocals != null)
+									        vocals.volume = 0;
+										
+									if (bf_vocals != null)
+									        bf_vocals.volume = 0;
 									
 									missNoteCheck((Init.trueSettings.get('Ghost Tapping')) ? true : false, daNote.noteData, strumline,
 										Init.trueSettings.get("Display Miss Judgement"));
@@ -1432,25 +1457,29 @@ class PlayState extends MusicBeatState
 		if (!coolNote.wasGoodHit)
 		{
 			coolNote.wasGoodHit = true;
-			vocals.volume = 1;
+			
+			if (vocals != null)
+			        vocals.volume = 1;
 			
 			if (strumline == bfStrums)
 			{
-				bf_vocals.volume = 1;
+			        if (bf_vocals != null)
+				        bf_vocals.volume = 1;
 				
 				switch (SONG.song)
 				{
 					case "Don't Cross!":
-						PlayState.boyfriend.x -= 1.2;
-						PlayState.boyfriend.y += 1.2;
-						PlayState.boyfriend.scale.x += 0.0012;
-						PlayState.boyfriend.scale.y += 0.0012;
+						boyfriend.x -= 1.2;
+						boyfriend.y += 1.2;
+						boyfriend.scale.x += 0.0012;
+						boyfriend.scale.y += 0.0012;
 				}
 			}
 			
 			if (strumline == dadStrums)
 			{
-				opp_vocals.volume = 1;
+			        if (opp_vocals != null)
+				        opp_vocals.volume = 1;
 				
 				switch (SONG.song)
 				{
@@ -1458,20 +1487,20 @@ class PlayState extends MusicBeatState
 						if (opponent.curCharacter == 'lunamick-new')
 						{
 							if (health > 0.35)
-								health -= 0.01;
+								health -= 0.02;
 						}
 					
 					case 'Delusional':
 						if (opponent.curCharacter == 'lunamick-new')
 						{
 							if (health > 0.35)
-								health -= 0.01;
+								health -= 0.02;
 						}
 						else if (opponent.curCharacter == 'mick-delusional-new')
 						{
 							
 							if (health > 0.1)
-								health -= 0.02;
+								health -= 0.035;
 						}
 						
 					case 'Laugh Track':
@@ -1495,7 +1524,7 @@ class PlayState extends MusicBeatState
 						}
 						// shaders soon
 						
-					case 'Malfunction Legacy': // the reason this gets s separate case is cause shader effects are gonna be different
+					case 'Malfunction Legacy': // the reason this gets a separate case is cause shader effects are gonna be different
 						if (health > 0.05)
     							health -= 0.016;
 						if (Init.trueSettings.get('Screen Shake'))
@@ -1508,13 +1537,13 @@ class PlayState extends MusicBeatState
 						// shaders soon
 						
 					case "Don't Cross!":
-						PlayState.boyfriend.x += 1.2;
-					        PlayState.boyfriend.y -= 1.2;
-					        PlayState.boyfriend.scale.x -= 0.0012;
-					        PlayState.boyfriend.scale.y -= 0.0012;
+						boyfriend.x += 1.2;
+					        boyfriend.y -= 1.2;
+					        boyfriend.scale.x -= 0.0012;
+					        boyfriend.scale.y -= 0.0012;
 
-					        if(PlayState.health > 0.05) // trol
-					        	PlayState.health -= 0.035;
+					        if(health > 0.05) // trol
+					        	health -= 0.035;
 				}
 			}
 
@@ -2003,9 +2032,14 @@ class PlayState extends MusicBeatState
 			if (songMusic != null)
 				songMusicNew.play();
 			
-			vocals.play();
-			bf_vocals.play();
-			opp_vocals.play();
+			if (vocals != null)
+			        vocals.play();
+			
+			if (bf_vocals != null)
+			        bf_vocals.play();
+				
+			if (opp_vocals != null)
+			        opp_vocals.play();
 
 			if (SONG.instType == "Legacy" || SONG.instType == null)
 				songMusic.onComplete = finishSong.bind();
@@ -2258,6 +2292,59 @@ class PlayState extends MusicBeatState
 		}
 
 		callFunc('eventTrigger', [name, params]);
+	}
+		
+	var canDodge:Bool = true;
+	var pressedSpace:Bool = false;
+	var pressCounter = 0;
+	var dodged:Bool;
+	var shootin:Bool;
+	var detectAttack:Bool = false;
+		
+	function detectSpace()
+	{
+		if (FlxG.keys.justPressed.SPACE)
+		{
+			pressCounter += 1;
+			trace('tap');
+			pressedSpace = true;
+			detectAttack = false;
+		}
+	}
+		
+	function relapseGimmick(reactionTime:Float = 2, damageAmount:Float = 0.4)
+	{
+		dodged = false;
+		shootin = true;	
+		FlxG.sound.play(Paths.sound('funkinAVI/relapseMechs/Reload'), 0.6);
+		//holyShitMOVEBITCH.alpha = 1;
+		//holyShitMOVEBITCH.y = -420;
+		opponent.playAnim("reload", true);
+		opponent.specialAnim = true;
+		/*new FlxTimer().start(reactionTime - 1, function(tmr:FlxTimer)
+		{
+			FlxTween.tween(holyShitMOVEBITCH, {alpha: 0, y: -400}, 0.3, {ease: FlxEase.quadInOut});
+		});*/
+		pressCounter = 0;
+		
+		new FlxTimer().start(reactionTime, function(tmr:FlxTimer){
+			FlxG.sound.play(Paths.sound('funkinAVI/relapseMechs/Shoot'), 0.6);
+			opponent.playAnim("attack", true);
+			opponent.specialAnim = true;
+			new FlxTimer().start(0.1, function(tmr:FlxTimer) {
+			if(!dodged) {
+				FlxG.camera.shake(0.05, 0.05);
+				health -= damageAmount;
+				trace("lmfao you got shot depsite the fact this is nerfed");
+				dodged = false;
+			} else {
+				boyfriend.playAnim('dodge');
+				dodged = false;
+				shootin = false;
+				health += 0.05;
+			}
+			});
+		});
 	}
 
 	function resyncVocals():Void
@@ -2543,7 +2630,13 @@ class PlayState extends MusicBeatState
 					case 64: defaultCamZoom = 0.75;
 
 					// Very Spooky Phase 2 Walt (real)
-					case 256: FlxTween.tween(camGame, {alpha: 0}, 1, {ease: FlxEase.sineInOut});
+					case 256: 
+					        FlxTween.tween(camGame, {alpha: 0}, 1, {ease: FlxEase.sineInOut});
+						FlxTween.tween(camHUD, {alpha: 0}, 1, {ease: FlxEase.sineInOut});
+						for (i in strumHUD)
+						{
+						        FlxTween.tween(i, {alpha: 0}, 1, {ease: FlxEase.sineInOut});
+						}
 
 					case 264:
 						FlxTween.tween(camGame, {alpha: 1}, 2, {ease: FlxEase.sineInOut});
@@ -2551,6 +2644,11 @@ class PlayState extends MusicBeatState
 
 					case 275:
 						defaultCamZoom = 0.8;
+						FlxTween.tween(camHUD, {alpha: 1}, 0.31, {ease: FlxEase.sineInOut});
+						for (i in strumHUD)
+						{
+						        FlxTween.tween(i, {alpha: 1}, 0.31, {ease: FlxEase.sineInOut});
+						}
 						inkFormWarning.alpha = 1;
 
 					case 276: FlxTween.tween(inkFormWarning, {alpha: 0}, 2, {ease: FlxEase.sineInOut});
@@ -2561,9 +2659,11 @@ class PlayState extends MusicBeatState
 						camGame.visible = false;
 						FlxTween.tween(bfStrums, {alpha: 0}, 1, {ease: FlxEase.sineInOut});
 						FlxTween.tween(camHUD, {alpha: 0}, 1, {ease: FlxEase.sineInOut, startDelay: 3});
+						for (i in strumHUD)
+						{
+						        FlxTween.tween(i, {alpha: 0}, 1, {ease: FlxEase.sineInOut, startDelay: 3});
+						}
 						FlxTween.tween(spaceBarCounter, {alpha: 0}, 2, {ease: FlxEase.sineInOut});
-
-					case 500: bfStrums.visible = false;
 				}
 
 				// Health Drain Shit
@@ -2596,17 +2696,17 @@ class PlayState extends MusicBeatState
 				else if (curBeat >= 340 && curBeat <= 371)
 					PlayState.health -= 0.1;
 				else if (curBeat >= 372 && curBeat <= 387)
-					PlayState.health -= 0.12;
+					PlayState.health -= 0.11;
 				else if (curBeat >= 388 && curBeat <= 403)
-					PlayState.health -= 0.135;
+					PlayState.health -= 0.12;
 				else if (curBeat >= 404 && curBeat <= 451)
-					PlayState.health -= 0.15;
+					PlayState.health -= 0.14;
 				else if (curBeat >= 452 && curBeat <= 467)
-					PlayState.health -= 0.2;
+					PlayState.health -= 0.17;
 				else if (curBeat >= 468 && curBeat <= 475)
-					PlayState.health -= 0.25;
+					PlayState.health -= 0.21;
 				else if (curBeat >= 476 && curBeat <= 489)
-					PlayState.health -= 0.3;
+					PlayState.health -= 0.25;
 				else if (curBeat >= 490)
 					PlayState.health -= 0.02;
 		}
