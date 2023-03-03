@@ -2733,7 +2733,11 @@ class PlayState extends MusicBeatState
 			case 'Cycled Sins':
 				switch (curBeat)
 				{
-					// have fun programming the mechanic
+					case 158 | 190:
+						relapseGimmick(0.7, 0.3);
+
+					case 172 | 204:
+						relapseGimmick(1.12, 0.6);
 				}
 		}
 
