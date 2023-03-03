@@ -2733,11 +2733,22 @@ class PlayState extends MusicBeatState
 			case 'Cycled Sins':
 				switch (curBeat)
 				{
-					case 158 | 190:
+					case 158:
 						relapseGimmick(0.7, 0.3);
-
 					case 172 | 204:
 						relapseGimmick(1.12, 0.6);
+					case 190:
+						relapseGimmick(0.7, 0.54);
+					case 212:
+						relapseGimmick(0.7, 0.8);
+					case 222 | 264:
+						relapseGimmick(0.7, 1);
+					case 236:
+						relapseGimmick(0.7, 0.4);
+					case 248:
+						relapseGimmick(1.12, 1.2);
+					case 270:
+						relapseGimmick(0.7, 1.5);
 				}
 		}
 
