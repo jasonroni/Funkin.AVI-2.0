@@ -1234,7 +1234,7 @@ class PlayState extends MusicBeatState
 				if (cameraPos != 'none')
 				{
 					// lock camera according to your options;
-					updateSectionCamera(cameraPos, cameraPos == 'bf');
+					updateSectionCamera(cameraPos, cameraPos == SONG.player1);
 				}
 				else
 				{
@@ -1700,7 +1700,7 @@ class PlayState extends MusicBeatState
 	{
 		if (!Init.trueSettings.get('No Camera Note Movement'))
 		{
-			var camDisplaceExtend:Float = 15;
+			var camDisplaceExtend:Float = 35;
 			if (PlayState.SONG.notes[curSection] != null)
 			{
 				if ((PlayState.SONG.notes[curSection].mustHitSection && mustHit)

@@ -93,9 +93,8 @@ class GameJoltAPI // Connects to tentools.api.FlxGameJolt
                     if (v)
                     {
                         trace("User authenticated!");
-                        FlxG.save.data.gjUser = in1;
-                        FlxG.save.data.gjToken = in2;
-                        FlxG.save.flush();
+                        GameData.GJ_username = in1;
+                        GameData.GJ_token = in2;
                         userLogin = true;
                         startSession();
                         if (loginArg)
@@ -126,8 +125,8 @@ class GameJoltAPI // Connects to tentools.api.FlxGameJolt
         closeSession();
         userLogin = false;
         trace(FlxG.save.data.gjUser + FlxG.save.data.gjToken);
-        FlxG.save.data.gjUser = "";
-        FlxG.save.data.gjToken = "";
+        GameData.GJ_username = "";
+        GameData.GJ_token = "";
         FlxG.save.flush();
         trace(FlxG.save.data.gjUser + FlxG.save.data.gjToken);
         trace("Logged out!");

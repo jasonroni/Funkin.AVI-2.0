@@ -70,11 +70,11 @@ function onCreate()
 	whiteBG.active = false;
 	add(whiteBG);	
 	
-	stageFront = new FNFSprite(-1270, 130).loadGraphic(Paths.image('cables', 'data/stages/abandonedStreet/images'));
-	stageFront.scale.set(5.1, 2.1);
+	stageFront = new FNFSprite(-3000, 130).loadGraphic(Paths.image('cables', 'data/stages/abandonedStreet/images'));
+	stageFront.scale.set(9, 2.1);
 	stageFront.updateHitbox();
 	stageFront.antialiasing = true;
-	stageFront.scrollFactor.set(3, 2.5);
+	stageFront.scrollFactor.set(5, 2.6);
 	stageFront.active = false;
 	foreground.add(stageFront);
 	
