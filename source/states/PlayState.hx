@@ -2334,7 +2334,7 @@ class PlayState extends MusicBeatState
 	{
 		dodged = false;
 		shootin = true;	
-		FlxG.sound.play(Paths.sound('funkinAVI/relapseMechs/Reload'), 0.6);
+		FlxG.sound.play(Paths.sound('funkinAVI/relapseMechs/Reload'), 0.4);
 		updateSectionCamera('dad', false);
 		//holyShitMOVEBITCH.alpha = 1;
 		//holyShitMOVEBITCH.y = -420;
@@ -2346,7 +2346,7 @@ class PlayState extends MusicBeatState
 		});*/
 		
 		new FlxTimer().start(reactionTime, function(tmr:FlxTimer){
-			FlxG.sound.play(Paths.sound('funkinAVI/relapseMechs/Shoot'), 0.6);
+			FlxG.sound.play(Paths.sound('funkinAVI/relapseMechs/Shoot'), 0.4);
 			opponent.playAnim("attack", true);
 			opponent.specialAnim = true;
 			new FlxTimer().start(0.1, function(tmr:FlxTimer) {
