@@ -1,10 +1,7 @@
 #!/bin/bash
-# FOR LINUX, based off of setup.bat
-# go to https://haxe.org/download/linux/ to install the latest version of Haxe
-echo This reqiures Root Permission
-echo This will also install a frontend for apt known as nala which is faster for downloads
-sudo apt install nala -y
-sudo nala install haxe neko g++ vlc -y
+
+echo This reqiures Root Permission. Make sure to have a secure internet connection before proceeding.
+sudo dnf install haxe g++ cpp vlc --assumeyes --refresh
 haxelib setup ~/haxelib
 haxelib install haxelib
 haxelib install lime
