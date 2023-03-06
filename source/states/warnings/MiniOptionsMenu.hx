@@ -1,6 +1,9 @@
 package states.warnings;
 
 import base.dependency.HardcodedShaders;
+import base.utils.FNFUtils.FNFSprite;
+import objects.ui.menu.*;
+import fonts.Alphabet;
 import flash.system.System;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
@@ -29,11 +32,7 @@ import states.MusicBeatState;
 import lime.app.Application;
 import flash.system.System;
 
-class DisclaimerState extends MusicBeatState
+class MiniOptionsMenu extends MusicBeatState
 {
-    public static var hasSeenWarning:Bool = false;
-
-    var warnText:FlxText;
-
-    var redTextMarker = new FlxTextFormatMarkerPair(new FlxTextFormat(FlxColor.RED, true, true), '^');
+    // insert code here
 }
