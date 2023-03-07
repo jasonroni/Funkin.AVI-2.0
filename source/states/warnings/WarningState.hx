@@ -63,7 +63,8 @@ class WarningState extends MusicBeatState
                         with any of the settings that'll be provided in the\n
                         next screen.\n
                         \n
-			Press ENTER to proceed to the next screen.\n
+			Press ENTER to proceed to the game with all settings on.\n
+			Press SHIFT to proceed with settings diabled.\n
 			Press ESCAPE to close the game.\n
                         \n
 			^You have been warned...^",
@@ -102,7 +103,7 @@ class WarningState extends MusicBeatState
                 if (!hasSeenWarning) {
                         if (Controls.getPressEvent("accept"))
                         {
-                                Application.current.window.title = 'Funkin.avi - Proceeding to Mini-Options Screen...';
+                                Application.current.window.title = 'Funkin.avi - Proceeding to Game...';
                                 FlxG.sound.play(Paths.sound('base/menus/cancelMenu'));
                                 FlxTween.tween(blackFade, {alpha: 1}, 1, {
                                         onComplete: function (twn:FlxTween) {
@@ -112,6 +113,21 @@ class WarningState extends MusicBeatState
                                 FlxG.save.data.hasSeenWarning = true;
                                 FlxG.save.flush();
                         }
+			else if (FlxG.keys.justPressed.SHIFT)
+			{
+				Application.current.window.title = 'Funkin.avi - Settings Updated! Proceeding to Game...';
+				Init.trueSettings.get('Disable Flashing Lights', true);
+				Init.trueSettings.get('Diable Screen Shaders', true);
+				Init.trueSettings.get('Epilepsy Mode', false);
+				FlxG.sound.play(Paths.sound('base/menus/cancelMenu'));
+                                FlxTween.tween(blackFade, {alpha: 1}, 1, {
+                                        onComplete: function (twn:FlxTween) {
+                                                Main.switchState(this, new states.TitleState()); // placeholder
+                                        }
+                                });
+                                FlxG.save.data.hasSeenWarning = true;
+                                FlxG.save.flush();
+			}
                         else if (Controls.getPressEvent("back"))
                         {
                                 Application.current.window.title = 'Funkin.avi - Closing Game...';
