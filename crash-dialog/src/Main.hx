@@ -19,7 +19,10 @@ class Main
 		"Lmao you really got hunted - Jason",
 		"i have inserted a virus on your PC /j - Jason",
 		"read bellow. - Jason",
-		"walter - Literally everyone in the F.AVI Dev Team",
+		"walter. - Literally everyone in the F.AVI Dev Team",
+		"Walt just hates you that much, huh? - DEMOLITIONDON96",
+		"Ooga booga, go back to Africa. (Santa, probably), - Jason"
+		"I'm gonna get racist. - DEMOLITIONDON96",
 		"Ah bueno adios master - ShadowMario",
 		"Skibidy bah mmm dada *explodes* - ShadowMario", // Changed my mind, Shadow mario is peak - jason
 		"Well at least it isn't a openGl error - Jason",
