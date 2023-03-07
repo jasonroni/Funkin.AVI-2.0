@@ -800,6 +800,26 @@ class PlayState extends MusicBeatState
 		waltScreenThing.cameras = [camAlt];
 		waltScreenThing.alpha = 0;
 		add(waltScreenThing);
+		
+		if (curStage == 'waltRoom')
+		{
+			var waltInstructionsMain:FlxText = new FlxText(370, 500, 0, "Take Advantage of the SPACEBAR!", 30);
+			waltInstructionsMain.cameras = [camAlt];
+			waltInstructionsMain.setFormat(Paths.font("splatter"), 30);
+			waltInstructionsMain.scrollFactor.set();
+			add(waltInstructionsMain);
+
+			var waltSubTxt:FlxText = new FlxText(waltInstructionsMain.x + 66, waltInstructionsMain.y + 40, 0, "(It will help you regain health when critically low)", 15);
+			waltSubTxt.setFormat(Paths.font("splatter"), 15);
+			waltSubTxt.cameras = [camAlt];
+			waltSubTxt.alpha = 0;
+			waltSubTxt.scrollFactor.set();
+			add(waltSubTxt);
+
+			FlxTween.tween(waltInstructionsMain, {alpha: 0}, 1, {ease: FlxEase.quadInOut, startDelay: 8});
+			FlxTween.tween(waltSubTxt, {alpha: 0}, 1, {ease: FlxEase.quadInOut, startDelay: 8});
+			FlxTween.tween(waltSubTxt, {alpha: 1}, 0.7, {ease: FlxEase.quadInOut, startDelay: 3});
+		}
 
 		inkFormWarning = new FlxText(0, 0, 0, "PRESS SPACE!", 15);
 		inkFormWarning.setFormat(Paths.font("splatter"), 50);
@@ -849,22 +869,6 @@ class PlayState extends MusicBeatState
 
 		// call the funny intro cutscene depending on the song
 		songCutscene(false);
-
-		/*if (!CutsceneState.completedCutscene)
-		{
-			switch (SONG.song.toLowerCase().replace('-', ' '))
-			{
-				case 'isolated':
-					FlxG.switchState(new CutsceneState('Episode1_Intro.avi'));
-
-				default:
-					startCountdown();
-			}
-		}
-		else
-		{
-			startCountdown();
-		}*/
 	}
 
 	var keysHeld:Array<Bool> = [];
@@ -1030,6 +1034,19 @@ class PlayState extends MusicBeatState
 					getCenterX = char.getMidpoint().x - 200;
 					getCenterY = char.getMidpoint().y - 200;
 			}
+		}else{
+			switch (curStage)
+			{
+				case 'apartment':
+					if (shootin)
+					{
+						getCenterX = char.getMidpoint().x - 300;
+						getCenterY = char.getMidpoint().y + 150;
+					}else{
+						getCenterX = char.getMidpoint().x + 100;
+						getCenterY = char.getMidpoint().y - 100;
+					}
+			}
 		}
 
 		camFollow.setPosition(getCenterX
@@ -1045,12 +1062,43 @@ class PlayState extends MusicBeatState
 		}
 	}
 	
+	/*
+	* The better and simplified Walt gimmick
+	*
+	* @author Wither362
+	*/
 	function tweenWaltScreen(percentage:Float, alpha:Float):Bool {
 		if (health <= percentage)
-			FlxTween.tween(waltScreenThing, {alpha: 0.95}, 0.15, {ease: FlxEase.sineInOut});
+			FlxTween.tween(waltScreenThing, {alpha: alpha}, 0.15, {ease: FlxEase.sineInOut});
 		else
 			return true;
 		return false;
+	}
+	
+	function checkCamPosition()
+	{
+		/*
+		* Originally in "public function update(elapsed:Float)"
+		* was moved here as a separate function so certain
+		* mechanics can alter the camera too, for example:
+		* Cycled Sins with the shooting and dodging gimmick.
+		*
+		* -DEMOLITIONDON96
+		*/
+		
+		var cameraPos = Init.trueSettings.get('Camera Position');
+		if (cameraPos != 'none')
+		{
+			// lock camera according to your options;
+			updateSectionCamera(cameraPos, cameraPos == SONG.player1);
+		}
+		else
+		{
+			if (!PlayState.SONG.notes[curSection].mustHitSection)
+				updateSectionCamera('dad');
+			else
+				updateSectionCamera('bf', true);
+		}
 	}
 
 	override public function update(elapsed:Float)
@@ -1061,17 +1109,20 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 		
-		if (SONG.song == 'Cycled Sins')
-		{
-			detectSpace();
-		}
+		detectSpace(bfStrums.autoplay); // checks on the autoplay to determine whether or not it would play the mechanics for you
 
 		if (curStage == 'waltRoom')
 		{
 			spaceBarCounter.text = 'Health Boosts Left: ' + limitThing;
 			spaceBarCounter.alpha = 1;
 
-			// This entire set monitors the brightness of the screen based on the percentage of your health
+			/*
+			* This set monitors the brightness of the screen based on the percentage of your health
+			* The original code was unoptimized asf, you can go see for yourself through the commit
+			* history, thx @Wither362 for the more simplified code!
+			*
+			* -DEMOLITIONDON96
+			*/
 
 			var healths:Array<Float> = [for (i in 1...21) i / 10]; // i dont really remember how were this done...
 			var alphas:Array<Float> = [
@@ -1082,100 +1133,6 @@ class PlayState extends MusicBeatState
 				if(lastOne) {
 					lastOne = tweenWaltScreen(healths[i], alphas[i]);
 				}
-			}
-			
-			/*if (health <= 0.1) // if 5% HP
-			{
-				FlxTween.tween(waltScreenThing, {alpha: 0.95}, 0.15, {ease: FlxEase.sineInOut});
-			}
-			else if (health <= 0.2) // if 10% HP
-			{
-				FlxTween.tween(waltScreenThing, {alpha: 0.9}, 0.15, {ease: FlxEase.sineInOut});
-			}
-			else if (health <= 0.3) // if 15% HP
-			{
-				FlxTween.tween(waltScreenThing, {alpha: 0.85}, 0.15, {ease: FlxEase.sineInOut});
-			}
-			else if (health <= 0.4) // if 20% HP (you get the idea)
-			{
-				FlxTween.tween(waltScreenThing, {alpha: 0.8}, 0.15, {ease: FlxEase.sineInOut});
-			}
-			else if (health <= 0.5)
-			{
-				FlxTween.tween(waltScreenThing, {alpha: 0.75}, 0.15, {ease: FlxEase.sineInOut});
-			}
-			else if (health <= 0.6)
-			{
-				FlxTween.tween(waltScreenThing, {alpha: 0.7}, 0.15, {ease: FlxEase.sineInOut});
-			}
-			else if (health <= 0.7)
-			{
-				FlxTween.tween(waltScreenThing, {alpha: 0.65}, 0.15, {ease: FlxEase.sineInOut});
-			}
-			else if (health <= 0.8)
-			{
-				FlxTween.tween(waltScreenThing, {alpha: 0.6}, 0.15, {ease: FlxEase.sineInOut});
-			}
-			else if (health <= 0.9)
-			{
-				FlxTween.tween(waltScreenThing, {alpha: 0.55}, 0.15, {ease: FlxEase.sineInOut});
-			}
-			else if (health <= 1)
-			{
-				FlxTween.tween(waltScreenThing, {alpha: 0.5}, 0.15, {ease: FlxEase.sineInOut});
-			}
-			else if (health <= 1.1)
-			{
-				FlxTween.tween(waltScreenThing, {alpha: 0.45}, 0.15, {ease: FlxEase.sineInOut});
-			}
-			else if (health <= 1.2)
-			{
-				FlxTween.tween(waltScreenThing, {alpha: 0.4}, 0.15, {ease: FlxEase.sineInOut});
-			}
-			else if (health <= 1.3)
-			{
-				FlxTween.tween(waltScreenThing, {alpha: 0.35}, 0.15, {ease: FlxEase.sineInOut});
-			}
-			else if (health <= 1.4)
-			{
-				FlxTween.tween(waltScreenThing, {alpha: 0.3}, 0.15, {ease: FlxEase.sineInOut});
-			}
-			else if (health <= 1.5)
-			{
-				FlxTween.tween(waltScreenThing, {alpha: 0.25}, 0.15, {ease: FlxEase.sineInOut});
-			}
-			else if (health <= 1.6)
-			{
-				FlxTween.tween(waltScreenThing, {alpha: 0.2}, 0.15, {ease: FlxEase.sineInOut});
-			}
-			else if (health <= 1.7)
-			{
-				FlxTween.tween(waltScreenThing, {alpha: 0.15}, 0.15, {ease: FlxEase.sineInOut});
-			}
-			else if (health <= 1.8)
-			{
-				FlxTween.tween(waltScreenThing, {alpha: 0.1}, 0.15, {ease: FlxEase.sineInOut});
-			}
-			else if (health <= 1.9)
-			{
-				FlxTween.tween(waltScreenThing, {alpha: 0.05}, 0.15, {ease: FlxEase.sineInOut});
-			}
-			else if (health <= 2)
-			{
-				FlxTween.tween(waltScreenThing, {alpha: 0}, 0.15, {ease: FlxEase.sineInOut});
-			}*/
-
-			/*
-				Okay, time to explain how the spacebar works, basically, you can't spam it anymore unlike the Psych counterpart.
-				With the conditions given, the spacebar becomes available and accessible when your HP is at exactly 12.5% health or lower.
-				Seems simple, right? Well, people can easily exploit this if there is no limit given, so that's where the "limitThing" variable comes in.
-				As you see at the top, it's at 0, but in the create function, you can see it adds a certain amount based on the song given (by default, it's 5).
-				The moment it reaches 0, you will no longer be able to use the spacebar key, encouraging players to actually use it wisely.
-			 */
-			if (FlxG.keys.justPressed.SPACE && health < 0.3 && limitThing > 0)
-			{
-				health += 1.25;
-				limitThing -= 1;
 			}
 		}
 
@@ -1252,19 +1209,8 @@ class PlayState extends MusicBeatState
 					camDisplaceY = 0;
 				}
 
-				var cameraPos = Init.trueSettings.get('Camera Position');
-				if (cameraPos != 'none')
-				{
-					// lock camera according to your options;
-					updateSectionCamera(cameraPos, cameraPos == SONG.player1);
-				}
-				else
-				{
-					if (!PlayState.SONG.notes[curSection].mustHitSection)
-						updateSectionCamera('dad');
-					else
-						updateSectionCamera('bf', true);
-				}
+				if (!shootin) // just for safety so the game doesn't freak out
+					checkCamPosition();
 			}
 
 			Conductor.songPosition += elapsed * 1000;
@@ -2294,41 +2240,117 @@ class PlayState extends MusicBeatState
 		callFunc('eventTrigger', [name, params]);
 	}
 		
-	var canDodge:Bool = true;
-	var pressedSpace:Bool = false;
-	var pressCounter = 0;
 	var dodged:Bool;
 	var shootin:Bool;
-	var detectAttack:Bool = false;
 		
-	function detectSpace()
+	/*
+	* Checks on the spacebar if there's a spacebar mechanic required
+	* if you have a mechanic you want to add with the spacebar
+	* simply tag in your gimmick here with the stage/song you want it
+	* to occur at, in other words, go nuts
+	*
+	* @author DEMOLITIONDON96
+	*/
+	
+	function detectSpace(isAutoplay:Bool = false)
 	{
-		if (FlxG.keys.justPressed.SPACE)
+		if (!isAutoplay)
 		{
-			pressCounter += 1;
-			trace('tap');
-			pressedSpace = true;
-			detectAttack = false;
+			if (FlxG.keys.justPressed.SPACE)
+			{
+				/*
+				* This set is for song-specific gimmicks
+				* Try messing around with it
+				*
+				* - DEMOLITIONDON96
+				*/
+
+				switch (SONG.song)
+				{
+					default:
+						// nothing
+				}
+
+				/*
+				* This is if you want the gimmicks to affect
+				* ALL songs globally, if they use a certain stage
+				* 2 examples are already provided below
+				*
+				* - DEMOLITIOONDON96
+				*/
+
+				switch (curStage)
+				{
+					case 'waltRoom':
+						if (health < 0.3 && limitThing > 0)
+						{
+							health += 1.25;
+							limitThing -= 1;
+						}
+					
+					case 'apartment':
+						if (shootin)
+							dodged = true;
+
+					default:
+						// nothing
+				}
+			}
+		}else{
+			switch (SONG.song)
+			{
+				default:
+					//nothing
+			}
+			
+			switch (curStage)
+			{
+				case 'waltRoom':
+					if (health < 0.3 && limitThing > 0)
+					{
+						health += 1.25;
+						limitThing -= 1;
+					}
+					
+				case 'apartment':
+					if (shootin)
+						dodged = true;
+				
+				default:
+					// nothing
+			}
 		}
 	}
 		
+	/*
+	* The Cycled Sins Gimmick
+	*
+	* As you can see, it's different than how it was before, it can actually be
+	* used now without the need of a fucking event or some shit, so, have fun lol
+	*
+	* reactionTime - Amount of time you have to react before he shoots you
+	* damageAmount - how much health it'll remove if you fail to dodge
+	*
+	* @author DEMOLITIONDON96
+	*/
+	
 	function relapseGimmick(reactionTime:Float = 2, damageAmount:Float = 0.4)
 	{
 		dodged = false;
 		shootin = true;	
-		FlxG.sound.play(Paths.sound('funkinAVI/relapseMechs/Reload'), 0.6);
+		FlxG.sound.play(Paths.sound('funkinAVI/relapseMechs/Reload'), 0.4);
+		updateSectionCamera('dad', false);
 		//holyShitMOVEBITCH.alpha = 1;
 		//holyShitMOVEBITCH.y = -420;
 		opponent.playAnim("reload", true);
 		opponent.specialAnim = true;
-		/*new FlxTimer().start(reactionTime - 1, function(tmr:FlxTimer)
+		/*new FlxTimer().start(reactionTime - 0.6, function(tmr:FlxTimer)
 		{
 			FlxTween.tween(holyShitMOVEBITCH, {alpha: 0, y: -400}, 0.3, {ease: FlxEase.quadInOut});
 		});*/
-		pressCounter = 0;
 		
 		new FlxTimer().start(reactionTime, function(tmr:FlxTimer){
-			FlxG.sound.play(Paths.sound('funkinAVI/relapseMechs/Shoot'), 0.6);
+			FlxG.sound.play(Paths.sound('funkinAVI/relapseMechs/Shoot'), 0.4);
 			opponent.playAnim("attack", true);
 			opponent.specialAnim = true;
 			new FlxTimer().start(0.1, function(tmr:FlxTimer) {
@@ -2337,11 +2359,13 @@ class PlayState extends MusicBeatState
 				health -= damageAmount;
 				trace("lmfao you got shot depsite the fact this is nerfed");
 				dodged = false;
+				checkCamPosition();
 			} else {
 				boyfriend.playAnim('dodge');
 				dodged = false;
 				shootin = false;
 				health += 0.05;
+				checkCamPosition();
 			}
 			});
 		});
@@ -2709,6 +2733,27 @@ class PlayState extends MusicBeatState
 					PlayState.health -= 0.25;
 				else if (curBeat >= 490)
 					PlayState.health -= 0.02;
+					
+			case 'Cycled Sins':
+				switch (curBeat)
+				{
+					case 158:
+						relapseGimmick(0.7, 0.3);
+					case 172 | 204:
+						relapseGimmick(1.12, 0.6);
+					case 190:
+						relapseGimmick(0.7, 0.54);
+					case 212:
+						relapseGimmick(0.7, 0.8);
+					case 222 | 264:
+						relapseGimmick(0.7, 1);
+					case 236:
+						relapseGimmick(0.7, 0.4);
+					case 248:
+						relapseGimmick(1.12, 1.2);
+					case 270:
+						relapseGimmick(0.7, 1.5);
+				}
 		}
 
 		callFunc('beatHit', [curBeat]);
@@ -2886,7 +2931,7 @@ class PlayState extends MusicBeatState
 			FlxTransitionableState.skipNextTransOut = true;
 
 			PlayState.SONG = Song.loadFromJson(song.toLowerCase() + diff, song);
-			ForeverTools.killMusic([songMusic, songMusicNew, vocals, bf_vocals, opp_vocals]);
+			ForeverTools.killMusic([songMusic, songMusicNew, bf_vocals, opp_vocals, vocals]);
 
 			// deliberately did not use the main.switchstate as to not unload the assets
 			FlxG.switchState(new PlayState());
@@ -2904,32 +2949,6 @@ class PlayState extends MusicBeatState
 
 		inCutscene = true;
 		canPause = false;
-		
-		switch (SONG.song)
-		{
-			case 'Isolated': 
-				if (!CutsceneState.completedCutscene)
-					FlxG.switchState(new CutsceneState('Episode1_Intro.avi', false));
-				else
-					startCountdown();
-					
-			case 'Lunacy' | 'Twisted Grins' | 'Resentment' | 'Mercy' | 'Affliction':
-				if (!CutsceneState.completedCutscene)
-					FlxG.switchState(new CutsceneState('placeholder.mp4', false));
-				else
-					startCountdown();
-			
-			case 'Delusional' | 'Mortiferum Risus':
-				if (!onEnd)
-				{
-					if (!CutsceneState.completedCutscene)
-						FlxG.switchState(new CutsceneState('placeholder.mp4', false));
-					else
-						startCountdown();
-				} else {
-					FlxG.switchState(new CutsceneState('placeholder.mp4', true));
-				}			
-		}
 
 		var cutscenePath = Paths.module('cutscene' + (onEnd ? '-end' : ''), 'songs/' + SONG.song.toLowerCase());
 		callFunc(onEnd ? 'songEndCutscene' : 'songCutscene', []);
@@ -2987,7 +3006,7 @@ class PlayState extends MusicBeatState
 				case 'never':
 					return false;
 				case 'freeplay only':
-					if (gameplayMode != STORY && SONG.song != "Malfunction")
+					if (gameplayMode != STORY)
 						return true;
 					else
 						return false;
@@ -3003,7 +3022,6 @@ class PlayState extends MusicBeatState
 
 	public function startCountdown():Void
 	{
-		CutsceneState.completedCutscene = false; // fixes cutscenes not playing after the first song in story mode
 		inCutscene = false;
 		canPause = true;
 

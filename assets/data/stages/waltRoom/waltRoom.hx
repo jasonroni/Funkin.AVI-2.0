@@ -49,27 +49,6 @@ function onCreate()
 	vignette.active = false;
 	add(vignette);
 
-	var waltInstructionsMain:FlxText = new FlxText(370, 500, 0, "Take Advantage of the SPACEBAR!", 30);
-	waltInstructionsMain.cameras = [PlayState.camAlt];
-	waltInstructionsMain.setFormat(Paths.font("splatter"), 30);
-	waltInstructionsMain.borderSize = 2;
-	waltInstructionsMain.borderQuality = 2;
-	waltInstructionsMain.scrollFactor.set();
-	add(waltInstructionsMain);
-
-	var waltSubTxt:FlxText = new FlxText(waltInstructionsMain.x + 66, waltInstructionsMain.y + 40, 0, "(It will help you regain health when critically low)", 15);
-	waltSubTxt.setFormat(Paths.font("splatter"), 15);
-	waltSubTxt.cameras = [PlayState.camAlt];
-	waltSubTxt.borderSize = 2;
-	waltSubTxt.borderQuality = 2;
-	waltSubTxt.alpha = 0;
-	waltSubTxt.scrollFactor.set();
-	add(waltSubTxt);
-
-	FlxTween.tween(waltInstructionsMain, {alpha: 0}, 1, {ease: FlxEase.quadInOut, startDelay: 8});
-	FlxTween.tween(waltSubTxt, {alpha: 0}, 1, {ease: FlxEase.quadInOut, startDelay: 8});
-	FlxTween.tween(waltSubTxt, {alpha: 1}, 0.7, {ease: FlxEase.quadInOut, startDelay: 3});
-
 	vhsFilter = new FlxRuntimeShader(File.getContent("./assets/shaders/vhs.frag"), null, 130);
 
 	grainFilter = new FlxRuntimeShader(File.getContent("./assets/shaders/filmgrain.frag"), null, 150);

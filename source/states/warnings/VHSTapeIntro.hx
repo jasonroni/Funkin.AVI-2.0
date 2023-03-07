@@ -1,3 +1,10 @@
 package states.warnings;
 
-// kinda want to do a little cutscene into the mod upon playing first time
+class VHSTapeIntro extends flixel.FlxState 
+{
+   override function create() 
+      {
+         super.create();
+         states.CutsceneState.playCutscene('coolIntro');
+      }
+}

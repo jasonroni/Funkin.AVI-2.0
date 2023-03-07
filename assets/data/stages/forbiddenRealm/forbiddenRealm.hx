@@ -19,7 +19,7 @@ function onCreate()
 	if (PlayState.SONG.song == 'Malfunction Legacy')
 		fuckingsquares.loadGraphic(Paths.image('PixelMouse', 'data/stages/forbiddenRealm/images'));
 	else
-		fuckingsquares.loadGraphic(Paths.image('PixelMouse', 'data/stages/forbiddenRealm/images')); //i'm gonna get the new stage background later
+		fuckingsquares.loadGraphic(Paths.image('malfunctionBG-NEW', 'data/stages/forbiddenRealm/images'));
 	fuckingsquares.scale.set(1.2, 1);
 	fuckingsquares.updateHitbox();
 	fuckingsquares.antialiasing = false;
