@@ -34,5 +34,8 @@ import flash.system.System;
 
 class MiniOptionsMenu extends MusicBeatState
 {
-    // insert code here
+    var vaultBG:FlxSprite;
+    var vignette:FlxSprite;
+    
+    // WIP
 }
