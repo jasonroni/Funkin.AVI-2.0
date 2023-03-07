@@ -31,9 +31,99 @@ import flash.system.System;
 
 class DisclaimerState extends MusicBeatState
 {
-    public static var hasSeenWarning:Bool = false;
+    //public static var hasSeenWarning:Bool = false;
 
     var warnText:FlxText;
+    
+    var disclaimerBG:FlxSprite;
 
     var redTextMarker = new FlxTextFormatMarkerPair(new FlxTextFormat(FlxColor.RED, true, true), '^');
+    var grayTextMarker = new FlxTextFormatMarkerPair(new FlxTextFormat(FlxColor.GRAY, true, true), '+');
+    var cyanTextMarker = new FlxTextFormatMarkerPair(new FlxTextFormat(FlxColor.CYAN, true, true), '#');
+    
+     var blackFade:FlxSprite;
+
+        override function create()
+        {
+                Application.current.window.title = 'Funkin.avi - DISCLAIMER';
+
+                var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+                add(bg);
+
+                warnText = new FlxText(0, 0, FlxG.width,
+			            "DISCLAIMER:\n
+                        \n
+			            This version of Mickey & other characters used in this mod\n
+                        is in no way related to Disney's Mickey Mouse & Co.,\n
+                        as this is simply a project based on the creepypasta:\n
+                        +\"SUICIDEMOUSE.avi\".+
+                        \n
+                        Once again, there is ^gore^ to be presented within\n
+                        certain songs in this modification of:\n
+                        #\"Friday Night Funkin'\".#
+                        \n
+                        If you are squirmish about the sight or thought of ^blood^,\n
+                        this mod isn't for you.\n
+                        \n
+                        Press ENTER to continue.\n
+                        Press ESCAPE to close the game.\n
+                        \n
+			            ^Last chance to turn back...^",
+                    32);
+                warnText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
+                warnText.screenCenter(Y);
+                warnText.applyMarkup(warnText.text, [redTextMarker, grayTextMarker, cyanTextMarker]);
+                add(warnText);
+
+                blackFade = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+                add(blackFade);
+
+                var scratchStuff:FlxSprite = new FlxSprite();
+                scratchStuff.frames = Paths.getSparrowAtlas('filters/scratchShit');
+                scratchStuff.animation.addByPrefix('idle', 'scratch thing 1', 24, true);
+                scratchStuff.animation.play('idle');
+                scratchStuff.screenCenter();
+                scratchStuff.scale.x = 1.1;
+                scratchStuff.scale.y = 1.1;
+                add(scratchStuff);
+
+                var grain:FlxSprite = new FlxSprite();
+                grain.frames = Paths.getSparrowAtlas('filters/Grainshit');
+                grain.animation.addByPrefix('idle', 'grains 1', 24, true);
+                grain.animation.play('idle');
+                grain.screenCenter();
+                grain.scale.x = 1.1;
+                grain.scale.y = 1.1;
+                add(grain);
+
+                FlxTween.tween(blackFade, {alpha: 0}, 1);
+        }
+
+        override function update(elapsed:Float)
+        {
+                if (!hasSeenWarning) {
+                        if (Controls.getPressEvent("accept"))
+                        {
+                                Application.current.window.title = 'Funkin.avi - Proceeding to Game...';
+                                FlxG.sound.play(Paths.sound('base/menus/cancelMenu'));
+                                FlxTween.tween(blackFade, {alpha: 1}, 1, {
+                                        onComplete: function (twn:FlxTween) {
+                                                Main.switchState(this, new states.TitleState());
+                                        }
+                                });
+                                FlxG.save.data.hasSeenDisclaimer = true;
+                                FlxG.save.flush();
+                        }
+                        else if (Controls.getPressEvent("back"))
+                        {
+                                Application.current.window.title = 'Funkin.avi - Closing Game...';
+                                FlxG.sound.play(Paths.sound('base/menus/cancelMenu'));
+                                FlxTween.tween(blackFade, {alpha: 1}, 1, {
+                                        onComplete: function (twn:FlxTween) {
+                                                System.exit(0);
+                                        }
+                                });
+                        }
+                }
+        }
 }
