@@ -90,7 +90,7 @@ class TitleState extends states.MusicBeatState
 		"Shipy's SNS is peak, frfr",
 		"Stfu, I'm playing Minecraft",
 		"Stfu, I'm playing Fortnite",
-		"Suicidal Difficulty is fun, ngl.",
+		"RIP: Suicidal Remixes.",
 		"Why did BF & GF enter these horrific cartoons in the first place?",
 		"Muckney.mp4, realest one out there.",
 		"We late, but we late in style",
