@@ -63,8 +63,8 @@ class WarningState extends MusicBeatState
                         with any of the settings that'll be provided in the\n
                         next screen.\n
                         \n
-			Press ENTER to proceed to the game with all settings on.\n
-			Press SHIFT to proceed with settings diabled.\n
+			Press ENTER to proceed to the game.\n
+			Press SHIFT to disable flashing lights & shaders.\n
 			Press ESCAPE to close the game.\n
                         \n
 			^You have been warned...^",
