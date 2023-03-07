@@ -869,22 +869,6 @@ class PlayState extends MusicBeatState
 
 		// call the funny intro cutscene depending on the song
 		songCutscene(false);
-
-		/*if (!CutsceneState.completedCutscene)
-		{
-			switch (SONG.song.toLowerCase().replace('-', ' '))
-			{
-				case 'isolated':
-					FlxG.switchState(new CutsceneState('Episode1_Intro.avi'));
-
-				default:
-					startCountdown();
-			}
-		}
-		else
-		{
-			startCountdown();
-		}*/
 	}
 
 	var keysHeld:Array<Bool> = [];
@@ -2947,7 +2931,7 @@ class PlayState extends MusicBeatState
 			FlxTransitionableState.skipNextTransOut = true;
 
 			PlayState.SONG = Song.loadFromJson(song.toLowerCase() + diff, song);
-			ForeverTools.killMusic([songMusic, songMusicNew, vocals, bf_vocals, opp_vocals]);
+			ForeverTools.killMusic([songMusic, vocals]);
 
 			// deliberately did not use the main.switchstate as to not unload the assets
 			FlxG.switchState(new PlayState());
@@ -2965,32 +2949,6 @@ class PlayState extends MusicBeatState
 
 		inCutscene = true;
 		canPause = false;
-		
-		switch (SONG.song)
-		{
-			case 'Isolated': 
-				if (!CutsceneState.completedCutscene)
-					FlxG.switchState(new CutsceneState('Episode1_Intro.avi', false));
-				else
-					startCountdown();
-					
-			case 'Lunacy' | 'Twisted Grins' | 'Resentment' | 'Mercy' | 'Affliction':
-				if (!CutsceneState.completedCutscene)
-					FlxG.switchState(new CutsceneState('placeholder.mp4', false));
-				else
-					startCountdown();
-			
-			case 'Delusional' | 'Mortiferum Risus':
-				if (!onEnd)
-				{
-					if (!CutsceneState.completedCutscene)
-						FlxG.switchState(new CutsceneState('placeholder.mp4', false));
-					else
-						startCountdown();
-				} else {
-					FlxG.switchState(new CutsceneState('placeholder.mp4', true));
-				}			
-		}
 
 		var cutscenePath = Paths.module('cutscene' + (onEnd ? '-end' : ''), 'songs/' + SONG.song.toLowerCase());
 		callFunc(onEnd ? 'songEndCutscene' : 'songCutscene', []);
@@ -3048,7 +3006,7 @@ class PlayState extends MusicBeatState
 				case 'never':
 					return false;
 				case 'freeplay only':
-					if (gameplayMode != STORY && SONG.song != "Malfunction")
+					if (gameplayMode != STORY)
 						return true;
 					else
 						return false;
