@@ -185,6 +185,8 @@ class TitleState extends states.MusicBeatState
 	override public function create():Void
 	{	
 		if (FlxG.save.data.hasSeenWarning == null) Main.switchState(this, states.warnings.WarningState());
+		
+		if (FlxG.save.data.hasSeenDisclaimer == null) Main.switchState(this, states.warnings.DisclaimerState()); // you never know...
 
 		if (FlxG.save.data.episode1FPLock == null || FlxG.save.data.episodeSFPLock == null /*an alternative in case we don't make a new save for the testers*/) GameData.lockinIt(); // this locks everything to the default state if the player hasn't played it yet, leaving only Episode 1 unlocked
 
