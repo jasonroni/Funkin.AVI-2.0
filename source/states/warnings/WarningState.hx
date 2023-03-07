@@ -107,7 +107,7 @@ class WarningState extends MusicBeatState
                                 FlxG.sound.play(Paths.sound('base/menus/cancelMenu'));
                                 FlxTween.tween(blackFade, {alpha: 1}, 1, {
                                         onComplete: function (twn:FlxTween) {
-                                                Main.switchState(this, new states.TitleState()); // placeholder
+                                                Main.switchState(this, new states.warnings.DisclaimerState());
                                         }
                                 });
                                 FlxG.save.data.hasSeenWarning = true;
@@ -122,7 +122,7 @@ class WarningState extends MusicBeatState
 				FlxG.sound.play(Paths.sound('base/menus/cancelMenu'));
                                 FlxTween.tween(blackFade, {alpha: 1}, 1, {
                                         onComplete: function (twn:FlxTween) {
-                                                Main.switchState(this, new states.TitleState()); // placeholder
+                                                Main.switchState(this, new states.warnings.DisclaimerState()); // placeholder
                                         }
                                 });
                                 FlxG.save.data.hasSeenWarning = true;
