@@ -103,7 +103,7 @@ class WarningState extends MusicBeatState
                 if (!hasSeenWarning) {
                         if (Controls.getPressEvent("accept"))
                         {
-                                Application.current.window.title = 'Funkin.avi - Proceeding to Game...';
+                                Application.current.window.title = 'Funkin.avi - Settings Updated...';
                                 FlxG.sound.play(Paths.sound('base/menus/cancelMenu'));
                                 FlxTween.tween(blackFade, {alpha: 1}, 1, {
                                         onComplete: function (twn:FlxTween) {
@@ -115,7 +115,7 @@ class WarningState extends MusicBeatState
                         }
 			else if (FlxG.keys.justPressed.SHIFT)
 			{
-				Application.current.window.title = 'Funkin.avi - Settings Updated! Proceeding to Game...';
+				Application.current.window.title = 'Funkin.avi - Settings Updated...';
 				Init.trueSettings.set('Disable Flashing Lights', true);
 				Init.trueSettings.set('Disable Screen Shaders', true);
 				Init.trueSettings.set('Epilepsy Mode', false);
