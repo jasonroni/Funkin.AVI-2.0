@@ -450,10 +450,6 @@ class MainMenu extends MusicBeatState
 						switch (daChoice)
 						{
 							case 'story mode':
-								selectedSomethin = true;
-								FlxG.sound.play(Paths.sound('base/menus/confirmMenu'));
-								FlxTween.tween(menuart, {y: 500}, 0.5, {ease: FlxEase.sineInOut});
-								FlxTween.tween(camGame, {zoom: 1.3}, 0.6, {ease: FlxEase.quartInOut});
 								Main.switchState(this, new states.menus.StoryMenu());
 							case 'freeplay':
 								/*if (GameData.episode1FPLock == 'locked')
@@ -503,18 +499,10 @@ class MainMenu extends MusicBeatState
 										}
 									);
 								} else {*/
-									selectedSomethin = true;
-									FlxG.sound.play(Paths.sound('base/menus/confirmMenu'));
-									FlxTween.tween(menuart, {y: 500}, 0.5, {ease: FlxEase.sineInOut});
-									FlxTween.tween(camGame, {zoom: 1.3}, 0.6, {ease: FlxEase.quartInOut});
 									CoolUtil.difficulties = CoolUtil.difficultyArray;
 									Main.switchState(this, new states.menus.FreeplayMenu());
 								//}
 							case 'options':
-								selectedSomethin = true;
-								FlxG.sound.play(Paths.sound('base/menus/confirmMenu'));
-								FlxTween.tween(menuart, {y: 500}, 0.5, {ease: FlxEase.sineInOut});
-								FlxTween.tween(camGame, {zoom: 1.3}, 0.6, {ease: FlxEase.quartInOut});
 								transIn = FlxTransitionableState.defaultTransIn;
 								transOut = FlxTransitionableState.defaultTransOut;
 								Main.switchState(this, new states.menus.OptionsMenu());
@@ -522,6 +510,10 @@ class MainMenu extends MusicBeatState
 					});
 				}
 			});
+				selectedSomethin = true;
+				FlxG.sound.play(Paths.sound('base/menus/confirmMenu'));
+				FlxTween.tween(menuart, {y: 500}, 0.5, {ease: FlxEase.sineInOut, startDelay: 0.5});
+				FlxTween.tween(camGame, {zoom: 1.3}, 0.6, {ease: FlxEase.quartInOut, startDelay: 0.5});
 		}
 
 		// It actually makes sense since some pepole doesn't know we moved to forever or just think we ported the psych editor lol

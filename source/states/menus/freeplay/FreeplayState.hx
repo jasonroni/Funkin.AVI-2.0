@@ -64,6 +64,8 @@ class FreeplayState extends MusicBeatState
 	var defaultShader:FlxRuntimeShader;
 	var defaultShader2:FlxRuntimeShader;
 	var smilesShader:FlxRuntimeShader;
+	var mercyShader:FlxRuntimeShader;
+	var mercyShader2:FlxRuntimeShader;
 
 	var shaderTime:Float = 0;
 
@@ -83,6 +85,8 @@ class FreeplayState extends MusicBeatState
 		smilesShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
 		defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
 		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
+		mercyShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/vhs.frag'), null, 130);
+		mercyShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
 
 		lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Episode Songs";
 
@@ -450,6 +454,14 @@ class FreeplayState extends MusicBeatState
 			{
 				case 'twisted-grins' | 'resentment' | 'mortiferum-risus':
 					FlxG.camera.setFilters([new ShaderFilter(smilesShader), new ShaderFilter(defaultShader2)]);
+
+				case 'mercy' | 'affliction':
+					FlxG.camera.setFilters(
+						[
+							new ShaderFilter(mercyShader),
+							new ShaderFilter(mercyShader2),
+							new ShaderFilter(defaultShader2)
+						]);
 
 				default:
 					FlxG.camera.setFilters([new ShaderFilter(defaultShader), new ShaderFilter(defaultShader2)]);
