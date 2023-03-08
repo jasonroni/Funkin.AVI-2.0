@@ -1,0 +1,33 @@
+{
+	"songs": [
+		{
+			"name": "Mercy",
+			"opponent": "walt",
+			"colors": [
+				60,
+				60,
+				60
+			]
+		},
+		{
+			"name": "Affliction",
+			"opponent": "walt",
+			"colors": [
+				60,
+				60,
+				60
+			]
+		},
+	],
+	"attachedImage": "bonus2",
+	"storyName": "Boyfriend in: Sentient Ink",
+	"characters": [
+		"none",
+		"none",
+		"none"
+	],
+	"startsLocked": false,
+	"hideOnStory": false,
+	"hideOnFreeplay": true,
+	"hideUntilUnlocked": false
+}
