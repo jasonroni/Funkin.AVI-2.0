@@ -108,6 +108,10 @@ class ScriptHandler extends SScript
 		set('FlxGradient', flixel.util.FlxGradient);
 		set('FlxMath', flixel.math.FlxMath);
 
+		// WINDOW MODCHARTS
+		set('Application', lime.app.Application);
+		set('System', flash.system.System);
+		set('Window', lime.ui.Window);
 
 		// CLASSES (FUNKIN);
 		set('Alphabet', objects.fonts.Alphabet);
