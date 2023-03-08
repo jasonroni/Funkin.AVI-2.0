@@ -24,16 +24,12 @@ using StringTools;
 
 class SexState extends MusicBeatState 
 {
-   
-   var youGetNoBitches:FlxSprite; // Megamind is fucking peak, go watch it
-
    var background:FlxSprite; // for some reason, the game would crash without it
 
    var noBitchCam:FlxCamera;
    var bgCam:FlxCamera;
 
    var upText:FlxText;
-   var megaText:FlxText;
    var downText:FlxText;
 
    var monitor:FlxRuntimeShader;
@@ -67,22 +63,13 @@ class SexState extends MusicBeatState
 	background.scale.set(5, 5);
         background.cameras = [bgCam];
 
-        /* youGetNoBitches = new FlxSprite();
-         //youGetNoBitches.loadGraphic(Paths.image('menus/Funkin_avi/noBitches'));
-         youGetNoBitches.loadGraphic(sys.io.File.getContent('./assets/images/menus/Funkin_avi/noBitches.png'));
-         youGetNoBitches.screenCenter();
-         add(youGetNoBitches);*/
-
-    /*  var megaMind:FlxSprite = new FlxSprite();
-      megaMind.*/
-
-      var eyes:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/NEWmenu/HahaSadBoi'));
-		eyes.scrollFactor.set(0, 0);
-		eyes.screenCenter();
-		eyes.updateHitbox();
-		eyes.antialiasing = true;
-		add(eyes);
-
+      	var eyes:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/NEWmenu/HahaSadBoi'));
+	eyes.scrollFactor.set(0, 0);
+	eyes.screenCenter();
+	eyes.updateHitbox();
+	eyes.antialiasing = true;
+	add(eyes);
+	   
          upText = new FlxText(0, 20, 0, 'Lmao, you thought this was on Psych Engine?', 32);
          upText.setFormat(Paths.font('DisneyFont'), 50, ForeverTools.setTextAlign('center'), FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
          upText.screenCenter(X);
