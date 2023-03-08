@@ -82,9 +82,10 @@ class PsychHUD extends FlxSpriteGroup
 		updateScoreText();
 		add(scoreBar);
 
-		timeBar = new FlxBar(0, 24, LEFT_TO_RIGHT, 300, 65, this, 'songPercent', 0, 100, true);
+		timeBar = new FlxBar(0, 24, LEFT_TO_RIGHT, 300, 65, this, 'songPercent', 0, 1);
 		timeBar.screenCenter(X);
 		timeBar.scrollFactor.set();
+		timeBar.numDivisions = 800;
 		timeBar.createFilledBar(0x000000, 0xFFFFFF);
 		add(timeBar);
 
@@ -165,7 +166,7 @@ class PsychHUD extends FlxSpriteGroup
 	override public function update(elapsed:Float)
 	{
 		// pain, this is like the 7th attempt
-		healthBar.percent = (PlayState.health * 50); // so it doesn't make the mechanic worthless
+		healthBar.percent = (PlayState.health * 50);
 
 		var iconOffset:Int = 26;
 
