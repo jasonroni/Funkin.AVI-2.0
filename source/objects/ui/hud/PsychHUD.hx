@@ -187,20 +187,17 @@ class PsychHUD extends FlxSpriteGroup
 		updateScoreText();
 
 		
-		var curTime:Float = Conductor.songPosition;
-
-		var songCalc:Float = (PlayState.songLength - curTime);
-
+		var curTime:Float = Conductor.songPosition - Init.trueSettings.get('Offset');
+		var songCalc:Float = (PlayState.instance.songLength - curTime);
+		var totalTime = PlayState.instance.songLength;
 		var secondsTotal:Int = Math.floor(songCalc / 1000);
 
 		if (curTime < 0)
 			curTime = 0;
-		songPercent = (curTime / PlayState.songLength);
-
+		songPercent = (curTime / PlayState.instance.songLength);
+		
 		if (secondsTotal < 0)
 			secondsTotal = 0;
-		else if (secondsTotal >= Math.floor(PlayState.songLength / 1000))
-			secondsTotal = Math.floor(PlayState.songLength / 1000);
 
 		timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
 	}
