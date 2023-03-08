@@ -56,15 +56,10 @@ class TitleState extends states.MusicBeatState
 	public var camGame:FlxCamera;
 
 	var blackScreen:FlxSprite;
-	var credGroup:FlxGroup;
-	var gradientBar:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, 1, 0xFFB003B0);
 	var credTextShit:Alphabet;
 	var textGroup:FlxGroup;
-	var randomWindowText:Int = FlxG.random.int(0, 100);
 
 	var curWacky:Array<String> = [];
-
-	var Timer:Float = 0;
 
 	var wackyImage:FlxSprite;
 
@@ -466,9 +461,9 @@ class TitleState extends states.MusicBeatState
 				case 4:
 					deleteCoolText();
 				case 5:
-					createCoolText(['Yet another mod...'], -40);
+					createCoolText(['The sights of hell...'], -40);
 				case 7:
-					addMoreText('..About Suicide Mouse', -40);
+					addMoreText('..that awaits you.', -40);
 				case 8:
 					deleteCoolText();
 				case 9:
@@ -478,21 +473,19 @@ class TitleState extends states.MusicBeatState
 				case 12:
 					deleteCoolText();
 				case 13:
-					addMoreText('Funkin');
-				case 14:
-					addMoreText('avi');
-				case 15:
-					addMoreText('v2.0');
-				case 16:
-					deleteCoolText();
-				case 17:
 					addMoreText('Enjoy');
-				case 18:
+				case 14:
 					addMoreText('Your Stay...');
-				case 19:
+				case 15:
+					deleteCoolText();
+				case 16:
+					addMoreText('Funkin.avi');
+				case 17:
+					addMoreText('V2');
+				case 18:
 					skipIntro();
-				}
 			}
+		}
 	}
 
 	var skippedIntro:Bool = false;
