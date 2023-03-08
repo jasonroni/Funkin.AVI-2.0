@@ -58,7 +58,7 @@ class TitleState extends states.MusicBeatState
 	var blackScreen:FlxSprite;
 	var credTextShit:Alphabet;
 	var textGroup:FlxGroup;
-	VAR CREDgROUP:FlxGroup;
+	var credGroup:FlxGroup;
 	var curWacky:Array<String> = [];
 
 	var wackyImage:FlxSprite;
