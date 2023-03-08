@@ -89,7 +89,7 @@ class Main extends Sprite
 	// weeks set up!
 	public static var weeksMap:Map<String, GameWeek> = [];
 	public static var weeks:Array<String> = [];
-	public static var gameWeeksE:Array<Dynamic> = [ // Hardcoded Main Weeks for Main Story Menu
+	/*public static var gameWeeksE:Array<Dynamic> = [ // Hardcoded Main Weeks for Main Story Menu
 		[
 			['isolated', 'lunacy', 'delusional'],
 			['mick-isolated-new', 'lunamick-new', 'face'],
@@ -137,7 +137,7 @@ class Main extends Sprite
 	];
 	
 
-	/*public static function loadHardcodedBonusWeeks()
+	public static function loadHardcodedBonusWeeks()
 		{
 			weeksMap = [
 				"smilesWeek" => {
