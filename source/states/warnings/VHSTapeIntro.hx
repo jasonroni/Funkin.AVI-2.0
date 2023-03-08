@@ -5,6 +5,6 @@ class VHSTapeIntro extends flixel.FlxState
    override function create() 
       {
          super.create();
-         states.CutsceneState.playCutscene('coolIntro');
+         new states.CutsceneState('coolIntro');
       }
 }

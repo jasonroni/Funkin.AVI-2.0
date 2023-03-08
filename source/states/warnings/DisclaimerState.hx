@@ -51,24 +51,24 @@ class DisclaimerState extends MusicBeatState
                 add(bg);
 
                 warnText = new FlxText(0, 0, FlxG.width,
-			            "DISCLAIMER:\n
-                        \n
-			            This version of Mickey & other characters used in this mod\n
-                        is in no way related to Disney's Mickey Mouse & Co.,\n
-                        as this is simply a project based on the creepypasta:\n
-                        +\"SUICIDEMOUSE.avi\".+
-                        \n
-                        Once again, there is ^gore^ to be presented within\n
-                        certain songs in this modification of:\n
-                        #\"Friday Night Funkin'\".#
-                        \n
-                        If you are squirmish about the sight or thought of ^blood^,\n
-                        this mod isn't for you.\n
-                        \n
-                        Press ENTER to continue.\n
-                        Press ESCAPE to close the game.\n
-                        \n
-			            ^Last chance to turn back...^",
+		"DISCLAIMER:\n
+                \n
+	        This version of Mickey & other characters used in this mod\n
+                is in no way related to Disney's Mickey Mouse & Co.,\n
+                as this is simply a project based on the creepypasta:\n
+                +\"SUICIDEMOUSE.avi\".+
+                \n
+                Once again, there is ^gore^ to be presented within\n
+                certain songs in this modification of:\n
+                #\"Friday Night Funkin'\".#
+                \n
+                If you are squirmish about the sight or thought of ^blood^,\n
+                this mod isn't for you.\n
+                \n
+                Press ENTER to continue.\n
+                Press ESCAPE to close the game.\n
+                \n
+		^Last chance to turn back...^",
                     32);
                 warnText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
                 warnText.screenCenter(Y);
@@ -101,7 +101,7 @@ class DisclaimerState extends MusicBeatState
 
         override function update(elapsed:Float)
         {
-                if (!hasSeenWarning) {
+                if (!WarningState.coolInstance.hasSeenWarning) {
                         if (Controls.getPressEvent("accept"))
                         {
                                 Application.current.window.title = 'Funkin.avi - Proceeding to Game...';

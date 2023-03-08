@@ -31,7 +31,9 @@ import flash.system.System;
 
 class WarningState extends MusicBeatState
 {
-        public static var hasSeenWarning:Bool = false;
+        public var hasSeenWarning:Bool = false;
+
+        public static var coolInstance:WarningState;
 
         var warnText:FlxText;
 
@@ -48,6 +50,8 @@ class WarningState extends MusicBeatState
         override function create()
         {
                 Application.current.window.title = 'Funkin.avi - WARNING';
+
+                coolInstance = this;
 
                 var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(bg);

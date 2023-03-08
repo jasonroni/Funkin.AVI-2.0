@@ -1,5 +1,6 @@
 package states;
 
+import states.warnings.VHSTapeIntro;
 import flixel.FlxState;
 import states.PlayState;
 import flixel.FlxG;
@@ -61,6 +62,7 @@ class CutsceneState extends FlxState
    private static function onFinishCallBack():Void
       {
          completedCutscene = true;
+         if(Type.getClass(FlxG.state) == PlayState) {
          if (isOutro)
          {
             switch (PlayState.SONG.song)
@@ -82,5 +84,8 @@ class CutsceneState extends FlxState
          {
             FlxG.switchState(new PlayState());
          }
+      } else if(Type.getClass(FlxG.state) == VHSTapeIntro) {
+         FlxG.switchState(new states.warnings.WarningState());
       }
+   }
 }
