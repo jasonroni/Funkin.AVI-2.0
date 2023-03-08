@@ -31,7 +31,7 @@ import flash.system.System;
 
 class DisclaimerState extends MusicBeatState
 {
-    //public static var hasSeenWarning:Bool = false;
+    public static var hasSeenWarning:Bool = false;
 
     var warnText:FlxText;
     
