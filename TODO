@@ -1,9 +1,22 @@
-[HIGH PRIORITY]
-- Remove the Base Game and Distribute it as separate from the base engine
-- Improved Stability
+HIGH PRIORITY
+===================
+- Program Malfunction Notes
+- Finish Relapse Mouse Gimmick
+- Mr. Smiles Flesh Note Mechanic (Basically Hypno's mechanic, but as a note???? idk, ask Austin)
+- a Credits Menu, Assets, code and all.
+- Mr. Smiles Game Over Screen
+- Game Over Assets
+- FIX THE FUCKING CUTSCENES
+- Make a more advanced event (or just fucking modchart it) that'll make the notes moving around cooler in Delusional & Malfunction
+- Make the Birthday Gimmick for leaving actually do something
+- Refined Delusional Modchart + Pause Gimmick
+- Get BF to play that ending animation in Lunacy
+- All Remade Songs to be finished and charted
 
-[LOW PRIORITTY]
-- More Robust Error Handling
-- Mod Support (somewhat, at least)
-
-// Contributors, in case you wanna go ahead and try to implement any of these features, feel free to do so.
+LOW PRIORITY
+===================
+- Add cool visuals for most songs
+- Make little animations for Glitched Mickey during mid-song transitions on Malfunction
+- Have BF do a little animation of him staring and holding his hand out at the screen when notes move in Delusional
+- Runaway Brain addition to V2
+- Add a separate option that disables specific shaders instead of just all
