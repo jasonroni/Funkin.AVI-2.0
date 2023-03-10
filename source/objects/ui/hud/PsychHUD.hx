@@ -1,5 +1,6 @@
 package objects.ui.hud;
 
+import base.song.Conductor;
 import base.utils.ScoreUtils;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -10,7 +11,6 @@ import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import flixel.util.FlxStringUtil;
-import base.song.Conductor;
 import states.PlayState;
 
 class PsychHUD extends FlxSpriteGroup
@@ -94,7 +94,7 @@ class PsychHUD extends FlxSpriteGroup
 		timeTxt.scrollFactor.set();
 		timeTxt.borderSize = 2;
 		timeTxt.screenCenter(X);
-		if(Main.option('Downscroll'))
+		if(Init.trueSettings.get('Downscroll'))
 			timeTxt.y = FlxG.height - 44;
 		add(timeTxt);
 
@@ -224,7 +224,7 @@ class PsychHUD extends FlxSpriteGroup
 		}
 
 		// update playstate
-		if(Main.option('HUD Style') == "psych")
+		if(Init.trueSettings.get('HUD Style') == "psych")
 		PlayState.detailsSub = scoreBar.text;
 		
 		PlayState.updateRPC(false);

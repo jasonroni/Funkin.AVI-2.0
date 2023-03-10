@@ -18,7 +18,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 	public var layers:FlxTypedGroup<FlxBasic>;
 
 	public var spawnGirlfriend:Bool = true;
-	public var hideBoyfriend:Bool = false; // for Mercy & Scrapped
+	public var hideBoyfriend:Bool = false;
 
 	public var stageScript:ScriptHandler;
 

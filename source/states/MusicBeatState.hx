@@ -10,7 +10,7 @@ import flixel.addons.ui.FlxUIState;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 
-/**
+/* 
 	Music beat state happens to be the first thing on my list of things to add, it just so happens to be the backbone of
 	most of the project in its entirety. It handles a couple of functions that have to do with actual music and songs and such.
 

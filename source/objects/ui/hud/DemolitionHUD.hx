@@ -1,5 +1,6 @@
 package objects.ui.hud;
 
+import base.song.Conductor;
 import base.utils.ScoreUtils;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -10,7 +11,6 @@ import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import flixel.util.FlxStringUtil;
-import base.song.Conductor;
 import states.PlayState;
 
 class DemolitionHUD extends FlxSpriteGroup
@@ -329,7 +329,7 @@ class DemolitionHUD extends FlxSpriteGroup
 		}
 
 		// update playstate
-		if(Main.option('HUD Style') == "demolition")
+		if(Init.trueSettings.get('HUD Style') == "demolition")
 		PlayState.detailsSub = scoreBar.text;
 		
 		PlayState.updateRPC(false);

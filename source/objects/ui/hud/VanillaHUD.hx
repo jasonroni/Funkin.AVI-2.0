@@ -188,7 +188,7 @@ class VanillaHUD extends FlxSpriteGroup
 		}
 
 		// update playstate
-		if(Main.option('HUD Style') == "forever")
+		if(Init.trueSettings.get('HUD Style') == "forever")
 		PlayState.detailsSub = scoreBar.text;
 		
 		PlayState.updateRPC(false);

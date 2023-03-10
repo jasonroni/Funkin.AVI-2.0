@@ -2,6 +2,7 @@ package states.warnings;
 
 import base.dependency.HardcodedShaders;
 import flash.system.System;
+import flash.system.System;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
@@ -24,10 +25,9 @@ import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import flixel.util.FlxTimer;
 import lime.app.Application;
+import lime.app.Application;
 import openfl.media.Sound;
 import states.MusicBeatState;
-import lime.app.Application;
-import flash.system.System;
 
 class DisclaimerState extends MusicBeatState
 {
@@ -51,26 +51,12 @@ class DisclaimerState extends MusicBeatState
                 add(bg);
 
                 warnText = new FlxText(0, 0, FlxG.width,
-		"DISCLAIMER:\n
-                \n
-	        This version of Mickey & other characters used in this mod\n
-                is in no way related to Disney's Mickey Mouse & Co.,\n
-                as this is simply a project based on the creepypasta:\n
-                +\"SUICIDEMOUSE.avi\".+
-                \n
-                Once again, there is ^gore^ to be presented within\n
-                certain songs in this modification of:\n
-                #\"Friday Night Funkin'\".#
-                \n
-                If you are squirmish about the sight or thought of ^blood^,\n
-                this mod isn't for you.\n
-                \n
-                Press ENTER to continue.\n
-                Press ESCAPE to close the game.\n
-                \n
-		^Last chance to turn back...^",
+		"DISCLAIMER:\n\nThis version of Mickey & other characters used in this mod\nis in no way related to Disney's Mickey Mouse & Co.,\n
+as this is simply a project based on the creepypasta:\n+\"SUICIDEMOUSE.avi\".+\nOnce again, there is ^gore^ to be presented within\n
+certain songs in this modification of:\n#\"Friday Night Funkin'\".#\nIf you are squirmish about the sight or thought of ^blood^,\nthis mod isn't for you.\n\n
+Press ENTER to continue.\nPress ESCAPE to close the game.\n\n^Last chance to turn back...^",
                     32);
-                warnText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
+		warnText.setFormat("VCR OSD Mono", 28, FlxColor.WHITE, ForeverTools.setTextAlign("center"));
                 warnText.screenCenter(Y);
                 warnText.applyMarkup(warnText.text, [redTextMarker, grayTextMarker, cyanTextMarker]);
                 add(warnText);

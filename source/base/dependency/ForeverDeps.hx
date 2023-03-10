@@ -15,7 +15,8 @@ import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.system.FlxSound;
-import flixel.text.FlxText.FlxTextAlign;
+import flixel.text.FlxText;
+import flixel.effects.particles.FlxEmitter;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxAxes;
@@ -27,7 +28,6 @@ import objects.ui.Strumline.Receptor;
 import objects.ui.Strumline;
 import objects.ui.menu.Checkmark;
 import openfl.display.BlendMode;
-import flixel.effects.particles.FlxEmitter;
 import states.PlayState;
 import sys.FileSystem;
 
@@ -537,7 +537,7 @@ class ForeverTools
 			}
 		}
 	}
-
+	
 	public static function returnFlxEmitterMode(type:String = ''):FlxEmitterMode
 	{
 		switch (type.toLowerCase())
@@ -678,6 +678,18 @@ class ForeverTools
 			case "left": FlxTextAlign.LEFT;
 			case "right": FlxTextAlign.RIGHT;
 			case _: FlxTextAlign.LEFT;
+		}
+	}
+
+	public static function setBorderStyle(str:String = ''):FlxTextBorderStyle
+	{
+		return switch (str)
+		{
+			case "none": FlxTextBorderStyle.NONE;
+			case "outline": FlxTextBorderStyle.OUTLINE;
+			case "outline_fast": FlxTextBorderStyle.OUTLINE_FAST;
+			case "shadow": FlxTextBorderStyle.SHADOW;
+			case _: FlxTextBorderStyle.OUTLINE;
 		}
 	}
 

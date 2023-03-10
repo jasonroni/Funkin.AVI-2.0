@@ -38,14 +38,14 @@ class ScoreUtils
 	public static var notesHit:Int = 0;
 	public static var minesHit:Int = 0;
 
-	inline static function get_accuracy():Float 
+	inline static function get_accuracy():Float
 		return notesAccuracy / notesHit;
 
 	public static final judges:Array<Judgement> = [
 		{
 			name: "sick",
 			score: 350,
-			health: (PlayState.curStage == "waltRoom" ? 100 : 52),  // THE REASON WHY IT'S LENIENT ON MERCY IS DUE TO THE MECHANIC - don
+			health: 22,
 			accuracy: 100,
 			timing: 45,
 			timingCap: 45,
@@ -54,7 +54,7 @@ class ScoreUtils
 		{
 			name: "good",
 			score: 150,
-			health: (PlayState.curStage == "waltRoom" ? 50 : 38),
+			health: 18,
 			accuracy: 85,
 			timing: 90,
 			timingCap: 90,
@@ -63,7 +63,7 @@ class ScoreUtils
 		{
 			name: "bad",
 			score: 50,
-			health: (PlayState.curStage == "waltRoom" ? 20 : 13),
+			health: 6,
 			accuracy: 50,
 			timing: 125,
 			timingCap: 125,
@@ -72,7 +72,7 @@ class ScoreUtils
 		{
 			name: "shit",
 			score: -50,
-			health: (PlayState.curStage == "waltRoom" ? -50 : -150),
+			health: -150,
 			accuracy: 0,
 			timing: 150,
 			timingCap: 150,
@@ -81,7 +81,7 @@ class ScoreUtils
 		{
 			name: "miss",
 			score: -100,
-			health: (PlayState.curStage == "waltRoom" ? -100 : -200),
+			health: -260,
 			accuracy: 0,
 			timing: 175,
 			timingCap: 175,
@@ -286,9 +286,6 @@ class ScoreUtils
 		var rankingFinal:String = '[$curRating]';
 
 		if (curCombo != null && curCombo != '')
-			if(Main.getOption('HUD Style') == "kade")
-			rankingFinal = '($curCombo) $curRating';
-		else
 			rankingFinal = '[$curRating - $curCombo]';
 
 		return ' $rankingFinal';
@@ -314,19 +311,19 @@ class ScoreUtils
 		if (misses > 0 && misses < 10)
 			curCombo = 'SDCB';
 
-		if(misses > 10)
-			curCombo = 'Clear';
-
 		// this updates the most so uh
-		switch(Main.getOption('HUD Style').toLowerCase())
+		switch (Init.trueSettings.get('HUD Style').toLowerCase())
 		{
-			case 'psych':
-				PlayState.psychHUD.updateScoreText();
+			case 'forever':
+				PlayState.uiHUD.updateScoreText();
 			case 'demolition':
 				PlayState.demolitionHUD.updateScoreText();
+			case 'psych':
+				PlayState.psychHUD.updateScoreText();
 			default:
 				PlayState.uiHUD.updateScoreText();
 		}
+		//PlayState.uiHUD.colorHighlight(curRating);
 	}
 
 	public static function setJudgeTiming(rating:Int, newTiming:Float)

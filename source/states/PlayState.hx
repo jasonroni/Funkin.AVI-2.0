@@ -284,8 +284,10 @@ class PlayState extends MusicBeatState
 			switch (SONG.song.toLowerCase())
 			{
 				case 'isolated' | 'lunacy' | 'affliction' | 'laugh track' | 'birthday' | 'isolated legacy' | 'lunacy legacy' | 'delusional legacy' |
-					'neglection' | 'war dilemma' | "don't cross!" | 'isolated beta' | 'isolated old':
+					'neglection' | 'war dilemma'| 'isolated beta' | 'isolated old':
 					iconRPC = 'placeholder';
+				case "don't cross!":
+					iconRPC = 'dontfuckingcross';
 				case 'delusional':
 					iconRPC = 'delusional';
 				case 'twisted grins' | 'resentment' | 'mortiferum risus':
