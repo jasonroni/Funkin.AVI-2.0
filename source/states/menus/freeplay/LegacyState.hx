@@ -4,8 +4,10 @@ import base.dependency.Discord;
 import base.song.Song;
 import base.song.SongFormat.SwagSong;
 import base.utils.ScoreUtils;
+import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.addons.display.FlxRuntimeShader;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
@@ -13,15 +15,13 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import objects.fonts.Alphabet;
 import objects.ui.HealthIcon;
+import openfl.filters.BitmapFilter;
+import openfl.filters.ShaderFilter;
 import openfl.media.Sound;
 import states.MusicBeatState;
 import sys.FileSystem;
 import sys.thread.Mutex;
 import sys.thread.Thread;
-import openfl.filters.BitmapFilter;
-import openfl.filters.ShaderFilter;
-import flixel.addons.display.FlxRuntimeShader;
-import flixel.FlxCamera;
 
 class LegacyState extends MusicBeatState
 {
@@ -93,7 +93,7 @@ class LegacyState extends MusicBeatState
 		mutex = new Mutex();
 
 		// load week data;
-		Main.loadGameWeeks(false);
+		//Main.loadGameWeeks(false);
 
 		/**
 		 * Wanna add songs? they are on the Weeks Folder inside the assets folder

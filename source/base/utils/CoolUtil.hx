@@ -3,10 +3,12 @@ package base.utils;
 import haxe.io.Path;
 import lime.utils.Assets;
 import states.PlayState;
+
+using StringTools;
 #if sys
 import sys.FileSystem;
 #end
-using StringTools;
+
 
 class CoolUtil
 {
@@ -106,7 +108,8 @@ class CoolUtil
 		so Base Psych saves won't conflict with yours
 		@BeastlyGabi
 	**/
-	public static function getSavePath(folder:String = 'Dunkin Funkin'):String {
+	public static function getSavePath(folder:String = 'Dunkin Funkin'):String
+	{
 		@:privateAccess
 		return #if (flixel < "5.0.0") folder #else flixel.FlxG.stage.application.meta.get('company')
 			+ '/'

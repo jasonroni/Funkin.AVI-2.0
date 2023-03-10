@@ -2,6 +2,7 @@ package states.warnings;
 
 import base.dependency.HardcodedShaders;
 import flash.system.System;
+import flash.system.System;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
@@ -24,10 +25,9 @@ import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import flixel.util.FlxTimer;
 import lime.app.Application;
+import lime.app.Application;
 import openfl.media.Sound;
 import states.MusicBeatState;
-import lime.app.Application;
-import flash.system.System;
 
 class WarningState extends MusicBeatState
 {
@@ -51,6 +51,9 @@ class WarningState extends MusicBeatState
         {
                 Application.current.window.title = 'Funkin.avi - WARNING';
 
+                if (FlxG.save.data.hasSeenWarning == true)
+                        Main.switchState(this, new states.TitleState());
+
                 coolInstance = this;
 
                 var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
@@ -58,22 +61,13 @@ class WarningState extends MusicBeatState
 
                 warnText = new FlxText(0, 0, FlxG.width,
 			"WARNING:\n
-                        \n
-			This Mod contains disturbing imagery,\n
-                        slight gore and a lot of flashing lights.\n
-                        \n
-                        If you are sensitive to any of the following,\n
-                        we highly suggest you close the game now or check\n
-                        with any of the settings that'll be provided in the\n
-                        next screen.\n
-                        \n
-			Press ENTER to proceed to the game.\n
-			Press SHIFT to disable flashing lights & shaders.\n
-			Press ESCAPE to close the game.\n
-                        \n
-			^You have been warned...^",
+                        \nThis Mod contains disturbing imagery,\nslight gore and a lot of flashing lights.\n\nIf you are sensitive to any of the following,\n
+we highly suggest you close the game now or check\nwith any of the settings that'll be provided in the\noptions menu\n\n
+Press ENTER to proceed to the game.\n
+Press SHIFT to disable flashing lights & shaders.\n
+Press ESCAPE to close the game.\n\n^You have been warned...^",
 			32);
-		warnText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
+		warnText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, ForeverTools.setTextAlign("center"));
 		warnText.screenCenter(Y);
                 warnText.applyMarkup(warnText.text, [redTextMarker]);
 		add(warnText);

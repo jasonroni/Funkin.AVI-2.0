@@ -103,15 +103,6 @@ class ScriptHandler extends SScript
 		set('FlxEase', flixel.tweens.FlxEase);
 		set('FlxTrail', flixel.addons.effects.FlxTrail);
 		set('FlxRuntimeShader', flixel.addons.display.FlxRuntimeShader);
-		set('FlxEmitter', flixel.effects.particles.FlxEmitter);
-		set('FlxParticle', flixel.effects.particles.FlxParticle);
-		set('FlxGradient', flixel.util.FlxGradient);
-		set('FlxMath', flixel.math.FlxMath);
-
-		// WINDOW MODCHARTS
-		set('Application', lime.app.Application);
-		set('System', flash.system.System);
-		set('Window', lime.ui.Window);
 
 		// CLASSES (FUNKIN);
 		set('Alphabet', objects.fonts.Alphabet);
@@ -124,8 +115,7 @@ class ScriptHandler extends SScript
 		set('Strumline', objects.ui.Strumline);
 		set('game', states.PlayState.main);
 		set('PlayState', states.PlayState);
-		set('CutsceneState', states.CutsceneState);
-		set('Paths', globals.Paths);
+		set('Paths', Paths);
 
 		// CLASSES (FOREVER);
 		set('Init', Init);
