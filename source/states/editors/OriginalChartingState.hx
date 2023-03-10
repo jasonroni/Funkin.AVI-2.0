@@ -150,6 +150,7 @@ class OriginalChartingState extends MusicBeatState
 		#else
 		Discord.changePresence('CHART EDITOR', 'Song: ' + _song.song);
 		#end
+		#end
 
 		bpmTxt = new FlxText(1000, 50, 0, "", 16);
 		bpmTxt.scrollFactor.set();
