@@ -50,6 +50,10 @@ class WarningState extends MusicBeatState
         override function create()
         {
                 Application.current.window.title = 'Funkin.avi - WARNING';
+		
+		#if windows
+		base.system.CppAPI.darkMode();
+      		#end
 
                 if (FlxG.save.data.hasSeenWarning == true)
                         Main.switchState(this, new states.TitleState());
