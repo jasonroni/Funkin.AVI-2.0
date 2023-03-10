@@ -16,6 +16,7 @@ import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.system.FlxSound;
 import flixel.text.FlxText;
+import flixel.effects.particles.FlxEmitter;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxAxes;
@@ -535,6 +536,18 @@ class ForeverTools
 				});
 			}
 		}
+	}
+	
+	public static function returnFlxEmitterMode(type:String = ''):FlxEmitterMode
+	{
+		switch (type.toLowerCase())
+		{
+			case 'circle':
+				return FlxEmitterMode.CIRCLE;
+			case 'square':
+				return FlxEmitterMode.SQUARE;
+		}
+		return FlxEmitterMode.SQUARE;
 	}
 
 	public static function returnTweenType(type:String = ''):FlxTweenType
