@@ -145,6 +145,9 @@ class OriginalChartingState extends MusicBeatState
 		Conductor.mapBPMChanges(_song);
 
 		#if DISCORD_RPC
+		#if DevBuild
+		Discord.changePresence('CHART EDITOR', '- CLASSIFIED CONTENT -');
+		#else
 		Discord.changePresence('CHART EDITOR', 'Song: ' + _song.song);
 		#end
 
