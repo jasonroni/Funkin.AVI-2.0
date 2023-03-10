@@ -190,7 +190,7 @@ class PsychHUD extends FlxSpriteGroup
 		
 		var curTime:Float = Conductor.songPosition - Init.trueSettings.get('Offset');
 		var songCalc:Float = (PlayState.songLength - curTime);
-		var totalTime = PlayState.instance.songLength;
+		var totalTime = PlayState.songLength;
 		var secondsTotal:Int = Math.floor(songCalc / 1000);
 
 		if (curTime < 0)
