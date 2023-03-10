@@ -1,5 +1,6 @@
 package states.menus.freeplay;
 
+import flixel.util.FlxTimer;
 import base.dependency.Discord;
 import base.song.Song;
 import base.song.SongFormat.SwagSong;
@@ -332,9 +333,17 @@ class ExtrasState extends MusicBeatState
 		}
 	}
 
+	override function beatHit() {
+		super.beatHit();
+
+		FlxG.camera.zoom += 0.025;
+	}
+
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		ForeverTools.cameraBumpingZooms(FlxG.camera, 1);
 
 		if (!Init.trueSettings.get('Disable Screen Shaders')) // bye bye lag
 		{

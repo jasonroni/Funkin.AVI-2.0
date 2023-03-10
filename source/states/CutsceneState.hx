@@ -66,13 +66,7 @@ class CutsceneState extends FlxState
          if (isOutro)
          {
             switch (PlayState.SONG.song)
-            {
-                  case "Delusional":
-                     FlxG.switchState(new states.menus.story.MainStoryState());
-                  
-                  case "Affliction" | "Mortiferum Risus":
-                     FlxG.switchState(new states.menus.story.SideStoryState());
-                  
+            {                  
                   case "Malfunction":
                      FlxG.switchState(new states.menus.freeplay.ExtrasState());
                   

@@ -1174,7 +1174,7 @@ class PlayState extends MusicBeatState
 					{
 						PlayState.SONG.validScore = false;
 						bfStrums.autoplay = !bfStrums.autoplay;
-						switch (Main.getOption('HUD Style').toLowerCase())
+						switch (Init.trueSettings.get('HUD Style').toLowerCase())
 						{
 							case 'psych':
 								psychHUD.autoplayMark.visible = bfStrums.autoplay;
@@ -3050,7 +3050,7 @@ class PlayState extends MusicBeatState
 		}
 		//
 
-		switch (Main.getOption('HUD Style').toLowerCase())
+		switch (Init.trueSettings.get('HUD Style').toLowerCase())
 		{
 			case 'psych': // psych engine fans gonna go nuts about this
 				FlxTween.tween(psychHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
