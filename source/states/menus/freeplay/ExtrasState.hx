@@ -336,7 +336,7 @@ class ExtrasState extends MusicBeatState
 	override function beatHit() {
 		super.beatHit();
 
-		FlxG.camera.zoom += 0.025;
+		FlxG.camera.zoom += 0.5;
 	}
 
 	override function update(elapsed:Float)
