@@ -68,6 +68,9 @@ pause >nul
 echo Press any key to install polymod.
 haxelib git polymod https://github.com/MasterEric/polymod
 pause >nul
+echo Press any key to install haxelib.
+haxelib install haxelib
+pause >nul
 TIMEOUT 4 >nul
 echo Press any key to continue with the installation of GameJolt dependencies.
 pause >nul
