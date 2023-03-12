@@ -302,6 +302,9 @@ class FreeplayState extends MusicBeatState
 		smilesShader.setFloat('iTime', shaderTime);
 		smilesShader.setFloat('uTime', shaderTime);
 
+		mercyShader.setFloat('time', shaderTime);
+		mercyShader2.setFloat('time', shaderTime);
+
 		if (bg != null && mainColor != null)
 			FlxTween.color(bg, 0.35, bg.color, mainColor);
 
