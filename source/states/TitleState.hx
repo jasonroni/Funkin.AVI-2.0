@@ -72,6 +72,8 @@ class TitleState extends states.MusicBeatState
 	var defaultShader:FlxRuntimeShader;
 	var defaultShader2:FlxRuntimeShader;
 
+	var fade:FlxSprite;
+
 	private var windowArray:Array<Any> = [
 		"Also try Your Mom Simulator",
 		"Imagine making yet another Suicide Mouse mod?",
@@ -244,7 +246,7 @@ class TitleState extends states.MusicBeatState
 			}
 		}
 
-		Conductor.changeBPM(60);
+		Conductor.changeBPM(50);
 		persistentUpdate = true;
 
 		var bg:FlxSprite = new FlxSprite();
@@ -255,18 +257,17 @@ class TitleState extends states.MusicBeatState
 		add(bg);
 
 		logoBl = new FlxSprite(150, 0);
-		logoBl.frames = Paths.getSparrowAtlas('menus/Funkin_avi/MickeyLogo');
-
+		logoBl.loadGraphic(Paths.image(('menus/Funkin_avi/MickeyLogo')));
 		logoBl.antialiasing = true;
-		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
-		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
+		logoBl.setGraphicSize(Std.int(logoBl.width * 0.4));
 		logoBl.screenCenter();
 
 		add(logoBl);
 
 		titleText = new FlxText(24, 600, 1200, "Click Anywhere Or Press Enter to Start", 96);
-		titleText.setFormat("assets/fonts/NewWaltDisneyFontRegular-BPen.ttf", 60, FlxColor.fromRGB(255, 255, 255), CENTER);
+		titleText.setFormat(Paths.font('MagicOwlFont'), 60, FlxColor.fromRGB(255, 255, 255), CENTER, OUTLINE, FlxColor.BLACK);
+		titleText.borderSize = 1.5;
 		add(titleText);
 
 		var logo:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/logo'));
@@ -351,8 +352,9 @@ class TitleState extends states.MusicBeatState
 		 */
 		if (FlxG.keys.justPressed.ESCAPE && !pressedEnter)
 			{
-				FlxG.sound.music.fadeOut(0.3);
-				FlxG.camera.fade(FlxColor.BLACK, 0.5, false, function()
+				FlxG.sound.music.fadeOut(3);
+				FlxTween.tween(FlxG.sound.music, {pitch: 0.001}, 2.5);
+				FlxG.camera.fade(FlxColor.BLACK, 3, false, function()
 				{
 					Sys.exit(0);
 				}, false);
@@ -441,13 +443,17 @@ class TitleState extends states.MusicBeatState
 	{
 		super.beatHit();
 
+		if(sickBeats % 2 == 0)
         FlxG.camera.zoom += 0.025;
+
 		if(!camZooming) { //Copied from PlayState.hx
 			FlxTween.tween(FlxG.camera, {zoom: 1}, 0.5);
 		}
 
-		if(logoBl != null)
-			logoBl.animation.play('bump', true);
+		// logo doesn't have animation, we make one by ourselfs instead
+		logoBl.scale.x += 0.02;
+		logoBl.scale.y += 0.02;
+		FlxTween.tween(logoBl.scale, {x: logoBl.scale.x - 0.02, y: logoBl.scale.y - 0.02}, 0.18);
 
 		if(!closedState) {
 			sickBeats++;
