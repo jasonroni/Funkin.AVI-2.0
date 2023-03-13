@@ -61,6 +61,10 @@ class TitleState extends states.MusicBeatState
 	var credGroup:FlxGroup;
 	var curWacky:Array<String> = [];
 
+	var whiteFade:FlxSprite;
+	
+	var fadeTween:FlxTween;
+
 	var wackyImage:FlxSprite;
 
 	var mustUpdate:Bool = false;
@@ -223,7 +227,7 @@ class TitleState extends states.MusicBeatState
 
 		startIntro();
 
-		FlxG.save.bind('funkin');
+		FlxG.save.bind('Dunkin Funkin', CoolUtil.getSavePath());
 
 		GameData.loadShit();
 
@@ -287,6 +291,10 @@ class TitleState extends states.MusicBeatState
 		credTextShit.visible = false;
 
 		FlxTween.tween(credTextShit, {y: credTextShit.y + 20}, 2.9, {ease: FlxEase.quadInOut, type: PINGPONG});
+
+		whiteFade = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFFFFFFF);
+		whiteFade.alpha = 0;
+		add(whiteFade);
 
 		var scratchStuff:FlxSprite = new FlxSprite();
 		scratchStuff.frames = Paths.getSparrowAtlas('filters/scratchShit');
@@ -442,9 +450,8 @@ class TitleState extends states.MusicBeatState
 	override function beatHit()
 	{
 		super.beatHit();
-
-		if(sickBeats % 2 == 0)
-        FlxG.camera.zoom += 0.025;
+		
+      FlxG.camera.zoom += 0.025;
 
 		if(!camZooming) { //Copied from PlayState.hx
 			FlxTween.tween(FlxG.camera, {zoom: 1}, 0.5);
@@ -461,34 +468,38 @@ class TitleState extends states.MusicBeatState
 			{
 				case 1:
 					createCoolText(["Dunkin' Funkin' Team"], 15);
-				case 3:
+				case 2:
 					addMoreText('Presents', 15);
+				case 3:
+					deleteCoolText();
 				case 4:
-					deleteCoolText();
-				case 5:
 					createCoolText(['The sights of hell...'], -40);
-				case 7:
+				case 5:
 					addMoreText('..that awaits you.', -40);
-				case 8:
+				case 6:
 					deleteCoolText();
-				case 9:
+				case 7:
 					createCoolText([curWacky[0]]);
-				case 11:
+				case 8:
 					addMoreText(curWacky[1]);
+				case 9:
+					deleteCoolText();
+				case 10:
+					addMoreText('Enjoy');
+				case 11:
+					addMoreText('Your Stay...');
 				case 12:
 					deleteCoolText();
 				case 13:
-					addMoreText('Enjoy');
-				case 14:
-					addMoreText('Your Stay...');
-				case 15:
-					deleteCoolText();
-				case 16:
 					addMoreText('Funkin.avi');
-				case 17:
+				case 14:
 					addMoreText('V2');
-				case 18:
-					skipIntro();
+				case 15:
+					fadeTween = FlxTween.tween(whiteFade, {alpha: 1}, 2, {ease: FlxEase.quartInOut});
+				case 16:
+						fadeTween.cancel();
+						skipIntro();
+						whiteFade.alpha = 0;
 			}
 		}
 	}
@@ -500,7 +511,7 @@ class TitleState extends states.MusicBeatState
 		if (!skippedIntro)
 		{
 				remove(credGroup);
-				FlxG.camera.flash(FlxColor.WHITE, 4);
+				FlxG.camera.flash(FlxColor.BLACK, 4);
 		}
 			logoBl.angle = -4;
 
