@@ -69,7 +69,7 @@ class TitleState extends states.MusicBeatState
 
 	var mustUpdate:Bool = false;
 
-	var nonLoginText:FlxText; //Toast Don't Work, Lets Make One
+	var gradient:FlxSprite;
 
 	public static var updateVersion:String = '';
 
@@ -314,6 +314,14 @@ class TitleState extends states.MusicBeatState
 		grain.scale.y = 1.1;
 		add(grain);
 
+		gradient = new FlxSprite().loadGraphic(Paths.image('filters/gradient'));
+		gradient.scrollFactor.set(0, 0);
+		gradient.setGraphicSize(Std.int(gradient.width * 0.75));
+		gradient.updateHitbox();
+		gradient.screenCenter();
+		gradient.antialiasing = true;
+		add(gradient);
+
 		if (initialized)
 			skipIntro();
 		else
@@ -497,10 +505,10 @@ class TitleState extends states.MusicBeatState
 				case 15:
 					fadeTween = FlxTween.tween(whiteFade, {alpha: 1}, 2, {ease: FlxEase.quartInOut});
 				case 16:
-						fadeTween.cancel();
-						skipIntro();
-						whiteFade.alpha = 0;
-			}
+					fadeTween.cancel();
+					skipIntro();
+					whiteFade.alpha = 0;			
+				}
 		}
 	}
 
