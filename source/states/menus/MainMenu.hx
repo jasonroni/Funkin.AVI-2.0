@@ -114,6 +114,7 @@ class MainMenu extends MusicBeatState
 			"*horse walks in*",
 			"Anyone here watch Yahiamice?",
 			"*cantaloupe jumpscare*",
+			"Prank 'em John",
 			"POV: You're a YouTuber doing some generic intro right about now",
 			"Another very well thought out idea of a random message that this game can randomly pick from within the code.",
 			"AHHH, FUCK, THERE'S RULE 34 OF SUICIDE MOUSE, WHYYYYYY????",

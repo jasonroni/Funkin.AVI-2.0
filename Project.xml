@@ -88,6 +88,8 @@
 	<haxedef name="HXCPP_GC_BIG_BLOCKS" />
 
 	<haxedef name="OnWindows" if="windows"/>
+
+	<haxedef name="OnLinux" if="linux"/>
 	
 	<!-- Allows us to hide the Discord RPC shit to prevent any leaks via Discord -->
 	<haxedef name="DevBuild" if="DISCORD_RPC"/> 

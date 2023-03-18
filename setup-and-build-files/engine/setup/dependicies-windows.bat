@@ -66,7 +66,7 @@ echo Press any key to install discord-rpc.
 haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
 pause >nul
 echo Press any key to install polymod.
-haxelib git polymod https://github.com/MasterEric/polymod
+haxelib install polymod
 pause >nul
 echo Press any key to install haxelib.
 haxelib install haxelib
