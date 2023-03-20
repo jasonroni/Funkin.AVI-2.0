@@ -51,7 +51,7 @@ import hxcodec.VideoHandler;
 #elseif (hxCodec == "2.6.0")
 import VideoHandler;
 #else
-import vlc.MP4Handler;
+import vlc.MP4Handler as VideoHandler;
 #end
 #if desktop
 import base.dependency.Discord;
@@ -2848,6 +2848,22 @@ class PlayState extends MusicBeatState
 	/*
 		Extra functions and stuffs
 	 */
+	public function createVideoCutscene(name:String)
+	{
+		callFunc('createVideoCutscene', [name, isEnd]);
+		
+		inCutscene = true;
+
+		var filepath:String = Paths.video(name);
+		var video:VideoHandler = new VideoHandler();
+		video.playVideo(filepath);
+		video.finishCallback = function()
+		{
+			startCountdown();
+			return;
+		}
+	}
+
 	// song end function at the end of the playstate lmao ironic I guess
 	function finishSong(ignoreOffset:Bool = false):Void
 	{

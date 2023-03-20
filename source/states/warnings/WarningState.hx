@@ -31,10 +31,6 @@ import states.MusicBeatState;
 
 class WarningState extends MusicBeatState
 {
-        public var hasSeenWarning:Bool = false;
-
-        public static var coolInstance:WarningState;
-
         var warnText:FlxText;
 
         var redTextMarker = new FlxTextFormatMarkerPair(new FlxTextFormat(FlxColor.RED, true, true), '^');
@@ -54,8 +50,10 @@ class WarningState extends MusicBeatState
 		#if windows
 		base.system.CppAPI.darkMode();
       		#end
-
-                if (FlxG.save.data.hasSeenWarning == true)
+			
+		GameData.loadShit();
+		
+                if (GameData.hasSeenWarning)
                         Main.switchState(this, new states.TitleState());
 
                 coolInstance = this;
@@ -112,8 +110,6 @@ Press ESCAPE to close the game.\n\n^You have been warned...^",
                                                 Main.switchState(this, new states.warnings.DisclaimerState());
                                         }
                                 });
-                                FlxG.save.data.hasSeenWarning = true;
-                                FlxG.save.flush();
                         }
 			else if (FlxG.keys.justPressed.SHIFT)
 			{
@@ -127,8 +123,6 @@ Press ESCAPE to close the game.\n\n^You have been warned...^",
                                                 Main.switchState(this, new states.warnings.DisclaimerState()); // placeholder
                                         }
                                 });
-                                FlxG.save.data.hasSeenWarning = true;
-                                FlxG.save.flush();
 			}
                         else if (Controls.getPressEvent("back"))
                         {
