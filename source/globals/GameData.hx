@@ -48,6 +48,8 @@ class GameData
     public static var GJ_username:String = "";
     public static var GJ_token:String = "";
 	
+    public static var hasSeenWarning:Bool = false;
+	
     public static var muckneyLock:String = "uncompleted";
 
     public static function lockinIt() {
@@ -72,6 +74,8 @@ class GameData
 
         if(FlxG.save.data.gjUser == null) FlxG.save.data.gjUser = "";
         if(FlxG.save.data.gjToken == null) FlxG.save.data.gjToken = "";
+	    
+	if (FlxG.save.data.hasSeenWarning == null) FlxG.save.sata.hasSeenWarning = false;
 	    
 	if (FlxG.save.data.legacyILock == null) FlxG.save.data.legacyILock = 'locked';
 	if (FlxG.save.data.legacyLLock == null) FlxG.save.data.legacyLLock = 'locked';
@@ -115,6 +119,8 @@ class GameData
         FlxG.save.data.gjUser = GJ_username;
         FlxG.save.data.gjToken = GJ_token;
 	    
+	FlxG.save.data.hasSeenWarning = hasSeenWarning;
+	    
         FlxG.save.data.muckneyLock = muckneyLock;
 
         FlxG.save.flush();
@@ -146,6 +152,11 @@ class GameData
 	legacyHLock = FlxG.save.data.legacyHLock;
 	legacyMLock = FlxG.save.data.legacyMLock;
 	legacyWLock = FlxG.save.data.legacyWLock;
+	    
+	//GJ_username = FlxG.save.data.gjUser;
+	//GJ_token = FlxG.save.data.gjToken;
+	    
+	hasSeenWarning = FlxG.save.data.hasSeenWarning;
 	    
         muckneyLock = FlxG.save.data.muckneyLock;
 	    
