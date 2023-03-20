@@ -31,8 +31,6 @@ import states.MusicBeatState;
 
 class DisclaimerState extends MusicBeatState
 {
-    public static var hasSeenWarning:Bool = false;
-
     var warnText:FlxText;
     
     var disclaimerBG:FlxSprite;
@@ -87,7 +85,6 @@ Press ENTER to continue.\nPress ESCAPE to close the game.\n\n^Last chance to tur
 
         override function update(elapsed:Float)
         {
-                if (!WarningState.coolInstance.hasSeenWarning) {
                         if (Controls.getPressEvent("accept"))
                         {
                                 Application.current.window.title = 'Funkin.avi - Proceeding to Game...';
@@ -97,8 +94,8 @@ Press ENTER to continue.\nPress ESCAPE to close the game.\n\n^Last chance to tur
                                                 Main.switchState(this, new states.TitleState());
                                         }
                                 });
-                                FlxG.save.data.hasSeenDisclaimer = true;
-                                FlxG.save.flush();
+                                GameData.hasSeenWarning = true;
+                                GameData.saveShit();
                         }
                         else if (Controls.getPressEvent("back"))
                         {
@@ -110,6 +107,5 @@ Press ENTER to continue.\nPress ESCAPE to close the game.\n\n^Last chance to tur
                                         }
                                 });
                         }
-                }
         }
 }
