@@ -51,7 +51,7 @@ import hxcodec.VideoHandler;
 #elseif (hxCodec == "2.6.0")
 import VideoHandler;
 #else
-import vlc.MP4Handler;
+import vlc.MP4Handler as VideoHandler;
 #end
 #if desktop
 import base.dependency.Discord;
