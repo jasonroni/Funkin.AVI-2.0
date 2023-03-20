@@ -168,7 +168,7 @@ class LegacyState extends MusicBeatState
 
 		try
 		{
-			for (i in 0...Main.weeks.length)
+			/*for (i in 0...Main.weeks.length)
 			{
 				// is the week locked?;
 				if (checkProgression(Main.weeks[i]))
@@ -204,7 +204,7 @@ class LegacyState extends MusicBeatState
 				// add week songs to the existing songs array;
 				for (j in storedSongs)
 					existingSongs.push(j.toLowerCase());
-			}
+			}*/
 
 			if (includeCustom)
 			{
@@ -255,7 +255,7 @@ class LegacyState extends MusicBeatState
 		}
 	}
 
-	public function addWeek(songs:Array<String>, weekNum:Int, ?songCharacters:Array<String>, ?songColor:Array<FlxColor>)
+	/*public function addWeek(songs:Array<String>, weekNum:Int, ?songCharacters:Array<String>, ?songColor:Array<FlxColor>)
 	{
 		if (songCharacters == null)
 			songCharacters = ['bf'];
@@ -272,7 +272,7 @@ class LegacyState extends MusicBeatState
 			if (songColor.length != 1)
 				num[1]++;
 		}
-	}
+	}*/
 
 	override function update(elapsed:Float)
 	{
