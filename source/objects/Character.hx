@@ -399,6 +399,7 @@ class Character extends FNFSprite
 			if (newFramesPath != null && newFramesPath != '')
 				framesPath = newFramesPath;
 		});
+		setVar('isPlayer', isPlayer);
 
 		switch (spriteType)
 		{

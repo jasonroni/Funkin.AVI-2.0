@@ -1,5 +1,6 @@
 package states.menus;
 
+import sys.io.File;
 import base.dependency.Discord;
 import base.dependency.FeatherDeps.ScriptHandler;
 import flixel.FlxBasic;
@@ -124,6 +125,7 @@ class MainMenu extends MusicBeatState
 
 	var defaultShader:FlxRuntimeShader;
 	var defaultShader2:FlxRuntimeShader;
+	var darkFilter:FlxRuntimeShader;
 	
 	var randomWindowText:Int = FlxG.random.int(0, 49);
 
@@ -152,11 +154,17 @@ class MainMenu extends MusicBeatState
 
 		defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
 		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
-		camGame.setFilters(
-			[
-				new openfl.filters.ShaderFilter(defaultShader),
-				new openfl.filters.ShaderFilter(defaultShader2)
-			]);
+		darkFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/coolDarkFilter.frag'), null, 120);
+
+		if(!Init.trueSettings.get('Disable Screen Shaders'))
+			{
+				camGame.setFilters(
+					[
+						new openfl.filters.ShaderFilter(defaultShader),
+						new openfl.filters.ShaderFilter(defaultShader2),
+						new openfl.filters.ShaderFilter(darkFilter),
+					]);
+			}
 
 		openfl.Lib.application.window.title = "Funkin.avi - " + windowShit[FlxG.random.int(0, windowShit.length-1)];
 
@@ -391,6 +399,8 @@ class MainMenu extends MusicBeatState
 			// reset variables
 			counterControl = 0;
 		}
+
+		darkFilter.setFloat('iTime', elapsed);
 
 		if ((Controls.getPressEvent("back")) && (!selectedSomethin))
 		{

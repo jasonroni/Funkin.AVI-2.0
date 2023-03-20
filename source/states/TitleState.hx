@@ -316,12 +316,11 @@ class TitleState extends states.MusicBeatState
 
 		gradient = new FlxSprite().loadGraphic(Paths.image('filters/gradient'));
 		gradient.scrollFactor.set(0, 0);
-		gradient.setGraphicSize(Std.int(gradient.width * 0.75));
+		gradient.setGraphicSize(Std.int(gradient.width * 0.8));
 		gradient.updateHitbox();
 		gradient.screenCenter();
 		gradient.antialiasing = true;
-		add(gradient);
-
+		
 		if (initialized)
 			skipIntro();
 		else
