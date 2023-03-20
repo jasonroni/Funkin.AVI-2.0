@@ -34,27 +34,6 @@ typedef SongMetadata =
 	var color:FlxColor;
 }
 	
-/**
- * Category Assets used for Freeplay & Story Menus
- */
-	
-enum CategoryContent
-{
-	STORY_MENU_WEEKS;
-	FREEPLAY_SONGS;
-}
-	
-typedef CategoryData =
-{
-	var name:String;
-	var dataType:CategoryContent;
-	var assetList:Array<String>;
-}
-	
-/*
-* This has no use, it's just here for the memes lmfao
-*/
-	
 typedef BitchDetector =
 {
 	var hasBitches:Bool;
