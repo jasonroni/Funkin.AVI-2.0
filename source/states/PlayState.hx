@@ -2507,6 +2507,31 @@ class PlayState extends MusicBeatState
 						{
 							i.visible = false;
 						}
+						
+					// Fuck you *hardcodes the song speed changes*
+					case 88:
+						FlxTween.tween(this, {songSpeed: 1.3}, 1.5, {ease: FlxEase.quartInOut});
+					
+					case 95 | 224:
+						FlxTween.tween(this, {songSpeed: 2.7}, 0.2, {ease: FlxEase.sineOut});
+						
+					case 160 | 352:
+						FlxTween.tween(this, {songSpeed: 1.7}, 0.5, {ease: FlxEase.quartOut});
+						
+					case 184:
+						FlxTween.tween(this, {songSpeed: 1.9}, 0.3, {ease: FlxEase.quartOut});
+						
+					case 188:
+						FlxTween.tween(this, {songSpeed: 2.1}, 0.3, {ease: FlxEase.quartOut});
+						
+					case 192:
+						FlxTween.tween(this, {songSpeed: 2.4}, 0.3, {ease: FlxEase.quartOut});
+					
+					case 320:
+						FlxTween.tween(this, {songSpeed: 2.6}, 1.5, {ease: FlxEase.quartInOut});
+						
+					case 376:
+						FlxTween.tween(this, {songSpeed: 2.3}, 2, {ease: FlxEase.quartInOut});
 				}
 		
 			case 'Lunacy':
