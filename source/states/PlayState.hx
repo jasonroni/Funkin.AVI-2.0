@@ -2494,7 +2494,7 @@ class PlayState extends MusicBeatState
 			case 'Isolated':
 				switch (curBeat)
 				{
-					case 32 | 96 | 128 | 192 | 224 | 256 | 288 | 320:
+					case 32 | 96 | 128 | 192 | 256 | 288
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
 				
 					case 48 | 112 | 144 | 208 | 240 | 272 | 304 | 336:
@@ -2512,7 +2512,11 @@ class PlayState extends MusicBeatState
 					case 88:
 						FlxTween.tween(this, {songSpeed: 1.3}, 1.5, {ease: FlxEase.quartInOut});
 					
-					case 95 | 224:
+					case 95:
+						FlxTween.tween(this, {songSpeed: 2.7}, 0.2, {ease: FlxEase.sineOut});
+					
+					case 224:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
 						FlxTween.tween(this, {songSpeed: 2.7}, 0.2, {ease: FlxEase.sineOut});
 						
 					case 160 | 352:
@@ -2528,6 +2532,7 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(this, {songSpeed: 2.4}, 0.3, {ease: FlxEase.quartOut});
 					
 					case 320:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
 						FlxTween.tween(this, {songSpeed: 2.6}, 1.5, {ease: FlxEase.quartInOut});
 						
 					case 376:
@@ -2590,14 +2595,15 @@ class PlayState extends MusicBeatState
 							FlxTween.tween(i, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
 						}
 
-						case 318:
-							FlxTween.tween(camHUD, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
-							for (i in strumHUD)
-							{
-								FlxTween.tween(i, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
-							}
+					case 318:
+						defaultCamZoom = 1.25;
+						FlxTween.tween(camHUD, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
+						for (i in strumHUD)
+						{
+							FlxTween.tween(i, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
+						}
 
-					case 310 | 318 | 342 | 350:
+					case 310 | 342 | 350:
 						defaultCamZoom = 1.25;
 
 					case 352:
