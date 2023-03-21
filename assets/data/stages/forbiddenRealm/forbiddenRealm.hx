@@ -133,6 +133,10 @@ function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Characte
 
 function charStagePos(boyfriend:Character, gf:Character, dad:Character)
 {
-	dad.setPosition(-100, 160);
+	if (dad.curCharacter == 'gm-calm-pixel')
+		dad.setPosition(-130, 50);
+	else
+		dad.setPosition(-100, 150);
+	
 	boyfriend.setPosition(1300, 600);
 }
