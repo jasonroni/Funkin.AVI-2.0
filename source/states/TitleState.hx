@@ -61,6 +61,9 @@ class TitleState extends states.MusicBeatState
 	var credGroup:FlxGroup;
 	var curWacky:Array<String> = [];
 
+	// goofy ahh fix
+	var isTweenCancelled = false;
+
 	var whiteFade:FlxSprite;
 	
 	var fadeTween:FlxTween;
@@ -502,11 +505,14 @@ class TitleState extends states.MusicBeatState
 				case 14:
 					addMoreText('V2');
 				case 15:
+					if(!isTweenCancelled)
 					fadeTween = FlxTween.tween(whiteFade, {alpha: 1}, 2, {ease: FlxEase.quartInOut});
 				case 16:
+					if(!isTweenCancelled) {
 					fadeTween.cancel();
-					skipIntro();
-					whiteFade.alpha = 0;			
+					whiteFade.alpha = 0;	
+					}
+					skipIntro();		
 				}
 		}
 	}
@@ -521,6 +527,7 @@ class TitleState extends states.MusicBeatState
 				FlxG.camera.flash(FlxColor.BLACK, 4);
 		}
 			logoBl.angle = -4;
+			isTweenCancelled = true;
 
 			new FlxTimer().start(0.01, function(tmr:FlxTimer)
 			{

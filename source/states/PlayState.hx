@@ -2850,7 +2850,7 @@ class PlayState extends MusicBeatState
 	 */
 	public function createVideoCutscene(name:String)
 	{
-		callFunc('createVideoCutscene', [name, isEnd]);
+		callFunc('createVideoCutscene', [name]);
 		
 		inCutscene = true;
 

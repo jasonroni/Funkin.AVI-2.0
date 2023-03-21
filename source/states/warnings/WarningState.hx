@@ -43,6 +43,10 @@ class WarningState extends MusicBeatState
 
         var blackFade:FlxSprite;
 
+        var hasSeenWarning:Bool = false;
+
+        public static var coolInstance:WarningState;
+
         override function create()
         {
                 Application.current.window.title = 'Funkin.avi - WARNING';
