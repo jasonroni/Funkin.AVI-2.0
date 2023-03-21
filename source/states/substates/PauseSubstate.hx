@@ -104,33 +104,10 @@ class PauseSubstate extends MusicBeatSubstate
 		add(disc);
 
 		var getArt:String = 'menus/Funkin_avi/pause/songs/';
+		var pauseArtAsset:String = PlayState.SONG.song.toLowerCase();
 
 		songArt = new FlxSprite(800, 130);
-		switch (CoolUtil.dashToSpace(PlayState.SONG.song))
-		{
-			case 'Hunted':
-				songArt.loadGraphic(Paths.image(getArt + 'hunted'));
-			case 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus':
-				songArt.loadGraphic(Paths.image(getArt + 'episode2'));
-			case 'Malfunction Legacy':
-				songArt.loadGraphic(Paths.image(getArt + 'malfunction'));
-			case 'Malfunction':
-				songArt.loadGraphic(Paths.image(getArt + 'malfunction-new'));
-			case 'Mercy':
-				songArt.loadGraphic(Paths.image(getArt + 'mercy'));
-			case 'Mercy Legacy':
-				songArt.loadGraphic(Paths.image(getArt + 'mercy-old'));
-			case 'Bless':
-				songArt.loadGraphic(Paths.image(getArt + 'bless'));
-			case 'Cycled Sins':
-				songArt.loadGraphic(Paths.image(getArt + 'cycled-sins'));
-			case 'Scrapped':
-				songArt.loadGraphic(Paths.image(getArt + 'scrapped'));
-			case 'Delusional':
-				songArt.loadGraphic(Paths.image(getArt + 'delusional'));
-			default:
-				songArt.loadGraphic(Paths.image(getArt + 'unknown-song'));
-		}
+		songArt.loadGraphic(Paths.image(getArt + (!sys.FileSystem.exists(pauseArtAsset) ? 'unknown-song' : pauseArtAsset));
 		songArt.scale.set(0.29, 0.29);
 
 		songArtOutline = new FlxSprite(800 - 20, 130 - 20 /*POV: you're lazy to do the math yourself*/).makeGraphic(890, 890, FlxColor.BLACK);
