@@ -221,58 +221,32 @@ class PlayState extends MusicBeatState
 
 	function loadWindowTitleData()
 	{
-		switch (SONG.song)
+		switch (gameplayMode)
 		{
-			case 'Isolated' | 'Lunacy' | 'Delusional':
-				if (gameplayMode == STORY)
-					Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-				else if (gameplayMode == CHARTING)
-					Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-				else
-					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-			case 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus':
-				if (gameplayMode == STORY)
-					Application.current.window.title = 'Funkin.avi - Episode S: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-				else if (gameplayMode == CHARTING)
-					Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-				else
-					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-			case 'Mercy' | 'Affliction':
-				if (gameplayMode == STORY)
-					Application.current.window.title = 'Funkin.avi - Episode W: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-				else if (gameplayMode == CHARTING)
-					Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-				else
-					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-
-			case 'Malfunction' | 'Malfunction Legacy':
-				if (gameplayMode == CHARTING)
-					Application.current.window.title = 'glitchedMickey.xml - CHEATER MODE ACTIVATED: '
-						+ SONG.song
-						+ " - Composed by: I CAN SEE YOU CHEATING! - [!CHEATER DETECTED!]";
-				else
-					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-
-			default:
-				if (gameplayMode == STORY)
-					Application.current.window.title = 'Funkin.avi - Episode ???: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-				else if (gameplayMode == CHARTING)
-					Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-				else
-					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
+				case STORY:
+					switch (SONG.song)
+					{
+						case 'Isolated' | 'Lunacy' | 'Delusional':
+							Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+						
+						case 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus':
+							Application.current.window.title = 'Funkin.avi - Episode S: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+				
+						case 'Mercy' | 'Affliction':
+							Application.current.window.title = 'Funkin.avi - Episode W: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+				
+						default:
+							Application.current.window.title = 'Funkin.avi - Episode ???: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+					}
+					
+				case FREEPLAY:
+					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+				
+				case CHARTING:
+					if (SONG.song == 'Malfunction')
+						Application.current.window.title = 'glitchedMickey.xml - CHEATER MODE ACTIVATED: ' + SONG.song + " - Composed by: I CAN SEE YOU CHEATING! - [!CHEATER DETECTED!]";
+					else
+						Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
 		}
 	}
 
@@ -281,34 +255,7 @@ class PlayState extends MusicBeatState
 		#if DevBuild
 			iconRPC = 'icon';
 		#else
-			switch (SONG.song.toLowerCase())
-			{
-				case 'isolated' | 'lunacy' | 'affliction' | 'laugh track' | 'birthday' | 'isolated legacy' | 'lunacy legacy' | 'delusional legacy' |
-					'neglection' | 'war dilemma'| 'isolated beta' | 'isolated old':
-					iconRPC = 'placeholder';
-				case "don't cross!":
-					iconRPC = 'dontfuckingcross';
-				case 'delusional':
-					iconRPC = 'delusional';
-				case 'twisted grins' | 'resentment' | 'mortiferum risus':
-					iconRPC = 'episode2';
-				case 'mercy':
-					iconRPC = 'mercy';
-				case 'mercy legacy':
-					iconRPC = 'mercyold';
-				case 'scrapped':
-					iconRPC = 'scrapped';
-				case 'bless':
-					iconRPC = 'bless';
-				case 'hunted' | 'hunted legacy':
-					iconRPC = 'hunted';
-				case 'malfunction':
-					iconRPC = 'malfunction';
-				case 'malfunction legacy':
-					iconRPC = 'malold';
-				case 'cycled sins':
-					iconRPC = 'cycledsins';
-			}
+			iconRPC = CoolUtil.spaceToDash(SONG.song.toLowerCase()); // basically, it'll now look for the icon in the RPC via song name, if it doesn't it'll just return with no icon
 		#end
 	}
 
