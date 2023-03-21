@@ -2542,7 +2542,7 @@ class PlayState extends MusicBeatState
 			case 'Lunacy':
 				switch (curBeat)
 				{
-					case 96 | 128 | 256 | 320:
+					case 96 | 128 | 256:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);	
 					
 					case 156 | 392:
@@ -2584,7 +2584,11 @@ class PlayState extends MusicBeatState
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
 						defaultCamZoom = 0.9;
 
-					case 233 | 266 | 412 | 240 | 272 | 300 | 304 | 320 | 336 | 248 | 280 | 328:
+					case 233 | 266 | 412 | 240 | 272 | 300 | 304 | 336 | 248 | 280 | 328:
+						defaultCamZoom = 0.7;
+						
+					case 320:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
 						defaultCamZoom = 0.7;
 
 					case 254:
