@@ -2,7 +2,6 @@ package states.warnings;
 
 import base.dependency.HardcodedShaders;
 import flash.system.System;
-import flash.system.System;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
@@ -24,7 +23,6 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import flixel.util.FlxTimer;
-import lime.app.Application;
 import lime.app.Application;
 import openfl.media.Sound;
 import states.MusicBeatState;
