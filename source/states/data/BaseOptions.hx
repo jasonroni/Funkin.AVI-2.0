@@ -8,6 +8,7 @@ import flixel.math.FlxMath;
 import objects.fonts.Alphabet;
 import objects.ui.menu.Checkmark;
 import objects.ui.menu.Selector;
+import lime.app.Application;
 import states.MusicBeatState;
 import states.data.OptionsData.GroupData;
 
@@ -46,10 +47,10 @@ class BaseOptions extends MusicBeatState
 	 */
 	public var categoriesMap:Map<String, Array<GroupData>> = [
 		"main" => [
-			{name: "preferences", type: "subgroup", description: "Define your Game Preferences."},
-			{name: "accessibility", type: "subgroup", description: "Make the game more accessible for yourself."},
-			{name: "visuals", type: "subgroup", description: "Define your Visuals, such as Note Skins or Judgements!"},
-			{name: "keybinds", type: "keybinds", description: "Define your preferred keys for use during Gameplay."}
+			{name: "Preferences", type: "subgroup", description: "Define your Game Preferences."},
+			{name: "Accessibility", type: "subgroup", description: "Make the game more accessible for yourself."},
+			{name: "Visuals", type: "subgroup", description: "Define your Visuals, such as Note Skins or Judgements!"},
+			{name: "Keybinds", type: "keybinds", description: "Define your preferred keys for use during Gameplay."}
 		],
 	];
 
@@ -72,9 +73,9 @@ class BaseOptions extends MusicBeatState
 		ForeverTools.resetMenuMusic();
 
 		// set up category contents;
-		categoriesMap.set("preferences", OptionsData.preferences);
-		categoriesMap.set("accessibility", OptionsData.accessibility);
-		categoriesMap.set("visuals", OptionsData.visuals);
+		categoriesMap.set("Preferences", OptionsData.Preferences);
+		categoriesMap.set("Accessibility", OptionsData.Accessibility);
+		categoriesMap.set("Visuals", OptionsData.Visuals);
 
 		updateDiscord();
 	}
@@ -82,6 +83,8 @@ class BaseOptions extends MusicBeatState
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		
+		Application.current.window.title = 'Funkin.avi - Settings: ' + curCategory == 'main' ? '' : '$curCategory';
 
 		if (attachmentsGroup != null)
 			repositionAttachments();

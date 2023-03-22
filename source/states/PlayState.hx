@@ -56,6 +56,8 @@ import vlc.MP4Handler as VideoHandler;
 #if desktop
 import base.dependency.Discord;
 #end
+	
+using StringTools;
 
 enum GameMode
 {
@@ -221,58 +223,32 @@ class PlayState extends MusicBeatState
 
 	function loadWindowTitleData()
 	{
-		switch (SONG.song)
+		switch (gameplayMode)
 		{
-			case 'Isolated' | 'Lunacy' | 'Delusional':
-				if (gameplayMode == STORY)
-					Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-				else if (gameplayMode == CHARTING)
-					Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-				else
-					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-			case 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus':
-				if (gameplayMode == STORY)
-					Application.current.window.title = 'Funkin.avi - Episode S: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-				else if (gameplayMode == CHARTING)
-					Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-				else
-					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-			case 'Mercy' | 'Affliction':
-				if (gameplayMode == STORY)
-					Application.current.window.title = 'Funkin.avi - Episode W: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-				else if (gameplayMode == CHARTING)
-					Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-				else
-					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-
-			case 'Malfunction' | 'Malfunction Legacy':
-				if (gameplayMode == CHARTING)
-					Application.current.window.title = 'glitchedMickey.xml - CHEATER MODE ACTIVATED: '
-						+ SONG.song
-						+ " - Composed by: I CAN SEE YOU CHEATING! - [!CHEATER DETECTED!]";
-				else
-					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-
-			default:
-				if (gameplayMode == STORY)
-					Application.current.window.title = 'Funkin.avi - Episode ???: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-				else if (gameplayMode == CHARTING)
-					Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
-				else
-					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - ["
-						+ CoolUtil.difficultyString + "]";
+				case STORY:
+					switch (SONG.song)
+					{
+						case 'Isolated' | 'Lunacy' | 'Delusional':
+							Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+						
+						case 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus':
+							Application.current.window.title = 'Funkin.avi - Episode S: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+				
+						case 'Mercy' | 'Affliction':
+							Application.current.window.title = 'Funkin.avi - Episode W: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+				
+						default:
+							Application.current.window.title = 'Funkin.avi - Episode ???: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+					}
+					
+				case FREEPLAY:
+					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+				
+				case CHARTING:
+					if (SONG.song == 'Malfunction')
+						Application.current.window.title = 'glitchedMickey.xml - CHEATER MODE ACTIVATED: ' + SONG.song + " - Composed by: I CAN SEE YOU CHEATING! - [!CHEATER DETECTED!]";
+					else
+						Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
 		}
 	}
 
@@ -281,34 +257,7 @@ class PlayState extends MusicBeatState
 		#if DevBuild
 			iconRPC = 'icon';
 		#else
-			switch (SONG.song.toLowerCase())
-			{
-				case 'isolated' | 'lunacy' | 'affliction' | 'laugh track' | 'birthday' | 'isolated legacy' | 'lunacy legacy' | 'delusional legacy' |
-					'neglection' | 'war dilemma'| 'isolated beta' | 'isolated old':
-					iconRPC = 'placeholder';
-				case "don't cross!":
-					iconRPC = 'dontfuckingcross';
-				case 'delusional':
-					iconRPC = 'delusional';
-				case 'twisted grins' | 'resentment' | 'mortiferum risus':
-					iconRPC = 'episode2';
-				case 'mercy':
-					iconRPC = 'mercy';
-				case 'mercy legacy':
-					iconRPC = 'mercyold';
-				case 'scrapped':
-					iconRPC = 'scrapped';
-				case 'bless':
-					iconRPC = 'bless';
-				case 'hunted' | 'hunted legacy':
-					iconRPC = 'hunted';
-				case 'malfunction':
-					iconRPC = 'malfunction';
-				case 'malfunction legacy':
-					iconRPC = 'malold';
-				case 'cycled sins':
-					iconRPC = 'cycledsins';
-			}
+			iconRPC = CoolUtil.spaceToDash(SONG.song.toLowerCase()); // basically, it'll now look for the icon in the RPC via song name, if it doesn't it'll just return with no icon
 		#end
 	}
 
@@ -508,6 +457,10 @@ class PlayState extends MusicBeatState
 		opponent.dance();
 		gf.dance();
 		boyfriend.dance();
+		
+		opponent.curCharacter.endsWith('-pixel') ? antialiasing = false : antialiasing = true;
+		gf.curCharacter.endsWith('-pixel') ? antialiasing = false : antialiasing = true;
+		boyfriend.curCharacter.endsWith('-pixel') ? antialiasing = false : antialiasing = true;
 
 		repositionChars();
 	}
@@ -535,6 +488,10 @@ class PlayState extends MusicBeatState
 		opponent.dance();
 		gf.dance();
 		boyfriend.dance();
+		
+		opponent.curCharacter.endsWith('-pixel') ? antialiasing = false : antialiasing = true;
+		gf.curCharacter.endsWith('-pixel') ? antialiasing = false : antialiasing = true;
+		boyfriend.curCharacter.endsWith('-pixel') ? antialiasing = false : antialiasing = true;
 
 		repositionChars();
 	}
@@ -2494,7 +2451,7 @@ class PlayState extends MusicBeatState
 			case 'Isolated':
 				switch (curBeat)
 				{
-					case 32 | 96 | 128 | 192 | 224 | 256 | 288 | 320:
+					case 32 | 96 | 128 | 192 | 256 | 288:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
 				
 					case 48 | 112 | 144 | 208 | 240 | 272 | 304 | 336:
@@ -2507,12 +2464,42 @@ class PlayState extends MusicBeatState
 						{
 							i.visible = false;
 						}
+						
+					// Fuck you *hardcodes the song speed changes*
+					/*case 88:
+						FlxTween.tween(this, {songSpeed: 1.3}, 1.5, {ease: FlxEase.quartInOut});
+					
+					case 95:
+						FlxTween.tween(this, {songSpeed: 2.7}, 0.2, {ease: FlxEase.sineOut});*/
+					
+					case 224:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
+						//FlxTween.tween(this, {songSpeed: 2.7}, 0.2, {ease: FlxEase.sineOut});
+						
+					/*case 160 | 352:
+						FlxTween.tween(this, {songSpeed: 1.7}, 0.5, {ease: FlxEase.quartOut});
+						
+					case 184:
+						FlxTween.tween(this, {songSpeed: 1.9}, 0.3, {ease: FlxEase.quartOut});
+						
+					case 188:
+						FlxTween.tween(this, {songSpeed: 2.1}, 0.3, {ease: FlxEase.quartOut});
+						
+					case 192:
+						FlxTween.tween(this, {songSpeed: 2.4}, 0.3, {ease: FlxEase.quartOut});*/
+					
+					case 320:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
+						//FlxTween.tween(this, {songSpeed: 2.6}, 1.5, {ease: FlxEase.quartInOut});
+						
+					//case 376:
+						//FlxTween.tween(this, {songSpeed: 2.3}, 2, {ease: FlxEase.quartInOut});
 				}
 		
 			case 'Lunacy':
 				switch (curBeat)
 				{
-					case 96 | 128 | 256 | 320:
+					case 96 | 128 | 256:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);	
 					
 					case 156 | 392:
@@ -2554,7 +2541,11 @@ class PlayState extends MusicBeatState
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
 						defaultCamZoom = 0.9;
 
-					case 233 | 266 | 412 | 240 | 272 | 300 | 304 | 320 | 336 | 248 | 280 | 328:
+					case 233 | 266 | 412 | 240 | 272 | 300 | 304 | 336 | 248 | 280 | 328:
+						defaultCamZoom = 0.7;
+						
+					case 320:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
 						defaultCamZoom = 0.7;
 
 					case 254:
@@ -2565,14 +2556,15 @@ class PlayState extends MusicBeatState
 							FlxTween.tween(i, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
 						}
 
-						case 318:
-							FlxTween.tween(camHUD, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
-							for (i in strumHUD)
-							{
-								FlxTween.tween(i, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
-							}
+					case 318:
+						defaultCamZoom = 1.25;
+						FlxTween.tween(camHUD, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
+						for (i in strumHUD)
+						{
+							FlxTween.tween(i, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
+						}
 
-					case 310 | 318 | 342 | 350:
+					case 310 | 342 | 350:
 						defaultCamZoom = 1.25;
 
 					case 352:
@@ -2755,6 +2747,22 @@ class PlayState extends MusicBeatState
 						relapseGimmick(1.12, 1.2);
 					case 270:
 						relapseGimmick(0.7, 1.5);
+				}
+			case 'Malfunction':
+				switch (curBeat)
+				{
+					// Intro Cam Stuff
+					case 16: FlxTween.tween(this, {defaultCamZoom: 1.2}, 5, {ease: FlxEase.quartInOut});
+					case 32 | 39 | 48 | 64 | 72 | 88 | 96 | 103 | 113 | 128 | 184 | 192: defaultCamZoom = 0.8;
+					case 38 | 102: FlxTween.tween(this, {defaultCamZoom: 1.5}, 0.25, {ease: FlxEase.sineInOut});
+					case 45 | 61 | 110 | 126 | 187: defaultCamZoom = 0.9;
+					case 46 | 62 | 67 | 76 | 83 | 92 | 111 | 127 | 158 | 190: defaultCamZoom = 1;
+					case 47 | 63 | 68 | 84 | 112 | 159: defaultCamZoom = 1.3;
+					case 69 | 85: defaultCamZoom = 1.1;				
+					case 160: defaultCamZoom = 0.65;
+					case 164: FlxTween.tween(this, {defaultCamZoom: 1.5}, 6, {ease: FlxEase.sineInOut});
+						
+					// Ight Jason, the fun part's all yours
 				}
 		}
 

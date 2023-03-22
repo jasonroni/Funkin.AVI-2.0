@@ -1,6 +1,8 @@
 public var mickeyEmitter:FlxEmitter;
 var fuckingsquares:FlxSprite;
 
+var whiteBG:FlxSprite;
+
 var glitchBG:FlxRuntimeShader;
 var staticBG:FlxRuntimeShader;
 
@@ -70,6 +72,11 @@ function onCreate()
 	mickeyEmitter.start(false, FlxG.random.float(.125, .287), 100000);
 	mickeyEmitter.emitting = false;
 	
+	whiteBG = new FlxSprite(-800, -200).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFFFFFFF);
+	whiteBG.alpha = 0;
+	whiteBG.active = false;
+	add(whiteBG);
+	
 	if (PlayState.SONG.song != 'Malfunction Legacy')
 	{
 		add(greyParticles);
@@ -82,40 +89,24 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 {
 	if (PlayState.SONG.song == 'Malfunction')
 	{
-		if (curBeat == 72) PlayState.defaultCamZoom = 0.65;
-		if (curBeat >= 72 && curBeat <= 135) mickeyEmitter.emitting = true;
-		if (curBeat == 136)
+		if (curBeat == 160)
 		{
-			PlayState.camGame.alpha = 0;
-			
+			whiteBG.alpha = 1;
+			FlxTween.tween(whiteBG, {alpha: 0}, 3, {ease: FlxEase.sineOut});
+			FlxTween.tween(fuckingsquares, {alpha: 0}, 5, {ease: FlxEase.sineOut});
 		}
-		if (curBeat >= 136 && curBeat <= 139)
+
+		if (curBeat == 176)
 		{
-			mickeyEmitter.emitting = false;
-			PlayState.defaultCamZoom = 0.9;
+			whiteBG.alpha = 1;
+			FlxTween.tween(whiteBG, {alpha: 0}, 1);
 		}
-		if (curBeat == 140)
-		{ 
-			PlayState.defaultCamZoom = 0.6;
-			PlayState.camGame.alpha = 1;
-			if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(ForeverTools.returnColor("white"), 2);
-			if (!Init.trueSettings.get('Disable Screen Shaders')) fuckingsquares.shader = staticBG;
-		}
-		if (curBeat == 204)
-		{ 
-			PlayState.defaultCamZoom = 1.1;
-			FlxTween.tween(fuckingsquares, {alpha: 0.2}, 0.3, {ease: FlxEase.quartInOut});
-		}
-		if (curBeat == 206)
+
+		if (curBeat == 184)
 		{
-			PlayState.defaultCamZoom = 0.65;
-			if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(ForeverTools.returnColor("white"), 2.5);
-			fuckingsquares.alpha = 1;
-			if (!Init.trueSettings.get('Disable Screen Shaders'))
-			{
-				fuckingsquares.shader = glitchBG;
-				glitchBG.setFloat('vignetteIntensity', 0.8);
-			}
+			whiteBG.alpha = 1;
+			FlxTween.tween(whiteBG, {alpha: 0}, 1, {ease: FlxEase.sineOut});
+			FlxTween.tween(fuckingsquares, {alpha: 1}, 1.5, {ease: FlxEase.sineOut});
 		}
 	}
 }
@@ -133,6 +124,10 @@ function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Characte
 
 function charStagePos(boyfriend:Character, gf:Character, dad:Character)
 {
-	dad.setPosition(-100, 160);
+	if (dad.curCharacter == 'gm-calm-pixel')
+		dad.setPosition(-130, 50);
+	else
+		dad.setPosition(-100, 150);
+	
 	boyfriend.setPosition(1300, 600);
 }
