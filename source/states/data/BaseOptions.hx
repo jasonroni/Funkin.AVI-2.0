@@ -73,9 +73,9 @@ class BaseOptions extends MusicBeatState
 		ForeverTools.resetMenuMusic();
 
 		// set up category contents;
-		categoriesMap.set("preferences", OptionsData.preferences);
-		categoriesMap.set("accessibility", OptionsData.accessibility);
-		categoriesMap.set("visuals", OptionsData.visuals);
+		categoriesMap.set("Preferences", OptionsData.Preferences);
+		categoriesMap.set("Accessibility", OptionsData.Accessibility);
+		categoriesMap.set("Visuals", OptionsData.Visuals);
 
 		updateDiscord();
 	}
