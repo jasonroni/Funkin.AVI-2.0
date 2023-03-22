@@ -17,6 +17,7 @@ import sys.thread.Thread;
 import openfl.filters.BitmapFilter;
 import openfl.filters.ShaderFilter;
 import flixel.addons.display.FlxRuntimeShader;
+import lime.app.Application;
 import flixel.FlxCamera;
 
 class PauseSubstate extends MusicBeatSubstate
@@ -201,6 +202,7 @@ class PauseSubstate extends MusicBeatSubstate
 		FlxTween.tween(funnyButton, {alpha: 1}, 0.8, {ease: FlxEase.quartInOut});
 
 		changeSelection();
+		loadPauseTitleData();
 
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 	}
@@ -270,6 +272,7 @@ class PauseSubstate extends MusicBeatSubstate
 				case "continue" | 'wd-continue' | 'mal-continue':
 					close();
 					remove(disc);
+					PlayState.loadWindowTitleData(); // resets the title bar to the PlayState info
 				case "restart" | 'wd-restart' | 'mal-restart':
 					Main.switchState(this, new PlayState());
 				case "Back to Charter":
@@ -317,6 +320,39 @@ class PauseSubstate extends MusicBeatSubstate
 		{
 			if (pauseMusic.volume < 0.5)
 				pauseMusic.volume += 0.01 * elapsed;
+		}
+	}
+	
+	// copy of the function from PlayState so I'm not having to do all this shit again
+	
+	function loadPauseTitleData()
+	{
+		switch (PlayState.gameplayMode)
+		{
+			case STORY:
+				switch (PlayState.SONG.song)
+				{
+					case 'Isolated' | 'Lunacy' | 'Delusional':
+						Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "] - {PAUSED}";
+						
+					case 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus':
+						Application.current.window.title = 'Funkin.avi - Episode S: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "] - {PAUSED}";
+				
+					case 'Mercy' | 'Affliction':
+						Application.current.window.title = 'Funkin.avi - Episode W: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "] - {PAUSED}";
+				
+					default:
+						Application.current.window.title = 'Funkin.avi - Episode ???: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "] - {PAUSED}";
+				}
+					
+			case FREEPLAY:
+				Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "] - {PAUSED}";
+				
+			case CHARTING:
+				if (SONG.song == 'Malfunction')
+					Application.current.window.title = 'glitchedMickey.xml - CHEATER MODE ACTIVATED: ' + SONG.song + " - Composed by: I CAN SEE YOU CHEATING! - [!CHEATER DETECTED!] - {PAUSED}";
+				else
+					Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "] - {PAUSED}";
 		}
 	}
 
