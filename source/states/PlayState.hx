@@ -2738,6 +2738,22 @@ class PlayState extends MusicBeatState
 					case 270:
 						relapseGimmick(0.7, 1.5);
 				}
+			case 'Malfunction':
+				switch (curBeat)
+				{
+					// Intro Cam Stuff
+					case 16: FlxTween.tween(this, {defaultCamZoom: 1.2}, 5, {ease: FlxEase.quartInOut});
+					case 32 | 39 | 48 | 64 | 72 | 88 | 96 | 103 | 113 | 128 | 184 | 192: defaultCamZoom = 0.8;
+					case 38 | 102: FlxTween.tween(this, {defaultCamZoom: 1.5}, 0.25, {ease: FlxEase.sineInOut});
+					case 45 | 61 | 110 | 126 | 187: defaultCamZoom = 0.9;
+					case 46 | 62 | 67 | 76 | 83 | 92 | 111 | 127 | 158 | 190: defaultCamZoom = 1;
+					case 47 | 63 | 68 | 84 | 112 | 159: defaultCamZoom = 1.3;
+					case 69 | 85: defaultCamZoom = 1.1;				
+					case 160: defaultCamZoom = 0.65;
+					case 164: FlxTween.tween(this, {defaultCamZoom: 1.5}, 6, {ease: FlxEase.sineInOut});
+						
+					// Ight Jason, the fun part's all yours
+				}
 		}
 
 		callFunc('beatHit', [curBeat]);
