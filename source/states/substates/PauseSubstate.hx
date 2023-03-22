@@ -1,5 +1,6 @@
 package states.substates;
 
+import sys.FileSystem;
 import base.song.Conductor;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -156,28 +157,18 @@ class PauseSubstate extends MusicBeatSubstate
 		add(songArt);
 
 		var levelInfo:FlxText = new FlxText(20, 15, 0, "", 32);
-		levelInfo.text += '${CoolUtil.dashToSpace(PlayState.SONG.song)} - ${PlayState.SONG.composer}';
+		levelInfo.text = getSongPath();
 		levelInfo.scrollFactor.set();
-		levelInfo.setFormat(Paths.font("vcr"), 32);
+		levelInfo.setFormat(Paths.font("DisneyFont"), 32, FlxColor.WHITE, RIGHT);
 		levelInfo.updateHitbox();
 		add(levelInfo);
 
-		var levelDeaths:FlxText = new FlxText(20, 15 + 32, 0, "", 32);
-		levelDeaths.text += "Blueballed: " + PlayState.deaths;
-		levelDeaths.scrollFactor.set();
-		levelDeaths.setFormat(Paths.font('vcr'), 32);
-		levelDeaths.updateHitbox();
-		add(levelDeaths);
-
 		levelInfo.alpha = 0;
-		levelDeaths.alpha = 0;
 
 		levelInfo.x = FlxG.width - (levelInfo.width + 20);
-		levelDeaths.x = FlxG.width - (levelDeaths.width + 20);
 
 		FlxTween.tween(bg, {alpha: 0.6}, 0.4, {ease: FlxEase.quartInOut});
 		FlxTween.tween(levelInfo, {alpha: 1, y: 20}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.3});
-		FlxTween.tween(levelDeaths, {alpha: 1, y: levelDeaths.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.7});
 
 		disc.alpha = 0;
 		songArt.alpha = 0;
@@ -289,7 +280,8 @@ class PauseSubstate extends MusicBeatSubstate
 					trace('Current BPM: ${Conductor.bpm}');
 					close();
 					remove(disc);
-					PlayState.loadWindowTitleData(); // resets the title bar to the PlayState info
+					@:privateAccess
+					PlayState.main.loadWindowTitleData(); // resets the title bar to the PlayState info
 				case "restart" | 'wd-restart' | 'mal-restart':
 					Main.switchState(this, new PlayState());
 				case "Back to Charter":
@@ -364,7 +356,7 @@ class PauseSubstate extends MusicBeatSubstate
 				Application.current.window.title = 'Funkin.avi - Freeplay: ' + PlayState.SONG.song + " - Composed by: " + PlayState.SONG.composer + " - [" + CoolUtil.difficultyString + "] - {PAUSED}";
 				
 			case CHARTING:
-				if (SONG.song == 'Malfunction')
+				if (PlayState.SONG.song == 'Malfunction')
 					Application.current.window.title = 'glitchedMickey.xml - CHEATER MODE ACTIVATED: ' + PlayState.SONG.song + " - Composed by: I CAN SEE YOU CHEATING! - [!CHEATER DETECTED!] - {PAUSED}";
 				else
 					Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + PlayState.SONG.song + " - Composed by: " + PlayState.SONG.composer + " - [" + CoolUtil.difficultyString + "] - {PAUSED}";
@@ -399,4 +391,33 @@ class PauseSubstate extends MusicBeatSubstate
 		}
 		//
 	}
+
+	// TODO: making it small
+
+	/**
+	 * Gets the song credit information by a path
+	 * 
+	 * the use of a txt file is creating it on the song path and calling it `credits.txt`
+	 * 
+	 * ### EXAMPLE:
+	 * ```txt
+	 * *Song name here*
+	 * Artwork: artist here
+	 * Charting: charters here
+	 * Coding: coders here
+	 * Music: composers here
+	 * ```
+	 * @return String
+	 */
+	function getSongPath():String
+		{
+			// checks file existence for prevent crashes
+			if(FileSystem.exists(Paths.getPath('songs/${PlayState.SONG.song.toLowerCase()}/credits.txt', TEXT)))
+				{
+					return Paths.getTextFile('songs/${PlayState.SONG.song.toLowerCase()}/credits.txt', TEXT);
+				} else {
+					// default text in case it does not exist
+					return Paths.getTextFile('data/defaultSongCredit.txt', TEXT);
+				}
+		}
 }

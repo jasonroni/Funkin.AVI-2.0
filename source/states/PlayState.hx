@@ -458,9 +458,9 @@ class PlayState extends MusicBeatState
 		gf.dance();
 		boyfriend.dance();
 		
-		opponent.curCharacter.endsWith('-pixel') ? antialiasing = false : antialiasing = true;
-		gf.curCharacter.endsWith('-pixel') ? antialiasing = false : antialiasing = true;
-		boyfriend.curCharacter.endsWith('-pixel') ? antialiasing = false : antialiasing = true;
+		opponent.curCharacter.endsWith('-pixel') ? opponent.antialiasing = false : opponent.antialiasing = true;
+		gf.curCharacter.endsWith('-pixel') ? gf.antialiasing = false : gf.antialiasing = true;
+		boyfriend.curCharacter.endsWith('-pixel') ? boyfriend.antialiasing = false : boyfriend.antialiasing = true;
 
 		repositionChars();
 	}
@@ -489,9 +489,9 @@ class PlayState extends MusicBeatState
 		gf.dance();
 		boyfriend.dance();
 		
-		opponent.curCharacter.endsWith('-pixel') ? antialiasing = false : antialiasing = true;
-		gf.curCharacter.endsWith('-pixel') ? antialiasing = false : antialiasing = true;
-		boyfriend.curCharacter.endsWith('-pixel') ? antialiasing = false : antialiasing = true;
+		opponent.curCharacter.endsWith('-pixel') ? opponent.antialiasing = false : opponent.antialiasing = true;
+		gf.curCharacter.endsWith('-pixel') ? gf.antialiasing = false : gf.antialiasing = true;
+		boyfriend.curCharacter.endsWith('-pixel') ? boyfriend.antialiasing = false : boyfriend.antialiasing = true;
 
 		repositionChars();
 	}
@@ -2280,6 +2280,15 @@ class PlayState extends MusicBeatState
 			}
 		}
 	}
+
+	
+	/**
+	 * smh imagine fucking up something simple
+	 */
+	 function tweenCamera(zoom:Float = 0.9, time:Float = 0.6, ease:Null<EaseFunction>):Void
+		{
+			FlxTween.tween(FlxG.camera, {zoom: zoom}, time, {ease: ease, onComplete: e -> defaultCamZoom = zoom});
+		}
 		
 	/*
 	* The Cycled Sins Gimmick
@@ -2752,17 +2761,18 @@ class PlayState extends MusicBeatState
 				switch (curBeat)
 				{
 					// Intro Cam Stuff
-					case 16: FlxTween.tween(this, {defaultCamZoom: 1.2}, 5, {ease: FlxEase.quartInOut});
+					case 16: tweenCamera(1.2, 5, {FlxEase.quartInOut;}); // yes you gonna have to add a ; at the end of the {} because flixel
 					case 32 | 39 | 48 | 64 | 72 | 88 | 96 | 103 | 113 | 128 | 184 | 192: defaultCamZoom = 0.8;
-					case 38 | 102: FlxTween.tween(this, {defaultCamZoom: 1.5}, 0.25, {ease: FlxEase.sineInOut});
+					case 38 | 102: tweenCamera(1.5, 0.25, {FlxEase.sineInOut;});
 					case 45 | 61 | 110 | 126 | 187: defaultCamZoom = 0.9;
 					case 46 | 62 | 67 | 76 | 83 | 92 | 111 | 127 | 158 | 190: defaultCamZoom = 1;
 					case 47 | 63 | 68 | 84 | 112 | 159: defaultCamZoom = 1.3;
 					case 69 | 85: defaultCamZoom = 1.1;				
 					case 160: defaultCamZoom = 0.65;
-					case 164: FlxTween.tween(this, {defaultCamZoom: 1.5}, 6, {ease: FlxEase.sineInOut});
+					case 164: tweenCamera(1.5, 6, {FlxEase.sineInOut;});
 						
 					// Ight Jason, the fun part's all yours
+					// The fun begins 0_0
 				}
 		}
 

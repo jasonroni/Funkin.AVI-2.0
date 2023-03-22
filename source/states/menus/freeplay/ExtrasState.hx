@@ -314,31 +314,6 @@ class ExtrasState extends MusicBeatState
 		}
 	}
 
-	/*public function addWeek(songs:Array<String>, weekNum:Int, ?songCharacters:Array<String>, ?songColor:Array<FlxColor>)
-	{
-		if (songCharacters == null)
-			songCharacters = ['bf'];
-		if (songColor == null)
-			songColor = [FlxColor.WHITE];
-
-		var num:Array<Int> = [0, 0];
-		for (song in songs)
-		{
-			addSong(song, weekNum, songCharacters[num[0]], songColor[num[1]]);
-
-			if (songCharacters.length != 1)
-				num[0]++;
-			if (songColor.length != 1)
-				num[1]++;
-		}
-	}*/
-
-	override function beatHit() {
-		super.beatHit();
-
-		FlxG.camera.zoom += 0.5;
-	}
-
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
@@ -510,7 +485,14 @@ class ExtrasState extends MusicBeatState
 				}
 
 				iconArray[curSelected].alpha = 1;
-				iconArray[curSelected].animation.curAnim.curFrame = 2;
+
+				if(songs[curSelected].name == "Birthday")
+					iconArray[curSelected].animation.curAnim.curFrame = 1; // funi
+				//i swear to god theres too much .replace
+				else if(songs[curSelected].name.toLowerCase().replace(' ', '-').replace("'", '').replace('!', '') == "dont-cross")
+					iconArray[curSelected].animation.curAnim.curFrame = 0;
+				else
+					iconArray[curSelected].animation.curAnim.curFrame = 2;
 
 				for (item in grpSongs.members)
 				{
