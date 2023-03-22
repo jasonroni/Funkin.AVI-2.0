@@ -1,5 +1,6 @@
 package states.substates;
 
+import base.song.Conductor;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -45,7 +46,7 @@ class PauseSubstate extends MusicBeatSubstate
 	public function new(x:Float, y:Float, ?itemStack:Array<String>)
 	{
 		super();
-
+		
 		// apprently, it works like this
 		if (PlayState.SONG.song == 'War Dilemma')
 		{
@@ -84,12 +85,15 @@ class PauseSubstate extends MusicBeatSubstate
 		Thread.create(function()
 		{
 			mutex.acquire();
-			pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
+			pauseMusic = new FlxSound().loadEmbedded(Paths.music('funkinAVI/pauseTheme'), true, true);
 			pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
 			FlxG.sound.list.add(pauseMusic);
 			pauseMusic.volume = 0;
 			mutex.release();
 		});
+
+		Conductor.changeBPM(70);
+		trace('Current BPM: ${Conductor.bpm}');
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		bg.alpha = 0;
@@ -266,6 +270,8 @@ class PauseSubstate extends MusicBeatSubstate
 			switch (daSelected)
 			{
 				case "continue" | 'wd-continue' | 'mal-continue':
+					Conductor.changeBPM(PlayState.SONG.bpm);
+					trace('Current BPM: ${Conductor.bpm}');
 					close();
 					remove(disc);
 				case "restart" | 'wd-restart' | 'mal-restart':
