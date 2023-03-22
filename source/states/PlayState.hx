@@ -56,6 +56,8 @@ import vlc.MP4Handler as VideoHandler;
 #if desktop
 import base.dependency.Discord;
 #end
+	
+using StringTools;
 
 enum GameMode
 {
@@ -455,6 +457,10 @@ class PlayState extends MusicBeatState
 		opponent.dance();
 		gf.dance();
 		boyfriend.dance();
+		
+		opponent.curCharacter.endsWith('-pixel') ? antialiasing = false : antialiasing = true;
+		gf.curCharacter.endsWith('-pixel') ? antialiasing = false : antialiasing = true;
+		boyfriend.curCharacter.endsWith('-pixel') ? antialiasing = false : antialiasing = true;
 
 		repositionChars();
 	}
@@ -482,6 +488,10 @@ class PlayState extends MusicBeatState
 		opponent.dance();
 		gf.dance();
 		boyfriend.dance();
+		
+		opponent.curCharacter.endsWith('-pixel') ? antialiasing = false : antialiasing = true;
+		gf.curCharacter.endsWith('-pixel') ? antialiasing = false : antialiasing = true;
+		boyfriend.curCharacter.endsWith('-pixel') ? antialiasing = false : antialiasing = true;
 
 		repositionChars();
 	}
