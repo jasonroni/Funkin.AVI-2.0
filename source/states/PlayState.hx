@@ -2441,7 +2441,7 @@ class PlayState extends MusicBeatState
 			case 'Isolated':
 				switch (curBeat)
 				{
-					case 32 | 96 | 128 | 192 | 256 | 288
+					case 32 | 96 | 128 | 192 | 256 | 288:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
 				
 					case 48 | 112 | 144 | 208 | 240 | 272 | 304 | 336:
