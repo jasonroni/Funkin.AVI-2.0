@@ -2456,17 +2456,17 @@ class PlayState extends MusicBeatState
 						}
 						
 					// Fuck you *hardcodes the song speed changes*
-					case 88:
+					/*case 88:
 						FlxTween.tween(this, {songSpeed: 1.3}, 1.5, {ease: FlxEase.quartInOut});
 					
 					case 95:
-						FlxTween.tween(this, {songSpeed: 2.7}, 0.2, {ease: FlxEase.sineOut});
+						FlxTween.tween(this, {songSpeed: 2.7}, 0.2, {ease: FlxEase.sineOut});*/
 					
 					case 224:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
-						FlxTween.tween(this, {songSpeed: 2.7}, 0.2, {ease: FlxEase.sineOut});
+						//FlxTween.tween(this, {songSpeed: 2.7}, 0.2, {ease: FlxEase.sineOut});
 						
-					case 160 | 352:
+					/*case 160 | 352:
 						FlxTween.tween(this, {songSpeed: 1.7}, 0.5, {ease: FlxEase.quartOut});
 						
 					case 184:
@@ -2476,14 +2476,14 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(this, {songSpeed: 2.1}, 0.3, {ease: FlxEase.quartOut});
 						
 					case 192:
-						FlxTween.tween(this, {songSpeed: 2.4}, 0.3, {ease: FlxEase.quartOut});
+						FlxTween.tween(this, {songSpeed: 2.4}, 0.3, {ease: FlxEase.quartOut});*/
 					
 					case 320:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
-						FlxTween.tween(this, {songSpeed: 2.6}, 1.5, {ease: FlxEase.quartInOut});
+						//FlxTween.tween(this, {songSpeed: 2.6}, 1.5, {ease: FlxEase.quartInOut});
 						
-					case 376:
-						FlxTween.tween(this, {songSpeed: 2.3}, 2, {ease: FlxEase.quartInOut});
+					//case 376:
+						//FlxTween.tween(this, {songSpeed: 2.3}, 2, {ease: FlxEase.quartInOut});
 				}
 		
 			case 'Lunacy':
