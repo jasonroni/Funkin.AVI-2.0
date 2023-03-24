@@ -64,12 +64,14 @@ class WarningState extends MusicBeatState
 		add(bg);
 
                 warnText = new FlxText(0, 0, FlxG.width,
-			"WARNING:\n
-                        \nThis Mod contains disturbing imagery,\nslight gore and a lot of flashing lights.\n\nIf you are sensitive to any of the following,\n
-we highly suggest you close the game now or check\nwith any of the settings that'll be provided in the\noptions menu\n\n
+"WARNING:\n
+This Mod contains disturbing imagery,\nslight gore and a lot of flashing lights.\n\nIf you are sensitive to any of the following,\n
+we highly suggest you close the game now or check\nwith any of the settings that'll be provided in the\noptions menu\n
+
 Press ENTER to proceed to the game.\n
 Press SHIFT to disable flashing lights & shaders.\n
-Press ESCAPE to close the game.\n\n^You have been warned...^",
+Press ESCAPE to close the game.\n
+^You have been warned...^",
 			32);
 		warnText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, ForeverTools.setTextAlign("center"));
 		warnText.screenCenter(Y);
