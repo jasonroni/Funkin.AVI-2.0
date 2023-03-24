@@ -43,6 +43,11 @@ class GameData
     public static var legacyHLock:String = 'locked'; //Hunted
     public static var legacyMLock:String = 'locked'; //Malfunction
     public static var legacyWLock:String = 'locked'; //Mercy
+    public static var legacyBLock:String = 'locked'; //Bless
+    public static var legacyNLock:String = 'locked'; //Neglection
+    public static var legacySLock:String = 'locked'; //Cycled Sins
+    public static var legacyTLock:String = 'locked'; //Twisted Grins
+    public static var legacyRLock:String = 'locked'; //Resentment
 
     // Gamejolt stuff
     public static var GJ_username:String = "";
@@ -83,6 +88,11 @@ class GameData
 	if (FlxG.save.data.legacyHLock == null) FlxG.save.data.legacyHLock = 'locked';
 	if (FlxG.save.data.legacyMLock == null) FlxG.save.data.legacyMLock = 'locked';
 	if (FlxG.save.data.legacyWLock == null) FlxG.save.data.legacyWLock = 'locked';
+	if (FlxG.save.data.legacyBLock == null) FlxG.save.data.legacyBLock = 'locked';
+	if (FlxG.save.data.legacySLock == null) FlxG.save.data.legacySLock = 'locked';
+	if (FlxG.save.data.legacyNLock == null) FlxG.save.data.legacyNLock = 'locked';
+	if (FlxG.save.data.legacyTLock == null) FlxG.save.data.legacyYLock = 'locked';
+	if (FlxG.save.data.legacyRLock == null) FlxG.save.data.legacyRLock = 'locked';
 	    
 	if (FlxG.save.data.muckneyLock == null) FlxG.save.data.muckneyLock = "uncompleted";
 	    
@@ -115,6 +125,11 @@ class GameData
 	FlxG.save.data.legacyHLock = legacyHLock;
 	FlxG.save.data.legacyMLock = legacyMLock;
 	FlxG.save.data.legacyWLock = legacyWLock;
+	FlxG.save.data.legacyBLock = legacyBLock;
+	FlxG.save.data.legacySLock = legacySLock;
+	FlxG.save.data.legacyNLock = legacyNLock;
+	FlxG.save.data.legacyTLock = legacyTLock;
+	FlxG.save.data.legacyRLock = legacyRLock;
 
         FlxG.save.data.gjUser = GJ_username;
         FlxG.save.data.gjToken = GJ_token;
@@ -152,6 +167,11 @@ class GameData
 	legacyHLock = FlxG.save.data.legacyHLock;
 	legacyMLock = FlxG.save.data.legacyMLock;
 	legacyWLock = FlxG.save.data.legacyWLock;
+	legacyBLock = FlxG.save.data.legacyBLock;
+	legacySLock = FlxG.save.data.legacySLock;
+	legacyNLock = FlxG.save.data.legacyNLock;
+	legacyTLock = FlxG.save.data.legacyTLock;
+	legacyRLock = FlxG.save.data.legacyRLock;
 	    
 	//GJ_username = FlxG.save.data.gjUser;
 	//GJ_token = FlxG.save.data.gjToken;
