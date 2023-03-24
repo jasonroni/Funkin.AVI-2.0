@@ -188,7 +188,6 @@ class TitleState extends states.MusicBeatState
 
 	override public function create():Void
 	{	
-		GameData.loadShit(); // Check for any existing data
 		GameData.lockinIt(); // Now add missing data for any new stuff
 
 		FlxG.game.focusLostFramerate = 60;
