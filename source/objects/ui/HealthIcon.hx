@@ -33,7 +33,7 @@ class HealthIcon extends FlxSprite
 	{
 		if (frames.frames.length >= 3 && health > 80)
 			animation.curAnim.curFrame = 2;
-		else if (health < 20)
+		else if (frames.frames.length >= 2 && health < 20)
 			animation.curAnim.curFrame = 1;
 		else
 			animation.curAnim.curFrame = 0;
