@@ -41,6 +41,13 @@ function generateSustain(newNote)
 
 function onHit(newNote)
 {
-	PlayState.health -= 0.012;
-	//game.updateMalfunctionLives();
+	if (!newNote.canBeHit)
+	{
+		PlayState.health -= 0;
+	}
+	else
+	{
+		PlayState.health -= 0.012;
+		game.updateMalfunctionLives();
+	}
 }

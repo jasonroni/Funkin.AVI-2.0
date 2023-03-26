@@ -72,7 +72,7 @@ class ScoreUtils
 		{
 			name: "shit",
 			score: -50,
-			health: -150,
+			health: -120,
 			accuracy: 0,
 			timing: 150,
 			timingCap: 150,
@@ -81,7 +81,7 @@ class ScoreUtils
 		{
 			name: "miss",
 			score: -100,
-			health: -260,
+			health: -190,
 			accuracy: 0,
 			timing: 175,
 			timingCap: 175,

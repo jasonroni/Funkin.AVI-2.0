@@ -152,6 +152,14 @@ class PlayState extends MusicBeatState
 	public var canPause:Bool = true;
 	public var paused:Bool = false;
 
+	// Malfunction Gimmick
+	var crashLives:FlxText;
+	var crashLivesIcon:FlxSprite;
+	public var crashLivesCounter:Int = 0;
+
+	var heartTween:FlxTween;
+	var malfunctionTxt:FlxTween;
+
 	// Cameras;
 	private var camFollow:FlxObject;
 	private var camFollowPos:FlxObject;
@@ -213,7 +221,7 @@ class PlayState extends MusicBeatState
 	public var scratch:FlxSprite; // Peter Griffin: This reminds me of the time I met the Scratch cat
 	public var scratchButLessVisible:FlxSprite;
 
-	// Waltah, we need to cook.
+	// Mercy Gimmick
 	var waltScreenThing:FlxSprite; // idk, this is needed too for some reason
 	var inkFormWarning:FlxText;
 	var spaceBarCounter:FlxText;
@@ -733,6 +741,34 @@ class PlayState extends MusicBeatState
 
 		Paths.clearUnusedMemory();
 
+		if(downscroll)
+		{
+			crashLives = new FlxText(600, 170, 0, "", 20);
+			crashLivesIcon = new FlxSprite(550, 170);
+		}else{
+			crashLives = new FlxText(600, 500, 0, "", 20);
+			crashLivesIcon = new FlxSprite(550, 500);
+		}	
+
+		crashLives.setFormat(Paths.font("Retro Gaming"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		crashLives.borderSize = 2;
+		crashLives.borderQuality = 2;
+		crashLives.scrollFactor.set();
+		crashLives.cameras = [camHUD];
+
+		crashLivesIcon.frames = Paths.getSparrowAtlas('UI/gimmicks/malfunctionGimmickIcon');
+		crashLivesIcon.animation.addByPrefix('idle', 'lives-icon idle', 15);
+		crashLivesIcon.animation.addByPrefix('OMFG IT GLITCHES', 'lives-icon glitchin', 15);
+		crashLivesIcon.animation.play('idle');
+		crashLivesIcon.scale.set(2.2, 2.2);
+		crashLivesIcon.cameras = [camHUD];
+
+		if (curStage == 'forbiddenRealm')
+		{
+			add(crashLives);
+			add(crashLivesIcon);
+		}
+
 		scratchButLessVisible = new FlxSprite();
 		scratchButLessVisible.frames = Paths.getSparrowAtlas('filters/scratchShit');
 		scratchButLessVisible.animation.addByPrefix('e', 'scratch thing', 24, true);
@@ -799,6 +835,11 @@ class PlayState extends MusicBeatState
 			limitThing += 25;
 		else if (SONG.song == 'Mercy')
 			limitThing += 20;
+
+		if (SONG.song == 'Malfunction')
+			crashLivesCounter += 45;
+		else if (SONG.song == 'Malfunction Legacy')
+			crashLivesCounter += 30;
 			
 		if (SONG.song == 'Isolated')
 		{
@@ -824,6 +865,12 @@ class PlayState extends MusicBeatState
 			camHUD.alpha = 0;
 			FlxTween.tween(camHUD, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 30});
 			FlxTween.tween(camGame, {alpha: 1}, 5, {ease: FlxEase.quadOut, startDelay: 8.6});
+		}
+
+		if (curStage == 'forbiddenRealm')
+		{
+			FlxTween.tween(crashLives, {alpha: 0.3}, 2, {ease: FlxEase.quartInOut, startDelay: 5});
+			FlxTween.tween(crashLivesIcon, {alpha: 0.3}, 2, {ease: FlxEase.quartInOut, startDelay: 5});
 		}
 
 		// call the funny intro cutscene depending on the song
@@ -1069,6 +1116,9 @@ class PlayState extends MusicBeatState
 		super.update(elapsed);
 		
 		detectSpace(bfStrums.autoplay); // checks on the autoplay to determine whether or not it would play the mechanics for you
+
+		if (curStage == 'forbiddenRealm')
+			crashLives.text = 'Lives: ${crashLivesCounter}';
 
 		if (curStage == 'waltRoom')
 		{
@@ -1418,16 +1468,31 @@ class PlayState extends MusicBeatState
 						}
 						
 					case 'Malfunction':
-						if (health > 0.05)
-    							health -= 0.036;
-						if (Init.trueSettings.get('Screen Shake'))
+						if (opponent.curCharacter == 'glitched-mickey-new-pixel')
 						{
-							camGame.shake(0.008, 0.07);
-							camHUD.shake(0.015, 0.07);
-							for (i in strumHUD)
-								i.shake(0.015, 0.07);
+							if (health > 0.05)
+									health -= 0.018;
+							if (Init.trueSettings.get('Screen Shake'))
+							{
+								camGame.shake(0.008, 0.07);
+								camHUD.shake(0.015, 0.07);
+								for (i in strumHUD)
+									i.shake(0.015, 0.07);
+							}
+							// shaders soon
 						}
-						// shaders soon
+						else if (opponent.curCharacter == 'gm-tired-pixel')
+						{
+							if (health > 0.36)
+								health -= 0.01;
+							if (Init.trueSettings.get('Screen Shake'))
+							{
+								camGame.shake(0.004, 0.07);
+								camHUD.shake(0.07, 0.07);
+								for (i in strumHUD)
+									i.shake(0.07, 0.07);
+							}
+						}
 						
 					case 'Malfunction Legacy': // the reason this gets a separate case is cause shader effects are gonna be different
 						if (health > 0.05)
@@ -1922,7 +1987,7 @@ class PlayState extends MusicBeatState
 	function healthCall(?ratingMultiplier:Float = 0)
 	{
 		var healthBase:Float = 0.06;
-		health += (healthBase * (ratingMultiplier / 100));
+		health += (healthBase * (ratingMultiplier / (curStage == 'waltRoom' ? 50 : 100)));
 	}
 
 	function startSong():Void
@@ -2283,12 +2348,94 @@ class PlayState extends MusicBeatState
 
 	
 	/**
-	 * smh imagine fucking up something simple
+	 * smh imagine fucking up something simple - Jason
+	 * 
+	 * not my fault PlayState works a bit differently with the cam zoom shit >:( - don
 	 */
 	 function tweenCamera(zoom:Float = 0.9, time:Float = 0.6, ease:Null<EaseFunction>):Void
 		{
 			FlxTween.tween(FlxG.camera, {zoom: zoom}, time, {ease: ease, onComplete: e -> defaultCamZoom = zoom});
 		}
+
+	/*
+	* Malfunction Life System Checker
+	* 
+	* Self explanitory, don't you think?
+	* 
+	* Checks on your lives in Malfunction and is used by the Error Notes
+	* It will make sure to close your game if it goes below 0;
+	* 
+	* @author DEMOLITIONDON96
+	*/
+
+	function updateMalfunctionLives()
+	{
+		callFunc('updateMalfunctionLives', []);
+
+		crashLivesCounter -= 1;
+
+		if (malfunctionTxt != null)
+			malfunctionTxt.cancel();
+
+		if (heartTween != null)
+			heartTween.cancel();
+
+		malfunctionTxt = FlxTween.tween(crashLives, {alpha: 1}, 0.6, {ease: FlxEase.sineOut,
+			onComplete: function(twn:FlxTween)
+			{
+				malfunctionTxt = FlxTween.tween(crashLives, {alpha: 0.3}, 2, {ease: FlxEase.quartInOut, startDelay: 5,
+					onComplete: function(twn:FlxTween)
+					{
+						malfunctionTxt = null;
+					}
+				});
+			}
+		});
+
+		heartTween = FlxTween.tween(crashLivesIcon, {alpha: 1}, 0.6, {ease: FlxEase.sineOut,
+			onComplete: function(twn:FlxTween)
+			{
+				heartTween = FlxTween.tween(crashLivesIcon, {alpha: 0.3}, 2, {ease: FlxEase.quartInOut, startDelay: 5,
+					onComplete: function(twn:FlxTween)
+					{
+						heartTween = null;
+					}
+				});
+			}
+		});
+
+		FlxTween.tween(crashLives, {x: 620}, 0.01);
+		FlxTween.tween(crashLivesIcon, {x: 570}, 0.01);
+		FlxTween.tween(crashLives, {x: 585}, 0.01, {startDelay: 0.1});
+		FlxTween.tween(crashLivesIcon, {x: 535}, 0.01, {startDelay: 0.1});
+		FlxTween.tween(crashLives, {x: 610}, 0.01, {startDelay: 0.2});
+		FlxTween.tween(crashLivesIcon, {x: 560}, 0.01, {startDelay: 0.2});
+		FlxTween.tween(crashLives, {x: 595}, 0.01, {startDelay: 0.3});
+		FlxTween.tween(crashLivesIcon, {x: 545}, 0.01, {startDelay: 0.3});
+		FlxTween.tween(crashLives, {x: 600}, 0.01, {startDelay: 0.4});
+		FlxTween.tween(crashLivesIcon, {x: 550}, 0.01, {startDelay: 0.4});
+
+		crashLivesIcon.animation.play("OMFG IT GLITCHES");
+		
+		new FlxTimer().start(0.25, function(tmr:FlxTimer)
+		{
+			crashLivesIcon.animation.play('idle');
+		});
+
+		if (crashLivesCounter == -1)
+		{
+			finishSong();
+			trace('0 lives left, closing game...');
+			FlxG.sound.play(Paths.sound('funkinAVI/wiiCrash'), 1);
+
+			if(FlxG.random.bool(10)) 
+				Application.current.window.alert("Fuck You, You Suck LMAO", 'Note About Your Skill:'); //10% of probability
+			else 
+				Application.current.window.alert("Message: if(note.noteType = 'Error Note') {trace('0 lives left, closing game...')}", 'Error On Funkin.avi.exe!:');
+
+			System.exit(0);
+		}
+	}
 		
 	/*
 	* The Cycled Sins Gimmick
@@ -2304,6 +2451,8 @@ class PlayState extends MusicBeatState
 	
 	function relapseGimmick(reactionTime:Float = 2, damageAmount:Float = 0.4)
 	{
+		callFunc('relapseGimmick', [reactionTime, damageAmount]);
+
 		dodged = false;
 		shootin = true;	
 		FlxG.sound.play(Paths.sound('funkinAVI/relapseMechs/Reload'), 0.4);
