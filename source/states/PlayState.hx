@@ -1488,7 +1488,7 @@ class PlayState extends MusicBeatState
 							if (Init.trueSettings.get('Screen Shake'))
 							{
 								camGame.shake(0.004, 0.07);
-								camHUD.shake(0.07, 0.07);
+								camHUD.shake(0.007, 0.07);
 								for (i in strumHUD)
 									i.shake(0.07, 0.07);
 							}
