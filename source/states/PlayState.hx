@@ -832,7 +832,7 @@ class PlayState extends MusicBeatState
 				
 			case 'Mercy':
 				if (!Init.trueSettings.get('Disable Mechanics'))
-				limitThing += 20;
+					limitThing += 20;
 				
 			// Glitched Mickey will give you a big fat middle finger for disabling the mechanics lmao
 			case 'Malfunction Legacy': crashLivesCounter += 30;
