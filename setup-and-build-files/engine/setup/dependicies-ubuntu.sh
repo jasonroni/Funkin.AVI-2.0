@@ -4,7 +4,10 @@
 echo This reqiures Root Permission
 echo This will also install a frontend for apt known as nala which is faster for downloads
 sudo apt install nala -y
-sudo nala install haxe neko g++ vlc -y
+sudo nala install haxe neko g++ vlc -y --update
+echo ""
+echo "The reason why the latest version of Haxe was not installed is because Haxe does not have the proper files for newer Ubuntu builds."
+read -p "Press Enter to continue..."
 haxelib setup ~/haxelib
 haxelib install haxelib
 haxelib install lime
