@@ -753,6 +753,7 @@ class PlayState extends MusicBeatState
 		crashLives.setFormat(Paths.font("Retro Gaming"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		crashLives.borderSize = 2;
 		crashLives.borderQuality = 2;
+		crashLives.antialiasing = false;
 		crashLives.scrollFactor.set();
 		crashLives.cameras = [camHUD];
 
@@ -761,13 +762,8 @@ class PlayState extends MusicBeatState
 		crashLivesIcon.animation.addByPrefix('OMFG IT GLITCHES', 'lives-icon glitchin', 15);
 		crashLivesIcon.animation.play('idle');
 		crashLivesIcon.scale.set(2.2, 2.2);
+		crashLivesIcon.antialiasing = false;
 		crashLivesIcon.cameras = [camHUD];
-
-		if (curStage == 'forbiddenRealm')
-		{
-			add(crashLives);
-			add(crashLivesIcon);
-		}
 
 		scratchButLessVisible = new FlxSprite();
 		scratchButLessVisible.frames = Paths.getSparrowAtlas('filters/scratchShit');
@@ -794,27 +790,17 @@ class PlayState extends MusicBeatState
 		waltScreenThing.scrollFactor.set();
 		waltScreenThing.cameras = [camAlt];
 		waltScreenThing.alpha = 0;
-		add(waltScreenThing);
 		
-		if (curStage == 'waltRoom')
-		{
-			var waltInstructionsMain:FlxText = new FlxText(370, 500, 0, "Take Advantage of the SPACEBAR!", 30);
-			waltInstructionsMain.cameras = [camAlt];
-			waltInstructionsMain.setFormat(Paths.font("splatter"), 30);
-			waltInstructionsMain.scrollFactor.set();
-			add(waltInstructionsMain);
+		var waltInstructionsMain:FlxText = new FlxText(370, 500, 0, "Take Advantage of the SPACEBAR!", 30);
+		waltInstructionsMain.cameras = [camAlt];
+		waltInstructionsMain.setFormat(Paths.font("splatter"), 30);
+		waltInstructionsMain.scrollFactor.set();
 
-			var waltSubTxt:FlxText = new FlxText(waltInstructionsMain.x + 66, waltInstructionsMain.y + 40, 0, "(It will help you regain health when critically low)", 15);
-			waltSubTxt.setFormat(Paths.font("splatter"), 15);
-			waltSubTxt.cameras = [camAlt];
-			waltSubTxt.alpha = 0;
-			waltSubTxt.scrollFactor.set();
-			add(waltSubTxt);
-
-			FlxTween.tween(waltInstructionsMain, {alpha: 0}, 1, {ease: FlxEase.quadInOut, startDelay: 8});
-			FlxTween.tween(waltSubTxt, {alpha: 0}, 1, {ease: FlxEase.quadInOut, startDelay: 8});
-			FlxTween.tween(waltSubTxt, {alpha: 1}, 0.7, {ease: FlxEase.quadInOut, startDelay: 3});
-		}
+		var waltSubTxt:FlxText = new FlxText(waltInstructionsMain.x + 66, waltInstructionsMain.y + 40, 0, "(It will help you regain health when critically low)", 15);
+		waltSubTxt.setFormat(Paths.font("splatter"), 15);
+		waltSubTxt.cameras = [camAlt];
+		waltSubTxt.alpha = 0;
+		waltSubTxt.scrollFactor.set();
 
 		inkFormWarning = new FlxText(0, 0, 0, "PRESS SPACE!", 15);
 		inkFormWarning.setFormat(Paths.font("splatter"), 50);
@@ -822,55 +808,59 @@ class PlayState extends MusicBeatState
 		inkFormWarning.alpha = 0;
 		inkFormWarning.scrollFactor.set();
 		inkFormWarning.screenCenter();
-		add(inkFormWarning);
 
 		spaceBarCounter = new FlxText(0, 680, 0, 'Health Boosts Left: ' + limitThing, 15);
 		spaceBarCounter.setFormat(Paths.font("splatter"), 30);
 		spaceBarCounter.cameras = [camAlt];
 		spaceBarCounter.alpha = 0;
 		spaceBarCounter.scrollFactor.set();
-		add(spaceBarCounter);
-
-		if (SONG.song == 'Mercy Legacy')
-			limitThing += 25;
-		else if (SONG.song == 'Mercy')
-			limitThing += 20;
-
-		if (SONG.song == 'Malfunction')
-			crashLivesCounter += 45;
-		else if (SONG.song == 'Malfunction Legacy')
-			crashLivesCounter += 30;
 			
-		if (SONG.song == 'Isolated')
+		// Cleaner Initialization for the mechanics and note visibility stuff
+		switch (SONG.song)
 		{
-			for (i in strumHUD)
-			{
-				i.alpha = 0;
-				FlxTween.tween(i, {alpha: 1}, 5, {ease: FlxEase.quadOut, startDelay: 9});
-			}
-			camGame.alpha = 0;
-			camHUD.alpha = 0;
-			FlxTween.tween(camHUD, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 9});
-			FlxTween.tween(camGame, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 6});
-		}
-			
-		if (SONG.song == 'Lunacy')
-		{
-			for (i in strumHUD)
-			{
-				i.alpha = 0;
-				FlxTween.tween(i, {alpha: 1}, 5, {ease: FlxEase.quadOut, startDelay: 20});
-			}
-			camGame.alpha = 0;
-			camHUD.alpha = 0;
-			FlxTween.tween(camHUD, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 30});
-			FlxTween.tween(camGame, {alpha: 1}, 5, {ease: FlxEase.quadOut, startDelay: 8.6});
+			case 'Isolated' | 'Lunacy' | 'Malfunction':
+				for (i in strumHUD)
+				{
+					i.alpha = 0;
+				}
+				camGame.alpha = 0;
+				camHUD.alpha = 0;
+				
+			case 'Mercy Legacy': 
+				if (!Init.trueSettings.get('Disable Mechanics'))
+					limitThing += 25;
+				
+			case 'Mercy':
+				if (!Init.trueSettings.get('Disable Mechanics'))
+				limitThing += 20;
+				
+			// Glitched Mickey will give you a big fat middle finger for disabling the mechanics lmao
+			case 'Malfunction Legacy': crashLivesCounter += 30;
+			case 'Malfunction': crashLivesCounter += 45;
 		}
 
-		if (curStage == 'forbiddenRealm')
+		switch (curStage)
 		{
-			FlxTween.tween(crashLives, {alpha: 0.3}, 2, {ease: FlxEase.quartInOut, startDelay: 5});
-			FlxTween.tween(crashLivesIcon, {alpha: 0.3}, 2, {ease: FlxEase.quartInOut, startDelay: 5});
+			case 'forbiddenRealm':
+				FlxTween.tween(crashLives, {alpha: 0.3}, 2, {ease: FlxEase.quartInOut, startDelay: 5});
+				FlxTween.tween(crashLivesIcon, {alpha: 0.3}, 2, {ease: FlxEase.quartInOut, startDelay: 5});
+				add(crashLives);
+				add(crashLivesIcon);
+			
+			case 'waltRoom':
+				if (!Init.trueSettings.get('Disable Mechanics'))
+				{
+					add(waltScreenThing);
+					add(waltInstructionsMain);
+					add(waltSubTxt);
+					add(inkFormWarning);
+					add(spaceBarCounter);
+
+					FlxTween.tween(waltInstructionsMain, {alpha: 0}, 1, {ease: FlxEase.quadInOut, startDelay: 8});
+					FlxTween.tween(waltSubTxt, {alpha: 0}, 1, {ease: FlxEase.quadInOut, startDelay: 8});
+					FlxTween.tween(waltSubTxt, {alpha: 1}, 0.7, {ease: FlxEase.quadInOut, startDelay: 3});
+				}
+				
 		}
 
 		// call the funny intro cutscene depending on the song
@@ -1115,32 +1105,36 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 		
-		detectSpace(bfStrums.autoplay); // checks on the autoplay to determine whether or not it would play the mechanics for you
+		if (!Init.trueSettings.get('Disable Mechanics'))
+			detectSpace(bfStrums.autoplay); // checks on the autoplay to determine whether or not it would play the mechanics for you
 
 		if (curStage == 'forbiddenRealm')
 			crashLives.text = 'Lives: ${crashLivesCounter}';
 
 		if (curStage == 'waltRoom')
 		{
-			spaceBarCounter.text = 'Health Boosts Left: ' + limitThing;
-			spaceBarCounter.alpha = 1;
+			if (!Init.trueSettings.get('Disable Mechanics'))
+			{
+				spaceBarCounter.text = 'Health Boosts Left: ' + limitThing;
+				spaceBarCounter.alpha = 1;
 
-			/*
-			* This set monitors the brightness of the screen based on the percentage of your health
-			* The original code was unoptimized asf, you can go see for yourself through the commit
-			* history, thx @Wither362 for the more simplified code!
-			*
-			* -DEMOLITIONDON96
-			*/
+				/*
+				* This set monitors the brightness of the screen based on the percentage of your health
+				* The original code was unoptimized asf, you can go see for yourself through the commit
+				* history, thx @Wither362 for the more simplified code!
+				*
+				* -DEMOLITIONDON96
+				*/
 
-			var healths:Array<Float> = [for (i in 1...21) i / 10]; // i dont really remember how were this done...
-			var alphas:Array<Float> = [
-				0.95, 0.90, 0.85, 0.80, 0.75, 0.70, 0.65, 0.60, 0.55, 0.50, 0.45, 0.40, 0.35, 0.30, 0.25, 0.20, 0.15, 0.10, 0.05, 0.0
-			];
-			var lastOne:Bool = true;
-			for(i in 0...healths.length) {
-				if(lastOne) {
-					lastOne = tweenWaltScreen(healths[i], alphas[i]);
+				var healths:Array<Float> = [for (i in 1...21) i / 10]; // i dont really remember how were this done...
+				var alphas:Array<Float> = [
+					0.95, 0.90, 0.85, 0.80, 0.75, 0.70, 0.65, 0.60, 0.55, 0.50, 0.45, 0.40, 0.35, 0.30, 0.25, 0.20, 0.15, 0.10, 0.05, 0.0
+				];
+				var lastOne:Bool = true;
+				for(i in 0...healths.length) {
+					if(lastOne) {
+						lastOne = tweenWaltScreen(healths[i], alphas[i]);
+					}
 				}
 			}
 		}
@@ -1439,23 +1433,29 @@ class PlayState extends MusicBeatState
 				switch (SONG.song)
 				{
 					case 'Lunacy':
-						if (opponent.curCharacter == 'lunamick-new')
+						if (!Init.trueSettings.get('Disable Mechanics'))
 						{
-							if (health > 0.35)
-								health -= 0.02;
+							if (opponent.curCharacter == 'lunamick-new')
+							{
+								if (health > 0.35)
+									health -= 0.02;
+							}
 						}
 					
 					case 'Delusional':
-						if (opponent.curCharacter == 'lunamick-new')
+						if (!Init.trueSettings.get('Disable Mechanics'))
 						{
-							if (health > 0.35)
-								health -= 0.02;
-						}
-						else if (opponent.curCharacter == 'mick-delusional-new')
-						{
-							
-							if (health > 0.1)
-								health -= 0.035;
+							if (opponent.curCharacter == 'lunamick-new')
+							{
+								if (health > 0.35)
+									health -= 0.02;
+							}
+							else if (opponent.curCharacter == 'mick-delusional-new')
+							{
+
+								if (health > 0.1)
+									health -= 0.035;
+							}
 						}
 						
 					case 'Laugh Track':
@@ -1512,8 +1512,11 @@ class PlayState extends MusicBeatState
 					        boyfriend.scale.x -= 0.0012;
 					        boyfriend.scale.y -= 0.0012;
 
-					        if(health > 0.05) // trol
-					        	health -= 0.035;
+						if (!Init.trueSettings.get('Disable Mechanics'))
+						{
+							if(health > 0.05) // trol
+								health -= 0.035;
+						}
 				}
 			}
 
@@ -2470,19 +2473,18 @@ class PlayState extends MusicBeatState
 			FlxG.sound.play(Paths.sound('funkinAVI/relapseMechs/Shoot'), 0.4);
 			opponent.playAnim("attack", true);
 			opponent.specialAnim = true;
+			checkCamPosition();
 			new FlxTimer().start(0.1, function(tmr:FlxTimer) {
 			if(!dodged) {
 				FlxG.camera.shake(0.05, 0.05);
 				health -= damageAmount;
 				trace("lmfao you got shot depsite the fact this is nerfed");
 				dodged = false;
-				checkCamPosition();
 			} else {
 				boyfriend.playAnim('dodge');
 				dodged = false;
 				shootin = false;
 				health += 0.05;
-				checkCamPosition();
 			}
 			});
 		});
@@ -2609,6 +2611,16 @@ class PlayState extends MusicBeatState
 			case 'Isolated':
 				switch (curBeat)
 				{
+					// Fixed Cam Stuff to not trigger before cutscene is even done
+					case 16: FlxTween.tween(camGame, {alpha: 1}, 3, {ease: FlxEase.quadOut});
+				
+					case 30:
+						FlxTween.tween(camHUD, {alpha: 1}, 3, {ease: FlxEase.quadOut});
+						for (i in strumHUD)
+						{
+							FlxTween.tween(i, {alpha: 1}, 3, {ease: FlxEase.quadOut});
+						}
+				
 					case 32 | 96 | 128 | 192 | 256 | 288:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
 				
@@ -2657,7 +2669,17 @@ class PlayState extends MusicBeatState
 			case 'Lunacy':
 				switch (curBeat)
 				{
-					case 96 | 128 | 256:
+					case 16: FlxTween.tween(camGame, {alpha: 1}, 3, {ease: FlxEase.quadOut});
+						
+					case 96:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
+						FlxTween.tween(camHUD, {alpha: 1}, 2, {ease: FlxEase.sineOut});
+						for (i in strumHUD)
+						{
+							FlxTween.tween(i, {alpha: 1}, 1.5, {ease: FlxEase.sineOut});
+						}
+						
+					case 128 | 256:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);	
 					
 					case 156 | 392:
@@ -2775,20 +2797,23 @@ class PlayState extends MusicBeatState
 				}
 
 			case 'Mercy Legacy':
-				if (curBeat >= 0 && curBeat <= 63)
-					PlayState.health -= 0.02;
-				else if (curBeat >= 64 && curBeat <= 95)
-					PlayState.health -= 0.2;
-				else if (curBeat >= 96 && curBeat <= 127)
-					PlayState.health -= 0.06;
-				else if (curBeat >= 128 && curBeat <= 191)
-					PlayState.health -= 0.16;
-				else if (curBeat >= 192 && curBeat <= 255)
-					PlayState.health -= 0.1;
-				else if (curBeat >= 256 && curBeat <= 319)
-					PlayState.health -= 0.18;
-				else if (curBeat >= 320)
-					PlayState.health -= 0.01;
+				if (!Init.trueSettings.get('Disable Mechanics'))
+				{
+					if (curBeat >= 0 && curBeat <= 63)
+						PlayState.health -= 0.02;
+					else if (curBeat >= 64 && curBeat <= 95)
+						PlayState.health -= 0.2;
+					else if (curBeat >= 96 && curBeat <= 127)
+						PlayState.health -= 0.06;
+					else if (curBeat >= 128 && curBeat <= 191)
+						PlayState.health -= 0.16;
+					else if (curBeat >= 192 && curBeat <= 255)
+						PlayState.health -= 0.1;
+					else if (curBeat >= 256 && curBeat <= 319)
+						PlayState.health -= 0.18;
+					else if (curBeat >= 320)
+						PlayState.health -= 0.01;
+				}
 
 			case 'Mercy':
 				// Cam Stuff Handler
@@ -2825,9 +2850,12 @@ class PlayState extends MusicBeatState
 						{
 						        FlxTween.tween(i, {alpha: 1}, 0.31, {ease: FlxEase.sineInOut});
 						}
-						inkFormWarning.alpha = 1;
+						if (!Init.trueSettings.get('Disable Mechanics'))
+							inkFormWarning.alpha = 1;
 
-					case 276: FlxTween.tween(inkFormWarning, {alpha: 0}, 2, {ease: FlxEase.sineInOut});
+					case 276:
+						if (!Init.trueSettings.get('Disable Mechanics'))
+							FlxTween.tween(inkFormWarning, {alpha: 0}, 2, {ease: FlxEase.sineInOut});
 
 					// Final Stretch
 					case 494:
@@ -2839,79 +2867,95 @@ class PlayState extends MusicBeatState
 						{
 						        FlxTween.tween(i, {alpha: 0}, 1, {ease: FlxEase.sineInOut, startDelay: 3});
 						}
-						FlxTween.tween(spaceBarCounter, {alpha: 0}, 2, {ease: FlxEase.sineInOut});
+						if (!Init.trueSettings.get('Disable Mechanics'))
+							FlxTween.tween(spaceBarCounter, {alpha: 0}, 2, {ease: FlxEase.sineInOut});
 				}
 
-				// Health Drain Shit
-				if (curBeat >= 0 && curBeat <= 63)
-					PlayState.health -= 0.005;
-				else if (curBeat >= 64 && curBeat <= 79)
-					PlayState.health -= 0.01;
-				else if (curBeat >= 80 && curBeat <= 87)
-					PlayState.health -= 0.07;
-				else if (curBeat >= 88 && curBeat <= 95)
-					PlayState.health -= 0.01;
-				else if (curBeat >= 96 && curBeat <= 127)
-					PlayState.health -= 0.03;
-				else if (curBeat >= 128 && curBeat <= 159)
-					PlayState.health -= 0.1;
-				else if (curBeat >= 160 && curBeat <= 191)
-					PlayState.health -= 0.06;
-				else if (curBeat >= 192 && curBeat <= 207)
-					PlayState.health -= 0.01;
-				else if (curBeat >= 208 && curBeat <= 239)
-					PlayState.health -= 0.04;
-				else if (curBeat >= 240 && curBeat <= 255)
-					PlayState.health -= 0.005;
-				else if (curBeat >= 256 && curBeat <= 291)
-					PlayState.health -= 0.03;
-				else if (curBeat >= 292 && curBeat <= 307)
-					PlayState.health -= 0.05;
-				else if (curBeat >= 308 && curBeat <= 339)
-					PlayState.health -= 0.085;
-				else if (curBeat >= 340 && curBeat <= 371)
-					PlayState.health -= 0.1;
-				else if (curBeat >= 372 && curBeat <= 387)
-					PlayState.health -= 0.11;
-				else if (curBeat >= 388 && curBeat <= 403)
-					PlayState.health -= 0.12;
-				else if (curBeat >= 404 && curBeat <= 451)
-					PlayState.health -= 0.14;
-				else if (curBeat >= 452 && curBeat <= 467)
-					PlayState.health -= 0.17;
-				else if (curBeat >= 468 && curBeat <= 475)
-					PlayState.health -= 0.21;
-				else if (curBeat >= 476 && curBeat <= 489)
-					PlayState.health -= 0.25;
-				else if (curBeat >= 490)
-					PlayState.health -= 0.02;
+				if (!Init.trueSettings.get('Disable Mechanics'))
+				{
+					// Health Drain Shit
+					if (curBeat >= 0 && curBeat <= 63)
+						PlayState.health -= 0.005;
+					else if (curBeat >= 64 && curBeat <= 79)
+						PlayState.health -= 0.01;
+					else if (curBeat >= 80 && curBeat <= 87)
+						PlayState.health -= 0.07;
+					else if (curBeat >= 88 && curBeat <= 95)
+						PlayState.health -= 0.01;
+					else if (curBeat >= 96 && curBeat <= 127)
+						PlayState.health -= 0.03;
+					else if (curBeat >= 128 && curBeat <= 159)
+						PlayState.health -= 0.1;
+					else if (curBeat >= 160 && curBeat <= 191)
+						PlayState.health -= 0.06;
+					else if (curBeat >= 192 && curBeat <= 207)
+						PlayState.health -= 0.01;
+					else if (curBeat >= 208 && curBeat <= 239)
+						PlayState.health -= 0.04;
+					else if (curBeat >= 240 && curBeat <= 255)
+						PlayState.health -= 0.005;
+					else if (curBeat >= 256 && curBeat <= 291)
+						PlayState.health -= 0.03;
+					else if (curBeat >= 292 && curBeat <= 307)
+						PlayState.health -= 0.05;
+					else if (curBeat >= 308 && curBeat <= 339)
+						PlayState.health -= 0.085;
+					else if (curBeat >= 340 && curBeat <= 371)
+						PlayState.health -= 0.1;
+					else if (curBeat >= 372 && curBeat <= 387)
+						PlayState.health -= 0.11;
+					else if (curBeat >= 388 && curBeat <= 403)
+						PlayState.health -= 0.12;
+					else if (curBeat >= 404 && curBeat <= 451)
+						PlayState.health -= 0.14;
+					else if (curBeat >= 452 && curBeat <= 467)
+						PlayState.health -= 0.17;
+					else if (curBeat >= 468 && curBeat <= 475)
+						PlayState.health -= 0.21;
+					else if (curBeat >= 476 && curBeat <= 489)
+						PlayState.health -= 0.25;
+					else if (curBeat >= 490)
+						PlayState.health -= 0.02;
+				}
 					
 			case 'Cycled Sins':
-				switch (curBeat)
+				if (!Init.trueSettings.get('Disable Mechanics'))
 				{
-					case 158:
-						relapseGimmick(0.7, 0.3);
-					case 172 | 204:
-						relapseGimmick(1.12, 0.6);
-					case 190:
-						relapseGimmick(0.7, 0.54);
-					case 212:
-						relapseGimmick(0.7, 0.8);
-					case 222 | 264:
-						relapseGimmick(0.7, 1);
-					case 236:
-						relapseGimmick(0.7, 0.4);
-					case 248:
-						relapseGimmick(1.12, 1.2);
-					case 270:
-						relapseGimmick(0.7, 1.5);
+					switch (curBeat)
+					{
+						case 158:
+							relapseGimmick(0.7, 0.3);
+						case 172 | 204:
+							relapseGimmick(1.12, 0.6);
+						case 190:
+							relapseGimmick(0.7, 0.54);
+						case 212:
+							relapseGimmick(0.7, 0.8);
+						case 222 | 264:
+							relapseGimmick(0.7, 1);
+						case 236:
+							relapseGimmick(0.7, 0.4);
+						case 248:
+							relapseGimmick(1.12, 1.2);
+						case 270:
+							relapseGimmick(0.7, 1.5);
+					}
 				}
+
 			case 'Malfunction':
 				switch (curBeat)
 				{
 					// Intro Cam Stuff
+					case 1:	FlxTween.tween(camGame, {alpha: 1}, 5, {ease: FlxEase.sineInOut});
 					case 16: tweenCamera(1.2, 5, {FlxEase.quartInOut;}); // yes you gonna have to add a ; at the end of the {} because flixel
-					case 32 | 39 | 48 | 64 | 72 | 88 | 96 | 103 | 113 | 128 | 184 | 192: defaultCamZoom = 0.8;
+					case 32:
+						defaultCamZoom = 0.8;
+						FlxTween.tween(camHUD, {alpha: 0}, 0.5, {ease: FlxEase.sineOut});
+						for (i in strumHUD)
+						{
+						        FlxTween.tween(i, {alpha: 0}, 0.5, {ease: FlxEase.sineOut});
+						}	
+					case 39 | 48 | 64 | 72 | 88 | 96 | 103 | 113 | 128 | 184 | 192: defaultCamZoom = 0.8;
 					case 38 | 102: tweenCamera(1.5, 0.25, {FlxEase.sineInOut;});
 					case 45 | 61 | 110 | 126 | 187: defaultCamZoom = 0.9;
 					case 46 | 62 | 67 | 76 | 83 | 92 | 111 | 127 | 158 | 190: defaultCamZoom = 1;
