@@ -48,6 +48,7 @@ class OptionsData
 		{name: "Disable Antialiasing", type: "option"},
 		{name: "Disable Flashing Lights", type: "option"},
 		{name: "Disable Screen Shaders", type: "option"},
+		{name: "Disable Mechanics", type: "option"},
 		{name: 'Epilepsy Mode', type: 'option'},
 		{name: "Screen Shake", type: "option"},
 		//

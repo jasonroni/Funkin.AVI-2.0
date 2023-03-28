@@ -109,6 +109,12 @@ class Init extends FlxState
 			'Whether to disable Flashing Lights on Menus, check this if you are sensitive to those.',
 			NOT_FORCED
 		],
+		'Disable Mechanics' => [
+			false,
+			Checkmark,
+			'Whether to disable mechanics, which gives some difficulty to gameplay.',
+			NOT_FORCED
+		],
 		'Disable Screen Shaders' => [
 			false,
 			Checkmark,
