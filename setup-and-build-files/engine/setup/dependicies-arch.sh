@@ -2,7 +2,7 @@
 
 echo This reqiures Root Permission. Make sure to have a secure internet connection before proceeding.
 sudo pacman -Syu paru --noconfirm --needed
-paru -Syu haxe neko git --noconfirm --needed
+paru -Syu haxe neko vlc git --noconfirm --needed
 haxelib setup ~/haxelib
 haxelib install haxelib
 haxelib install lime
