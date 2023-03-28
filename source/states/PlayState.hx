@@ -860,6 +860,18 @@ class PlayState extends MusicBeatState
 					FlxTween.tween(waltSubTxt, {alpha: 0}, 1, {ease: FlxEase.quadInOut, startDelay: 8});
 					FlxTween.tween(waltSubTxt, {alpha: 1}, 0.7, {ease: FlxEase.quadInOut, startDelay: 3});
 				}
+				strumLines.members[0].visible = false;
+				bfStrums.receptors.members[0].x = 40;
+				bfStrums.receptors.members[1].x = 320;
+				bfStrums.receptors.members[2].x = 800;
+				bfStrums.receptors.members[3].x = 1090;
+			
+			case 'staticVoid':
+				strumLines.members[0].visible = false;
+				bfStrums.receptors.members[0].x = 40;
+				bfStrums.receptors.members[1].x = 320;
+				bfStrums.receptors.members[2].x = 800;
+				bfStrums.receptors.members[3].x = 1090;
 				
 		}
 
