@@ -1,0 +1,48 @@
+{
+	"events": [
+		[
+			"Change Character",
+			49707.4468085107,
+			[
+				[
+					"bf",
+					"bf-lunacy",
+					"0.001"
+				]
+			]
+		],
+		[
+			"Change Character",
+			50984.0425531915,
+			[
+				[
+					"dad",
+					"lunamick-new",
+					"0.001"
+				]
+			]
+		],
+		[
+			"Play Animation",
+			171063.829787234,
+			[
+				[
+					"endingAnim",
+					"bf",
+					"3.65"
+				]
+			]
+		],
+		[
+			"Alt Idle Animation",
+			173617.021276595,
+			[
+				[
+					"bf",
+					"-alt",
+					"3.65"
+				]
+			]
+		]
+	]
+}
