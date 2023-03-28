@@ -21,6 +21,7 @@ class OptionsData
 		{name: 'Downscroll', type: "option"},
 		{name: 'Centered Notefield', type: "option"},
 		{name: 'Ghost Tapping', type: "option"},
+		//{name: "Disable Mechanics", type: "option"},
 		//
 		{name: "Timing Windows", type: "divider"},
 		{name: "Timing Preset", type: "option"},
@@ -48,7 +49,6 @@ class OptionsData
 		{name: "Disable Antialiasing", type: "option"},
 		{name: "Disable Flashing Lights", type: "option"},
 		{name: "Disable Screen Shaders", type: "option"},
-		{name: "Disable Mechanics", type: "option"},
 		{name: 'Epilepsy Mode', type: 'option'},
 		{name: "Screen Shake", type: "option"},
 		//
