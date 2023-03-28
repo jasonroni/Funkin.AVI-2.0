@@ -10,6 +10,8 @@ import objects.ui.Strumline.Receptor;
 class Note extends FNFSprite
 {
 	public var strumTime:Float = 0;
+	
+	public var noAnim:Bool = false;
 
 	public var mustPress:Bool = false;
 	public var noteData:Int = 0;
