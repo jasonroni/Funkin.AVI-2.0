@@ -117,7 +117,7 @@
 			],
 			"indices": [],
 			"fps": 7,
-			"anim": "singUP-alt",
+			"anim": "endingAnim",
 			"loop": false,
 			"name": "altUp"
 		}
