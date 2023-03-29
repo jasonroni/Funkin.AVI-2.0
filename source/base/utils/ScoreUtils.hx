@@ -130,7 +130,7 @@ class ScoreUtils
 	{
 		var daSong:String = formatSong(song, diff);
 
-		FlxG.save.bind("HighScores", "Feather");
+		FlxG.save.bind("HighScores", CoolUtil.getSavePath());
 		if (songScores.exists(daSong))
 		{
 			if (songScores.get(daSong) < score)
@@ -144,7 +144,7 @@ class ScoreUtils
 	{
 		var daWeek:String = formatSong('week' + week, diff);
 
-		FlxG.save.bind("WeekScores", "Feather");
+		FlxG.save.bind("WeekScores", CoolUtil.getSavePath());
 		if (weekScores.exists(daWeek))
 		{
 			if (weekScores.get(daWeek) < score)
@@ -159,7 +159,7 @@ class ScoreUtils
 	 */
 	inline static function setScore(song:String, score:Int):Void
 	{
-		FlxG.save.bind("HighScores", "Feather");
+		FlxG.save.bind("HighScores", CoolUtil.getSavePath());
 		// Reminder that I don't need to format this song, it should come formatted!
 		songScores.set(song, score);
 		FlxG.save.data.songScores = songScores;
@@ -168,7 +168,7 @@ class ScoreUtils
 
 	inline static function setWeekScore(song:String, score:Int):Void
 	{
-		FlxG.save.bind("WeekScores", "Feather");
+		FlxG.save.bind("WeekScores", CoolUtil.getSavePath());
 		// Reminder that I don't need to format this song, it should come formatted!
 		weekScores.set(song, score);
 		FlxG.save.data.setWeekScore = weekScores;
@@ -189,7 +189,7 @@ class ScoreUtils
 
 	inline public static function getScore(song:String, diff:Int):Int
 	{
-		FlxG.save.bind("HighScores", "Feather");
+		FlxG.save.bind("HighScores", CoolUtil.getSavePath());
 		if (!songScores.exists(formatSong(song, diff)))
 			setScore(formatSong(song, diff), 0);
 
@@ -198,7 +198,7 @@ class ScoreUtils
 
 	inline public static function getWeekScore(week:Int, diff:Int):Int
 	{
-		FlxG.save.bind("WeekScores", "Feather");
+		FlxG.save.bind("WeekScores", CoolUtil.getSavePath());
 		if (!weekScores.exists(formatSong('week' + week, diff)))
 			setWeekScore(formatSong('week' + week, diff), 0);
 
@@ -207,11 +207,11 @@ class ScoreUtils
 
 	inline public static function loadScores():Void
 	{
-		FlxG.save.bind("HighScores", "Feather");
+		FlxG.save.bind("HighScores", CoolUtil.getSavePath());
 		if (FlxG.save.data.songScores != null)
 			songScores = FlxG.save.data.songScores;
 
-		FlxG.save.bind("WeekScores", "Feather");
+		FlxG.save.bind("WeekScores", CoolUtil.getSavePath());
 		if (FlxG.save.data.weekScores != null)
 			weekScores = FlxG.save.data.weekScores;
 	}

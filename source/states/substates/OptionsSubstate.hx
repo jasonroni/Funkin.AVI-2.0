@@ -8,6 +8,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.input.keyboard.FlxKey;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
+import lime.app.Application;
 import flixel.util.FlxColor;
 import objects.fonts.Alphabet;
 import states.MusicBeatState.MusicBeatSubstate;
@@ -33,6 +34,8 @@ class OptionsSubstate extends MusicBeatSubstate
 		add(bg);
 
 		super.create();
+
+		Application.current.window.title = 'Funkin.avi - Settings: Changing keybinds';
 
 		keyOptions = generateOptions();
 		updateSelection();
@@ -296,7 +299,10 @@ class OptionsSubstate extends MusicBeatSubstate
 				});
 			}
 			else if (Controls.getPressEvent("back"))
+			{
+				Application.current.window.title = 'Funkin.avi - Settings: Navigating through Categories';
 				close();
+			}
 		}
 		else
 			subMenuControl();

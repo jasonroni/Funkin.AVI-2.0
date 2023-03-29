@@ -314,6 +314,7 @@ class LegacyState extends MusicBeatState
 				FlxG.sound.music.stop();
 			}
 			threadActive = false;
+			FlxG.sound.playMusic(Paths.music('freakyMenu'), 1);
 			Main.switchState(this, new states.menus.FreeplayMenu());
 		}
 

@@ -47,10 +47,10 @@ class BaseOptions extends MusicBeatState
 	 */
 	public var categoriesMap:Map<String, Array<GroupData>> = [
 		"main" => [
-			{name: "Preferences", type: "subgroup", description: "Define your Game Preferences."},
-			{name: "Accessibility", type: "subgroup", description: "Make the game more accessible for yourself."},
-			{name: "Visuals", type: "subgroup", description: "Define your Visuals, such as Note Skins or Judgements!"},
-			{name: "Keybinds", type: "keybinds", description: "Define your preferred keys for use during Gameplay."}
+			{name: "preferences", type: "subgroup", description: "Define your Game Preferences."},
+			{name: "accessibility", type: "subgroup", description: "Make the game more accessible for yourself."},
+			{name: "visuals", type: "subgroup", description: "Define your Visuals, such as Note Skins or Judgements!"},
+			{name: "keybinds", type: "keybinds", description: "Define your preferred keys for use during Gameplay."}
 		],
 	];
 
@@ -73,9 +73,9 @@ class BaseOptions extends MusicBeatState
 		ForeverTools.resetMenuMusic();
 
 		// set up category contents;
-		categoriesMap.set("Preferences", OptionsData.Preferences);
-		categoriesMap.set("Accessibility", OptionsData.Accessibility);
-		categoriesMap.set("Visuals", OptionsData.Visuals);
+		categoriesMap.set("preferences", OptionsData.preferences);
+		categoriesMap.set("accessibility", OptionsData.accessibility);
+		categoriesMap.set("visuals", OptionsData.visuals);
 
 		updateDiscord();
 	}
@@ -83,8 +83,6 @@ class BaseOptions extends MusicBeatState
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		
-		Application.current.window.title = 'Funkin.avi - Settings: ' + curCategory == 'main' ? '' : '$curCategory';
 
 		if (attachmentsGroup != null)
 			repositionAttachments();
@@ -116,6 +114,7 @@ class BaseOptions extends MusicBeatState
 	public function updateDiscord(?forcedPresence:String)
 	{
 		var myPresence:String = curCategory == 'main' ? 'Navigating through Categories' : 'Changing $curCategory';
+		Application.current.window.title = 'Funkin.avi - Settings: ' + myPresence;
 
 		#if DISCORD_RPC
 		// changes depending on your current category;
