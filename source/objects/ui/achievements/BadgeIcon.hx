@@ -3,7 +3,7 @@ package objects.ui.achievements;
 import flixel.FlxG;
 import flixel.FlxSprite;
 
-class AchieveIcon extends FlxSprite
+class BadgeIcon extends FlxSprite
 {
 	public var sprTracker:FlxSprite;
 
