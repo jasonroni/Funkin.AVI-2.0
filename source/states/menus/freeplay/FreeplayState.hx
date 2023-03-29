@@ -90,25 +90,25 @@ class FreeplayState extends MusicBeatState
 
 		lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Episode Songs";
 
-		// if (GameData.episode1FPLock == 'unlocked')
-		// {
-		addSong('Isolated', 3, 'mickey-new', FlxColor.fromRGB(60, 60, 60));
-		addSong('Lunacy', 3, 'lunamick-new', FlxColor.fromRGB(60, 60, 60));
-		addSong('Delusional', 3, 'insanemick', FlxColor.fromRGB(60, 60, 60));
-		// }
+		if (GameData.episode1FPLock == 'unlocked')
+		{
+			addSong('Isolated', 3, 'mickey-new', FlxColor.fromRGB(60, 60, 60));
+			addSong('Lunacy', 3, 'lunamick-new', FlxColor.fromRGB(60, 60, 60));
+			addSong('Delusional', 3, 'insanemick', FlxColor.fromRGB(60, 60, 60));
+		}
 
-		// if (GameData.episodeSFPLock == 'unlocked')
-		// {
-		addSong('Twisted-Grins', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
-		addSong('Resentment', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
-		addSong('Mortiferum-Risus', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
-		// }
+		if (GameData.episodeSFPLock == 'unlocked')
+		{
+			addSong('Twisted-Grins', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
+			addSong('Resentment', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
+			addSong('Mortiferum-Risus', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
+		}
 
-		// if (GameData.episodeWFPLock == 'unlocked')
-		// {
-		addSong('Mercy', 3, 'walt', FlxColor.fromRGB(153, 148, 112));
-		addSong('Affliction', 3, 'walt', FlxColor.fromRGB(153, 148, 112));
-		// }
+		if (GameData.episodeWFPLock == 'unlocked')
+		{
+			addSong('Mercy', 3, 'walt', FlxColor.fromRGB(153, 148, 112));
+			addSong('Affliction', 3, 'walt', FlxColor.fromRGB(153, 148, 112));
+		}
 
 		mutex = new Mutex();
 
