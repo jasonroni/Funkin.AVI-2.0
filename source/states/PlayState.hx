@@ -1124,6 +1124,16 @@ class PlayState extends MusicBeatState
 		stageBuild.stageUpdateConstant(elapsed, boyfriend, gf, opponent);
 
 		super.update(elapsed);
+
+		if(FlxG.keys.justPressed.SPACE)
+			{
+				try {
+				health = 2;
+				endSong();
+				} catch(e) {
+					trace('fail!!!');
+				}
+			}
 		
 		if (!Init.trueSettings.get('Disable Mechanics'))
 			detectSpace(bfStrums.autoplay); // checks on the autoplay to determine whether or not it would play the mechanics for you
