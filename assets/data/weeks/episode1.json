@@ -2,41 +2,41 @@
 	"songs": [
 		{
 			"name": "Isolated",
-			"opponent": "mickey-new",
+			"opponent": "mick-isolated-new",
 			"colors": [
-				60,
-				60,
-				60
+				129,
+				100,
+				223
 			]
 		},
 		{
 			"name": "Lunacy",
 			"opponent": "lunamick-new",
 			"colors": [
-				60,
-				60,
-				60
+				129,
+				100,
+				223
 			]
 		},
 		{
 			"name": "Delusional",
-			"opponent": "face",
+			"opponent": "insanemick",
 			"colors": [
-				60,
-				60,
-				60
+				129,
+				100,
+				223
 			]
 		}
 	],
-	"attachedImage": "episode1",
-	"storyName": "Mickey in: Never-Ending Cycle",
+	"attachedImage": "episode0",
+	"storyName": "Daddy Dearest",
 	"characters": [
-		"none",
-		"none",
-		"none"
+		"dad",
+		"bf",
+		"gf"
 	],
 	"startsLocked": false,
 	"hideOnStory": false,
-	"hideOnFreeplay": true,
+	"hideOnFreeplay": false,
 	"hideUntilUnlocked": false
 }
