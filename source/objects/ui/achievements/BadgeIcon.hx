@@ -13,7 +13,7 @@ class BadgeIcon extends FlxSprite
 
 		trace('ID: ' + id);
 
-		if (FlxG.save.data.achievementsIndie[Achievements.achievements[id].id])
+		if (FlxG.save.data.achievements[Achievements.achievements[id].id])
 		{
 			var path:String = Paths.image(Achievements.achievements[id].img, 'achievements');
 			trace("IMAGE PATH: " + path);
