@@ -184,6 +184,7 @@ class TitleState extends states.MusicBeatState
 		"Imagine the credits for the messages",
 		"Mickey getting bitches, 100% real no fake",
 		"Lets Goku mcdonalds, Y'know what im saiyan?",
+		"Walter",
 	];
 
 	override public function create():Void
