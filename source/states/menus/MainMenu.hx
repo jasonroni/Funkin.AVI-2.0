@@ -329,6 +329,14 @@ class MainMenu extends MusicBeatState
 		freeplayTxtBox = new FlxSprite(freeplayPopup.x, freeplayPopup.y).makeGraphic(200, 80, FlxColor.BLACK);
 		freeplayTxtBox.scrollFactor.set();
 		freeplayTxtBox.cameras = [camHUD];
+		
+		freeplayTxtBox.alpha = 0;
+		freeplayPopup.alpha = 0;
+		freeplayPopupSub.alpha = 0;
+		
+		add(freeplayTxtBox);
+		add(freeplayPopup);
+		add(freeplayPopupSub);
 
 		var scratchStuff:FlxSprite = new FlxSprite();
 		scratchStuff.frames = Paths.getSparrowAtlas('filters/scratchShit');
@@ -450,10 +458,10 @@ class MainMenu extends MusicBeatState
 										freeplayTxtTween3.cancel();
 										
 									FlxG.sound.play(Paths.sound('base/menus/cancelMenu'));
-									// I didn't know any other better way to execute this
-									add(freeplayTxtBox);
-									add(freeplayPopup);
-									add(freeplayPopupSub);
+									// Okay, this should work better now
+									freeplayTxtBox.alpha = 1;
+									freeplayPopup.alpha = 1;
+									freeplayPopupSub.alpha = 1;
 									freeplayTxtTween = FlxTween.tween(
 										freeplayPopup,
 										{alpha: 0},
