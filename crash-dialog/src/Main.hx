@@ -31,7 +31,8 @@ class Main
 		"for your information, that Vs Mouse collab is scrapped - Jason",
 		"Not my fault. - Jason",
 		'We lied, there\'s no sex - Jason',
-		'We gonna fix it i swear - Jason'
+		'We gonna fix it i swear - Jason',
+		'I want a quote...' - Tycho'
 	];
 
 	public static function main()
