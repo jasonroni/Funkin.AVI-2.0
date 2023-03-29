@@ -21,7 +21,7 @@ class OptionsData
 		{name: 'Downscroll', type: "option"},
 		{name: 'Centered Notefield', type: "option"},
 		{name: 'Ghost Tapping', type: "option"},
-		//{name: "Disable Mechanics", type: "option"},
+		{name: "Disable Mechanics", type: "option"},
 		//
 		{name: "Timing Windows", type: "divider"},
 		{name: "Timing Preset", type: "option"},
