@@ -1,7 +1,7 @@
 package objects.ui.achievements;
 
 import flixel.util.FlxColor;
-import GameJolt.GameJoltAPI;
+import gamejolt.GameJolt.GameJoltAPI;
 import flixel.FlxG;
 
 using StringTools;
