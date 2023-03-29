@@ -39,7 +39,7 @@ import objects.*;
 import objects.Character;
 import objects.ui.*;
 import objects.ui.notes.*;
-import objects.ui.Strumline.Receptor;
+import objects.ui.notes.Strumline.Receptor;
 import objects.ui.hud.*;
 import openfl.media.Sound;
 import states.CutsceneState;

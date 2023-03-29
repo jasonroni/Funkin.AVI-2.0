@@ -5,7 +5,8 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.math.FlxRect;
 import flixel.util.FlxSort;
-import objects.ui.Strumline;
+import objects.ui.notes.Strumline;
+import objects.ui.notes.Strumline.Receptor;
 import states.PlayState;
 
 /**
