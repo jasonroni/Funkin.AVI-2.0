@@ -86,9 +86,6 @@ class MainMenu extends MusicBeatState
 			"SOMEONE PLEASE GIVE MICKEY HIS FUCKING SANDWICH",
 			"Have fun, you'll be here for like an hour or longer.",
 			"10 Seconds before I shut your fucking game again >:(",
-			/*new flixel.util.FlxTimer().start(10, function(e){
-				System.exit(0),
-			}),*/ //going to do something with this using the magic of StringTools
 			"Oh the misery, everybody wants to be my enemy.",
 			"Sex, NOW.",
 			"Quick, hide behind that conveniently shaped lamp!",
@@ -120,7 +117,16 @@ class MainMenu extends MusicBeatState
 			"Another very well thought out idea of a random message that this game can randomly pick from within the code.",
 			"AHHH, FUCK, THERE'S RULE 34 OF SUICIDE MOUSE, WHYYYYYY????",
 			"Check out this cool rare little easter egg that I found, which I want to show to you but I can't cause I'm just a title screen message.",
-			"There's still uranium in my ass, send help."	
+			"There's still uranium in my ass, send help.",
+			"Main Menu Music: Soulless Town",
+			"Mickey lost his ballsack.",
+			"Oh the horror of AI generated images.",
+			"You should [R] Reset Character NOW", // boblox reference
+			"peak mouse experience.",
+			"Austin is the most horniest of the team lmao",
+			"This mod was stressful to make, the organization was a mess lmao",
+			"Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi",
+			"Just like Domingo is constantly remaking Mickey's sprites, Dreupy is the Domingo of Delusional Recharts."
 	];
 
 	var defaultShader:FlxRuntimeShader;

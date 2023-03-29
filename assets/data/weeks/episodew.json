@@ -2,32 +2,32 @@
 	"songs": [
 		{
 			"name": "Mercy",
-			"opponent": "walt",
+			"opponent": "dad",
 			"colors": [
-				60,
-				60,
-				60
+				129,
+				100,
+				223
 			]
 		},
 		{
 			"name": "Affliction",
-			"opponent": "walt",
+			"opponent": "dad",
 			"colors": [
-				60,
-				60,
-				60
+				129,
+				100,
+				223
 			]
-		},
+		}
 	],
-	"attachedImage": "bonus2",
-	"storyName": "Boyfriend in: Sentient Ink",
+	"attachedImage": "bonus1",
+	"storyName": "Daddy Dearest",
 	"characters": [
-		"none",
-		"none",
-		"none"
+		"dad",
+		"bf",
+		"gf"
 	],
 	"startsLocked": false,
 	"hideOnStory": false,
-	"hideOnFreeplay": true,
+	"hideOnFreeplay": false,
 	"hideUntilUnlocked": false
 }
