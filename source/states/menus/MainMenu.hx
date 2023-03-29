@@ -439,8 +439,16 @@ class MainMenu extends MusicBeatState
 							case 'story_mode':
 								Main.switchState(this, new states.menus.StoryMenu());
 							case 'freeplay':
-								/*if (GameData.episode1FPLock == 'locked')
+								// I now obligate you to test the story progression data :trollface:
+								if (GameData.episode1FPLock != 'unlocked')
 								{
+									if (freeplayTxtTween != null)
+										freeplayTxtTween.cancel();
+									if (freeplayTxtTween2 != null)
+										freeplayTxtTween2.cancel();
+									if (freeplayTxtTween3 != null)
+										freeplayTxtTween3.cancel();
+										
 									FlxG.sound.play(Paths.sound('base/menus/cancelMenu'));
 									// I didn't know any other better way to execute this
 									add(freeplayTxtBox);
@@ -485,10 +493,10 @@ class MainMenu extends MusicBeatState
 											}
 										}
 									);
-								} else {*/
+								} else {
 									CoolUtil.difficulties = CoolUtil.difficultyArray;
 									Main.switchState(this, new states.menus.FreeplayMenu());
-								//}
+								}
 							case 'credits':
 								Main.switchState(this, new states.menus.OptionsMenu());
 							case 'options':
