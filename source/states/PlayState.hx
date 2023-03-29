@@ -222,6 +222,9 @@ class PlayState extends MusicBeatState
 	public var scratch:FlxSprite; // Peter Griffin: This reminds me of the time I met the Scratch cat
 	public var scratchButLessVisible:FlxSprite;
 
+	// troll
+	private var isDebugMode:Bool = false;
+
 	// Mercy Gimmick
 	var waltScreenThing:FlxSprite; // idk, this is needed too for some reason
 	var inkFormWarning:FlxText;
@@ -261,6 +264,9 @@ class PlayState extends MusicBeatState
 		}
 	}
 
+	/**
+	 * Loads all RPC's icons
+	 */
 	function loadRPCIcon()
 	{
 		#if DevBuild
@@ -270,6 +276,9 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
+	/**
+	 * Sets the Freeplay songs data
+	 */
 	function setFreeplayData()
 	{
 		switch (SONG.song.toLowerCase())
@@ -332,6 +341,9 @@ class PlayState extends MusicBeatState
 		GameData.saveShit();
 	}
 
+	/**
+	 * Sets data when you complete a song
+	 */
 	function completeFPSong()
 	{
 		switch (SONG.song.toLowerCase())
@@ -376,6 +388,9 @@ class PlayState extends MusicBeatState
 		GameData.saveShit();
 	}
 
+	/**
+	 * Checks if you completed a episode, if true, unlocks freeplay songs and more content
+	 */
 	function completeEpisode()
 	{
 		switch (SONG.song.toLowerCase())
@@ -498,9 +513,9 @@ class PlayState extends MusicBeatState
 		gf.dance();
 		boyfriend.dance();
 		
-		opponent.curCharacter.endsWith('-pixel') ? opponent.antialiasing = false : opponent.antialiasing = true;
-		gf.curCharacter.endsWith('-pixel') ? gf.antialiasing = false : gf.antialiasing = true;
-		boyfriend.curCharacter.endsWith('-pixel') ? boyfriend.antialiasing = false : boyfriend.antialiasing = true;
+		opponent.antialiasing = !opponent.curCharacter.endsWith('-pixel');
+		gf.antialiasing = !gf.curCharacter.endsWith('-pixel');
+		boyfriend.antialiasing = !boyfriend.curCharacter.endsWith('-pixel');
 
 		repositionChars();
 	}
@@ -672,20 +687,16 @@ class PlayState extends MusicBeatState
 			allUIs.push(strumHUD[i]);
 			FlxG.cameras.add(strumHUD[i], false);
 			// set this strumline's camera to the designated camera
-			strumLines.members[i].cameras = [strumHUD[i]];
 			switch (curStage)
 			{
 				case 'theLoop' | 'forestOld':
-					strumHUD[i].setFilters([
-						new openfl.filters.ShaderFilter(andromeda),
-						new openfl.filters.ShaderFilter(tilt),
-						new openfl.filters.ShaderFilter(grayScale)
-					]);
+					strumLines.members[i].cameras = [camHUD];
 
 				case 'abandonedStreet' | 'forestNew' | 'apartment' | 'smilesOffice' | 'clubhouse' | 'delusionalStreet':
 					strumHUD[i].setFilters([new openfl.filters.ShaderFilter(grayScale)]);
 
 				default:
+					strumLines.members[i].cameras = [strumHUD[i]];
 					// nothing, you get no shaders lol
 			}
 		}
@@ -1125,7 +1136,10 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		if(FlxG.keys.justPressed.SPACE)
+		if(FlxG.keys.justPressed.F5)
+			isDebugMode = true;
+
+		if(FlxG.keys.justPressed.SPACE && isDebugMode)
 			{
 				try {
 				health = 2;
@@ -1846,8 +1860,12 @@ class PlayState extends MusicBeatState
 		if (Init.trueSettings.get("Splash Opacity") <= 0)
 			return null;
 
-		for (i in 0...strumLines.length)
-			strumLines.members[i].splashNotes.cameras = [strumHUD[i]];
+		for (i in 0...strumLines.length) {
+			if(curStage == "theLoop" || curStage == "forestOld")
+				strumLines.members[i].splashNotes.cameras = [camHUD];
+			else
+				strumLines.members[i].splashNotes.cameras = [strumHUD[i]];
+		}
 
 		/*
 			this might be a note hit memory leak, so it's good to check on this later
@@ -2301,7 +2319,7 @@ class PlayState extends MusicBeatState
 	var dodged:Bool;
 	var shootin:Bool;
 		
-	/*
+	/**
 	* Checks on the spacebar if there's a spacebar mechanic required
 	* if you have a mechanic you want to add with the spacebar
 	* simply tag in your gimmick here with the stage/song you want it
@@ -2309,7 +2327,6 @@ class PlayState extends MusicBeatState
 	*
 	* @author DEMOLITIONDON96
 	*/
-	
 	function detectSpace(isAutoplay:Bool = false)
 	{
 		if (!isAutoplay)
@@ -2391,13 +2408,13 @@ class PlayState extends MusicBeatState
 			FlxTween.tween(FlxG.camera, {zoom: zoom}, time, {ease: ease, onComplete: e -> defaultCamZoom = zoom});
 		}
 
-	/*
+	/**
 	* Malfunction Life System Checker
 	* 
 	* Self explanitory, don't you think?
 	* 
 	* Checks on your lives in Malfunction and is used by the Error Notes
-	* It will make sure to close your game if it goes below 0;
+	* It will make sure to close your game if it goes below 0
 	* 
 	* @author DEMOLITIONDON96
 	*/
@@ -2471,14 +2488,14 @@ class PlayState extends MusicBeatState
 		}
 	}
 		
-	/*
-	* The Cycled Sins Gimmick
+	/**
+	* # **The Cycled Sins Gimmick**
 	*
 	* As you can see, it's different than how it was before, it can actually be
 	* used now without the need of a fucking event or some shit, so, have fun lol
 	*
-	* reactionTime - Amount of time you have to react before he shoots you
-	* damageAmount - how much health it'll remove if you fail to dodge
+	* @param reactionTime - Amount of time you have to react before he shoots you
+	* @param damageAmount - how much health it'll remove if you fail to dodge
 	*
 	* @author DEMOLITIONDON96
 	*/
