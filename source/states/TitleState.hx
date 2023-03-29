@@ -189,7 +189,6 @@ class TitleState extends states.MusicBeatState
 
 	override public function create():Void
 	{	
-		GameData.lockinIt(); // Now add missing data for any new stuff
 
 		FlxG.game.focusLostFramerate = 60;
 		FlxG.sound.muteKeys = muteKeys;
@@ -228,9 +227,8 @@ class TitleState extends states.MusicBeatState
 
 		startIntro();
 
-		FlxG.save.bind('Dunkin Funkin', CoolUtil.getSavePath());
-
-		GameData.loadShit();
+		if (FlxG.save.data.episode1FPLock == null) GameData.lockinIt(); // Now add missing data for any new stuff
+		GameData.loadShit(); // Collect Any Data
 
 		FlxG.mouse.visible = true;
 	}

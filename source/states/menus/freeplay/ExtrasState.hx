@@ -122,29 +122,30 @@ class ExtrasState extends MusicBeatState
         	lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Extras";
 
 		// Songlist setup
-		//if (GameData.episode1FPLock == 'unlocked')
-		//{
+		if (GameData.episode1FPLock == 'unlocked')
+		{
 			addSong('Hunted', 3, (GameData.huntedLock != 'unlocked' && GameData.huntedLock != 'beaten' ? 'untouched-song' : 'goofy-new'), FlxColor.fromRGB(60, 60, 60));
 			addSong('Isolated-Old', 3, (GameData.oldisolateLock != 'unlocked' && GameData.oldisolateLock != 'beaten' ? 'untouched-song' : 'mickey-legacy'), FlxColor.fromRGB(60, 60, 60));
 			addSong('Isolated-Beta', 3, (GameData.betaisolateLock != 'unlocked' && GameData.betaisolateLock != 'beaten' ? 'untouched-song' : 'mickey-legacy'), FlxColor.fromRGB(60, 60, 60));
 			addSong('War-Dilemma', 3, (GameData.warLock != 'unlocked' && GameData.warLock != 'beaten' ? 'untouched-song' : 'placeholder'), FlxColor.fromRGB(60, 60, 60));
-		//}
+		}
 		
-		//if (GameData.episodeSFPLock == 'unlocked')
-		//{
+		if (GameData.episodeSFPLock == 'unlocked')
+		{
 			addSong('Laugh-Track', 3, (GameData.rickyLock != 'unlocked' && GameData.rickyLock != 'beaten' ? 'untouched-song' : 'placeholder'), FlxColor.fromRGB(60, 60, 60));
 			addSong('Bless', 3, (GameData.blessLock != 'unlocked' && GameData.blessLock != 'beaten' ? 'untouched-song' : 'white-noise'), FlxColor.fromRGB(255, 255, 255));
 			addSong('Scrapped', 3, (GameData.scrappedLock != 'unlocked' && GameData.scrappedLock != 'beaten' ? 'untouched-song' : 'rs'), FlxColor.fromRGB(0, 0, 0));
 			addSong("Don't-Cross!", 3, (GameData.crossinLock != 'unlocked' && GameData.crossinLock != 'beaten' ? 'untouched-song' : 'dctl-mickey'), FlxColor.fromRGB(60, 60, 60));
-		//}
+		}
 		
-		//if (GameData.episodeWFPLock == 'unlocked')
-		//{
+		if (GameData.episodeWFPLock == 'unlocked')
+		{
 			addSong('Neglection', 3, (GameData.pnmLock != 'unlocked' && GameData.pnmLock != 'beaten' ? 'untouched-song' : 'pnm'), FlxColor.fromRGB(60, 60, 60));
 			addSong('Cycled-Sins', 3, (GameData.sinsLock != 'unlocked' && GameData.sinsLock != 'beaten' ? 'untouched-song' : 'relapse-pixel'), FlxColor.fromRGB(60, 60, 60)); //messing with the saves for this later
 			addSong('Malfunction', 3, (GameData.malfunctionLock != 'unlocked' && GameData.malfunctionLock != 'beaten' ? 'untouched-song' : 'glitched-mickey-new-pixel'), FlxColor.fromRGB(60, 60, 60)); // Because Malfunction is getting some major upgrades later
-		//}
+		}
 		
+		// Not yet muckney, not yet...
 		//if (GameData.muckneyLock == "completed")
 		//{
 			addSong('Birthday', 3, 'muckney', FlxColor.fromRGB(60, 60, 60));
@@ -365,6 +366,7 @@ class ExtrasState extends MusicBeatState
 				FlxG.sound.music.stop();
 			}
 			threadActive = false;
+			FlxG.sound.playMusic(Paths.music('freakyMenu'), 1);
 			Main.switchState(this, new states.menus.FreeplayMenu());
 		}
 

@@ -35,6 +35,7 @@ import lime.utils.Assets;
 import objects.*;
 import objects.Character;
 import objects.ui.*;
+import objects.ui.notes.*;
 import openfl.display.BlendMode;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;

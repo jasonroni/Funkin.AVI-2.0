@@ -72,28 +72,28 @@ class LegacyState extends MusicBeatState
         lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Legacy Songs";
 
 
-		//if (GameData.episode1FPLock == 'unlocked')
-		//{
+		if (GameData.episode1FPLock == 'unlocked')
+		{
 			addSong('Isolated-Legacy', 3, (GameData.legacyILock != 'unlocked' && GameData.legacyILock != 'beaten' ? 'untouched-song' : 'mickey-legacy'), FlxColor.fromRGB(60, 60, 60));
 			addSong('Lunacy-Legacy', 3, (GameData.legacyLLock != 'unlocked' && GameData.legacyLLock != 'beaten' ? 'untouched-song' : 'mickey-lunacy-legacy'), FlxColor.fromRGB(60, 60, 60));
 			addSong('Delusional-Legacy', 3, (GameData.legacyDLock != 'unlocked' && GameData.legacyDLock != 'beaten' ? 'untouched-song' : 'mickey-delusional-unused'), FlxColor.fromRGB(60, 60, 60));
 			addSong('hunted-legacy', 3, (GameData.legacyHLock != 'unlocked' && GameData.legacyHLock != 'beaten' ? 'untouched-song' : 'goofy'), FlxColor.fromRGB(60, 60, 60));
-		//}
+		}
 		
-		//if (GameData.episodeSFPLock == 'unlocked')
-		//{
+		if (GameData.episodeSFPLock == 'unlocked')
+		{
 			//addSong('Twisted-Grins-Legacy', 3, (GameData.legacyTLock != 'unlocked' && GameData.legacyTLock != 'beaten' ? 'untouched-song' : 'mr-smiles'), FlxColor.fromRGB(60, 60, 60));
 			//addSong('Resentment-Legacy', 3, (GameData.legacyRLock != 'unlocked' && GameData.legacyRLock != 'beaten' ? 'untouched-song' : 'mr-smiles'), FlxColor.fromRGB(60, 60, 60));
 			//addSong('Bless-Legacy', 3, (GameData.legacyBLock != 'unlocked' && GameData.legacyBLock != 'beaten' ? 'untouched-song' : 'white-noise'), FlxColor.fromRGB(60, 60, 60));
-		//}
+		}
 		
-		//if (GameData.episodeWFPLock == 'unlocked')
-		//{
+		if (GameData.episodeWFPLock == 'unlocked')
+		{
 			addSong('Mercy-Legacy', 3, (GameData.legacyWLock != 'unlocked' && GameData.legacyWLock != 'beaten' ? 'untouched-song' : 'walt'), FlxColor.fromRGB(60, 60, 60));
 			//addSong('Neglection-Legacy', 3, (GameData.legacyNLock != 'unlocked' && GameData.legacyNLock != 'beaten' ? 'untouched-song' : 'pnm'), FlxColor.fromRGB(60, 60, 60));
 			//addSong('Cycled-Sins-Legacy', 3, (GameData.legacySLock != 'unlocked' && GameData.legacySLock != 'beaten' ? 'untouched-song' : 'relapse-pixel'), FlxColor.fromRGB(60, 60, 60));
 			addSong('Malfunction-Legacy', 3, (GameData.legacyMLock != 'unlocked' && GameData.legacyMLock != 'beaten' ? 'untouched-song' : 'glitched-mickey-legacy-pixel'), FlxColor.fromRGB(60, 60, 60));
-		//}
+		}
 
 		mutex = new Mutex();
 
@@ -314,6 +314,7 @@ class LegacyState extends MusicBeatState
 				FlxG.sound.music.stop();
 			}
 			threadActive = false;
+			FlxG.sound.playMusic(Paths.music('freakyMenu'), 1);
 			Main.switchState(this, new states.menus.FreeplayMenu());
 		}
 

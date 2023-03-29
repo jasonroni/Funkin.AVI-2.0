@@ -38,6 +38,7 @@ import lime.ui.Window;
 import objects.*;
 import objects.Character;
 import objects.ui.*;
+import objects.ui.notes.*;
 import objects.ui.Strumline.Receptor;
 import objects.ui.hud.*;
 import openfl.media.Sound;
@@ -818,7 +819,7 @@ class PlayState extends MusicBeatState
 		// Cleaner Initialization for the mechanics and note visibility stuff
 		switch (SONG.song)
 		{
-			case 'Isolated' | 'Lunacy' | 'Malfunction':
+			case 'Isolated' | 'Lunacy':
 				for (i in strumHUD)
 				{
 					i.alpha = 0;
@@ -836,7 +837,14 @@ class PlayState extends MusicBeatState
 				
 			// Glitched Mickey will give you a big fat middle finger for disabling the mechanics lmao
 			case 'Malfunction Legacy': crashLivesCounter += 30;
-			case 'Malfunction': crashLivesCounter += 45;
+			case 'Malfunction':
+				for (i in strumHUD)
+					{
+						i.alpha = 0;
+					}
+					camGame.alpha = 0;
+					camHUD.alpha = 0;
+				crashLivesCounter += 45;
 		}
 
 		switch (curStage)
@@ -2963,10 +2971,10 @@ class PlayState extends MusicBeatState
 					case 16: tweenCamera(1.2, 5, {FlxEase.quartInOut;}); // yes you gonna have to add a ; at the end of the {} because flixel
 					case 32:
 						defaultCamZoom = 0.8;
-						FlxTween.tween(camHUD, {alpha: 0}, 0.5, {ease: FlxEase.sineOut});
+						FlxTween.tween(camHUD, {alpha: 1}, 0.5, {ease: FlxEase.sineOut});
 						for (i in strumHUD)
 						{
-						        FlxTween.tween(i, {alpha: 0}, 0.5, {ease: FlxEase.sineOut});
+						        FlxTween.tween(i, {alpha: 1}, 0.5, {ease: FlxEase.sineOut});
 						}	
 					case 39 | 48 | 64 | 72 | 88 | 96 | 103 | 113 | 128 | 184 | 192: defaultCamZoom = 0.8;
 					case 38 | 102: tweenCamera(1.5, 0.25, {FlxEase.sineInOut;});

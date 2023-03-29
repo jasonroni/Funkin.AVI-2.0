@@ -120,8 +120,8 @@ class ScriptHandler extends SScript
 		set('Character', objects.Character);
 		set('Conductor', base.song.Conductor);
 		set('HealthIcon', objects.ui.HealthIcon);
-		set('Receptor', objects.ui.Strumline.Receptor);
-		set('Strumline', objects.ui.Strumline);
+		set('Receptor', objects.ui.notes.Strumline.Receptor);
+		set('Strumline', objects.ui.notes.Strumline);
 		set('game', states.PlayState.main);
 		set('PlayState', states.PlayState);
 		set('Paths', globals.Paths);

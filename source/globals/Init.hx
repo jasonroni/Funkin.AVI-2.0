@@ -294,7 +294,7 @@ class Init extends FlxState
 
 	override public function create():Void
 	{
-		FlxG.save.bind('gameSettings', "Feather");
+		FlxG.save.bind('gameSettings', CoolUtil.getSavePath());
 
 		// load controls and highscore
 		ScoreUtils.loadScores();
@@ -319,7 +319,7 @@ class Init extends FlxState
 
 	public static function loadSettings():Void
 	{
-		FlxG.save.bind('gameSettings', "Feather");
+		FlxG.save.bind('gameSettings', CoolUtil.getSavePath());
 
 		// set the true settings array
 		// only the first variable will be saved! the rest are for the menu stuffs
@@ -365,7 +365,7 @@ class Init extends FlxState
 
 	public static function loadControls():Void
 	{
-		FlxG.save.bind('gameControls', "Feather");
+		FlxG.save.bind('gameControls', CoolUtil.getSavePath());
 
 		if (FlxG.save.data.actionBinds != null)
 			Controls.actions = FlxG.save.data.actionBinds;
@@ -376,7 +376,7 @@ class Init extends FlxState
 	public static function saveSettings():Void
 	{
 		// ez save lol
-		FlxG.save.bind('gameSettings', "Feather");
+		FlxG.save.bind('gameSettings', CoolUtil.getSavePath());
 		FlxG.save.data.settings = trueSettings;
 		FlxG.save.flush();
 
@@ -385,7 +385,7 @@ class Init extends FlxState
 
 	public static function saveControls():Void
 	{
-		FlxG.save.bind('gameControls', "Feather");
+		FlxG.save.bind('gameControls', CoolUtil.getSavePath());
 		FlxG.save.data.actionBinds = Controls.actions;
 		FlxG.save.flush();
 	}
