@@ -240,11 +240,11 @@ class Main extends Sprite
 			destroyGame();
 		});
 
-		gjToastManager = new GJToastManager();
-		addChild(gjToastManager);
-
 		Application.current.window.onFocusOut.add(onWindowFocusOut);
 		Application.current.window.onFocusIn.add(onWindowFocusIn);
+
+		gjToastManager = new GJToastManager();
+		addChild(gjToastManager);
 	}
 
 	function destroyGame()
