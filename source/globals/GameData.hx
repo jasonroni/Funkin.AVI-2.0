@@ -58,7 +58,7 @@ class GameData
     public static var muckneyLock:String = "uncompleted";
 
     public static function lockinIt():Void {
-        FlxG.save.bind("GamePregression", CoolUtil.getSavePath());
+        FlxG.save.bind("gameProgression", CoolUtil.getSavePath());
 
         if (FlxG.save.data.episode1FPLock == null) FlxG.save.data.episode1FPLock = 'locked';
 	    
@@ -101,7 +101,7 @@ class GameData
     }
 
     public static function saveShit():Void {
-        FlxG.save.bind("GamePregression", CoolUtil.getSavePath());
+        FlxG.save.bind("gameProgression", CoolUtil.getSavePath());
         
         FlxG.save.data.episode1FPLock = episode1FPLock;
 	    
@@ -144,7 +144,7 @@ class GameData
     }
 
     public static function loadShit():Void {
-        FlxG.save.bind("GamePregression", CoolUtil.getSavePath());
+        FlxG.save.bind("gameProgression", CoolUtil.getSavePath());
 
         episode1FPLock = FlxG.save.data.episode1FPLock;
 	    
