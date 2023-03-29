@@ -12,7 +12,6 @@ import flixel.system.FlxRes;
 import flixel.tweens.*;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import gamejolt.GameJolt;
 import haxe.CallStack;
 import haxe.Json;
 import haxe.io.Path;
@@ -63,8 +62,6 @@ class Main extends Sprite
 	};
 
 	public static var baseGame:FNFGame;
-
-	public static var gjToastManager:GJToastManager;
 
 	/**
 	 * The desing width of this game. You will use either this or the design heigh
@@ -242,9 +239,6 @@ class Main extends Sprite
 
 		Application.current.window.onFocusOut.add(onWindowFocusOut);
 		Application.current.window.onFocusIn.add(onWindowFocusIn);
-
-		gjToastManager = new GJToastManager();
-		addChild(gjToastManager);
 	}
 
 	function destroyGame()

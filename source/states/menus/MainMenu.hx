@@ -526,7 +526,7 @@ class MainMenu extends MusicBeatState
 				Main.switchState(this, new states.menus.SexState());
 			} else if(FlxG.keys.justPressed.EIGHT) 
 			{
-				Main.switchState(this, new gamejolt.GameJolt.GameJoltLogin());
+				Main.switchState(this, new GameJoltLogin());
 			}
 
 		if (Math.floor(curSelected) != lastCurSelected)

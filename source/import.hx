@@ -5,7 +5,7 @@
 
 //
 import gamejolt.*;
-import gamejolt.GameJolt.GameJoltAPI;
+import gamejolt.GJClient;
 import globals.*; // using doesn't have '*' support
 
 using StringTools;
