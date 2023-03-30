@@ -110,7 +110,6 @@ class TitleState extends states.MusicBeatState
 		"R.I.P: Welcome Old (Definitely The Best Banger Ever) /j",
 		"POV: Your Mom",
 		".edud ssarg emos hcuot og ot deen uoy ,das yrev tsuj ,yltsenoh ,das si thaT ?sdrawkcab txet siht fo lla gnidaer otni troffe hcum os gnittup enigamI - iva.niknuF",
-		//Ok so this is the fucking text: "Funkin.avi - imagine putting so much effort into reading all of shit text backwards? That is sad, honestly, just very sad, you need to go touch some grass dude."
 		"Play Wednesday's Infidelity!",
 		"Now with more depression!",
 		"Now with more suicide!",
