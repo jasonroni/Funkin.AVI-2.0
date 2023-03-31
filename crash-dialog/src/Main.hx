@@ -87,10 +87,14 @@ class Main
 					Sys.command("xdg-open", [path]);
 					#end
 				};
-
-				mainView.findComponent("report-to-discord", Button).onClick = function(_)
+				
+				mainView.findComponent("restart-button", Button).onClick = function(_)
 				{
-					Sys.command('start https://discord.gg/zbcE9hKkz4');
+					#if windows
+					new Process("FunkinAVI.exe", []); // the original devs of this engine forgot to add ".exe" at the end of this shit for it to work lmao
+					#elseif linux
+					new Process("./FunkinAVI", []);
+					#end
 
 					Sys.exit(0);
 				};
