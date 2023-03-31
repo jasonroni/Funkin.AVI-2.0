@@ -156,6 +156,8 @@ class MainMenu extends MusicBeatState
 		FlxG.cameras.add(camHUD, false);
 		FlxG.cameras.setDefaultDrawTarget(camGame, true);
 
+		Paths.clearUnusedMemory();
+
 		super.create();
 
 		defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
@@ -164,12 +166,19 @@ class MainMenu extends MusicBeatState
 
 		if(!Init.trueSettings.get('Disable Screen Shaders'))
 			{
+				if(!Init.trueSettings.get('Low Quality')) {
 				camGame.setFilters(
 					[
-						new openfl.filters.ShaderFilter(defaultShader),
 						new openfl.filters.ShaderFilter(defaultShader2),
+						new openfl.filters.ShaderFilter(defaultShader),
 						new openfl.filters.ShaderFilter(darkFilter),
 					]);
+				} else {
+				camGame.setFilters(
+					[
+						new openfl.filters.ShaderFilter(defaultShader2),
+					]);
+				}
 			}
 
 		openfl.Lib.application.window.title = "Funkin.avi - " + windowShit[FlxG.random.int(0, windowShit.length-1)];
@@ -208,6 +217,7 @@ class MainMenu extends MusicBeatState
 		floor.antialiasing = true;
 		add(floor);
 
+		if(!Init.trueSettings.get('Low Quality')) {
 		blood = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/menu/blood'));
 		blood.scrollFactor.set(0, 0);
 		blood.setGraphicSize(Std.int(blood.width * 0.75));
@@ -231,6 +241,7 @@ class MainMenu extends MusicBeatState
 		omgCamera.screenCenter();
 		omgCamera.antialiasing = true;
 		add(omgCamera);
+		}
 
 		datBook = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/menu/book'));
 		datBook.scrollFactor.set(0, 0);
@@ -240,6 +251,7 @@ class MainMenu extends MusicBeatState
 		datBook.antialiasing = true;
 		add(datBook);
 
+		if(!Init.trueSettings.get('Low Quality')) {
 		moreCoolDetails = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/menu/light'));
 		moreCoolDetails.scrollFactor.set(0, 0);
 		moreCoolDetails.setGraphicSize(Std.int(moreCoolDetails.width * 0.75));
@@ -261,6 +273,7 @@ class MainMenu extends MusicBeatState
 		gradient.screenCenter();
 		gradient.antialiasing = true;
 		add(gradient);
+		}
 
 		magenta = new FlxSprite(-80).loadGraphic(Paths.image('menus/base/menuDesat'));
 		magenta.scrollFactor.set(0, 0.18);
@@ -303,6 +316,8 @@ class MainMenu extends MusicBeatState
 				menuItem.antialiasing = true;
 				//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
 				menuItem.updateHitbox();
+
+				if(arrow != null)
 				arrow.angle = 90;
 			}
 
@@ -318,6 +333,11 @@ class MainMenu extends MusicBeatState
 		versionShit.scrollFactor.set();
 		versionShit.cameras = [camHUD];
 		add(versionShit);
+
+		if(Init.trueSettings.get('FPS Counter') && Init.trueSettings.get('Memory Counter'))
+			{
+				versionShit.y = FlxG.height - 80;
+			}
 
 		if (logContent != null && logContent.length > 1)
 			logTrace('$logContent', 3);
@@ -344,6 +364,7 @@ class MainMenu extends MusicBeatState
 		add(freeplayPopup);
 		add(freeplayPopupSub);
 
+		if(!Init.trueSettings.get('Low Quality')) {
 		var scratchStuff:FlxSprite = new FlxSprite();
 		scratchStuff.frames = Paths.getSparrowAtlas('filters/scratchShit');
 		scratchStuff.animation.addByPrefix('idle', 'scratch thing 1', 24, true);
@@ -363,6 +384,7 @@ class MainMenu extends MusicBeatState
 		grain.scale.y = 1.1;
 		grain.cameras = [camHUD];
 		add(grain);
+		}
 	}
 
 	var selectedSomethin:Bool = false;
@@ -556,6 +578,7 @@ class MainMenu extends MusicBeatState
 			spr.updateHitbox();
 		});
 
+		if(arrow != null) {
 		switch(curSelected)
 		{
 			case 0:
@@ -571,6 +594,7 @@ class MainMenu extends MusicBeatState
 				arrow.y = 355;
 				arrow.x = 35;
 		}
+	}
 
 		if (menuItems.members[Math.floor(curSelected)].animation.curAnim.name == 'idle')
 			menuItems.members[Math.floor(curSelected)].animation.play('selected');

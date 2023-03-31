@@ -69,6 +69,8 @@ class FreeplayState extends MusicBeatState
 
 	var shaderTime:Float = 0;
 
+	var gradient:FlxSprite;
+
 	public var loadCustom:Bool = true;
 
 	public function new(?loadCustom:Bool = false)
@@ -80,6 +82,8 @@ class FreeplayState extends MusicBeatState
 
 	override function create()
 	{
+		Paths.clearUnusedMemory();
+
 		super.create();
 
 		smilesShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
@@ -161,23 +165,30 @@ class FreeplayState extends MusicBeatState
 		changeSelection();
 		changeDiff();
 
-		var scratchStuff:FlxSprite = new FlxSprite();
-		scratchStuff.frames = Paths.getSparrowAtlas('filters/scratchShit');
-		scratchStuff.animation.addByPrefix('idle', 'scratch thing 1', 24, true);
-		scratchStuff.animation.play('idle');
-		scratchStuff.screenCenter();
-		scratchStuff.scale.x = 1.1;
-		scratchStuff.scale.y = 1.1;
-		add(scratchStuff);
+		if(!Init.trueSettings.get('Low Quality'))
+			{
+				var scratchStuff:FlxSprite = new FlxSprite();
+				scratchStuff.frames = Paths.getSparrowAtlas('filters/scratchShit');
+				scratchStuff.animation.addByPrefix('idle', 'scratch thing 1', 24, true);
+				scratchStuff.animation.play('idle');
+				scratchStuff.screenCenter();
+				scratchStuff.scale.x = 1.1;
+				scratchStuff.scale.y = 1.1;
+				add(scratchStuff);
 
-		var grain:FlxSprite = new FlxSprite();
-		grain.frames = Paths.getSparrowAtlas('filters/Grainshit');
-		grain.animation.addByPrefix('idle', 'grains 1', 24, true);
-		grain.animation.play('idle');
-		grain.screenCenter();
-		grain.scale.x = 1.1;
-		grain.scale.y = 1.1;
-		add(grain);
+				var grain:FlxSprite = new FlxSprite();
+				grain.frames = Paths.getSparrowAtlas('filters/Grainshit');
+				grain.animation.addByPrefix('idle', 'grains 1', 24, true);
+				grain.animation.play('idle');
+				grain.screenCenter();
+				grain.scale.x = 1.1;
+				grain.scale.y = 1.1;
+				add(grain);
+
+				gradient = new FlxSprite().loadGraphic(Paths.image('UI/gimmicks/gradient'));
+				gradient.screenCenter();
+	 add(gradient);
+			}
 	}
 
 	function loadSongs(includeCustom:Bool)
@@ -461,18 +472,31 @@ class FreeplayState extends MusicBeatState
 			switch (songs[curSelected].name.toLowerCase())
 			{
 				case 'twisted-grins' | 'resentment' | 'mortiferum-risus':
-					FlxG.camera.setFilters([new ShaderFilter(smilesShader), new ShaderFilter(defaultShader2)]);
+					if(Init.trueSettings.get('Low Quality'))
+						FlxG.camera.setFilters([new ShaderFilter(defaultShader2)]);
+					else
+						FlxG.camera.setFilters([new ShaderFilter(smilesShader), new ShaderFilter(defaultShader2)]);
 
 				case 'mercy' | 'affliction':
+					if(!Init.trueSettings.get('Low Quality')) {
 					FlxG.camera.setFilters(
 						[
 							new ShaderFilter(mercyShader),
 							new ShaderFilter(mercyShader2),
 							new ShaderFilter(defaultShader2)
 						]);
+					} else {
+						FlxG.camera.setFilters(
+							[
+								new ShaderFilter(defaultShader2)
+							]);
+					}
 
 				default:
-					FlxG.camera.setFilters([new ShaderFilter(defaultShader), new ShaderFilter(defaultShader2)]);
+					if(!Init.trueSettings.get('Low Quality'))
+						FlxG.camera.setFilters([new ShaderFilter(defaultShader), new ShaderFilter(defaultShader2)]);
+					else
+						FlxG.camera.setFilters([new ShaderFilter(defaultShader2)]);
 			}
 		}
 	}

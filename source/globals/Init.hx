@@ -58,7 +58,7 @@ class Init extends FlxState
 			'Whether to pause the game automatically if the window is unfocused.',
 			NOT_FORCED
 		],
-		'FPS Counter' => [true, Checkmark, 'Whether to display the FPS counter.', NOT_FORCED],
+		'FPS Counter' => [true, Checkmark, 'Whether to display the FPS & Memory counter.', NOT_FORCED],
 		'Memory Counter' => [
 			true,
 			Checkmark,
@@ -101,6 +101,12 @@ class Init extends FlxState
 			true,
 			Checkmark,
 			'', // idk what to put lol
+			NOT_FORCED
+		],
+		'Low Quality' => [
+			false,
+			Checkmark,
+			'If checked, tons of content gets removed for more optimization (objects, some shaders, etc).',
 			NOT_FORCED
 		],
 		'Disable Flashing Lights' => [

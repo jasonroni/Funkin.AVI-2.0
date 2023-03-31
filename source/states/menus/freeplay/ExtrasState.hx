@@ -61,6 +61,8 @@ class ExtrasState extends MusicBeatState
 
 	public var loadCustom:Bool = true;
 
+	private var gradient:FlxSprite;
+
 	// The fact is i have to do this for organization and stuff -jason
 	var camGame:FlxCamera; // Main camera
 	var camHUD:FlxCamera; // Shaders and stuff
@@ -87,6 +89,8 @@ class ExtrasState extends MusicBeatState
 
 	override function create()
 	{
+		Paths.clearUnusedMemory();
+		
 		camGame = new FlxCamera();
 
 		camHUD = new FlxCamera();
@@ -219,6 +223,13 @@ class ExtrasState extends MusicBeatState
 		grain.scale.x = 1.1;
 		grain.scale.y = 1.1;
 		add(grain);
+
+		if(!Init.trueSettings.get('Low Quality'))
+			{
+				gradient = new FlxSprite().loadGraphic(Paths.image('UI/gimmicks/gradient'));
+				gradient.screenCenter();
+				add(gradient);
+			}
 	}
 
 	function loadSongs(includeCustom:Bool)
@@ -564,7 +575,6 @@ class ExtrasState extends MusicBeatState
 							new ShaderFilter(defaultShader2)
 						]);
 					FlxG.camera.shake(0.01, 0.001);
-
 				case 'cycled-sins':
 					FlxG.camera.setFilters(
 						[
