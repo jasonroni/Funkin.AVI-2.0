@@ -694,6 +694,7 @@ class PlayState extends MusicBeatState
 
 				case 'abandonedStreet' | 'forestNew' | 'apartment' | 'smilesOffice' | 'clubhouse' | 'delusionalStreet':
 					strumHUD[i].setFilters([new openfl.filters.ShaderFilter(grayScale)]);
+					strumLines.members[i].cameras = [strumHUD[i]];
 
 				default:
 					strumLines.members[i].cameras = [strumHUD[i]];

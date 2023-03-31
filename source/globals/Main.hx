@@ -224,6 +224,7 @@ class Main extends Sprite
 		FlxG.signals.gameResized.add(onResizeGame);
 		FlxG.signals.preStateSwitch.add(function () {
 			Paths.clearStoredMemory(true);
+			Paths.clearUnusedMemory();
 			FlxG.bitmap.dumpCache();
 			
 			gc();
