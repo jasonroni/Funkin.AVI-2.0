@@ -104,7 +104,7 @@ class SexState extends MusicBeatState
 
       if(Controls.getPressEvent("back"))
          {
-            lime.app.Application.current.window.alert('Bro think there was sex', 'L moment');
+            lime.app.Application.current.window.alert('Psych engine loser, laugh at this user', 'L moment');
             Main.switchState(this, new MainMenu());
          }
 
