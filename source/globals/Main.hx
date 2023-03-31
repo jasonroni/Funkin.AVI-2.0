@@ -1,5 +1,7 @@
 package globals;
 
+import cpp.vm.Gc;
+import flixel.graphics.FlxGraphic;
 import base.*;
 import base.Overlay.Console;
 import base.dependency.Discord;
@@ -7,6 +9,7 @@ import base.utils.FNFUtils.FNFGame;
 import base.utils.FNFUtils.FNFTransition;
 import flixel.FlxG;
 import flixel.FlxState;
+import flixel.FlxCamera;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.system.FlxRes;
 import flixel.tweens.*;
@@ -164,6 +167,10 @@ class Main extends Sprite
 		super();
 
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
+		
+		#if cpp 
+		Gc.enable(true);
+		#end
 
 		/**
 		 * locking neko platforms on 60 because similar to html5 it cannot go over that
@@ -212,6 +219,19 @@ class Main extends Sprite
 		baseGame = new FNFGame(_width, _height, Init, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash,
 			game.fullscreen);
 		addChild(baseGame); // and create it afterwards
+		FlxGraphic.defaultPersist = false;
+		
+		FlxG.signals.gameResized.add(onResizeGame);
+		FlxG.signals.preStateSwitch.add(function () {
+			Paths.clearStoredMemory(true);
+			FlxG.bitmap.dumpCache();
+			
+			gc();
+		});
+		FlxG.signals.postStateSwitch.add(function () {
+			Paths.clearUnusedMemory();
+			gc();
+		});
 
 		// initialize the game controls;
 		Controls.init();
@@ -293,7 +313,11 @@ class Main extends Sprite
 		}
 	}
 
-	// imagine stealing code smh
+	/*
+	* Haha, funi Indie Cross Code
+	* Updates music volume if autopause is disabled in your settings
+	*/
+	
 	function onWindowFocusOut()
 		{
 			focused = false;
@@ -397,5 +421,47 @@ class Main extends Sprite
 		}
 
 		destroyGame();
+	}
+	
+	/*
+	* Shader Fixes when game window gets resized.
+	* Along with some ram fixes for sprites and shit
+	*
+	* @author lunarcleint
+	*/
+	
+	function onResizeGame(w:Int, h:Int) {
+		if (FlxG.cameras == null)
+			return;
+
+		for (cam in FlxG.cameras.list) {
+			@:privateAccess
+			if (cam != null && (cam._filters != null || cam._filters != []))
+				fixShaderSize(cam);
+		}	
+	}
+
+	function fixShaderSize(camera:FlxCamera) // Shout out to Ne_Eo for bringing this to my attention
+	{
+		@:privateAccess {
+			var sprite:Sprite = camera.flashSprite;
+
+			if (sprite != null)
+			{
+				sprite.__cacheBitmap = null;
+				sprite.__cacheBitmapData = null;
+				sprite.__cacheBitmapData2 = null;
+				sprite.__cacheBitmapData3 = null;
+				sprite.__cacheBitmapColorTransform = null;
+			}
+		}
+	}
+	
+	public static function gc() {
+		#if cpp
+		Gc.run(true);
+		#else
+		openfl.system.System.gc();
+		#end
 	}
 }
