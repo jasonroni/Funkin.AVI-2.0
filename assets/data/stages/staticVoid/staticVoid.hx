@@ -36,12 +36,15 @@ function onCreate()
 	datTV.alpha = 0.001;
 	add(datTV);
 	
-	redGradThing = FlxGradient.createGradientFlxSprite(2130, 512, [0x00940606, 0x55BF0606, 0xAAFC0505], 1, 90, true);
-	redGradThing.x = -740;
-	redGradThing.y = 770;
-	redGradThing.scale.y = 0;
-	redGradThing.updateHitbox();
-	add(redGradThing);
+	if(!lowQuality)
+		{
+			redGradThing = FlxGradient.createGradientFlxSprite(2130, 512, [0x00940606, 0x55BF0606, 0xAAFC0505], 1, 90, true);
+			redGradThing.x = -740;
+			redGradThing.y = 770;
+			redGradThing.scale.y = 0;
+			redGradThing.updateHitbox();
+			add(redGradThing);
+		}
 }
 
 function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
@@ -99,10 +102,12 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 		}
 	
 	if (curBeat == 136 || curBeat == 140 || curBeat == 144 || curBeat == 148 || curBeat == 152 || curBeat == 156 || curBeat == 160 || curBeat == 164)
-		FlxTween.tween(redGradThing.scale, {y: 1.5}, 0.5, {ease: FlxEase.quadInOut});
+		if(!lowQuality && redGradThing != null)
+			FlxTween.tween(redGradThing.scale, {y: 1.5}, 0.5, {ease: FlxEase.quadInOut});
 	
 	if (curBeat == 138 || curBeat == 142 || curBeat == 146 || curBeat == 150 || curBeat == 154 || curBeat == 158 || curBeat == 162 || curBeat == 166)
-		FlxTween.tween(redGradThing.scale, {y: 0}, 0.5, {ease: FlxEase.quadInOut});
+		if(!lowQuality && redGradThing != null)
+			FlxTween.tween(redGradThing.scale, {y: 0}, 0.5, {ease: FlxEase.quadInOut});
 
 	if(canZoom && curBeat % 1 == 0)
 		{

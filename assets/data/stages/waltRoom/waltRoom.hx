@@ -41,23 +41,34 @@ function onCreate()
 	greaterPiss.alpha = 0;
 	add(greaterPiss);
 
-	var vignette:FNFSprite = new FNFSprite(-250, -140).loadGraphic(Paths.image('vignetteOverlay', 'data/stages/waltRoom/images'));
-	vignette.cameras = [PlayState.camAlt];
-	vignette.scale.set(0.75, 0.75);
-	vignette.antialiasing = true;
-	vignette.scrollFactor();
-	vignette.active = false;
-	add(vignette);
+	if(!lowQuality)
+		{
+			var vignette:FNFSprite = new FNFSprite(-250, -140).loadGraphic(Paths.image('vignetteOverlay', 'data/stages/waltRoom/images'));
+			vignette.cameras = [PlayState.camAlt];
+			vignette.scale.set(0.75, 0.75);
+			vignette.antialiasing = true;
+			vignette.scrollFactor();
+			vignette.active = false;
+			add(vignette);
+		}
 
 	vhsFilter = new FlxRuntimeShader(File.getContent("./assets/shaders/vhs.frag"), null, 130);
 
 	grainFilter = new FlxRuntimeShader(File.getContent("./assets/shaders/filmgrain.frag"), null, 150);
 
-	PlayState.camGame.setFilters(
-		[
-			new ShaderFilter(vhsFilter),
-			new ShaderFilter(grainFilter),
-		]);
+	if(!lowQuality)
+		{
+			PlayState.camGame.setFilters(
+				[
+					new ShaderFilter(vhsFilter),
+					new ShaderFilter(grainFilter),
+				]);
+		} else {
+			PlayState.camGame.setFilters(
+				[
+					new ShaderFilter(vhsFilter),
+				]);
+		}
 }
 
 function charStagePos(boyfriend:Character, gf:Character, dad:Character)

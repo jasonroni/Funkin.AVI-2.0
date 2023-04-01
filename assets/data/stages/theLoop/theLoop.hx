@@ -22,33 +22,48 @@ function onCreate()
     tilt.setFloat('bluramount', 0.6);
     tilt_hud.setFloat('bluramount', 0.1);
 
-    PlayState.camGame.setFilters(
-        [
-            //new ShaderFilter(tilt),
-            new ShaderFilter(grayScale),
-            //new ShaderFilter(monitor),
-            new ShaderFilter(peak),
-        ]);
-
-    PlayState.camHUD.setFilters(
-        [
-            new ShaderFilter(peak),
-            //new ShaderFilter(tilt_hud),
-            new ShaderFilter(grayScale)
-        ]);
-
+    if(!Init.trueSettings.get('Disable Screen Shaders'))
+        {
+            if(!lowQuality)
+                {
+                    PlayState.camGame.setFilters(
+                        [
+                            new ShaderFilter(grayScale),
+                            new ShaderFilter(peak),
+                        ]);
+                
+                    PlayState.camHUD.setFilters(
+                        [
+                            new ShaderFilter(peak),
+                            new ShaderFilter(grayScale)
+                        ]);
+                } else {
+                    PlayState.camGame.setFilters(
+                        [
+                            new ShaderFilter(peak),
+                        ]);
+                
+                    PlayState.camHUD.setFilters(
+                        [
+                            new ShaderFilter(peak),
+                        ]);
+                }
+        }
 
     var street:FlxSprite = new FlxSprite(-500, -700).loadGraphic(Paths.image('Mickeybg', 'data/stages/theLoop/images'));
     add(street);
 
-    var grainstuff:FlxSprite = new FlxSprite(0, 0);
-    grainstuff.frames = Paths.getSparrowAtlas('Grainshit', 'data/stages/theLoop/images');
-    grainstuff.animation.addByPrefix('yucky', 'grains 1', 24, true);
-    grainstuff.animation.play('yucky');
-    grainstuff.cameras = [PlayState.camHUD];
-    grainstuff.scale.set(3, 3);
-    grainstuff.screenCenter();
-    add(grainstuff);
+    if(!lowQuality)
+        {
+            var grainstuff:FlxSprite = new FlxSprite(0, 0);
+            grainstuff.frames = Paths.getSparrowAtlas('Grainshit', 'data/stages/theLoop/images');
+            grainstuff.animation.addByPrefix('yucky', 'grains 1', 24, true);
+            grainstuff.animation.play('yucky');
+            grainstuff.cameras = [PlayState.camHUD];
+            grainstuff.scale.set(3, 3);
+            grainstuff.screenCenter();
+            add(grainstuff);
+        }
 }
 
 var time:Float = 0;

@@ -24,22 +24,32 @@ function onCreate()
 	wobblyBG.setFloat('uFrequency', 1.0);
 	wobblyBG.setFloat('uWaveAmplitude', 0.5);
 
-	PlayState.camGame.setFilters([
-		new ShaderFilter(grainFilter),
-		new ShaderFilter(monitorFilter),
-		new ShaderFilter(bloomEffect)
-	]);
+	if(!lowQuality)
+		{
+			PlayState.camGame.setFilters([
+				new ShaderFilter(grainFilter),
+				new ShaderFilter(monitorFilter),
+				new ShaderFilter(bloomEffect)
+			]);
+		} else {
+			PlayState.camGame.setFilters([
+				new ShaderFilter(monitorFilter),
+			]);
+		}
 
 	spawnGirlfriend(false);
 	PlayState.cameraSpeed = 0.9;
 	PlayState.defaultCamZoom = 0.65;
 	PlayState.skipCountdown = true;
 
-	goofyBG = new FNFSprite(-600, -650).loadGraphic(Paths.image('bg', 'data/stages/forestNew/images'));
-	goofyBG.scrollFactor.set(0.7, 0.7);
-	goofyBG.scale.set(1.2, 1.2);
-	goofyBG.screenCenter();
-	add(goofyBG);
+	if(!lowQuality)
+		{
+			goofyBG = new FNFSprite(-600, -650).loadGraphic(Paths.image('bg', 'data/stages/forestNew/images'));
+			goofyBG.scrollFactor.set(0.7, 0.7);
+			goofyBG.scale.set(1.2, 1.2);
+			goofyBG.screenCenter();
+			add(goofyBG);
+		}
 
 	treesBack = new FNFSprite(-550, -650).loadGraphic(Paths.image('treesBack', 'data/stages/forestNew/images'));
 	treesBack.scale.set(1.3, 1.2);
@@ -51,10 +61,13 @@ function onCreate()
 	goofyStreet.scrollFactor.set(1, 1);
 	add(goofyStreet);
 
-	treesFront = new FNFSprite(-550, -650).loadGraphic(Paths.image('treesFront', 'data/stages/forestNew/images'));
-	treesFront.scale.set(1.5, 1.5);
-	treesFront.scrollFactor.set(1.2, 1.2);
-	foreground.add(treesFront);
+	if(!lowQuality)
+		{
+			treesFront = new FNFSprite(-550, -650).loadGraphic(Paths.image('treesFront', 'data/stages/forestNew/images'));
+			treesFront.scale.set(1.5, 1.5);
+			treesFront.scrollFactor.set(1.2, 1.2);
+			foreground.add(treesFront);
+		}
 }
 
 function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
@@ -65,32 +78,57 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 	{
 		if (curBeat == 192)
 		{	
-			goofyBG.shader = wobblyBG;
-			goofyStreet.shader = wobblyBG;
-			treesBack.shader = wobblyBG;
-			treesFront.shader = wobblyBG;
+			if(!lowQuality && goofyBG != null && treesFront != null)
+				{
+					goofyBG.shader = wobblyBG;
+					goofyStreet.shader = wobblyBG;
+					treesBack.shader = wobblyBG;
+					treesFront.shader = wobblyBG;
+				}
 			PlayState.camGame.flash("white", 1);
-			PlayState.camGame.setFilters(
-				[	
-					new ShaderFilter(vignette),
-					new ShaderFilter(grainFilter),
-					new ShaderFilter(monitorFilter),
-					new ShaderFilter(bloomEffect)
-				]);
+
+			if(!lowQuality)
+				{
+					PlayState.camGame.setFilters(
+						[	
+							new ShaderFilter(vignette),
+							new ShaderFilter(grainFilter),
+							new ShaderFilter(monitorFilter),
+							new ShaderFilter(bloomEffect)
+						]);
+				} else {
+					PlayState.camGame.setFilters(
+						[	
+							new ShaderFilter(vignette),
+							new ShaderFilter(monitorFilter),
+						]);
+				}
 		}
 		if (curBeat == 256)
 		{
-			goofyBG.shader = null;
-			goofyStreet.shader = null;
-			treesBack.shader = null;
-			treesFront.shader = null;
+			if(!lowQuality && treesFront != null && goofyBG != null)
+				{
+					goofyBG.shader = null;
+					goofyStreet.shader = null;
+					treesBack.shader = null;
+					treesFront.shader = null;
+				}
 			PlayState.camGame.flash("white", 1);
-			PlayState.camGame.setFilters(
-				[	
-					new ShaderFilter(grainFilter),
-					new ShaderFilter(monitorFilter),
-					new ShaderFilter(bloomEffect)
-				]);
+			
+			if(!lowQuality)
+				{
+					PlayState.camGame.setFilters(
+						[	
+							new ShaderFilter(grainFilter),
+							new ShaderFilter(monitorFilter),
+							new ShaderFilter(bloomEffect)
+						]);
+				} else {
+					PlayState.camGame.setFilters(
+						[	
+							new ShaderFilter(monitorFilter),
+						]);
+				}
 		}
 	}
 }

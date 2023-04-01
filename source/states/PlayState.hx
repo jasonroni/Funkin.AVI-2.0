@@ -1093,7 +1093,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 	
-	/*
+	/**
 	* The better and simplified Walt gimmick
 	*
 	* @author Wither362
