@@ -209,7 +209,6 @@ class TitleState extends states.MusicBeatState
 		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
 		FlxG.camera.setFilters(
 			[
-				new openfl.filters.ShaderFilter(defaultShader),
 				new openfl.filters.ShaderFilter(defaultShader2)
 			]);
 
@@ -293,30 +292,25 @@ class TitleState extends states.MusicBeatState
 		whiteFade.alpha = 0;
 		add(whiteFade);
 
-		var scratchStuff:FlxSprite = new FlxSprite();
-		scratchStuff.frames = Paths.getSparrowAtlas('filters/scratchShit');
-		scratchStuff.animation.addByPrefix('idle', 'scratch thing 1', 24, true);
-		scratchStuff.animation.play('idle');
-		scratchStuff.screenCenter();
-		scratchStuff.scale.x = 1.1;
-		scratchStuff.scale.y = 1.1;
-		add(scratchStuff);
+		if(!Init.trueSettings.get('Low Quality')) {
+			var scratchStuff:FlxSprite = new FlxSprite();
+			scratchStuff.frames = Paths.getSparrowAtlas('filters/scratchShit');
+			scratchStuff.animation.addByPrefix('idle', 'scratch thing 1', 24, true);
+			scratchStuff.animation.play('idle');
+			scratchStuff.screenCenter();
+			scratchStuff.scale.x = 1.1;
+			scratchStuff.scale.y = 1.1;
+			add(scratchStuff);
 
-		var grain:FlxSprite = new FlxSprite();
-		grain.frames = Paths.getSparrowAtlas('filters/Grainshit');
-		grain.animation.addByPrefix('idle', 'grains 1', 24, true);
-		grain.animation.play('idle');
-		grain.screenCenter();
-		grain.scale.x = 1.1;
-		grain.scale.y = 1.1;
-		add(grain);
-
-		gradient = new FlxSprite().loadGraphic(Paths.image('filters/gradient'));
-		gradient.scrollFactor.set(0, 0);
-		gradient.setGraphicSize(Std.int(gradient.width * 0.8));
-		gradient.updateHitbox();
-		gradient.screenCenter();
-		gradient.antialiasing = true;
+			var grain:FlxSprite = new FlxSprite();
+			grain.frames = Paths.getSparrowAtlas('filters/Grainshit');
+			grain.animation.addByPrefix('idle', 'grains 1', 24, true);
+			grain.animation.play('idle');
+			grain.screenCenter();
+			grain.scale.x = 1.1;
+			grain.scale.y = 1.1;
+			add(grain);
+		}
 		
 		if (initialized)
 			skipIntro();

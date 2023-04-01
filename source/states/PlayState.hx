@@ -778,20 +778,23 @@ class PlayState extends MusicBeatState
 		crashLivesIcon.antialiasing = false;
 		crashLivesIcon.cameras = [camHUD];
 
-		scratchButLessVisible = new FlxSprite();
-		scratchButLessVisible.frames = Paths.getSparrowAtlas('filters/scratchShit');
-		scratchButLessVisible.animation.addByPrefix('e', 'scratch thing', 24, true);
-		scratchButLessVisible.animation.play('e');
-		scratchButLessVisible.cameras = [camScratch];
-		scratchButLessVisible.alpha = 0.5;
-		add(scratchButLessVisible);
-
-		scratch = new FlxSprite();
-		scratch.frames = Paths.getSparrowAtlas('filters/scratchShit');
-		scratch.animation.addByPrefix('e', 'scratch thing', 24, true);
-		scratch.animation.play('e');
-		scratch.cameras = [camScratch];
-		add(scratch);
+		if(!Init.trueSettings.get('Low Quality'))
+			{
+				scratchButLessVisible = new FlxSprite();
+				scratchButLessVisible.frames = Paths.getSparrowAtlas('filters/scratchShit');
+				scratchButLessVisible.animation.addByPrefix('e', 'scratch thing', 24, true);
+				scratchButLessVisible.animation.play('e');
+				scratchButLessVisible.cameras = [camScratch];
+				scratchButLessVisible.alpha = 0.5;
+				add(scratchButLessVisible);
+		
+				scratch = new FlxSprite();
+				scratch.frames = Paths.getSparrowAtlas('filters/scratchShit');
+				scratch.animation.addByPrefix('e', 'scratch thing', 24, true);
+				scratch.animation.play('e');
+				scratch.cameras = [camScratch];
+				add(scratch);
+			}
 
 		fade = new FlxSprite().makeGraphic(FlxG.width * 3, FlxG.height * 3, 0x000000);
 		fade.screenCenter();

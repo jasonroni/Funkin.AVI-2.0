@@ -128,6 +128,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 		setVar('foreground', foreground);
 		setVar('layers', layers);
 		setVar('gfVersion', gfVersion);
+		setVar('lowQuality', Init.trueSettings.get('Low Quality'));
 		setVar('game', PlayState.main);
 		setVar('spawnGirlfriend', function(blah:Bool)
 		{
