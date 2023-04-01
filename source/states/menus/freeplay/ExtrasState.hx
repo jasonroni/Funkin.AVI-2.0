@@ -542,12 +542,17 @@ class ExtrasState extends MusicBeatState
 
 				case 'malfunction':
 					if(Init.trueSettings.get('Low Quality')) {
-					FlxG.camera.setFilters(
-						[
-							new ShaderFilter(defaultShader2)
-						]);
+						FlxG.camera.setFilters(
+							[
+								new ShaderFilter(defaultShader2)
+							]);
 					} else {
-
+						FlxG.camera.setFilters(
+							[
+								new ShaderFilter(glitchyStuff), 
+								new ShaderFilter(chromAberration),
+								new ShaderFilter(defaultShader2)
+							]);
 					}
 					FlxG.camera.shake(0.01, 0.001);
 
