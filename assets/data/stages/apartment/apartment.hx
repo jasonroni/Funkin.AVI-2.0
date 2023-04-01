@@ -30,7 +30,7 @@ function onCreate()
     PlayState.camGame.setFilters(
         [
             new ShaderFilter(dramaticCam),
-            new ShaderFilter(monitorFilter)
+            //new ShaderFilter(monitorFilter)
         ]);
 
     bg1 = new FlxSprite(0, 50);
@@ -73,7 +73,7 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
                 new ShaderFilter(vignette),
                 new ShaderFilter(chrom),
                 new ShaderFilter(dramaticCam),
-                new ShaderFilter(monitorFilter)
+                //new ShaderFilter(monitorFilter)
             ]);
         bg1.visible = false;
         bg2.visible = true;

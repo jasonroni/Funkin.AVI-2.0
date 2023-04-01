@@ -189,6 +189,8 @@ class PlayState extends MusicBeatState
 	public static var vanillaHUD:VanillaHUD;
 	public static var kadeHUD:KadeHUD;
 	public static var demolitionHUD:DemolitionHUD;
+	public static var cycledSinsHUD:CycledSinsHUD;
+
 	public static var daPixelZoom:Float = 6;
 
 	public static var stageBuild:Stage;
@@ -730,6 +732,11 @@ class PlayState extends MusicBeatState
 		kadeHUD.alpha = 0;
 		add(kadeHUD);
 		kadeHUD.cameras = [camHUD];
+
+		cycledSinsHUD = new CycledSinsHUD();
+		cycledSinsHUD.alpha = 0;
+		add(cycledSinsHUD);
+		cycledSinsHUD.cameras = [camHUD];
 
 		if (Init.trueSettings.get('Judgement Recycling'))
 		{
@@ -2491,7 +2498,7 @@ class PlayState extends MusicBeatState
 			System.exit(0);
 		}
 	}
-		
+
 	/**
 	* # **The Cycled Sins Gimmick**
 	*
@@ -2642,6 +2649,7 @@ class PlayState extends MusicBeatState
 		psychHUD.beatHit(curBeat);
 		vanillaHUD.beatHit(curBeat);
 		kadeHUD.beatHit(curBeat);
+		cycledSinsHUD.beatHit(curBeat);
 
 		//
 		charactersDance(curBeat);
@@ -3329,16 +3337,13 @@ class PlayState extends MusicBeatState
 		}
 		//
 
-		switch (Init.trueSettings.get('HUD Style').toLowerCase())
+		switch(SONG.song.toLowerCase().replace('-', ' '))
 		{
-			case 'psych': // psych engine fans gonna go nuts about this
-				FlxTween.tween(psychHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
-
-			case 'demolition': // demoliton HUD
-				FlxTween.tween(demolitionHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
-
-			default: // forever HUD
-				FlxTween.tween(uiHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+			case 'cycled sins':
+				FlxTween.tween(cycledSinsHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+				
+			default:
+				checkHUDS();
 		}
 
 		if (skipCountdown)
@@ -3462,6 +3467,23 @@ class PlayState extends MusicBeatState
 			callFunc('countdownTick', [countdownPos]);
 		}, 5);
 	}
+
+	private function checkHUDS():ClassHUD
+		{
+			switch (Init.trueSettings.get('HUD Style').toLowerCase())
+			{
+				case 'psych': // psych engine fans gonna go nuts about this
+					FlxTween.tween(psychHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+	
+				case 'demolition': // demoliton HUD
+					FlxTween.tween(demolitionHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+	
+				default: // forever HUD
+					FlxTween.tween(uiHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+			}
+
+			return Init.trueSettings.get('HUD Style');
+		}
 
 	public function leavePlayState()
 	{
