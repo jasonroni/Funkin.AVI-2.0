@@ -2731,7 +2731,29 @@ class PlayState extends MusicBeatState
 				{
 					case 16: FlxTween.tween(camGame, {alpha: 1}, 3, {ease: FlxEase.quadOut});
 						
+					case 32:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.BLACK, 1.5);
+
+					case 38 | 46 | 54 | 62:
+						FlxG.camera.zoom += 0.065;
+
+					case 40 | 48 | 56:
+						defaultCamZoom += 0.15;
+
+					case 64:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.BLACK, 0.9);
+						defaultCamZoom = 0.87;
+					
+					case 70 | 78 | 86:
+						FlxG.camera.zoom += 0.045;
+					
+					case 72 | 80 | 88:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.BLACK, 0.9);
+						defaultCamZoom += 0.15;
+						
+						
 					case 96:
+						defaultCamZoom = 0.75;
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
 						FlxTween.tween(camHUD, {alpha: 1}, 2, {ease: FlxEase.sineOut});
 						for (i in strumHUD)
