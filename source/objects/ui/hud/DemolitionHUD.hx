@@ -60,7 +60,9 @@ class DemolitionHUD extends FlxSpriteGroup
 		"WHAT THE FUCK IS WRONG WITH YOU?",
 		"I think you deserve this loop curse more than Mickey",
 		"no.",
-		"If you're doing this on Malfunction, you're gonna die lmao"
+		"If you're doing this on Malfunction, you're gonna die lmao",
+		"i bet you fail to the tutorial still...",
+		"I will personally skin you <3"
 	];
 
 	// icons
