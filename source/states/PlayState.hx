@@ -2421,7 +2421,7 @@ class PlayState extends MusicBeatState
 	*
 	* @author DEMOLITIONDON96
 	*/
-	function flashBGEffect(alpha:Int = 0.5, time:Float = 1, ease:String = 'linear', r:Int = 255, g:Int = 255. b:Int = 255) // TODO: Make this function shorter
+	function flashBGEffect(alpha:Float = 0.5, time:Float = 1, ease:String = 'linear', r:Float = 255, g:Float = 255, b:Float = 255, ?a:Float = 1) // TODO: Make this function shorter
 	{
 		if (!Init.trueSettings.get('Disable Flashing Lights'))
 		{
@@ -2438,7 +2438,7 @@ class PlayState extends MusicBeatState
 			else
 				stageBGFlash.blend = ADD;
 
-			stageBGFlash.color = FlxColor.fromRGB(r, g, b);
+			stageBGFlash.color = FlxColor.fromRGBFloat(r, g, b, a);
 
 			if (BGFlashTween != null) // makes it so it won't look wonky, visually
 				BGFlashTween.cancel();

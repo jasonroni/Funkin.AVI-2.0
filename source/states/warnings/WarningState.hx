@@ -1,6 +1,5 @@
 package states.warnings;
 
-import base.dependency.HardcodedShaders;
 import flash.system.System;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
