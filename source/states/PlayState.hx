@@ -3625,8 +3625,6 @@ class PlayState extends MusicBeatState
 				{
 					case 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus' | 'Mercy' | 'Affliction':
 						Main.switchState(this, new states.menus.freeplay.FreeplayState());
-					case 'Birthday':
-						Main.switchState(this, new states.ManIHateYouSoMuchYouMadeMuckneySad()); // grah
 					default:
 						if (PlayState.SONG.song.endsWith('Legacy'))
 							Main.switchState(this, new states.menus.freeplay.LegacyState());
