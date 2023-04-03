@@ -2426,7 +2426,9 @@ class PlayState extends MusicBeatState
 	* @param alpha - the visiblity of your BG you want it to flash at
 	* @param time - How long you want the tween to take
 	* @param ease - Uses ForeverTools to handle the ease function, so I suggest looking at ForeverDeps.hx to see your options
-	* @param r/g/b - All 3 are used for FlxColor.fromRGB() as individual numbers to make a color
+	* @param r - a value used for FlxColor.fromRGB() as an individual number to make a color
+	* @param g - same as the "r" value
+	* @param b - you get the idea
 	*
 	* @author DEMOLITIONDON96
 	*/
