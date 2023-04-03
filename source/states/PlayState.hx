@@ -457,7 +457,7 @@ class PlayState extends MusicBeatState
 
 		add(stageBuild.layers);
 		
-		stageBGFlash.alpha = 0.001;
+		stageBGFlash.alpha = 0;
 		add(stageBGFlash);
 
 		if (curStage == 'fuckingLine')
@@ -505,7 +505,7 @@ class PlayState extends MusicBeatState
 
 		add(stageBuild.layers);
 		
-		stageBGFlash.alpha = 0.001;
+		stageBGFlash.alpha = 0;
 		add(stageBGFlash);
 
 		add(opponent);
@@ -2422,9 +2422,9 @@ class PlayState extends MusicBeatState
 	*
 	* @author DEMOLITIONDON96
 	*/
-	function flashBGEffect(alpha:Float = 0.5, time:Float = 1, ease:String = 'linear', r:Float = 255, g:Float = 255, b:Float = 255, ?a:Float = 1) // TODO: Make this function shorter
+	function flashBGEffect(alpha:Float = 0.5, time:Float = 1, ease:String = 'linear', r:Float = 255, g:Float = 255, b:Float = 255, ?a:Float = 255) // TODO: Make this function shorter
 	{
-		if (!Init.trueSettings.get('Disable Flashing Lights'))
+		if (!Init.trueSettings.get('Disable Flashing Lights') && stageBGFlash != null)
 		{
 			if (alpha > 1 || alpha < 0) // prevents a crash from making a dumb mistake
 				stageBGFlash.alpha = 0.5;
@@ -2453,7 +2453,6 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	
 	/**
 	* # Camera Zoom Tween Fix
 	* 
@@ -2465,9 +2464,9 @@ class PlayState extends MusicBeatState
 	*
 	* @author JustJasonLol
 	*/
-	function tweenCamera(zoom:Float = 0.9, time:Float = 0.6, ease:Null<EaseFunction>):Void
+	function tweenCamera(zoom:Float = 0.9, time:Float = 0.6, ease:Null<String>):Void
 	{
-		FlxTween.tween(FlxG.camera, {zoom: zoom}, time, {ease: ease, onComplete: e -> defaultCamZoom = zoom});
+		FlxTween.tween(FlxG.camera, {zoom: zoom}, time, {ease: ForeverTools.returnTweenEase(ease), onComplete: e -> defaultCamZoom = zoom});
 	}
 
 	/**
@@ -3108,7 +3107,7 @@ class PlayState extends MusicBeatState
 				{
 					// Intro Cam Stuff
 					case 1:	FlxTween.tween(camGame, {alpha: 1}, 5, {ease: FlxEase.sineInOut});
-					case 16: tweenCamera(1.2, 5, {FlxEase.quartInOut;}); // yes you gonna have to add a ; at the end of the {} because flixel
+					case 16: tweenCamera(1.2, 5, 'quartInOut'); // yes you gonna have to add a ; at the end of the {} because flixel
 					case 32:
 						defaultCamZoom = 0.8;
 						FlxTween.tween(camHUD, {alpha: 1}, 0.5, {ease: FlxEase.sineOut});
@@ -3117,13 +3116,13 @@ class PlayState extends MusicBeatState
 						        FlxTween.tween(i, {alpha: 1}, 0.5, {ease: FlxEase.sineOut});
 						}	
 					case 39 | 48 | 64 | 72 | 88 | 96 | 103 | 113 | 128 | 184 | 192: defaultCamZoom = 0.8;
-					case 38 | 102: tweenCamera(1.5, 0.25, {FlxEase.sineInOut;});
+					case 38 | 102: tweenCamera(1.5, 0.25, 'sineInOut');
 					case 45 | 61 | 110 | 126 | 187: defaultCamZoom = 0.9;
 					case 46 | 62 | 67 | 76 | 83 | 92 | 111 | 127 | 158 | 190: defaultCamZoom = 1;
 					case 47 | 63 | 68 | 84 | 112 | 159: defaultCamZoom = 1.3;
 					case 69 | 85: defaultCamZoom = 1.1;				
 					case 160: defaultCamZoom = 0.65;
-					case 164: tweenCamera(1.5, 6, {FlxEase.sineInOut;});
+					case 164: tweenCamera(1.5, 6, 'sineInOut');
 						
 					// Ight Jason, the fun part's all yours
 					// The fun begins 0_0
