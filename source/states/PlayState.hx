@@ -146,14 +146,6 @@ class PlayState extends MusicBeatState
 	public var canPause:Bool = true;
 	public var paused:Bool = false;
 
-	// Malfunction Gimmick
-	var crashLives:FlxText;
-	var crashLivesIcon:FlxSprite;
-	public var crashLivesCounter:Int = 0;
-
-	var heartTween:FlxTween;
-	var malfunctionTxt:FlxTween;
-
 	// Cameras;
 	private var camFollow:FlxObject;
 	private var camFollowPos:FlxObject;
@@ -219,12 +211,24 @@ class PlayState extends MusicBeatState
 
 	// troll
 	private var isDebugMode:Bool = false;
+	
+	// Malfunction Gimmick
+	var crashLives:FlxText;
+	var crashLivesIcon:FlxSprite;
+	public var crashLivesCounter:Int = 0;
+
+	var heartTween:FlxTween;
+	var malfunctionTxt:FlxTween;
 
 	// Mercy Gimmick
 	var waltScreenThing:FlxSprite; // idk, this is needed too for some reason
 	var inkFormWarning:FlxText;
 	var spaceBarCounter:FlxText;
 	var limitThing:Int = 0; // Default Value
+	
+	// Stage BG Flash Stuff
+	var stageBGFlash:FlxSprite = new FlxSprite(-800, -200).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFFFFFFF);
+	var BGFlashTween:FlxTween;
 
 	var fade:FlxSprite;
 
@@ -452,6 +456,9 @@ class PlayState extends MusicBeatState
 			add(gf);
 
 		add(stageBuild.layers);
+		
+		stageBGFlash.alpha = 0.001;
+		add(stageBGFlash);
 
 		if (curStage == 'fuckingLine')
 		{
@@ -497,6 +504,9 @@ class PlayState extends MusicBeatState
 			add(gf);
 
 		add(stageBuild.layers);
+		
+		stageBGFlash.alpha = 0.001;
+		add(stageBGFlash);
 
 		add(opponent);
 		add(boyfriend);
@@ -1223,17 +1233,13 @@ class PlayState extends MusicBeatState
 					{
 						PlayState.SONG.validScore = false;
 						bfStrums.autoplay = !bfStrums.autoplay;
-						switch (Init.trueSettings.get('HUD Style').toLowerCase())
+						switch(SONG.song.toLowerCase().replace('-', ' '))
 						{
-							case 'psych':
-								psychHUD.autoplayMark.visible = bfStrums.autoplay;
-								psychHUD.scoreBar.visible = !bfStrums.autoplay;
-							case 'demolition':
-								demolitionHUD.autoplayMark.visible = bfStrums.autoplay;
-								demolitionHUD.scoreBar.visible = !bfStrums.autoplay;
+							case 'cycled sins':
+								cycledSinsHUD.autoplayMark.visible = bfStrums.autoplay;
+								cycledSinsHUD.scoreBar.visible = !bfStrums.autoplay;
 							default:
-								uiHUD.autoplayMark.visible = bfStrums.autoplay;
-								uiHUD.scoreBar.visible = !bfStrums.autoplay;
+								checkAutoplayText();
 						}
 					}
 
@@ -2325,6 +2331,8 @@ class PlayState extends MusicBeatState
 	* simply tag in your gimmick here with the stage/song you want it
 	* to occur at, in other words, go nuts
 	*
+	* @param isAutoplay - Do I REALLY need to explain this one?
+	*
 	* @author DEMOLITIONDON96
 	*/
 	function detectSpace(isAutoplay:Bool = false)
@@ -2396,20 +2404,73 @@ class PlayState extends MusicBeatState
 			}
 		}
 	}
+					
+	/**
+	* # Stage Background Flash Function
+	*
+	* Basically the BG Flash used in Isolated but it's now hardcoded and can be used globally now.
+	* The reasoning for this is cause I'm NOT gonna go and duplicate the flash assets from the episode 1
+	* stage onto other stages I want to use it at, too much work!
+	*
+	* @param alpha - the visiblity of your BG you want it to flash at
+	* @param time - How long you want the tween to take
+	* @param ease - Uses ForeverTools to handle the ease function, so I suggest looking at ForeverDeps.hx to see your options
+	* @param r - a value used for FlxColor.fromRGB() as an individual number to make a color
+	* @param g - same as the "r" value
+	* @param b - you get the idea
+	*
+	* @author DEMOLITIONDON96
+	*/
+	function flashBGEffect(alpha:Int = 0.5, time:Float = 1, ease:String = 'linear', r:Int = 255, g:Int = 255. b:Int = 255) // TODO: Make this function shorter
+	{
+		if (!Init.trueSettings.get('Disable Flashing Lights'))
+		{
+			if (alpha > 1 || alpha < 0) // prevents a crash from making a dumb mistake
+				stageBGFlash.alpha = 0.5;
+			else
+				stageBGFlash.alpha = alpha;
+
+			if (time <= 0) // another check to prevent a crash
+				time = 1;
+
+			if (r == 0 && g == 0 && b == 0) // blend check cause it makes it look cool
+				stageBGFlash.blend = null;
+			else
+				stageBGFlash.blend = ADD;
+
+			stageBGFlash.color = FlxColor.fromRGB(r, g, b);
+
+			if (BGFlashTween != null) // makes it so it won't look wonky, visually
+				BGFlashTween.cancel();
+
+			BGFlashTween = FlxTween.tween(stageBGFlash, {alpha: 0}, time, {ease: ForeverTools.returnTweenEase(ease), 
+				onComplete: function(twn:FlxTween)
+				{
+					BGFlashTween = null;
+				}
+			});
+		}
+	}
 
 	
 	/**
-	 * smh imagine fucking up something simple - Jason
-	 * 
-	 * not my fault PlayState works a bit differently with the cam zoom shit >:( - don
-	 */
-	 function tweenCamera(zoom:Float = 0.9, time:Float = 0.6, ease:Null<EaseFunction>):Void
-		{
-			FlxTween.tween(FlxG.camera, {zoom: zoom}, time, {ease: ease, onComplete: e -> defaultCamZoom = zoom});
-		}
+	* # Camera Zoom Tween Fix
+	* 
+	* Don't know why, but this was NEEDED to fix the zooming from breaking, smh.
+	*
+	* @param zoom - Sets the zoom value of the camera
+	* @param time - How long you want the tween to take
+	* @param ease - I suggest reading the HaxeFlixel API on this one, this uses FlxEase's library components if you don't know how to use this
+	*
+	* @author JustJasonLol
+	*/
+	function tweenCamera(zoom:Float = 0.9, time:Float = 0.6, ease:Null<EaseFunction>):Void
+	{
+		FlxTween.tween(FlxG.camera, {zoom: zoom}, time, {ease: ease, onComplete: e -> defaultCamZoom = zoom});
+	}
 
 	/**
-	* Malfunction Life System Checker
+	* # Malfunction Life System Checker
 	* 
 	* Self explanitory, don't you think?
 	* 
@@ -2418,7 +2479,6 @@ class PlayState extends MusicBeatState
 	* 
 	* @author DEMOLITIONDON96
 	*/
-
 	function updateMalfunctionLives()
 	{
 		callFunc('updateMalfunctionLives', []);
@@ -2499,7 +2559,6 @@ class PlayState extends MusicBeatState
 	*
 	* @author DEMOLITIONDON96
 	*/
-	
 	function relapseGimmick(reactionTime:Float = 2, damageAmount:Float = 0.4)
 	{
 		callFunc('relapseGimmick', [reactionTime, damageAmount]);
@@ -2669,12 +2728,40 @@ class PlayState extends MusicBeatState
 						{
 							FlxTween.tween(i, {alpha: 1}, 3, {ease: FlxEase.quadOut});
 						}
-				
-					case 32 | 96 | 128 | 192 | 256 | 288:
+					
+					case 36 | 40 | 44 | 52 | 56 | 60 | 64 | 68 | 72 | 76 | 80 | 84 | 88 | 92:
+						flashBGEffect(0.32, 1.2, 'linear', 255, 255, 255);
+					
+					case 100 | 104 | 108 | 116 | 120 | 124 | 132 | 136 | 140 | 148 | 152 | 156 | 228 | 232 | 236 | 240 | 244 | 252 | 260 | 264 | 268 | 276 | 280 | 284 | 292 | 296 | 300 | 308 | 312 | 316 | 324 | 328 | 332 | 340 | 344 | 348:
+						flashBGEffect(0.4, 0.35, 'linear', 255, 255, 255);
+					
+					case 98 | 102 | 106 | 110 | 114 | 118 | 122 | 126 | 130 | 134 | 138 | 142 | 146 | 150 | 154 | 158 | 226 | 230 | 234 | 238 | 242 | 246 | 250 | 254 | 258 | 262 | 266 | 270 | 274 | 278 | 282 | 286 | 290 | 294 | 298 | 302 | 308 | 310 | 314 | 318 | 322 | 326 | 330 | 334 | 338 | 342 | 346 | 350:
+						flashBGEffect(0.67, 0.35, 'linear', 255, 255, 255);
+					
+					case 192 | 194 | 196 | 198 | 200 | 202 | 204 | 206 | 208 | 210 | 212 | 214 | 222:
+						flashBGEffect(0.32, 0.35, 'linear', 255, 255, 255);
+					
+					case 216 | 217 | 218 | 219 | 220:
+						flashBGEffect(0.32, 0.1, 'linear', 255, 255, 255);
+					
+					case 192:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
-				
-					case 48 | 112 | 144 | 208 | 240 | 272 | 304 | 336:
+						flashBGEffect(0.32, 0.35, 'linear', 255, 255, 255);
+					
+					case 208:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.BLACK, 1.5);
+						flashBGEffect(0.32, 0.35, 'linear', 255, 255, 255);
+					
+					case 96 | 128 | 256 | 288:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
+						flashBGEffect(0.4, 0.35, 'linear', 255, 255, 255);
+					
+					case 48 | 336 | 304 | 272 | 248 | 112 | 144:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.BLACK, 1.5);
+						flashBGEffect(0.32, 1.2, 'linear', 255, 255, 255);
+				
+					case 32:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
 				
 					case 416:
 						camGame.visible = false;
@@ -2692,6 +2779,7 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(this, {songSpeed: 2.7}, 0.2, {ease: FlxEase.sineOut});*/
 					
 					case 224:
+						flashBGEffect(0.4, 0.35, 'linear', 255, 255, 255);
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
 						//FlxTween.tween(this, {songSpeed: 2.7}, 0.2, {ease: FlxEase.sineOut});
 						
@@ -2708,6 +2796,7 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(this, {songSpeed: 2.4}, 0.3, {ease: FlxEase.quartOut});*/
 					
 					case 320:
+						flashBGEffect(0.4, 0.35, 'linear', 255, 255, 255);
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
 						//FlxTween.tween(this, {songSpeed: 2.6}, 1.5, {ease: FlxEase.quartInOut});
 						
@@ -2720,7 +2809,29 @@ class PlayState extends MusicBeatState
 				{
 					case 16: FlxTween.tween(camGame, {alpha: 1}, 3, {ease: FlxEase.quadOut});
 						
+					case 32:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.BLACK, 1.5);
+
+					case 38 | 46 | 54 | 62:
+						FlxG.camera.zoom += 0.065;
+
+					case 40 | 48 | 56:
+						defaultCamZoom += 0.15;
+
+					case 64:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.BLACK, 0.9);
+						defaultCamZoom = 0.87;
+					
+					case 70 | 78 | 86:
+						FlxG.camera.zoom += 0.045;
+					
+					case 72 | 80 | 88:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.BLACK, 0.9);
+						defaultCamZoom += 0.15;
+						
+						
 					case 96:
+						defaultCamZoom = 0.75;
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
 						FlxTween.tween(camHUD, {alpha: 1}, 2, {ease: FlxEase.sineOut});
 						for (i in strumHUD)
@@ -3457,22 +3568,42 @@ class PlayState extends MusicBeatState
 		}, 5);
 	}
 
-	private function checkHUDS():ClassHUD
+	private function checkAutoplayText():ClassHUD
+	{
+		switch (Init.trueSettings.get('HUD Style').toLowerCase())
 		{
-			switch (Init.trueSettings.get('HUD Style').toLowerCase())
-			{
-				case 'psych': // psych engine fans gonna go nuts about this
-					FlxTween.tween(psychHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+			case 'psych': // psych engine fans gonna go nuts about this
+				psychHUD.autoplayMark.visible = bfStrums.autoplay;
+				psychHUD.scoreBar.visible = !bfStrums.autoplay;
 	
-				case 'demolition': // demoliton HUD
-					FlxTween.tween(demolitionHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+			case 'demolition': // demoliton HUD
+				demolitionHUD.autoplayMark.visible = bfStrums.autoplay;
+				demolitionHUD.scoreBar.visible = !bfStrums.autoplay;
 	
-				default: // forever HUD
-					FlxTween.tween(uiHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
-			}
-
-			return Init.trueSettings.get('HUD Style');
+			default: // forever HUD
+				uiHUD.autoplayMark.visible = bfStrums.autoplay;
+				uiHUD.scoreBar.visible = !bfStrums.autoplay;
 		}
+
+		return Init.trueSettings.get('HUD Style');
+	}
+
+	private function checkHUDS():ClassHUD
+	{
+		switch (Init.trueSettings.get('HUD Style').toLowerCase())
+		{
+			case 'psych': // psych engine fans gonna go nuts about this
+				FlxTween.tween(psychHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+	
+			case 'demolition': // demoliton HUD
+				FlxTween.tween(demolitionHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+	
+			default: // forever HUD
+				FlxTween.tween(uiHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+		}
+
+		return Init.trueSettings.get('HUD Style');
+	}
 
 	public function leavePlayState()
 	{
