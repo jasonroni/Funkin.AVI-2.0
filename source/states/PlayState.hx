@@ -2,7 +2,6 @@ package states;
 
 import base.dependency.FeatherDeps.Events;
 import base.dependency.FeatherDeps.ScriptHandler;
-import base.dependency.HardcodedShaders;
 import base.song.ChartParser;
 import base.song.Conductor;
 import base.song.Song;
@@ -85,12 +84,6 @@ class PlayState extends MusicBeatState
 
 	// lazyness
 	public var canaddshaders = !Init.trueSettings.get('Disable Screen Shaders');
-
-	// Shader shit
-	public var shaderUpdates:Array<Float->Void> = [];
-	public var camGameShaders:Array<ShaderEffect> = [];
-	public var camHUDShaders:Array<ShaderEffect> = [];
-	public var camOtherShaders:Array<ShaderEffect> = [];
 
 	// Song;
 	public static var SONG:SwagSong;
@@ -1302,10 +1295,6 @@ class PlayState extends MusicBeatState
 		}
 
 		callFunc('postUpdate', [elapsed]);
-
-		// this needs to exist
-		for (shit in shaderUpdates)
-			shit(elapsed);
 	}
 
 	private var isDead:Bool = false;
