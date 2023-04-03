@@ -9,9 +9,6 @@ var floor:FNFSprite;
 var stageCurtains:FNFSprite;
 var stageFront:FNFSprite;
 
-// The Background Flash Thing
-var whiteBG:FlxSprite;
-
 // Shader Animations
 var shaderTime:Float = 0;
 
@@ -77,12 +74,6 @@ function onCreate()
 			add(stageCurtains);	
 		}
 	
-	// dw, I'll make it less flashy
-	whiteBG = new FlxSprite(-800, -200).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFFFFFFF);
-	whiteBG.alpha = 0;
-	whiteBG.active = false;
-	add(whiteBG);	
-	
 	if(!lowQuality)
 		{
 			stageFront = new FNFSprite(-3000, 130).loadGraphic(Paths.image('cables', 'data/stages/abandonedStreet/images'));
@@ -122,53 +113,6 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 	switch (PlayState.SONG.song)
 	{
 		case 'Isolated':
-			if (!Init.trueSettings.get("Disable Flashing Lights"))
-			{
-				if (curBeat == 36 || curBeat == 40 || curBeat == 44 || curBeat == 48 || curBeat == 52 || curBeat == 56 || curBeat == 60 || curBeat == 64
-					|| curBeat == 68 || curBeat == 72 || curBeat == 76 || curBeat == 80 || curBeat == 84 || curBeat == 88 || curBeat == 92)
-				{
-					whiteBG.alpha = 0.32;
-					FlxTween.tween(whiteBG, {alpha: 0}, 1.2);
-				}
-
-				if (curBeat == 96 || curBeat == 100 || curBeat == 104 || curBeat == 108 || curBeat == 112 || curBeat == 116 || curBeat == 120
-					|| curBeat == 124 || curBeat == 128 || curBeat == 132 || curBeat == 136 || curBeat == 140 || curBeat == 144 || curBeat == 148
-					|| curBeat == 152 || curBeat == 156 || curBeat == 224 || curBeat == 228 || curBeat == 232 || curBeat == 236 || curBeat == 240
-					|| curBeat == 244 || curBeat == 248 || curBeat == 252 || curBeat == 256 || curBeat == 260 || curBeat == 264 || curBeat == 268
-					|| curBeat == 272 || curBeat == 276 || curBeat == 280 || curBeat == 284 || curBeat == 288 || curBeat == 292 || curBeat == 296
-					|| curBeat == 300 || curBeat == 304 || curBeat == 308 || curBeat == 312 || curBeat == 316 || curBeat == 320 || curBeat == 324
-					|| curBeat == 328 || curBeat == 332 || curBeat == 336 || curBeat == 340 || curBeat == 344 || curBeat == 348)
-				{
-					whiteBG.alpha = 0.4;
-					FlxTween.tween(whiteBG, {alpha: 0}, 0.35);
-				}
-
-				if (curBeat == 98 || curBeat == 102 || curBeat == 106 || curBeat == 110 || curBeat == 114 || curBeat == 118 || curBeat == 122
-					|| curBeat == 126 || curBeat == 130 || curBeat == 134 || curBeat == 138 || curBeat == 142 || curBeat == 146 || curBeat == 150
-					|| curBeat == 154 || curBeat == 158 || curBeat == 226 || curBeat == 230 || curBeat == 234 || curBeat == 238 || curBeat == 242
-					|| curBeat == 246 || curBeat == 250 || curBeat == 254 || curBeat == 258 || curBeat == 262 || curBeat == 266 || curBeat == 270
-					|| curBeat == 274 || curBeat == 278 || curBeat == 282 || curBeat == 286 || curBeat == 290 || curBeat == 294 || curBeat == 298
-					|| curBeat == 302 || curBeat == 308 || curBeat == 310 || curBeat == 314 || curBeat == 318 || curBeat == 322 || curBeat == 326
-					|| curBeat == 330 || curBeat == 334 || curBeat == 338 || curBeat == 342 || curBeat == 346 || curBeat == 350)
-				{
-					whiteBG.alpha = 0.67;
-					FlxTween.tween(whiteBG, {alpha: 0}, 0.35);
-				}
-
-				if (curBeat == 192 || curBeat == 194 || curBeat == 196 || curBeat == 198 || curBeat == 200 || curBeat == 202 || curBeat == 204
-					|| curBeat == 206 || curBeat == 208 || curBeat == 210 || curBeat == 212 || curBeat == 214 || curBeat == 222)
-				{
-					whiteBG.alpha = 0.32;
-					FlxTween.tween(whiteBG, {alpha: 0}, 0.35);
-				}
-
-				if (curBeat == 216 || curBeat == 217 || curBeat == 218 || curBeat == 219 || curBeat == 220)
-				{
-					whiteBG.alpha = 0.32;
-					FlxTween.tween(whiteBG, {alpha: 0}, 0.1);
-				}
-			}
-
 			if (curBeat == 160 || curBeat == 352)
 			{
 				for(_stuff in objects)
