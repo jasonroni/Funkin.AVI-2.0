@@ -114,10 +114,10 @@ class Episode1HUD extends FlxSpriteGroup
 
 	override public function update(elapsed:Float)
 	{
-        updateScoreText();
+        	updateScoreText();
 
 		// pain, this is like the 7th attempt
-		healthBar.percent = (PlayState.health * 50); // so it doesn't make the mechanic worthless
+		healthBar.percent = (PlayState.health * 50);
 
 		iconP1.updateAnim(healthBar.percent);
 		iconP2.updateAnim(100 - healthBar.percent);
@@ -150,13 +150,13 @@ class Episode1HUD extends FlxSpriteGroup
 		}
 		scoreDisplay += '\n';
 
-		scoreBar.text = scoreDisplay;
+		//scoreBar.text = scoreDisplay;
 
 		if (Init.trueSettings.get('Accuracy Hightlight'))
 			if (ScoreUtils.notesHit > 0)
-				scoreBar.applyMarkup(scoreBar.text, [new FlxTextFormatMarkerPair(scoreFlashFormat, markupDivider)]);
+				//scoreBar.applyMarkup(scoreBar.text, [new FlxTextFormatMarkerPair(scoreFlashFormat, markupDivider)]);
 
-		scoreBar.screenCenter(X);
+		//scoreBar.screenCenter(X);
 
 		// update counter
 		if (Init.trueSettings.get('Counter') != 'None')
