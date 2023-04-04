@@ -35,6 +35,7 @@ class Episode1HUD extends FlxSpriteGroup
   
   // Lunacy Mechanic?????
   public var disguiseFailCheck:Bool = false;
+  public var disguisePercent:Float = 5; // 5 = 100% for the math later
   public var disguiseBar:FlxBar;
   public var disguiseBarBG:FlxSprite;
   public var disguiseBarOverlay:FlxSprite;
