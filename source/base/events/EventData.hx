@@ -27,21 +27,6 @@ class EventData extends FlxTypedGroup<Dynamic>
 
     }
 
-    public function getPlayStateCamera(camera:String)
-        {
-            switch(camera)
-                {
-                    case 'hud' | 'camHUD':
-                        return PlayState.camHUD;
-
-                    case 'game' | 'camGame':
-                        return PlayState.camAlt;
-
-                    default:
-                        return PlayState.camGame;
-                }
-        }
-
     override function add(Object:Dynamic):Dynamic 
     {
         if(Std.isOfType(Object, FlxSprite) || Std.isOfType(Object, FlxText))
