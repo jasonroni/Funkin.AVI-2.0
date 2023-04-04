@@ -227,7 +227,7 @@ class PlayState extends MusicBeatState
 	var limitThing:Int = 0; // Default Value
 	
 	// Stage BG Flash Stuff
-	var stageBGFlash:FlxSprite = new FlxSprite(-800, -200).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFFFFFFF);
+	var stageBGFlash:FlxSprite;
 	var BGFlashTween:FlxTween;
 
 	var fade:FlxSprite;
@@ -457,7 +457,8 @@ class PlayState extends MusicBeatState
 
 		add(stageBuild.layers);
 		
-		stageBGFlash.alpha = 0;
+		stageBGFlash = new FlxSprite(-800, -200).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFFFFFFF);
+		stageBGFlash.alpha = 0.0001; // it's at this value so the game doesn't lag when it becomes visible
 		add(stageBGFlash);
 
 		if (curStage == 'fuckingLine')
@@ -505,7 +506,8 @@ class PlayState extends MusicBeatState
 
 		add(stageBuild.layers);
 		
-		stageBGFlash.alpha = 0;
+		stageBGFlash = new FlxSprite(-800, -200).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFFFFFFF);
+		stageBGFlash.alpha = 0.0001; // it's at this value so the game doesn't lag when it becomes visible
 		add(stageBGFlash);
 
 		add(opponent);
@@ -2412,6 +2414,7 @@ class PlayState extends MusicBeatState
 	* The reasoning for this is cause I'm NOT gonna go and duplicate the flash assets from the episode 1
 	* stage onto other stages I want to use it at, too much work!
 	*
+	* @param flashType - Defines how you want the BG flash handler to behave
 	* @param alpha - the visiblity of your BG you want it to flash at
 	* @param time - How long you want the tween to take
 	* @param ease - Uses ForeverTools to handle the ease function, so I suggest looking at ForeverDeps.hx to see your options
@@ -2422,34 +2425,60 @@ class PlayState extends MusicBeatState
 	*
 	* @author DEMOLITIONDON96
 	*/
-	function flashBGEffect(alpha:Float = 0.5, time:Float = 1, ease:String = 'linear', r:Float = 255, g:Float = 255, b:Float = 255, ?a:Float = 255) // TODO: Make this function shorter
+	function flashBGEffect(flashType:String = 'normal', alpha:Float = 0.5, time:Float = 1, ease:String = 'linear', ?r:Float = 255, ?g:Float = 255, ?b:Float = 255, ?a:Float = 255) // TODO: Make this function shorter
 	{
-		if (!Init.trueSettings.get('Disable Flashing Lights') && stageBGFlash != null)
+		switch (flashType.toLowerCase())
 		{
-			if (alpha > 1 || alpha < 0) // prevents a crash from making a dumb mistake
-				stageBGFlash.alpha = 0.5;
-			else
-				stageBGFlash.alpha = alpha;
-
-			if (time <= 0) // another check to prevent a crash
-				time = 1;
-
-			if (r == 0 && g == 0 && b == 0) // blend check cause it makes it look cool
-				stageBGFlash.blend = null;
-			else
-				stageBGFlash.blend = ADD;
-
-			stageBGFlash.color = FlxColor.fromRGBFloat(r, g, b, a);
-
-			if (BGFlashTween != null) // makes it so it won't look wonky, visually
-				BGFlashTween.cancel();
-
-			BGFlashTween = FlxTween.tween(stageBGFlash, {alpha: 0}, time, {ease: ForeverTools.returnTweenEase(ease), 
-				onComplete: function(twn:FlxTween)
+			case 'normal' | 'flash':
+				if (!Init.trueSettings.get('Disable Flashing Lights') && stageBGFlash != null)
 				{
-					BGFlashTween = null;
+					if (alpha > 1 || alpha < 0) // prevents a crash from making a dumb mistake
+						stageBGFlash.alpha = 0.5;
+					else
+						stageBGFlash.alpha = alpha;
+
+					if (time <= 0) // another check to prevent a crash
+						time = 1;
+
+					if (r == 0 && g == 0 && b == 0) // blend check cause it makes it look cool
+						stageBGFlash.blend = NORMAL;
+					else
+						stageBGFlash.blend = ADD;
+
+					stageBGFlash.color = FlxColor.fromRGBFloat(r, g, b, a);
+
+					if (BGFlashTween != null) // makes it so it won't look wonky, visually
+						BGFlashTween.cancel();
+
+					BGFlashTween = FlxTween.tween(stageBGFlash, {alpha: 0}, time, {ease: ForeverTools.returnTweenEase(ease), 
+						onComplete: function(twn:FlxTween)
+						{
+							BGFlashTween = null;
+						}
+					});
 				}
-			});
+				
+			case 'dim' | 'darken' | 'dark':
+				if (stageBGFlash != null)
+				{
+					if (BGFlashTween != null)
+						BGFlashTween.cancel();
+
+					if (stageBGFlash.blend != NORMAL)
+						stageBGFlash.blend = NORMAL;
+
+					if (time <= 0)
+						time = 1;
+
+					stageBGFlash.color = FlxColor.BLACK; // hardcoded to be black
+
+					BGFlashTween = FlxTween.tween(stageBGFlash, {alpha: alpha}, time, {ease: ForeverTools.returnTweenEase(ease),
+						onComplete: function(twn:FlxTween)
+						{
+							BGFlashTween = null;
+						}
+					});
+				}
 		}
 	}
 
@@ -2728,37 +2757,49 @@ class PlayState extends MusicBeatState
 						{
 							FlxTween.tween(i, {alpha: 1}, 3, {ease: FlxEase.quadOut});
 						}
+						
+					case 160 | 352:
+						flashBGEffect('darken', 0.85, 0.5, 'quartOut');
+						
+					case 184:
+						flashBGEffect('darken', 0.77, 0.5, 'quartOut');
+						
+					case 188:
+						flashBGEffect('darken', 0.6, 0.5, 'quartOut');
+						
+					case 376:
+						flashBGEffect('darken', 0, 4, 'quartInOut');		
 					
 					case 36 | 40 | 44 | 52 | 56 | 60 | 64 | 68 | 72 | 76 | 80 | 84 | 88 | 92:
-						flashBGEffect(0.32, 1.2, 'linear', 255, 255, 255);
+						flashBGEffect('normal', 0.32, 1.2, 'linear', 255, 255, 255);
 					
 					case 100 | 104 | 108 | 116 | 120 | 124 | 132 | 136 | 140 | 148 | 152 | 156 | 228 | 232 | 236 | 240 | 244 | 252 | 260 | 264 | 268 | 276 | 280 | 284 | 292 | 296 | 300 | 308 | 312 | 316 | 324 | 328 | 332 | 340 | 344 | 348:
-						flashBGEffect(0.4, 0.35, 'linear', 255, 255, 255);
+						flashBGEffect('normal', 0.4, 0.35, 'linear', 255, 255, 255);
 					
 					case 98 | 102 | 106 | 110 | 114 | 118 | 122 | 126 | 130 | 134 | 138 | 142 | 146 | 150 | 154 | 158 | 226 | 230 | 234 | 238 | 242 | 246 | 250 | 254 | 258 | 262 | 266 | 270 | 274 | 278 | 282 | 286 | 290 | 294 | 298 | 302 | 308 | 310 | 314 | 318 | 322 | 326 | 330 | 334 | 338 | 342 | 346 | 350:
-						flashBGEffect(0.67, 0.35, 'linear', 255, 255, 255);
+						flashBGEffect('normal', 0.67, 0.35, 'linear', 255, 255, 255);
 					
 					case 192 | 194 | 196 | 198 | 200 | 202 | 204 | 206 | 208 | 210 | 212 | 214 | 222:
-						flashBGEffect(0.32, 0.35, 'linear', 255, 255, 255);
+						flashBGEffect('normal', 0.32, 0.35, 'linear', 255, 255, 255);
 					
 					case 216 | 217 | 218 | 219 | 220:
-						flashBGEffect(0.32, 0.1, 'linear', 255, 255, 255);
+						flashBGEffect('normal', 0.32, 0.1, 'linear', 255, 255, 255);
 					
 					case 192:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
-						flashBGEffect(0.32, 0.35, 'linear', 255, 255, 255);
+						flashBGEffect('normal', 0.32, 0.35, 'linear', 255, 255, 255);
 					
 					case 208:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.BLACK, 1.5);
-						flashBGEffect(0.32, 0.35, 'linear', 255, 255, 255);
+						flashBGEffect('normal', 0.32, 0.35, 'linear', 255, 255, 255);
 					
 					case 96 | 128 | 256 | 288:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
-						flashBGEffect(0.4, 0.35, 'linear', 255, 255, 255);
+						flashBGEffect('normal', 0.4, 0.35, 'linear', 255, 255, 255);
 					
 					case 48 | 336 | 304 | 272 | 248 | 112 | 144:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.BLACK, 1.5);
-						flashBGEffect(0.32, 1.2, 'linear', 255, 255, 255);
+						flashBGEffect('normal', 0.32, 1.2, 'linear', 255, 255, 255);
 				
 					case 32:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
@@ -2779,7 +2820,7 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(this, {songSpeed: 2.7}, 0.2, {ease: FlxEase.sineOut});*/
 					
 					case 224:
-						flashBGEffect(0.4, 0.35, 'linear', 255, 255, 255);
+						flashBGEffect('normal', 0.4, 0.35, 'linear', 255, 255, 255);
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
 						//FlxTween.tween(this, {songSpeed: 2.7}, 0.2, {ease: FlxEase.sineOut});
 						
@@ -2796,7 +2837,7 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(this, {songSpeed: 2.4}, 0.3, {ease: FlxEase.quartOut});*/
 					
 					case 320:
-						flashBGEffect(0.4, 0.35, 'linear', 255, 255, 255);
+						flashBGEffect('normal', 0.4, 0.35, 'linear', 255, 255, 255);
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
 						//FlxTween.tween(this, {songSpeed: 2.6}, 1.5, {ease: FlxEase.quartInOut});
 						
@@ -2807,6 +2848,8 @@ class PlayState extends MusicBeatState
 			case 'Lunacy':
 				switch (curBeat)
 				{
+					// I'm NOT gonna have a fun time recoding all this for the BG dimming in and out later lmao
+					
 					case 16: FlxTween.tween(camGame, {alpha: 1}, 3, {ease: FlxEase.quadOut});
 						
 					case 32:
