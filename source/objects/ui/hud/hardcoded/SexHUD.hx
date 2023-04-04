@@ -1,4 +1,4 @@
-package objects.ui.hud;
+package objects.ui.hud.hardcoded;
 
 /*
         What you looking for son?
