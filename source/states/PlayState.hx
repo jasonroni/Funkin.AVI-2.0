@@ -84,7 +84,7 @@ class PlayState extends MusicBeatState
 	
 	// note stuff
 	@:isVar
-	public var songSpeed(get, set):Float = 0;
+	public static var songSpeed(get, default):Float = 0;
 	public var songSpeedTween:FlxTween;
 
 	// lazyness
@@ -99,7 +99,7 @@ class PlayState extends MusicBeatState
 	public static var opp_vocals:FlxSound;
 	public static var songMusicNew:FlxSound;
 
-	public var generatedMusic:Bool = false;
+	public static var generatedMusic:Bool = false;
 
 	public static var curStage:String = '';
 
@@ -1025,7 +1025,7 @@ class PlayState extends MusicBeatState
 		return songSpeed;
 	}
 
-	inline static function set_songSpeed(value:Float):Float {
+	/*inline static function set_songSpeed(value:Float):Float {
 		if (generatedMusic) {
 			var offset:Float = value / songSpeed;
 			for (strumline in strumLines)
@@ -1050,7 +1050,7 @@ class PlayState extends MusicBeatState
 		}
 		songSpeed = value;
 		return value;
-	}
+	}*/
 				
 	/*inline static function get_songSpeed()
 		return FlxMath.roundDecimal(songSpeed, 2);
@@ -2238,8 +2238,6 @@ class PlayState extends MusicBeatState
 			eventModule.call('loadedEventAction', [event.values]);
 		}
 	}
-
-	public var songSpeedTween:FlxTween;
 
 	public function eventTrigger(name:String, params:Array<String>)
 	{
