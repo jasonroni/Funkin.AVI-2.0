@@ -1,4 +1,4 @@
-package objects.ui.hud;
+package objects.ui.hud.toggleable;
 
 import base.utils.ScoreUtils;
 import flixel.FlxG;
@@ -11,7 +11,7 @@ import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import states.PlayState;
 
-class KadeHUD extends FlxSpriteGroup
+class ClassHUD extends FlxSpriteGroup
 {
 	// bar variables
 	public var scoreBar:FlxText;
@@ -27,6 +27,8 @@ class KadeHUD extends FlxSpriteGroup
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
 
+	public var timeTxt:FlxText;
+
 	// other
 	public var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop'; // fnf mods
 
@@ -35,9 +37,9 @@ class KadeHUD extends FlxSpriteGroup
 	public var timingsMap:Map<String, FlxText> = [];
 
 	// display texts
-	public var infoDisplay:String = "";
-	public var diffDisplay:String = "";
-	public var engineDisplay:String = '';
+	public var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
+	public var diffDisplay:String = '[${CoolUtil.difficultyString}]';
+	public var engineDisplay:String = 'FOREVER ENGINE v0.3.1';
 
 	// eep
 	public function new()
@@ -69,9 +71,9 @@ class KadeHUD extends FlxSpriteGroup
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		add(iconP2);
 
-		scoreBar = new FlxText(healthBarBG.x + healthBarBG.width - 190, healthBarBG.y + 30, 0, scoreDisplay, 20);
-		scoreBar.setFormat(Paths.font("vcr"), 16, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		scoreBar.scrollFactor.set();
+		scoreBar = new FlxText(FlxG.width / 2, Math.floor(healthBarBG.y + 40), 0, scoreDisplay);
+		scoreBar.setFormat(Paths.font('vcr'), 18, FlxColor.WHITE);
+		scoreBar.setBorderStyle(OUTLINE, FlxColor.BLACK, 1.5);
 		scoreBar.visible = !PlayState.bfStrums.autoplay;
 		updateScoreText();
 		add(scoreBar);
@@ -82,13 +84,13 @@ class KadeHUD extends FlxSpriteGroup
 		cornerMark.setPosition(FlxG.width - (cornerMark.width + 5), 5);
 		add(cornerMark);
 
-		centerMark = new FlxText(0, (Init.trueSettings.get('Downscroll') ? FlxG.height - 40 : 10), 0, '');
+		centerMark = new FlxText(0, (Init.trueSettings.get('Downscroll') ? FlxG.height - 40 : 10), 0, '- $infoDisplay $diffDisplay -');
 		centerMark.setFormat(Paths.font('vcr'), 24, FlxColor.WHITE);
 		centerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		centerMark.screenCenter(X);
 		add(centerMark);
 
-		autoplayMark = new FlxText(-5, (Init.trueSettings.get('Downscroll') ? centerMark.y - 60 : centerMark.y + 60), FlxG.width - 800, '\n', 32);
+		autoplayMark = new FlxText(-5, (Init.trueSettings.get('Downscroll') ? centerMark.y - 60 : centerMark.y + 60), FlxG.width - 800, '[AUTOPLAY]\n', 32);
 		autoplayMark.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE, CENTER);
 		autoplayMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2.3);
 		autoplayMark.screenCenter(X);
@@ -145,7 +147,7 @@ class KadeHUD extends FlxSpriteGroup
 	{
 		// pain, this is like the 7th attempt
 		healthBar.percent = (PlayState.health * 50); // so it doesn't make the mechanic worthless
-		
+
 		var iconOffset:Int = 26;
 
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
@@ -162,8 +164,6 @@ class KadeHUD extends FlxSpriteGroup
 			autoplaySine += 180 * (elapsed / 4);
 			autoplayMark.alpha = 1 - Math.sin((Math.PI * autoplaySine) / 80);
 		}
-
-		updateScoreText();
 	}
 
 	public static var divider:String = " • ";
@@ -172,12 +172,26 @@ class KadeHUD extends FlxSpriteGroup
 
 	public function updateScoreText()
 	{
-		scoreDisplay = 'Score: ' + ScoreUtils.score + ' | Combo Breaks: ${ScoreUtils.misses} | Accuracy: ${ScoreUtils.returnAccuracy()} | ${ScoreUtils.returnRankingStatus()}';
+		if (ScoreUtils.notesHit > 0 && Init.trueSettings.get('Accuracy Hightlight'))
+			markupDivider = '°';
+
+		scoreDisplay = 'Score: ' + ScoreUtils.score;
+
+		if (Init.trueSettings.get('Display Accuracy'))
+		{
+			scoreDisplay += divider + markupDivider + 'Accuracy: ${ScoreUtils.returnAccuracy()}' + markupDivider;
+			scoreDisplay += markupDivider + ScoreUtils.returnRankingStatus() + markupDivider;
+			scoreDisplay += divider + 'Combo Breaks: ${ScoreUtils.misses}';
+		}
 		scoreDisplay += '\n';
 
 		scoreBar.text = scoreDisplay;
 
-        scoreBar.screenCenter(X);
+		if (Init.trueSettings.get('Accuracy Hightlight'))
+			if (ScoreUtils.notesHit > 0)
+				scoreBar.applyMarkup(scoreBar.text, [new FlxTextFormatMarkerPair(scoreFlashFormat, markupDivider)]);
+
+		scoreBar.screenCenter(X);
 
 		// update counter
 		if (Init.trueSettings.get('Counter') != 'None')
@@ -190,9 +204,9 @@ class KadeHUD extends FlxSpriteGroup
 		}
 
 		// update playstate
-		if(Init.trueSettings.get('HUD Style') == "kade")
-		PlayState.detailsSub = scoreBar.text;
-		
+		if(Init.trueSettings.get('HUD Style') == "forever") //fix i think
+			PlayState.detailsSub = scoreBar.text;
+
 		PlayState.updateRPC(false);
 	}
 
@@ -201,7 +215,11 @@ class KadeHUD extends FlxSpriteGroup
 		var colorOpponent = PlayState.opponent.characterData.healthColor;
 		var colorPlayer = PlayState.boyfriend.characterData.healthColor;
 
-			healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
+		if (!Init.trueSettings.get('Colored Health Bar'))
+			healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33 - 0xFFFF0000);
+		else
+			healthBar.createFilledBar(FlxColor.fromRGB(Std.int(colorOpponent[0]), Std.int(colorOpponent[1]), Std.int(colorOpponent[2])),
+				FlxColor.fromRGB(Std.int(colorPlayer[0]), Std.int(colorPlayer[1]), Std.int(colorPlayer[2])));
 	}
 
 	public function beatHit(curBeat:Int)
@@ -223,4 +241,13 @@ class KadeHUD extends FlxSpriteGroup
 	}
 
 	var scoreFlashFormat:FlxTextFormat;
+
+	override function add(Object:FlxSprite):FlxSprite
+	{
+		if (Std.isOfType(Object, FlxText))
+			cast(Object, FlxText).antialiasing = !Init.trueSettings.get('Disable Antialiasing');
+		if (Std.isOfType(Object, FlxSprite))
+			cast(Object, FlxSprite).antialiasing = !Init.trueSettings.get('Disable Antialiasing');
+		return super.add(Object);
+	}
 }

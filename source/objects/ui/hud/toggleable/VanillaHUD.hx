@@ -1,4 +1,4 @@
-package objects.ui.hud;
+package objects.ui.hud.toggleable;
 
 import base.utils.ScoreUtils;
 import flixel.FlxG;
@@ -11,7 +11,7 @@ import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import states.PlayState;
 
-class CycledSinsHUD extends FlxSpriteGroup
+class VanillaHUD extends FlxSpriteGroup
 {
 	// bar variables
 	public var scoreBar:FlxText;
@@ -27,8 +27,6 @@ class CycledSinsHUD extends FlxSpriteGroup
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
 
-	public var timeTxt:FlxText;
-
 	// other
 	public var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop'; // fnf mods
 
@@ -37,15 +35,9 @@ class CycledSinsHUD extends FlxSpriteGroup
 	public var timingsMap:Map<String, FlxText> = [];
 
 	// display texts
-	public var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
-	public var diffDisplay:String = '[${CoolUtil.difficultyString}]';
-	public var engineDisplay:String = 'FOREVER ENGINE v0.3.1';
-
-    var sanityTextDad:FlxText;
-    var sanityTextBf:FlxText;
-
-    var sanityDad:String = "Medium";
-    var sanityBf:String = "Medium";
+	public var infoDisplay:String = "";
+	public var diffDisplay:String = "";
+	public var engineDisplay:String = '';
 
 	// eep
 	public function new()
@@ -71,33 +63,32 @@ class CycledSinsHUD extends FlxSpriteGroup
 
 		iconP1 = new HealthIcon(PlayState.boyfriend.characterData.icon, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
-        iconP1.canBounce = false;
-        iconP1.x = FlxG.width * 0.87;
 		add(iconP1);
 
 		iconP2 = new HealthIcon(PlayState.opponent.characterData.icon, false);
 		iconP2.y = healthBar.y - (iconP2.height / 2);
-        iconP2.canBounce = false;
 		add(iconP2);
 
-		scoreBar = new FlxText(FlxG.width / 2, Math.floor(healthBarBG.y + 40), 0, scoreDisplay);
-		scoreBar.setFormat(Paths.font('calibri-regular'), 23, FlxColor.WHITE);
+		scoreBar = new FlxText(healthBarBG.x + healthBarBG.width - 190, healthBarBG.y + 30, 0, scoreDisplay, 20);
+		scoreBar.setFormat(Paths.font("vcr"), 16, FlxColor.WHITE, RIGHT);
+		scoreBar.scrollFactor.set();
 		scoreBar.visible = !PlayState.bfStrums.autoplay;
 		updateScoreText();
 		add(scoreBar);
 
-        sanityTextDad = new FlxText(iconP2.x + 38, iconP2.y - 31, 0, 'Sanity:\n$sanityDad');
-		sanityTextDad.setFormat(Paths.font('calibri-regular'), 28, FlxColor.WHITE, CENTER);
-		updateScoreText();
-		add(sanityTextDad);
+		cornerMark = new FlxText(0, 0, 0, engineDisplay);
+		cornerMark.setFormat(Paths.font('vcr'), 18, FlxColor.WHITE);
+		cornerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
+		cornerMark.setPosition(FlxG.width - (cornerMark.width + 5), 5);
+		add(cornerMark);
 
-        sanityTextBf = new FlxText(iconP1.x + 32, iconP1.y - 25, 0, 'Sanity:\n$sanityBf');
-		sanityTextBf.setFormat(Paths.font('calibri-regular'), 28, FlxColor.WHITE, CENTER);
-		updateScoreText();
-		add(sanityTextBf);
+		centerMark = new FlxText(0, (Init.trueSettings.get('Downscroll') ? FlxG.height - 40 : 10), 0, '');
+		centerMark.setFormat(Paths.font('vcr'), 24, FlxColor.WHITE);
+		centerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
+		centerMark.screenCenter(X);
+		add(centerMark);
 
-        if(autoplayMark != null) {
-		autoplayMark = new FlxText(-5, (Init.trueSettings.get('Downscroll') ? centerMark.y - 60 : centerMark.y + 60), FlxG.width - 800, '[AUTOPLAY]\n', 32);
+		autoplayMark = new FlxText(-5, (Init.trueSettings.get('Downscroll') ? centerMark.y - 60 : centerMark.y + 60), FlxG.width - 800, '\n', 32);
 		autoplayMark.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE, CENTER);
 		autoplayMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2.3);
 		autoplayMark.screenCenter(X);
@@ -112,7 +103,6 @@ class CycledSinsHUD extends FlxSpriteGroup
 				autoplayMark.y = autoplayMark.y + 125;
 		}
 		add(autoplayMark);
-    }
 
 		// counter
 		if (Init.trueSettings.get('Counter') != 'None')
@@ -153,58 +143,39 @@ class CycledSinsHUD extends FlxSpriteGroup
 
 	override public function update(elapsed:Float)
 	{
-        updateScoreText();
-
 		// pain, this is like the 7th attempt
 		healthBar.percent = (PlayState.health * 50); // so it doesn't make the mechanic worthless
+
+		var iconOffset:Int = 26;
+
+		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
+		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 
 		iconP1.updateAnim(healthBar.percent);
 		iconP2.updateAnim(100 - healthBar.percent);
 
-        if(healthBar.percent > 80)
-            {
-                sanityBf = "High";
-                sanityDad = "Low";
-            } else if(healthBar.percent < 20) {
-                sanityBf = "Low";
-                sanityDad = "High";
-            } else {
-                sanityBf = "Medium";
-                sanityDad = "Medium";
-            }
-
-        sanityTextBf.text = 'Sanity:\n$sanityBf';
-        sanityTextDad.text = 'Sanity:\n$sanityDad';
-
 		iconP1.bop(0.15);
 		iconP2.bop(0.15);
+
+		if (autoplayMark.visible)
+		{
+			autoplaySine += 180 * (elapsed / 4);
+			autoplayMark.alpha = 1 - Math.sin((Math.PI * autoplaySine) / 80);
+		}
+
+		updateScoreText();
 	}
 
-	public static var divider:String = " | ";
+	public static var divider:String = " • ";
 
 	private var markupDivider:String = '';
 
 	public function updateScoreText()
 	{
-		if (ScoreUtils.notesHit > 0 && Init.trueSettings.get('Accuracy Hightlight'))
-			markupDivider = '°';
-
 		scoreDisplay = 'Score: ' + ScoreUtils.score;
-
-		if (Init.trueSettings.get('Display Accuracy'))
-		{
-			scoreDisplay += divider + markupDivider + 'Accuracy: ${ScoreUtils.returnAccuracy()}' + markupDivider;
-			scoreDisplay += markupDivider + ScoreUtils.returnRankingStatus() + markupDivider;
-		}
 		scoreDisplay += '\n';
 
 		scoreBar.text = scoreDisplay;
-
-		if (Init.trueSettings.get('Accuracy Hightlight'))
-			if (ScoreUtils.notesHit > 0)
-				scoreBar.applyMarkup(scoreBar.text, [new FlxTextFormatMarkerPair(scoreFlashFormat, markupDivider)]);
-
-		scoreBar.screenCenter(X);
 
 		// update counter
 		if (Init.trueSettings.get('Counter') != 'None')
@@ -217,9 +188,9 @@ class CycledSinsHUD extends FlxSpriteGroup
 		}
 
 		// update playstate
-		if(Init.trueSettings.get('HUD Style') == "forever") //fix i think
-			PlayState.detailsSub = scoreBar.text;
-
+		if(Init.trueSettings.get('HUD Style') == "forever")
+		PlayState.detailsSub = scoreBar.text;
+		
 		PlayState.updateRPC(false);
 	}
 
@@ -228,11 +199,7 @@ class CycledSinsHUD extends FlxSpriteGroup
 		var colorOpponent = PlayState.opponent.characterData.healthColor;
 		var colorPlayer = PlayState.boyfriend.characterData.healthColor;
 
-		if (!Init.trueSettings.get('Colored Health Bar'))
-			healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33 - 0xFFFF0000);
-		else
-			healthBar.createFilledBar(FlxColor.fromRGB(Std.int(colorOpponent[0]), Std.int(colorOpponent[1]), Std.int(colorOpponent[2])),
-				FlxColor.fromRGB(Std.int(colorPlayer[0]), Std.int(colorPlayer[1]), Std.int(colorPlayer[2])));
+			healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
 	}
 
 	public function beatHit(curBeat:Int)
