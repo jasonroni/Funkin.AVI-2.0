@@ -14,38 +14,38 @@ import states.PlayState;
 class Episode1HUD extends FlxSpriteGroup
 {
   // Health Bar
-  var fancyBarOverlay:FlxSprite;
-  var healthBarBG:FlxSprite;
-  var healthBar:FlxBar;
+  public var fancyBarOverlay:FlxSprite;
+  public var healthBarBG:FlxSprite;
+  public var healthBar:FlxBar;
 
   // Text Setup
-  var scoreTxt:FlxText;
-  var watermarkTxt:FlxText;
-  var autoplayTxt:FlxText;
-  var songTxt:FlxText;
+  public var scoreTxt:FlxText;
+  public var watermarkTxt:FlxText;
+  public var autoplayTxt:FlxText;
+  public var songTxt:FlxText;
   
   // Icons
-  var iconP1:HealthIcon;
-  var iconP2:HealthIcon;
+  public var iconP1:HealthIcon;
+  public var iconP2:HealthIcon;
   
   // Icons for Modchart Reasons
-  var demonBFIcon:HealthIcon;
-  var lunacyIcon:HealthIcon;
-  var delusionalIcon:HealthIcon;
+  public var demonBFIcon:HealthIcon;
+  public var lunacyIcon:HealthIcon;
+  public var delusionalIcon:HealthIcon;
   
   // Lunacy Mechanic?????
-  var disguiseFailCheck:Bool = false;
-  var disguiseBar:FlxBar;
-  var disguiseBarBG:FlxSprite;
-  var disguiseBarOverlay:FlxSprite;
+  public var disguiseFailCheck:Bool = false;
+  public var disguiseBar:FlxBar;
+  public var disguiseBarBG:FlxSprite;
+  public var disguiseBarOverlay:FlxSprite;
   
   // Other
-	public var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop'; // fnf mods
-	public var autoplaySine:Float = 0;
-	public var timingsMap:Map<String, FlxText> = [];
+  public var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop'; // fnf mods
+  public var autoplaySine:Float = 0;
+  public var timingsMap:Map<String, FlxText> = [];
 
-	// Display Texts
-	public var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
-	public var diffDisplay:String = '[${CoolUtil.difficultyString}]';
-	public var engineDisplay:String = 'FOREVER ENGINE v0.3.1';
+  // Display Texts
+  public var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
+  public var diffDisplay:String = '[${CoolUtil.difficultyString}]';
+  public var engineDisplay:String = 'FOREVER ENGINE v0.3.1';
 }
