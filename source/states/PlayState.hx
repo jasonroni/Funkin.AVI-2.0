@@ -81,6 +81,11 @@ class PlayState extends MusicBeatState
 	public var notesGroup:Notefield;
 
 	public static var timedEvents:Array<TimedEvent> = [];
+	
+	// note stuff
+	@:isVar
+	public var songSpeed(get, set):Float = 0;
+	public var songSpeedTween:FlxTween;
 
 	// lazyness
 	public var canaddshaders = !Init.trueSettings.get('Disable Screen Shaders');
@@ -1014,9 +1019,40 @@ class PlayState extends MusicBeatState
 		super.destroy();
 	}
 
-	@:isVar public static var songSpeed(get, default):Float = 0;
+	//@:isVar public static var songSpeed(get, default):Float = 0;
 
-	inline static function get_songSpeed()
+	inline static function get_songSpeed():Float {
+		return songSpeed;
+	}
+
+	inline static function set_songSpeed(value:Float):Float {
+		if (generatedMusic) {
+			var offset:Float = value / songSpeed;
+			for (strumline in strumLines)
+			{
+				for (note in strumline.allNotes)
+				{
+					if (!note.customScrollspeed && note.isSustainNote && !note.animation.curAnim.name.endsWith('end'))
+					{
+						note.scale.y *= ratio;
+						note.updateHitbox();
+					}
+				}
+			}
+			for (note in unspawnNotes)
+			{
+				if (!note.customScrollspeed && note.isSustainNote && !note.animation.curAnim.name.endsWith('end'))
+				{
+					note.scale.y *= ratio;
+					note.updateHitbox();
+				}
+			}
+		}
+		songSpeed = value;
+		return value;
+	}
+				
+	/*inline static function get_songSpeed()
 		return FlxMath.roundDecimal(songSpeed, 2);
 
 	inline static function set_songSpeed(value:Float):Float
@@ -1040,7 +1076,7 @@ class PlayState extends MusicBeatState
 		}
 
 		return cast songSpeed = value;
-	}
+	}*/
 
 	public function updateSectionCamera(value:String, isPlayer:Bool = false)
 	{
