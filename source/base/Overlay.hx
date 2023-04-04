@@ -71,13 +71,14 @@ class Overlay extends TextField
 			text = '' // set up the text itself
 				+ (displayFps ? times.length + " FPS\n" : '') // Framerate
 				+ (displayExtra ? 'Class Object Count: ' + FlxG.state.members.length + "\n" : '') // Current Game State
-				+ (displayFps ? '${getInterval(mem)} / ${getInterval(memPeak)}\n' : ''); // Current and Total Memory Usage
+				+ (displayMemory ? '${getInterval(mem)} / ${getInterval(memPeak)}\n' : ''); // Current and Total Memory Usage
 		}
 	}
 
 	inline public static function updateDisplayInfo(shouldDisplayFps:Bool, shouldDisplayMemory:Bool)
 	{
-		displayFps = shouldDisplayFps && shouldDisplayMemory;
+		displayFps = shouldDisplayFps;
+		displayMemory = shouldDisplayMemory;
 	}
 }
 
