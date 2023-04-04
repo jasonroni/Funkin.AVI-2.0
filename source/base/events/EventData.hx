@@ -34,7 +34,7 @@ class EventData extends FlxTypedGroup<Dynamic>
                     case 'hud' | 'camHUD':
                         return PlayState.camHUD;
 
-                    case 'game' | 'camGame':
+                    case 'alt' | 'camAlt':
                         return PlayState.camAlt;
 
                     default:
