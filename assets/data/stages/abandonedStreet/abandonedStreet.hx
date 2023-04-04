@@ -112,29 +112,6 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 	// Stage asset modcharts cause I can't do this in PlayState.hx nor Stage.hx unless I shove FE-Legacy stuff into the code :(
 	switch (PlayState.SONG.song)
 	{
-		case 'Isolated':
-			if (curBeat == 160 || curBeat == 352)
-			{
-				for(_stuff in objects)
-					FlxTween.tween(_stuff, {alpha: 0.15}, 0.5, {ease: FlxEase.quartOut});
-			}
-
-			switch (curBeat)
-			{
-				case 184:
-					for(_stuff in objects)
-						FlxTween.tween(_stuff, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-				case 188:
-					for(_stuff in objects)
-						FlxTween.tween(_stuff, {alpha: 0.4}, 0.5, {ease: FlxEase.quartOut});
-				case 192:
-					for(_stuff in objects)
-						FlxTween.tween(_stuff, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-				case 376:
-					for(_stuff in objects)
-						FlxTween.tween(_stuff, {alpha: 0.23}, 4, {ease: FlxEase.quartOut});
-			}
-
 		case 'Lunacy':
 			// Brightens BG
 			if (curBeat == 160 || curBeat == 230 || curBeat == 240 || curBeat == 248 || curBeat == 256 || curBeat == 262 || curBeat == 272
