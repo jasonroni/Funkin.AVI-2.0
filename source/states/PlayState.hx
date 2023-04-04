@@ -1034,7 +1034,7 @@ class PlayState extends MusicBeatState
 				{
 					if (!note.customScrollspeed && note.isSustainNote && !note.animation.curAnim.name.endsWith('end'))
 					{
-						note.scale.y *= ratio;
+						note.scale.y *= offset;
 						note.updateHitbox();
 					}
 				}
@@ -1043,7 +1043,7 @@ class PlayState extends MusicBeatState
 			{
 				if (!note.customScrollspeed && note.isSustainNote && !note.animation.curAnim.name.endsWith('end'))
 				{
-					note.scale.y *= ratio;
+					note.scale.y *= offset;
 					note.updateHitbox();
 				}
 			}
