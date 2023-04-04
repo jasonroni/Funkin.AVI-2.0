@@ -34,7 +34,36 @@ class DemolitionHUD extends FlxSpriteGroup
 	public var centerMark:FlxText; // song display name and difficulty at the center
 	public var autoplayMark:FlxText; // botplay/autoplay indicator at the center
 	public var playingTxt:FlxText;
-	public var autoPlayTextRandomizer:Int = FlxG.random.int(0, 19);
+	public var botTxtArray:Array<Any> = [
+		"AUTOPLAY",
+		"BOTPLAY",
+		"BURN IN HELL",
+		"hi nikoru lol",
+		"YOU'RE FUCKING CHEATING!",
+		"what the rat doin?",
+		"2 WORDS: GIT GUD",
+		"THIS AIN'T PSYCH ANYMORE, IT'S OPTIMIZED NOW",
+		"JAMMING TO THE SONG",
+		"Hope you know this mod's an hour long now.",
+		"you're just using the botplay key to see all these random messages, aren't you?",
+		"YOU FUCKING SUCK AT RHYTHM GAMES LMFAO",
+		"POV: YOU'RE TOO LAZY TO ACTUALLY PLAY THE GAME",
+		"What's up guys! <Insert Generic YouTube Name Here> back again with yet another cool FNF mod called Funkin dot avi version 2 point O!",
+		"eyeless mouse is real.",
+		"BOO!",
+		"IT'S ABOUT DRIVE, IT'S ABOUT POWER",
+		"WE STAY HUNGRY, WE DEVOUR",
+		"i'm fucking high on crack man...",
+		"ALL OF OUR FOOD KEEPS BLOWING UP",
+		"sample text",
+		"I did ur mom 2023",
+		"WHAT THE FUCK IS WRONG WITH YOU?",
+		"I think you deserve this loop curse more than Mickey",
+		"no.",
+		"If you're doing this on Malfunction, you're gonna die lmao",
+		"i bet you fail to the tutorial still...",
+		"I will personally skin you <3"
+	];
 
 	// icons
 	public var iconP1:HealthIcon;
@@ -153,50 +182,8 @@ class DemolitionHUD extends FlxSpriteGroup
 		if (!Init.trueSettings.get('Centered Notefield')) centerMark.screenCenter(X);
 		add(centerMark);
 
-		autoplayMark = new FlxText(scoreBar.x + 150, scoreBar.y, FlxG.width - 780, autoPlayTextRandomizer + '\n', 32);
-		switch autoPlayTextRandomizer
-		{
-			case 0:
-				autoplayMark.text ="[AUTOPLAY]";
-			case 1:
-				autoplayMark.text ="[BOTPLAY]";
-			case 2:
-				autoplayMark.text = "[YOU'RE FUCKING CHEATING!]";
-			case 3:
-				autoplayMark.text ="[what the rat doin?]";
-			case 4:
-				autoplayMark.text ="[2 WORDS: GIT GUD]";
-			case 5:
-				autoplayMark.text = "[IT AIN'T PSYCH ANYMORE, IT'S OPTIMIZED NOW]";
-			case 6:
-				autoplayMark.text ="[JAMMING TO THE SONG]";
-			case 7:
-				autoplayMark.text ="[Hope you know that this mod is an hour long now.]";
-			case 8:
-				autoplayMark.text = "[you're just using the botplay key to see all these massages, aren't you?]";
-			case 9:
-				autoplayMark.text = "[YOU SUCK AT RHYTHM GAMES LMFAO]";
-			case 10:
-				autoplayMark.text = "[BOO!]";
-			case 11:
-				autoplayMark.text = "[POV: YOU'RE LAZY TO ACTUALLY PLAY THE GAME]";
-			case 12:
-				autoplayMark.text = "[What's up guys, <Insert Generic YouTube Name Here> here and welcome to Funkin.avi version 2 point O!]";
-			case 13:
-				autoplayMark.text = "[eyeless mouse is real.]";
-			case 14:
-				autoplayMark.text = "[IT'S ABOUT DRIVE, IT'S ABOUT POWER]";
-			case 15:
-				autoplayMark.text = "[WE STAY HUNGRY, WE DEVOUR]";
-			case 16:
-				autoplayMark.text = "[i'm fucking high on crack man...]";
-			case 17:
-				autoplayMark.text = "[ALL OF OUR FOOD KEEPS BLOWING UP]";
-			case 18:
-				autoplayMark.text = "[sample text]";
-			case 19:
-				autoplayMark.text = "[I did ur mom 2023]";
-		}
+		autoplayMark = new FlxText(scoreBar.x + 150, scoreBar.y, FlxG.width - 780, '', 32);
+		autoplayMark.text = '[${botTxtArray[FlxG.random.int(0, botTxtArray.length-1)]}]';
 		autoplayMark.setFormat(Paths.font("VanillaExtractRegular"), 14, FlxColor.WHITE, RIGHT);
 		autoplayMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2.3);
 		//autoplayMark.screenCenter(X);

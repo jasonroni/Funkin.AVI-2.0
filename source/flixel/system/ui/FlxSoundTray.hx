@@ -53,7 +53,7 @@ class FlxSoundTray extends Sprite
 		visible = false;
 		scaleX = _defaultScale;
 		scaleY = _defaultScale;
-		var tmp:Bitmap = new Bitmap(new BitmapData(_width, 30, true, 0xDA686868));
+		var tmp:Bitmap = new Bitmap(new BitmapData(_width, 30, true, 0xDA303030));
 		screenCenter();
 		addChild(tmp);
 
@@ -83,7 +83,7 @@ class FlxSoundTray extends Sprite
 
 		for (i in 0...10)
 		{
-			tmp = new Bitmap(new BitmapData(4, i + 1, false, 0xFF7D808E));
+			tmp = new Bitmap(new BitmapData(4, i + 1, false, 0xFF6d707d));
 			tmp.x = bx;
 			tmp.y = by;
 			addChild(tmp);
