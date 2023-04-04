@@ -52,6 +52,53 @@ class Episode1HUD extends FlxSpriteGroup
   public function new()
   {
     super();
+    
+    // le healthbar setup
+	var barY = FlxG.height * 0.875;
+	if (Init.trueSettings.get('Downscroll'))
+		barY = 64;
+
+	healthBarBG = new FlxSprite(0,
+		barY).loadGraphic(Paths.image(ForeverTools.returnSkinAsset('healthBar', PlayState.assetModifier, PlayState.changeableSkin, 'UI')));
+	healthBarBG.screenCenter(X);
+	healthBarBG.scrollFactor.set();
+	add(healthBarBG);
+
+	healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8));
+	healthBar.scrollFactor.set();
+	reloadHealthBar();
+	add(healthBar);
+
+	iconP1 = new HealthIcon(PlayState.boyfriend.characterData.icon, true);
+	iconP1.y = healthBar.y - (iconP1.height / 2);
+        iconP1.canBounce = true;
+        iconP1.x = FlxG.width * 0.87;
+	add(iconP1);
+
+	iconP2 = new HealthIcon(PlayState.opponent.characterData.icon, false);
+	iconP2.y = healthBar.y - (iconP2.height / 2);
+        iconP2.canBounce = true;
+	add(iconP2);
+	
+	// Isolated & Lunacy stuff
+	demonBFIcon = new HealthIcon('bf-demon', true);
+	demonBFIcon = healthBar.y - (demonBFIcon.height / 2);
+	demonBFIcon.canBounce = false;
+	demonBFIcon.x = FlxG.width * 0.87;
+	demonBFIcon.alpha = 0.0001;
+	add(demonBFIcon);
+	
+	lunacyIcon = new HealthIcon('lunamick-new', false);
+	lunacyIcon = healthBar.y - (lunacyIcon.height / 2);
+	lunacyIcon.canBounce = true;
+	lunacyIcon.alpha = 0.0001;
+	add(lunacyIcon);
+	
+	delusionalIcon = new HealthIcon('insanemick', false);
+	delusionalIcon = healthBar.y - (delusionalIcon.height / 2);
+	delusionalIcon.canBounce = false;
+	delusionalIcon.alpha = 0.0001;
+	add(delusionalIcon);
   }
   
   var counterTextSize:Int = 18;
@@ -74,24 +121,15 @@ class Episode1HUD extends FlxSpriteGroup
 
 		iconP1.updateAnim(healthBar.percent);
 		iconP2.updateAnim(100 - healthBar.percent);
-
-        if(healthBar.percent > 80)
-            {
-                sanityBf = "High";
-                sanityDad = "Low";
-            } else if(healthBar.percent < 20) {
-                sanityBf = "Low";
-                sanityDad = "High";
-            } else {
-                sanityBf = "Medium";
-                sanityDad = "Medium";
-            }
-
-        sanityTextBf.text = 'Sanity:\n$sanityBf';
-        sanityTextDad.text = 'Sanity:\n$sanityDad';
+		
+		demonBFIcon.updateAnim(healthBar.percent);
+		lunacyIcon.updateAnim(100 - healthBar.percent);
+		delusionalIcon.updateAnim(100 - healthBar.percent);
 
 		iconP1.bop(0.15);
 		iconP2.bop(0.15);
+		
+		lunacyIcon.bop(0.1);
 	}
 
 	public static var divider:String = " | ";
@@ -163,6 +201,12 @@ class Episode1HUD extends FlxSpriteGroup
 			{
 				iconP2.setGraphicSize(Std.int(iconP2.width + 30));
 				iconP2.updateHitbox();
+			}
+			
+			if (lunacyIcon.canBounce)
+			{
+				lunacyIcon.setGraphicSize(Std.int(iconP2.width + 30));
+				lunacyIcon.updateHitbox();
 			}
 		}
 	}
