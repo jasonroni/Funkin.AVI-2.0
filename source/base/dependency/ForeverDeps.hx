@@ -96,7 +96,7 @@ class ForeverAssets
 	public static function generateRating(id:Int, assetGroup:FlxTypedGroup<FNFSprite>, assetModifier:String = 'base', changeableSkin:String = 'default',
 			baseLibrary:String):FNFSprite
 	{
-		var width = assetModifier == 'pixel' ? 60 : 490;
+		var width = assetModifier == 'pixel' ? 60 : 510;
 		var height = assetModifier == 'pixel' ? 32 : 163;
 
 		if (!Init.trueSettings.get('Judgement Recycling'))
