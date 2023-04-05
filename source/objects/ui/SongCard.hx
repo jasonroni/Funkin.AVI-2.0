@@ -23,7 +23,7 @@ class SongCard extends FlxSpriteGroup
   public var songTitle:String = PlayState.SONG.song;
   
   // Files to look for
-  public var directory = 'menus/Funkin_avi/card/${songTitle}';
+  public var directory:String = 'menus/Funkin_avi/card/${songTitle}';
   public var pathFinder = Paths.image(directory);
   public var fontStuff:String = "vcr";
     
