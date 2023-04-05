@@ -279,12 +279,6 @@ class Episode1HUD extends FlxSpriteGroup
 				timingsMap[i].x = (5 + (!left ? (FlxG.width - 10) : 0) - (!left ? (6 * counterTextSize) : 0));
 			}
 		}
-
-		// update playstate
-		if(Init.trueSettings.get('HUD Style') == "forever") //fix i think
-			PlayState.detailsSub = scoreTxt.text;
-
-		PlayState.updateRPC(false);
 	}
 
 	public function reloadHealthBar()
