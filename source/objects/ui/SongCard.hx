@@ -51,7 +51,7 @@ class SongCard extends FlxSpriteGroup
           fontStuff = "DisneyFont";
         case 'Delusional':
           fontStuff = "satanFont";
-        case 'Bless':
+        case 'Bless':songTitle
           fontStuff = "MagicOwlFont";
         case "Don't Cross!":
           fontStuff = "PhantomMuff Full Letters 1.1.5";
@@ -103,6 +103,22 @@ class SongCard extends FlxSpriteGroup
     add(cardTxt);
     add(opponentIcon);
     add(playerIcon);
+  }
+  
+  // This is a function in case you want the card to show up later in the song instead of instantly
+  public function playCardAnim()
+  {
+  	// Fade in
+  	FlxTween.tween(cardSprite, {alpha: 1}, 1.5, {ease: FlxEase.sineInOut});
+	FlxTween.tween(cardTxt, {alpha: 1}, 2, {ease: FlxEase.sineInOut});
+	FlxTween.tween(opponentIcon, {alpha: 1}, 2.2, {ease: FlxEase.sineInOut});
+	FlxTween.tween(playerIcon, {alpha: 1}, 2.2, {ease: FlxEase.sineInOut});
+	
+	// Fade out
+  	FlxTween.tween(cardSprite, {alpha: 0}, 1.5, {ease: FlxEase.sineInOut, startDelay: 4.5});
+	FlxTween.tween(cardTxt, {alpha: 0}, 2, {ease: FlxEase.sineInOut, startDelay: 4.5});
+	FlxTween.tween(opponentIcon, {alpha: 0}, 2.2, {ease: FlxEase.sineInOut, startDelay: 4.5});
+	FlxTween.tween(playerIcon, {alpha: 0}, 2.2, {ease: FlxEase.sineInOut, startDelay: 4.5});
   }
   
   override function add(Object:FlxSprite):FlxSprite
