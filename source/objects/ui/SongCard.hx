@@ -84,13 +84,11 @@ class SongCard extends FlxSpriteGroup
     
     cardSprite.alpha = 0.001;
     cardSprite.screenCenter();
-    cardSprite.cameras = [PlayState.camHUD];
     
     cardTxt = new FlxText(cardSprite.x, cardSprite.y, 0, '${songTitle}/n${composer}');
     cardTxt.setFormat(Paths.font(fontStuff), 30, FlxColor.WHITE);
     cardTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
     cardTxt.alpha = 0.001;
-    cardTxt.cameras = [PlayState.camHUD];
     
     opponentIcon = new HealthIcon(PlayState.opponent.characterData.icon, false);
     opponentIcon.animation.curAnim.curFrame = 2;
