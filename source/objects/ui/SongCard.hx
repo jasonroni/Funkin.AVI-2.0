@@ -43,7 +43,7 @@ class SongCard extends FlxSpriteGroup
   public var isBirthday:Bool = false;
   public var isCross:Bool = false;
   
-  function setupFonts()
+  function setupCardData()
   {
     switch (PlayState.SONG.song)
     {
@@ -53,13 +53,18 @@ class SongCard extends FlxSpriteGroup
           fontStuff = "satanFont";
         case 'Bless':
           fontStuff = "MagicOwlFont";
+	case 'Birthday':
+	  isBirthday = true;
+	  fontStuff = "DisneyFont";
         case "Don't Cross!":
+	  isCross = true;
           fontStuff = "PhantomMuff Full Letters 1.1.5";
         case 'Cycled Sins' | 'Cycled Sins Legacy':
           fontStuff = "calibri-regular";
         case 'Mercy' | 'Mercy Legacy':
           fontStuff = "splatter";
         case 'Malfunction':
+	  isMalfunction = true;
           fontStuff = "m40";
         default: 
           fontStuff = "vcr";
@@ -70,7 +75,7 @@ class SongCard extends FlxSpriteGroup
   {
     super();
     
-    setupFonts();
+    setupCardData();
     
     if (!FileSystem.exists(pathFinder))
       cardSprite = new FlxSprite().makeGraphic(600, 450, FlxColor.BLACK);
