@@ -726,7 +726,7 @@ class PlayState extends MusicBeatState
 		songCard = new SongCard();
 		add(songCard)
 		songCard.cameras = [camHUD];
-		songCard.playCardAnim();
+		songCard.playCardAnim(0.08);
 
 		uiHUD = new ClassHUD();
 		uiHUD.alpha = 0;
