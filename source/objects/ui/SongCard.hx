@@ -73,7 +73,7 @@ class SongCard extends FlxSpriteGroup
     setupFonts();
     
     if (!FileSystem.exists(pathFinder))
-      cardSprite = new FlxSprite().makeGraphic(450, 600, FlxColor.BLACK);
+      cardSprite = new FlxSprite().makeGraphic(600, 450, FlxColor.BLACK);
     else
       cardSprite = new FlxSprite().loadGraphic(Paths.image(directory));
     
