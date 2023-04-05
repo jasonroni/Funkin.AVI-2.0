@@ -183,6 +183,8 @@ class PlayState extends MusicBeatState
 	// Hardcoded HUDs
 	public static var cycledSinsHUD:CycledSinsHUD;
 	public static var episode1HUD:Episode1HUD;
+	
+	public static var songCard:SongCard;
 
 	public static var daPixelZoom:Float = 6;
 
@@ -720,6 +722,11 @@ class PlayState extends MusicBeatState
 
 		// add the dialogue UI
 		FlxG.cameras.add(dialogueHUD, false);
+		
+		songCard = new SongCard();
+		add(songCard)
+		songCard.cameras = [camHUD];
+		songCard.playCardAnim();
 
 		uiHUD = new ClassHUD();
 		uiHUD.alpha = 0;
