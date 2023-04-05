@@ -51,7 +51,7 @@ class SongCard extends FlxSpriteGroup
           fontStuff = "DisneyFont";
         case 'Delusional':
           fontStuff = "satanFont";
-        case 'Bless':songTitle
+        case 'Bless':
           fontStuff = "MagicOwlFont";
         case "Don't Cross!":
           fontStuff = "PhantomMuff Full Letters 1.1.5";
