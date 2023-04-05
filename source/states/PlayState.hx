@@ -84,8 +84,7 @@ class PlayState extends MusicBeatState
 	public static var timedEvents:Array<TimedEvent> = [];
 	
 	// note stuff
-	@:isVar
-	public static var songSpeed(get, default):Float = 0;
+	@:isVar public static var songSpeed(get, default):Float = 0;
 	public var songSpeedTween:FlxTween;
 
 	// lazyness
@@ -174,13 +173,16 @@ class PlayState extends MusicBeatState
 
 	public static var cameraBumpSpeed:Float = 4;
 
-	// User Interface and Objects
+	// User Interface and Objects (Toggleable)
 	public static var uiHUD:ClassHUD; // default HUD
 	public static var psychHUD:PsychHUD;
 	public static var vanillaHUD:VanillaHUD;
 	public static var kadeHUD:KadeHUD;
 	public static var demolitionHUD:DemolitionHUD;
+
+	// Hardcoded HUDs
 	public static var cycledSinsHUD:CycledSinsHUD;
+	public static var episode1HUD:Episode1HUD;
 
 	public static var daPixelZoom:Float = 6;
 
@@ -749,6 +751,11 @@ class PlayState extends MusicBeatState
 		add(cycledSinsHUD);
 		cycledSinsHUD.cameras = [camHUD];
 
+		episode1HUD = new Episode1HUD();
+		episode1HUD.alpha = 0;
+		add(episode1HUD);
+		episode1HUD.cameras = [camHUD];
+
 		if (Init.trueSettings.get('Judgement Recycling'))
 		{
 			judgementsGroup = new FlxTypedGroup<FNFSprite>();
@@ -1019,41 +1026,8 @@ class PlayState extends MusicBeatState
 		Controls.keyEventTrigger.remove(keyEventTrigger);
 		super.destroy();
 	}
-
-	//@:isVar public static var songSpeed(get, default):Float = 0;
-
-	inline static function get_songSpeed():Float {
-		return songSpeed;
-	}
-
-	/*inline static function set_songSpeed(value:Float):Float {
-		if (generatedMusic) {
-			var offset:Float = value / songSpeed;
-			for (strumline in strumLines)
-			{
-				for (note in strumline.allNotes)
-				{
-					if (!note.customScrollspeed && note.isSustainNote && !note.animation.curAnim.name.endsWith('end'))
-					{
-						note.scale.y *= offset;
-						note.updateHitbox();
-					}
-				}
-			}
-			for (note in unspawnNotes)
-			{
-				if (!note.customScrollspeed && note.isSustainNote && !note.animation.curAnim.name.endsWith('end'))
-				{
-					note.scale.y *= offset;
-					note.updateHitbox();
-				}
-			}
-		}
-		songSpeed = value;
-		return value;
-	}*/
 				
-	/*inline static function get_songSpeed()
+	inline static function get_songSpeed()
 		return FlxMath.roundDecimal(songSpeed, 2);
 
 	inline static function set_songSpeed(value:Float):Float
@@ -1077,7 +1051,7 @@ class PlayState extends MusicBeatState
 		}
 
 		return cast songSpeed = value;
-	}*/
+	}
 
 	public function updateSectionCamera(value:String, isPlayer:Bool = false)
 	{
@@ -1277,6 +1251,9 @@ class PlayState extends MusicBeatState
 							case 'cycled sins':
 								cycledSinsHUD.autoplayMark.visible = bfStrums.autoplay;
 								cycledSinsHUD.scoreBar.visible = !bfStrums.autoplay;
+							case 'Isolated' | 'Lunacy' | 'Delusional':
+								//episode1HUD.autoplayMark.visible = bfStrums.autoplay;
+								//episode1HUD.scoreBar.visible = !bfStrums.autoplay;
 							default:
 								checkAutoplayText();
 						}
@@ -2462,58 +2439,58 @@ class PlayState extends MusicBeatState
 	*/
 	function flashBGEffect(flashType:String = 'normal', alpha:Float = 0.5, time:Float = 1, ease:String = 'linear', ?r:Float = 255, ?g:Float = 255, ?b:Float = 255, ?a:Float = 255) // TODO: Make this function shorter
 	{
-		switch (flashType.toLowerCase())
+		if (!Init.trueSettings.get('Disable Flashing Lights') && stageBGFlash != null)
 		{
-			case 'normal' | 'flash':
-				if (!Init.trueSettings.get('Disable Flashing Lights') && stageBGFlash != null)
-				{
-					if (alpha > 1 || alpha < 0) // prevents a crash from making a dumb mistake
-						stageBGFlash.alpha = 0.5;
-					else
-						stageBGFlash.alpha = alpha;
+			switch (flashType.toLowerCase())
+			{
+				case 'normal' | 'flash':
+						if (alpha > 1 || alpha < 0) // prevents a crash from making a dumb mistake
+							stageBGFlash.alpha = 0.5;
+						else
+							stageBGFlash.alpha = alpha;
 
-					if (time <= 0) // another check to prevent a crash
-						time = 1;
+						if (time <= 0) // another check to prevent a crash
+							time = 1;
 
-					if (r == 0 && g == 0 && b == 0) // blend check cause it makes it look cool
-						stageBGFlash.blend = NORMAL;
-					else
-						stageBGFlash.blend = ADD;
+						if (r == 0 && g == 0 && b == 0) // blend check cause it makes it look cool
+							stageBGFlash.blend = NORMAL;
+						else
+							stageBGFlash.blend = ADD;
 
-					stageBGFlash.color = FlxColor.fromRGBFloat(r, g, b, a);
+						stageBGFlash.color = FlxColor.fromRGBFloat(r, g, b, a);
 
-					if (BGFlashTween != null) // makes it so it won't look wonky, visually
-						BGFlashTween.cancel();
+						if (BGFlashTween != null) // makes it so it won't look wonky, visually
+							BGFlashTween.cancel();
 
-					BGFlashTween = FlxTween.tween(stageBGFlash, {alpha: 0}, time, {ease: ForeverTools.returnTweenEase(ease), 
-						onComplete: function(twn:FlxTween)
-						{
-							BGFlashTween = null;
-						}
-					});
-				}
-				
-			case 'dim' | 'darken' | 'dark':
-				if (stageBGFlash != null)
-				{
-					if (BGFlashTween != null)
-						BGFlashTween.cancel();
+						BGFlashTween = FlxTween.tween(stageBGFlash, {alpha: 0}, time, {ease: ForeverTools.returnTweenEase(ease), 
+							onComplete: function(twn:FlxTween)
+							{
+								BGFlashTween = null;
+							}
+						});
+					
+				case 'dim' | 'darken' | 'dark':
+					if (stageBGFlash != null)
+					{
+						if (BGFlashTween != null)
+							BGFlashTween.cancel();
 
-					if (stageBGFlash.blend != NORMAL)
-						stageBGFlash.blend = NORMAL;
+						if (stageBGFlash.blend != NORMAL)
+							stageBGFlash.blend = NORMAL;
 
-					if (time <= 0)
-						time = 1;
+						if (time <= 0)
+							time = 1;
 
-					stageBGFlash.color = FlxColor.BLACK; // hardcoded to be black
+						stageBGFlash.color = FlxColor.BLACK; // hardcoded to be black
 
-					BGFlashTween = FlxTween.tween(stageBGFlash, {alpha: alpha}, time, {ease: ForeverTools.returnTweenEase(ease),
-						onComplete: function(twn:FlxTween)
-						{
-							BGFlashTween = null;
-						}
-					});
-				}
+						BGFlashTween = FlxTween.tween(stageBGFlash, {alpha: alpha}, time, {ease: ForeverTools.returnTweenEase(ease),
+							onComplete: function(twn:FlxTween)
+							{
+								BGFlashTween = null;
+							}
+						});
+					}
+			}
 		}
 	}
 
@@ -2633,6 +2610,7 @@ class PlayState extends MusicBeatState
 		updateSectionCamera('dad', false);
 		//holyShitMOVEBITCH.alpha = 1;
 		//holyShitMOVEBITCH.y = -420;
+		defaultCamZoom = 1.5;
 		opponent.playAnim("reload", true);
 		opponent.specialAnim = true;
 		/*new FlxTimer().start(reactionTime - 0.6, function(tmr:FlxTimer)
@@ -2644,6 +2622,7 @@ class PlayState extends MusicBeatState
 			FlxG.sound.play(Paths.sound('funkinAVI/relapseMechs/Shoot'), 0.4);
 			opponent.playAnim("attack", true);
 			opponent.specialAnim = true;
+			defaultCamZoom = 0.6;
 			checkCamPosition();
 			new FlxTimer().start(0.1, function(tmr:FlxTimer) {
 			if(!dodged) {
@@ -2762,6 +2741,7 @@ class PlayState extends MusicBeatState
 		vanillaHUD.beatHit(curBeat);
 		kadeHUD.beatHit(curBeat);
 		cycledSinsHUD.beatHit(curBeat);
+		episode1HUD.beatHit(curBeat);
 
 		//
 		charactersDance(curBeat);
@@ -2811,10 +2791,10 @@ class PlayState extends MusicBeatState
 					case 100 | 104 | 108 | 116 | 120 | 124 | 132 | 136 | 140 | 148 | 152 | 156 | 228 | 232 | 236 | 240 | 244 | 252 | 260 | 264 | 268 | 276 | 280 | 284 | 292 | 296 | 300 | 308 | 312 | 316 | 324 | 328 | 332 | 340 | 344 | 348:
 						flashBGEffect('normal', 0.4, 0.35, 'linear', 255, 255, 255);
 					
-					case 98 | 102 | 106 | 110 | 114 | 118 | 122 | 126 | 130 | 134 | 138 | 142 | 146 | 150 | 154 | 158 | 226 | 230 | 234 | 238 | 242 | 246 | 250 | 254 | 258 | 262 | 266 | 270 | 274 | 278 | 282 | 286 | 290 | 294 | 298 | 302 | 308 | 310 | 314 | 318 | 322 | 326 | 330 | 334 | 338 | 342 | 346 | 350:
+					case 98 | 102 | 106 | 110 | 114 | 118 | 122 | 126 | 130 | 134 | 138 | 142 | 146 | 150 | 154 | 158 | 226 | 230 | 234 | 238 | 242 | 246 | 250 | 254 | 258 | 262 | 266 | 270 | 274 | 278 | 282 | 286 | 290 | 294 | 298 | 302 | 306 | 310 | 314 | 318 | 322 | 326 | 330 | 334 | 338 | 342 | 346 | 350:
 						flashBGEffect('normal', 0.67, 0.35, 'linear', 255, 255, 255);
 					
-					case 192 | 194 | 196 | 198 | 200 | 202 | 204 | 206 | 208 | 210 | 212 | 214 | 222:
+					case 194 | 196 | 198 | 200 | 202 | 204 | 206 | 210 | 212 | 214 | 222:
 						flashBGEffect('normal', 0.32, 0.35, 'linear', 255, 255, 255);
 					
 					case 216 | 217 | 218 | 219 | 220:
@@ -3520,6 +3500,9 @@ class PlayState extends MusicBeatState
 			case 'cycled sins':
 				FlxTween.tween(cycledSinsHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 				
+			case 'isolated' | 'lunacy' | 'delusional':
+				FlxTween.tween(episode1HUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+
 			default:
 				checkHUDS();
 		}

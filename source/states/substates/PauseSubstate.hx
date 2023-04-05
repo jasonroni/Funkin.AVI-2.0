@@ -121,6 +121,8 @@ class PauseSubstate extends MusicBeatSubstate
 		{
 			case 'Isolated':
 				songArt.loadGraphic(Paths.image(getArt + 'isolated'));
+			case 'Lunacy':
+				songArt.loadGraphic(Paths.image(getArt + 'lunacy'));
 			case "Don't Cross!":
 				songArt.loadGraphic(Paths.image(getArt + 'dont-cross'));
 			case 'Hunted':

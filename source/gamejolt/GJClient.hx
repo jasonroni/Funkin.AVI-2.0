@@ -5,7 +5,7 @@ import haxe.Http;
 import haxe.Json;
 import haxe.crypto.Md5;
 import haxe.crypto.Sha1;
-import gamejolt.keys.GJKeys;
+import gamejolt.GJKeys;
 
 using StringTools;
 

@@ -37,30 +37,14 @@ class Note extends FNFSprite
 	// not set initially
 	public var noteQuant:Int = -1;
 	public var noteVisualOffset:Float = 0;
-	public var customScrollspeed:Bool = false;
-	@:isVar
-	public var noteSpeed(get, set):Float = 0;
+	public var noteSpeed(default, set):Float;
 	public var noteDirection:Float = 0;
 
 	// values
 	public var offsetX:Float = 0;
 	public var offsetY:Float = 0;
 	
-	function get_noteSpeed():Float {
-		return noteSpeed;
-	}
-
-	function set_noteSpeed(value:Float):Float {
-		var ratio:Float = value / noteSpeed;
-		if (customScrollspeed && isSustainNote && !animation.curAnim.name.endsWith('end')) {
-			scale.y *= ratio;
-			updateHitbox();
-		}
-		noteSpeed = value;
-		return value;
-	}
-
-	/*public function set_noteSpeed(value:Float):Float
+	public function set_noteSpeed(value:Float):Float
 	{
 		if (noteSpeed != value)
 		{
@@ -68,7 +52,7 @@ class Note extends FNFSprite
 			updateSustainScale();
 		}
 		return noteSpeed;
-	}*/
+	}
 
 	public var parentNote:Note;
 	public var childrenNotes:Array<Note> = [];
