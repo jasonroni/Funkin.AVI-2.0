@@ -109,19 +109,19 @@ class SongCard extends FlxSpriteGroup
   }
   
   // This is a function in case you want the card to show up later in the song instead of instantly
-  public function playCardAnim()
+  public function playCardAnim(delaySet:Float = 0)
   {
   	// Fade in
-  	FlxTween.tween(cardSprite, {alpha: 1}, 1.5, {ease: FlxEase.sineInOut});
-	FlxTween.tween(cardTxt, {alpha: 1}, 2, {ease: FlxEase.sineInOut});
-	FlxTween.tween(opponentIcon, {alpha: 1}, 2.2, {ease: FlxEase.sineInOut});
-	FlxTween.tween(playerIcon, {alpha: 1}, 2.2, {ease: FlxEase.sineInOut});
+  	FlxTween.tween(cardSprite, {alpha: 1}, 1.5, {ease: FlxEase.sineInOut, startDelay: delaySet});
+	FlxTween.tween(cardTxt, {alpha: 1}, 2, {ease: FlxEase.sineInOut, startDelay: delaySet});
+	FlxTween.tween(opponentIcon, {alpha: 1}, 2.2, {ease: FlxEase.sineInOut, startDelay: delaySet});
+	FlxTween.tween(playerIcon, {alpha: 1}, 2.2, {ease: FlxEase.sineInOut, startDelay: delaySet});
 	
 	// Fade out
-  	FlxTween.tween(cardSprite, {alpha: 0}, 1.5, {ease: FlxEase.sineInOut, startDelay: 4.5});
-	FlxTween.tween(cardTxt, {alpha: 0}, 2, {ease: FlxEase.sineInOut, startDelay: 4.5});
-	FlxTween.tween(opponentIcon, {alpha: 0}, 2.2, {ease: FlxEase.sineInOut, startDelay: 4.5});
-	FlxTween.tween(playerIcon, {alpha: 0}, 2.2, {ease: FlxEase.sineInOut, startDelay: 4.5});
+  	FlxTween.tween(cardSprite, {alpha: 0}, 1.5, {ease: FlxEase.sineInOut, startDelay: delaySet + 4.5});
+	FlxTween.tween(cardTxt, {alpha: 0}, 2, {ease: FlxEase.sineInOut, startDelay: delaySet + 4.5});
+	FlxTween.tween(opponentIcon, {alpha: 0}, 2.2, {ease: FlxEase.sineInOut, startDelay: delaySet + 4.5});
+	FlxTween.tween(playerIcon, {alpha: 0}, 2.2, {ease: FlxEase.sineInOut, startDelay: delaySet + 4.5});
   }
   
   override function add(Object:FlxSprite):FlxSprite
