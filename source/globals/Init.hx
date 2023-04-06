@@ -163,6 +163,12 @@ class Init extends FlxState
 			NOT_FORCED,
 			''
 		],
+		"Display Song Cards" => [
+			true,
+			Checkmark,
+			"Whether to display the song cards at the start of a song.",
+			NOT_FORCED
+		],
 		"Note Skin" => [
 			'default',
 			Selector,
