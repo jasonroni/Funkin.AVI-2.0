@@ -165,9 +165,7 @@ class SongCard extends FlxSpriteGroup
   
   // This is a function in case you want the card to show up later in the song instead of instantly
   public function playCardAnim(delaySet:Float = 0)
-  {
-  	callFunc('playCardAnim', [delaySet]);
-	
+  {	
   	// Fade Stuff
   	FlxTween.tween(cardSprite, {alpha: 1}, 1.5, {ease: FlxEase.sineInOut, startDelay: delaySet,
 				onComplete: function(twn:FlxTween)
