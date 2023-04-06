@@ -71,6 +71,7 @@ class OptionsData
 		//
 		{name: "User Interface", type: "divider"},
 		//
+		{name: "Display Song Cards", type: "option"},
 		{name: "UI Skin", type: "option"},
 		{name: "Note Skin", type: "option"},
 		{name: "Clip Style", type: "option"},
