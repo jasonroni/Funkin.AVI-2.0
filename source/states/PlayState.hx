@@ -726,7 +726,20 @@ class PlayState extends MusicBeatState
 		songCard = new SongCard();
 		add(songCard);
 		songCard.cameras = [camAlt];
-		songCard.playCardAnim(0.08);
+		if (gameplayMode == FREEPLAY)
+		{
+			songCard.playCardAnim(0.08);
+		}
+		else if (gameplayMode == STORY)
+		{
+			switch (SONG.song)
+			{
+				case 'Isolated' | 'Lunacy' | 'Delusional':
+					// do nothing, it's already set under stepHit()
+				default:
+					songCard.playCardAnim(0.08;)
+			}
+		}
 
 		uiHUD = new ClassHUD();
 		uiHUD.alpha = 0;
@@ -2693,6 +2706,27 @@ class PlayState extends MusicBeatState
 			{
 				coolNote.stepHit(curStep);
 			});
+		}
+		
+		// Modified Card Delays
+		switch (SONG.song)
+		{
+			case 'Isolated' | 'Lunacy':
+				if (gameplayMode == STORY)
+				{
+					switch (curStep)
+					{
+						case 1: songCard.playCardAnim(0.2);
+					}
+				}
+			case 'Delusional':
+				if (gameplayMode == STORY)
+				{
+					switch (curStep)
+					{
+						case 1: songCard.playCardAnim(0.001);
+					}
+				}
 		}
 
 		callFunc('stepHit', [curStep]);
