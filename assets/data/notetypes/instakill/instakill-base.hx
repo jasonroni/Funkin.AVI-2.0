@@ -127,6 +127,10 @@ function onStep(newNote, curStep:Int)
 	{
 		if (newNote.mustPress)
 		{
+			if (newNote.isSustainNote)
+			{
+				newNote.kill();
+			}
 			newNote.kill();
 		}
 	}

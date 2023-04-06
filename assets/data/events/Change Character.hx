@@ -27,6 +27,7 @@ function eventTrigger(params)
 				PlayState.uiHUD.iconP1.updateIcon(params[1], true);
 				PlayState.demolitionHUD.iconP1.updateIcon(params[1], true);
 				PlayState.psychHUD.iconP1.updateIcon(params[1], true);
+				PlayState.cycledSinsHUD.iconP1.updateIcon(params[1], true);
 				PlayState.boyfriend.dance(true);
 
 				if (PlayState.playerMap.get(params[1]) != null)
@@ -43,6 +44,7 @@ function eventTrigger(params)
 				PlayState.uiHUD.iconP2.updateIcon(params[1], false);
 				PlayState.demolitionHUD.iconP2.updateIcon(params[1], false);
 				PlayState.psychHUD.iconP2.updateIcon(params[1], false);
+				PlayState.cycledSinsHUD.iconP2.updateIcon(params[1], false);
 				PlayState.opponent.dance(true);
 
 				if (PlayState.opponentMap.get(params[1]) != null)

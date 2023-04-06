@@ -70,6 +70,21 @@ class Episode1HUD extends FlxSpriteGroup
 	healthBarBG.scrollFactor.set();
 	add(healthBarBG);
 
+	fancyBarOverlay = new FlxSprite(healthBarBG.x, healthBarBG.y).loadGraphic(Paths.image('UI/default/base/episode1Overlay'));
+	fancyBarOverlay.scale.set(1.01, 1);
+	fancyBarOverlay.screenCenter(X);
+	fancyBarOverlay.scrollFactor.set();
+	if (Init.trueSettings.get('Downscroll'))
+	{
+		fancyBarOverlay.y -= 10;
+	}
+	else
+	{
+		fancyBarOverlay.y -= 117;
+		fancyBarOverlay.flipY = true;
+	}
+	add(fancyBarOverlay);
+
 	healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8));
 	healthBar.scrollFactor.set();
 	reloadHealthBar();
@@ -131,26 +146,27 @@ class Episode1HUD extends FlxSpriteGroup
 
 	scoreTxt = new FlxText(FlxG.width / 2, Math.floor(healthBarBG.y + 40), 0, scoreDisplay);
 	scoreTxt.setFormat(Paths.font('DisneyFont'), 26, FlxColor.WHITE);
+	scoreTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 	scoreTxt.visible = !PlayState.bfStrums.autoplay;
 	updateScoreText();
 	add(scoreTxt);
 
 	watermarkTxt = new FlxText(0, 0, 0, engineDisplay);
-	watermarkTxt.setFormat(Paths.font('DisneyFont'), 28, FlxColor.WHITE);
+	watermarkTxt.setFormat(Paths.font('DisneyFont'), 32, FlxColor.WHITE);
 	watermarkTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
-	if (Init.trueSettings.get('Downscroll')) watermarkTxt.setPosition(0, 685); else watermarkTxt.setPosition(0, 8);
+	if (Init.trueSettings.get('Downscroll')) watermarkTxt.setPosition(0, 655); else watermarkTxt.setPosition(0, 8);
 	watermarkTxt.screenCenter(X);
 	add(watermarkTxt);
 
-	songTxt = new FlxText(watermarkTxt.x, watermarkTxt.y + 25, 0, '$infoDisplay');
-	songTxt.setFormat(Paths.font('DisneyFont'), 18, FlxColor.WHITE);
+	songTxt = new FlxText(watermarkTxt.x, watermarkTxt.y + 30, 0, '$infoDisplay');
+	songTxt.setFormat(Paths.font('DisneyFont'), 22, FlxColor.WHITE);
 	songTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 	songTxt.alpha = 0.4;
 	songTxt.screenCenter(X);
 	add(songTxt);
 
 	if(autoplayTxt != null) {
-		autoplayTxt = new FlxText(-5, scoreBar.y, FlxG.width - 800, '[Autoplay]\n', 32);
+		autoplayTxt = new FlxText(-5, scoreTxt.y, FlxG.width - 800, '[Autoplay]\n', 32);
 		autoplayTxt.setFormat(Paths.font("DisneyFont"), 32, FlxColor.WHITE, CENTER);
 		autoplayTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2.3);
 		autoplayTxt.screenCenter(X);
@@ -237,11 +253,11 @@ class Episode1HUD extends FlxSpriteGroup
 		demonBFIcon.bop(0.1);
 		lunacyIcon.bop(0.1);
 
-		if (autoplayTxt.visible)
+		/*if (autoplayTxt.visible)
 		{
 			autoplaySine += 180 * (elapsed / 4);
 			autoplayTxt.alpha = 1 - Math.sin((Math.PI * autoplaySine) / 80);
-		}
+		}*/
 	}
 
 	public static var divider:String = " - ";

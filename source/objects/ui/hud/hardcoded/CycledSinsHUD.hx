@@ -179,11 +179,11 @@ class CycledSinsHUD extends FlxSpriteGroup
 		iconP1.bop(0.15);
 		iconP2.bop(0.15);
 
-		if (autoplayMark.visible)
+		/*if (autoplayMark.visible)
 		{
 			autoplaySine += 180 * (elapsed / 4);
 			autoplayMark.alpha = 1 - Math.sin((Math.PI * autoplaySine) / 80);
-		}
+		}*/
 	}
 
 	public static var divider:String = " | ";

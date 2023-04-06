@@ -23,9 +23,8 @@ class SongCard extends FlxSpriteGroup
   public var songTitle:String = PlayState.SONG.song;
   
   // Files to look for
-  public var directory:String = 'menus/Funkin_avi/card/${songTitle}';
-  public var pathFinder = Paths.image(directory);
   public var fontStuff:String = "vcr";
+  public var fileName:String = CoolUtil.spaceToDash(PlayState.SONG.song.toLowerCase());
     
   // Base Card Setup
   public var cardTxt:FlxText;
@@ -53,11 +52,11 @@ class SongCard extends FlxSpriteGroup
           fontStuff = "satanFont";
         case 'Bless':
           fontStuff = "MagicOwlFont";
-	case 'Birthday':
-	  isBirthday = true;
-	  fontStuff = "DisneyFont";
+	      case 'Birthday':
+	        isBirthday = true;
+	        fontStuff = "DisneyFont";
         case "Don't Cross!":
-	  isCross = true;
+	        isCross = true;
           fontStuff = "PhantomMuff Full Letters 1.1.5";
         case 'Cycled Sins' | 'Cycled Sins Legacy':
           fontStuff = "calibri-regular";
@@ -77,29 +76,30 @@ class SongCard extends FlxSpriteGroup
     
     setupCardData();
     
-    if (!FileSystem.exists(pathFinder))
-      cardSprite = new FlxSprite().makeGraphic(600, 450, FlxColor.BLACK);
+    if (!FileSystem.exists('./assets/images/menus/Funkin_avi/card/${fileName}'))
+      cardSprite = new FlxSprite().makeGraphic(600, 350, 0xFF000000);
     else
-      cardSprite = new FlxSprite().loadGraphic(Paths.image(directory));
+      cardSprite = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/card/${fileName}'));
     
     cardSprite.alpha = 0.001;
     cardSprite.screenCenter();
     
-    cardTxt = new FlxText(cardSprite.x, cardSprite.y, 0, '${songTitle}/n${composer}');
-    cardTxt.setFormat(Paths.font(fontStuff), 30, FlxColor.WHITE);
+    cardTxt = new FlxText(cardSprite.x, cardSprite.y, 0, '- ${songTitle} -\nBy: ${composer}');
+    cardTxt.setFormat(Paths.font(fontStuff), 42, FlxColor.WHITE, CENTER);
     cardTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
+    cardTxt.screenCenter();
     cardTxt.alpha = 0.001;
     
     opponentIcon = new HealthIcon(PlayState.opponent.characterData.icon, false);
     opponentIcon.animation.curAnim.curFrame = 2;
-    opponentIcon.x = cardSprite.x - 150;
-    opponentIcon.y = cardSprite.y - 200;
+    opponentIcon.x = cardSprite.x - 90;
+    opponentIcon.y = cardSprite.y - 50;
     opponentIcon.alpha = 0.001;
     
     playerIcon = new HealthIcon(PlayState.boyfriend.characterData.icon, true);
     playerIcon.animation.curAnim.curFrame = 2;
-    playerIcon.x = cardSprite.x + 150;
-    playerIcon.y = cardSprite.y + 200;
+    playerIcon.x = cardSprite.x + 525;
+    playerIcon.y = cardSprite.y + 280;
     playerIcon.alpha = 0.001;
     
     add(cardSprite);
@@ -115,25 +115,25 @@ class SongCard extends FlxSpriteGroup
   	FlxTween.tween(cardSprite, {alpha: 1}, 1.5, {ease: FlxEase.sineInOut, startDelay: delaySet,
 				onComplete: function(twn:FlxTween)
 				{
-					FlxTween.tween(cardSprite, {alpha: 0}, 1.5, {ease: FlxEase.sineInOut, startDelay: 4.5});
+					FlxTween.tween(cardSprite, {alpha: 0}, 1.5, {ease: FlxEase.sineInOut, startDelay: 3.5});
 				}
 		});
 	FlxTween.tween(cardTxt, {alpha: 1}, 2, {ease: FlxEase.sineInOut, startDelay: delaySet,
 				onComplete: function(twn:FlxTween)
 				{
-					FlxTween.tween(cardTxt, {alpha: 0}, 2, {ease: FlxEase.sineInOut, startDelay: 4.5});
+					FlxTween.tween(cardTxt, {alpha: 0}, 2, {ease: FlxEase.sineInOut, startDelay: 3.5});
 				}
 		});
 	FlxTween.tween(opponentIcon, {alpha: 1}, 2.2, {ease: FlxEase.sineInOut, startDelay: delaySet,
 				onComplete: function(twn:FlxTween)
 				{
-					FlxTween.tween(opponentIcon, {alpha: 0}, 2.2, {ease: FlxEase.sineInOut, startDelay: 4.5});
+					FlxTween.tween(opponentIcon, {alpha: 0}, 2.2, {ease: FlxEase.sineInOut, startDelay: 3.5});
 				}
 		});
 	FlxTween.tween(playerIcon, {alpha: 1}, 2.2, {ease: FlxEase.sineInOut, startDelay: delaySet,
 				onComplete: function(twn:FlxTween)
 				{
-					FlxTween.tween(playerIcon, {alpha: 0}, 2.2, {ease: FlxEase.sineInOut, startDelay: 4.5});
+					FlxTween.tween(playerIcon, {alpha: 0}, 2.2, {ease: FlxEase.sineInOut, startDelay: 3.5});
 				}
 		});
   }

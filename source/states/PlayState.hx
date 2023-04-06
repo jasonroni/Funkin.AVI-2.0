@@ -724,8 +724,8 @@ class PlayState extends MusicBeatState
 		FlxG.cameras.add(dialogueHUD, false);
 		
 		songCard = new SongCard();
-		add(songCard)
-		songCard.cameras = [camHUD];
+		add(songCard);
+		songCard.cameras = [camAlt];
 		songCard.playCardAnim(0.08);
 
 		uiHUD = new ClassHUD();
@@ -1256,8 +1256,8 @@ class PlayState extends MusicBeatState
 						switch(SONG.song.toLowerCase().replace('-', ' '))
 						{
 							case 'cycled sins':
-								cycledSinsHUD.autoplayMark.visible = bfStrums.autoplay;
-								cycledSinsHUD.scoreBar.visible = !bfStrums.autoplay;
+								//cycledSinsHUD.autoplayMark.visible = bfStrums.autoplay;
+								//cycledSinsHUD.scoreBar.visible = !bfStrums.autoplay;
 							case 'Isolated' | 'Lunacy' | 'Delusional':
 								//episode1HUD.autoplayMark.visible = bfStrums.autoplay;
 								//episode1HUD.scoreBar.visible = !bfStrums.autoplay;
