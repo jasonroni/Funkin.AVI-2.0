@@ -27,8 +27,7 @@ typedef SongCardData =
 }
 
 class SongCard extends FlxSpriteGroup
-{
-	
+{	
 	// Pre-made Text
 	public var composer:String = PlayState.SONG.composer;
 	public var songTitle:String = PlayState.SONG.song;
@@ -37,8 +36,8 @@ class SongCard extends FlxSpriteGroup
 	public var fontStuff:String = "vcr";
 	public var artFile:String = "test";
 	public var fileName:String = CoolUtil.spaceToDash(PlayState.SONG.song.toLowerCase());
-	public var pIconName:String = "bf";
-	public var oIconName:String = "dad";
+	public var pIconName:String = PlayState.boyfriend.characterData.icon;
+	public var oIconName:String = PlayState.opponent.characterData.icon;
 	
 	// Card Data Stuff
 	public var cardData:SongCardData;
@@ -59,131 +58,125 @@ class SongCard extends FlxSpriteGroup
 	public var isBirthday:Bool = false;
 	public var isCross:Bool = false;
   
-  function setupCardData()
-  {
-    switch (PlayState.SONG.song)
-    {
-        case 'Isolated' | 'Lunacy' | 'Hunted' | 'Hunted Legacy' | "Isolated Legacy" | 'Lunacy Legacy' | 'Delusional Legacy':
-          fontStuff = "DisneyFont";
-        case 'Delusional':
-          fontStuff = "satanFont";
-        case 'Bless':
-          fontStuff = "MagicOwlFont";
-	      case 'Birthday':
-	        isBirthday = true;
-	        fontStuff = "DisneyFont";
-        case "Don't Cross!":
-	        isCross = true;
-          fontStuff = "PhantomMuff Full Letters 1.1.5";
-        case 'Cycled Sins' | 'Cycled Sins Legacy':
-          fontStuff = "calibri-regular";
-        case 'Mercy' | 'Mercy Legacy':
-          fontStuff = "splatter";
-        case 'Malfunction':
-	  isMalfunction = true;
-          fontStuff = "m40";
-        default: 
-          fontStuff = "vcr";
-    }
-  }
+  	function setupCardData()
+  	{
+    		switch (PlayState.SONG.song)
+    		{
+        		case 'Isolated' | 'Lunacy' | 'Hunted' | 'Hunted Legacy' | "Isolated Legacy" | 'Lunacy Legacy' | 'Delusional Legacy':
+         	 		fontStuff = "DisneyFont";
+        		case 'Delusional':
+          			fontStuff = "satanFont";
+			case 'Bless':
+			  	fontStuff = "MagicOwlFont";
+			case 'Birthday':
+			  	isBirthday = true;
+			  	fontStuff = "DisneyFont";
+			case "Don't Cross!":
+				isCross = true;
+			 	fontStuff = "PhantomMuff Full Letters 1.1.5";
+			case 'Cycled Sins' | 'Cycled Sins Legacy':
+			  	fontStuff = "calibri-regular";
+			case 'Mercy' | 'Mercy Legacy':
+			  	fontStuff = "splatter";
+			case 'Malfunction':
+			  	isMalfunction = true;
+			  	fontStuff = "m40";
+			default: 
+			  	fontStuff = "vcr";
+		}
+	 }
   
-  public function new()
-  {
-    super();
-    
-    setupCardData();
-    
-    if (FileSystem.exists('./assets/data/cardData/${fileName}.json')) 
-    {
-    	var rawJson = File.getContent(Paths.getPath('data/cardData/${fileName}.json', TEXT));
-	cardData = cast Json.parse(rawJson).customCardData;
-	
-	artFile = cardData.customArt;
-    	pIconName = cardData.iconSkin1;
-	oIconName = cardData.iconSkin2;
-	fontStuff = cardData.font;
-	
-	if (!FileSystem.exists('./assets/images/menus/Funkin_avi/card/${artFile}.png'))
-	  cardSprite = new FlxSprite().makeGraphic(600, 350, 0xFF000000);
-	else
-	  cardSprite = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/card/${artFile}'));
-	
-	opponentIcon = new HealthIcon(oIconName, false);
+	 public function new()
+	 {
+		   super();
 
-	playerIcon = new HealthIcon(pIconName, true);
-	
-	cardTxt = new FlxText(cardSprite.x, cardSprite.y, 0, '- ${songTitle} -\nBy: ${composer}');
-	cardTxt.setFormat(Paths.font(fontStuff), 42, FlxColor.WHITE, CENTER);
-    }
-    else
-    {
-    	if (!FileSystem.exists('./assets/images/menus/Funkin_avi/card/${fileName}.png'))
-	  cardSprite = new FlxSprite().makeGraphic(600, 350, 0xFF000000);
-	else
-	  cardSprite = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/card/${fileName}'));
-	
-    	opponentIcon = new HealthIcon(PlayState.opponent.characterData.icon, false);
+		   setupCardData();
 
-	playerIcon = new HealthIcon(PlayState.boyfriend.characterData.icon, true);
-	
-	cardTxt = new FlxText(cardSprite.x, cardSprite.y, 0, '- ${songTitle} -\nBy: ${composer}');
-	cardTxt.setFormat(Paths.font(fontStuff), 42, FlxColor.WHITE, CENTER);
-    }
-    
-    cardSprite.alpha = 0.001;
-    cardSprite.screenCenter();
-    
-    opponentIcon.animation.curAnim.curFrame = 2;
-    opponentIcon.x = cardSprite.x - 90;
-    opponentIcon.y = cardSprite.y - 50;
-    opponentIcon.alpha = 0.001;
-    
-    playerIcon.animation.curAnim.curFrame = 2;
-    playerIcon.x = cardSprite.x + 525;
-    playerIcon.y = cardSprite.y + 280;
-    playerIcon.alpha = 0.001;
-    
-    cardTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
-    cardTxt.screenCenter();
-    cardTxt.alpha = 0.001;
-    
-    add(cardSprite);
-    add(cardTxt);
-    add(opponentIcon);
-    add(playerIcon);
-  }
+		   cardTxt = new FlxText(cardSprite.x, cardSprite.y, 0, '- ${songTitle} -\nBy: ${composer}');
+
+		   if (FileSystem.exists('./assets/data/cardData/${fileName}.json')) 
+		   {
+				var rawJson = File.getContent(Paths.getPath('data/cardData/${fileName}.json', TEXT));
+				cardData = cast Json.parse(rawJson).customCardData;
+
+				artFile = cardData.customArt;
+				pIconName = cardData.iconSkin1;
+				oIconName = cardData.iconSkin2;
+				fontStuff = cardData.font;
+
+				if (!FileSystem.exists('./assets/images/menus/Funkin_avi/card/${artFile}.png'))
+				  	cardSprite = new FlxSprite().makeGraphic(600, 350, 0xFF000000);
+				else
+				  	cardSprite = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/card/${artFile}'));
+
+				cardTxt.setFormat(Paths.font(fontStuff), 42, FlxColor.WHITE, CENTER);
+		   }
+		   else
+		   {
+				if (!FileSystem.exists('./assets/images/menus/Funkin_avi/card/${fileName}.png'))
+				  	cardSprite = new FlxSprite().makeGraphic(600, 350, 0xFF000000);
+				else
+				  	cardSprite = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/card/${fileName}'));
+
+				cardTxt.setFormat(Paths.font(fontStuff), 42, FlxColor.WHITE, CENTER);
+		   }
+
+		   cardSprite.alpha = 0.001;
+		   cardSprite.screenCenter();
+
+		   opponentIcon = new HealthIcon(oIconName, false);
+		   opponentIcon.animation.curAnim.curFrame = 2;
+		   opponentIcon.x = cardSprite.x - 90;
+		   opponentIcon.y = cardSprite.y - 50;
+		   opponentIcon.alpha = 0.001;
+
+		   playerIcon = new HealthIcon(pIconName, true);
+		   playerIcon.animation.curAnim.curFrame = 2;
+		   playerIcon.x = cardSprite.x + 525;
+		   playerIcon.y = cardSprite.y + 280;
+		   playerIcon.alpha = 0.001;
+
+		   cardTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
+		   cardTxt.screenCenter();
+		   cardTxt.alpha = 0.001;
+
+		   add(cardSprite);
+		   add(cardTxt);
+		   add(opponentIcon);
+		   add(playerIcon);
+	 }
   
-  // This is a function in case you want the card to show up later in the song instead of instantly
-  public function playCardAnim(delaySet:Float = 0)
-  {	
-  	// Fade Stuff
-  	FlxTween.tween(cardSprite, {alpha: 1}, 1.5, {ease: FlxEase.sineInOut, startDelay: delaySet,
-				onComplete: function(twn:FlxTween)
-				{
-					FlxTween.tween(cardSprite, {alpha: 0}, 1.5, {ease: FlxEase.sineInOut, startDelay: 3.5});
-				}
-		});
-	FlxTween.tween(cardTxt, {alpha: 1}, 2, {ease: FlxEase.sineInOut, startDelay: delaySet,
-				onComplete: function(twn:FlxTween)
-				{
-					FlxTween.tween(cardTxt, {alpha: 0}, 2, {ease: FlxEase.sineInOut, startDelay: 3.5});
-				}
-		});
-	FlxTween.tween(opponentIcon, {alpha: 1}, 2.2, {ease: FlxEase.sineInOut, startDelay: delaySet,
-				onComplete: function(twn:FlxTween)
-				{
-					FlxTween.tween(opponentIcon, {alpha: 0}, 2.2, {ease: FlxEase.sineInOut, startDelay: 3.5});
-				}
-		});
-	FlxTween.tween(playerIcon, {alpha: 1}, 2.2, {ease: FlxEase.sineInOut, startDelay: delaySet,
-				onComplete: function(twn:FlxTween)
-				{
-					FlxTween.tween(playerIcon, {alpha: 0}, 2.2, {ease: FlxEase.sineInOut, startDelay: 3.5});
-				}
-		});
-  }
+	  // This is a function in case you want the card to show up later in the song instead of instantly
+	 public function playCardAnim(delaySet:Float = 0)
+	 {	
+		// Fade Stuff
+		FlxTween.tween(cardSprite, {alpha: 1}, 1.5, {ease: FlxEase.sineInOut, startDelay: delaySet,
+					onComplete: function(twn:FlxTween)
+					{
+						FlxTween.tween(cardSprite, {alpha: 0}, 1.5, {ease: FlxEase.sineInOut, startDelay: 3.5});
+					}
+			});
+		FlxTween.tween(cardTxt, {alpha: 1}, 2, {ease: FlxEase.sineInOut, startDelay: delaySet,
+					onComplete: function(twn:FlxTween)
+					{
+						FlxTween.tween(cardTxt, {alpha: 0}, 2, {ease: FlxEase.sineInOut, startDelay: 3.5});
+					}
+			});
+		FlxTween.tween(opponentIcon, {alpha: 1}, 2.2, {ease: FlxEase.sineInOut, startDelay: delaySet,
+					onComplete: function(twn:FlxTween)
+					{
+						FlxTween.tween(opponentIcon, {alpha: 0}, 2.2, {ease: FlxEase.sineInOut, startDelay: 3.5});
+					}
+			});
+		FlxTween.tween(playerIcon, {alpha: 1}, 2.2, {ease: FlxEase.sineInOut, startDelay: delaySet,
+					onComplete: function(twn:FlxTween)
+					{
+						FlxTween.tween(playerIcon, {alpha: 0}, 2.2, {ease: FlxEase.sineInOut, startDelay: 3.5});
+					}
+			});
+	  }
   
-	override function add(Object:FlxSprite):FlxSprite
+  	override function add(Object:FlxSprite):FlxSprite
 	{
 		if (Std.isOfType(Object, FlxText))
 			cast(Object, FlxText).antialiasing = !Init.trueSettings.get('Disable Antialiasing');
