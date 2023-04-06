@@ -95,7 +95,7 @@ class SongCard extends FlxSpriteGroup
     if (FileSystem.exists('./assets/data/cardData/${songTitle}.json')) 
     {
     	var rawJson = File.getContent(Paths.getPath('data/cardData/${songTitle}.json', TEXT));
-	cardData = cast Json.parse(rawJson).info;
+	cardData = cast Json.parse(rawJson).customCardData;
 	
 	fileName = cardData.customArt;
     	pIconName = cardData.iconSkin1;
