@@ -737,7 +737,7 @@ class PlayState extends MusicBeatState
 				case 'Isolated' | 'Lunacy' | 'Delusional':
 					// do nothing, it's already set under stepHit()
 				default:
-					songCard.playCardAnim(0.08;)
+					songCard.playCardAnim(0.08);
 			}
 		}
 
