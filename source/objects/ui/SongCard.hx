@@ -131,7 +131,7 @@ class SongCard extends FlxSpriteGroup
     }
     else
     {
-    	if (!FileSystem.exists('./assets/images/menus/Funkin_avi/card/${fileName}'))
+    	if (!FileSystem.exists('./assets/images/menus/Funkin_avi/card/${fileName}.png'))
 	  cardSprite = new FlxSprite().makeGraphic(600, 350, 0xFF000000);
 	else
 	  cardSprite = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/card/${fileName}'));
