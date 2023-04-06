@@ -35,6 +35,7 @@ class SongCard extends FlxSpriteGroup
 
 	// Files to look for
 	public var fontStuff:String = "vcr";
+	public var artFile:String = "test";
 	public var fileName:String = CoolUtil.spaceToDash(PlayState.SONG.song.toLowerCase());
 	public var pIconName:String = "bf";
 	public var oIconName:String = "dad";
@@ -97,15 +98,15 @@ class SongCard extends FlxSpriteGroup
     	var rawJson = File.getContent(Paths.getPath('data/cardData/${fileName}.json', TEXT));
 	cardData = cast Json.parse(rawJson).customCardData;
 	
-	fileName = cardData.customArt;
+	artFile = cardData.customArt;
     	pIconName = cardData.iconSkin1;
 	oIconName = cardData.iconSkin2;
 	fontStuff = cardData.font;
 	
-	if (!FileSystem.exists('./assets/images/menus/Funkin_avi/card/${fileName}'))
+	if (!FileSystem.exists('./assets/images/menus/Funkin_avi/card/${artFile}'))
 	  cardSprite = new FlxSprite().makeGraphic(600, 350, 0xFF000000);
 	else
-	  cardSprite = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/card/${fileName}'));
+	  cardSprite = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/card/${artFile}'));
 
 	cardSprite.alpha = 0.001;
 	cardSprite.screenCenter();
