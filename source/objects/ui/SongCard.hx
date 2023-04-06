@@ -1,12 +1,12 @@
 package objects.ui;
 
-import base.dependency.FeatherDeps.ScriptHandler;
 import flixel.FlxSprite;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import flixel.graphics.FlxGraphic;
 import flixel.math.FlxMath;
 import sys.FileSystem;
+import sys.io.File;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
 import flixel.ui.FlxBar;
@@ -28,8 +28,6 @@ typedef SongCardData =
 
 class SongCard extends FlxSpriteGroup
 {
-	// Card Scripting stuff;
-	public static var moduleArray:Array<ScriptHandler> = [];
 	
 	// Pre-made Text
 	public var composer:String = PlayState.SONG.composer;
