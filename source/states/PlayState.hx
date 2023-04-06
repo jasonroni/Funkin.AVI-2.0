@@ -723,21 +723,24 @@ class PlayState extends MusicBeatState
 		// add the dialogue UI
 		FlxG.cameras.add(dialogueHUD, false);
 		
-		songCard = new SongCard();
-		add(songCard);
-		songCard.cameras = [camAlt];
-		if (gameplayMode == FREEPLAY)
+		if (Init.trueSettings.get('Display Song Cards'))
 		{
-			songCard.playCardAnim(0.08);
-		}
-		else if (gameplayMode == STORY)
-		{
-			switch (SONG.song)
+			songCard = new SongCard();
+			add(songCard);
+			songCard.cameras = [camAlt];
+			if (gameplayMode == FREEPLAY)
 			{
-				case 'Isolated' | 'Lunacy' | 'Delusional':
-					// do nothing, it's already set under stepHit()
-				default:
-					songCard.playCardAnim(0.08);
+				songCard.playCardAnim(0.08);
+			}
+			else if (gameplayMode == STORY)
+			{
+				switch (SONG.song)
+				{
+					case 'Isolated' | 'Lunacy' | 'Delusional':
+						// do nothing, it's already set under stepHit()
+					default:
+						songCard.playCardAnim(0.08);
+				}
 			}
 		}
 
@@ -2708,25 +2711,28 @@ class PlayState extends MusicBeatState
 			});
 		}
 		
-		// Modified Card Delays
-		switch (SONG.song)
+		if (Init.trueSettings.get('Display Song Cards'))
 		{
-			case 'Isolated' | 'Lunacy':
-				if (gameplayMode == STORY)
-				{
-					switch (curStep)
+			// Modified Card Delays
+			switch (SONG.song)
+			{
+				case 'Isolated' | 'Lunacy':
+					if (gameplayMode == STORY)
 					{
-						case 1: songCard.playCardAnim(0.2);
+						switch (curStep)
+						{
+							case 1: songCard.playCardAnim(0.2);
+						}
 					}
-				}
-			case 'Delusional':
-				if (gameplayMode == STORY)
-				{
-					switch (curStep)
+				case 'Delusional':
+					if (gameplayMode == STORY)
 					{
-						case 1: songCard.playCardAnim(0.001);
+						switch (curStep)
+						{
+							case 1: songCard.playCardAnim(0.001);
+						}
 					}
-				}
+			}
 		}
 
 		callFunc('stepHit', [curStep]);
