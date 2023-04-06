@@ -107,27 +107,13 @@ class SongCard extends FlxSpriteGroup
 	  cardSprite = new FlxSprite().makeGraphic(600, 350, 0xFF000000);
 	else
 	  cardSprite = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/card/${artFile}'));
-
-	cardSprite.alpha = 0.001;
-	cardSprite.screenCenter();
 	
 	opponentIcon = new HealthIcon(oIconName, false);
-	opponentIcon.animation.curAnim.curFrame = 2;
-	opponentIcon.x = cardSprite.x - 90;
-	opponentIcon.y = cardSprite.y - 50;
-	opponentIcon.alpha = 0.001;
 
 	playerIcon = new HealthIcon(pIconName, true);
-	playerIcon.animation.curAnim.curFrame = 2;
-	playerIcon.x = cardSprite.x + 525;
-	playerIcon.y = cardSprite.y + 280;
-	playerIcon.alpha = 0.001;
 	
 	cardTxt = new FlxText(cardSprite.x, cardSprite.y, 0, '- ${songTitle} -\nBy: ${composer}');
 	cardTxt.setFormat(Paths.font(fontStuff), 42, FlxColor.WHITE, CENTER);
-	cardTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
-	cardTxt.screenCenter();
-	cardTxt.alpha = 0.001;
     }
     else
     {
@@ -135,28 +121,31 @@ class SongCard extends FlxSpriteGroup
 	  cardSprite = new FlxSprite().makeGraphic(600, 350, 0xFF000000);
 	else
 	  cardSprite = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/card/${fileName}'));
-
-	cardSprite.alpha = 0.001;
-	cardSprite.screenCenter();
 	
     	opponentIcon = new HealthIcon(PlayState.opponent.characterData.icon, false);
-	opponentIcon.animation.curAnim.curFrame = 2;
-	opponentIcon.x = cardSprite.x - 90;
-	opponentIcon.y = cardSprite.y - 50;
-	opponentIcon.alpha = 0.001;
 
 	playerIcon = new HealthIcon(PlayState.boyfriend.characterData.icon, true);
-	playerIcon.animation.curAnim.curFrame = 2;
-	playerIcon.x = cardSprite.x + 525;
-	playerIcon.y = cardSprite.y + 280;
-	playerIcon.alpha = 0.001;
 	
 	cardTxt = new FlxText(cardSprite.x, cardSprite.y, 0, '- ${songTitle} -\nBy: ${composer}');
 	cardTxt.setFormat(Paths.font(fontStuff), 42, FlxColor.WHITE, CENTER);
-	cardTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
-	cardTxt.screenCenter();
-	cardTxt.alpha = 0.001;
     }
+    
+    cardSprite.alpha = 0.001;
+    cardSprite.screenCenter();
+    
+    opponentIcon.animation.curAnim.curFrame = 2;
+    opponentIcon.x = cardSprite.x - 90;
+    opponentIcon.y = cardSprite.y - 50;
+    opponentIcon.alpha = 0.001;
+    
+    playerIcon.animation.curAnim.curFrame = 2;
+    playerIcon.x = cardSprite.x + 525;
+    playerIcon.y = cardSprite.y + 280;
+    playerIcon.alpha = 0.001;
+    
+    cardTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
+    cardTxt.screenCenter();
+    cardTxt.alpha = 0.001;
     
     add(cardSprite);
     add(cardTxt);
