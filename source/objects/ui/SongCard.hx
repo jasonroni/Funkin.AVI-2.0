@@ -1,5 +1,6 @@
 package objects.ui;
 
+import base.dependency.FeatherDeps.ScriptHandler;
 import flixel.FlxSprite;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
@@ -12,35 +13,52 @@ import flixel.ui.FlxBar;
 import flixel.util.FlxSort;
 import flixel.util.FlxStringUtil;
 import flixel.group.FlxSpriteGroup;
+import haxe.Json;
 import states.PlayState;
 
 using flixel.util.FlxSpriteUtil;
 
+typedef SongCardData =
+{
+	var font:String;
+	var customArt:String;
+	var iconSkin1:String;
+	var iconSkin2:String;
+}
+
 class SongCard extends FlxSpriteGroup
 {
-  // Pre-made Text
-  public var composer:String = PlayState.SONG.composer;
-  public var songTitle:String = PlayState.SONG.song;
-  
-  // Files to look for
-  public var fontStuff:String = "vcr";
-  public var fileName:String = CoolUtil.spaceToDash(PlayState.SONG.song.toLowerCase());
-    
-  // Base Card Setup
-  public var cardTxt:FlxText;
-  public var cardSprite:FlxSprite;
-  
-  // A bit of Decoration
-  public var musicNoteIcon:FlxSprite;
-  
-  // Health Icons
-  public var opponentIcon:HealthIcon;
-  public var playerIcon:HealthIcon;
-  
-  // For Special Anims or Effects
-  public var isMalfunction:Bool = false;
-  public var isBirthday:Bool = false;
-  public var isCross:Bool = false;
+	// Card Scripting stuff;
+	public static var moduleArray:Array<ScriptHandler> = [];
+	
+	// Pre-made Text
+	public var composer:String = PlayState.SONG.composer;
+	public var songTitle:String = PlayState.SONG.song;
+
+	// Files to look for
+	public var fontStuff:String = "vcr";
+	public var fileName:String = CoolUtil.spaceToDash(PlayState.SONG.song.toLowerCase());
+	public var pIconName:String = "bf";
+	public var oIconName:String = "dad";
+	
+	// Card Data Stuff
+	public var cardData:SongCardData;
+
+	// Base Card Setup
+	public var cardTxt:FlxText;
+	public var cardSprite:FlxSprite;
+
+	// A bit of Decoration
+	public var musicNoteIcon:FlxSprite;
+
+	// Health Icons
+	public var opponentIcon:HealthIcon;
+	public var playerIcon:HealthIcon;
+
+	// For Special Anims or Effects
+	public var isMalfunction:Bool = false;
+	public var isBirthday:Bool = false;
+	public var isCross:Bool = false;
   
   function setupCardData()
   {
@@ -76,31 +94,70 @@ class SongCard extends FlxSpriteGroup
     
     setupCardData();
     
-    if (!FileSystem.exists('./assets/images/menus/Funkin_avi/card/${fileName}'))
-      cardSprite = new FlxSprite().makeGraphic(600, 350, 0xFF000000);
+    if (FileSystem.exists('./assets/data/cardData/${songTitle}.json')) 
+    {
+    	var rawJson = File.getContent(Paths.getPath('data/cardData/${songTitle}.json', TEXT));
+	cardData = cast Json.parse(rawJson).info;
+	
+	fileName = cardData.customArt;
+    	pIconName = cardData.iconSkin1;
+	oIconName = cardData.iconSkin2;
+	fontStuff = cardData.font;
+	
+	if (!FileSystem.exists('./assets/images/menus/Funkin_avi/card/${fileName}'))
+	  cardSprite = new FlxSprite().makeGraphic(600, 350, 0xFF000000);
+	else
+	  cardSprite = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/card/${fileName}'));
+
+	cardSprite.alpha = 0.001;
+	cardSprite.screenCenter();
+	
+	opponentIcon = new HealthIcon(oIconName, false);
+	opponentIcon.animation.curAnim.curFrame = 2;
+	opponentIcon.x = cardSprite.x - 90;
+	opponentIcon.y = cardSprite.y - 50;
+	opponentIcon.alpha = 0.001;
+
+	playerIcon = new HealthIcon(pIconName, true);
+	playerIcon.animation.curAnim.curFrame = 2;
+	playerIcon.x = cardSprite.x + 525;
+	playerIcon.y = cardSprite.y + 280;
+	playerIcon.alpha = 0.001;
+	
+	cardTxt = new FlxText(cardSprite.x, cardSprite.y, 0, '- ${songTitle} -\nBy: ${composer}');
+	cardTxt.setFormat(Paths.font(fontStuff), 42, FlxColor.WHITE, CENTER);
+	cardTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
+	cardTxt.screenCenter();
+	cardTxt.alpha = 0.001;
+    }
     else
-      cardSprite = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/card/${fileName}'));
-    
-    cardSprite.alpha = 0.001;
-    cardSprite.screenCenter();
-    
-    cardTxt = new FlxText(cardSprite.x, cardSprite.y, 0, '- ${songTitle} -\nBy: ${composer}');
-    cardTxt.setFormat(Paths.font(fontStuff), 42, FlxColor.WHITE, CENTER);
-    cardTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
-    cardTxt.screenCenter();
-    cardTxt.alpha = 0.001;
-    
-    opponentIcon = new HealthIcon(PlayState.opponent.characterData.icon, false);
-    opponentIcon.animation.curAnim.curFrame = 2;
-    opponentIcon.x = cardSprite.x - 90;
-    opponentIcon.y = cardSprite.y - 50;
-    opponentIcon.alpha = 0.001;
-    
-    playerIcon = new HealthIcon(PlayState.boyfriend.characterData.icon, true);
-    playerIcon.animation.curAnim.curFrame = 2;
-    playerIcon.x = cardSprite.x + 525;
-    playerIcon.y = cardSprite.y + 280;
-    playerIcon.alpha = 0.001;
+    {
+    	if (!FileSystem.exists('./assets/images/menus/Funkin_avi/card/${fileName}'))
+	  cardSprite = new FlxSprite().makeGraphic(600, 350, 0xFF000000);
+	else
+	  cardSprite = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/card/${fileName}'));
+
+	cardSprite.alpha = 0.001;
+	cardSprite.screenCenter();
+	
+    	opponentIcon = new HealthIcon(PlayState.opponent.characterData.icon, false);
+	opponentIcon.animation.curAnim.curFrame = 2;
+	opponentIcon.x = cardSprite.x - 90;
+	opponentIcon.y = cardSprite.y - 50;
+	opponentIcon.alpha = 0.001;
+
+	playerIcon = new HealthIcon(PlayState.boyfriend.characterData.icon, true);
+	playerIcon.animation.curAnim.curFrame = 2;
+	playerIcon.x = cardSprite.x + 525;
+	playerIcon.y = cardSprite.y + 280;
+	playerIcon.alpha = 0.001;
+	
+	cardTxt = new FlxText(cardSprite.x, cardSprite.y, 0, '- ${songTitle} -\nBy: ${composer}');
+	cardTxt.setFormat(Paths.font(fontStuff), 42, FlxColor.WHITE, CENTER);
+	cardTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
+	cardTxt.screenCenter();
+	cardTxt.alpha = 0.001;
+    }
     
     add(cardSprite);
     add(cardTxt);
@@ -111,6 +168,8 @@ class SongCard extends FlxSpriteGroup
   // This is a function in case you want the card to show up later in the song instead of instantly
   public function playCardAnim(delaySet:Float = 0)
   {
+  	callFunc('playCardAnim', [delaySet]);
+	
   	// Fade Stuff
   	FlxTween.tween(cardSprite, {alpha: 1}, 1.5, {ease: FlxEase.sineInOut, startDelay: delaySet,
 				onComplete: function(twn:FlxTween)
@@ -138,7 +197,7 @@ class SongCard extends FlxSpriteGroup
 		});
   }
   
-  override function add(Object:FlxSprite):FlxSprite
+	override function add(Object:FlxSprite):FlxSprite
 	{
 		if (Std.isOfType(Object, FlxText))
 			cast(Object, FlxText).antialiasing = !Init.trueSettings.get('Disable Antialiasing');
