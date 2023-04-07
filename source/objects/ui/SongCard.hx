@@ -22,8 +22,11 @@ typedef SongCardData =
 {
 	var font:String;
 	var customArt:String;
-	var iconSkin1:String;
-	var iconSkin2:String;
+	var playerIcon:String;
+	var opponentIcon:String;
+	var playerOffset:Array<Float>;
+	var opponentOffset:Array<Float>;
+	var cardAlpha:Array<Float>;
 }
 
 class SongCard extends FlxSpriteGroup
@@ -66,31 +69,33 @@ class SongCard extends FlxSpriteGroup
          	 		fontStuff = "DisneyFont";
         		case 'Delusional':
           			fontStuff = "satanFont";
-			case 'Bless':
-			  	fontStuff = "MagicOwlFont";
-			case 'Birthday':
-			  	isBirthday = true;
-			  	fontStuff = "DisneyFont";
-			case "Don't Cross!":
-				isCross = true;
-			 	fontStuff = "PhantomMuff Full Letters 1.1.5";
-			case 'Cycled Sins' | 'Cycled Sins Legacy':
-			  	fontStuff = "calibri-regular";
-			case 'Mercy' | 'Mercy Legacy':
-			  	fontStuff = "splatter";
-			case 'Malfunction':
-			  	isMalfunction = true;
-			  	fontStuff = "m40";
-			default: 
-			  	fontStuff = "vcr";
-		}
-	 }
-  
+				case 'Bless':
+					fontStuff = "MagicOwlFont";
+				case 'Birthday':
+					isBirthday = true;
+					fontStuff = "DisneyFont";
+				case "Don't Cross!":
+					isCross = true;
+					fontStuff = "PhantomMuff Full Letters 1.1.5";
+				case 'Cycled Sins' | 'Cycled Sins Legacy':
+					fontStuff = "calibri-regular";
+				case 'Mercy' | 'Mercy Legacy':
+					fontStuff = "splatter";
+				case 'Malfunction':
+					isMalfunction = true;
+					fontStuff = "m40";
+				default: 
+					fontStuff = "vcr";
+			}
+	}
+	
 	 public function new()
 	 {
 		   super();
 
 		   setupCardData();
+
+		   cardSprite = new FlxSprite();
 
 		   cardTxt = new FlxText(cardSprite.x, cardSprite.y, 0, '- ${songTitle} -\nBy: ${composer}');
 
@@ -100,23 +105,38 @@ class SongCard extends FlxSpriteGroup
 				cardData = cast Json.parse(rawJson).customCardData;
 
 				artFile = cardData.customArt;
-				pIconName = cardData.iconSkin1;
-				oIconName = cardData.iconSkin2;
-				fontStuff = cardData.font;
+				pIconName = (cardData.playerIcon != null ? cardData.playerIcon : PlayState.boyfriend.characterData.icon);
+				oIconName = (cardData.opponentIcon != null ? cardData.opponentIcon : PlayState.opponent.characterData.icon);
+				fontStuff = (cardData.font != null ? cardData.font : "vcr");
+
+				opponentIcon = new HealthIcon(oIconName, false);
+				if (cardData.opponentOffset != null)
+				{
+					opponentIcon.x = cardData.opponentOffset[0];
+					opponentIcon.y = cardData.opponentOffset[1];
+				}
+				else
+				{
+					opponentIcon.x = cardSprite.x - 90;
+					opponentIcon.y = cardSprite.y - 50;
+				}
+
+				playerIcon = new HealthIcon(pIconName, true);
+				if (cardData.playerOffset != null)
+				{
+					playerIcon.x = cardData.playerOffset[0];
+					playerIcon.y = cardData.playerOffset[1];
+				}
+				else
+				{
+					playerIcon.x = cardSprite.x + 525;
+		   			playerIcon.y = cardSprite.y + 280;
+				}
 
 				if (!FileSystem.exists('./assets/images/menus/Funkin_avi/card/${artFile}.png'))
-				  	cardSprite = new FlxSprite().makeGraphic(600, 350, 0xFF000000);
+				  	cardSprite.makeGraphic(600, 350, 0xFF000000);
 				else
-				  	cardSprite = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/card/${artFile}'));
-
-				cardTxt.setFormat(Paths.font(fontStuff), 42, FlxColor.WHITE, CENTER);
-		   }
-		   else
-		   {
-				if (!FileSystem.exists('./assets/images/menus/Funkin_avi/card/${fileName}.png'))
-				  	cardSprite = new FlxSprite().makeGraphic(600, 350, 0xFF000000);
-				else
-				  	cardSprite = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/card/${fileName}'));
+				  	cardSprite.loadGraphic(Paths.image('menus/Funkin_avi/card/${artFile}'));
 
 				cardTxt.setFormat(Paths.font(fontStuff), 42, FlxColor.WHITE, CENTER);
 		   }
@@ -124,16 +144,10 @@ class SongCard extends FlxSpriteGroup
 		   cardSprite.alpha = 0.001;
 		   cardSprite.screenCenter();
 
-		   opponentIcon = new HealthIcon(oIconName, false);
 		   opponentIcon.animation.curAnim.curFrame = 2;
-		   opponentIcon.x = cardSprite.x - 90;
-		   opponentIcon.y = cardSprite.y - 50;
 		   opponentIcon.alpha = 0.001;
 
-		   playerIcon = new HealthIcon(pIconName, true);
 		   playerIcon.animation.curAnim.curFrame = 2;
-		   playerIcon.x = cardSprite.x + 525;
-		   playerIcon.y = cardSprite.y + 280;
 		   playerIcon.alpha = 0.001;
 
 		   cardTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
@@ -149,31 +163,48 @@ class SongCard extends FlxSpriteGroup
 	  // This is a function in case you want the card to show up later in the song instead of instantly
 	 public function playCardAnim(delaySet:Float = 0)
 	 {	
-		// Fade Stuff
-		FlxTween.tween(cardSprite, {alpha: 1}, 1.5, {ease: FlxEase.sineInOut, startDelay: delaySet,
-					onComplete: function(twn:FlxTween)
-					{
-						FlxTween.tween(cardSprite, {alpha: 0}, 1.5, {ease: FlxEase.sineInOut, startDelay: 3.5});
-					}
-			});
-		FlxTween.tween(cardTxt, {alpha: 1}, 2, {ease: FlxEase.sineInOut, startDelay: delaySet,
-					onComplete: function(twn:FlxTween)
-					{
-						FlxTween.tween(cardTxt, {alpha: 0}, 2, {ease: FlxEase.sineInOut, startDelay: 3.5});
-					}
-			});
-		FlxTween.tween(opponentIcon, {alpha: 1}, 2.2, {ease: FlxEase.sineInOut, startDelay: delaySet,
-					onComplete: function(twn:FlxTween)
-					{
-						FlxTween.tween(opponentIcon, {alpha: 0}, 2.2, {ease: FlxEase.sineInOut, startDelay: 3.5});
-					}
-			});
-		FlxTween.tween(playerIcon, {alpha: 1}, 2.2, {ease: FlxEase.sineInOut, startDelay: delaySet,
-					onComplete: function(twn:FlxTween)
-					{
-						FlxTween.tween(playerIcon, {alpha: 0}, 2.2, {ease: FlxEase.sineInOut, startDelay: 3.5});
-					}
-			});
+		var rawJson = File.getContent(Paths.getPath('data/cardData/${fileName}.json', TEXT));
+		cardData = cast Json.parse(rawJson).customCardData;
+
+		var alphaValue = (cardData.cardAlpha != null ? cardData.cardAlpha[0] : 1);
+
+		if (FileSystem.exists('./assets/data/cardData/${fileName}.json'))
+		{
+			// Fade Stuff
+			FlxTween.tween(cardSprite, {alpha: alphaValue}, 1.5, {ease: FlxEase.sineInOut, startDelay: delaySet,
+						onComplete: function(twn:FlxTween)
+						{
+							FlxTween.tween(cardSprite, {alpha: 0}, 1.5, {ease: FlxEase.sineInOut, startDelay: 3.5});
+						}
+				});
+		}
+		else
+		{
+			FlxTween.tween(cardSprite, {alpha: 1}, 1.5, {ease: FlxEase.sineInOut, startDelay: delaySet,
+						onComplete: function(twn:FlxTween)
+						{
+							FlxTween.tween(cardSprite, {alpha: 0}, 1.5, {ease: FlxEase.sineInOut, startDelay: 3.5});
+						}
+				});
+		}
+			FlxTween.tween(cardTxt, {alpha: 1}, 2, {ease: FlxEase.sineInOut, startDelay: delaySet,
+						onComplete: function(twn:FlxTween)
+						{
+							FlxTween.tween(cardTxt, {alpha: 0}, 2, {ease: FlxEase.sineInOut, startDelay: 3.5});
+						}
+				});
+			FlxTween.tween(opponentIcon, {alpha: 1}, 2.2, {ease: FlxEase.sineInOut, startDelay: delaySet,
+						onComplete: function(twn:FlxTween)
+						{
+							FlxTween.tween(opponentIcon, {alpha: 0}, 2.2, {ease: FlxEase.sineInOut, startDelay: 3.5});
+						}
+				});
+			FlxTween.tween(playerIcon, {alpha: 1}, 2.2, {ease: FlxEase.sineInOut, startDelay: delaySet,
+						onComplete: function(twn:FlxTween)
+						{
+							FlxTween.tween(playerIcon, {alpha: 0}, 2.2, {ease: FlxEase.sineInOut, startDelay: 3.5});
+						}
+				});
 	  }
   
   	override function add(Object:FlxSprite):FlxSprite
