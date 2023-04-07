@@ -117,8 +117,8 @@ class SongCard extends FlxSpriteGroup
 				}
 				else
 				{
-					opponentIcon.x = cardSprite.x - 90;
-					opponentIcon.y = cardSprite.y - 50;
+					opponentIcon.x = 260;
+					opponentIcon.y = 130;
 				}
 
 				playerIcon = new HealthIcon(pIconName, true);
@@ -129,8 +129,8 @@ class SongCard extends FlxSpriteGroup
 				}
 				else
 				{
-					playerIcon.x = cardSprite.x + 525;
-		   			playerIcon.y = cardSprite.y + 280;
+					playerIcon.x = 850;
+		   			playerIcon.y = 460;
 				}
 
 				if (!FileSystem.exists('./assets/images/menus/Funkin_avi/card/${artFile}.png'))
@@ -139,6 +139,23 @@ class SongCard extends FlxSpriteGroup
 				  	cardSprite.loadGraphic(Paths.image('menus/Funkin_avi/card/${artFile}'));
 
 				cardTxt.setFormat(Paths.font(fontStuff), 42, FlxColor.WHITE, CENTER);
+		   }
+		   else
+		   {
+				opponentIcon = new HealthIcon(oIconName, false);
+				opponentIcon.x = 260;
+				opponentIcon.y = 130;
+
+				playerIcon = new HealthIcon(pIconName, true);
+				playerIcon.x = 850;
+		   		playerIcon.y = 460;
+
+				if (!FileSystem.exists('./assets/images/menus/Funkin_avi/card/${fileName}.png'))
+					cardSprite.makeGraphic(600, 350, 0xFF000000);
+			  	else
+					cardSprite.loadGraphic(Paths.image('menus/Funkin_avi/card/${fileName}'));
+
+			  cardTxt.setFormat(Paths.font(fontStuff), 42, FlxColor.WHITE, CENTER);
 		   }
 
 		   cardSprite.alpha = 0.001;
@@ -163,13 +180,13 @@ class SongCard extends FlxSpriteGroup
 	  // This is a function in case you want the card to show up later in the song instead of instantly
 	 public function playCardAnim(delaySet:Float = 0)
 	 {	
-		var rawJson = File.getContent(Paths.getPath('data/cardData/${fileName}.json', TEXT));
-		cardData = cast Json.parse(rawJson).customCardData;
-
-		var alphaValue = (cardData.cardAlpha != null ? cardData.cardAlpha[0] : 1);
-
 		if (FileSystem.exists('./assets/data/cardData/${fileName}.json'))
 		{
+			var rawJson = File.getContent(Paths.getPath('data/cardData/${fileName}.json', TEXT));
+			cardData = cast Json.parse(rawJson).customCardData;
+
+			var alphaValue = (cardData.cardAlpha != null ? cardData.cardAlpha[0] : 1);
+
 			// Fade Stuff
 			FlxTween.tween(cardSprite, {alpha: alphaValue}, 1.5, {ease: FlxEase.sineInOut, startDelay: delaySet,
 						onComplete: function(twn:FlxTween)
