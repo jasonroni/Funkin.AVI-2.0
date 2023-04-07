@@ -18,6 +18,7 @@ import flixel.util.FlxTimer;
 import objects.ui.menu.*;
 import states.MusicBeatState;
 
+
 class StoryMenu extends MusicBeatState
 {
 	var scoreText:FlxText;
@@ -38,6 +39,10 @@ class StoryMenu extends MusicBeatState
 
 	var grpLocks:FlxTypedGroup<FlxSprite>;
 
+	var book:FlxSprite;
+	var spoopy:FlxSprite;
+	var gradient:FlxSprite;
+
 	var difficultySelectors:FlxGroup;
 	var sprDifficulty:FlxSprite;
 	var leftArrow:FlxSprite;
@@ -45,6 +50,7 @@ class StoryMenu extends MusicBeatState
 
 	var defaultShader:FlxRuntimeShader;
 	var defaultShader2:FlxRuntimeShader;
+	var blur:FlxRuntimeShader;
 
 	override function create()
 	{
@@ -52,6 +58,7 @@ class StoryMenu extends MusicBeatState
 
 		defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
 		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
+		blur = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/gaussian.frag'), null, 140);
 		FlxG.camera.setFilters(
 			[
 				new openfl.filters.ShaderFilter(defaultShader),
@@ -79,6 +86,25 @@ class StoryMenu extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
+		book = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/storymenu/lethimbook'));
+		book.scrollFactor.set(0, 0);
+		book.setGraphicSize(Std.int(book.width * 1.1));
+		book.updateHitbox();
+		book.screenCenter();
+		book.antialiasing = true;
+		book.alpha = 1;
+		book.shader = blur;
+		add(book);
+
+		spoopy = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/storymenu/spoopy'));
+		spoopy.scrollFactor.set(0, 0);
+		spoopy.setGraphicSize(Std.int(spoopy.width * 1.05));
+		spoopy.updateHitbox();
+		spoopy.screenCenter();
+		spoopy.antialiasing = true;
+		spoopy.alpha = 0.05;
+		add(spoopy);
+
 		scoreText = new FlxText(10, 10, 0, "SCORE: 49324858", 36);
 		scoreText.setFormat(Paths.font("vcr"), 32);
 
@@ -99,7 +125,7 @@ class StoryMenu extends MusicBeatState
 		add(grpWeekText);
 
 		var blackBarThingie:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, 56, FlxColor.BLACK);
-		add(blackBarThingie);
+		//add(blackBarThingie);
 
 		grpWeekCharacters = new FlxTypedGroup<MenuCharacter>();
 
@@ -147,7 +173,7 @@ class StoryMenu extends MusicBeatState
 
 			var weekCharacterThing:MenuCharacter = new MenuCharacter((FlxG.width * 0.25) * (1 + char) - 150, list);
 			weekCharacterThing.antialiasing = true;
-			grpWeekCharacters.add(weekCharacterThing);
+			//grpWeekCharacters.add(weekCharacterThing);
 		}
 
 		difficultySelectors = new FlxGroup();
@@ -174,7 +200,7 @@ class StoryMenu extends MusicBeatState
 		rightArrow.animation.play('idle');
 		difficultySelectors.add(rightArrow);
 
-		add(yellowBG);
+		//add(yellowBG);
 		add(grpWeekCharacters);
 
 		txtTracklist = new FlxText(FlxG.width * 0.05, yellowBG.x + yellowBG.height + 100, 0, "Tracks", 32);
@@ -183,10 +209,39 @@ class StoryMenu extends MusicBeatState
 		txtTracklist.color = 0xFFe55777;
 		add(txtTracklist);
 		// add(rankText);
-		add(scoreText);
+		//add(scoreText);
 		add(txtWeekTitle);
 
 		add(difficultySelectors);
+
+		if(!Init.trueSettings.get('Low Quality')) 
+		{
+			var scratch:FlxSprite = new FlxSprite();
+			scratch.frames = Paths.getSparrowAtlas('filters/scratchShit');
+			scratch.animation.addByPrefix('idle', 'scratch thing 1', 24, true);
+			scratch.animation.play('idle');
+			scratch.screenCenter();
+			scratch.scale.x = 1.1;
+			scratch.scale.y = 1.1;
+			add(scratch);
+	
+			var grain:FlxSprite = new FlxSprite();
+			grain.frames = Paths.getSparrowAtlas('filters/Grainshit');
+			grain.animation.addByPrefix('idle', 'grains 1', 24, true);
+			grain.animation.play('idle');
+			grain.screenCenter();
+			grain.scale.x = 1.1;
+			grain.scale.y = 1.1;
+			add(grain);
+		}
+
+		gradient = new FlxSprite().loadGraphic(Paths.image('filters/gradient'));
+		gradient.scrollFactor.set(0, 0);
+		gradient.setGraphicSize(Std.int(gradient.width * 1));
+		gradient.updateHitbox();
+		gradient.screenCenter();
+		gradient.antialiasing = true;
+		add(gradient);
 
 		// very unprofessional yoshubs!
 
