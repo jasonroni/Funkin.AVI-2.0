@@ -28,6 +28,7 @@ function eventTrigger(params)
 				PlayState.demolitionHUD.iconP1.updateIcon(params[1], true);
 				PlayState.psychHUD.iconP1.updateIcon(params[1], true);
 				PlayState.cycledSinsHUD.iconP1.updateIcon(params[1], true);
+				PlayState.episode1HUD.iconP1.updateIcon(params[1], true);
 				PlayState.boyfriend.dance(true);
 
 				if (PlayState.playerMap.get(params[1]) != null)
@@ -45,6 +46,7 @@ function eventTrigger(params)
 				PlayState.demolitionHUD.iconP2.updateIcon(params[1], false);
 				PlayState.psychHUD.iconP2.updateIcon(params[1], false);
 				PlayState.cycledSinsHUD.iconP2.updateIcon(params[1], false);
+				PlayState.episode1HUD.iconP2.updateIcon(params[1], false);
 				PlayState.opponent.dance(true);
 
 				if (PlayState.opponentMap.get(params[1]) != null)
@@ -53,6 +55,8 @@ function eventTrigger(params)
 		PlayState.uiHUD.reloadHealthBar();
 		PlayState.demolitionHUD.reloadHealthBar();
 		PlayState.psychHUD.reloadHealthBar();
+		PlayState.cycledSinsHUD.reloadHealthBar();
+		PlayState.episode1HUD.reloadHealthBar();
 		PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent);
 	});
 }
