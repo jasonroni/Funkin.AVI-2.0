@@ -80,6 +80,7 @@ class Note extends FNFSprite
 			noteType = 'default';
 
 		isMine = false;
+		noAnim = false;
 
 		super(x, y);
 
