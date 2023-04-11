@@ -1736,7 +1736,7 @@ class PlayState extends MusicBeatState
 		else
 			stringArrow = baseString + altString + noteSuffix;
 
-		if (character != null && !coolNote.noAnim)
+		if (character != null)
 		{
 			if (character.animOffsets.exists(stringArrow))
 				character.playAnim(stringArrow, true);
