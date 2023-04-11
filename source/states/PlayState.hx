@@ -1736,7 +1736,7 @@ class PlayState extends MusicBeatState
 		else
 			stringArrow = baseString + altString + noteSuffix;
 
-		if (character != null)
+		if (character != null && !coolNote.noAnim)
 		{
 			if (character.animOffsets.exists(stringArrow))
 				character.playAnim(stringArrow, true);
@@ -2268,86 +2268,6 @@ class PlayState extends MusicBeatState
 						}
 					});
 				}
-
-			case 'Flash Screen':
-				var flashing = !Init.trueSettings.get('Disable Flashing Lights');
-				var val3:Float = Std.parseFloat(params[2]);
-
-				if (flashing)
-				{
-					if (params[0].trim() == "")
-						params[0] = 'white';
-
-					if (Math.isNaN(val3))
-						val3 = 1;
-
-					switch (params[0])
-					{
-						case 'white' | 'White' | '0':
-							PlayState.camGame.flash(FlxColor.WHITE, val3);
-						case 'red' | 'Red' | '1':
-							PlayState.camGame.flash(FlxColor.RED, val3);
-						case 'blue' | 'Blue' | '2':
-							PlayState.camGame.flash(FlxColor.BLUE, val3);
-						case 'black' | 'Black' | '3':
-							PlayState.camGame.flash(FlxColor.BLACK, val3);
-						case 'cyan' | 'Cyan' | '4':
-							PlayState.camGame.flash(FlxColor.CYAN, val3);
-						case 'Magenta' | 'magenta' | '5':
-							PlayState.camGame.flash(FlxColor.MAGENTA, val3);
-						case 'pink' | 'Pink' | '6':
-							PlayState.camGame.flash(FlxColor.PINK, val3);
-						case 'orange' | 'Orange' | '7':
-							PlayState.camGame.flash(FlxColor.ORANGE, val3);
-						case 'purple' | 'Purple' | '8':
-							PlayState.camGame.flash(FlxColor.PURPLE, val3);
-						case 'lime' | 'Lime' | '9': // lime test windows
-							PlayState.camGame.flash(FlxColor.LIME, val3);
-					}
-				}
-
-				if (flashing)
-				{
-					switch (params[1])
-					{
-						case 'false' | 'False':
-							PlayState.camHUD.visible = true;
-							for (theStrumsWhichAreOnAGoddamnArray in strumHUD)
-								theStrumsWhichAreOnAGoddamnArray.visible = true;
-						case 'true' | 'True':
-							PlayState.camHUD.visible = false;
-							for (theStrumsWhichAreOnAGoddamnArray in strumHUD)
-								theStrumsWhichAreOnAGoddamnArray.visible = false;
-						default:
-							PlayState.camHUD.visible = true;
-							for (theStrumsWhichAreOnAGoddamnArray in strumHUD)
-								theStrumsWhichAreOnAGoddamnArray.visible = true;
-					}
-				}
-				else
-				{
-					switch (params[1])
-					{
-						case 'false' | 'False':
-							FlxTween.tween(PlayState.camHUD, {alpha: 1}, 1);
-							for (theStrumsWhichAreOnAGoddamnArray in strumHUD)
-								FlxTween.tween(theStrumsWhichAreOnAGoddamnArray, {alpha: 1}, 1);
-						case 'true' | 'True':
-							FlxTween.tween(PlayState.camHUD, {alpha: 0}, 1);
-							for (theStrumsWhichAreOnAGoddamnArray in strumHUD)
-								FlxTween.tween(theStrumsWhichAreOnAGoddamnArray, {alpha: 0}, 1);
-						default:
-							FlxTween.tween(PlayState.camHUD, {alpha: 1}, 1);
-							for (theStrumsWhichAreOnAGoddamnArray in strumHUD)
-								FlxTween.tween(theStrumsWhichAreOnAGoddamnArray, {alpha: 1}, 1);
-					}
-				}
-
-			case 'Screen Fade':
-				var value1:Float = Std.parseFloat(params[0]);
-				var value2 = Std.parseFloat(params[1]);
-
-				FlxTween.tween(fade, {alpha: value1}, value2, {ease: FlxEase.sineInOut});
 		}
 
 		if (Events.loadedEvents.get(name) != null)
