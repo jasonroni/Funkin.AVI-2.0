@@ -4,17 +4,8 @@ var chromHUD:FlxRuntimeShader;
 
 function opponentNoteHit()
 {
-  	if (PlayState.health > 0.05)
-    		PlayState.health -= 0.036;
-
-	if (Init.trueSettings.get('Screen Shake'))
+  	if (PlayState.opponent.curCharacter == 'glitched-mickey-new-pixel')
 	{
-		PlayState.camGame.shake(0.008, 0.07);
-		PlayState.camHUD.shake(0.015, 0.07);
-		for (notes in PlayState.strumHUD)
-			notes.shake(0.015, 0.07);
-	}
-
 	if (!Init.trueSettings.get('Disable Screen Shaders'))
 	{
 		chrom = new FlxRuntimeShader(File.getContent('./assets/shaders/aberration.frag'), null, 150);
@@ -137,5 +128,6 @@ function opponentNoteHit()
 					new ShaderFilter(chromHUD)
 				]);
   		});
+	}
 	}
 }

@@ -24,11 +24,6 @@ class DemolitionHUD extends FlxSpriteGroup
 	public var timeBar:FlxBar;
 	public var songPercent:Float = 0;
 
-	// icon stuff
-	public var healthBarIcon:FlxSprite;
-	public var missIcon:FlxSprite;
-	public var missTxt:FlxText;
-
 	// mark variables
 	public var cornerMark:FlxText; // engine mark at the upper right corner
 	public var centerMark:FlxText; // song display name and difficulty at the center

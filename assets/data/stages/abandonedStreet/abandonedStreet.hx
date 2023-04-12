@@ -35,11 +35,7 @@ function onCreate()
 		}
 	
 	spawnGirlfriend(false);
-	PlayState.defaultCamZoom = 0.87;	
-	if (PlayState.SONG.song == "Isolated" || PlayState.SONG.song == "Lunacy") {
-		PlayState.camHUD.alpha = 0;
-		PlayState.camGame.alpha = 0;
-	}	
+	PlayState.defaultCamZoom = 0.87;
 	PlayState.cameraSpeed = 1;
 	PlayState.skipCountdown = true;	
 	
@@ -99,12 +95,6 @@ function onCreate()
 				floor
 			];
 		}
-	
-	// doing some fix with this later
-	if(PlayState.SONG.song == "Isolated") {
-		FlxTween.tween(PlayState.camHUD, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 9});
-		FlxTween.tween(PlayState.camGame, {alpha: 1}, 3, {ease: FlxEase.quadOut, startDelay: 6});
-	}
 }
 	
 function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)

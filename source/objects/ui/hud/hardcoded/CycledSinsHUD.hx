@@ -97,8 +97,8 @@ class CycledSinsHUD extends FlxSpriteGroup
 		add(sanityTextBf);
 
         if(autoplayMark != null) {
-		autoplayMark = new FlxText(-5, (Init.trueSettings.get('Downscroll') ? centerMark.y - 60 : centerMark.y + 60), FlxG.width - 800, '[AUTOPLAY]\n', 32);
-		autoplayMark.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE, CENTER);
+		autoplayMark = new FlxText(-5, scoreBar.y, FlxG.width - 800, 'Autoplay is a SIN.\n', 32);
+		autoplayMark.setFormat(Paths.font("calibri-regular"), 32, FlxColor.WHITE, CENTER);
 		autoplayMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2.3);
 		autoplayMark.screenCenter(X);
 		autoplayMark.visible = PlayState.bfStrums.autoplay;
@@ -178,6 +178,12 @@ class CycledSinsHUD extends FlxSpriteGroup
 
 		iconP1.bop(0.15);
 		iconP2.bop(0.15);
+
+		/*if (autoplayMark.visible)
+		{
+			autoplaySine += 180 * (elapsed / 4);
+			autoplayMark.alpha = 1 - Math.sin((Math.PI * autoplaySine) / 80);
+		}*/
 	}
 
 	public static var divider:String = " | ";
@@ -215,12 +221,6 @@ class CycledSinsHUD extends FlxSpriteGroup
 				timingsMap[i].x = (5 + (!left ? (FlxG.width - 10) : 0) - (!left ? (6 * counterTextSize) : 0));
 			}
 		}
-
-		// update playstate
-		if(Init.trueSettings.get('HUD Style') == "forever") //fix i think
-			PlayState.detailsSub = scoreBar.text;
-
-		PlayState.updateRPC(false);
 	}
 
 	public function reloadHealthBar()

@@ -9,6 +9,8 @@ import flixel.text.FlxText;
 import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import states.PlayState;
 
 class Episode1HUD extends FlxSpriteGroup
@@ -32,9 +34,13 @@ class Episode1HUD extends FlxSpriteGroup
   public var demonBFIcon:HealthIcon;
   public var lunacyIcon:HealthIcon;
   public var delusionalIcon:HealthIcon;
+  public var isolatedHappy:HealthIcon;
+  public var fakeBFLosingFrame:HealthIcon;
+  public var demonBFScary:HealthIcon;
   
   // Lunacy Mechanic?????
   public var disguiseFailCheck:Bool = false;
+  public var disguisePercent:Float = 5; // 5 = 100% for the math later
   public var disguiseBar:FlxBar;
   public var disguiseBarBG:FlxSprite;
   public var disguiseBarOverlay:FlxSprite;
@@ -47,7 +53,7 @@ class Episode1HUD extends FlxSpriteGroup
   // Display Texts
   public var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
   public var diffDisplay:String = '[${CoolUtil.difficultyString}]';
-  public var engineDisplay:String = 'FOREVER ENGINE v0.3.1';
+  public var engineDisplay:String = '~ Episode 1 ~';
   
   public function new()
   {
@@ -63,6 +69,21 @@ class Episode1HUD extends FlxSpriteGroup
 	healthBarBG.screenCenter(X);
 	healthBarBG.scrollFactor.set();
 	add(healthBarBG);
+
+	fancyBarOverlay = new FlxSprite(healthBarBG.x, healthBarBG.y).loadGraphic(Paths.image('UI/default/base/episode1Overlay'));
+	fancyBarOverlay.scale.set(1.01, 1);
+	fancyBarOverlay.screenCenter(X);
+	fancyBarOverlay.scrollFactor.set();
+	if (Init.trueSettings.get('Downscroll'))
+	{
+		fancyBarOverlay.y -= 10;
+	}
+	else
+	{
+		fancyBarOverlay.y -= 117;
+		fancyBarOverlay.flipY = true;
+	}
+	add(fancyBarOverlay);
 
 	healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8));
 	healthBar.scrollFactor.set();
@@ -82,26 +103,111 @@ class Episode1HUD extends FlxSpriteGroup
 	
 	// Isolated & Lunacy stuff
 	demonBFIcon = new HealthIcon('bf-demon', true);
-	demonBFIcon = healthBar.y - (demonBFIcon.height / 2);
-	demonBFIcon.canBounce = false;
+	demonBFIcon.y = healthBar.y - (demonBFIcon.height / 2);
+	demonBFIcon.canBounce = true;
 	demonBFIcon.x = FlxG.width * 0.87;
-	demonBFIcon.alpha = 0.0001;
+	demonBFIcon.visible = false;
 	add(demonBFIcon);
+
+	demonBFScary = new HealthIcon('bf-demon', true);
+	demonBFScary.animation.curAnim.curFrame = 1;
+	demonBFScary.y = healthBar.y - (demonBFScary.height / 2);
+	demonBFScary.canBounce = false;
+	demonBFScary.x = FlxG.width * 0.87;
+	demonBFScary.visible = false;
+	add(demonBFScary);
+
+	fakeBFLosingFrame = new HealthIcon('bf-fake-new', true);
+	fakeBFLosingFrame.animation.curAnim.curFrame = 1;
+	fakeBFLosingFrame.y = healthBar.y - (fakeBFLosingFrame.height / 2);
+	fakeBFLosingFrame.canBounce = true;
+	fakeBFLosingFrame.x = FlxG.width * 0.87;
+	fakeBFLosingFrame.visible = false;
+	add(fakeBFLosingFrame);
+
+	isolatedHappy = new HealthIcon('lunamick-new', false);
+	isolatedHappy.animation.curAnim.curFrame = 2;
+	isolatedHappy.y = healthBar.y - (isolatedHappy.height / 2);
+	isolatedHappy.canBounce = true;
+	isolatedHappy.visible = false;
+	add(isolatedHappy);
 	
 	lunacyIcon = new HealthIcon('lunamick-new', false);
-	lunacyIcon = healthBar.y - (lunacyIcon.height / 2);
+	lunacyIcon.y = healthBar.y - (lunacyIcon.height / 2);
 	lunacyIcon.canBounce = true;
-	lunacyIcon.alpha = 0.0001;
+	lunacyIcon.visible = false;
 	add(lunacyIcon);
 	
 	delusionalIcon = new HealthIcon('insanemick', false);
-	delusionalIcon = healthBar.y - (delusionalIcon.height / 2);
+	delusionalIcon.y = healthBar.y - (delusionalIcon.height / 2);
 	delusionalIcon.canBounce = false;
-	delusionalIcon.alpha = 0.0001;
+	delusionalIcon.visible = false;
 	add(delusionalIcon);
+
+	scoreTxt = new FlxText(FlxG.width / 2, Math.floor(healthBarBG.y + 40), 0, scoreDisplay);
+	scoreTxt.setFormat(Paths.font('DisneyFont'), 26, FlxColor.WHITE);
+	scoreTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
+	scoreTxt.visible = !PlayState.bfStrums.autoplay;
+	updateScoreText();
+	add(scoreTxt);
+
+	watermarkTxt = new FlxText(0, 0, 0, engineDisplay);
+	watermarkTxt.setFormat(Paths.font('DisneyFont'), 32, FlxColor.WHITE);
+	watermarkTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
+	if (Init.trueSettings.get('Downscroll')) watermarkTxt.setPosition(0, 655); else watermarkTxt.setPosition(0, 8);
+	watermarkTxt.screenCenter(X);
+	add(watermarkTxt);
+
+	songTxt = new FlxText(watermarkTxt.x, watermarkTxt.y + 30, 0, '$infoDisplay');
+	songTxt.setFormat(Paths.font('DisneyFont'), 22, FlxColor.WHITE);
+	songTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
+	songTxt.alpha = 0.4;
+	songTxt.screenCenter(X);
+	add(songTxt);
+
+	if(autoplayTxt != null) {
+		autoplayTxt = new FlxText(-5, scoreTxt.y, FlxG.width - 800, '[Autoplay]\n', 32);
+		autoplayTxt.setFormat(Paths.font("DisneyFont"), 32, FlxColor.WHITE, CENTER);
+		autoplayTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2.3);
+		autoplayTxt.screenCenter(X);
+		autoplayTxt.visible = PlayState.bfStrums.autoplay;
+
+		// repositioning for it to not be covered by the receptors
+		if (Init.trueSettings.get('Centered Notefield'))
+		{
+			if (Init.trueSettings.get('Downscroll'))
+				autoplayTxt.y = autoplayTxt.y - 125;
+			else
+				autoplayTxt.y = autoplayTxt.y + 125;
+		}
+		add(autoplayTxt);
+
+		// counter
+		if (Init.trueSettings.get('Counter') != 'None')
+		{
+			var judgementNameArray:Array<String> = [];
+			for (i in 0...ScoreUtils.judges.length)
+				judgementNameArray.insert(i, ScoreUtils.judges[i].name);
+			judgementNameArray.sort(sortJudgements);
+			for (i in 0...judgementNameArray.length)
+			{
+				var textAsset:FlxText = new FlxText(5
+					+ (!left ? (FlxG.width - 10) : 0),
+					(FlxG.height / 2)
+					- (counterTextSize * (judgementNameArray.length / 2))
+					+ (i * counterTextSize), 0, '', counterTextSize);
+				if (!left)
+					textAsset.x -= textAsset.text.length * counterTextSize;
+				textAsset.setFormat(Paths.font("vcr"), counterTextSize, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				textAsset.scrollFactor.set();
+				timingsMap.set(judgementNameArray[i], textAsset);
+				add(textAsset);
+			}
+		}
+    }
   }
   
-  var counterTextSize:Int = 18;
+ 	var counterTextSize:Int = 18;
 
 	function sortJudgements(Obj1:String, Obj2:String):Int
 	{
@@ -118,6 +224,18 @@ class Episode1HUD extends FlxSpriteGroup
 
 		// pain, this is like the 7th attempt
 		healthBar.percent = (PlayState.health * 50);
+		
+		var iconOffset:Int = 26;
+
+		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
+		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
+		
+		fakeBFLosingFrame.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
+		demonBFIcon.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
+		demonBFScary.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
+		isolatedHappy.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (isolatedHappy.width - iconOffset);
+		lunacyIcon.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (lunacyIcon.width - iconOffset);
+		delusionalIcon.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (delusionalIcon.width - iconOffset);
 
 		iconP1.updateAnim(healthBar.percent);
 		iconP2.updateAnim(100 - healthBar.percent);
@@ -128,11 +246,21 @@ class Episode1HUD extends FlxSpriteGroup
 
 		iconP1.bop(0.15);
 		iconP2.bop(0.15);
+
+		isolatedHappy.bop(0.25);
+		fakeBFLosingFrame.bop(0.25);
 		
+		demonBFIcon.bop(0.1);
 		lunacyIcon.bop(0.1);
+
+		/*if (autoplayTxt.visible)
+		{
+			autoplaySine += 180 * (elapsed / 4);
+			autoplayTxt.alpha = 1 - Math.sin((Math.PI * autoplaySine) / 80);
+		}*/
 	}
 
-	public static var divider:String = " | ";
+	public static var divider:String = " - ";
 
 	private var markupDivider:String = '';
 
@@ -150,13 +278,13 @@ class Episode1HUD extends FlxSpriteGroup
 		}
 		scoreDisplay += '\n';
 
-		//scoreBar.text = scoreDisplay;
+		scoreTxt.text = scoreDisplay;
 
 		if (Init.trueSettings.get('Accuracy Hightlight'))
 			if (ScoreUtils.notesHit > 0)
-				//scoreBar.applyMarkup(scoreBar.text, [new FlxTextFormatMarkerPair(scoreFlashFormat, markupDivider)]);
+				scoreTxt.applyMarkup(scoreTxt.text, [new FlxTextFormatMarkerPair(scoreFlashFormat, markupDivider)]);
 
-		//scoreBar.screenCenter(X);
+		scoreTxt.screenCenter(X);
 
 		// update counter
 		if (Init.trueSettings.get('Counter') != 'None')
@@ -167,12 +295,6 @@ class Episode1HUD extends FlxSpriteGroup
 				timingsMap[i].x = (5 + (!left ? (FlxG.width - 10) : 0) - (!left ? (6 * counterTextSize) : 0));
 			}
 		}
-
-		// update playstate
-		if(Init.trueSettings.get('HUD Style') == "forever") //fix i think
-			PlayState.detailsSub = scoreBar.text;
-
-		PlayState.updateRPC(false);
 	}
 
 	public function reloadHealthBar()
@@ -205,9 +327,71 @@ class Episode1HUD extends FlxSpriteGroup
 			
 			if (lunacyIcon.canBounce)
 			{
-				lunacyIcon.setGraphicSize(Std.int(iconP2.width + 30));
+				lunacyIcon.setGraphicSize(Std.int(lunacyIcon.width + 30));
 				lunacyIcon.updateHitbox();
 			}
+
+			if (isolatedHappy.canBounce)
+			{
+				isolatedHappy.setGraphicSize(Std.int(isolatedHappy.width + 30));
+				isolatedHappy.updateHitbox();
+			}
+
+			if (demonBFIcon.canBounce)
+			{
+				demonBFIcon.setGraphicSize(Std.int(demonBFIcon.width + 30));
+				demonBFIcon.updateHitbox();
+			}
+
+			if (fakeBFLosingFrame.canBounce)
+			{
+				fakeBFLosingFrame.setGraphicSize(Std.int(fakeBFLosingFrame.width + 30));
+				fakeBFLosingFrame.updateHitbox();
+			}
+		}
+
+		// Cool Mid-Song Icon Changes
+		switch (PlayState.SONG.song)
+		{
+			case 'Isolated':
+				switch (curBeat)
+				{
+					case 160:
+						iconP2.alpha = 0;
+						isolatedHappy.visible = true;
+						FlxTween.tween(isolatedHappy, {alpha: 0}, 1);
+						FlxTween.tween(iconP2, {alpha: 1}, 0.6);
+
+					case 168:
+						lunacyIcon.visible = true;
+						iconP2.alpha = 0;
+						FlxTween.tween(lunacyIcon, {alpha: 0}, 1);
+						FlxTween.tween(iconP2, {alpha: 1}, 0.6);
+
+					case 172:
+						delusionalIcon.visible = true;
+						iconP2.alpha = 0;
+						FlxTween.tween(delusionalIcon, {alpha: 0}, 1);
+						FlxTween.tween(iconP2, {alpha: 1}, 0.6);
+
+					case 176:
+						fakeBFLosingFrame.visible = true;
+						iconP1.alpha = 0;
+						FlxTween.tween(fakeBFLosingFrame, {alpha: 0}, 1);
+						FlxTween.tween(iconP1, {alpha: 1}, 0.6);
+
+					case 184:
+						demonBFIcon.visible = true;
+						iconP1.alpha = 0;
+						FlxTween.tween(demonBFIcon, {alpha: 0}, 1);
+						FlxTween.tween(iconP1, {alpha: 1}, 0.6);
+
+					case 188:
+						demonBFScary.visible = true;
+						iconP1.alpha = 0;
+						FlxTween.tween(demonBFScary, {alpha: 0}, 1);
+						FlxTween.tween(iconP1, {alpha: 1}, 0.6);	
+				}
 		}
 	}
 

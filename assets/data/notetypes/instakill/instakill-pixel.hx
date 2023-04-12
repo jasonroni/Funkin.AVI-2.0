@@ -81,6 +81,9 @@ function generateSustain(newNote)
 		newNote.setGraphicSize(Std.int(newNote.width * PlayState.daPixelZoom));
 		newNote.antialiasing = false;
 		newNote.updateHitbox();
+
+		if (newNote.canBeHit)
+			newNote.kill();
 	}
 	else
 	{
@@ -106,6 +109,10 @@ function onStep(newNote, curStep:Int)
 	{
 		if (newNote.mustPress)
 		{
+			if (newNote.isSustainNote)
+			{
+				newNote.kill();
+			}
 			newNote.kill();
 		}
 	}
