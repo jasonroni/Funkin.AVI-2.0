@@ -1,5 +1,6 @@
 package states;
 
+import base.events.Events;
 import base.dependency.FeatherDeps.Events;
 import base.dependency.FeatherDeps.ScriptHandler;
 import base.song.ChartParser;
@@ -144,6 +145,9 @@ class PlayState extends MusicBeatState
 	public var startingSong:Bool = false;
 	public var endingSong:Bool = false;
 	public var startedCountdown:Bool = false;
+
+	// Events 2: Electric Bogaloo
+	private var isolatedEvents:IsolatedEvents;
 
 	public static var clearStored:Bool = false;
 

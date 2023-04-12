@@ -21,4 +21,9 @@ class IsolatedEvents extends EventData
     {
         super.beatHit(beat);
     }
+
+    override function stepHit(step:Int) 
+    {
+        super.stepHit(step);
+    }
 }

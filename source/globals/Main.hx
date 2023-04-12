@@ -1,6 +1,9 @@
 package globals;
 
 import cpp.vm.Gc;
+import openfl.system.System;
+import openfl.utils.AssetCache;
+import openfl.Assets;
 import flixel.graphics.FlxGraphic;
 import base.*;
 import base.Overlay.Console;
@@ -228,11 +231,20 @@ class Main extends Sprite
 			FlxG.bitmap.dumpCache();
 			
 			gc();
+
+			var cache = cast(Assets.cache, AssetCache);
+			for (key=>font in cache.font)
+				cache.removeFont(key);
+			for (key=>sound in cache.sound)
+				cache.removeSound(key);
 		});
 		FlxG.signals.postStateSwitch.add(function () {
 			Paths.clearUnusedMemory();
 			gc();
+			trace(System.totalMemory);
 		});
+
+		FlxGraphic.defaultPersist = false;
 
 		// initialize the game controls;
 		Controls.init();

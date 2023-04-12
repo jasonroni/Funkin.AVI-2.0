@@ -27,6 +27,11 @@ class EventData extends FlxTypedGroup<Dynamic>
 
     }
 
+    public function stepHit(step:Int) 
+    {
+        
+    }
+
     override function add(Object:Dynamic):Dynamic 
     {
         if(Std.isOfType(Object, FlxSprite) || Std.isOfType(Object, FlxText))
