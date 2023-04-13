@@ -1,6 +1,10 @@
 package states;
 
 import base.events.Events;
+import base.events.MalfunctionShaders;
+import openfl.filters.BitmapFilter;
+import openfl.utils.Assets as OpenFlAssets;
+import openfl.filters.ShaderFilter;
 import base.dependency.FeatherDeps.Events;
 import base.dependency.FeatherDeps.ScriptHandler;
 import base.song.ChartParser;
@@ -90,6 +94,13 @@ class PlayState extends MusicBeatState
 
 	// lazyness
 	public var canaddshaders = !Init.trueSettings.get('Disable Screen Shaders');
+	
+	public var camGameShaders:Array<ShaderEffect> = [];
+	public var camHUDShaders:Array<ShaderEffect> = [];
+	public var camAltShaders:Array<ShaderEffect> = [];
+	public var strumShaders:Array<ShaderEffect> = [];
+	public var shaderUpdates:Array<Float->Void> = [];
+	var filters:Array<BitmapFilter> = [];
 
 	// Song;
 	public static var SONG:SwagSong;
@@ -1189,6 +1200,11 @@ class PlayState extends MusicBeatState
 		stageBuild.stageUpdateConstant(elapsed, boyfriend, gf, opponent);
 
 		super.update(elapsed);
+		
+		for (i in shaderUpdates)
+		{
+			i(elapsed);
+		}
 
 		if(FlxG.keys.justPressed.F5)
 			isDebugMode = true;
@@ -1572,7 +1588,27 @@ class PlayState extends MusicBeatState
 								for (i in strumHUD)
 									i.shake(0.015, 0.07);
 							}
-							// shaders soon
+							if (canaddshaders)
+							{
+								addShaderToCamera('hud', new FuckingBlurEffect(1.5, 0));
+								addShaderToCamera('notes', new FuckingBlurEffect(1.5, 0));
+								addShaderToCamera('game', new FuckingBlurEffect(3, 0));
+								if(!Init.trueSettings.get('Low Quality'))
+								{
+									addShaderToCamera('hud', new MalfunctionNewEffect(0.01));
+									addShaderToCamera('notes', new MalfunctionNewEffect(0.01));
+									addShaderToCamera('game', new MalfunctionNewEffect(0.01));
+								}
+								new FlxTimer().start(0.04, function(tmr:FlxTimer)
+								{
+									clearShaderFromCamera('game');
+									clearShaderFromCamera('notes');
+									clearShaderFromCamera('hud');
+									addShaderToCamera('hud', new MalfunctionNewEffect(0.004));
+									addShaderToCamera('notes', new MalfunctionNewEffect(0.004));
+									addShaderToCamera('game', new MalfunctionNewEffect(0.005));
+								});
+							}
 						}
 						else if (opponent.curCharacter == 'gm-tired-pixel')
 						{
@@ -3248,6 +3284,125 @@ class PlayState extends MusicBeatState
 	/*
 		Extra functions and stuffs
 	 */
+	 
+	// Reused from Psych cause I REALLY do NOT wanna do this shit again
+	public function addShaderToCamera(cam:String, effect:ShaderEffect)
+	{ // STOLE FROM ANDROMEDA
+		if(canaddshaders) 
+		{
+			switch (cam.toLowerCase())
+			{
+				case 'camhud' | 'hud':
+					camHUDShaders.push(effect);
+					var newCamEffects:Array<BitmapFilter> = []; // IT SHUTS HAXE UP IDK WHY BUT WHATEVER IDK WHY I CANT JUST ARRAY<SHADERFILTER>
+					for (i in camHUDShaders)
+					{
+						newCamEffects.push(new ShaderFilter(i.shader));
+					}
+					camHUD.setFilters(newCamEffects);
+				case 'camalt' | 'alt':
+					camAltShaders.push(effect);
+					var newCamEffects:Array<BitmapFilter> = []; // IT SHUTS HAXE UP IDK WHY BUT WHATEVER IDK WHY I CANT JUST ARRAY<SHADERFILTER>
+					for (i in camOtherShaders)
+					{
+						newCamEffects.push(new ShaderFilter(i.shader));
+					}
+					camAlt.setFilters(newCamEffects);
+				case 'camgame' | 'game':
+					camGameShaders.push(effect);
+					var newCamEffects:Array<BitmapFilter> = []; // IT SHUTS HAXE UP IDK WHY BUT WHATEVER IDK WHY I CANT JUST ARRAY<SHADERFILTER>
+					for (i in camGameShaders)
+					{
+						newCamEffects.push(new ShaderFilter(i.shader));
+					}
+					camGame.setFilters(newCamEffects);
+				case 'strums' | 'strumhud' | 'strumlines' | 'notes':
+					strumShaders.push(effect);
+					var newCamEffects:Array<BitmapFilter> = []; // IT SHUTS HAXE UP IDK WHY BUT WHATEVER IDK WHY I CANT JUST ARRAY<SHADERFILTER>
+					for (i in strumShaders)
+					{
+						newCamEffects.push(new ShaderFilter(i.shader));
+					}
+					for (i in strumHUD)
+					{
+						i.setFilters(newCamEffects);
+					}
+			}
+		}
+	}
+	
+	public function removeShaderFromCamera(cam:String, effect:ShaderEffect)
+	{
+		if(canaddshaders) {
+		switch (cam.toLowerCase())
+		{
+			case 'camhud' | 'hud':
+				camHUDShaders.remove(effect);
+				var newCamEffects:Array<BitmapFilter> = [];
+				for (i in camHUDShaders)
+				{
+					newCamEffects.push(new ShaderFilter(i.shader));
+				}
+				camHUD.setFilters(newCamEffects);
+			case 'camalt' | 'alt':
+				camAltShaders.remove(effect);
+				var newCamEffects:Array<BitmapFilter> = [];
+				for (i in camOtherShaders)
+				{
+					newCamEffects.push(new ShaderFilter(i.shader));
+				}
+				camAlt.setFilters(newCamEffects);
+			case 'strums' | 'strumhud' | 'strumlines' | 'notes':
+				strumShaders.remove(effect);
+				var newCamEffects:Array<BitmapFilter> = [];
+				for (i in strumShaders)
+				{
+					newCamEffects.push(new ShaderFilter(i.shader));
+				}
+				for (i in strumHUD)
+				{
+					i.setFilters(newCamEffects);
+				}
+			default:
+				camGameShaders.remove(effect);
+				var newCamEffects:Array<BitmapFilter> = [];
+				for (i in camGameShaders)
+				{
+					newCamEffects.push(new ShaderFilter(i.shader));
+				}
+				camGame.setFilters(newCamEffects);
+			}
+		}
+	}
+	
+	public function clearShaderFromCamera(cam:String)
+	{
+		if(canaddshaders) {
+		switch (cam.toLowerCase())
+		{
+			case 'camhud' | 'hud':
+				camHUDShaders = [];
+				var newCamEffects:Array<BitmapFilter> = [];
+				camHUD.setFilters(newCamEffects);
+			case 'camalt' | 'alt':
+				camAltShaders = [];
+				var newCamEffects:Array<BitmapFilter> = [];
+				camAlt.setFilters(newCamEffects);
+			case 'strums' | 'strumhud' | 'strumlines' | 'notes':
+				strumShaders = [];
+				var newCamEffects:Array<BitmapFilter> = [];
+				for (i in strumHUD)
+				{
+					i.setFilters(newCamEffects);
+				}
+			default:
+				camGameShaders = [];
+				var newCamEffects:Array<BitmapFilter> = [];
+				camGame.setFilters(newCamEffects);
+			}
+		}
+	}
+	
 	public function createVideoCutscene(name:String)
 	{
 		callFunc('createVideoCutscene', [name]);
