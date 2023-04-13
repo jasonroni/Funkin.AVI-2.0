@@ -1595,8 +1595,8 @@ class PlayState extends MusicBeatState
 								addShaderToCamera('game', new FuckingBlurEffect(3, 0));
 								if(!Init.trueSettings.get('Low Quality'))
 								{
-									addShaderToCamera('hud', new MalfunctionNewEffect(0.01));
-									addShaderToCamera('notes', new MalfunctionNewEffect(0.01));
+									addShaderToCamera('hud', new MalfunctionLegacyEffect(0.01));
+									addShaderToCamera('notes', new MalfunctionLegacyEffect(0.01));
 									addShaderToCamera('game', new MalfunctionNewEffect(0.01));
 								}
 								new FlxTimer().start(0.04, function(tmr:FlxTimer)
@@ -1604,8 +1604,8 @@ class PlayState extends MusicBeatState
 									clearShaderFromCamera('game');
 									clearShaderFromCamera('notes');
 									clearShaderFromCamera('hud');
-									addShaderToCamera('hud', new MalfunctionNewEffect(0.004));
-									addShaderToCamera('notes', new MalfunctionNewEffect(0.004));
+									addShaderToCamera('hud', new MalfunctionLegacyEffect(0.004));
+									addShaderToCamera('notes', new MalfunctionLegacyEffect(0.004));
 									addShaderToCamera('game', new MalfunctionNewEffect(0.005));
 								});
 							}
