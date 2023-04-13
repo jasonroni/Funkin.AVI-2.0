@@ -1590,9 +1590,12 @@ class PlayState extends MusicBeatState
 							}
 							if (canaddshaders)
 							{
-								addShaderToCamera('hud', new FuckingBlurEffect(1.5, 0));
-								addShaderToCamera('notes', new FuckingBlurEffect(1.5, 0));
-								addShaderToCamera('game', new FuckingBlurEffect(3, 0));
+								if (Init.trueSettings.get('Epilepsy Mode'))
+								{
+									addShaderToCamera('hud', new FuckingBlurEffect(1.5, 0));
+									addShaderToCamera('notes', new FuckingBlurEffect(1.5, 0));
+									addShaderToCamera('game', new FuckingBlurEffect(3, 0));
+								}
 								if(!Init.trueSettings.get('Low Quality'))
 								{
 									addShaderToCamera('hud', new MalfunctionLegacyEffect(0.01));
