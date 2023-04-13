@@ -176,6 +176,9 @@ class PlayState extends MusicBeatState
 	public static var camScratch:FlxCamera;
 	public static var camOther:FlxCamera;
 	public static var camAlt:FlxCamera;
+	
+	public var cinematicBars:Map<String, FlxSprite> = ["top" => null, "bottom" => null,];
+	public static var camBars:FlxCamera; // I got lazy, sorry.
 
 	private static var prevCamFollow:FlxObject;
 
@@ -585,12 +588,14 @@ class PlayState extends MusicBeatState
 		camGame = new FlxCamera();
 		camHUD = new FlxCamera();
 		dialogueHUD = new FlxCamera();
+		camBars = new FlxCamera();
 		camAlt = new FlxCamera();
 		camScratch = new FlxCamera();
 		camOther = new FlxCamera();
 
 		camHUD.bgColor.alpha = 0;
 		dialogueHUD.bgColor.alpha = 0;
+		camBars.bgColor.alpha = 0;
 		camAlt.bgColor.alpha = 0;
 		camOther.bgColor.alpha = 0;
 		camScratch.bgColor.alpha = 0;
@@ -599,6 +604,7 @@ class PlayState extends MusicBeatState
 
 		// HUD Camera so HUD objects stay on screen
 		FlxG.cameras.add(camHUD, false);
+		FlxG.cameras.add(camBars, false);
 		FlxG.cameras.add(camOther, false);
 		FlxG.cameras.add(camScratch, false);
 		allUIs.push(camHUD);
@@ -2458,6 +2464,66 @@ class PlayState extends MusicBeatState
 				default:
 					// nothing
 			}
+		}
+	}
+			
+	/*
+	* # Cinematic Bars
+	*
+	* WORK IN PROGRESS, NOT FINAL
+	*/		
+	function cinematicBarControls(speed:Float, ease:String = "circInOut", position:Float = 0, controlType:String = "add")
+	{
+		switch (controlType.toLowerCase())
+		{
+			case "add" | "create":
+				if (cinematicBars["top"] == null)
+				{
+					cinematicBars["top"] = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+					cinematicBars["top"].screenCenter(X);
+					cinematicBars["top"].cameras = [camBars];
+					cinematicBars["top"].y = 0 - cinematicBars["top"].height; // offscreen
+					add(cinematicBars["top"]);
+				}
+
+				if (cinematicBars["bottom"] == null)
+				{
+					cinematicBars["bottom"] = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+					cinematicBars["bottom"].screenCenter(X);
+					cinematicBars["bottom"].cameras = [camBars];
+					cinematicBars["bottom"].y = FlxG.height; // offscreen
+					add(cinematicBars["bottom"]);
+				}
+				
+			case "remove" | "kill" | "delete":
+				if (cinematicBars["top"] != null)
+					cinematicBars["top"].kill();
+				if (cinematicBars["bottom"] != null)
+					cinematicBars["bottom"].kill();
+				
+			case "movetop" | "move top":
+				FlxTween.tween(cinematicBars["top"], {y: position}, speed, {ease: ForeverTools.returnTweenEase(ease)});
+				
+			case "movebottom" | "move bottom":
+				FlxTween.tween(cinematicBars["bottom"], {y: -position}, speed, {ease: ForeverTools.returnTweenEase(ease)});
+				
+			case "moveboth" | "move both":
+				FlxTween.tween(cinematicBars["top"], {y: position}, speed, {ease: ForeverTools.returnTweenEase(ease)});
+				FlxTween.tween(cinematicBars["bottom"], {y: -position}, speed, {ease: ForeverTools.returnTweenEase(ease)});
+				
+			case "boptop" | "bop top":
+				cinematicBars["top"].y = position;
+				FlxTween.tween(cinematicBars["top"], {y: position - 20}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});
+				
+			case "bopbottom" | "bop bottom":
+				cinematicBars["bottom"].y = -position;
+				FlxTween.tween(cinematicBars["bottom"], {y: -position + 20}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});
+				
+			case "bopboth" | "bop both":
+				cinematicBars["top"].y = position;
+				cinematicBars["bottom"].y = -position;
+				FlxTween.tween(cinematicBars["top"], {y: position - 20}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});
+				FlxTween.tween(cinematicBars["bottom"], {y: -position + 20}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});			
 		}
 	}
 					
