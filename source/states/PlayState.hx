@@ -1627,6 +1627,33 @@ class PlayState extends MusicBeatState
 								for (i in strumHUD)
 									i.shake(0.07, 0.07);
 							}
+							if (canaddshaders)
+							{
+								if (Init.trueSettings.get('Epilepsy Mode'))
+								{
+									addShaderToCamera('hud', new FuckingBlurEffect(0.8, 0));
+									addShaderToCamera('notes', new FuckingBlurEffect(0.8, 0));
+									addShaderToCamera('game', new FuckingBlurEffect(1, 0));
+								}
+								if(!Init.trueSettings.get('Low Quality'))
+								{
+									addShaderToCamera('hud', new MalfunctionLegacyEffect(0.003));
+									addShaderToCamera('notes', new MalfunctionLegacyEffect(0.003));
+									addShaderToCamera('game', new MalfunctionNewEffect(0.01, 0.005));
+								}
+								new FlxTimer().start(0.04, function(tmr:FlxTimer)
+								{
+									clearShaderFromCamera('game');
+									clearShaderFromCamera('notes');
+									clearShaderFromCamera('hud');
+									if(!Init.trueSettings.get('Low Quality'))
+									{
+										addShaderToCamera('hud', new MalfunctionLegacyEffect(0.002));
+										addShaderToCamera('notes', new MalfunctionLegacyEffect(0.002));
+										addShaderToCamera('game', new MalfunctionNewEffect(0.008, 0.003));
+									}
+								});
+							}
 						}
 						
 					case 'Malfunction Legacy': // the reason this gets a separate case is cause shader effects are gonna be different
@@ -1639,7 +1666,33 @@ class PlayState extends MusicBeatState
 							for (i in strumHUD)
 								i.shake(0.015, 0.07);
 						}
-						// shaders soon
+						if (canaddshaders)
+						{
+							if (Init.trueSettings.get('Epilepsy Mode'))
+							{
+								addShaderToCamera('hud', new FuckingBlurEffect(1, 0));
+								addShaderToCamera('notes', new FuckingBlurEffect(1, 0));
+								addShaderToCamera('game', new FuckingBlurEffect(1.5, 0));
+							}
+							if(!Init.trueSettings.get('Low Quality'))
+							{
+								addShaderToCamera('hud', new MalfunctionLegacyEffect(0.01));
+								addShaderToCamera('notes', new MalfunctionLegacyEffect(0.01));
+								addShaderToCamera('game', new MalfunctionLegacyEffect(0.015));
+							}
+							new FlxTimer().start(0.04, function(tmr:FlxTimer)
+							{
+								clearShaderFromCamera('game');
+								clearShaderFromCamera('notes');
+								clearShaderFromCamera('hud');
+								if(!Init.trueSettings.get('Low Quality'))
+								{
+									addShaderToCamera('hud', new MalfunctionLegacyEffect(0.004));
+									addShaderToCamera('notes', new MalfunctionLegacyEffect(0.004));
+									addShaderToCamera('game', new MalfunctionLegacyEffect(0.008));
+								}
+							});
+						}
 						
 					case "Don't Cross!":
 						boyfriend.x += 1.2;
