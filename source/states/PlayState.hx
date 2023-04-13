@@ -1703,7 +1703,7 @@ class PlayState extends MusicBeatState
 						if (!Init.trueSettings.get('Disable Mechanics'))
 						{
 							if(health > 0.05) // trol
-								health -= 0.035;
+								health -= 0.015;
 						}
 				}
 			}
