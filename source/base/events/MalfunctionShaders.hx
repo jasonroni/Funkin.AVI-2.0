@@ -170,7 +170,7 @@ class MalfunctionNewEffect extends Effect
 	public var shader:MalfunctionNewShader;
   public function new(aberration:Float = 0.0001, effectTime:Float = 0.0001){
 	shader = new MalfunctionNewShader();
-    shader.aberration.value = [offset];
+    shader.aberration.value = [aberration];
     shader.effectTime.value = [effectTime];
   }
 	
