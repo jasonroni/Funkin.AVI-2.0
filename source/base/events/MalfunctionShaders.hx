@@ -22,6 +22,12 @@ import flixel.FlxG;
 import openfl.Lib;
 import states.PlayState;
 
+class Effect {
+	public function setValue(shader:FlxShader, variable:String, value:Float){
+		Reflect.setProperty(Reflect.getProperty(shader, 'variable'), 'value', [value]);
+	}
+}
+
 class BuildingEffect {
   public var shader:BuildingShader = new BuildingShader();
   public function new(){
