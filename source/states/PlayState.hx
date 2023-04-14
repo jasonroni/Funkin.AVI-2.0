@@ -3428,7 +3428,7 @@ class PlayState extends MusicBeatState
 				case 'camalt' | 'alt':
 					camAltShaders.push(effect);
 					var newCamEffects:Array<BitmapFilter> = []; // IT SHUTS HAXE UP IDK WHY BUT WHATEVER IDK WHY I CANT JUST ARRAY<SHADERFILTER>
-					for (i in camOtherShaders)
+					for (i in camAltShaders)
 					{
 						newCamEffects.push(new ShaderFilter(i.shader));
 					}
@@ -3472,7 +3472,7 @@ class PlayState extends MusicBeatState
 			case 'camalt' | 'alt':
 				camAltShaders.remove(effect);
 				var newCamEffects:Array<BitmapFilter> = [];
-				for (i in camOtherShaders)
+				for (i in camAltShaders)
 				{
 					newCamEffects.push(new ShaderFilter(i.shader));
 				}
