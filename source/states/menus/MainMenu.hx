@@ -588,7 +588,7 @@ class MainMenu extends MusicBeatState
 									);
 								} else {
 									CoolUtil.difficulties = CoolUtil.difficultyArray;
-									Main.switchState(this, new states.menus.FreeplayMenu());
+									Main.switchState(this, new states.menus.freeplay.FreeplayCategories());
 								}
 							case 'credits':
 								Main.switchState(this, new states.menus.OptionsMenu());

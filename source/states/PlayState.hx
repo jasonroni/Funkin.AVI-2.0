@@ -4000,12 +4000,19 @@ class PlayState extends MusicBeatState
 				switch (CoolUtil.dashToSpace(SONG.song))
 				{
 					case 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus' | 'Mercy' | 'Affliction':
-						Main.switchState(this, new states.menus.freeplay.FreeplayState());
+						states.menus.freeplay.FreeplaySongs.freeplayMenuList = 0;
+						Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
 					default:
-						if (PlayState.SONG.song.endsWith('Legacy'))
-							Main.switchState(this, new states.menus.freeplay.LegacyState());
+						if (PlayState.SONG.song.endsWith('Legacy')) // me when StringTools optimizes the code
+						{
+							states.menus.freeplay.FreeplaySongs.freeplayMenuList = 2;
+							Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
+						}
 						else
-							Main.switchState(this, new states.menus.freeplay.ExtrasState()); // yeah, there's no way I'm making a case for EVERY fucking song in that menu, too much work!
+						{
+							states.menus.freeplay.FreeplaySongs.freeplayMenuList = 1;
+							Main.switchState(this, new states.menus.freeplay.FreeplaySongs()); // yeah, there's no way I'm making a case for EVERY fucking song in that menu, too much work!
+						}
 				}
 				clearStored = true;
 			case CHARTING:

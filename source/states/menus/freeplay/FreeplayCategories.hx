@@ -1,4 +1,4 @@
-package states.menus;
+package states.menus.freeplay;
 
 import base.dependency.Discord;
 import flixel.FlxG;
@@ -25,7 +25,7 @@ import objects.fonts.Alphabet;
 
 using StringTools;
 
-class FreeplayMenu extends MusicBeatState {
+class FreeplayCategories extends MusicBeatState {
 
 	var unfinishedText:FlxText;
 
@@ -124,14 +124,8 @@ class FreeplayMenu extends MusicBeatState {
 
 
         if ((Controls.getPressEvent("accept"))){
-            switch(curSelected){
-                case 0:
-					Main.switchState(this, new states.menus.freeplay.FreeplayState());
-                case 1:
-					Main.switchState(this, new states.menus.freeplay.ExtrasState());
-				case 2:
-					Main.switchState(this, new states.menus.freeplay.LegacyState());
-			}
+            states.menus.freeplay.FreeplaySongs.freeplayMenuList = curSelected;
+			Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
         }
 
         super.update(elapsed);
