@@ -57,7 +57,7 @@ import hxcodec.VideoHandler;
 #elseif (hxCodec == "2.6.0")
 import VideoHandler;
 #else
-import vlc.MP4Handler as VideoHandler;
+import vlc.MP4Handler;
 #end
 #if desktop
 import base.dependency.Discord;
@@ -3599,7 +3599,11 @@ class PlayState extends MusicBeatState
 		inCutscene = true;
 
 		var filepath:String = Paths.video(name);
+		#if (hxCodec >= 2.6.0)
 		var video:VideoHandler = new VideoHandler();
+		#else
+		var video:MP4Handler = new MP4Handler();
+		#end
 		video.playVideo(filepath);
 		video.finishCallback = function()
 		{
