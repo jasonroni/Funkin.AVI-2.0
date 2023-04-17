@@ -20,6 +20,10 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import states.MusicBeatState;
 import flixel.addons.display.FlxRuntimeShader;
+import flixel.input.keyboard.FlxKeyboard;
+import flixel.input.keyboard.FlxKey;
+import flixel.util.FlxTimer;
+import base.song.Song;
 
 using StringTools;
 
@@ -40,6 +44,27 @@ class MainMenu extends MusicBeatState
 	var camFollowPos:FlxObject;
 
 	var optionShit:Array<String> = ['story_mode', 'freeplay', 'credits', 'options'];
+
+	//HOWTODELUSIONAL
+	var theCode:Array<Dynamic> = [
+		[FlxKey.H, FlxKey.H], 
+		[FlxKey.O, FlxKey.O], 
+		[FlxKey.W, FlxKey.W], 
+		[FlxKey.T, FlxKey.T], 
+		[FlxKey.O, FlxKey.O],
+		[FlxKey.D, FlxKey.D],
+		[FlxKey.E, FlxKey.E],
+		[FlxKey.L, FlxKey.L],
+		[FlxKey.U, FlxKey.U],
+		[FlxKey.S, FlxKey.S],
+		[FlxKey.I, FlxKey.I],
+		[FlxKey.O, FlxKey.O],
+		[FlxKey.N, FlxKey.N],
+		[FlxKey.A, FlxKey.A],
+		[FlxKey.L, FlxKey.L]
+	];
+	
+	var theCodeOrder:Int = 0;
 
 	var eyes:FlxSprite;
 	var floor:FlxSprite;
@@ -126,7 +151,8 @@ class MainMenu extends MusicBeatState
 			"Austin is the most horniest of the team lmao",
 			"This mod was stressful to make, the organization was a mess lmao",
 			"Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi",
-			"Just like Domingo is constantly remaking Mickey's sprites, Dreupy is the Domingo of Delusional Recharts."
+			"Just like Domingo is constantly remaking Mickey's sprites, Dreupy is the Domingo of Delusional Recharts.",
+			"Type \"HOWTODELUSIONAL\" for a special surprise :)"
 	];
 
 	var defaultShader:FlxRuntimeShader;
@@ -401,8 +427,41 @@ class MainMenu extends MusicBeatState
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 7.5, 0, 1);
 		//camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 
+		if (FlxG.keys.justPressed.ANY) {
+			var hitCorrectKey:Bool = false;
+			for (i in 0...theCode[theCodeOrder].length) {
+				if (FlxG.keys.checkStatus(theCode[theCodeOrder][i], JUST_PRESSED))
+					hitCorrectKey = true;
+			}
+			if (hitCorrectKey) {
+				if (theCodeOrder == (theCode.length - 1)) {
+					PlayState.storyPlaylist = ["delutrance"];
+					PlayState.gameplayMode = STORY;
+					PlayState.storyDifficulty = 0;
+					PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + '-hard', PlayState.storyPlaylist[0].toLowerCase());
+					PlayState.storyWeek = 1;
+					PlayState.campaignScore = 0;
+					PlayState.campaingMisses = 0;
+			new FlxTimer().start(0.25, function(tmr:FlxTimer)
+			{
+				Main.switchState(this, new states.PlayState());
+				FlxG.sound.music.volume = 0;
+			});
+				} else {
+					theCodeOrder++;
+				}
+			} else {
+				theCodeOrder = 0;
+				for (i in 0...theCode[0].length) {
+					if (FlxG.keys.checkStatus(theCode[0][i], JUST_PRESSED))
+						theCodeOrder = 1;
+				}
+			}
+		}
+
 		if ((controlArray.contains(true)) && (!selectedSomethin))
 		{
+
 			for (i in 0...controlArray.length)
 			{
 				// here we check which keys are pressed

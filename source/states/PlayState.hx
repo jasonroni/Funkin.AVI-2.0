@@ -467,6 +467,57 @@ class PlayState extends MusicBeatState
 		return true;
 	}
 
+	public function initializeShaders()
+	{
+		switch (SONG.song)
+		{
+			case 'Malfunction':
+				if (canaddshaders)
+					{
+						if (Init.trueSettings.get('Epilepsy Mode'))
+						{
+							addShaderToCamera('hud', new FuckingBlurEffect(0.0001, 0));
+							addShaderToCamera('notes', new FuckingBlurEffect(0.0001, 0));
+							addShaderToCamera('game', new FuckingBlurEffect(0.0001, 0));
+						}
+						if(!Init.trueSettings.get('Low Quality'))
+						{
+							addShaderToCamera('hud', new MalfunctionLegacyEffect(0.00001));
+							addShaderToCamera('notes', new MalfunctionLegacyEffect(0.00001));
+							addShaderToCamera('game', new MalfunctionNewEffect(0.0001, 0.0001));
+						}
+						new FlxTimer().start(10, function(tmr:FlxTimer)
+						{
+							clearShaderFromCamera("game");
+							clearShaderFromCamera("alt");
+							clearShaderFromCamera("hud");
+						});
+					}
+			case 'Malfunction Legacy':
+				if (canaddshaders)
+					{
+						if (Init.trueSettings.get('Epilepsy Mode'))
+						{
+							addShaderToCamera('hud', new FuckingBlurEffect(0.0001, 0));
+							addShaderToCamera('notes', new FuckingBlurEffect(0.0001, 0));
+							addShaderToCamera('game', new FuckingBlurEffect(0.0001, 0));
+						}
+						if(!Init.trueSettings.get('Low Quality'))
+						{
+							addShaderToCamera('hud', new MalfunctionLegacyEffect(0.00001));
+							addShaderToCamera('notes', new MalfunctionLegacyEffect(0.00001));
+							addShaderToCamera('game', new MalfunctionLegacyEffect(0.00001));
+						}
+						new FlxTimer().start(3, function(tmr:FlxTimer)
+						{
+							clearShaderFromCamera("game");
+							clearShaderFromCamera("alt");
+							clearShaderFromCamera("hud");
+						});
+					}
+		}
+	}
+
 	public function generateCharacters()
 	{
 		opponent = new Character();
@@ -848,22 +899,29 @@ class PlayState extends MusicBeatState
 		crashLivesIcon.cameras = [camHUD];
 
 		if(!Init.trueSettings.get('Low Quality'))
+		{
+			switch (curStage)
 			{
-				scratchButLessVisible = new FlxSprite();
-				scratchButLessVisible.frames = Paths.getSparrowAtlas('filters/scratchShit');
-				scratchButLessVisible.animation.addByPrefix('e', 'scratch thing', 24, true);
-				scratchButLessVisible.animation.play('e');
-				scratchButLessVisible.cameras = [camScratch];
-				scratchButLessVisible.alpha = 0.5;
-				add(scratchButLessVisible);
-		
-				scratch = new FlxSprite();
-				scratch.frames = Paths.getSparrowAtlas('filters/scratchShit');
-				scratch.animation.addByPrefix('e', 'scratch thing', 24, true);
-				scratch.animation.play('e');
-				scratch.cameras = [camScratch];
-				add(scratch);
+				case 'stage' | 'desktop' | 'waltRoom' | 'apartment' | 'treasureIsland' | 'forbiddenRealm' | 'fuckingLine' | 'staticVoid' | 'vaultRoom':
+					//don't add scratch assets
+
+				default:
+					scratchButLessVisible = new FlxSprite();
+					scratchButLessVisible.frames = Paths.getSparrowAtlas('filters/scratchShit');
+					scratchButLessVisible.animation.addByPrefix('e', 'scratch thing', 24, true);
+					scratchButLessVisible.animation.play('e');
+					scratchButLessVisible.cameras = [camScratch];
+					scratchButLessVisible.alpha = 0.5;
+					add(scratchButLessVisible);
+			
+					scratch = new FlxSprite();
+					scratch.frames = Paths.getSparrowAtlas('filters/scratchShit');
+					scratch.animation.addByPrefix('e', 'scratch thing', 24, true);
+					scratch.animation.play('e');
+					scratch.cameras = [camScratch];
+					add(scratch);
 			}
+		}
 
 		fade = new FlxSprite().makeGraphic(FlxG.width * 3, FlxG.height * 3, 0x000000);
 		fade.screenCenter();
@@ -969,6 +1027,7 @@ class PlayState extends MusicBeatState
 
 		// call the funny intro cutscene depending on the song
 		songCutscene(false);
+		initializeShaders();
 	}
 
 	var keysHeld:Array<Bool> = [];
@@ -1606,7 +1665,7 @@ class PlayState extends MusicBeatState
 								{
 									addShaderToCamera('hud', new MalfunctionLegacyEffect(0.01));
 									addShaderToCamera('notes', new MalfunctionLegacyEffect(0.01));
-									addShaderToCamera('game', new MalfunctionNewEffect(0.025, 0.01));
+									addShaderToCamera('game', new MalfunctionNewEffect(0.2, 0.015));
 								}
 								new FlxTimer().start(0.04, function(tmr:FlxTimer)
 								{
@@ -1617,7 +1676,7 @@ class PlayState extends MusicBeatState
 									{
 										addShaderToCamera('hud', new MalfunctionLegacyEffect(0.004));
 										addShaderToCamera('notes', new MalfunctionLegacyEffect(0.004));
-										addShaderToCamera('game', new MalfunctionNewEffect(0.01, 0.005));
+										addShaderToCamera('game', new MalfunctionNewEffect(0.1, 0.1));
 									}
 								});
 							}
@@ -1645,7 +1704,7 @@ class PlayState extends MusicBeatState
 								{
 									addShaderToCamera('hud', new MalfunctionLegacyEffect(0.003));
 									addShaderToCamera('notes', new MalfunctionLegacyEffect(0.003));
-									addShaderToCamera('game', new MalfunctionNewEffect(0.01, 0.005));
+									addShaderToCamera('game', new MalfunctionNewEffect(0.15, 0.1));
 								}
 								new FlxTimer().start(0.04, function(tmr:FlxTimer)
 								{
@@ -1656,7 +1715,7 @@ class PlayState extends MusicBeatState
 									{
 										addShaderToCamera('hud', new MalfunctionLegacyEffect(0.002));
 										addShaderToCamera('notes', new MalfunctionLegacyEffect(0.002));
-										addShaderToCamera('game', new MalfunctionNewEffect(0.008, 0.003));
+										addShaderToCamera('game', new MalfunctionNewEffect(0.01, 0.01));
 									}
 								});
 							}
@@ -1684,7 +1743,7 @@ class PlayState extends MusicBeatState
 							{
 								addShaderToCamera('hud', new MalfunctionLegacyEffect(0.01));
 								addShaderToCamera('notes', new MalfunctionLegacyEffect(0.01));
-								addShaderToCamera('game', new MalfunctionLegacyEffect(0.015));
+								addShaderToCamera('game', new MalfunctionLegacyEffect(0.01));
 							}
 							new FlxTimer().start(0.04, function(tmr:FlxTimer)
 							{
@@ -3275,18 +3334,20 @@ class PlayState extends MusicBeatState
 					{
 						case 158:
 							relapseGimmick(0.7, 0.3);
+						case 164 | 166 | 180 | 182:
+							relapseGimmick(0.35, 0.15);
 						case 172 | 204:
-							relapseGimmick(1.12, 0.6);
+							relapseGimmick(1.4, 0.6);
 						case 190:
 							relapseGimmick(0.7, 0.54);
 						case 212:
 							relapseGimmick(0.7, 0.8);
-						case 222 | 264:
+						case 222 | 264 | 196:
 							relapseGimmick(0.7, 1);
 						case 236:
 							relapseGimmick(0.7, 0.4);
 						case 248:
-							relapseGimmick(1.12, 1.2);
+							relapseGimmick(1.4, 1.2);
 						case 270:
 							relapseGimmick(0.7, 1.5);
 					}

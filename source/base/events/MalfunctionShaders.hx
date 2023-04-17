@@ -11,7 +11,7 @@
 * @author DEMOLITIONDON96
 */
 
-package base.dependency;
+package base.events;
 
 import flixel.system.FlxAssets.FlxShader;
 import openfl.display.BitmapData;
@@ -26,6 +26,7 @@ class Effect {
 	public function setValue(shader:FlxShader, variable:String, value:Float){
 		Reflect.setProperty(Reflect.getProperty(shader, 'variable'), 'value', [value]);
 	}
+
 }
 
 class BuildingEffect {
