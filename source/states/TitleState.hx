@@ -230,11 +230,9 @@ class TitleState extends states.MusicBeatState
 
 		if (FlxG.save.data.highOnCrackLock == 'forceBackToSong') // you can't run from delutrance lol
 		{
-			PlayState.storyPlaylist = ["delutrance"];
-			PlayState.gameplayMode = STORY;
+			PlayState.gameplayMode = FREEPLAY;
 			PlayState.storyDifficulty = 0;
-			PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + '-hard', PlayState.storyPlaylist[0].toLowerCase());
-			PlayState.storyWeek = 1;
+			PlayState.SONG = Song.loadFromJson('delutrance-hard', 'delutrance');
 			PlayState.campaignScore = 0;
 			PlayState.campaingMisses = 0;
 			new FlxTimer().start(0.25, function(tmr:FlxTimer)

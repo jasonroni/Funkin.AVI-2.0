@@ -67,18 +67,8 @@ class GameOverSubstate extends MusicBeatSubstate
 			FlxG.sound.music.stop();
 			PlayState.deaths = 0;
 
-			if (PlayState.gameplayMode == STORY)
-				if (PlayState.SONG.song == "Delutrance")
-				{
-					if (FlxG.save.data.highOnCrackLock == 'forceBackToSong')
-						Main.switchState(this, new PlayState());
-					else
-						Main.switchState(this, new states.menus.MainMenu());
-				}
-				else
-				{
-					Main.switchState(this, new states.menus.StoryMenu());
-				}
+			if (PlayState.gameplayMode == STORY)		
+				Main.switchState(this, new states.menus.StoryMenu());
 			else
 				switch (CoolUtil.dashToSpace(PlayState.SONG.song))
 				{
