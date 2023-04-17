@@ -170,6 +170,17 @@ class FreeplaySongs extends MusicBeatState
 						addSong('Cycled-Sins', 3, (GameData.sinsLock != 'unlocked' && GameData.sinsLock != 'beaten' ? 'untouched-song' : 'relapse-pixel'), FlxColor.fromRGB(60, 60, 60)); //messing with the saves for this later
 						addSong('Malfunction', 3, (GameData.malfunctionLock != 'unlocked' && GameData.malfunctionLock != 'beaten' ? 'untouched-song' : 'glitched-mickey-new-pixel'), FlxColor.fromRGB(60, 60, 60)); // Because Malfunction is getting some major upgrades later
 					}
+					
+					// Not yet muckney, not yet...
+					//if (GameData.muckneyLock == "completed")
+					//{
+						addSong('Birthday', 3, 'muckney', FlxColor.fromRGB(60, 60, 60));
+					//}
+					
+					if (GameData.highOnCrackLock == 'completed')
+					{
+						addSong('Delutrance', 3, 'mick-trance', FlxColor.fromRGB(60, 60, 60));
+					}
 				}
 			case 2:
 				{
