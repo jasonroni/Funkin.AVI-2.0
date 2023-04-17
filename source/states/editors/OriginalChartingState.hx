@@ -966,7 +966,7 @@ class OriginalChartingState extends MusicBeatState
 				bf_vocals.stop();
 				opp_vocals.stop();
 				vocals.stop();
-				Main.switchState(this, new states.menus.FreeplayMenu());
+				Main.switchState(this, new states.menus.freeplay.FreeplayCategories());
 			}
 
 			if (FlxG.keys.justPressed.E)
