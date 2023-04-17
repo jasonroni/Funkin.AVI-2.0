@@ -3599,7 +3599,7 @@ class PlayState extends MusicBeatState
 		inCutscene = true;
 
 		var filepath:String = Paths.video(name);
-		#if (hxCodec >= 2.6.0)
+		#if (hxCodec >= "2.6.0")
 		var video:VideoHandler = new VideoHandler();
 		#else
 		var video:MP4Handler = new MP4Handler();
