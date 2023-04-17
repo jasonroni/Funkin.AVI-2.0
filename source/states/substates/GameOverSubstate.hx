@@ -68,7 +68,17 @@ class GameOverSubstate extends MusicBeatSubstate
 			PlayState.deaths = 0;
 
 			if (PlayState.gameplayMode == STORY)
-				Main.switchState(this, new states.menus.StoryMenu());
+				if (PlayState.SONG.song == "Delutrance")
+				{
+					if (FlxG.save.data.highOnCrackLock == 'forceBackToSong')
+						Main.switchState(this, new PlayState());
+					else
+						Main.switchState(this, new states.menus.MainMenu());
+				}
+				else
+				{
+					Main.switchState(this, new states.menus.StoryMenu());
+				}
 			else
 				switch (CoolUtil.dashToSpace(PlayState.SONG.song))
 				{
@@ -76,6 +86,11 @@ class GameOverSubstate extends MusicBeatSubstate
 						Main.switchState(this, new states.menus.freeplay.FreeplayState());
 					case 'Birthday':
 						Main.switchState(this, new states.ManIHateYouSoMuchYouMadeMuckneySad()); // grah
+					case 'Delutrance': // hahaha, you FOOL, you're obligated to play till you beat it!
+						if (FlxG.save.data.highOnCrackLock == 'forceBackToSong')
+							Main.switchState(this, new PlayState());
+						else
+							Main.switchState(this, new states.menus.freeplay.ExtrasState());
 					default:
 						if (PlayState.SONG.song.endsWith('Legacy')) // me when StringTools optimizes the code
 							Main.switchState(this, new states.menus.freeplay.LegacyState());

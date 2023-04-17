@@ -364,6 +364,24 @@ class PlayState extends MusicBeatState
 			case 'malfunction legacy':
 				if (FlxG.save.data.legacyMLock != 'beaten')
 					GameData.legacyMLock = 'unlocked';
+			case 'cycled sins legacy':
+				if (FlxG.save.data.legacySLock != 'beaten')
+					GameData.legacySLock = 'unlocked';
+			case 'bless legacy':
+				if (FlxG.save.data.legacyBLock != 'beaten')
+					GameData.legacyBLock = 'unlocked';
+			case 'twisted grins legacy':
+				if (FlxG.save.data.legacyTLock != 'beaten')
+					GameData.legacyTLock = 'unlocked';
+			case 'neglection legacy':
+				if (FlxG.save.data.legacyNLock != 'beaten')
+					GameData.legacyNLock = 'unlocked';
+			case 'resentment legacy':
+				if (FlxG.save.data.legacyRLock != 'beaten')
+					GameData.legacyRLock = 'unlocked';
+			case 'delutrance':
+				if (FlxG.save.data.highOnCrackLock != 'completed')
+					GameData.highOnCrackLock = 'forceBackToSong';
 		}
 		GameData.saveShit();
 	}
@@ -375,42 +393,30 @@ class PlayState extends MusicBeatState
 	{
 		switch (SONG.song.toLowerCase())
 		{
-			case 'hunted':
-				GameData.huntedLock = 'beaten';
-			case 'isolated old':
-				GameData.oldisolateLock = 'beaten';
-			case 'isolated beta':
-				GameData.betaisolateLock = 'beaten';
-			case 'neglection':
-				GameData.pnmLock = 'beaten';
-			case "don't cross!":
-				GameData.crossinLock = 'beaten';
-			case 'war dilemma':
-				GameData.warLock = 'beaten';
-			case 'cycled sins':
-				GameData.sinsLock = 'beaten';
-			case 'malfunction':
-				GameData.malfunctionLock = 'beaten';
-			case 'scrapped':
-				GameData.scrappedLock = 'beaten';
-			case 'bless':
-				GameData.blessLock = 'beaten';
-			case 'laugh track':
-				GameData.rickyLock = 'beaten';
-			case 'birthday':
-				GameData.muckneyLock = "completed";
-			case 'mercy legacy':
-				GameData.legacyWLock = 'beaten';
-			case 'isolated legacy':
-				GameData.legacyILock = 'beaten';
-			case 'lunacy legacy':
-				GameData.legacyLLock = 'beaten';
-			case 'delusional legacy':
-				GameData.legacyDLock = 'beaten';
-			case 'hunted legacy':
-				GameData.legacyHLock = 'beaten';
-			case 'malfunction legacy':
-				GameData.legacyMLock = 'beaten';
+			case 'hunted': GameData.huntedLock = 'beaten';
+			case 'isolated old': GameData.oldisolateLock = 'beaten';
+			case 'isolated beta': GameData.betaisolateLock = 'beaten';
+			case 'neglection': GameData.pnmLock = 'beaten';
+			case "don't cross!": GameData.crossinLock = 'beaten';
+			case 'war dilemma': GameData.warLock = 'beaten';
+			case 'cycled sins': GameData.sinsLock = 'beaten';
+			case 'malfunction': GameData.malfunctionLock = 'beaten';
+			case 'scrapped': GameData.scrappedLock = 'beaten';
+			case 'bless': GameData.blessLock = 'beaten';
+			case 'laugh track': GameData.rickyLock = 'beaten';
+			case 'birthday': GameData.muckneyLock = "completed";
+			case 'mercy legacy': GameData.legacyWLock = 'beaten';
+			case 'isolated legacy': GameData.legacyILock = 'beaten';
+			case 'lunacy legacy': GameData.legacyLLock = 'beaten';
+			case 'delusional legacy': GameData.legacyDLock = 'beaten';
+			case 'hunted legacy': GameData.legacyHLock = 'beaten';
+			case 'malfunction legacy': GameData.legacyMLock = 'beaten';
+			case 'cycled sins legacy': GameData.legacySLock = 'beaten';
+			case 'bless legacy': GameData.legacyBLock = 'beaten';
+			case 'neglection legacy': GameData.legacyNLock = 'beaten';
+			case 'twisted grins legacy': GameData.legacyTLock = 'beaten';
+			case 'resentment legacy': GameData.legacyRLock = 'beaten';
+			case 'delutrance': GameData.highOnCrackLock = 'completed';
 		}
 		GameData.saveShit();
 	}
@@ -422,12 +428,9 @@ class PlayState extends MusicBeatState
 	{
 		switch (SONG.song.toLowerCase())
 		{
-			case 'delusional':
-				GameData.episode1FPLock = 'unlocked';
-			case 'mortiferum risus':
-				GameData.episodeSFPLock = 'unlocked';
-			case 'affliction':
-				GameData.episodeWFPLock = 'unlocked';
+			case 'delusional': GameData.episode1FPLock = 'unlocked';
+			case 'mortiferum risus': GameData.episodeSFPLock = 'unlocked';
+			case 'affliction': GameData.episodeWFPLock = 'unlocked';
 		}
 		GameData.saveShit();
 	}

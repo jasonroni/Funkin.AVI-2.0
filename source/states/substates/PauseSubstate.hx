@@ -315,6 +315,11 @@ class PauseSubstate extends MusicBeatSubstate
 									Main.switchState(this, new states.menus.freeplay.FreeplayState());
 								case 'Birthday':
 									Main.switchState(this, new states.ManIHateYouSoMuchYouMadeMuckneySad()); // grah
+								case 'Delutrance': // hahaha, you FOOL, you're obligated to play till you beat it!
+									if (FlxG.save.data.highOnCrackLock == 'forceBackToSong')
+										Main.switchState(this, new PlayState());
+									else
+										Main.switchState(this, new states.menus.freeplay.ExtrasState());
 								default:
 									if (PlayState.SONG.song.endsWith('Legacy')) // me when StringTools optimizes the code
 										Main.switchState(this, new states.menus.freeplay.LegacyState());

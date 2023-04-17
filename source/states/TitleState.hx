@@ -36,6 +36,7 @@ import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.filters.BitmapFilter;
 import openfl.filters.ShaderFilter;
+import base.song.Song;
 
 using StringTools;
 #if MODS_ALLOWED
@@ -224,8 +225,24 @@ class TitleState extends states.MusicBeatState
 
 		startIntro();
 
-		if (FlxG.save.data.episode1FPLock == null) GameData.lockinIt(); // Now add missing data for any new stuff
 		GameData.loadShit(); // Collect Any Data
+		GameData.lockinIt(); // Now add missing data for any new stuff
+
+		if (FlxG.save.data.highOnCrackLock == 'forceBackToSong') // you can't run from delutrance lol
+		{
+			PlayState.storyPlaylist = ["delutrance"];
+			PlayState.gameplayMode = STORY;
+			PlayState.storyDifficulty = 0;
+			PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + '-hard', PlayState.storyPlaylist[0].toLowerCase());
+			PlayState.storyWeek = 1;
+			PlayState.campaignScore = 0;
+			PlayState.campaingMisses = 0;
+			new FlxTimer().start(0.25, function(tmr:FlxTimer)
+			{
+				Main.switchState(this, new states.PlayState());
+				FlxG.sound.music.volume = 0;
+			});
+		}
 
 		FlxG.mouse.visible = true;
 	}

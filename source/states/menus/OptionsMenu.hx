@@ -123,9 +123,14 @@ class OptionsMenu extends BaseOptions
 			else
 			{
 				if (states.substates.PauseSubstate.toOptions)
+				{
 					Main.switchState(this, new PlayState());
+					states.substates.PauseSubstate.toOptions = false; // bug fix for the game taking you to a song when in settings from menu after playing a song
+				}
 				else
+				{
 					Main.switchState(this, new MainMenu());
+				}
 			}
 		}
 	}
