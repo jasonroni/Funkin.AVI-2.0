@@ -88,7 +88,7 @@ class FreeplaySongs extends MusicBeatState
 		// Categories, Shaders, and Songlist Setup
 		switch (freeplayMenuList)
 		{
-			case 0:
+			case 0: // Story Songs Menu
 				{
 					lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Episode Songs";
 
@@ -118,7 +118,7 @@ class FreeplaySongs extends MusicBeatState
 						addSong('Affliction', 3, 'walt', FlxColor.fromRGB(153, 148, 112));
 					}
 				}
-			case 1:
+			case 1: // Extras Menu
 				{
 					lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Extra Songs";
 					
@@ -174,7 +174,7 @@ class FreeplaySongs extends MusicBeatState
 						addSong('Delutrance', 3, 'mick-trance', FlxColor.fromRGB(60, 60, 60)); // It's still gonna force ya to fully play it if you replay the song lmfao
 					}
 				}
-			case 2:
+			case 2: // Legacy Menu
 				{
 					lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Legacy Songs";
 
@@ -201,7 +201,7 @@ class FreeplaySongs extends MusicBeatState
 						addSong('Malfunction-Legacy', 3, (GameData.legacyMLock != 'unlocked' && GameData.legacyMLock != 'beaten' ? 'untouched-song' : 'glitched-mickey-legacy-pixel'), FlxColor.fromRGB(60, 60, 60));
 					}
 				}
-			case 3:
+			case 3: // Void/Muckney Hidden Song Menu
 				{
 					lime.app.Application.current.window.title = "Funkin.avi - Freeplay: ???";
 					
@@ -701,6 +701,14 @@ class FreeplaySongs extends MusicBeatState
 									new ShaderFilter(defaultShader2)
 								]);
 							}
+						}
+						else
+						{
+							if(!Init.trueSettings.get('Low Quality'))
+								FlxG.camera.setFilters([new ShaderFilter(defaultShader), new ShaderFilter(defaultShader2)]);
+							else
+								FlxG.camera.setFilters([new ShaderFilter(defaultShader2)]);
+							FlxG.camera.shake(0.01, 0.001);
 						}
 
 					default:
