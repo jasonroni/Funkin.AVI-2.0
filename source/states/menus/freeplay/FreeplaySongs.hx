@@ -419,8 +419,11 @@ class FreeplaySongs extends MusicBeatState
 			{
 				shaderTime += elapsed;
 					
-				glitchyStuff.setFloat('time', shaderTime);
-				glitchyStuff.setFloat('prob', shaderTime);
+				if (freeplayMenuList == 1)
+				{
+					glitchyStuff.setFloat('time', shaderTime);
+					glitchyStuff.setFloat('prob', shaderTime);
+				}
 		
 				mercyShader.setFloat('time', shaderTime);
 				mercyShader2.setFloat('time', shaderTime);
