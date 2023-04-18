@@ -26,13 +26,10 @@ import sys.thread.Thread;
 
 class FreeplaySongs extends MusicBeatState
 {
-	//
 	var songs:Array<SongMetadata> = [];
-
 	var shaders:Array<ShaderEffect> = [];
 
 	static var curSelected:Int = 0;
-
 	var curSongPlaying:Int = -1;
 	var curDifficulty:Int = 1;
 
@@ -65,25 +62,20 @@ class FreeplaySongs extends MusicBeatState
 	var defaultShader2:FlxRuntimeShader;
 	var smilesShader:FlxRuntimeShader;
 	var mercyShader:FlxRuntimeShader;
-	var mercyShader2:FlxRuntimeShader;
-	
+	var mercyShader2:FlxRuntimeShader;	
 	var getBlessed:FlxRuntimeShader;
 	var glitchyStuff:FlxRuntimeShader;
 	var chromAberration:FlxRuntimeShader;
 	var urFucked:FlxRuntimeShader;
-
 	var shaderTime:Float = 0;
-
+	
 	var gradient:FlxSprite;
-
 	public var loadCustom:Bool = true;
-
 	public static var freeplayMenuList = 0;
 
 	public function new(?loadCustom:Bool = false)
 	{
 		super();
-
 		this.loadCustom = loadCustom;
 	}
 
@@ -93,6 +85,7 @@ class FreeplaySongs extends MusicBeatState
 
 		super.create();
 
+		// Categories, Shaders, and Songlist Setup
 		switch (freeplayMenuList)
 		{
 			case 0:
@@ -179,7 +172,7 @@ class FreeplaySongs extends MusicBeatState
 					
 					if (GameData.highOnCrackLock == 'completed')
 					{
-						addSong('Delutrance', 3, 'mick-trance', FlxColor.fromRGB(60, 60, 60));
+						addSong('Delutrance', 3, 'mick-trance', FlxColor.fromRGB(60, 60, 60)); // It's still gonna foce ya to fully play it if you replay the song lmfao
 					}
 				}
 			case 2:
@@ -212,15 +205,6 @@ class FreeplaySongs extends MusicBeatState
 		}
 
 		mutex = new Mutex();
-
-		// load week data;
-		//Main.loadGameWeeks(false);
-
-		/**
-		 * Wanna add songs? they are on the Weeks Folder inside the assets folder
-		 * if you wish to hardcode your weeks, make sure to look through the Main State
-		**/
-
 		loadSongs(loadCustom); // set to false in case you don't want custom songs;
 
 		bg = new FlxSprite().loadGraphic(Paths.image('menus/base/menuDesat'));
@@ -271,76 +255,37 @@ class FreeplaySongs extends MusicBeatState
 		changeDiff();
 
 		if(!Init.trueSettings.get('Low Quality'))
-			{
-				var scratchStuff:FlxSprite = new FlxSprite();
-				scratchStuff.frames = Paths.getSparrowAtlas('filters/scratchShit');
-				scratchStuff.animation.addByPrefix('idle', 'scratch thing 1', 24, true);
-				scratchStuff.animation.play('idle');
-				scratchStuff.screenCenter();
-				scratchStuff.scale.x = 1.1;
-				scratchStuff.scale.y = 1.1;
-				add(scratchStuff);
+		{
+			var scratchStuff:FlxSprite = new FlxSprite();
+			scratchStuff.frames = Paths.getSparrowAtlas('filters/scratchShit');
+			scratchStuff.animation.addByPrefix('idle', 'scratch thing 1', 24, true);
+			scratchStuff.animation.play('idle');
+			scratchStuff.screenCenter();
+			scratchStuff.scale.x = 1.1;
+			scratchStuff.scale.y = 1.1;
+			add(scratchStuff);
 
-				var grain:FlxSprite = new FlxSprite();
-				grain.frames = Paths.getSparrowAtlas('filters/Grainshit');
-				grain.animation.addByPrefix('idle', 'grains 1', 24, true);
-				grain.animation.play('idle');
-				grain.screenCenter();
-				grain.scale.x = 1.1;
-				grain.scale.y = 1.1;
-				add(grain);
+			var grain:FlxSprite = new FlxSprite();
+			grain.frames = Paths.getSparrowAtlas('filters/Grainshit');
+			grain.animation.addByPrefix('idle', 'grains 1', 24, true);
+			grain.animation.play('idle');
+			grain.screenCenter();
+			grain.scale.x = 1.1;
+			grain.scale.y = 1.1;
+			add(grain);
 
-				gradient = new FlxSprite().loadGraphic(Paths.image('UI/gimmicks/gradient'));
-				gradient.screenCenter();
-	 add(gradient);
-			}
+			gradient = new FlxSprite().loadGraphic(Paths.image('UI/gimmicks/gradient'));
+			gradient.screenCenter();
+	 		if (freeplayMenuList != 2) add(gradient);
+		}
 	}
 
 	function loadSongs(includeCustom:Bool)
 	{
 		// load in all songs that exist in folder
 		var folderSongs:Array<String> = CoolUtil.returnAssetsLibrary('songs', 'assets');
-
 		try
 		{
-			/*for (i in 0...Main.weeks.length)
-			{
-				// is the week locked?;
-				if (checkProgression(Main.weeks[i]))
-					continue;
-
-				var gameWeek = Main.weeksMap.get(Main.weeks[i]);
-
-				var storedSongs:Array<String> = [];
-				var storedIcons:Array<String> = [];
-				var storedColors:Array<FlxColor> = [];
-
-				if (!gameWeek.hideOnFreeplay)
-				{
-					//
-					for (i in 0...gameWeek.songs.length)
-					{
-						var songInfo = gameWeek.songs[i];
-
-						storedSongs.push(songInfo.name);
-						storedIcons.push(songInfo.opponent);
-
-						//
-						if (songInfo.colors != null)
-							storedColors.push(FlxColor.fromRGB(songInfo.colors[0], songInfo.colors[1], songInfo.colors[2]));
-						else
-							storedColors.push(FlxColor.WHITE);
-					}
-
-					// actually add the week;
-					addWeek(storedSongs, i, storedIcons, storedColors);
-				}
-
-				// add week songs to the existing songs array;
-				for (j in storedSongs)
-					existingSongs.push(j.toLowerCase());
-			}*/
-
 			if (includeCustom)
 			{
 				for (i in folderSongs)
@@ -389,25 +334,6 @@ class FreeplaySongs extends MusicBeatState
 			existingDifficulties.push(coolDifficultyArray);
 		}
 	}
-
-	/*public function addWeek(songs:Array<String>, weekNum:Int, ?songCharacters:Array<String>, ?songColor:Array<FlxColor>)
-	{
-		if (songCharacters == null)
-			songCharacters = ['bf'];
-		if (songColor == null)
-			songColor = [FlxColor.WHITE];
-
-		var num:Array<Int> = [0, 0];
-		for (song in songs)
-		{
-			addSong(song, weekNum, songCharacters[num[0]], songColor[num[1]]);
-
-			if (songCharacters.length != 1)
-				num[0]++;
-			if (songColor.length != 1)
-				num[1]++;
-		}
-	}*/
 
 	override function update(elapsed:Float)
 	{
@@ -557,7 +483,6 @@ class FreeplaySongs extends MusicBeatState
 		mainColor = songs[curSelected].color;
 
 		// song switching stuffs
-
 		var bullShit:Int = 0;
 
 		if (freeplayMenuList != 2)
@@ -780,7 +705,6 @@ class FreeplaySongs extends MusicBeatState
 				}
 			});
 		}
-
 		songThread.sendMessage(curSelected);
 	}
 
