@@ -172,7 +172,7 @@ class FreeplaySongs extends MusicBeatState
 					
 					if (GameData.highOnCrackLock == 'completed')
 					{
-						addSong('Delutrance', 3, 'mick-trance', FlxColor.fromRGB(60, 60, 60)); // It's still gonna foce ya to fully play it if you replay the song lmfao
+						addSong('Delutrance', 3, 'mick-trance', FlxColor.fromRGB(60, 60, 60)); // It's still gonna force ya to fully play it if you replay the song lmfao
 					}
 				}
 			case 2:
