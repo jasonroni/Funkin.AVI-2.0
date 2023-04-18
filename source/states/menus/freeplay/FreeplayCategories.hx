@@ -28,35 +28,32 @@ using StringTools;
 class FreeplayCategories extends MusicBeatState {
 
 	var unfinishedText:FlxText;
-
     	var freeplayCats:Array<String>;
 	var fpCateBanners:FlxSprite;
 	var grpCats:FlxTypedGroup<Alphabet>;
 	var curSelected:Int = 0;
 	var noFreeplay:FlxText;
 	var BG:FlxSprite;
-
-	var defaultShader:FlxRuntimeShader;
 	var defaultShader2:FlxRuntimeShader;
 	
-    override function create(){
+   	 override function create(){
 
 		super.create();
 
-		defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
 		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
 		FlxG.camera.setFilters(
 			[
 				new openfl.filters.ShaderFilter(defaultShader2)
 			]);
 			
-		/*if(FPClientPrefs.episode2FPLock == 'unlocked' && FPClientPrefs.malfunctionLock == 'beaten' && FPClientPrefs.crossinLock == 'beaten' && FPClientPrefs.warLock == 'beaten' && FPClientPrefs.sinsLock == 'beaten' && FPClientPrefs.huntedLock == 'beaten' && FPClientPrefs.blessLock == 'beaten' && FPClientPrefs.scrappedLock == 'beaten' && FPClientPrefs.mercyLock == 'beaten' && FPClientPrefs.oldisolateLock == 'beaten' && FPClientPrefs.betaisolateLock == 'beaten') //omfg, I hate this, why can't it just work some other, much more SIMPLER way?
+		/*if (GameData.coversCategoryLock == 'unlocked')
 		{
-			if(ClientPrefs.language == "Spanish") freeplayCats = ['Legado', 'Jugar', 'Un Mensaje Para It', 'Cubiertas'];
-			else freeplayCats = ['Legacy', 'Episodes', 'Extras', 'Covers'];
-		}else*/ freeplayCats = ['Episodes', 'Extras', 'Legacy'];
+			freeplayCats = ['Episodes', 'Extras', 'Legacy', 'Covers']; // probably won't be used till V3 most likely unless Yama decides we add this category thing
+		}else*/ 
+	    		freeplayCats = ['Episodes', 'Extras', 'Legacy'];
+    		//}
 
-        BG = new FlxSprite().loadGraphic(Paths.image('menus/base/menuDesat'));
+        	BG = new FlxSprite().loadGraphic(Paths.image('menus/base/menuDesat'));
 		BG.color = FlxColor.GRAY;
 		BG.updateHitbox();
 		BG.screenCenter();
@@ -69,10 +66,11 @@ class FreeplayCategories extends MusicBeatState {
 
 		Application.current.window.title = "Funkin.avi - Freeplay: Category Menu";
 
-        grpCats = new FlxTypedGroup<Alphabet>();
+       		grpCats = new FlxTypedGroup<Alphabet>();
 		add(grpCats);
-        for (i in 0...freeplayCats.length)
-        {
+
+		for (i in 0...freeplayCats.length)
+		{
 			var catsText:Alphabet = new Alphabet(0, (70 * i) + 250, freeplayCats[i], true, false);
 			catsText.isMenuItem = true;
 			catsText.targetY = i;
@@ -124,8 +122,8 @@ class FreeplayCategories extends MusicBeatState {
 
 
         if ((Controls.getPressEvent("accept"))){
-            states.menus.freeplay.FreeplaySongs.freeplayMenuList = curSelected;
-			Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
+            	states.menus.freeplay.FreeplaySongs.freeplayMenuList = curSelected;
+		Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
         }
 
         super.update(elapsed);
