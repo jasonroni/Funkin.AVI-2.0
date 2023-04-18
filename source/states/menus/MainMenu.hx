@@ -46,7 +46,7 @@ class MainMenu extends MusicBeatState
 	var optionShit:Array<String> = ['story_mode', 'freeplay', 'credits', 'options'];
 
 	//HOWTODELUSIONAL
-	var theCode:Array<Dynamic> = [
+	var delutranceLmao:Array<Dynamic> = [
 		[FlxKey.H, FlxKey.H], 
 		[FlxKey.O, FlxKey.O], 
 		[FlxKey.W, FlxKey.W], 
@@ -62,6 +62,16 @@ class MainMenu extends MusicBeatState
 		[FlxKey.N, FlxKey.N],
 		[FlxKey.A, FlxKey.A],
 		[FlxKey.L, FlxKey.L]
+	];
+	
+	// the anniversary date of Funkin.avi lmao
+	var birthdayCode:Array<Dynamic> = [
+		[FlxKey.ZERO, FlxKey.NUMPADZERO],
+		[FlxKey.THREE, FlxKey.NUMPADTHREE],
+		[FlxKey.TWO, FlxKey.NUMPADTWO],
+		[FlxKey.ONE, FlxKey.NUMPADONE],
+		[FlxKey.TWO, FlxKey.NUMPADTWO],
+		[FlxKey.TWO, FlxKey.NUMPADTWO]
 	];
 	
 	var theCodeOrder:Int = 0;
@@ -152,7 +162,13 @@ class MainMenu extends MusicBeatState
 			"This mod was stressful to make, the organization was a mess lmao",
 			"Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi - Funkin.avi",
 			"Just like Domingo is constantly remaking Mickey's sprites, Dreupy is the Domingo of Delusional Recharts.",
-			"Type \"HOWTODELUSIONAL\" for a special surprise :)"
+			"Type \"HOWTODELUSIONAL\" for a special surprise :)",
+			"When did Funkin.avi start development?",
+			"I think one of the codes is a certain date",
+			"This mod was an idea that started on 03/21/22, pretty crazy, right?",
+			"Everyday is Muckney's Birthday",
+			"there is no message, go play some minecraft"
+			
 	];
 
 	var defaultShader:FlxRuntimeShader;
@@ -432,38 +448,58 @@ class MainMenu extends MusicBeatState
 		//you are 100% obligated lmao
 		if(openfl.Lib.application.window.title.contains("Type \"HOWTODELUSIONAL\" for a special surprise :)"))
 		{
-		if (FlxG.keys.justPressed.ANY) {
-			var hitCorrectKey:Bool = false;
-			for (i in 0...theCode[theCodeOrder].length) {
-				if (FlxG.keys.checkStatus(theCode[theCodeOrder][i], JUST_PRESSED))
-					hitCorrectKey = true;
-			}
-			if (hitCorrectKey) {
-				if (theCodeOrder == (theCode.length - 1)) {
-					PlayState.gameplayMode = FREEPLAY;
-					PlayState.storyDifficulty = 0;
-					PlayState.SONG = Song.loadFromJson('delutrance-hard', 'delutrance');
-					PlayState.campaignScore = 0;
-					PlayState.campaingMisses = 0;
-			new FlxTimer().start(0.25, function(tmr:FlxTimer)
-			{
-				Main.switchState(this, new states.PlayState());
-				FlxG.sound.music.volume = 0;
-			});
+			if (FlxG.keys.justPressed.ANY) {
+				var hitCorrectKey:Bool = false;
+				for (i in 0...delutranceLmao[theCodeOrder].length) {
+					if (FlxG.keys.checkStatus(delutranceLmao[theCodeOrder][i], JUST_PRESSED))
+						hitCorrectKey = true;
+				}
+				if (hitCorrectKey) {
+					if (theCodeOrder == (delutranceLmao.length - 1)) {
+						PlayState.gameplayMode = FREEPLAY;
+						PlayState.storyDifficulty = 0;
+						PlayState.SONG = Song.loadFromJson('delutrance-hard', 'delutrance');
+						PlayState.campaignScore = 0;
+						PlayState.campaingMisses = 0;
+						new FlxTimer().start(0.25, function(tmr:FlxTimer)
+						{
+							Main.switchState(this, new states.PlayState());
+							FlxG.sound.music.volume = 0;
+						});
+					} else {
+						theCodeOrder++;
+					}
 				} else {
-					theCodeOrder++;
-				}
-			} else {
-				theCodeOrder = 0;
-				for (i in 0...theCode[0].length) {
-					if (FlxG.keys.checkStatus(theCode[0][i], JUST_PRESSED))
-						theCodeOrder = 1;
+					theCodeOrder = 0;
+					for (i in 0...theCode[0].length) {
+						if (FlxG.keys.checkStatus(delutranceLmao[0][i], JUST_PRESSED))
+							theCodeOrder = 1;
+					}
 				}
 			}
-		}
-		} /* else {
-                   // something here
-                }*/
+		} else {
+			if (FlxG.keys.justPressed.ANY) {
+				var hitCorrectKey:Bool = false;
+				for (i in 0...birthdayCode[theCodeOrder].length) {
+					if (FlxG.keys.checkStatus(birthdayCode[theCodeOrder][i], JUST_PRESSED))
+						hitCorrectKey = true;
+				}
+				if (hitCorrectKey) {
+					if (theCodeOrder == (birthdayCode.length - 1)) {
+						states.menus.freeplay.FreeplaySong.freeplayMenuList = 3; //void lol
+						Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
+					} else {
+						theCodeOrder++;
+					}
+				} else {
+					theCodeOrder = 0;
+					for (i in 0...theCode[0].length) {
+						if (FlxG.keys.checkStatus(birthdayCode[0][i], JUST_PRESSED))
+							theCodeOrder = 1;
+					}
+				}
+			}
+                }
 
 		if ((controlArray.contains(true)) && (!selectedSomethin))
 		{
