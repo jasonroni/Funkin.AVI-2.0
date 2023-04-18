@@ -427,6 +427,11 @@ class MainMenu extends MusicBeatState
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 7.5, 0, 1);
 		//camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 
+		1)];
+
+		//you are 100% obligated lmao
+		if(openfl.Lib.application.window.title.contains("Type \"HOWTODELUSIONAL\" for a special surprise :)"))
+		{
 		if (FlxG.keys.justPressed.ANY) {
 			var hitCorrectKey:Bool = false;
 			for (i in 0...theCode[theCodeOrder].length) {
@@ -456,6 +461,9 @@ class MainMenu extends MusicBeatState
 				}
 			}
 		}
+		} /* else {
+                   // something here
+                }*/
 
 		if ((controlArray.contains(true)) && (!selectedSomethin))
 		{
@@ -466,7 +474,7 @@ class MainMenu extends MusicBeatState
 				if (controlArray[i] == true)
 				{
 					/*
-						i > 1 is single press
+						i > 1 is single pressá
 						up is 2, down is 3
 					 */
 
