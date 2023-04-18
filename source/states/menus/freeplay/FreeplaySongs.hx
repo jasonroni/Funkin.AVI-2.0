@@ -164,11 +164,10 @@ class FreeplaySongs extends MusicBeatState
 						addSong('Malfunction', 3, (GameData.malfunctionLock != 'unlocked' && GameData.malfunctionLock != 'beaten' ? 'untouched-song' : 'glitched-mickey-new-pixel'), FlxColor.fromRGB(60, 60, 60)); // Because Malfunction is getting some major upgrades later
 					}
 					
-					// Not yet muckney, not yet...
-					//if (GameData.muckneyLock == "completed")
-					//{
+					if (GameData.muckneyLock == "completed")
+					{
 						addSong('Birthday', 3, 'muckney', FlxColor.fromRGB(60, 60, 60));
-					//}
+					}
 					
 					if (GameData.highOnCrackLock == 'completed')
 					{
@@ -201,6 +200,19 @@ class FreeplaySongs extends MusicBeatState
 						addSong('Cycled-Sins-Legacy', 3, (GameData.legacySLock != 'unlocked' && GameData.legacySLock != 'beaten' ? 'untouched-song' : 'relapse-pixel'), FlxColor.fromRGB(60, 60, 60));
 						addSong('Malfunction-Legacy', 3, (GameData.legacyMLock != 'unlocked' && GameData.legacyMLock != 'beaten' ? 'untouched-song' : 'glitched-mickey-legacy-pixel'), FlxColor.fromRGB(60, 60, 60));
 					}
+				}
+			case 3:
+				{
+					lime.app.Application.current.window.title = "Funkin.avi - Freeplay: ???";
+					
+					chromAberration = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/aberration.frag'), null, 150);
+					chromAberration.setFloat('aberration', 0.12);
+					chromAberration.setFloat('effectTime', 0.24);
+					
+					defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
+					defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
+					
+					addSong('Birthday', 3, 'muckney', FlxColor.BLACK);
 				}
 		}
 
@@ -341,21 +353,27 @@ class FreeplaySongs extends MusicBeatState
 
 		if (!Init.trueSettings.get('Disable Screen Shaders')) // bye bye lag
 		{
-			if (freeplayMenuList != 2)
+			switch (freeplayMenuList)
 			{
-				shaderTime += elapsed;
-					
-				if (freeplayMenuList == 1)
-				{
-					glitchyStuff.setFloat('time', shaderTime);
-					glitchyStuff.setFloat('prob', shaderTime);
-				}
-		
-				mercyShader.setFloat('time', shaderTime);
-				mercyShader2.setFloat('time', shaderTime);
-		
-				smilesShader.setFloat('iTime', shaderTime);
-				smilesShader.setFloat('uTime', shaderTime);
+				case 2 | 3:
+					{
+						//nothing
+					}
+				default:
+					{
+						shaderTime += elapsed;
+
+						if (freeplayMenuList == 1)
+						{
+							glitchyStuff.setFloat('time', shaderTime);
+							glitchyStuff.setFloat('prob', shaderTime);
+						}
+						mercyShader.setFloat('time', shaderTime);
+						mercyShader2.setFloat('time', shaderTime);
+
+						smilesShader.setFloat('iTime', shaderTime);
+						smilesShader.setFloat('uTime', shaderTime);
+					}
 			}
 		}
 
@@ -663,12 +681,34 @@ class FreeplaySongs extends MusicBeatState
 									new ShaderFilter(defaultShader2)
 								]);
 						}
+					
+					case 'birthday':
+						if (freeplayMenuList == 3)
+						{
+							if (!Init.trueSettings.get('Low Quality'))
+							{
+								FlxG.camera.setFilters(
+								[
+									new ShaderFilter(defaultShader2)
+								]);
+							}
+							else
+							{
+								FlxG.camera.setFilters(
+								[
+									new ShaderFilter(defaultShader),
+									new ShaderFilter(chromAberration),
+									new ShaderFilter(defaultShader2)
+								]);
+							}
+						}
 
 					default:
 						if(!Init.trueSettings.get('Low Quality'))
 							FlxG.camera.setFilters([new ShaderFilter(defaultShader), new ShaderFilter(defaultShader2)]);
 						else
 							FlxG.camera.setFilters([new ShaderFilter(defaultShader2)]);
+						FlxG.camera.shake(0.01, 0.001);
 				}
 			}
 		}
