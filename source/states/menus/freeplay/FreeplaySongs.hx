@@ -58,7 +58,6 @@ class FreeplaySongs extends MusicBeatState
 	var camGame:FlxCamera; // Main camera
 	var camHUD:FlxCamera; // Shaders and stuff
 
-	var defaultShader:FlxRuntimeShader;
 	var defaultShader2:FlxRuntimeShader;
 	var smilesShader:FlxRuntimeShader;
 	var mercyShader:FlxRuntimeShader;
@@ -93,29 +92,32 @@ class FreeplaySongs extends MusicBeatState
 					lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Episode Songs";
 
 					smilesShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
-					defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
 					defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
 					mercyShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/vhs.frag'), null, 130);
 					mercyShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
+					chromAberration = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/aberration.frag'), null, 150);
+					chromAberration.setFloat('aberration', 0.12);
+					chromAberration.setFloat('effectTime', 0.24);
 
 					if (GameData.episode1FPLock == 'unlocked')
 					{
+						addSong('Devilish-Deal', 3, 'mickey-new', FlxColor.fromRGB(65, 88, 94));
 						addSong('Isolated', 3, 'mickey-new', FlxColor.fromRGB(60, 60, 60));
-						addSong('Lunacy', 3, 'lunamick-new', FlxColor.fromRGB(60, 60, 60));
-						addSong('Delusional', 3, 'insanemick', FlxColor.fromRGB(60, 60, 60));
+						addSong('Lunacy', 3, 'lunamick-new', FlxColor.fromRGB(69, 54, 54));
+						addSong('Delusional', 3, 'insanemick', FlxColor.fromRGB(79, 32, 32));
 					}
 
 					if (GameData.episodeSFPLock == 'unlocked')
 					{
-						addSong('Twisted-Grins', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
-						addSong('Resentment', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
-						addSong('Mortiferum-Risus', 3, 'mr-smiles', FlxColor.fromRGB(115, 86, 86));
+						addSong('Twisted-Grins', 3, 'mr-smiles', FlxColor.fromRGB(54, 38, 38));
+						addSong('Resentment', 3, 'mr-smiles', FlxColor.fromRGB(99, 66, 66));
+						addSong('Mortiferum-Risus', 3, 'mr-smiles', FlxColor.fromRGB(143, 91, 91));
 					}
 
 					if (GameData.episodeWFPLock == 'unlocked')
 					{
-						addSong('Mercy', 3, 'walt', FlxColor.fromRGB(153, 148, 112));
-						addSong('Affliction', 3, 'walt', FlxColor.fromRGB(153, 148, 112));
+						addSong('Mercy', 3, 'walt', FlxColor.fromRGB(176, 169, 116));
+						addSong('Affliction', 3, 'walt', FlxColor.fromRGB(66, 63, 36));
 					}
 				}
 			case 1: // Extras Menu
@@ -123,55 +125,48 @@ class FreeplaySongs extends MusicBeatState
 					lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Extra Songs";
 					
 					getBlessed = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/bloom.frag'), null, 120);
-
 					glitchyStuff = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/vignetteGlitch.frag'), null, 130);
-
 					chromAberration = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/aberration.frag'), null, 150);
 					chromAberration.setFloat('aberration', 0.12);
 					chromAberration.setFloat('effectTime', 0.24);
-
 					mercyShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/vhs.frag'), null, 130);
 					mercyShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
-
 					urFucked = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/gaussian.frag'), null, 150);
 					urFucked.setFloat('amount', 1);
-
 					smilesShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
-
-					defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
 					defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
 
 					if (GameData.episode1FPLock == 'unlocked')
 					{
-						addSong('Hunted', 3, (GameData.huntedLock != 'unlocked' && GameData.huntedLock != 'beaten' ? 'untouched-song' : 'goofy-new'), FlxColor.fromRGB(60, 60, 60));
+						addSong('Hunted', 3, (GameData.huntedLock != 'unlocked' && GameData.huntedLock != 'beaten' ? 'untouched-song': 'goofy-new'), FlxColor.fromRGB(94, 28, 35));
 						addSong('Isolated-Old', 3, (GameData.oldisolateLock != 'unlocked' && GameData.oldisolateLock != 'beaten' ? 'untouched-song' : 'mickey-legacy'), FlxColor.fromRGB(60, 60, 60));
 						addSong('Isolated-Beta', 3, (GameData.betaisolateLock != 'unlocked' && GameData.betaisolateLock != 'beaten' ? 'untouched-song' : 'mickey-legacy'), FlxColor.fromRGB(60, 60, 60));
-						addSong('War-Dilemma', 3, (GameData.warLock != 'unlocked' && GameData.warLock != 'beaten' ? 'untouched-song' : 'placeholder'), FlxColor.fromRGB(60, 60, 60));
+						addSong('War-Dilemma', 3, (GameData.warLock != 'unlocked' && GameData.warLock != 'beaten' ? 'untouched-song' : 'placeholder'), FlxColor.fromRGB(204, 41, 103));
 					}
 						
 					if (GameData.episodeSFPLock == 'unlocked')
 					{
-						addSong('Laugh-Track', 3, (GameData.rickyLock != 'unlocked' && GameData.rickyLock != 'beaten' ? 'untouched-song' : 'placeholder'), FlxColor.fromRGB(60, 60, 60));
-						addSong('Bless', 3, (GameData.blessLock != 'unlocked' && GameData.blessLock != 'beaten' ? 'untouched-song' : 'white-noise'), FlxColor.fromRGB(255, 255, 255));
+						addSong('Laugh-Track', 3, (GameData.rickyLock != 'unlocked' && GameData.rickyLock != 'beaten' ? 'untouched-song' : 'placeholder'), FlxColor.fromRGB(181, 0, 0));
+						addSong('Bless', 3, (GameData.blessLock != 'unlocked' && GameData.blessLock != 'beaten' ? 'untouched-song' : 'white-noise'), FlxColor.WHITE);
 						addSong('Scrapped', 3, (GameData.scrappedLock != 'unlocked' && GameData.scrappedLock != 'beaten' ? 'untouched-song' : 'rs'), FlxColor.fromRGB(0, 0, 0));
-						addSong("Don't-Cross!", 3, (GameData.crossinLock != 'unlocked' && GameData.crossinLock != 'beaten' ? 'untouched-song' : 'dctl-mickey'), FlxColor.fromRGB(60, 60, 60));
+						addSong("Don't-Cross!", 3, (GameData.crossinLock != 'unlocked' && GameData.crossinLock != 'beaten' ? 'untouched-song' : 'dctl-mickey'), FlxColor.fromRGB(255, 0, 0));
 					}
 						
 					if (GameData.episodeWFPLock == 'unlocked')
 					{
-						addSong('Neglection', 3, (GameData.pnmLock != 'unlocked' && GameData.pnmLock != 'beaten' ? 'untouched-song' : 'pnm'), FlxColor.fromRGB(60, 60, 60));
-						addSong('Cycled-Sins', 3, (GameData.sinsLock != 'unlocked' && GameData.sinsLock != 'beaten' ? 'untouched-song' : 'relapse-pixel'), FlxColor.fromRGB(60, 60, 60)); //messing with the saves for this later
-						addSong('Malfunction', 3, (GameData.malfunctionLock != 'unlocked' && GameData.malfunctionLock != 'beaten' ? 'untouched-song' : 'glitched-mickey-new-pixel'), FlxColor.fromRGB(60, 60, 60)); // Because Malfunction is getting some major upgrades later
+						addSong('Neglection', 3, (GameData.pnmLock != 'unlocked' && GameData.pnmLock != 'beaten' ? 'untouched-song' : 'pnm'), FlxColor.fromRGB(117, 86, 27));
+						addSong('Cycled-Sins', 3, (GameData.sinsLock != 'unlocked' && GameData.sinsLock != 'beaten' ? 'untouched-song' : 'relapse-pixel'), FlxColor.fromRGB(105, 30, 30)); //messing with the saves for this later
+						addSong('Malfunction', 3, (GameData.malfunctionLock != 'unlocked' && GameData.malfunctionLock != 'beaten' ? 'untouched-song' : 'glitched-mickey-new-pixel'), FlxColor.fromRGB(150, 149, 186)); // Because Malfunction is getting some major upgrades later
 					}
 					
 					if (GameData.muckneyLock == 'beaten')
 					{
-						addSong('Birthday', 3, 'muckney', FlxColor.fromRGB(60, 60, 60));
+						addSong('Birthday', 3, 'muckney', FlxColor.fromRGB(84, 255, 181));
 					}
 					
 					if (GameData.highOnCrackLock == 'completed')
 					{
-						addSong('Delutrance', 3, 'mick-trance', FlxColor.fromRGB(60, 60, 60)); // It's still gonna force ya to fully play it if you replay the song lmfao
+						addSong('Delutrance', 3, 'mick-trance', FlxColor.fromRGB(0, 16, 245)); // It's still gonna force ya to fully play it if you replay the song lmfao
 					}
 				}
 			case 2: // Legacy Menu
@@ -183,22 +178,22 @@ class FreeplaySongs extends MusicBeatState
 						addSong('Isolated-Legacy', 3, (GameData.legacyILock != 'unlocked' && GameData.legacyILock != 'beaten' ? 'untouched-song' : 'mickey-legacy'), FlxColor.fromRGB(60, 60, 60));
 						addSong('Lunacy-Legacy', 3, (GameData.legacyLLock != 'unlocked' && GameData.legacyLLock != 'beaten' ? 'untouched-song' : 'mickey-lunacy-legacy'), FlxColor.fromRGB(60, 60, 60));
 						addSong('Delusional-Legacy', 3, (GameData.legacyDLock != 'unlocked' && GameData.legacyDLock != 'beaten' ? 'untouched-song' : 'mickey-delusional-unused'), FlxColor.fromRGB(60, 60, 60));
-						addSong('hunted-legacy', 3, (GameData.legacyHLock != 'unlocked' && GameData.legacyHLock != 'beaten' ? 'untouched-song' : 'goofy'), FlxColor.fromRGB(60, 60, 60));
+						addSong('hunted-legacy', 3, (GameData.legacyHLock != 'unlocked' && GameData.legacyHLock != 'beaten' ? 'untouched-song' : 'goofy'), FlxColor.fromRGB(0, 60, 40));
 					}
 						
 					if (GameData.episodeSFPLock == 'unlocked')
 					{
-						addSong('Twisted-Grins-Legacy', 3, (GameData.legacyTLock != 'unlocked' && GameData.legacyTLock != 'beaten' ? 'untouched-song' : 'mr-smiles'), FlxColor.fromRGB(60, 60, 60));
-						addSong('Resentment-Legacy', 3, (GameData.legacyRLock != 'unlocked' && GameData.legacyRLock != 'beaten' ? 'untouched-song' : 'mr-smiles'), FlxColor.fromRGB(60, 60, 60));
-						addSong('Bless-Legacy', 3, (GameData.legacyBLock != 'unlocked' && GameData.legacyBLock != 'beaten' ? 'untouched-song' : 'white-noise'), FlxColor.fromRGB(60, 60, 60));
+						addSong('Twisted-Grins-Legacy', 3, (GameData.legacyTLock != 'unlocked' && GameData.legacyTLock != 'beaten' ? 'untouched-song' : 'mr-smiles'), FlxColor.fromRGB(115, 86, 86));
+						addSong('Resentment-Legacy', 3, (GameData.legacyRLock != 'unlocked' && GameData.legacyRLock != 'beaten' ? 'untouched-song' : 'mr-smiles'), FlxColor.fromRGB(115, 86, 86));
+						addSong('Bless-Legacy', 3, (GameData.legacyBLock != 'unlocked' && GameData.legacyBLock != 'beaten' ? 'untouched-song' : 'white-noise'), FlxColor.WHITE);
 					}
 						
 					if (GameData.episodeWFPLock == 'unlocked')
 					{
-						addSong('Mercy-Legacy', 3, (GameData.legacyWLock != 'unlocked' && GameData.legacyWLock != 'beaten' ? 'untouched-song' : 'walt'), FlxColor.fromRGB(60, 60, 60));
-						addSong('Neglection-Legacy', 3, (GameData.legacyNLock != 'unlocked' && GameData.legacyNLock != 'beaten' ? 'untouched-song' : 'pnm'), FlxColor.fromRGB(60, 60, 60));
-						addSong('Cycled-Sins-Legacy', 3, (GameData.legacySLock != 'unlocked' && GameData.legacySLock != 'beaten' ? 'untouched-song' : 'relapse-pixel'), FlxColor.fromRGB(60, 60, 60));
-						addSong('Malfunction-Legacy', 3, (GameData.legacyMLock != 'unlocked' && GameData.legacyMLock != 'beaten' ? 'untouched-song' : 'glitched-mickey-legacy-pixel'), FlxColor.fromRGB(60, 60, 60));
+						addSong('Mercy-Legacy', 3, (GameData.legacyWLock != 'unlocked' && GameData.legacyWLock != 'beaten' ? 'untouched-song' : 'walt'), FlxColor.fromRGB(153, 148, 112));
+						addSong('Neglection-Legacy', 3, (GameData.legacyNLock != 'unlocked' && GameData.legacyNLock != 'beaten' ? 'untouched-song' : 'pnm'), FlxColor.CYAN);
+						addSong('Cycled-Sins-Legacy', 3, (GameData.legacySLock != 'unlocked' && GameData.legacySLock != 'beaten' ? 'untouched-song' : 'relapse-pixel'), FlxColor.fromRGB(115, 86, 86));
+						addSong('Malfunction-Legacy', 3, (GameData.legacyMLock != 'unlocked' && GameData.legacyMLock != 'beaten' ? 'untouched-song' : 'glitched-mickey-legacy-pixel'), FlxColor.fromRGB(140, 120, 180));
 					}
 				}
 			case 3: // Void/Muckney Hidden Song Menu
@@ -207,9 +202,7 @@ class FreeplaySongs extends MusicBeatState
 					
 					chromAberration = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/aberration.frag'), null, 150);
 					chromAberration.setFloat('aberration', 0.12);
-					chromAberration.setFloat('effectTime', 0.24);
-					
-					defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
+					chromAberration.setFloat('effectTime', 0.24);				
 					defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
 					
 					addSong('Birthday', 3, 'muckney', FlxColor.BLACK);
@@ -648,13 +641,11 @@ class FreeplaySongs extends MusicBeatState
 						if(Init.trueSettings.get('Low Quality')) {
 							FlxG.camera.setFilters(
 								[
-									new ShaderFilter(defaultShader),
 									new ShaderFilter(defaultShader2)
 								]);
 						} else {
 							FlxG.camera.setFilters(
 								[
-									new ShaderFilter(defaultShader),
 									new ShaderFilter(chromAberration),
 									new ShaderFilter(mercyShader2),
 									new ShaderFilter(defaultShader2)
@@ -696,7 +687,6 @@ class FreeplaySongs extends MusicBeatState
 							{
 								FlxG.camera.setFilters(
 								[
-									new ShaderFilter(defaultShader),
 									new ShaderFilter(chromAberration),
 									new ShaderFilter(defaultShader2)
 								]);
@@ -704,18 +694,19 @@ class FreeplaySongs extends MusicBeatState
 						}
 						else
 						{
-							if(!Init.trueSettings.get('Low Quality'))
-								FlxG.camera.setFilters([new ShaderFilter(defaultShader), new ShaderFilter(defaultShader2)]);
-							else
-								FlxG.camera.setFilters([new ShaderFilter(defaultShader2)]);
+							FlxG.camera.setFilters([new ShaderFilter(defaultShader2)]);
 							FlxG.camera.shake(0.01, 0.001);
 						}
-
-					default:
+					
+					case 'devilish-deal' | 'delusional':
 						if(!Init.trueSettings.get('Low Quality'))
-							FlxG.camera.setFilters([new ShaderFilter(defaultShader), new ShaderFilter(defaultShader2)]);
+							FlxG.camera.setFilters([new ShaderFilter(chromAberration), new ShaderFilter(defaultShader2)]);
 						else
 							FlxG.camera.setFilters([new ShaderFilter(defaultShader2)]);
+						FlxG.camera.shake(0.01, 0.001);
+
+					default:
+						FlxG.camera.setFilters([new ShaderFilter(defaultShader2)]);
 						FlxG.camera.shake(0.01, 0.001);
 				}
 			}
@@ -776,6 +767,10 @@ class FreeplaySongs extends MusicBeatState
 			case 2:
 				{
 					Discord.changePresence('CHOOSING A SONG', 'Freeplay Menu (LEGACY)' + mySong, 'icon', 'disc-player');
+				}
+			case 3:
+				{
+					Discord.changePresence('???', 'Freeplay Menu (???)', 'icon', 'birthday-hat');
 				}
 		}
 		#end

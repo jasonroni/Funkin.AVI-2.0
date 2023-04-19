@@ -311,7 +311,7 @@ class PauseSubstate extends MusicBeatSubstate
 						else
 							switch (CoolUtil.dashToSpace(PlayState.SONG.song))
 							{
-								case 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus' | 'Mercy' | 'Affliction':
+								case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus' | 'Mercy' | 'Affliction':
 									states.menus.freeplay.FreeplaySongs.freeplayMenuList = 0;
 									Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
 								case 'Birthday':
