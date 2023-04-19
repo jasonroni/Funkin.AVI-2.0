@@ -259,6 +259,13 @@ class PlayState extends MusicBeatState
 	var BGFlashTween:FlxTween;
 
 	var fade:FlxSprite;
+	
+	// for Tweening shaders and shit later
+	var chromZoomShader:MalfunctionNewEffect;
+	var chromNormalShader:MalfunctionLegacyEffect;
+	
+	var chromZoomTween:FlxTween;
+	var chromNormalTween:FlxTween;
 
 	function loadWindowTitleData()
 	{
@@ -964,13 +971,28 @@ class PlayState extends MusicBeatState
 		// Cleaner Initialization for the mechanics and note visibility stuff
 		switch (SONG.song)
 		{
+			case 'Devilish Deal':
+				// Moves Player Notes on Opponent Side
+				strumLines.members[0].visible = false;
+				bfStrums.receptors.members[0].x = 75;
+				bfStrums.receptors.members[1].x = 185;
+				bfStrums.receptors.members[2].x = 300;
+				bfStrums.receptors.members[3].x = 415;
+				
+				camGame.alpha = 0.001;
+				camHUD.alpha = 0.001;
+				for (i in strumHUD)
+				{
+					i.alpha = 0.001; // 0.001 doesn't cause lag when setting alpha above 0 for some reason, yet it's still invisible
+				}
+				
 			case 'Isolated' | 'Lunacy':
 				for (i in strumHUD)
 				{
-					i.alpha = 0;
+					i.alpha = 0.001;
 				}
-				camGame.alpha = 0;
-				camHUD.alpha = 0;
+				camGame.alpha = 0.001;
+				camHUD.alpha = 0.001;
 				
 			case 'Mercy Legacy': 
 				if (!Init.trueSettings.get('Disable Mechanics'))
@@ -985,10 +1007,10 @@ class PlayState extends MusicBeatState
 			case 'Malfunction':
 				for (i in strumHUD)
 					{
-						i.alpha = 0;
+						i.alpha = 0.001;
 					}
-					camGame.alpha = 0;
-					camHUD.alpha = 0;
+					camGame.alpha = 0.001;
+					camHUD.alpha = 0.001;
 				crashLivesCounter += 45;
 		}
 
@@ -2954,6 +2976,18 @@ class PlayState extends MusicBeatState
 		// Mechanics we don't want peeps to actually modify when snooping through the release files
 		switch (SONG.song)
 		{
+			case 'Devilish Deal':
+				switch (curBeat)
+				{
+					case 8: FlxTween.tween(camGame, {alpha: 1}, 4.5, {ease: FlxEase.sineOut});
+					
+					case 30:
+						FlxTween.tween(camHUD, {alpha: 1}, 2, {ease: FlxEase.sineOut});
+						for (i in strumHUD)
+						{
+							FlxTween.tween(i, {alpha: 1}, 2, {ease: FlxEase.sineOut});
+						}
+				}
 			case 'Isolated':
 				switch (curBeat)
 				{
@@ -3819,7 +3853,7 @@ class PlayState extends MusicBeatState
 			case 'cycled sins':
 				FlxTween.tween(cycledSinsHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 				
-			case 'isolated' | 'lunacy' | 'delusional':
+			case 'devilish deal' | 'isolated' | 'lunacy' | 'delusional':
 				FlxTween.tween(episode1HUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 
 			default:
