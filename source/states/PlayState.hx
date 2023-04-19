@@ -973,11 +973,14 @@ class PlayState extends MusicBeatState
 		{
 			case 'Devilish Deal':
 				// Moves Player Notes on Opponent Side
-				strumLines.members[0].visible = false;
-				bfStrums.receptors.members[0].x = 75;
-				bfStrums.receptors.members[1].x = 185;
-				bfStrums.receptors.members[2].x = 300;
-				bfStrums.receptors.members[3].x = 415;
+				if (!Init.trueSettings.get('Centered Notefield'))
+				{
+					strumLines.members[0].visible = false;
+					bfStrums.receptors.members[0].x = 75;
+					bfStrums.receptors.members[1].x = 185;
+					bfStrums.receptors.members[2].x = 300;
+					bfStrums.receptors.members[3].x = 415;
+				}
 				
 				camGame.alpha = 0.001;
 				camHUD.alpha = 0.001;
