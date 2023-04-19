@@ -274,7 +274,7 @@ class PlayState extends MusicBeatState
 				case STORY:
 					switch (SONG.song)
 					{
-						case 'Isolated' | 'Lunacy' | 'Delusional':
+						case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional':
 							Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
 						
 						case 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus':
