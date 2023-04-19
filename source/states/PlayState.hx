@@ -344,7 +344,7 @@ class PlayState extends MusicBeatState
 				if (FlxG.save.data.rickyLock != 'beaten')
 					GameData.rickyLock = 'unlocked';
 			case 'birthday':
-				if (FlxG.save.data.muckneyLock != "completed")
+				if (FlxG.save.data.muckneyLock != 'beaten')
 					GameData.muckneyLock = "voidIsOpen";
 			case 'mercy legacy':
 				if (FlxG.save.data.legacyWLock != 'beaten')
@@ -404,7 +404,7 @@ class PlayState extends MusicBeatState
 			case 'scrapped': GameData.scrappedLock = 'beaten';
 			case 'bless': GameData.blessLock = 'beaten';
 			case 'laugh track': GameData.rickyLock = 'beaten';
-			case 'birthday': GameData.muckneyLock = "completed";
+			case 'birthday': GameData.muckneyLock = 'beaten';
 			case 'mercy legacy': GameData.legacyWLock = 'beaten';
 			case 'isolated legacy': GameData.legacyILock = 'beaten';
 			case 'lunacy legacy': GameData.legacyLLock = 'beaten';

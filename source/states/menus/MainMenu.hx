@@ -75,6 +75,7 @@ class MainMenu extends MusicBeatState
 	];
 	
 	var theCodeOrder:Int = 0;
+	var theBirthdayCode:Int = 0;
 
 	var eyes:FlxSprite;
 	var floor:FlxSprite;
@@ -443,17 +444,21 @@ class MainMenu extends MusicBeatState
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 7.5, 0, 1);
 		//camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 
-		1)];
-
 		//you are 100% obligated lmao
-		if(openfl.Lib.application.window.title.contains("Type \"HOWTODELUSIONAL\" for a special surprise :)"))
-		{
 			if (FlxG.keys.justPressed.ANY) {
 				var hitCorrectKey:Bool = false;
+				var birthdayKey:Bool = false;
+
 				for (i in 0...delutranceLmao[theCodeOrder].length) {
 					if (FlxG.keys.checkStatus(delutranceLmao[theCodeOrder][i], JUST_PRESSED))
 						hitCorrectKey = true;
 				}
+
+				for (b in 0...birthdayCode[theBirthdayCode].length) {
+					if (FlxG.keys.checkStatus(birthdayCode[theBirthdayCode][b], JUST_PRESSED))
+						birthdayKey = true;
+				}
+
 				if (hitCorrectKey) {
 					if (theCodeOrder == (delutranceLmao.length - 1)) {
 						PlayState.gameplayMode = FREEPLAY;
@@ -471,35 +476,27 @@ class MainMenu extends MusicBeatState
 					}
 				} else {
 					theCodeOrder = 0;
-					for (i in 0...theCode[0].length) {
+					for (i in 0...delutranceLmao[0].length) {
 						if (FlxG.keys.checkStatus(delutranceLmao[0][i], JUST_PRESSED))
 							theCodeOrder = 1;
 					}
 				}
-			}
-		} else {
-			if (FlxG.keys.justPressed.ANY) {
-				var hitCorrectKey:Bool = false;
-				for (i in 0...birthdayCode[theCodeOrder].length) {
-					if (FlxG.keys.checkStatus(birthdayCode[theCodeOrder][i], JUST_PRESSED))
-						hitCorrectKey = true;
-				}
-				if (hitCorrectKey) {
-					if (theCodeOrder == (birthdayCode.length - 1)) {
-						states.menus.freeplay.FreeplaySong.freeplayMenuList = 3; //void lol
+
+				if (birthdayKey) {
+					if (theBirthdayCode == (birthdayCode.length - 1)) {
+						states.menus.freeplay.FreeplaySongs.freeplayMenuList = 3; //void lol
 						Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
 					} else {
-						theCodeOrder++;
+						theBirthdayCode++;
 					}
 				} else {
-					theCodeOrder = 0;
-					for (i in 0...theCode[0].length) {
-						if (FlxG.keys.checkStatus(birthdayCode[0][i], JUST_PRESSED))
-							theCodeOrder = 1;
+					theBirthdayCode = 0;
+					for (b in 0...birthdayCode[0].length) {
+						if (FlxG.keys.checkStatus(birthdayCode[0][b], JUST_PRESSED))
+							theBirthdayCode = 1;
 					}
 				}
 			}
-                }
 
 		if ((controlArray.contains(true)) && (!selectedSomethin))
 		{
