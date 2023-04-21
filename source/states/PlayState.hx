@@ -239,6 +239,12 @@ class PlayState extends MusicBeatState
 
 	// troll
 	private var isDebugMode:Bool = false;
+
+	// lyrics stuff
+	var lyricsIcon:HealthIcon;
+	var lyrics:FlxText;
+	var lyricsTween:FlxTween;
+	var iconTween:FlxTween;
 	
 	// Malfunction Gimmick
 	var crashLives:FlxText;
@@ -804,27 +810,6 @@ class PlayState extends MusicBeatState
 
 		// add the dialogue UI
 		FlxG.cameras.add(dialogueHUD, false);
-		
-		if (Init.trueSettings.get('Display Song Cards'))
-		{
-			songCard = new SongCard();
-			add(songCard);
-			songCard.cameras = [camAlt];
-			if (gameplayMode == FREEPLAY)
-			{
-				songCard.playCardAnim(0.08);
-			}
-			else if (gameplayMode == STORY)
-			{
-				switch (SONG.song)
-				{
-					case 'Isolated' | 'Lunacy' | 'Delusional':
-						// do nothing, it's already set under stepHit()
-					default:
-						songCard.playCardAnim(0.08);
-				}
-			}
-		}
 
 		uiHUD = new ClassHUD();
 		uiHUD.alpha = 0;
@@ -943,6 +928,27 @@ class PlayState extends MusicBeatState
 		waltScreenThing.scrollFactor.set();
 		waltScreenThing.cameras = [camAlt];
 		waltScreenThing.alpha = 0;
+
+		if (Init.trueSettings.get('Display Song Cards'))
+		{
+			songCard = new SongCard();
+			add(songCard);
+			songCard.cameras = [camAlt];
+			if (gameplayMode == FREEPLAY)
+			{
+				songCard.playCardAnim(0.08);
+			}
+			else if (gameplayMode == STORY)
+			{
+				switch (SONG.song)
+				{
+					case 'Isolated' | 'Lunacy' | 'Delusional':
+						// do nothing, it's already set under stepHit()
+					default:
+						songCard.playCardAnim(0.08);
+				}
+			}
+		}
 		
 		var waltInstructionsMain:FlxText = new FlxText(370, 500, 0, "Take Advantage of the SPACEBAR!", 30);
 		waltInstructionsMain.cameras = [camAlt];
@@ -967,6 +973,22 @@ class PlayState extends MusicBeatState
 		spaceBarCounter.cameras = [camAlt];
 		spaceBarCounter.alpha = 0;
 		spaceBarCounter.scrollFactor.set();
+
+		lyrics = new FlxText(0, FlxG.height - 60, 0, '', 15);
+		lyrics.setFormat(Paths.font('vcr'), 30, FlxColor.WHITE, ForeverTools.setTextAlign('center'), FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		lyrics.cameras = [camAlt];
+		lyrics.alpha = 0;
+		lyrics.borderSize = 4;
+		lyrics.scrollFactor.set();
+		lyrics.screenCenter(X);
+		add(lyrics);
+
+		lyricsIcon = new HealthIcon('placeholder', false);
+		lyricsIcon.x = lyrics.x - 150;
+		lyricsIcon.y = lyrics.y - 65;
+		lyricsIcon.visible = false;
+		lyricsIcon.cameras = [camAlt];
+		add(lyricsIcon);
 			
 		// Cleaner Initialization for the mechanics and note visibility stuff
 		switch (SONG.song)
@@ -2835,6 +2857,60 @@ class PlayState extends MusicBeatState
 		});
 	}
 
+	function manageLyrics(icon:String = 'bf', text:String = 'swaggers', font:String = 'vcr', size:Int = 15, duration:Float = 5, tweenType:String = 'linear')
+	{
+		lyricsIcon.updateIcon(icon, false);
+		if (!lyricsIcon.visible)
+		{
+			lyricsIcon.visible = true;
+			lyricsIcon.alpha = 0;
+		}
+
+		lyrics.font = Paths.font(font);
+		lyrics.text = text;
+
+		if (lyricsTween != null)
+			lyricsTween.cancel();
+
+		if (iconTween != null)
+			iconTween.cancel();
+
+		iconTween = FlxTween.tween(lyricsIcon, {
+				'scale.x': 1,
+				'scale.y': 1,
+				alpha: 1
+			},
+			0.5,
+			{ease: ForeverTools.returnTweenEase(tweenType),
+			onComplete: function(twn:FlxTween)
+			{
+				iconTween = FlxTween.tween(lyricsIcon, {alpha: 0, 'scale.x': 0, 'scale.y': 0}, 0.25, {startDelay: duration, ease: ForeverTools.returnTweenEase(tweenType),
+					onComplete: function(twn:FlxTween)
+					{
+						iconTween = null;
+					}
+				});
+			}
+		});
+
+		lyricsTween = FlxTween.tween(lyrics, {
+				size: size,
+				alpha: 1
+			},
+			0.5,
+			{ease: ForeverTools.returnTweenEase(tweenType),
+			onComplete: function(twn:FlxTween)
+			{
+				lyricsTween = FlxTween.tween(lyrics, {alpha: 0, size: 0}, 0.25, {startDelay: duration, ease: ForeverTools.returnTweenEase(tweenType),
+					onComplete: function(twn:FlxTween)
+					{
+						lyricsTween = null;
+					}
+				});
+			}
+		});
+	}
+
 	function resyncVocals():Void
 	{
 		if (!endingSong)
@@ -2982,7 +3058,20 @@ class PlayState extends MusicBeatState
 			case 'Devilish Deal':
 				switch (curBeat)
 				{
+					// Intro
 					case 8: FlxTween.tween(camGame, {alpha: 1}, 4.5, {ease: FlxEase.sineOut});
+
+					case 16:
+						manageLyrics('placeholder', 'In the rain...', 'satanFont', 30, 2, 'sineInOut');
+
+					case 20:
+						manageLyrics('placeholder', '...Looking so blue...', 'satanFont', 30, 3.2, 'sineInOut');
+
+					case 26:
+						manageLyrics('placeholder', '...SPEAK...', 'satanFont', 30, 0.7, 'sineInOut');
+
+					case 28:
+						manageLyrics('placeholder', '...What is on your mind?', 'satanFont', 30, 2.5, 'sineInOut');
 					
 					case 30:
 						FlxTween.tween(camHUD, {alpha: 1}, 2, {ease: FlxEase.sineOut});
