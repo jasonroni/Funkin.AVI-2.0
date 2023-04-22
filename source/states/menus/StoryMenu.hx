@@ -93,7 +93,7 @@ class StoryMenu extends MusicBeatState
 		book.screenCenter();
 		book.antialiasing = true;
 		book.alpha = 1;
-		book.shader = blur;
+		if (!Init.trueSettings.get('Disable Screen Shaders')) book.shader = blur;
 		add(book);
 
 		spoopy = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/storymenu/spoopy'));

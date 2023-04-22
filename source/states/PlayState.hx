@@ -1,5 +1,6 @@
 package states;
 
+import base.events.CamChromEvent;
 import base.events.Events;
 import base.events.MalfunctionShaders;
 import openfl.filters.BitmapFilter;
@@ -267,8 +268,8 @@ class PlayState extends MusicBeatState
 	var fade:FlxSprite;
 	
 	// for Tweening shaders and shit later
-	var chromZoomShader:MalfunctionNewEffect;
-	var chromNormalShader:MalfunctionLegacyEffect;
+	var chromZoomShader:CamChromEvent = new CamChromEvent(0.1);
+	var chromNormalShader:MalfunctionLegacyEffect = new MalfunctionLegacyEffect(0.00001);
 	
 	var chromZoomTween:FlxTween;
 	var chromNormalTween:FlxTween;
@@ -531,6 +532,14 @@ class PlayState extends MusicBeatState
 							clearShaderFromCamera("hud");
 						});
 					}
+			default:
+				if (canaddshaders)
+				{
+					add(chromZoomShader);
+					chromZoomShader.amount = 0.0001;
+					var filter:ShaderFilter = new ShaderFilter(chromZoomShader.shader);
+					camGame.setFilters([filter]);
+				}
 		}
 	}
 
@@ -3079,6 +3088,190 @@ class PlayState extends MusicBeatState
 						{
 							FlxTween.tween(i, {alpha: 1}, 2, {ease: FlxEase.sineOut});
 						}
+					
+					case 32 | 34 | 36 | 38 | 40 | 42 | 44 | 46 | 48 | 50 | 52 | 54 | 56 | 58:
+						if (canaddshaders)
+						{
+							if (chromZoomTween != null)
+								chromZoomTween.cancel();
+
+							chromZoomShader.amount = 1;
+
+							chromZoomTween = FlxTween.tween(
+								chromZoomShader,
+								{
+									amount: 0
+								},
+								1.2,
+								{
+									ease: FlxEase.sineOut,
+									onComplete: function(twn:FlxTween)
+									{
+										chromZoomTween = null;
+									}
+								}
+							);
+						}
+
+					case 60:
+						FlxTween.tween(camHUD, {alpha: 0.4}, 0.75, {ease: FlxEase.quartInOut});
+						for (i in strumHUD)
+						{
+							FlxTween.tween(i, {alpha: 0.4}, 0.75, {ease: FlxEase.quartInOut});
+						}
+						if (canaddshaders)
+						{
+							if (chromZoomTween != null)
+								chromZoomTween.cancel();
+
+							chromZoomShader.amount = 1;
+
+							chromZoomTween = FlxTween.tween(
+								chromZoomShader,
+								{
+									amount: 0
+								},
+								1.2,
+								{
+									ease: FlxEase.sineOut,
+									onComplete: function(twn:FlxTween)
+									{
+										chromZoomTween = null;
+									}
+								}
+							);
+						}
+
+					case 62:
+						if (canaddshaders)
+						{
+							if (chromZoomTween != null)
+								chromZoomTween.cancel();
+
+							chromZoomShader.amount = 1;
+
+							chromZoomTween = FlxTween.tween(
+								chromZoomShader,
+								{
+									amount: 0
+								},
+								2,
+								{
+									ease: FlxEase.sineOut,
+									onComplete: function(twn:FlxTween)
+									{
+										chromZoomTween = null;
+									}
+								}
+							);
+						}
+
+					case 64:
+						FlxTween.tween(camHUD, {alpha: 1}, 1.2, {ease: FlxEase.quartInOut});
+						for (i in strumHUD)
+						{
+							FlxTween.tween(i, {alpha: 1}, 1.2, {ease: FlxEase.quartInOut});
+						}
+					
+						case 128:
+							camGame.visible = false;
+							camHUD.visible = false;
+							for (i in strumHUD)
+							{
+								i.visible = false;
+							}
+							if (!Init.trueSettings.get('Disable Flashing Lights')) camAlt.flash(FlxColor.WHITE, 1);
+							if (canaddshaders)
+							{
+								if (chromZoomTween != null)
+									chromZoomTween.cancel();
+			
+								chromZoomShader.amount = 1.5;
+			
+								chromZoomTween = FlxTween.tween(
+									chromZoomShader,
+									{
+										amount: 0
+									},
+									2.3,
+									{
+										ease: FlxEase.sineOut,
+										onComplete: function(twn:FlxTween)
+										{
+											chromZoomTween = null;
+										}
+									}
+								);
+							}
+				}
+
+				if (curBeat >= 64 && curBeat <= 95 && canaddshaders)
+				{
+					if (chromZoomTween != null)
+						chromZoomTween.cancel();
+
+					chromZoomShader.amount = 1.2;
+
+					chromZoomTween = FlxTween.tween(
+						chromZoomShader,
+						{
+							amount: 0
+						},
+						1.5,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromZoomTween = null;
+							}
+						}
+					);
+				}
+
+				if (curBeat >= 96 && curBeat <= 111 && canaddshaders)
+				{
+					if (chromZoomTween != null)
+						chromZoomTween.cancel();
+
+					chromZoomShader.amount = 1.35;
+
+					chromZoomTween = FlxTween.tween(
+						chromZoomShader,
+						{
+							amount: 0
+						},
+						1.5,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromZoomTween = null;
+							}
+						}
+					);
+				}
+
+				if (curBeat >= 112 && curBeat <= 127 && canaddshaders)
+				{
+					if (chromZoomTween != null)
+						chromZoomTween.cancel();
+
+					chromZoomShader.amount = 1.5;
+
+					chromZoomTween = FlxTween.tween(
+						chromZoomShader,
+						{
+							amount: 0
+						},
+						1.5,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromZoomTween = null;
+							}
+						}
+					);
 				}
 			case 'Isolated':
 				switch (curBeat)

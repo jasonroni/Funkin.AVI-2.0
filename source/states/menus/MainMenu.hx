@@ -203,26 +203,29 @@ class MainMenu extends MusicBeatState
 
 		super.create();
 
-		defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
-		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
-		darkFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/coolDarkFilter.frag'), null, 120);
+		if (!Init.trueSettings.get('Disable Screen Shaders'))
+		{
+			defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
+			defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
+			darkFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/coolDarkFilter.frag'), null, 120);
 
-		if(!Init.trueSettings.get('Disable Screen Shaders'))
-			{
-				if(!Init.trueSettings.get('Low Quality')) {
-				camGame.setFilters(
-					[
-						new openfl.filters.ShaderFilter(defaultShader2),
-						new openfl.filters.ShaderFilter(defaultShader),
-						new openfl.filters.ShaderFilter(darkFilter),
-					]);
-				} else {
-				camGame.setFilters(
-					[
-						new openfl.filters.ShaderFilter(defaultShader2),
-					]);
+			if(!Init.trueSettings.get('Disable Screen Shaders'))
+				{
+					if(!Init.trueSettings.get('Low Quality')) {
+					camGame.setFilters(
+						[
+							new openfl.filters.ShaderFilter(defaultShader2),
+							new openfl.filters.ShaderFilter(defaultShader),
+							new openfl.filters.ShaderFilter(darkFilter),
+						]);
+					} else {
+					camGame.setFilters(
+						[
+							new openfl.filters.ShaderFilter(defaultShader2),
+						]);
+					}
 				}
-			}
+		}
 
 		openfl.Lib.application.window.title = "Funkin.avi - " + windowShit[FlxG.random.int(0, windowShit.length-1)];
 
@@ -386,22 +389,26 @@ class MainMenu extends MusicBeatState
 			logTrace('$logContent', 3);
 		
 		freeplayPopup = new FlxText(0, FlxG.height - 80, 0, 'Freeplay is Locked!', 24);
-		freeplayPopup.setFormat(Paths.font("DisneyFont"), 28, 0xFFFFFFFF, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		freeplayPopup.setFormat(Paths.font("DisneyFont"), 32, 0xFFFFFFFF, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
 		freeplayPopup.scrollFactor.set();
 		freeplayPopup.cameras = [camHUD];
 		
-		freeplayPopupSub = new FlxText(0, freeplayPopup.y + 15, 0, 'Complete Episode 1 to Unlock this Menu!', 24);
-		freeplayPopupSub.setFormat(Paths.font("DisneyFont"), 20, 0xFFFFFFFF, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		freeplayPopupSub = new FlxText(0, freeplayPopup.y + 30, 0, 'Complete Episode 1 to Unlock this Menu!', 24);
+		freeplayPopupSub.setFormat(Paths.font("DisneyFont"), 24, 0xFFFFFFFF, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
 		freeplayPopupSub.scrollFactor.set();
 		freeplayPopupSub.cameras = [camHUD];
 		
-		freeplayTxtBox = new FlxSprite(freeplayPopup.x, freeplayPopup.y).makeGraphic(200, 80, FlxColor.BLACK);
+		freeplayTxtBox = new FlxSprite(0, freeplayPopup.y).makeGraphic(350, 90, FlxColor.BLACK);
 		freeplayTxtBox.scrollFactor.set();
 		freeplayTxtBox.cameras = [camHUD];
 		
 		freeplayTxtBox.alpha = 0;
 		freeplayPopup.alpha = 0;
 		freeplayPopupSub.alpha = 0;
+
+		freeplayTxtBox.x -= 400;
+		freeplayPopup.x -= 400;
+		freeplayPopupSub.x -= 400;
 		
 		add(freeplayTxtBox);
 		add(freeplayPopup);
@@ -534,7 +541,7 @@ class MainMenu extends MusicBeatState
 			counterControl = 0;
 		}
 
-		darkFilter.setFloat('iTime', elapsed);
+		if (!Init.trueSettings.get('Disable Screen Shaders')) darkFilter.setFloat('iTime', elapsed);
 
 		if ((Controls.getPressEvent("back")) && (!selectedSomethin))
 		{
@@ -546,9 +553,148 @@ class MainMenu extends MusicBeatState
 
 		if ((Controls.getPressEvent("accept")) && (!selectedSomethin))
 		{
+			var daChoice:String = optionShit[Math.floor(curSelected)];
+
 			var flashValue:Float = 0.1;
 			if (Init.trueSettings.get('Disable Flashing Lights'))
 				flashValue = 0.2;
+
+			if(daChoice == 'freeplay')
+			{
+						if(GameData.episode1FPLock == 'unlocked')
+						{
+							selectedSomethin = true;
+							FlxG.sound.play(Paths.sound('funkinAVI/menu/select_sfx'));
+							FlxTween.tween(camGame, {zoom: 6}, 2, {ease: FlxEase.cubeInOut, startDelay: 0.5});
+	
+							menuItems.forEach(function(spr:FlxSprite)
+								{
+									if (curSelected != spr.ID)
+									{
+										// Main Menu Select Animations
+										FlxTween.tween(spr, {x: -250, alpha: 0}, 0.4, {
+											ease: FlxEase.quadOut,
+											onComplete: function(twn:FlxTween)
+											{
+												spr.kill();
+											}
+										});
+									}
+									else
+									{
+										FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
+										{
+											switch (daChoice)
+											{
+												case 'freeplay':
+													CoolUtil.difficulties = CoolUtil.difficultyArray;
+													Main.switchState(this, new states.menus.freeplay.FreeplayCategories());
+											}
+										});
+									}
+								});
+						}else{
+							if (freeplayTxtTween != null)
+								freeplayTxtTween.cancel();
+							if (freeplayTxtTween2 != null)
+								freeplayTxtTween2.cancel();
+							if (freeplayTxtTween3 != null)
+								freeplayTxtTween3.cancel();
+								
+							FlxG.sound.play(Paths.sound('base/menus/cancelMenu'));
+							// Okay, this should work better now
+							freeplayTxtTween = FlxTween.tween(
+								freeplayPopup,
+								{
+									alpha: 1,
+									x: 0
+								},
+								   0.8,
+								   {
+									ease: FlxEase.sineOut,
+									onComplete: function(twn:FlxTween)
+									{
+										freeplayTxtTween = FlxTween.tween(
+											freeplayPopup,
+											{
+												alpha: 0,
+												x: -400
+											},
+											1.5,
+											{
+												startDelay: 3,
+												ease: FlxEase.sineInOut,
+												onComplete: function(twn:FlxTween)
+												{
+													freeplayTxtTween = null;
+												}
+											}
+										);
+									}
+								}
+							);
+							freeplayTxtTween2 = FlxTween.tween(
+								freeplayPopupSub,
+								{
+									alpha: 1,
+									x: 0
+								},
+								   0.8,
+								   {
+									ease: FlxEase.sineOut,
+									onComplete: function(twn:FlxTween)
+									{
+										freeplayTxtTween2 = FlxTween.tween(
+											freeplayPopupSub,
+											{
+												alpha: 0,
+												x: -400
+											},
+											1.5,
+											{
+												startDelay: 3,
+												ease: FlxEase.sineInOut,
+												onComplete: function(twn:FlxTween)
+												{
+													freeplayTxtTween2 = null;
+												}
+											}
+										);
+									}
+								}
+							);
+							freeplayTxtTween3 = FlxTween.tween(
+								freeplayTxtBox,
+								{
+									alpha: 1,
+									x: 0
+								},
+								   0.8,
+								   {
+									ease: FlxEase.sineOut,
+									onComplete: function(twn:FlxTween)
+									{
+										freeplayTxtTween3 = FlxTween.tween(
+											freeplayTxtBox,
+											{
+												alpha: 0,
+												x: -400
+											},
+											1.5,
+											{
+												startDelay: 3,
+												ease: FlxEase.sineInOut,
+												onComplete: function(twn:FlxTween)
+												{
+													freeplayTxtTween3 = null;
+												}
+											}
+										);
+									}
+								}
+							);
+						}
+					}else{
 
 			menuItems.forEach(function(spr:FlxSprite)
 			{
@@ -566,71 +712,10 @@ class MainMenu extends MusicBeatState
 				{
 					FlxFlicker.flicker(spr, 1, flashValue, false, false, function(flick:FlxFlicker)
 					{
-						var daChoice:String = optionShit[Math.floor(curSelected)];
-
 						switch (daChoice)
 						{
 							case 'story_mode':
 								Main.switchState(this, new states.menus.StoryMenu());
-							case 'freeplay':
-								// I now obligate you to test the story progression data :trollface:
-								if (GameData.episode1FPLock != 'unlocked')
-								{
-									if (freeplayTxtTween != null)
-										freeplayTxtTween.cancel();
-									if (freeplayTxtTween2 != null)
-										freeplayTxtTween2.cancel();
-									if (freeplayTxtTween3 != null)
-										freeplayTxtTween3.cancel();
-										
-									FlxG.sound.play(Paths.sound('base/menus/cancelMenu'));
-									// Okay, this should work better now
-									freeplayTxtBox.alpha = 1;
-									freeplayPopup.alpha = 1;
-									freeplayPopupSub.alpha = 1;
-									freeplayTxtTween = FlxTween.tween(
-										freeplayPopup,
-										{alpha: 0},
-							   			1.5,
-							   			{
-											startDelay: 3,
-											ease: FlxEase.sineInOut,
-											onComplete: function(twn:FlxTween)
-											{
-												freeplayTxtTween = null;
-											}
-										}
-									);
-									freeplayTxtTween2 = FlxTween.tween(
-										freeplayPopupSub,
-										{alpha: 0},
-							   			1.5,
-							   			{
-											startDelay: 3,
-											ease: FlxEase.sineInOut,
-											onComplete: function(twn:FlxTween)
-											{
-												freeplayTxtTween2 = null;
-											}
-										}
-									);
-									freeplayTxtTween3 = FlxTween.tween(
-										freeplayTxtBox,
-										{alpha: 0},
-							   			1.5,
-							   			{
-											startDelay: 3,
-											ease: FlxEase.sineInOut,
-											onComplete: function(twn:FlxTween)
-											{
-												freeplayTxtTween3 = null;
-											}
-										}
-									);
-								} else {
-									CoolUtil.difficulties = CoolUtil.difficultyArray;
-									Main.switchState(this, new states.menus.freeplay.FreeplayCategories());
-								}
 							case 'credits':
 								Main.switchState(this, new states.menus.OptionsMenu());
 							case 'options':
@@ -639,12 +724,13 @@ class MainMenu extends MusicBeatState
 								Main.switchState(this, new states.menus.OptionsMenu());
 						}
 					});
+					selectedSomethin = true;
+					FlxG.sound.play(Paths.sound('base/menus/confirmMenu'));
+					FlxTween.tween(camGame, {zoom: 6}, 2, {ease: FlxEase.cubeInOut, startDelay: 0.5});
 				}
 			});
-				selectedSomethin = true;
-				FlxG.sound.play(Paths.sound('base/menus/confirmMenu'));
-				FlxTween.tween(camGame, {zoom: 6}, 2, {ease: FlxEase.cubeInOut, startDelay: 0.5});
 		}
+	}
 
 		// It actually makes sense since some pepole doesn't know we moved to forever or just think we ported the psych editor lol
 		if(FlxG.keys.justPressed.SEVEN) 
