@@ -406,7 +406,7 @@ class Main extends Sprite
 			}
 		}
 
-		errMsg += "\nUncaught Error: " + e.error + " - Please report this error to the\nDunkin Funkin community server";
+		errMsg += "\nUncaught Error: " + e.error + " - Please report this error to the\nDunkin Funkin community server: discord.gg/fdFEnQ8Dst";
 
 		if (!FileSystem.exists("crash/"))
 			FileSystem.createDirectory("crash/");
