@@ -67,20 +67,37 @@ class GameOverSubstate extends MusicBeatSubstate
 			FlxG.sound.music.stop();
 			PlayState.deaths = 0;
 
-			if (PlayState.gameplayMode == STORY)
+			if (PlayState.gameplayMode == STORY)		
 				Main.switchState(this, new states.menus.StoryMenu());
 			else
 				switch (CoolUtil.dashToSpace(PlayState.SONG.song))
 				{
-					case 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus' | 'Mercy' | 'Affliction':
-						Main.switchState(this, new states.menus.freeplay.FreeplayState());
+					case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus' | 'Mercy' | 'Affliction':
+						states.menus.freeplay.FreeplaySongs.freeplayMenuList = 0;
+						Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
 					case 'Birthday':
 						Main.switchState(this, new states.ManIHateYouSoMuchYouMadeMuckneySad()); // grah
+					case 'Delutrance': // hahaha, you FOOL, you're obligated to play till you beat it!
+						if (FlxG.save.data.highOnCrackLock == 'forceBackToSong')
+						{
+							Main.switchState(this, new PlayState());
+						}
+						else
+						{
+							states.menus.freeplay.FreeplaySongs.freeplayMenuList = 1;
+							Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
+						}
 					default:
 						if (PlayState.SONG.song.endsWith('Legacy')) // me when StringTools optimizes the code
-							Main.switchState(this, new states.menus.freeplay.LegacyState());
+						{
+							states.menus.freeplay.FreeplaySongs.freeplayMenuList = 2;
+							Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
+						}
 						else
-							Main.switchState(this, new states.menus.freeplay.ExtrasState()); // yeah, there's no way I'm making a case for EVERY fucking song in that menu, too much work!
+						{
+							states.menus.freeplay.FreeplaySongs.freeplayMenuList = 1;
+							Main.switchState(this, new states.menus.freeplay.FreeplaySongs()); // yeah, there's no way I'm making a case for EVERY fucking song in that menu, too much work!
+						}
 				}
 		}
 

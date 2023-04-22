@@ -114,41 +114,13 @@ class PauseSubstate extends MusicBeatSubstate
 		add(disc);
 
 		var getArt:String = 'menus/Funkin_avi/pause/songs/';
-		var pauseArtAsset:String = PlayState.SONG.song.toLowerCase();
+		var pauseArtAsset:String = CoolUtil.spaceToDash(PlayState.SONG.song.toLowerCase());
 
 		songArt = new FlxSprite(800, 130);
-		switch (CoolUtil.dashToSpace(PlayState.SONG.song))
-		{
-			case 'Isolated':
-				songArt.loadGraphic(Paths.image(getArt + 'isolated'));
-			case 'Lunacy':
-				songArt.loadGraphic(Paths.image(getArt + 'lunacy'));
-			case "Don't Cross!":
-				songArt.loadGraphic(Paths.image(getArt + 'dont-cross'));
-			case 'Hunted':
-				songArt.loadGraphic(Paths.image(getArt + 'hunted'));
-			case 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus':
-				songArt.loadGraphic(Paths.image(getArt + 'episode2'));
-			case 'Malfunction Legacy':
-				songArt.loadGraphic(Paths.image(getArt + 'malfunction'));
-			case 'Malfunction':
-				songArt.loadGraphic(Paths.image(getArt + 'malfunction-new'));
-			case 'Mercy':
-				songArt.loadGraphic(Paths.image(getArt + 'mercy'));
-			case 'Mercy Legacy':
-				songArt.loadGraphic(Paths.image(getArt + 'mercy-old'));
-			case 'Bless':
-				songArt.loadGraphic(Paths.image(getArt + 'bless'));
-			case 'Cycled Sins':
-				songArt.loadGraphic(Paths.image(getArt + 'cycled-sins'));
-			case 'Scrapped':
-				songArt.loadGraphic(Paths.image(getArt + 'scrapped'));
-			case 'Delusional':
-				songArt.loadGraphic(Paths.image(getArt + 'delusional'));
-			default:
-				songArt.loadGraphic(Paths.image(getArt + 'unknown-song'));
-		}
-		//songArt.loadGraphic(Paths.image(getArt + (!sys.FileSystem.exists(pauseArtAsset) ? 'unknown-song' : pauseArtAsset));
+		if (sys.FileSystem.exists('./assets/images/' + getArt + pauseArtAsset + '.png'))
+			songArt.loadGraphic(Paths.image(getArt + pauseArtAsset));
+		else
+			songArt.loadGraphic(Paths.image(getArt + 'unknown-song'));
 		songArt.scale.set(0.29, 0.29);
 
 		songArtOutline = new FlxSprite(800 - 20, 130 - 20 /*POV: you're lazy to do the math yourself*/).makeGraphic(890, 890, FlxColor.BLACK);
@@ -311,15 +283,32 @@ class PauseSubstate extends MusicBeatSubstate
 						else
 							switch (CoolUtil.dashToSpace(PlayState.SONG.song))
 							{
-								case 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus' | 'Mercy' | 'Affliction':
-									Main.switchState(this, new states.menus.freeplay.FreeplayState());
+								case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus' | 'Mercy' | 'Affliction':
+									states.menus.freeplay.FreeplaySongs.freeplayMenuList = 0;
+									Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
 								case 'Birthday':
 									Main.switchState(this, new states.ManIHateYouSoMuchYouMadeMuckneySad()); // grah
+								case 'Delutrance': // hahaha, you FOOL, you're obligated to play till you beat it!
+									if (FlxG.save.data.highOnCrackLock == 'forceBackToSong')
+									{
+										Main.switchState(this, new PlayState());
+									}
+									else
+									{
+										states.menus.freeplay.FreeplaySongs.freeplayMenuList = 1;
+										Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
+									}
 								default:
 									if (PlayState.SONG.song.endsWith('Legacy')) // me when StringTools optimizes the code
-										Main.switchState(this, new states.menus.freeplay.LegacyState());
+									{
+										states.menus.freeplay.FreeplaySongs.freeplayMenuList = 2;
+										Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
+									}
 									else
-										Main.switchState(this, new states.menus.freeplay.ExtrasState()); // yeah, there's no way I'm making a case for EVERY fucking song in that menu, too much work!
+									{
+										states.menus.freeplay.FreeplaySongs.freeplayMenuList = 1;
+										Main.switchState(this, new states.menus.freeplay.FreeplaySongs()); // yeah, there's no way I'm making a case for EVERY fucking song in that menu, too much work!
+									}
 							}
 					}
 			}

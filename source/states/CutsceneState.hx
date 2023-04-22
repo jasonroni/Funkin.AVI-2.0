@@ -68,7 +68,8 @@ class CutsceneState extends FlxState
             switch (PlayState.SONG.song)
             {                  
                   case "Malfunction":
-                     FlxG.switchState(new states.menus.freeplay.ExtrasState());
+                     states.menus.freeplay.FreeplaySongs.freeplayMenuList = 1;
+                     FlxG.switchState(new states.menus.freeplay.FreeplaySongs());
                   
                   default:
                      FlxG.switchState(new states.menus.MainMenu());

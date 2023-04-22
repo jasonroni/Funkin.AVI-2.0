@@ -116,7 +116,7 @@
 				0
 			],
 			"indices": [],
-			"fps": 7,
+			"fps": 6,
 			"anim": "endingAnim",
 			"loop": false,
 			"name": "altUp"

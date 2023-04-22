@@ -4,7 +4,7 @@ import haxe.ui.HaxeUIApp;
 import haxe.ui.components.Button;
 import haxe.ui.components.Label;
 import haxe.ui.core.Component;
-import haxe.ui.macros.ComponentMacros;
+import haxe.ui.ComponentBuilder;
 import sys.io.File;
 import sys.io.Process;
 
@@ -21,7 +21,7 @@ class Main
 		"read bellow. - Jason",
 		"walter. - Literally everyone in the F.AVI Dev Team",
 		"Walt just hates you that much, huh? - DEMOLITIONDON96",
-		"Ooga booga, go back to Africa. (Santa, probably), - Jason"
+		"Ooga booga, go back to Africa. (Santa, probably), - Jason",
 		"I'm gonna get racist. - DEMOLITIONDON96",
 		"Ah bueno adios master - ShadowMario",
 		"Skibidy bah mmm dada *explodes* - ShadowMario", // Changed my mind, Shadow mario is peak - jason
@@ -37,6 +37,10 @@ class Main
 
 	public static function main()
 	{
+		#if windows
+		CppAPI.darkMode();
+     	#end
+
 		var args:Array<String> = Sys.args();
 
 		if (args[0] == null)
@@ -51,11 +55,11 @@ class Main
 
 			app.ready(function()
 			{
-				var mainView:Component = ComponentMacros.buildComponent("assets/main-view.xml");
+				var mainView:Component = ComponentBuilder.fromFile("assets/main-view.xml");
 				app.addComponent(mainView);
 
 				var messageLabel:Label = mainView.findComponent("message-label", Label);
-				messageLabel.text = quotes[Std.random(quotes.length)] + "\nUnfortunately, Funkin.AVI has crashed.";
+				messageLabel.text = quotes[Std.random(quotes.length)] + "\nUnfortunately, Funkin.avi has crashed.";
 				messageLabel.percentWidth = 100;
 				messageLabel.textAlign = "center";
 

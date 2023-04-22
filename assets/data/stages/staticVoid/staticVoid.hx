@@ -43,7 +43,7 @@ function onCreate()
 			redGradThing.y = 770;
 			redGradThing.scale.y = 0;
 			redGradThing.updateHitbox();
-			add(redGradThing);
+			//add(redGradThing);
 		}
 }
 
@@ -101,13 +101,13 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 				FlxTween.tween(bullShit, {alpha: 0}, 2.3, {ease: FlxEase.cubeInOut});
 		}
 	
-	if (curBeat == 136 || curBeat == 140 || curBeat == 144 || curBeat == 148 || curBeat == 152 || curBeat == 156 || curBeat == 160 || curBeat == 164)
+	/*if (curBeat == 136 || curBeat == 140 || curBeat == 144 || curBeat == 148 || curBeat == 152 || curBeat == 156 || curBeat == 160 || curBeat == 164)
 		if(!lowQuality && redGradThing != null)
 			FlxTween.tween(redGradThing.scale, {y: 1.5}, 0.5, {ease: FlxEase.quadInOut});
 	
 	if (curBeat == 138 || curBeat == 142 || curBeat == 146 || curBeat == 150 || curBeat == 154 || curBeat == 158 || curBeat == 162 || curBeat == 166)
 		if(!lowQuality && redGradThing != null)
-			FlxTween.tween(redGradThing.scale, {y: 0}, 0.5, {ease: FlxEase.quadInOut});
+			FlxTween.tween(redGradThing.scale, {y: 0}, 0.5, {ease: FlxEase.quadInOut});*/
 
 	if(canZoom && curBeat % 1 == 0)
 		{
@@ -126,4 +126,3 @@ function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Characte
     holyShitStatic.setFloat('uTime', shaderTime);
     holyShitStatic.setFloat('iTime', shaderTime);
 }
-    

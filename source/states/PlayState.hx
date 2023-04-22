@@ -1,6 +1,11 @@
 package states;
 
+import base.events.CamChromEvent;
 import base.events.Events;
+import base.events.MalfunctionShaders;
+import openfl.filters.BitmapFilter;
+import openfl.utils.Assets as OpenFlAssets;
+import openfl.filters.ShaderFilter;
 import base.dependency.FeatherDeps.Events;
 import base.dependency.FeatherDeps.ScriptHandler;
 import base.song.ChartParser;
@@ -53,7 +58,7 @@ import hxcodec.VideoHandler;
 #elseif (hxCodec == "2.6.0")
 import VideoHandler;
 #else
-import vlc.MP4Handler as VideoHandler;
+import vlc.MP4Handler;
 #end
 #if desktop
 import base.dependency.Discord;
@@ -90,6 +95,13 @@ class PlayState extends MusicBeatState
 
 	// lazyness
 	public var canaddshaders = !Init.trueSettings.get('Disable Screen Shaders');
+	
+	public var camGameShaders:Array<ShaderEffect> = [];
+	public var camHUDShaders:Array<ShaderEffect> = [];
+	public var camAltShaders:Array<ShaderEffect> = [];
+	public var strumShaders:Array<ShaderEffect> = [];
+	public var shaderUpdates:Array<Float->Void> = [];
+	var filters:Array<BitmapFilter> = [];
 
 	// Song;
 	public static var SONG:SwagSong;
@@ -165,6 +177,9 @@ class PlayState extends MusicBeatState
 	public static var camScratch:FlxCamera;
 	public static var camOther:FlxCamera;
 	public static var camAlt:FlxCamera;
+	
+	public var cinematicBars:Map<String, FlxSprite> = ["top" => null, "bottom" => null,];
+	public static var camBars:FlxCamera; // I got lazy, sorry.
 
 	private static var prevCamFollow:FlxObject;
 
@@ -225,6 +240,12 @@ class PlayState extends MusicBeatState
 
 	// troll
 	private var isDebugMode:Bool = false;
+
+	// lyrics stuff
+	var lyricsIcon:HealthIcon;
+	var lyrics:FlxText;
+	var lyricsTween:FlxTween;
+	var iconTween:FlxTween;
 	
 	// Malfunction Gimmick
 	var crashLives:FlxText;
@@ -245,6 +266,13 @@ class PlayState extends MusicBeatState
 	var BGFlashTween:FlxTween;
 
 	var fade:FlxSprite;
+	
+	// for Tweening shaders and shit later
+	var chromZoomShader:CamChromEvent = new CamChromEvent(0.1);
+	var chromNormalShader:MalfunctionLegacyEffect = new MalfunctionLegacyEffect(0.00001);
+	
+	var chromZoomTween:FlxTween;
+	var chromNormalTween:FlxTween;
 
 	function loadWindowTitleData()
 	{
@@ -253,7 +281,7 @@ class PlayState extends MusicBeatState
 				case STORY:
 					switch (SONG.song)
 					{
-						case 'Isolated' | 'Lunacy' | 'Delusional':
+						case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional':
 							Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
 						
 						case 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus':
@@ -330,7 +358,7 @@ class PlayState extends MusicBeatState
 				if (FlxG.save.data.rickyLock != 'beaten')
 					GameData.rickyLock = 'unlocked';
 			case 'birthday':
-				if (FlxG.save.data.muckneyLock != "completed")
+				if (FlxG.save.data.muckneyLock != 'beaten')
 					GameData.muckneyLock = "voidIsOpen";
 			case 'mercy legacy':
 				if (FlxG.save.data.legacyWLock != 'beaten')
@@ -350,6 +378,24 @@ class PlayState extends MusicBeatState
 			case 'malfunction legacy':
 				if (FlxG.save.data.legacyMLock != 'beaten')
 					GameData.legacyMLock = 'unlocked';
+			case 'cycled sins legacy':
+				if (FlxG.save.data.legacySLock != 'beaten')
+					GameData.legacySLock = 'unlocked';
+			case 'bless legacy':
+				if (FlxG.save.data.legacyBLock != 'beaten')
+					GameData.legacyBLock = 'unlocked';
+			case 'twisted grins legacy':
+				if (FlxG.save.data.legacyTLock != 'beaten')
+					GameData.legacyTLock = 'unlocked';
+			case 'neglection legacy':
+				if (FlxG.save.data.legacyNLock != 'beaten')
+					GameData.legacyNLock = 'unlocked';
+			case 'resentment legacy':
+				if (FlxG.save.data.legacyRLock != 'beaten')
+					GameData.legacyRLock = 'unlocked';
+			case 'delutrance':
+				if (FlxG.save.data.highOnCrackLock != 'completed')
+					GameData.highOnCrackLock = 'forceBackToSong';
 		}
 		GameData.saveShit();
 	}
@@ -361,42 +407,30 @@ class PlayState extends MusicBeatState
 	{
 		switch (SONG.song.toLowerCase())
 		{
-			case 'hunted':
-				GameData.huntedLock = 'beaten';
-			case 'isolated old':
-				GameData.oldisolateLock = 'beaten';
-			case 'isolated beta':
-				GameData.betaisolateLock = 'beaten';
-			case 'neglection':
-				GameData.pnmLock = 'beaten';
-			case "don't cross!":
-				GameData.crossinLock = 'beaten';
-			case 'war dilemma':
-				GameData.warLock = 'beaten';
-			case 'cycled sins':
-				GameData.sinsLock = 'beaten';
-			case 'malfunction':
-				GameData.malfunctionLock = 'beaten';
-			case 'scrapped':
-				GameData.scrappedLock = 'beaten';
-			case 'bless':
-				GameData.blessLock = 'beaten';
-			case 'laugh track':
-				GameData.rickyLock = 'beaten';
-			case 'birthday':
-				GameData.muckneyLock = "completed";
-			case 'mercy legacy':
-				GameData.legacyWLock = 'beaten';
-			case 'isolated legacy':
-				GameData.legacyILock = 'beaten';
-			case 'lunacy legacy':
-				GameData.legacyLLock = 'beaten';
-			case 'delusional legacy':
-				GameData.legacyDLock = 'beaten';
-			case 'hunted legacy':
-				GameData.legacyHLock = 'beaten';
-			case 'malfunction legacy':
-				GameData.legacyMLock = 'beaten';
+			case 'hunted': GameData.huntedLock = 'beaten';
+			case 'isolated old': GameData.oldisolateLock = 'beaten';
+			case 'isolated beta': GameData.betaisolateLock = 'beaten';
+			case 'neglection': GameData.pnmLock = 'beaten';
+			case "don't cross!": GameData.crossinLock = 'beaten';
+			case 'war dilemma': GameData.warLock = 'beaten';
+			case 'cycled sins': GameData.sinsLock = 'beaten';
+			case 'malfunction': GameData.malfunctionLock = 'beaten';
+			case 'scrapped': GameData.scrappedLock = 'beaten';
+			case 'bless': GameData.blessLock = 'beaten';
+			case 'laugh track': GameData.rickyLock = 'beaten';
+			case 'birthday': GameData.muckneyLock = 'beaten';
+			case 'mercy legacy': GameData.legacyWLock = 'beaten';
+			case 'isolated legacy': GameData.legacyILock = 'beaten';
+			case 'lunacy legacy': GameData.legacyLLock = 'beaten';
+			case 'delusional legacy': GameData.legacyDLock = 'beaten';
+			case 'hunted legacy': GameData.legacyHLock = 'beaten';
+			case 'malfunction legacy': GameData.legacyMLock = 'beaten';
+			case 'cycled sins legacy': GameData.legacySLock = 'beaten';
+			case 'bless legacy': GameData.legacyBLock = 'beaten';
+			case 'neglection legacy': GameData.legacyNLock = 'beaten';
+			case 'twisted grins legacy': GameData.legacyTLock = 'beaten';
+			case 'resentment legacy': GameData.legacyRLock = 'beaten';
+			case 'delutrance': GameData.highOnCrackLock = 'completed';
 		}
 		GameData.saveShit();
 	}
@@ -408,12 +442,9 @@ class PlayState extends MusicBeatState
 	{
 		switch (SONG.song.toLowerCase())
 		{
-			case 'delusional':
-				GameData.episode1FPLock = 'unlocked';
-			case 'mortiferum risus':
-				GameData.episodeSFPLock = 'unlocked';
-			case 'affliction':
-				GameData.episodeWFPLock = 'unlocked';
+			case 'delusional': GameData.episode1FPLock = 'unlocked';
+			case 'mortiferum risus': GameData.episodeSFPLock = 'unlocked';
+			case 'affliction': GameData.episodeWFPLock = 'unlocked';
 		}
 		GameData.saveShit();
 	}
@@ -451,6 +482,65 @@ class PlayState extends MusicBeatState
 		if (skipCountdown)
 			return false;
 		return true;
+	}
+
+	public function initializeShaders()
+	{
+		switch (SONG.song)
+		{
+			case 'Malfunction':
+				if (canaddshaders)
+					{
+						if (Init.trueSettings.get('Epilepsy Mode'))
+						{
+							addShaderToCamera('hud', new FuckingBlurEffect(0.0001, 0));
+							addShaderToCamera('notes', new FuckingBlurEffect(0.0001, 0));
+							addShaderToCamera('game', new FuckingBlurEffect(0.0001, 0));
+						}
+						if(!Init.trueSettings.get('Low Quality'))
+						{
+							addShaderToCamera('hud', new MalfunctionLegacyEffect(0.00001));
+							addShaderToCamera('notes', new MalfunctionLegacyEffect(0.00001));
+							addShaderToCamera('game', new MalfunctionNewEffect(0.0001, 0.0001));
+						}
+						new FlxTimer().start(10, function(tmr:FlxTimer)
+						{
+							clearShaderFromCamera("game");
+							clearShaderFromCamera("alt");
+							clearShaderFromCamera("hud");
+						});
+					}
+			case 'Malfunction Legacy':
+				if (canaddshaders)
+					{
+						if (Init.trueSettings.get('Epilepsy Mode'))
+						{
+							addShaderToCamera('hud', new FuckingBlurEffect(0.0001, 0));
+							addShaderToCamera('notes', new FuckingBlurEffect(0.0001, 0));
+							addShaderToCamera('game', new FuckingBlurEffect(0.0001, 0));
+						}
+						if(!Init.trueSettings.get('Low Quality'))
+						{
+							addShaderToCamera('hud', new MalfunctionLegacyEffect(0.00001));
+							addShaderToCamera('notes', new MalfunctionLegacyEffect(0.00001));
+							addShaderToCamera('game', new MalfunctionLegacyEffect(0.00001));
+						}
+						new FlxTimer().start(3, function(tmr:FlxTimer)
+						{
+							clearShaderFromCamera("game");
+							clearShaderFromCamera("alt");
+							clearShaderFromCamera("hud");
+						});
+					}
+			default:
+				if (canaddshaders)
+				{
+					add(chromZoomShader);
+					chromZoomShader.amount = 0.0001;
+					var filter:ShaderFilter = new ShaderFilter(chromZoomShader.shader);
+					camGame.setFilters([filter]);
+				}
+		}
 	}
 
 	public function generateCharacters()
@@ -574,12 +664,14 @@ class PlayState extends MusicBeatState
 		camGame = new FlxCamera();
 		camHUD = new FlxCamera();
 		dialogueHUD = new FlxCamera();
+		camBars = new FlxCamera();
 		camAlt = new FlxCamera();
 		camScratch = new FlxCamera();
 		camOther = new FlxCamera();
 
 		camHUD.bgColor.alpha = 0;
 		dialogueHUD.bgColor.alpha = 0;
+		camBars.bgColor.alpha = 0;
 		camAlt.bgColor.alpha = 0;
 		camOther.bgColor.alpha = 0;
 		camScratch.bgColor.alpha = 0;
@@ -588,6 +680,7 @@ class PlayState extends MusicBeatState
 
 		// HUD Camera so HUD objects stay on screen
 		FlxG.cameras.add(camHUD, false);
+		FlxG.cameras.add(camBars, false);
 		FlxG.cameras.add(camOther, false);
 		FlxG.cameras.add(camScratch, false);
 		allUIs.push(camHUD);
@@ -726,27 +819,6 @@ class PlayState extends MusicBeatState
 
 		// add the dialogue UI
 		FlxG.cameras.add(dialogueHUD, false);
-		
-		if (Init.trueSettings.get('Display Song Cards'))
-		{
-			songCard = new SongCard();
-			add(songCard);
-			songCard.cameras = [camAlt];
-			if (gameplayMode == FREEPLAY)
-			{
-				songCard.playCardAnim(0.08);
-			}
-			else if (gameplayMode == STORY)
-			{
-				switch (SONG.song)
-				{
-					case 'Isolated' | 'Lunacy' | 'Delusional':
-						// do nothing, it's already set under stepHit()
-					default:
-						songCard.playCardAnim(0.08);
-				}
-			}
-		}
 
 		uiHUD = new ClassHUD();
 		uiHUD.alpha = 0;
@@ -831,33 +903,29 @@ class PlayState extends MusicBeatState
 		crashLivesIcon.cameras = [camHUD];
 
 		if(!Init.trueSettings.get('Low Quality'))
+		{
+			switch (curStage)
 			{
-				scratchButLessVisible = new FlxSprite();
-				scratchButLessVisible.frames = Paths.getSparrowAtlas('filters/scratchShit');
-				scratchButLessVisible.animation.addByPrefix('e', 'scratch thing', 24, true);
-				scratchButLessVisible.animation.play('e');
-				scratchButLessVisible.cameras = [camScratch];
-				scratchButLessVisible.alpha = 0.5;
-				add(scratchButLessVisible);
-		
-				scratch = new FlxSprite();
-				scratch.frames = Paths.getSparrowAtlas('filters/scratchShit');
-				scratch.animation.addByPrefix('e', 'scratch thing', 24, true);
-				scratch.animation.play('e');
-				scratch.cameras = [camScratch];
-				add(scratch);
+				case 'stage' | 'desktop' | 'waltRoom' | 'apartment' | 'treasureIsland' | 'forbiddenRealm' | 'fuckingLine' | 'staticVoid' | 'vaultRoom':
+					//don't add scratch assets
 
-				// rip scratchs
-				if(SONG.song.toLowerCase().replace('-', ' ') == 'malfunction' || 
-				SONG.song.toLowerCase().replace('-', ' ') == "cycled sins" ||
-				SONG.song.toLowerCase().replace('-', ' ') == "bless" ||
-				SONG.song.toLowerCase().replace('-', ' ') == "laugh track" ||
-				SONG.song.toLowerCase().replace('-', ' ') == "scrapped")
-				{
-					scratchButLessVisible.destroy();
-					scratch.destroy();
-				}
+				default:
+					scratchButLessVisible = new FlxSprite();
+					scratchButLessVisible.frames = Paths.getSparrowAtlas('filters/scratchShit');
+					scratchButLessVisible.animation.addByPrefix('e', 'scratch thing', 24, true);
+					scratchButLessVisible.animation.play('e');
+					scratchButLessVisible.cameras = [camScratch];
+					scratchButLessVisible.alpha = 0.5;
+					add(scratchButLessVisible);
+			
+					scratch = new FlxSprite();
+					scratch.frames = Paths.getSparrowAtlas('filters/scratchShit');
+					scratch.animation.addByPrefix('e', 'scratch thing', 24, true);
+					scratch.animation.play('e');
+					scratch.cameras = [camScratch];
+					add(scratch);
 			}
+		}
 
 		fade = new FlxSprite().makeGraphic(FlxG.width * 3, FlxG.height * 3, 0x000000);
 		fade.screenCenter();
@@ -869,6 +937,27 @@ class PlayState extends MusicBeatState
 		waltScreenThing.scrollFactor.set();
 		waltScreenThing.cameras = [camAlt];
 		waltScreenThing.alpha = 0;
+
+		if (Init.trueSettings.get('Display Song Cards'))
+		{
+			songCard = new SongCard();
+			add(songCard);
+			songCard.cameras = [camAlt];
+			if (gameplayMode == FREEPLAY)
+			{
+				songCard.playCardAnim(0.08);
+			}
+			else if (gameplayMode == STORY)
+			{
+				switch (SONG.song)
+				{
+					case 'Isolated' | 'Lunacy' | 'Delusional':
+						// do nothing, it's already set under stepHit()
+					default:
+						songCard.playCardAnim(0.08);
+				}
+			}
+		}
 		
 		var waltInstructionsMain:FlxText = new FlxText(370, 500, 0, "Take Advantage of the SPACEBAR!", 30);
 		waltInstructionsMain.cameras = [camAlt];
@@ -893,17 +982,51 @@ class PlayState extends MusicBeatState
 		spaceBarCounter.cameras = [camAlt];
 		spaceBarCounter.alpha = 0;
 		spaceBarCounter.scrollFactor.set();
+
+		lyrics = new FlxText(0, FlxG.height - 60, 0, '', 15);
+		lyrics.setFormat(Paths.font('vcr'), 30, FlxColor.WHITE, ForeverTools.setTextAlign('center'), FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		lyrics.cameras = [camAlt];
+		lyrics.alpha = 0;
+		lyrics.borderSize = 4;
+		lyrics.scrollFactor.set();
+		lyrics.screenCenter(X);
+		add(lyrics);
+
+		lyricsIcon = new HealthIcon('placeholder', false);
+		lyricsIcon.x = lyrics.x - 150;
+		lyricsIcon.y = lyrics.y - 65;
+		lyricsIcon.visible = false;
+		lyricsIcon.cameras = [camAlt];
+		add(lyricsIcon);
 			
 		// Cleaner Initialization for the mechanics and note visibility stuff
 		switch (SONG.song)
 		{
+			case 'Devilish Deal':
+				// Moves Player Notes on Opponent Side
+				if (!Init.trueSettings.get('Centered Notefield'))
+				{
+					strumLines.members[0].visible = false;
+					bfStrums.receptors.members[0].x = 75;
+					bfStrums.receptors.members[1].x = 185;
+					bfStrums.receptors.members[2].x = 300;
+					bfStrums.receptors.members[3].x = 415;
+				}
+				
+				camGame.alpha = 0.001;
+				camHUD.alpha = 0.001;
+				for (i in strumHUD)
+				{
+					i.alpha = 0.001; // 0.001 doesn't cause lag when setting alpha above 0 for some reason, yet it's still invisible
+				}
+				
 			case 'Isolated' | 'Lunacy':
 				for (i in strumHUD)
 				{
-					i.alpha = 0;
+					i.alpha = 0.001;
 				}
-				camGame.alpha = 0;
-				camHUD.alpha = 0;
+				camGame.alpha = 0.001;
+				camHUD.alpha = 0.001;
 				
 			case 'Mercy Legacy': 
 				if (!Init.trueSettings.get('Disable Mechanics'))
@@ -918,10 +1041,10 @@ class PlayState extends MusicBeatState
 			case 'Malfunction':
 				for (i in strumHUD)
 					{
-						i.alpha = 0;
+						i.alpha = 0.001;
 					}
-					camGame.alpha = 0;
-					camHUD.alpha = 0;
+					camGame.alpha = 0.001;
+					camHUD.alpha = 0.001;
 				crashLivesCounter += 45;
 		}
 
@@ -963,6 +1086,7 @@ class PlayState extends MusicBeatState
 
 		// call the funny intro cutscene depending on the song
 		songCutscene(false);
+		initializeShaders();
 	}
 
 	var keysHeld:Array<Bool> = [];
@@ -1202,6 +1326,11 @@ class PlayState extends MusicBeatState
 		stageBuild.stageUpdateConstant(elapsed, boyfriend, gf, opponent);
 
 		super.update(elapsed);
+		
+		for (i in shaderUpdates)
+		{
+			i(elapsed);
+		}
 
 		if(FlxG.keys.justPressed.F5)
 			isDebugMode = true;
@@ -1585,7 +1714,33 @@ class PlayState extends MusicBeatState
 								for (i in strumHUD)
 									i.shake(0.015, 0.07);
 							}
-							// shaders soon
+							if (canaddshaders)
+							{
+								if (Init.trueSettings.get('Epilepsy Mode'))
+								{
+									addShaderToCamera('hud', new FuckingBlurEffect(1.5, 0));
+									addShaderToCamera('notes', new FuckingBlurEffect(1.5, 0));
+									addShaderToCamera('game', new FuckingBlurEffect(3, 0));
+								}
+								if(!Init.trueSettings.get('Low Quality'))
+								{
+									addShaderToCamera('hud', new MalfunctionLegacyEffect(0.01));
+									addShaderToCamera('notes', new MalfunctionLegacyEffect(0.01));
+									addShaderToCamera('game', new MalfunctionNewEffect(0.2, 0.015));
+								}
+								new FlxTimer().start(0.04, function(tmr:FlxTimer)
+								{
+									clearShaderFromCamera('game');
+									clearShaderFromCamera('notes');
+									clearShaderFromCamera('hud');
+									if(!Init.trueSettings.get('Low Quality'))
+									{
+										addShaderToCamera('hud', new MalfunctionLegacyEffect(0.004));
+										addShaderToCamera('notes', new MalfunctionLegacyEffect(0.004));
+										addShaderToCamera('game', new MalfunctionNewEffect(0.1, 0.1));
+									}
+								});
+							}
 						}
 						else if (opponent.curCharacter == 'gm-tired-pixel')
 						{
@@ -1597,6 +1752,33 @@ class PlayState extends MusicBeatState
 								camHUD.shake(0.007, 0.07);
 								for (i in strumHUD)
 									i.shake(0.07, 0.07);
+							}
+							if (canaddshaders)
+							{
+								if (Init.trueSettings.get('Epilepsy Mode'))
+								{
+									addShaderToCamera('hud', new FuckingBlurEffect(0.8, 0));
+									addShaderToCamera('notes', new FuckingBlurEffect(0.8, 0));
+									addShaderToCamera('game', new FuckingBlurEffect(1, 0));
+								}
+								if(!Init.trueSettings.get('Low Quality'))
+								{
+									addShaderToCamera('hud', new MalfunctionLegacyEffect(0.003));
+									addShaderToCamera('notes', new MalfunctionLegacyEffect(0.003));
+									addShaderToCamera('game', new MalfunctionNewEffect(0.15, 0.1));
+								}
+								new FlxTimer().start(0.04, function(tmr:FlxTimer)
+								{
+									clearShaderFromCamera('game');
+									clearShaderFromCamera('notes');
+									clearShaderFromCamera('hud');
+									if(!Init.trueSettings.get('Low Quality'))
+									{
+										addShaderToCamera('hud', new MalfunctionLegacyEffect(0.002));
+										addShaderToCamera('notes', new MalfunctionLegacyEffect(0.002));
+										addShaderToCamera('game', new MalfunctionNewEffect(0.01, 0.01));
+									}
+								});
 							}
 						}
 						
@@ -1610,7 +1792,33 @@ class PlayState extends MusicBeatState
 							for (i in strumHUD)
 								i.shake(0.015, 0.07);
 						}
-						// shaders soon
+						if (canaddshaders)
+						{
+							if (Init.trueSettings.get('Epilepsy Mode'))
+							{
+								addShaderToCamera('hud', new FuckingBlurEffect(1, 0));
+								addShaderToCamera('notes', new FuckingBlurEffect(1, 0));
+								addShaderToCamera('game', new FuckingBlurEffect(1.5, 0));
+							}
+							if(!Init.trueSettings.get('Low Quality'))
+							{
+								addShaderToCamera('hud', new MalfunctionLegacyEffect(0.01));
+								addShaderToCamera('notes', new MalfunctionLegacyEffect(0.01));
+								addShaderToCamera('game', new MalfunctionLegacyEffect(0.01));
+							}
+							new FlxTimer().start(0.04, function(tmr:FlxTimer)
+							{
+								clearShaderFromCamera('game');
+								clearShaderFromCamera('notes');
+								clearShaderFromCamera('hud');
+								if(!Init.trueSettings.get('Low Quality'))
+								{
+									addShaderToCamera('hud', new MalfunctionLegacyEffect(0.004));
+									addShaderToCamera('notes', new MalfunctionLegacyEffect(0.004));
+									addShaderToCamera('game', new MalfunctionLegacyEffect(0.008));
+								}
+							});
+						}
 						
 					case "Don't Cross!":
 						boyfriend.x += 1.2;
@@ -1621,7 +1829,7 @@ class PlayState extends MusicBeatState
 						if (!Init.trueSettings.get('Disable Mechanics'))
 						{
 							if(health > 0.05) // trol
-								health -= 0.035;
+								health -= 0.015;
 						}
 				}
 			}
@@ -2378,6 +2586,66 @@ class PlayState extends MusicBeatState
 			}
 		}
 	}
+			
+	/*
+	* # Cinematic Bars
+	*
+	* WORK IN PROGRESS, NOT FINAL
+	*/		
+	function cinematicBarControls(speed:Float, ease:String = "circInOut", position:Float = 0, controlType:String = "add")
+	{
+		switch (controlType.toLowerCase())
+		{
+			case "add" | "create":
+				if (cinematicBars["top"] == null)
+				{
+					cinematicBars["top"] = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+					cinematicBars["top"].screenCenter(X);
+					cinematicBars["top"].cameras = [camBars];
+					cinematicBars["top"].y = 0 - cinematicBars["top"].height; // offscreen
+					add(cinematicBars["top"]);
+				}
+
+				if (cinematicBars["bottom"] == null)
+				{
+					cinematicBars["bottom"] = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+					cinematicBars["bottom"].screenCenter(X);
+					cinematicBars["bottom"].cameras = [camBars];
+					cinematicBars["bottom"].y = FlxG.height; // offscreen
+					add(cinematicBars["bottom"]);
+				}
+				
+			case "remove" | "kill" | "delete":
+				if (cinematicBars["top"] != null)
+					cinematicBars["top"].kill();
+				if (cinematicBars["bottom"] != null)
+					cinematicBars["bottom"].kill();
+				
+			case "movetop" | "move top":
+				FlxTween.tween(cinematicBars["top"], {y: position}, speed, {ease: ForeverTools.returnTweenEase(ease)});
+				
+			case "movebottom" | "move bottom":
+				FlxTween.tween(cinematicBars["bottom"], {y: -position}, speed, {ease: ForeverTools.returnTweenEase(ease)});
+				
+			case "moveboth" | "move both":
+				FlxTween.tween(cinematicBars["top"], {y: position}, speed, {ease: ForeverTools.returnTweenEase(ease)});
+				FlxTween.tween(cinematicBars["bottom"], {y: -position}, speed, {ease: ForeverTools.returnTweenEase(ease)});
+				
+			case "boptop" | "bop top":
+				cinematicBars["top"].y = position;
+				FlxTween.tween(cinematicBars["top"], {y: position - 20}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});
+				
+			case "bopbottom" | "bop bottom":
+				cinematicBars["bottom"].y = -position;
+				FlxTween.tween(cinematicBars["bottom"], {y: -position + 20}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});
+				
+			case "bopboth" | "bop both":
+				cinematicBars["top"].y = position;
+				cinematicBars["bottom"].y = -position;
+				FlxTween.tween(cinematicBars["top"], {y: position - 20}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});
+				FlxTween.tween(cinematicBars["bottom"], {y: -position + 20}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});			
+		}
+	}
 					
 	/**
 	* # Stage Background Flash Function
@@ -2600,6 +2868,60 @@ class PlayState extends MusicBeatState
 		});
 	}
 
+	function manageLyrics(icon:String = 'bf', text:String = 'swaggers', font:String = 'vcr', size:Int = 15, duration:Float = 5, tweenType:String = 'linear')
+	{
+		lyricsIcon.updateIcon(icon, false);
+		if (!lyricsIcon.visible)
+		{
+			lyricsIcon.visible = true;
+			lyricsIcon.alpha = 0;
+		}
+
+		lyrics.font = Paths.font(font);
+		lyrics.text = text;
+
+		if (lyricsTween != null)
+			lyricsTween.cancel();
+
+		if (iconTween != null)
+			iconTween.cancel();
+
+		iconTween = FlxTween.tween(lyricsIcon, {
+				'scale.x': 1,
+				'scale.y': 1,
+				alpha: 1
+			},
+			0.5,
+			{ease: ForeverTools.returnTweenEase(tweenType),
+			onComplete: function(twn:FlxTween)
+			{
+				iconTween = FlxTween.tween(lyricsIcon, {alpha: 0, 'scale.x': 0, 'scale.y': 0}, 0.25, {startDelay: duration, ease: ForeverTools.returnTweenEase(tweenType),
+					onComplete: function(twn:FlxTween)
+					{
+						iconTween = null;
+					}
+				});
+			}
+		});
+
+		lyricsTween = FlxTween.tween(lyrics, {
+				size: size,
+				alpha: 1
+			},
+			0.5,
+			{ease: ForeverTools.returnTweenEase(tweenType),
+			onComplete: function(twn:FlxTween)
+			{
+				lyricsTween = FlxTween.tween(lyrics, {alpha: 0, size: 0}, 0.25, {startDelay: duration, ease: ForeverTools.returnTweenEase(tweenType),
+					onComplete: function(twn:FlxTween)
+					{
+						lyricsTween = null;
+					}
+				});
+			}
+		});
+	}
+
 	function resyncVocals():Void
 	{
 		if (!endingSong)
@@ -2744,6 +3066,215 @@ class PlayState extends MusicBeatState
 		// Mechanics we don't want peeps to actually modify when snooping through the release files
 		switch (SONG.song)
 		{
+			case 'Devilish Deal':
+				switch (curBeat)
+				{
+					// Intro
+					case 8: FlxTween.tween(camGame, {alpha: 1}, 4.5, {ease: FlxEase.sineOut});
+
+					case 16:
+						manageLyrics('placeholder', 'In the rain...', 'satanFont', 30, 2, 'sineInOut');
+
+					case 20:
+						manageLyrics('placeholder', '...Looking so blue...', 'satanFont', 30, 3.2, 'sineInOut');
+
+					case 26:
+						manageLyrics('placeholder', '...SPEAK...', 'satanFont', 30, 0.7, 'sineInOut');
+
+					case 28:
+						manageLyrics('placeholder', '...What is on your mind?', 'satanFont', 30, 2.5, 'sineInOut');
+					
+					case 30:
+						FlxTween.tween(camHUD, {alpha: 1}, 2, {ease: FlxEase.sineOut});
+						for (i in strumHUD)
+						{
+							FlxTween.tween(i, {alpha: 1}, 2, {ease: FlxEase.sineOut});
+						}
+					
+					case 32 | 34 | 36 | 38 | 40 | 42 | 44 | 46 | 48 | 50 | 52 | 54 | 56 | 58:
+						if (canaddshaders)
+						{
+							if (chromZoomTween != null)
+								chromZoomTween.cancel();
+
+							chromZoomShader.amount = 1;
+
+							chromZoomTween = FlxTween.tween(
+								chromZoomShader,
+								{
+									amount: 0
+								},
+								1.2,
+								{
+									ease: FlxEase.sineOut,
+									onComplete: function(twn:FlxTween)
+									{
+										chromZoomTween = null;
+									}
+								}
+							);
+						}
+
+					case 60:
+						FlxTween.tween(camHUD, {alpha: 0.4}, 0.75, {ease: FlxEase.quartInOut});
+						for (i in strumHUD)
+						{
+							FlxTween.tween(i, {alpha: 0.4}, 0.75, {ease: FlxEase.quartInOut});
+						}
+						if (canaddshaders)
+						{
+							if (chromZoomTween != null)
+								chromZoomTween.cancel();
+
+							chromZoomShader.amount = 1;
+
+							chromZoomTween = FlxTween.tween(
+								chromZoomShader,
+								{
+									amount: 0
+								},
+								1.2,
+								{
+									ease: FlxEase.sineOut,
+									onComplete: function(twn:FlxTween)
+									{
+										chromZoomTween = null;
+									}
+								}
+							);
+						}
+
+					case 62:
+						if (canaddshaders)
+						{
+							if (chromZoomTween != null)
+								chromZoomTween.cancel();
+
+							chromZoomShader.amount = 1;
+
+							chromZoomTween = FlxTween.tween(
+								chromZoomShader,
+								{
+									amount: 0
+								},
+								2,
+								{
+									ease: FlxEase.sineOut,
+									onComplete: function(twn:FlxTween)
+									{
+										chromZoomTween = null;
+									}
+								}
+							);
+						}
+
+					case 64:
+						FlxTween.tween(camHUD, {alpha: 1}, 1.2, {ease: FlxEase.quartInOut});
+						for (i in strumHUD)
+						{
+							FlxTween.tween(i, {alpha: 1}, 1.2, {ease: FlxEase.quartInOut});
+						}
+					
+						case 128:
+							camGame.visible = false;
+							camHUD.visible = false;
+							for (i in strumHUD)
+							{
+								i.visible = false;
+							}
+							if (!Init.trueSettings.get('Disable Flashing Lights')) camAlt.flash(FlxColor.WHITE, 1);
+							if (canaddshaders)
+							{
+								if (chromZoomTween != null)
+									chromZoomTween.cancel();
+			
+								chromZoomShader.amount = 1.5;
+			
+								chromZoomTween = FlxTween.tween(
+									chromZoomShader,
+									{
+										amount: 0
+									},
+									2.3,
+									{
+										ease: FlxEase.sineOut,
+										onComplete: function(twn:FlxTween)
+										{
+											chromZoomTween = null;
+										}
+									}
+								);
+							}
+				}
+
+				if (curBeat >= 64 && curBeat <= 95 && canaddshaders)
+				{
+					if (chromZoomTween != null)
+						chromZoomTween.cancel();
+
+					chromZoomShader.amount = 1.2;
+
+					chromZoomTween = FlxTween.tween(
+						chromZoomShader,
+						{
+							amount: 0
+						},
+						1.5,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromZoomTween = null;
+							}
+						}
+					);
+				}
+
+				if (curBeat >= 96 && curBeat <= 111 && canaddshaders)
+				{
+					if (chromZoomTween != null)
+						chromZoomTween.cancel();
+
+					chromZoomShader.amount = 1.35;
+
+					chromZoomTween = FlxTween.tween(
+						chromZoomShader,
+						{
+							amount: 0
+						},
+						1.5,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromZoomTween = null;
+							}
+						}
+					);
+				}
+
+				if (curBeat >= 112 && curBeat <= 127 && canaddshaders)
+				{
+					if (chromZoomTween != null)
+						chromZoomTween.cancel();
+
+					chromZoomShader.amount = 1.5;
+
+					chromZoomTween = FlxTween.tween(
+						chromZoomShader,
+						{
+							amount: 0
+						},
+						1.5,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromZoomTween = null;
+							}
+						}
+					);
+				}
 			case 'Isolated':
 				switch (curBeat)
 				{
@@ -3127,18 +3658,20 @@ class PlayState extends MusicBeatState
 					{
 						case 158:
 							relapseGimmick(0.7, 0.3);
+						case 164 | 166 | 180 | 182:
+							relapseGimmick(0.35, 0.15);
 						case 172 | 204:
-							relapseGimmick(1.12, 0.6);
+							relapseGimmick(1.4, 0.6);
 						case 190:
 							relapseGimmick(0.7, 0.54);
 						case 212:
 							relapseGimmick(0.7, 0.8);
-						case 222 | 264:
+						case 222 | 264 | 196:
 							relapseGimmick(0.7, 1);
 						case 236:
 							relapseGimmick(0.7, 0.4);
 						case 248:
-							relapseGimmick(1.12, 1.2);
+							relapseGimmick(1.4, 1.2);
 						case 270:
 							relapseGimmick(0.7, 1.5);
 					}
@@ -3261,6 +3794,125 @@ class PlayState extends MusicBeatState
 	/*
 		Extra functions and stuffs
 	 */
+	 
+	// Reused from Psych cause I REALLY do NOT wanna do this shit again
+	public function addShaderToCamera(cam:String, effect:ShaderEffect)
+	{ // STOLE FROM ANDROMEDA
+		if(canaddshaders) 
+		{
+			switch (cam.toLowerCase())
+			{
+				case 'camhud' | 'hud':
+					camHUDShaders.push(effect);
+					var newCamEffects:Array<BitmapFilter> = []; // IT SHUTS HAXE UP IDK WHY BUT WHATEVER IDK WHY I CANT JUST ARRAY<SHADERFILTER>
+					for (i in camHUDShaders)
+					{
+						newCamEffects.push(new ShaderFilter(i.shader));
+					}
+					camHUD.setFilters(newCamEffects);
+				case 'camalt' | 'alt':
+					camAltShaders.push(effect);
+					var newCamEffects:Array<BitmapFilter> = []; // IT SHUTS HAXE UP IDK WHY BUT WHATEVER IDK WHY I CANT JUST ARRAY<SHADERFILTER>
+					for (i in camAltShaders)
+					{
+						newCamEffects.push(new ShaderFilter(i.shader));
+					}
+					camAlt.setFilters(newCamEffects);
+				case 'camgame' | 'game':
+					camGameShaders.push(effect);
+					var newCamEffects:Array<BitmapFilter> = []; // IT SHUTS HAXE UP IDK WHY BUT WHATEVER IDK WHY I CANT JUST ARRAY<SHADERFILTER>
+					for (i in camGameShaders)
+					{
+						newCamEffects.push(new ShaderFilter(i.shader));
+					}
+					camGame.setFilters(newCamEffects);
+				case 'strums' | 'strumhud' | 'strumlines' | 'notes':
+					strumShaders.push(effect);
+					var newCamEffects:Array<BitmapFilter> = []; // IT SHUTS HAXE UP IDK WHY BUT WHATEVER IDK WHY I CANT JUST ARRAY<SHADERFILTER>
+					for (i in strumShaders)
+					{
+						newCamEffects.push(new ShaderFilter(i.shader));
+					}
+					for (i in strumHUD)
+					{
+						i.setFilters(newCamEffects);
+					}
+			}
+		}
+	}
+	
+	public function removeShaderFromCamera(cam:String, effect:ShaderEffect)
+	{
+		if(canaddshaders) {
+		switch (cam.toLowerCase())
+		{
+			case 'camhud' | 'hud':
+				camHUDShaders.remove(effect);
+				var newCamEffects:Array<BitmapFilter> = [];
+				for (i in camHUDShaders)
+				{
+					newCamEffects.push(new ShaderFilter(i.shader));
+				}
+				camHUD.setFilters(newCamEffects);
+			case 'camalt' | 'alt':
+				camAltShaders.remove(effect);
+				var newCamEffects:Array<BitmapFilter> = [];
+				for (i in camAltShaders)
+				{
+					newCamEffects.push(new ShaderFilter(i.shader));
+				}
+				camAlt.setFilters(newCamEffects);
+			case 'strums' | 'strumhud' | 'strumlines' | 'notes':
+				strumShaders.remove(effect);
+				var newCamEffects:Array<BitmapFilter> = [];
+				for (i in strumShaders)
+				{
+					newCamEffects.push(new ShaderFilter(i.shader));
+				}
+				for (i in strumHUD)
+				{
+					i.setFilters(newCamEffects);
+				}
+			default:
+				camGameShaders.remove(effect);
+				var newCamEffects:Array<BitmapFilter> = [];
+				for (i in camGameShaders)
+				{
+					newCamEffects.push(new ShaderFilter(i.shader));
+				}
+				camGame.setFilters(newCamEffects);
+			}
+		}
+	}
+	
+	public function clearShaderFromCamera(cam:String)
+	{
+		if(canaddshaders) {
+		switch (cam.toLowerCase())
+		{
+			case 'camhud' | 'hud':
+				camHUDShaders = [];
+				var newCamEffects:Array<BitmapFilter> = [];
+				camHUD.setFilters(newCamEffects);
+			case 'camalt' | 'alt':
+				camAltShaders = [];
+				var newCamEffects:Array<BitmapFilter> = [];
+				camAlt.setFilters(newCamEffects);
+			case 'strums' | 'strumhud' | 'strumlines' | 'notes':
+				strumShaders = [];
+				var newCamEffects:Array<BitmapFilter> = [];
+				for (i in strumHUD)
+				{
+					i.setFilters(newCamEffects);
+				}
+			default:
+				camGameShaders = [];
+				var newCamEffects:Array<BitmapFilter> = [];
+				camGame.setFilters(newCamEffects);
+			}
+		}
+	}
+	
 	public function createVideoCutscene(name:String)
 	{
 		callFunc('createVideoCutscene', [name]);
@@ -3268,7 +3920,11 @@ class PlayState extends MusicBeatState
 		inCutscene = true;
 
 		var filepath:String = Paths.video(name);
+		#if (hxCodec >= "2.6.0")
 		var video:VideoHandler = new VideoHandler();
+		#else
+		var video:MP4Handler = new MP4Handler();
+		#end
 		video.playVideo(filepath);
 		video.finishCallback = function()
 		{
@@ -3484,7 +4140,7 @@ class PlayState extends MusicBeatState
 			case 'cycled sins':
 				FlxTween.tween(cycledSinsHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 				
-			case 'isolated' | 'lunacy' | 'delusional':
+			case 'devilish deal' | 'isolated' | 'lunacy' | 'delusional':
 				FlxTween.tween(episode1HUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 
 			default:
@@ -3668,13 +4324,20 @@ class PlayState extends MusicBeatState
 				completeFPSong();
 				switch (CoolUtil.dashToSpace(SONG.song))
 				{
-					case 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus' | 'Mercy' | 'Affliction':
-						Main.switchState(this, new states.menus.freeplay.FreeplayState());
+					case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus' | 'Mercy' | 'Affliction':
+						states.menus.freeplay.FreeplaySongs.freeplayMenuList = 0;
+						Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
 					default:
-						if (PlayState.SONG.song.endsWith('Legacy'))
-							Main.switchState(this, new states.menus.freeplay.LegacyState());
+						if (PlayState.SONG.song.endsWith('Legacy')) // me when StringTools optimizes the code
+						{
+							states.menus.freeplay.FreeplaySongs.freeplayMenuList = 2;
+							Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
+						}
 						else
-							Main.switchState(this, new states.menus.freeplay.ExtrasState()); // yeah, there's no way I'm making a case for EVERY fucking song in that menu, too much work!
+						{
+							states.menus.freeplay.FreeplaySongs.freeplayMenuList = 1;
+							Main.switchState(this, new states.menus.freeplay.FreeplaySongs()); // yeah, there's no way I'm making a case for EVERY fucking song in that menu, too much work!
+						}
 				}
 				clearStored = true;
 			case CHARTING:
