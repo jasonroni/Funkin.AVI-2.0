@@ -234,9 +234,15 @@ class Main extends Sprite
 
 			var cache = cast(Assets.cache, AssetCache);
 			for (key=>font in cache.font)
-				cache.removeFont(key);
+				{
+					cache.removeFont(key); 
+					trace('removed font $key');
+				}
 			for (key=>sound in cache.sound)
-				cache.removeSound(key);
+				{
+					cache.removeSound(key); 
+					trace('removed sound $key');
+				}
 		});
 		FlxG.signals.postStateSwitch.add(function () {
 			Paths.clearUnusedMemory();
@@ -436,13 +442,13 @@ class Main extends Sprite
 		destroyGame();
 	}
 	
-	/*
+	/**
 	* Shader Fixes when game window gets resized.
+	* 
 	* Along with some ram fixes for sprites and shit
 	*
 	* @author lunarcleint
 	*/
-	
 	function onResizeGame(w:Int, h:Int) {
 		if (FlxG.cameras == null)
 			return;

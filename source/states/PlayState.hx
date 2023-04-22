@@ -846,6 +846,17 @@ class PlayState extends MusicBeatState
 				scratch.animation.play('e');
 				scratch.cameras = [camScratch];
 				add(scratch);
+
+				// rip scratchs
+				if(SONG.song.toLowerCase().replace('-', ' ') == 'malfunction' || 
+				SONG.song.toLowerCase().replace('-', ' ') == "cycled sins" ||
+				SONG.song.toLowerCase().replace('-', ' ') == "bless" ||
+				SONG.song.toLowerCase().replace('-', ' ') == "laugh track" ||
+				SONG.song.toLowerCase().replace('-', ' ') == "scrapped")
+				{
+					scratchButLessVisible.destroy();
+					scratch.destroy();
+				}
 			}
 
 		fade = new FlxSprite().makeGraphic(FlxG.width * 3, FlxG.height * 3, 0x000000);
@@ -1156,17 +1167,19 @@ class PlayState extends MusicBeatState
 		return false;
 	}
 	
-	function checkCamPosition()
-	{
-		/*
-		* Originally in "public function update(elapsed:Float)"
+	/**
+		* ### Originally in the `update` function.
+		* 
 		* was moved here as a separate function so certain
-		* mechanics can alter the camera too, for example:
+		* mechanics can alter the camera too, 
+		* 
+		* for example:
 		* Cycled Sins with the shooting and dodging gimmick.
 		*
 		* -DEMOLITIONDON96
-		*/
-		
+	*/
+	function checkCamPosition()
+	{	
 		var cameraPos = Init.trueSettings.get('Camera Position');
 		if (cameraPos != 'none')
 		{
