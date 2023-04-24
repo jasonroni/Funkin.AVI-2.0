@@ -761,6 +761,17 @@ class FreeplaySongs extends MusicBeatState
 
 	public static function getDiffRank()
 	{
+		switch (songs[curSelected].name.toLowerCase())
+		{
+			case 'devilish-deal' | 'hunted-legacy' | 'isolated-beta' | 'isolated-old' | 'isolated': difficultyRank = 'EASY';
+			case 'lunacy' | 'neglection' | 'resentment' | 'lunacy-legacy' | 'hunted' | 'mortiferum-risus' | 'isolated-legacy': difficultyRank = 'NORMAL';
+			case 'delusional' | 'mercy': difficultyRank = 'INSANE';
+			case 'malfunction': difficultyRank = 'null';
+			case "don't-cross!": difficultyRank = 'GOOD LUCK';
+			case 'birthday': difficultyRank = 'PARTY';
+			case 'delutrance': difficultyRank = 'DELUSIONAL';
+			default: difficultyRank = 'HARD';
+		}
 		switch (CoolUtil.spaceToDash(PlayState.SONG.song.toLowerCase()))
 		{
 			case 'devilish-deal' | 'hunted-legacy' | 'isolated-beta' | 'isolated-old' | 'isolated': difficultyRank = 'EASY';
