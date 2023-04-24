@@ -168,8 +168,10 @@ class MainMenu extends MusicBeatState
 			"I think one of the codes is a certain date",
 			"This mod was an idea that started on 03/21/22, pretty crazy, right?",
 			"Everyday is Muckney's Birthday",
-			"there is no message, go play some minecraft"
-			
+			"there is no message, go play some minecraft",
+			"THEY HIT THE FUCKING PENTAGON, SMILES",
+			"Want a break from the ads? If you tap now to take a short servey, you'll recieve 30 minutes of ad-free music.",
+			"I bet you're complaining that this isn't on Psych Engine right about now, silly kiddo"
 	];
 
 	var defaultShader:FlxRuntimeShader;
@@ -503,6 +505,11 @@ class MainMenu extends MusicBeatState
 							theBirthdayCode = 1;
 					}
 				}
+
+				if (theBirthdayCode == 1)
+					FlxG.sound.muteKeys = null;
+				else
+					FlxG.sound.muteKeys = [FlxKey.ZERO, FlxKey.NUMPADZERO];
 			}
 
 		if ((controlArray.contains(true)) && (!selectedSomethin))

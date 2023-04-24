@@ -7,7 +7,7 @@ import flixel.util.FlxColor;
 import flixel.FlxBasic;
 import flixel.system.FlxAssets.FlxShader;
 
-class CamChromEvent extends FlxBasic
+class CamChromZoom extends FlxBasic
 {
     public var shader(default, null):CAGLSL = new CAGLSL();
 
@@ -31,6 +31,35 @@ class CamChromEvent extends FlxBasic
        // shader.iResolution.value = [FlxG.stage.stageWidth, FlxG.stage.stageHeight];
 		return v;
 	}
+}
+
+class CamChromNormal extends FlxBasic
+{
+    public var shader(default, null):ChromOld = new ChromOld();
+
+    var iTime:Float = 0;
+
+    public var offset(default, set):Float = 0;
+
+    public function new (_offset:Float):Void
+    {
+        super();
+
+        offset = _offset;
+    }
+
+    override public function update(elapsed:Float):Void
+    {
+        super.update(elapsed);
+    }
+
+    function set_offset(r:Float):Float
+    {
+        offset = r;
+        shader.rOffset.value = [offset];
+        shader.bOffset.value = [-offset];
+        return r;
+    }
 }
 
 class CAGLSL extends FlxShader

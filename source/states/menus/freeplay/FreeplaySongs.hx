@@ -72,6 +72,8 @@ class FreeplaySongs extends MusicBeatState
 	public var loadCustom:Bool = true;
 	public static var freeplayMenuList = 0;
 
+	public static var difficultyRank:String = 'HARD';
+
 	public function new(?loadCustom:Bool = false)
 	{
 		super();
@@ -388,11 +390,6 @@ class FreeplaySongs extends MusicBeatState
 		else if (downP)
 			changeSelection(1);
 
-		if (Controls.getPressEvent("ui_left"))
-			changeDiff(-1);
-		if (Controls.getPressEvent("ui_right"))
-			changeDiff(1);
-
 		if (Controls.getPressEvent("back"))
 		{
 			if (!FlxG.keys.pressed.SHIFT)
@@ -478,7 +475,34 @@ class FreeplaySongs extends MusicBeatState
 
 		intendedScore = ScoreUtils.getScore(songs[curSelected].name, curDifficulty);
 
-		diffText.text = '< ' + existingDifficulties[curSelected][curDifficulty] + ' >';
+		switch (songs[curSelected].name.toLowerCase())
+		{
+			case 'devilish-deal' | 'hunted-legacy' | 'isolated-beta' | 'isolated-old' | 'isolated':
+				difficultyRank = 'EASY';
+				diffText.color = FlxColor.WHITE;
+			case 'lunacy' | 'neglection' | 'resentment' | 'lunacy-legacy' | 'hunted' | 'mortiferum-risus' | 'isolated-legacy':
+				difficultyRank = 'NORMAL';
+				diffText.color = FlxColor.fromRGB(255, 220, 220);
+			case 'delusional' | 'mercy':
+				difficultyRank = 'INSANE';
+				diffText.color = FlxColor.fromRGB(255, 110, 110);
+			case 'malfunction':
+				difficultyRank = 'null';
+				diffText.color = FlxColor.WHITE;
+			case "don't-cross!":
+				difficultyRank = 'GOOD LUCK';
+				diffText.color = FlxColor.fromRGB(201, 0, 0);
+			case 'birthday':
+				difficultyRank = 'PARTY';
+				diffText.color = FlxColor.fromRGB(250, 234, 92);
+			case 'delutrance':
+				difficultyRank = 'DELUSIONAL';
+				diffText.color = FlxColor.fromRGB(5, 139, 242);
+			default:
+				difficultyRank = 'HARD';
+				diffText.color = FlxColor.fromRGB(255, 187, 187);
+		}
+		diffText.text = '< ' + difficultyRank + ' >';
 		lastDifficulty = existingDifficulties[curSelected][curDifficulty];
 	}
 
@@ -745,6 +769,29 @@ class FreeplaySongs extends MusicBeatState
 			});
 		}
 		songThread.sendMessage(curSelected);
+	}
+
+	public static function getDiffRank()
+	{
+		switch (CoolUtil.spaceToDash(PlayState.SONG.song.toLowerCase()))
+		{
+			case 'devilish-deal' | 'hunted-legacy' | 'isolated-beta' | 'isolated-old' | 'isolated':
+				difficultyRank = 'EASY';
+			case 'lunacy' | 'neglection' | 'resentment' | 'lunacy-legacy' | 'hunted' | 'mortiferum-risus' | 'isolated-legacy':
+				difficultyRank = 'NORMAL';
+			case 'delusional' | 'mercy':
+				difficultyRank = 'INSANE';
+			case 'malfunction':
+				difficultyRank = 'null';
+			case "don't-cross!":
+				difficultyRank = 'GOOD LUCK';
+			case 'birthday':
+				difficultyRank = 'PARTY';
+			case 'delutrance':
+				difficultyRank = 'DELUSIONAL';
+			default:
+				difficultyRank = 'HARD';
+		}
 	}
 
 	function updateDiscord()

@@ -268,40 +268,41 @@ class PlayState extends MusicBeatState
 	var fade:FlxSprite;
 	
 	// for Tweening shaders and shit later
-	var chromZoomShader:CamChromEvent = new CamChromEvent(0.1);
-	var chromNormalShader:MalfunctionLegacyEffect = new MalfunctionLegacyEffect(0.00001);
+	var chromZoomShader:CamChromZoom = new CamChromZoom(0.1);
+	var chromNormalShader:CamChromNormal = new CamChromNormal(0.00001);
 	
 	var chromZoomTween:FlxTween;
 	var chromNormalTween:FlxTween;
 
 	function loadWindowTitleData()
 	{
+		states.menus.freeplay.FreeplaySongs.getDiffRank();
 		switch (gameplayMode)
 		{
 				case STORY:
 					switch (SONG.song)
 					{
 						case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional':
-							Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+							Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "]";
 						
 						case 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus':
-							Application.current.window.title = 'Funkin.avi - Episode S: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+							Application.current.window.title = 'Funkin.avi - Episode S: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "]";
 				
 						case 'Mercy' | 'Affliction':
-							Application.current.window.title = 'Funkin.avi - Episode W: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+							Application.current.window.title = 'Funkin.avi - Episode W: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "]";
 				
 						default:
-							Application.current.window.title = 'Funkin.avi - Episode ???: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+							Application.current.window.title = 'Funkin.avi - Episode ???: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "]";
 					}
 					
 				case FREEPLAY:
-					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "]";
 				
 				case CHARTING:
 					if (SONG.song == 'Malfunction')
 						Application.current.window.title = 'glitchedMickey.xml - CHEATER MODE ACTIVATED: ' + SONG.song + " - Composed by: I CAN SEE YOU CHEATING! - [!CHEATER DETECTED!]";
 					else
-						Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + CoolUtil.difficultyString + "]";
+						Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "]";
 		}
 	}
 
@@ -503,10 +504,10 @@ class PlayState extends MusicBeatState
 							addShaderToCamera('notes', new MalfunctionLegacyEffect(0.00001));
 							addShaderToCamera('game', new MalfunctionNewEffect(0.0001, 0.0001));
 						}
-						new FlxTimer().start(10, function(tmr:FlxTimer)
+						new FlxTimer().start(5, function(tmr:FlxTimer)
 						{
 							clearShaderFromCamera("game");
-							clearShaderFromCamera("alt");
+							clearShaderFromCamera("notes");
 							clearShaderFromCamera("hud");
 						});
 					}
@@ -525,20 +526,28 @@ class PlayState extends MusicBeatState
 							addShaderToCamera('notes', new MalfunctionLegacyEffect(0.00001));
 							addShaderToCamera('game', new MalfunctionLegacyEffect(0.00001));
 						}
-						new FlxTimer().start(3, function(tmr:FlxTimer)
+						new FlxTimer().start(1, function(tmr:FlxTimer)
 						{
 							clearShaderFromCamera("game");
-							clearShaderFromCamera("alt");
+							clearShaderFromCamera("notes");
 							clearShaderFromCamera("hud");
 						});
 					}
-			default:
+			case 'Devilish Deal':
 				if (canaddshaders)
 				{
+					add(chromNormalShader);
 					add(chromZoomShader);
+					chromNormalShader.offset = 0.00001;
 					chromZoomShader.amount = 0.0001;
+					var filter2:ShaderFilter = new ShaderFilter(chromNormalShader.shader);
 					var filter:ShaderFilter = new ShaderFilter(chromZoomShader.shader);
 					camGame.setFilters([filter]);
+					camHUD.setFilters([filter2]);
+					for (i in strumHUD)
+					{
+						i.setFilters([filter2]);
+					}
 				}
 		}
 	}
@@ -2547,7 +2556,7 @@ class PlayState extends MusicBeatState
 				switch (curStage)
 				{
 					case 'waltRoom':
-						if (health < 0.3 && limitThing > 0)
+						if (limitThing > 0)
 						{
 							health += 1.25;
 							limitThing -= 1;
@@ -3096,8 +3105,26 @@ class PlayState extends MusicBeatState
 						{
 							if (chromZoomTween != null)
 								chromZoomTween.cancel();
+							if (chromNormalTween != null)
+								chromNormalTween.cancel();
 
+							chromNormalShader.offset = 0.01;
 							chromZoomShader.amount = 1;
+
+							chromNormalTween = FlxTween.tween(
+								chromNormalShader,
+								{
+									offset: 0
+								},
+								1.2,
+								{
+									ease: FlxEase.sineOut,
+									onComplete: function(twn:FlxTween)
+									{
+										chromNormalTween = null;
+									}
+								}
+							);
 
 							chromZoomTween = FlxTween.tween(
 								chromZoomShader,
@@ -3125,8 +3152,26 @@ class PlayState extends MusicBeatState
 						{
 							if (chromZoomTween != null)
 								chromZoomTween.cancel();
+							if (chromNormalTween != null)
+								chromNormalTween.cancel();
 
+							chromNormalShader.offset = 0.01;
 							chromZoomShader.amount = 1;
+
+							chromNormalTween = FlxTween.tween(
+								chromNormalShader,
+								{
+									offset: 0
+								},
+								1.2,
+								{
+									ease: FlxEase.sineOut,
+									onComplete: function(twn:FlxTween)
+									{
+										chromNormalTween = null;
+									}
+								}
+							);
 
 							chromZoomTween = FlxTween.tween(
 								chromZoomShader,
@@ -3149,8 +3194,26 @@ class PlayState extends MusicBeatState
 						{
 							if (chromZoomTween != null)
 								chromZoomTween.cancel();
+							if (chromNormalTween != null)
+								chromNormalTween.cancel();
 
+							chromNormalShader.offset = 0.01;
 							chromZoomShader.amount = 1;
+
+							chromNormalTween = FlxTween.tween(
+								chromNormalShader,
+								{
+									offset: 0
+								},
+								2,
+								{
+									ease: FlxEase.sineOut,
+									onComplete: function(twn:FlxTween)
+									{
+										chromNormalTween = null;
+									}
+								}
+							);
 
 							chromZoomTween = FlxTween.tween(
 								chromZoomShader,
@@ -3187,8 +3250,26 @@ class PlayState extends MusicBeatState
 							{
 								if (chromZoomTween != null)
 									chromZoomTween.cancel();
-			
+								if (chromNormalTween != null)
+									chromNormalTween.cancel();
+	
+								chromNormalShader.offset = 0.02;
 								chromZoomShader.amount = 1.5;
+	
+								chromNormalTween = FlxTween.tween(
+									chromNormalShader,
+									{
+										offset: 0
+									},
+									2.3,
+									{
+										ease: FlxEase.sineOut,
+										onComplete: function(twn:FlxTween)
+										{
+											chromNormalTween = null;
+										}
+									}
+								);
 			
 								chromZoomTween = FlxTween.tween(
 									chromZoomShader,
@@ -3211,8 +3292,26 @@ class PlayState extends MusicBeatState
 				{
 					if (chromZoomTween != null)
 						chromZoomTween.cancel();
+					if (chromNormalTween != null)
+						chromNormalTween.cancel();
 
+					chromNormalShader.offset = 0.013;
 					chromZoomShader.amount = 1.2;
+
+					chromNormalTween = FlxTween.tween(
+						chromNormalShader,
+						{
+							offset: 0
+						},
+						1.5,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromNormalTween = null;
+							}
+						}
+					);
 
 					chromZoomTween = FlxTween.tween(
 						chromZoomShader,
@@ -3234,8 +3333,26 @@ class PlayState extends MusicBeatState
 				{
 					if (chromZoomTween != null)
 						chromZoomTween.cancel();
+					if (chromNormalTween != null)
+						chromNormalTween.cancel();
 
+					chromNormalShader.offset = 0.0175;
 					chromZoomShader.amount = 1.35;
+
+					chromNormalTween = FlxTween.tween(
+						chromNormalShader,
+						{
+							offset: 0
+						},
+						1.2,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromNormalTween = null;
+							}
+						}
+					);
 
 					chromZoomTween = FlxTween.tween(
 						chromZoomShader,
@@ -3257,8 +3374,26 @@ class PlayState extends MusicBeatState
 				{
 					if (chromZoomTween != null)
 						chromZoomTween.cancel();
+					if (chromNormalTween != null)
+						chromNormalTween.cancel();
 
+					chromNormalShader.offset = 0.02;
 					chromZoomShader.amount = 1.5;
+
+					chromNormalTween = FlxTween.tween(
+						chromNormalShader,
+						{
+							offset: 0
+						},
+						1.5,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromNormalTween = null;
+							}
+						}
+					);
 
 					chromZoomTween = FlxTween.tween(
 						chromZoomShader,
