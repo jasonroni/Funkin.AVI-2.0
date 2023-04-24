@@ -54,26 +54,15 @@ class PauseSubstate extends MusicBeatSubstate
 	{
 		super();
 		
-		// apprently, it works like this
-		if (PlayState.SONG.song == 'War Dilemma')
+		if (itemStack == null)
 		{
-			if (itemStack == null)
-				itemStack = ['wd-continue', 'wd-restart', 'wd-settings', 'wd-escape'];
-		}
-		else if (PlayState.SONG.song == 'Birthday')
-		{
-			if (itemStack == null)
-				itemStack = ['continue', 'restart', 'settings', 'leave'];
-		}
-		else if (PlayState.SONG.song == 'Malfunction')
-		{
-			if (itemStack == null)
-				itemStack = ['mal-continue', 'mal-restart', 'mal-settings', 'rage'];
-		}
-		else
-		{
-			if (itemStack == null)
-				itemStack = ['continue', 'restart', 'settings', 'escape'];
+			switch (PlayState.SONG.song)
+			{
+				case 'War Dilemma': itemStack = ['wd-continue', 'wd-restart', 'wd-settings', 'wd-escape'];
+				case 'Malfunction': itemStack = ['mal-continue', 'mal-restart', 'mal-settings', 'rage'];
+				case 'Birthday': itemStack = ['continue', 'restart', 'settings', 'leave'];
+				default: itemStack = ['continue', 'restart', 'settings', 'escape'];
+			}
 		}
 
 		toOptions = false;
