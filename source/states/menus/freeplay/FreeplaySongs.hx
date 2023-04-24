@@ -477,7 +477,7 @@ class FreeplaySongs extends MusicBeatState
 
 		intendedScore = ScoreUtils.getScore(songs[curSelected].name, curDifficulty);
 
-		getDiffRank(); // grab ranking of song's difficulty
+		getDiffRank('freeplay'); // grab ranking of song's difficulty
 		switch (songs[curSelected].name.toLowerCase()) // update text color
 		{
 			case 'devilish-deal' | 'hunted-legacy' | 'isolated-beta' | 'isolated-old' | 'isolated': diffText.color = FlxColor.WHITE;
@@ -759,20 +759,9 @@ class FreeplaySongs extends MusicBeatState
 		songThread.sendMessage(curSelected);
 	}
 
-	public static function getDiffRank()
+	public static function getDiffRank(thing:String = 'freeplay')
 	{
-		switch (songs[curSelected].name.toLowerCase())
-		{
-			case 'devilish-deal' | 'hunted-legacy' | 'isolated-beta' | 'isolated-old' | 'isolated': difficultyRank = 'EASY';
-			case 'lunacy' | 'neglection' | 'resentment' | 'lunacy-legacy' | 'hunted' | 'mortiferum-risus' | 'isolated-legacy': difficultyRank = 'NORMAL';
-			case 'delusional' | 'mercy': difficultyRank = 'INSANE';
-			case 'malfunction': difficultyRank = 'null';
-			case "don't-cross!": difficultyRank = 'GOOD LUCK';
-			case 'birthday': difficultyRank = 'PARTY';
-			case 'delutrance': difficultyRank = 'DELUSIONAL';
-			default: difficultyRank = 'HARD';
-		}
-		switch (CoolUtil.spaceToDash(PlayState.SONG.song.toLowerCase()))
+		switch ((thing == 'freeplay' ? songs[curSelected].name.toLowerCase() : CoolUtil.spaceToDash(PlayState.SONG.song.toLowerCase())))
 		{
 			case 'devilish-deal' | 'hunted-legacy' | 'isolated-beta' | 'isolated-old' | 'isolated': difficultyRank = 'EASY';
 			case 'lunacy' | 'neglection' | 'resentment' | 'lunacy-legacy' | 'hunted' | 'mortiferum-risus' | 'isolated-legacy': difficultyRank = 'NORMAL';
