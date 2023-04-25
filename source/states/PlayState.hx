@@ -15,6 +15,7 @@ import base.song.SongFormat.SwagSong;
 import base.song.SongFormat.TimedEvent;
 import base.utils.FNFUtils.FNFSprite;
 import base.utils.ScoreUtils;
+import sys.io.File;
 import flash.system.System;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
@@ -268,11 +269,18 @@ class PlayState extends MusicBeatState
 	var fade:FlxSprite;
 	
 	// for Tweening shaders and shit later
-	var chromZoomShader:CamChromZoom = new CamChromZoom(0.1);
-	var chromNormalShader:CamChromNormal = new CamChromNormal(0.00001);
-	
-	var chromZoomTween:FlxTween;
-	var chromNormalTween:FlxTween;
+	var chromZoomShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/aberration.frag'), null, 150);
+	var chromNormalShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/aberrationLegacy.frag'), null, 150);
+	var blurShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tiltShift.frag'), null, 120);
+	var grainFilter:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/bloomGame.frag'), null, 120);
+	var monitorFilter:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
+	var bloomEffect:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
+
+	var chromEffect:Float = 0.0001;
+	var blurEffect:Float = 0.0;
+
+	var blurTween:FlxTween;
+	var chromTween:FlxTween;
 
 	function loadWindowTitleData()
 	{
@@ -492,24 +500,56 @@ class PlayState extends MusicBeatState
 			case 'Malfunction':
 				if (canaddshaders)
 					{
-						if (Init.trueSettings.get('Epilepsy Mode'))
-						{
-							addShaderToCamera('hud', new FuckingBlurEffect(0.0001, 0));
-							addShaderToCamera('notes', new FuckingBlurEffect(0.0001, 0));
-							addShaderToCamera('game', new FuckingBlurEffect(0.0001, 0));
-						}
 						if(!Init.trueSettings.get('Low Quality'))
 						{
-							addShaderToCamera('hud', new MalfunctionLegacyEffect(0.00001));
-							addShaderToCamera('notes', new MalfunctionLegacyEffect(0.00001));
-							addShaderToCamera('game', new MalfunctionNewEffect(0.0001, 0.0001));
+							camGame.setFilters(
+								[
+									new ShaderFilter(chromZoomShader),
+									new ShaderFilter(blurShader)
+								]
+							);
+
+							camHUD.setFilters(
+								[
+									new ShaderFilter(chromNormalShader),
+									new ShaderFilter(blurShader)
+								]
+							);
+
+							for (i in strumHUD)
+							{
+								i.setFilters(
+									[
+										new ShaderFilter(chromNormalShader),
+										new ShaderFilter(blurShader)
+									]
+								);
+							}
+
+							new FlxTimer().start(5, function(tmr:FlxTimer)
+							{
+								camGame.setFilters(
+									[
+										new ShaderFilter(chromZoomShader),
+									]
+								);
+
+								camHUD.setFilters(
+									[
+										new ShaderFilter(chromNormalShader),
+									]
+								);
+
+								for (i in strumHUD)
+								{
+									i.setFilters(
+										[
+											new ShaderFilter(chromNormalShader),
+										]
+									);
+								}
+							});
 						}
-						new FlxTimer().start(5, function(tmr:FlxTimer)
-						{
-							clearShaderFromCamera("game");
-							clearShaderFromCamera("notes");
-							clearShaderFromCamera("hud");
-						});
 					}
 			case 'Malfunction Legacy':
 				if (canaddshaders)
@@ -536,18 +576,28 @@ class PlayState extends MusicBeatState
 			case 'Devilish Deal':
 				if (canaddshaders)
 				{
-					add(chromNormalShader);
-					add(chromZoomShader);
-					chromNormalShader.offset = 0.00001;
-					chromZoomShader.amount = 0.0001;
-					var filter2:ShaderFilter = new ShaderFilter(chromNormalShader.shader);
-					var filter:ShaderFilter = new ShaderFilter(chromZoomShader.shader);
-					camGame.setFilters([filter]);
-					camHUD.setFilters([filter2]);
+					camGame.setFilters([new ShaderFilter(chromZoomShader)]);
+					camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
 					for (i in strumHUD)
 					{
-						i.setFilters([filter2]);
+						i.setFilters([new ShaderFilter(chromNormalShader)]);
 					}
+				}
+
+			case 'Lunacy':
+				if (canaddshaders)
+				{
+					camGame.setFilters([
+						new ShaderFilter(grainFilter),
+						new ShaderFilter(monitorFilter),
+						new ShaderFilter(bloomEffect),
+						new ShaderFilter(chromZoomShader),
+						new ShaderFilter(chromNormalShader)
+					]);
+
+					camHUD.setFilters([
+						new ShaderFilter(chromNormalShader)
+					]);
 				}
 		}
 	}
@@ -822,6 +872,16 @@ class PlayState extends MusicBeatState
 				default:
 					strumLines.members[i].cameras = [strumHUD[i]];
 					// nothing, you get no shaders lol
+			}
+
+			if (SONG.song == 'Lunacy')
+			{
+				strumHUD[i].setFilters(
+					[
+						new ShaderFilter(grayScale),
+						new ShaderFilter(chromNormalShader)
+					]
+				);
 			}
 		}
 		add(strumLines);
@@ -1300,19 +1360,17 @@ class PlayState extends MusicBeatState
 		return false;
 	}
 	
-	/**
-		* ### Originally in the `update` function.
-		* 
+	function checkCamPosition()
+	{
+		/*
+		* Originally in "public function update(elapsed:Float)"
 		* was moved here as a separate function so certain
-		* mechanics can alter the camera too, 
-		* 
-		* for example:
+		* mechanics can alter the camera too, for example:
 		* Cycled Sins with the shooting and dodging gimmick.
 		*
 		* -DEMOLITIONDON96
-	*/
-	function checkCamPosition()
-	{	
+		*/
+		
 		var cameraPos = Init.trueSettings.get('Camera Position');
 		if (cameraPos != 'none')
 		{
@@ -1331,6 +1389,31 @@ class PlayState extends MusicBeatState
 	override public function update(elapsed:Float)
 	{
 		callFunc('update', [elapsed]);
+
+		if (canaddshaders)
+		{
+			switch (PlayState.SONG.song)
+			{
+				case 'Devilish Deal':
+					chromZoomShader.setFloat('aberration', chromEffect);
+					chromZoomShader.setFloat('effectTime', chromEffect);
+					chromNormalShader.setFloat('rOffset', chromEffect / 70);
+					chromNormalShader.setFloat('bOffset', -chromEffect / 70);
+
+				case 'Lunacy':
+					chromZoomShader.setFloat('aberration', chromEffect);
+					chromZoomShader.setFloat('effectTime', chromEffect);
+					chromNormalShader.setFloat('rOffset', chromEffect / 45);
+					chromNormalShader.setFloat('bOffset', -chromEffect / 45);
+
+				case 'Malfunction':
+					chromZoomShader.setFloat('aberration', chromEffect);
+					chromZoomShader.setFloat('effectTime', chromEffect);
+					chromNormalShader.setFloat('rOffset', chromEffect / 20);
+					chromNormalShader.setFloat('bOffset', -chromEffect / 20);
+					if (Init.trueSettings.get('Epilepsy Mode')) blurShader.setFloat('bluramount', blurEffect);
+			}
+		}
 
 		stageBuild.stageUpdateConstant(elapsed, boyfriend, gf, opponent);
 
@@ -1725,30 +1808,94 @@ class PlayState extends MusicBeatState
 							}
 							if (canaddshaders)
 							{
-								if (Init.trueSettings.get('Epilepsy Mode'))
-								{
-									addShaderToCamera('hud', new FuckingBlurEffect(1.5, 0));
-									addShaderToCamera('notes', new FuckingBlurEffect(1.5, 0));
-									addShaderToCamera('game', new FuckingBlurEffect(3, 0));
-								}
-								if(!Init.trueSettings.get('Low Quality'))
-								{
-									addShaderToCamera('hud', new MalfunctionLegacyEffect(0.01));
-									addShaderToCamera('notes', new MalfunctionLegacyEffect(0.01));
-									addShaderToCamera('game', new MalfunctionNewEffect(0.2, 0.015));
-								}
-								new FlxTimer().start(0.04, function(tmr:FlxTimer)
-								{
-									clearShaderFromCamera('game');
-									clearShaderFromCamera('notes');
-									clearShaderFromCamera('hud');
-									if(!Init.trueSettings.get('Low Quality'))
+						
+												if(!Init.trueSettings.get('Low Quality') && Init.trueSettings.get('Epilepsy Mode'))
+												{
+													camGame.setFilters(
+														[
+															new ShaderFilter(chromZoomShader),
+															new ShaderFilter(blurShader)
+														]
+													);
+						
+													camHUD.setFilters(
+														[
+															new ShaderFilter(chromNormalShader),
+															new ShaderFilter(blurShader)
+														]
+													);
+						
+													for (i in strumHUD)
+													{
+														i.setFilters(
+															[
+																new ShaderFilter(chromNormalShader),
+																new ShaderFilter(blurShader)
+															]
+														);
+													}
+												}
+								chromEffect += 0.5;
+								blurEffect += 5;
+								
+								if (chromTween != null)
+									chromTween.cancel();
+								if (blurTween != null)
+									blurTween.cancel();
+
+								chromTween = FlxTween.tween(
+									this,
 									{
-										addShaderToCamera('hud', new MalfunctionLegacyEffect(0.004));
-										addShaderToCamera('notes', new MalfunctionLegacyEffect(0.004));
-										addShaderToCamera('game', new MalfunctionNewEffect(0.1, 0.1));
+										chromEffect: 0.0001
+									},
+									0.1,
+									{
+										ease: FlxEase.sineOut,
+										onComplete: function(twn:FlxTween)
+										{
+											chromTween = null;
+										}
 									}
-								});
+								);
+
+								blurTween = FlxTween.tween(
+									this,
+									{
+										blurEffect: 0.0
+									},
+									0.1,
+									{
+										ease: FlxEase.sineOut,
+										onComplete: function(twn:FlxTween)
+										{
+										
+														if(!Init.trueSettings.get('Low Quality'))
+														{
+															camGame.setFilters(
+																[
+																	new ShaderFilter(chromZoomShader),
+																]
+															);
+								
+															camHUD.setFilters(
+																[
+																	new ShaderFilter(chromNormalShader),
+																]
+															);
+								
+															for (i in strumHUD)
+															{
+																i.setFilters(
+																	[
+																		new ShaderFilter(chromNormalShader),
+																	]
+																);
+															}
+														}
+											blurTween = null;
+										}
+									}
+								);
 							}
 						}
 						else if (opponent.curCharacter == 'gm-tired-pixel')
@@ -3103,40 +3250,22 @@ class PlayState extends MusicBeatState
 					case 32 | 34 | 36 | 38 | 40 | 42 | 44 | 46 | 48 | 50 | 52 | 54 | 56 | 58:
 						if (canaddshaders)
 						{
-							if (chromZoomTween != null)
-								chromZoomTween.cancel();
-							if (chromNormalTween != null)
-								chromNormalTween.cancel();
+							if (chromTween != null)
+								chromTween.cancel();
 
-							chromNormalShader.offset = 0.01;
-							chromZoomShader.amount = 1;
+							chromEffect = 0.32;
 
-							chromNormalTween = FlxTween.tween(
-								chromNormalShader,
+							chromTween = FlxTween.tween(
+								this,
 								{
-									offset: 0
+									chromEffect: 0.0001
 								},
 								1.2,
 								{
 									ease: FlxEase.sineOut,
 									onComplete: function(twn:FlxTween)
 									{
-										chromNormalTween = null;
-									}
-								}
-							);
-
-							chromZoomTween = FlxTween.tween(
-								chromZoomShader,
-								{
-									amount: 0
-								},
-								1.2,
-								{
-									ease: FlxEase.sineOut,
-									onComplete: function(twn:FlxTween)
-									{
-										chromZoomTween = null;
+										chromTween = null;
 									}
 								}
 							);
@@ -3150,40 +3279,22 @@ class PlayState extends MusicBeatState
 						}
 						if (canaddshaders)
 						{
-							if (chromZoomTween != null)
-								chromZoomTween.cancel();
-							if (chromNormalTween != null)
-								chromNormalTween.cancel();
+							if (chromTween != null)
+								chromTween.cancel();
 
-							chromNormalShader.offset = 0.01;
-							chromZoomShader.amount = 1;
+							chromEffect = 0.15;
 
-							chromNormalTween = FlxTween.tween(
-								chromNormalShader,
+							chromTween = FlxTween.tween(
+								this,
 								{
-									offset: 0
+									chromEffect: 0.00001
 								},
 								1.2,
 								{
 									ease: FlxEase.sineOut,
 									onComplete: function(twn:FlxTween)
 									{
-										chromNormalTween = null;
-									}
-								}
-							);
-
-							chromZoomTween = FlxTween.tween(
-								chromZoomShader,
-								{
-									amount: 0
-								},
-								1.2,
-								{
-									ease: FlxEase.sineOut,
-									onComplete: function(twn:FlxTween)
-									{
-										chromZoomTween = null;
+										chromTween = null;
 									}
 								}
 							);
@@ -3192,40 +3303,22 @@ class PlayState extends MusicBeatState
 					case 62:
 						if (canaddshaders)
 						{
-							if (chromZoomTween != null)
-								chromZoomTween.cancel();
-							if (chromNormalTween != null)
-								chromNormalTween.cancel();
+							if (chromTween != null)
+								chromTween.cancel();
 
-							chromNormalShader.offset = 0.01;
-							chromZoomShader.amount = 1;
+							chromEffect = 0.15;
 
-							chromNormalTween = FlxTween.tween(
-								chromNormalShader,
+							chromTween = FlxTween.tween(
+								this,
 								{
-									offset: 0
+									chromEffect: 0.00001
 								},
 								2,
 								{
 									ease: FlxEase.sineOut,
 									onComplete: function(twn:FlxTween)
 									{
-										chromNormalTween = null;
-									}
-								}
-							);
-
-							chromZoomTween = FlxTween.tween(
-								chromZoomShader,
-								{
-									amount: 0
-								},
-								2,
-								{
-									ease: FlxEase.sineOut,
-									onComplete: function(twn:FlxTween)
-									{
-										chromZoomTween = null;
+										chromTween = null;
 									}
 								}
 							);
@@ -3248,40 +3341,22 @@ class PlayState extends MusicBeatState
 							if (!Init.trueSettings.get('Disable Flashing Lights')) camAlt.flash(FlxColor.WHITE, 1);
 							if (canaddshaders)
 							{
-								if (chromZoomTween != null)
-									chromZoomTween.cancel();
-								if (chromNormalTween != null)
-									chromNormalTween.cancel();
-	
-								chromNormalShader.offset = 0.02;
-								chromZoomShader.amount = 1.5;
-	
-								chromNormalTween = FlxTween.tween(
-									chromNormalShader,
-									{
-										offset: 0
-									},
-									2.3,
-									{
-										ease: FlxEase.sineOut,
-										onComplete: function(twn:FlxTween)
-										{
-											chromNormalTween = null;
-										}
-									}
-								);
+								if (chromTween != null)
+									chromTween.cancel();
+
+								chromEffect = 0.4;
 			
-								chromZoomTween = FlxTween.tween(
-									chromZoomShader,
+								chromTween = FlxTween.tween(
+									this,
 									{
-										amount: 0
+										chromEffect: 0.00001
 									},
 									2.3,
 									{
 										ease: FlxEase.sineOut,
 										onComplete: function(twn:FlxTween)
 										{
-											chromZoomTween = null;
+											chromTween = null;
 										}
 									}
 								);
@@ -3290,40 +3365,22 @@ class PlayState extends MusicBeatState
 
 				if (curBeat >= 64 && curBeat <= 95 && canaddshaders)
 				{
-					if (chromZoomTween != null)
-						chromZoomTween.cancel();
-					if (chromNormalTween != null)
-						chromNormalTween.cancel();
+					if (chromTween != null)
+						chromTween.cancel();
 
-					chromNormalShader.offset = 0.013;
-					chromZoomShader.amount = 1.2;
+					chromEffect = 0.23;
 
-					chromNormalTween = FlxTween.tween(
-						chromNormalShader,
+					chromTween = FlxTween.tween(
+						this,
 						{
-							offset: 0
+							chromEffect: 0.00001
 						},
 						1.5,
 						{
 							ease: FlxEase.sineOut,
 							onComplete: function(twn:FlxTween)
 							{
-								chromNormalTween = null;
-							}
-						}
-					);
-
-					chromZoomTween = FlxTween.tween(
-						chromZoomShader,
-						{
-							amount: 0
-						},
-						1.5,
-						{
-							ease: FlxEase.sineOut,
-							onComplete: function(twn:FlxTween)
-							{
-								chromZoomTween = null;
+								chromTween = null;
 							}
 						}
 					);
@@ -3331,40 +3388,22 @@ class PlayState extends MusicBeatState
 
 				if (curBeat >= 96 && curBeat <= 111 && canaddshaders)
 				{
-					if (chromZoomTween != null)
-						chromZoomTween.cancel();
-					if (chromNormalTween != null)
-						chromNormalTween.cancel();
+					if (chromTween != null)
+						chromTween.cancel();
 
-					chromNormalShader.offset = 0.0175;
-					chromZoomShader.amount = 1.35;
+					chromEffect = 0.27;
 
-					chromNormalTween = FlxTween.tween(
-						chromNormalShader,
+					chromTween = FlxTween.tween(
+						this,
 						{
-							offset: 0
-						},
-						1.2,
-						{
-							ease: FlxEase.sineOut,
-							onComplete: function(twn:FlxTween)
-							{
-								chromNormalTween = null;
-							}
-						}
-					);
-
-					chromZoomTween = FlxTween.tween(
-						chromZoomShader,
-						{
-							amount: 0
+							chromEffect: 0.0001
 						},
 						1.5,
 						{
 							ease: FlxEase.sineOut,
 							onComplete: function(twn:FlxTween)
 							{
-								chromZoomTween = null;
+								chromTween = null;
 							}
 						}
 					);
@@ -3372,40 +3411,22 @@ class PlayState extends MusicBeatState
 
 				if (curBeat >= 112 && curBeat <= 127 && canaddshaders)
 				{
-					if (chromZoomTween != null)
-						chromZoomTween.cancel();
-					if (chromNormalTween != null)
-						chromNormalTween.cancel();
+					if (chromTween != null)
+						chromTween.cancel();
 
-					chromNormalShader.offset = 0.02;
-					chromZoomShader.amount = 1.5;
+					chromEffect = 0.32;
 
-					chromNormalTween = FlxTween.tween(
-						chromNormalShader,
+					chromTween = FlxTween.tween(
+						this,
 						{
-							offset: 0
+							chromEffect: 0.00001
 						},
 						1.5,
 						{
 							ease: FlxEase.sineOut,
 							onComplete: function(twn:FlxTween)
 							{
-								chromNormalTween = null;
-							}
-						}
-					);
-
-					chromZoomTween = FlxTween.tween(
-						chromZoomShader,
-						{
-							amount: 0
-						},
-						1.5,
-						{
-							ease: FlxEase.sineOut,
-							onComplete: function(twn:FlxTween)
-							{
-								chromZoomTween = null;
+								chromTween = null;
 							}
 						}
 					);
@@ -3511,6 +3532,159 @@ class PlayState extends MusicBeatState
 				}
 		
 			case 'Lunacy':
+				if (curBeat == 160 || curBeat == 230 || curBeat == 240 || curBeat == 248 || curBeat == 256 || curBeat == 262 || curBeat == 272
+					|| curBeat == 280 || curBeat == 280 || curBeat == 288 || curBeat == 296 || curBeat == 304 || curBeat == 312 || curBeat == 320
+					|| curBeat == 328 || curBeat == 336 || curBeat == 344 || curBeat == 352)
+				{
+					flashBGEffect('darken', 0, 0.5, 'quadOut');
+				}
+	
+				// Darkens BG
+				if (curBeat == 156 || curBeat == 228 || curBeat == 238 || curBeat == 244 || curBeat == 252 || curBeat == 260 || curBeat == 270
+					|| curBeat == 276 || curBeat == 284 || curBeat == 292 || curBeat == 300 || curBeat == 308 || curBeat == 316 || curBeat == 324
+					|| curBeat == 332 || curBeat == 340 || curBeat == 348)
+				{
+					flashBGEffect('darken', 0.77, 0.5, 'quadOut');
+				}
+
+				if (curBeat == 32 || curBeat == 64)
+				{
+					if (chromTween != null)
+						chromTween.cancel();
+
+					chromEffect = 0.27;
+
+					chromTween = FlxTween.tween(
+						this,
+						{
+							chromEffect: 0.0001
+						},
+						1.5,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromTween = null;
+							}
+						}
+					);
+				}
+
+				if (curBeat == 38 || curBeat == 40 || curBeat == 46 || curBeat == 48 || curBeat == 54 || curBeat == 56 || curBeat == 62 || curBeat == 70
+					|| curBeat == 72 || curBeat == 78 || curBeat == 80 || curBeat == 86 || curBeat == 88 || curBeat == 102 || curBeat == 110 || curBeat == 118
+					|| curBeat == 126 || curBeat == 134 || curBeat == 142 || curBeat == 150)
+				{
+					if (chromTween != null)
+						chromTween.cancel();
+
+					chromEffect = 0.12;
+
+					chromTween = FlxTween.tween(
+						this,
+						{
+							chromEffect: 0.0001
+						},
+						0.3,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromTween = null;
+							}
+						}
+					);
+				}
+
+				if (curBeat == 96 || curBeat == 104 || curBeat == 112 || curBeat == 120 || curBeat == 128 || curBeat == 136 || curBeat == 144 || curBeat == 152)
+				{
+					if (chromTween != null)
+						chromTween.cancel();
+
+					chromEffect = 0.32;
+
+					chromTween = FlxTween.tween(
+						this,
+						{
+							chromEffect: 0.0001
+						},
+						2.1,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromTween = null;
+							}
+						}
+					);
+				}
+
+				if (curBeat == 100 || curBeat == 108 || curBeat == 116 || curBeat == 124 || curBeat == 132 || curBeat == 140 || curBeat == 148)
+				{
+					if (chromTween != null)
+						chromTween.cancel();
+
+					chromEffect = 0.4;
+
+					chromTween = FlxTween.tween(
+						this,
+						{
+							chromEffect: 0.0001
+						},
+						1,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromTween = null;
+							}
+						}
+					);
+				}
+
+				if (curBeat == 156)
+				{
+					if (chromTween != null)
+						chromTween.cancel();
+
+					chromTween = FlxTween.tween(
+						this,
+						{
+							chromEffect: 0.33
+						},
+						0.2,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromTween = null;
+							}
+						}
+					);
+				}
+
+				if (curBeat == 158)
+				{
+					if (chromTween != null)
+						chromTween.cancel();
+
+					chromEffect = 0.4;
+
+					chromTween = FlxTween.tween(
+						this,
+						{
+							chromEffect: 0.0001
+						},
+						0.2,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromTween = null;
+							}
+						}
+					);
+				}
+
 				switch (curBeat)
 				{
 					// I'm NOT gonna have a fun time recoding all this for the BG dimming in and out later lmao
@@ -3833,6 +4007,36 @@ class PlayState extends MusicBeatState
 					case 69 | 85: defaultCamZoom = 1.1;				
 					case 160: defaultCamZoom = 0.65;
 					case 164: tweenCamera(1.5, 6, 'sineInOut');
+					case 191:
+						if (canaddshaders)
+							{
+								if(!Init.trueSettings.get('Low Quality') && Init.trueSettings.get('Epilepsy Mode'))
+								{
+									camGame.setFilters(
+										[
+											new ShaderFilter(chromZoomShader),
+											new ShaderFilter(blurShader)
+										]
+									);
+		
+									camHUD.setFilters(
+										[
+											new ShaderFilter(chromNormalShader),
+											new ShaderFilter(blurShader)
+										]
+									);
+		
+									for (i in strumHUD)
+									{
+										i.setFilters(
+											[
+												new ShaderFilter(chromNormalShader),
+												new ShaderFilter(blurShader)
+											]
+										);
+									}
+								}
+							}
 						
 					// Ight Jason, the fun part's all yours
 					// The fun begins 0_0
