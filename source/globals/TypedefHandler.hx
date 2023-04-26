@@ -32,6 +32,9 @@ typedef SongMetadata =
 	var week:Int;
 	var character:String;
 	var color:FlxColor;
+	var composer:String;
+	var difficultyRank:String;
+	//var discArt:String;
 }
 	
 typedef BitchDetector =
