@@ -147,7 +147,6 @@ class FreeplaySongs extends MusicBeatState
 						addSong('Hunted', 3, (GameData.huntedLock != 'unlocked' && GameData.huntedLock != 'beaten' ? 'untouched-song' : 'goofy-new'), FlxColor.fromRGB(94, 28, 35));
 						addSong('Isolated-Old', 3, (GameData.oldisolateLock != 'unlocked' && GameData.oldisolateLock != 'beaten' ? 'untouched-song' : 'mickey-legacy'), FlxColor.fromRGB(60, 60, 60));
 						addSong('Isolated-Beta', 3, (GameData.betaisolateLock != 'unlocked' && GameData.betaisolateLock != 'beaten' ? 'untouched-song' : 'mickey-legacy'), FlxColor.fromRGB(60, 60, 60));
-						addSong('War-Dilemma', 3, (GameData.warLock != 'unlocked' && GameData.warLock != 'beaten' ? 'untouched-song' : 'placeholder'), FlxColor.fromRGB(204, 41, 103));
 					}
 						
 					if (GameData.episodeSFPLock == 'unlocked')
@@ -160,8 +159,13 @@ class FreeplaySongs extends MusicBeatState
 						
 					if (GameData.episodeWFPLock == 'unlocked')
 					{
+						addSong('War-Dilemma', 3, (GameData.warLock != 'unlocked' && GameData.warLock != 'beaten' ? 'untouched-song' : 'placeholder'), FlxColor.fromRGB(204, 41, 103));
 						addSong('Neglection', 3, (GameData.pnmLock != 'unlocked' && GameData.pnmLock != 'beaten' ? 'untouched-song' : 'pnm'), FlxColor.fromRGB(117, 86, 27));
 						addSong('Cycled-Sins', 3, (GameData.sinsLock != 'unlocked' && GameData.sinsLock != 'beaten' ? 'untouched-song' : 'relapse-new-pixel'), FlxColor.fromRGB(105, 30, 30)); //messing with the saves for this later
+					}
+					
+					if (GameData.canAddMalfunction)
+					{
 						addSong('Malfunction', 3, (GameData.malfunctionLock != 'unlocked' && GameData.malfunctionLock != 'beaten' ? 'untouched-song' : 'glitched-mickey-new-pixel'), FlxColor.fromRGB(150, 149, 186)); // Because Malfunction is getting some major upgrades later
 					}
 					
@@ -199,6 +203,10 @@ class FreeplaySongs extends MusicBeatState
 						addSong('Mercy-Legacy', 3, (GameData.legacyWLock != 'unlocked' && GameData.legacyWLock != 'beaten' ? 'untouched-song' : 'walt'), FlxColor.fromRGB(153, 148, 112));
 						addSong('Neglection-Legacy', 3, (GameData.legacyNLock != 'unlocked' && GameData.legacyNLock != 'beaten' ? 'untouched-song' : 'pnm'), FlxColor.CYAN);
 						addSong('Cycled-Sins-Legacy', 3, (GameData.legacySLock != 'unlocked' && GameData.legacySLock != 'beaten' ? 'untouched-song' : 'relapse-pixel'), FlxColor.fromRGB(115, 86, 86));
+					}
+					
+					if (GameData.canAddMalfunction)
+					{
 						addSong('Malfunction-Legacy', 3, (GameData.legacyMLock != 'unlocked' && GameData.legacyMLock != 'beaten' ? 'untouched-song' : 'glitched-mickey-legacy-pixel'), FlxColor.fromRGB(140, 120, 180));
 					}
 				}
@@ -281,6 +289,13 @@ class FreeplaySongs extends MusicBeatState
 		if (freeplayMenuList != 2) changeCurBPM();
 
 		camZoomTween = FlxTween.tween(this, {}, 0);
+		
+		if (GameData.huntedLock == 'beaten' && GameData.oldisolateLock == 'beaten' && GameData.betaisolateLock == 'beaten' && GameData.rickyLock == 'beaten' && GameData.blessLock == 'beaten' && GameData.scrappedLock == 'beaten' && GameData.crossinLock == 'beaten' && GameData.warLock == 'beaten' && GameData.pnmLock == 'beaten' && GameData.sinsLock == 'beaten' && 
+		GameData.legacyILock == 'beaten' && GameData.legacyLLock == 'beaten' && GameData.legacyDLock == 'beaten' && GameData.legacyHLock == 'beaten' && GameData.legacyWLock == 'beaten' && GameData.legacySLock == 'beaten' && !GameData.canAddMalfunction)
+		{
+			GameData.canAddMalfunction = true;
+			GameData.saveShit();
+		}
 
 		if(!Init.trueSettings.get('Low Quality'))
 		{
@@ -422,8 +437,8 @@ class FreeplaySongs extends MusicBeatState
 				FlxG.sound.play(Paths.sound('base/menus/cancelMenu'));
 				FlxG.sound.music.stop();
 			}
-			//Conductor.changeBPM(50);
-			//trace('Current BPM: ${Conductor.bpm}');
+			Conductor.changeBPM(50);
+			trace('Current BPM: ${Conductor.bpm}');
 			threadActive = false;
 			FlxG.sound.playMusic(Paths.music('freakyMenu'), 1);
 			Main.switchState(this, new states.menus.freeplay.FreeplayCategories());
@@ -510,7 +525,7 @@ class FreeplaySongs extends MusicBeatState
 			case 'lunacy' | 'neglection' | 'resentment' | 'lunacy-legacy' | 'hunted' | 'mortiferum-risus' | 'isolated-legacy': 
 				difficultyRank = 'NORMAL';
 				diffText.color = FlxColor.fromRGB(255, 220, 220);
-			case 'delusional' | 'mercy': 
+			case 'delusional' | 'mercy' | 'malfunction-legacy': 
 				difficultyRank = 'INSANE';
 				diffText.color = FlxColor.fromRGB(255, 110, 110);
 			case 'malfunction': 
