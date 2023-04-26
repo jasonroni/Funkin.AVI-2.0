@@ -89,14 +89,14 @@ class FreeplaySongs extends MusicBeatState
 		Paths.clearUnusedMemory();
 
 		super.create();
+		
+		lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Setting Up Category...";
 
 		// Categories, Shaders, and Songlist Setup
 		switch (freeplayMenuList)
 		{
 			case 0: // Story Songs Menu
 				{
-					lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Episode Songs";
-
 					smilesShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
 					defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
 					mercyShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/vhs.frag'), null, 130);
@@ -107,29 +107,27 @@ class FreeplaySongs extends MusicBeatState
 
 					if (GameData.episode1FPLock == 'unlocked')
 					{
-						addSong('Devilish-Deal', 3, 'mickey-new', FlxColor.fromRGB(65, 88, 94));
-						addSong('Isolated', 3, 'mickey-new', FlxColor.fromRGB(60, 60, 60));
-						addSong('Lunacy', 3, 'lunamick-new', FlxColor.fromRGB(69, 54, 54));
-						addSong('Delusional', 3, 'insanemick', FlxColor.fromRGB(79, 32, 32));
+						addSong('Devilish-Deal', 3, 'mickey-new', FlxColor.fromRGB(65, 88, 94), 'obscurity', 'EASY', FlxColor.WHITE);
+						addSong('Isolated', 3, 'mickey-new', FlxColor.fromRGB(60, 60, 60), 'obscurity', 'EASY', FlxColor.WHITE);
+						addSong('Lunacy', 3, 'lunamick-new', FlxColor.fromRGB(69, 54, 54), 'obscurity', 'NORMAL', FlxColor.fromRGB(255, 220, 220));
+						addSong('Delusional', 3, 'insanemick', FlxColor.fromRGB(79, 32, 32), 'FR3SHMoure', 'INSANE', FlxColor.fromRGB(255, 110, 110));
 					}
 
 					if (GameData.episodeSFPLock == 'unlocked')
 					{
-						addSong('Twisted-Grins', 3, 'mr-smiles', FlxColor.fromRGB(54, 38, 38));
-						addSong('Resentment', 3, 'mr-smiles', FlxColor.fromRGB(99, 66, 66));
-						addSong('Mortiferum-Risus', 3, 'mr-smiles', FlxColor.fromRGB(143, 91, 91));
+						addSong('Twisted-Grins', 3, 'mr-smiles', FlxColor.fromRGB(54, 38, 38), 'Sayan Sama', 'HARD', FlxColor.fromRGB(255, 187, 187));
+						addSong('Resentment', 3, 'mr-smiles', FlxColor.fromRGB(99, 66, 66), 'obscurity', 'NORMAL', FlxColor.fromRGB(255, 220, 220));
+						addSong('Mortiferum-Risus', 3, 'mr-smiles', FlxColor.fromRGB(143, 91, 91), 'Sayan Sama', 'NORMAL', FlxColor.fromRGB(255, 220, 220));
 					}
 
 					if (GameData.episodeWFPLock == 'unlocked')
 					{
-						addSong('Mercy', 3, 'walt', FlxColor.fromRGB(176, 169, 116));
-						addSong('Affliction', 3, 'walt', FlxColor.fromRGB(66, 63, 36));
+						addSong('Mercy', 3, 'walt', FlxColor.fromRGB(176, 169, 116), 'Ophomix24', 'INSANE', FlxColor.fromRGB(255, 110, 110));
+						addSong('Affliction', 3, 'walt', FlxColor.fromRGB(66, 63, 36), 'ForFurtherNotice', 'HARD', FlxColor.fromRGB(255, 187, 187));
 					}
 				}
 			case 1: // Extras Menu
-				{
-					lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Extra Songs";
-					
+				{		
 					getBlessed = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/bloom.frag'), null, 120);
 					glitchyStuff = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/vignetteGlitch.frag'), null, 130);
 					chromAberration = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/aberration.frag'), null, 150);
@@ -144,82 +142,78 @@ class FreeplaySongs extends MusicBeatState
 
 					if (GameData.episode1FPLock == 'unlocked')
 					{
-						addSong('Hunted', 3, (GameData.huntedLock != 'unlocked' && GameData.huntedLock != 'beaten' ? 'untouched-song' : 'goofy-new'), FlxColor.fromRGB(94, 28, 35));
-						addSong('Isolated-Old', 3, (GameData.oldisolateLock != 'unlocked' && GameData.oldisolateLock != 'beaten' ? 'untouched-song' : 'mickey-legacy'), FlxColor.fromRGB(60, 60, 60));
-						addSong('Isolated-Beta', 3, (GameData.betaisolateLock != 'unlocked' && GameData.betaisolateLock != 'beaten' ? 'untouched-song' : 'mickey-legacy'), FlxColor.fromRGB(60, 60, 60));
+						addSong('Hunted', 3, (GameData.huntedLock != 'unlocked' && GameData.huntedLock != 'beaten' ? 'untouched-song' : 'goofy-new'), FlxColor.fromRGB(94, 28, 35), 'JBlitz', 'NORMAL', FlxColor.fromRGB(255, 220, 220));
+						addSong('Isolated-Old', 3, (GameData.oldisolateLock != 'unlocked' && GameData.oldisolateLock != 'beaten' ? 'untouched-song' : 'mickey-legacy'), FlxColor.fromRGB(60, 60, 60), 'Toko', 'EASY', FlxColor.WHITE);
+						addSong('Isolated-Beta', 3, (GameData.betaisolateLock != 'unlocked' && GameData.betaisolateLock != 'beaten' ? 'untouched-song' : 'mickey-legacy'), FlxColor.fromRGB(60, 60, 60), 'Toko', 'EASY', FlxCOlor.WHITE);
 					}
 						
 					if (GameData.episodeSFPLock == 'unlocked')
 					{
-						addSong('Laugh-Track', 3, (GameData.rickyLock != 'unlocked' && GameData.rickyLock != 'beaten' ? 'untouched-song' : 'placeholder'), FlxColor.fromRGB(181, 0, 0));
-						addSong('Bless', 3, (GameData.blessLock != 'unlocked' && GameData.blessLock != 'beaten' ? 'untouched-song' : 'white-noise'), FlxColor.WHITE);
-						addSong('Scrapped', 3, (GameData.scrappedLock != 'unlocked' && GameData.scrappedLock != 'beaten' ? 'untouched-song' : 'rs'), FlxColor.fromRGB(0, 0, 0));
-						addSong("Don't-Cross!", 3, (GameData.crossinLock != 'unlocked' && GameData.crossinLock != 'beaten' ? 'untouched-song' : 'dctl-mickey'), FlxColor.fromRGB(255, 0, 0));
+						addSong('Laugh-Track', 3, (GameData.rickyLock != 'unlocked' && GameData.rickyLock != 'beaten' ? 'untouched-song' : 'placeholder'), FlxColor.fromRGB(181, 0, 0), 'Toko', 'HARD', FlxColor.fromRGB(255, 187, 187));
+						addSong('Bless', 3, (GameData.blessLock != 'unlocked' && GameData.blessLock != 'beaten' ? 'untouched-song' : 'white-noise'), FlxColor.WHITE, 'END_SELLA', 'HARD', FlxColor.fromRGB(255, 187, 187));
+						addSong('Scrapped', 3, (GameData.scrappedLock != 'unlocked' && GameData.scrappedLock != 'beaten' ? 'untouched-song' : 'rs'), FlxColor.fromRGB(0, 0, 0), 'FR3SHMoure', 'HARD', FlxColor.fromRGB(255, 187, 187));
+						addSong("Don't-Cross!", 3, (GameData.crossinLock != 'unlocked' && GameData.crossinLock != 'beaten' ? 'untouched-song' : 'dctl-mickey'), FlxColor.fromRGB(255, 0, 0), 'Toko', 'GOOD LUCK', FlcColor.fromRGB(201, 0, 0));
 					}
 						
 					if (GameData.episodeWFPLock == 'unlocked')
 					{
-						addSong('War-Dilemma', 3, (GameData.warLock != 'unlocked' && GameData.warLock != 'beaten' ? 'untouched-song' : 'placeholder'), FlxColor.fromRGB(204, 41, 103));
-						addSong('Neglection', 3, (GameData.pnmLock != 'unlocked' && GameData.pnmLock != 'beaten' ? 'untouched-song' : 'pnm'), FlxColor.fromRGB(117, 86, 27));
-						addSong('Cycled-Sins', 3, (GameData.sinsLock != 'unlocked' && GameData.sinsLock != 'beaten' ? 'untouched-song' : 'relapse-new-pixel'), FlxColor.fromRGB(105, 30, 30)); //messing with the saves for this later
+						addSong('War-Dilemma', 3, (GameData.warLock != 'unlocked' && GameData.warLock != 'beaten' ? 'untouched-song' : 'placeholder'), FlxColor.fromRGB(204, 41, 103), 'Sayan Sama & obscurity', 'HARD', FlxColor.fromRGB(255, 187, 187));
+						addSong('Neglection', 3, (GameData.pnmLock != 'unlocked' && GameData.pnmLock != 'beaten' ? 'untouched-song' : 'pnm'), FlxColor.fromRGB(117, 86, 27), 'AttackPan', 'NORMAL', FlxColor.fromRGB(255, 220, 220));
+						addSong('Cycled-Sins', 3, (GameData.sinsLock != 'unlocked' && GameData.sinsLock != 'beaten' ? 'untouched-song' : 'relapse-new-pixel'), FlxColor.fromRGB(105, 30, 30), 'JBlitz', 'HARD', FlxColor.fromRGB(255, 187, 187)); //messing with the saves for this later
 					}
 					
 					if (GameData.canAddMalfunction)
 					{
-						addSong('Malfunction', 3, (GameData.malfunctionLock != 'unlocked' && GameData.malfunctionLock != 'beaten' ? 'untouched-song' : 'glitched-mickey-new-pixel'), FlxColor.fromRGB(150, 149, 186)); // Because Malfunction is getting some major upgrades later
+						addSong('Malfunction', 3, (GameData.malfunctionLock != 'unlocked' && GameData.malfunctionLock != 'beaten' ? 'untouched-song' : 'glitched-mickey-new-pixel'), FlxColor.fromRGB(150, 149, 186), 'obscurity', 'null', FlxColor.WHITE); // Because Malfunction is getting some major upgrades later
 					}
 					
 					if (GameData.muckneyLock == 'beaten')
 					{
-						addSong('Birthday', 3, 'muckney', FlxColor.fromRGB(84, 255, 181));
+						addSong('Birthday', 3, 'muckney', FlxColor.fromRGB(84, 255, 181), 'FR3SHMoure', 'PARTY', FlxColor.fromRGB(250, 234, 92));
 					}
 					
 					if (GameData.highOnCrackLock == 'completed')
 					{
-						addSong('Delutrance', 3, 'mick-trance', FlxColor.fromRGB(0, 16, 245)); // It's still gonna force ya to fully play it if you replay the song lmfao
+						addSong('Delutrance', 3, 'mick-trance', FlxColor.fromRGB(0, 16, 245), 'JogadorRetro', 'DELUSIONAL', FlxColor.fromRGB(5, 139, 242)); // It's still gonna force ya to fully play it if you replay the song lmfao
 					}
 				}
 			case 2: // Legacy Menu
 				{
-					lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Legacy Songs";
-
 					if (GameData.episode1FPLock == 'unlocked')
 					{
-						addSong('Isolated-Legacy', 3, (GameData.legacyILock != 'unlocked' && GameData.legacyILock != 'beaten' ? 'untouched-song' : 'mickey-legacy'), FlxColor.fromRGB(60, 60, 60));
-						addSong('Lunacy-Legacy', 3, (GameData.legacyLLock != 'unlocked' && GameData.legacyLLock != 'beaten' ? 'untouched-song' : 'mickey-lunacy-legacy'), FlxColor.fromRGB(60, 60, 60));
-						addSong('Delusional-Legacy', 3, (GameData.legacyDLock != 'unlocked' && GameData.legacyDLock != 'beaten' ? 'untouched-song' : 'mickey-delusional-unused'), FlxColor.fromRGB(60, 60, 60));
-						addSong('hunted-legacy', 3, (GameData.legacyHLock != 'unlocked' && GameData.legacyHLock != 'beaten' ? 'untouched-song' : 'goofy'), FlxColor.fromRGB(0, 60, 40));
+						addSong('Isolated-Legacy', 3, (GameData.legacyILock != 'unlocked' && GameData.legacyILock != 'beaten' ? 'untouched-song' : 'mickey-legacy'), FlxColor.fromRGB(60, 60, 60), 'Toko & obscurity', 'NORMAL', FlxColor.fromRGB(255, 220, 220));
+						addSong('Lunacy-Legacy', 3, (GameData.legacyLLock != 'unlocked' && GameData.legacyLLock != 'beaten' ? 'untouched-song' : 'mickey-lunacy-legacy'), FlxColor.fromRGB(60, 60, 60), 'obscurity', 'NORMAL', FlxColor.fromRGB(255, 220, 220));
+						addSong('Delusional-Legacy', 3, (GameData.legacyDLock != 'unlocked' && GameData.legacyDLock != 'beaten' ? 'untouched-song' : 'mickey-delusional-unused'), FlxColor.fromRGB(60, 60, 60), 'FR3SHMoure', 'HARD', FlxColor.fromRGB(255, 187, 187));
+						addSong('Hunted-Legacy', 3, (GameData.legacyHLock != 'unlocked' && GameData.legacyHLock != 'beaten' ? 'untouched-song' : 'goofy'), FlxColor.fromRGB(0, 60, 40), 'JBlitz', 'EASY', FlxColor.WHITE);
 					}
 						
 					if (GameData.episodeSFPLock == 'unlocked')
 					{
-						addSong('Twisted-Grins-Legacy', 3, (GameData.legacyTLock != 'unlocked' && GameData.legacyTLock != 'beaten' ? 'untouched-song' : 'mr-smiles'), FlxColor.fromRGB(115, 86, 86));
-						addSong('Resentment-Legacy', 3, (GameData.legacyRLock != 'unlocked' && GameData.legacyRLock != 'beaten' ? 'untouched-song' : 'mr-smiles'), FlxColor.fromRGB(115, 86, 86));
-						addSong('Bless-Legacy', 3, (GameData.legacyBLock != 'unlocked' && GameData.legacyBLock != 'beaten' ? 'untouched-song' : 'white-noise'), FlxColor.WHITE);
+						addSong('Twisted-Grins-Legacy', 3, (GameData.legacyTLock != 'unlocked' && GameData.legacyTLock != 'beaten' ? 'untouched-song' : 'mr-smiles'), FlxColor.fromRGB(115, 86, 86), 'Sayan Sama', 'HARD', FlxColor.fromRGB(255, 187, 187));
+						addSong('Resentment-Legacy', 3, (GameData.legacyRLock != 'unlocked' && GameData.legacyRLock != 'beaten' ? 'untouched-song' : 'mr-smiles'), FlxColor.fromRGB(115, 86, 86), 'obscurity', 'NORMAL', FlxColor.fromRGB(255, 220, 220));
+						addSong('Bless-Legacy', 3, (GameData.legacyBLock != 'unlocked' && GameData.legacyBLock != 'beaten' ? 'untouched-song' : 'white-noise'), FlxColor.WHITE, 'END_SELLA', 'HARD', FlxColor.fromRGB(255, 187, 187));
 					}
 						
 					if (GameData.episodeWFPLock == 'unlocked')
 					{
-						addSong('Mercy-Legacy', 3, (GameData.legacyWLock != 'unlocked' && GameData.legacyWLock != 'beaten' ? 'untouched-song' : 'walt'), FlxColor.fromRGB(153, 148, 112));
-						addSong('Neglection-Legacy', 3, (GameData.legacyNLock != 'unlocked' && GameData.legacyNLock != 'beaten' ? 'untouched-song' : 'pnm'), FlxColor.CYAN);
-						addSong('Cycled-Sins-Legacy', 3, (GameData.legacySLock != 'unlocked' && GameData.legacySLock != 'beaten' ? 'untouched-song' : 'relapse-pixel'), FlxColor.fromRGB(115, 86, 86));
+						addSong('Mercy-Legacy', 3, (GameData.legacyWLock != 'unlocked' && GameData.legacyWLock != 'beaten' ? 'untouched-song' : 'walt'), FlxColor.fromRGB(153, 148, 112), 'obscurity', 'HARD', FlxColor.fromRGB(255, 187, 187));
+						addSong('Neglection-Legacy', 3, (GameData.legacyNLock != 'unlocked' && GameData.legacyNLock != 'beaten' ? 'untouched-song' : 'pnm'), FlxColor.CYAN, 'AttackPan', 'NORMAL', FlxColor.fromRGB(255, 220, 220));
+						addSong('Cycled-Sins-Legacy', 3, (GameData.legacySLock != 'unlocked' && GameData.legacySLock != 'beaten' ? 'untouched-song' : 'relapse-pixel'), FlxColor.fromRGB(115, 86, 86), 'JBlitz', 'HARD', FlxColor.fromRGB(255, 187, 187));
 					}
 					
 					if (GameData.canAddMalfunction)
 					{
-						addSong('Malfunction-Legacy', 3, (GameData.legacyMLock != 'unlocked' && GameData.legacyMLock != 'beaten' ? 'untouched-song' : 'glitched-mickey-legacy-pixel'), FlxColor.fromRGB(140, 120, 180));
+						addSong('Malfunction-Legacy', 3, (GameData.legacyMLock != 'unlocked' && GameData.legacyMLock != 'beaten' ? 'untouched-song' : 'glitched-mickey-legacy-pixel'), FlxColor.fromRGB(140, 120, 180), 'obscurity', 'INSANE', FlxColor.fromRGB(255, 110, 110));
 					}
 				}
 			case 3: // Void/Muckney Hidden Song Menu
-				{
-					lime.app.Application.current.window.title = "Funkin.avi - Freeplay: ???";
-					
+				{				
 					chromAberration = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/aberration.frag'), null, 150);
 					chromAberration.setFloat('aberration', 0.12);
 					chromAberration.setFloat('effectTime', 0.24);				
 					defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
 					
-					addSong('Birthday', 3, 'muckney', FlxColor.BLACK);
+					addSong('Birthday', 3, 'muckney', FlxColor.BLACK, '???', '???', FlxColor.fromRGB(250, 234, 92));
 				}
 		}
 
@@ -362,7 +356,7 @@ class FreeplaySongs extends MusicBeatState
 		return weekProgress.startsLocked;
 	}
 
-	public function addSong(songName:String, weekNum:Int, songCharacter:String, songColor:FlxColor)
+	public function addSong(songName:String, weekNum:Int, songCharacter:String, songColor:FlxColor, composer:String, rankID:String, rankColor:FlxColor)
 	{
 		var coolDifficultyArray = [];
 		for (i in CoolUtil.difficulties)
@@ -376,7 +370,10 @@ class FreeplaySongs extends MusicBeatState
 				name: songName,
 				week: weekNum,
 				character: songCharacter,
-				color: songColor
+				color: songColor,
+				composer: composer,
+				difficultyRank: rankID,
+				textColor: rankColor
 			});
 			existingDifficulties.push(coolDifficultyArray);
 		}
@@ -517,33 +514,10 @@ class FreeplaySongs extends MusicBeatState
 
 		intendedScore = ScoreUtils.getScore(songs[curSelected].name, curDifficulty);
 
-		switch (songs[curSelected].name.toLowerCase()) // update text color
-		{
-			case 'devilish-deal' | 'hunted-legacy' | 'isolated-beta' | 'isolated-old' | 'isolated': 
-				difficultyRank = 'EASY';
-				diffText.color = FlxColor.WHITE;
-			case 'lunacy' | 'neglection' | 'resentment' | 'lunacy-legacy' | 'hunted' | 'mortiferum-risus' | 'isolated-legacy': 
-				difficultyRank = 'NORMAL';
-				diffText.color = FlxColor.fromRGB(255, 220, 220);
-			case 'delusional' | 'mercy' | 'malfunction-legacy': 
-				difficultyRank = 'INSANE';
-				diffText.color = FlxColor.fromRGB(255, 110, 110);
-			case 'malfunction': 
-				difficultyRank = 'null';
-				diffText.color = FlxColor.WHITE;
-			case "don't-cross!": 
-				difficultyRank = 'GOOD LUCK';
-				diffText.color = FlxColor.fromRGB(201, 0, 0);
-			case 'birthday': 
-				difficultyRank = 'PARTY';
-				diffText.color = FlxColor.fromRGB(250, 234, 92);
-			case 'delutrance': 
-				difficultyRank = 'DELUSIONAL';
-				diffText.color = FlxColor.fromRGB(5, 139, 242);
-			default: 
-				difficultyRank = 'HARD';
-				diffText.color = FlxColor.fromRGB(255, 187, 187);
-		}
+		
+		difficultyRank = songs[curSelected].difficultyRank;
+		diffText.color = songs[curSelected].textColor;
+				
 		diffText.text = '< ' + difficultyRank + ' >'; // display the text
 		lastDifficulty = existingDifficulties[curSelected][curDifficulty];
 	}
@@ -566,6 +540,29 @@ class FreeplaySongs extends MusicBeatState
 		curSelected = FlxMath.wrap(curSelected + change, 0, songs.length - 1);
 
 		intendedScore = ScoreUtils.getScore(songs[curSelected].name, curDifficulty);
+		
+		var songName:String = CoolUtil.dashToSpace(songs[curSelected].name);
+		var composerName:String = songs[curSelected].composer;
+		
+		switch (freeplayMenuList)
+		{
+			case 0: 
+				{
+					lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Episode Songs - " + songName + ' - Composed by: ' + composerName;
+				}
+			case 1:
+				{
+					lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Extra Songs - " + songName + " - Composed by: " + composerName;
+				}
+			case 2:
+				{
+					lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Legacy Songs - " + songName + " - Composed by: " + composerName;
+				}
+			case 3:
+				{
+					lime.app.Application.current.window.title = "Funkin.avi - Freeplay: ??? - " + songName + " - Composed by: + + composerName;
+				}
+		}
 
 		// set up color stuffs
 		mainColor = songs[curSelected].color;
@@ -831,7 +828,7 @@ class FreeplaySongs extends MusicBeatState
 		{
 			case 'devilish-deal' | 'hunted-legacy' | 'isolated-beta' | 'isolated-old' | 'isolated': difficultyRank = 'EASY';
 			case 'lunacy' | 'neglection' | 'resentment' | 'lunacy-legacy' | 'hunted' | 'mortiferum-risus' | 'isolated-legacy': difficultyRank = 'NORMAL';
-			case 'delusional' | 'mercy': difficultyRank = 'INSANE';
+			case 'delusional' | 'mercy' | 'malfunction-legacy': difficultyRank = 'INSANE';
 			case 'malfunction': difficultyRank = 'null';
 			case "don't-cross!": difficultyRank = 'GOOD LUCK';
 			case 'birthday': difficultyRank = 'PARTY';
