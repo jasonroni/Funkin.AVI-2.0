@@ -560,7 +560,7 @@ class FreeplaySongs extends MusicBeatState
 				}
 			case 3:
 				{
-					lime.app.Application.current.window.title = "Funkin.avi - Freeplay: ??? - " + songName + " - Composed by: + + composerName;
+					lime.app.Application.current.window.title = "Funkin.avi - Freeplay: ??? - " + songName + " - Composed by: " + composerName;
 				}
 		}
 
