@@ -23,6 +23,7 @@ import states.MusicBeatState;
 import sys.FileSystem;
 import sys.thread.Mutex;
 import sys.thread.Thread;
+import base.song.Conductor;
 
 class FreeplaySongs extends MusicBeatState
 {
@@ -477,17 +478,32 @@ class FreeplaySongs extends MusicBeatState
 
 		intendedScore = ScoreUtils.getScore(songs[curSelected].name, curDifficulty);
 
-		getDiffRank('freeplay'); // grab ranking of song's difficulty
 		switch (songs[curSelected].name.toLowerCase()) // update text color
 		{
-			case 'devilish-deal' | 'hunted-legacy' | 'isolated-beta' | 'isolated-old' | 'isolated': diffText.color = FlxColor.WHITE;
-			case 'lunacy' | 'neglection' | 'resentment' | 'lunacy-legacy' | 'hunted' | 'mortiferum-risus' | 'isolated-legacy': diffText.color = FlxColor.fromRGB(255, 220, 220);
-			case 'delusional' | 'mercy': diffText.color = FlxColor.fromRGB(255, 110, 110);
-			case 'malfunction': diffText.color = FlxColor.WHITE;
-			case "don't-cross!": diffText.color = FlxColor.fromRGB(201, 0, 0);
-			case 'birthday': diffText.color = FlxColor.fromRGB(250, 234, 92);
-			case 'delutrance': diffText.color = FlxColor.fromRGB(5, 139, 242);
-			default: diffText.color = FlxColor.fromRGB(255, 187, 187);
+			case 'devilish-deal' | 'hunted-legacy' | 'isolated-beta' | 'isolated-old' | 'isolated': 
+				difficultyRank = 'EASY';
+				diffText.color = FlxColor.WHITE;
+			case 'lunacy' | 'neglection' | 'resentment' | 'lunacy-legacy' | 'hunted' | 'mortiferum-risus' | 'isolated-legacy': 
+				difficultyRank = 'NORMAL';
+				diffText.color = FlxColor.fromRGB(255, 220, 220);
+			case 'delusional' | 'mercy': 
+				difficultyRank = 'INSANE';
+				diffText.color = FlxColor.fromRGB(255, 110, 110);
+			case 'malfunction': 
+				difficultyRank = 'null';
+				diffText.color = FlxColor.WHITE;
+			case "don't-cross!": 
+				difficultyRank = 'GOOD LUCK';
+				diffText.color = FlxColor.fromRGB(201, 0, 0);
+			case 'birthday': 
+				difficultyRank = 'PARTY';
+				diffText.color = FlxColor.fromRGB(250, 234, 92);
+			case 'delutrance': 
+				difficultyRank = 'DELUSIONAL';
+				diffText.color = FlxColor.fromRGB(5, 139, 242);
+			default: 
+				difficultyRank = 'HARD';
+				diffText.color = FlxColor.fromRGB(255, 187, 187);
 		}
 		diffText.text = '< ' + difficultyRank + ' >'; // display the text
 		lastDifficulty = existingDifficulties[curSelected][curDifficulty];
@@ -759,9 +775,9 @@ class FreeplaySongs extends MusicBeatState
 		songThread.sendMessage(curSelected);
 	}
 
-	public static function getDiffRank(thing:String = 'freeplay')
+	public static function getDiffRank()
 	{
-		switch ((thing == 'freeplay' ? songs[curSelected].name.toLowerCase() : CoolUtil.spaceToDash(PlayState.SONG.song.toLowerCase())))
+		switch (CoolUtil.spaceToDash(PlayState.SONG.song.toLowerCase()))
 		{
 			case 'devilish-deal' | 'hunted-legacy' | 'isolated-beta' | 'isolated-old' | 'isolated': difficultyRank = 'EASY';
 			case 'lunacy' | 'neglection' | 'resentment' | 'lunacy-legacy' | 'hunted' | 'mortiferum-risus' | 'isolated-legacy': difficultyRank = 'NORMAL';
@@ -774,7 +790,7 @@ class FreeplaySongs extends MusicBeatState
 		}
 	}
 
-	function changeCurBPM()
+	function changeCurBPM():Void
 	{
 		switch (songs[curSelected].name.toLowerCase())
 		{
