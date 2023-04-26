@@ -57,6 +57,7 @@ class GameData
     public static var hasSeenWarning:Bool = false;
 	
     // Hidden Songs
+    public static var canAddMalfunction:Bool = false;
     public static var muckneyLock:String = "uncompleted";
     public static var highOnCrackLock:String = "undiscovered";
 
@@ -98,6 +99,7 @@ class GameData
 	if (FlxG.save.data.legacyTLock == null) FlxG.save.data.legacyYLock = 'locked';
 	if (FlxG.save.data.legacyRLock == null) FlxG.save.data.legacyRLock = 'locked';
 	    
+	if (FlxG.save.data.canAddMalfunction == null) FlxG.save.data.canAddMalfunction = false;
 	if (FlxG.save.data.muckneyLock == null) FlxG.save.data.muckneyLock = "uncompleted";
 	if (FlxG.save.data.highOnCrackLock == null) FlxG.save.data.highOnCrackLock = "undiscovered";   
         
@@ -142,6 +144,7 @@ class GameData
 	    
 	FlxG.save.data.hasSeenWarning = hasSeenWarning;
 	    
+	FlxG.save.data.canAddMalfunction = canAddMalfunction;
         FlxG.save.data.muckneyLock = muckneyLock;
         FlxG.save.data.highOnCrackLock = highOnCrackLock;
 
@@ -186,6 +189,7 @@ class GameData
 	    
 	hasSeenWarning = FlxG.save.data.hasSeenWarning;
 	    
+	canAddMalfunction = FlxG.save.data.canAddMalfunction;
         muckneyLock = FlxG.save.data.muckneyLock;
         highOnCrackLock = FlxG.save.data.highOnCrackLock;
 	    
