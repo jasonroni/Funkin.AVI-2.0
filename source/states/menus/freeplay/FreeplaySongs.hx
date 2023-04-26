@@ -59,6 +59,9 @@ class FreeplaySongs extends MusicBeatState
 	var camGame:FlxCamera; // Main camera
 	var camHUD:FlxCamera; // Shaders and stuff
 
+	var defaultCamZoom:Float = 1;
+	var camZoomTween:FlxTween;
+
 	var defaultShader2:FlxRuntimeShader;
 	var smilesShader:FlxRuntimeShader;
 	var mercyShader:FlxRuntimeShader;
@@ -215,6 +218,16 @@ class FreeplaySongs extends MusicBeatState
 		mutex = new Mutex();
 		loadSongs(loadCustom); // set to false in case you don't want custom songs;
 
+		camGame = new FlxCamera();
+		camHUD = new FlxCamera();
+
+		camHUD.bgColor.alpha = 0;
+
+		FlxG.cameras.reset(camGame);
+		FlxG.cameras.add(camHUD, false);
+
+		FlxG.cameras.setDefaultDrawTarget(camGame, true);
+
 		bg = new FlxSprite().loadGraphic(Paths.image('menus/base/menuDesat'));
 		add(bg);
 
@@ -259,8 +272,15 @@ class FreeplaySongs extends MusicBeatState
 
 		add(scoreText);
 
+		scoreText.cameras = [camHUD];
+		scoreBG.cameras = [camHUD];
+		diffText.cameras = [camHUD];
+
 		changeSelection();
 		changeDiff();
+		if (freeplayMenuList != 2) changeCurBPM();
+
+		camZoomTween = FlxTween.tween(this, {}, 0);
 
 		if(!Init.trueSettings.get('Low Quality'))
 		{
@@ -285,6 +305,10 @@ class FreeplaySongs extends MusicBeatState
 			gradient = new FlxSprite().loadGraphic(Paths.image('UI/gimmicks/gradient'));
 			gradient.screenCenter();
 	 		if (freeplayMenuList != 2) add(gradient);
+
+			scratchStuff.cameras = [camHUD];
+			grain.cameras = [camHUD];
+			gradient.cameras = [camHUD];
 		}
 	}
 
@@ -509,6 +533,17 @@ class FreeplaySongs extends MusicBeatState
 		lastDifficulty = existingDifficulties[curSelected][curDifficulty];
 	}
 
+	override function beatHit()
+	{
+		super.beatHit();
+
+		if (freeplayMenuList != 2)
+		{
+			FlxG.camera.zoom += 0.025;
+			FlxTween.tween(FlxG.camera, {zoom: 1}, 0.1);
+		}
+	}
+
 	function changeSelection(change:Int = 0)
 	{
 		FlxG.sound.play(Paths.sound('base/menus/scrollMenu'), 0.4);
@@ -589,7 +624,7 @@ class FreeplaySongs extends MusicBeatState
 			}
 		}
 
-		//if (freeplayMenuList != 2) changeCurBPM();
+		if (freeplayMenuList != 2) changeCurBPM();
 		changeDiff();
 		changeSongPlaying();
 		updateDiscord();
@@ -790,7 +825,7 @@ class FreeplaySongs extends MusicBeatState
 		}
 	}
 
-	function changeCurBPM():Void
+	function changeCurBPM()
 	{
 		switch (songs[curSelected].name.toLowerCase())
 		{
