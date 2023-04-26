@@ -34,6 +34,7 @@ typedef SongMetadata =
 	var color:FlxColor;
 	var composer:String;
 	var difficultyRank:String;
+	var textColor:FlxColor;
 	//var discArt:String;
 }
 	
