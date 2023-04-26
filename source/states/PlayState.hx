@@ -284,7 +284,7 @@ class PlayState extends MusicBeatState
 
 	function loadWindowTitleData()
 	{
-		states.menus.freeplay.FreeplaySongs.getDiffRank();
+		states.menus.freeplay.FreeplaySongs.getDiffRank('game');
 		switch (gameplayMode)
 		{
 				case STORY:
