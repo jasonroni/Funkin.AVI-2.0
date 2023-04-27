@@ -19,7 +19,6 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import states.MusicBeatState;
-import flixel.addons.display.FlxRuntimeShader;
 import flixel.input.keyboard.FlxKeyboard;
 import flixel.input.keyboard.FlxKey;
 import flixel.util.FlxTimer;
@@ -742,7 +741,7 @@ class MainMenu extends MusicBeatState
 		// It actually makes sense since some pepole doesn't know we moved to forever or just think we ported the psych editor lol
 		if(FlxG.keys.justPressed.SEVEN) 
 			{
-				Main.switchState(this, new states.menus.SexState());
+				Main.switchState(this, new states.menus.PsychDebugTrollState());
 			} else if(FlxG.keys.justPressed.EIGHT) 
 			{
 				Main.switchState(this, new GameJoltLogin());

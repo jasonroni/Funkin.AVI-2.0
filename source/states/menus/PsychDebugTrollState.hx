@@ -18,7 +18,6 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import states.MusicBeatState;
-import flixel.addons.display.FlxRuntimeShader;
 
 using StringTools;
 
