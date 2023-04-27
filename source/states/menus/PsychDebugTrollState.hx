@@ -21,7 +21,7 @@ import states.MusicBeatState;
 
 using StringTools;
 
-class SexState extends MusicBeatState 
+class PsychDebugTrollState extends MusicBeatState 
 {
    var background:FlxSprite; // for some reason, the game would crash without it
 
