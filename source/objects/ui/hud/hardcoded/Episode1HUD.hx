@@ -142,7 +142,7 @@ class Episode1HUD extends FlxSpriteGroup
 	lunacyIcon.visible = false;
 	add(lunacyIcon);
 	
-	delusionalIcon = new HealthIcon('insanemick', true);
+	delusionalIcon = new HealthIcon('insanemick', false);
 	delusionalIcon.y = healthBar.y - (delusionalIcon.height / 2);
 	delusionalIcon.canBounce = false;
 	delusionalIcon.visible = false;
