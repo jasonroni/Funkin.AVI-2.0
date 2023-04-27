@@ -144,7 +144,7 @@ class FreeplaySongs extends MusicBeatState
 					{
 						addSong('Hunted', 3, (GameData.huntedLock != 'unlocked' && GameData.huntedLock != 'beaten' ? 'untouched-song' : 'goofy-new'), FlxColor.fromRGB(94, 28, 35), 'JBlitz', 'NORMAL', FlxColor.fromRGB(255, 220, 220));
 						addSong('Isolated-Old', 3, (GameData.oldisolateLock != 'unlocked' && GameData.oldisolateLock != 'beaten' ? 'untouched-song' : 'mickey-legacy'), FlxColor.fromRGB(60, 60, 60), 'Toko', 'EASY', FlxColor.WHITE);
-						addSong('Isolated-Beta', 3, (GameData.betaisolateLock != 'unlocked' && GameData.betaisolateLock != 'beaten' ? 'untouched-song' : 'mickey-legacy'), FlxColor.fromRGB(60, 60, 60), 'Toko', 'EASY', FlxCOlor.WHITE);
+						addSong('Isolated-Beta', 3, (GameData.betaisolateLock != 'unlocked' && GameData.betaisolateLock != 'beaten' ? 'untouched-song' : 'mickey-legacy'), FlxColor.fromRGB(60, 60, 60), 'Toko', 'EASY', FlxColor.WHITE);
 					}
 						
 					if (GameData.episodeSFPLock == 'unlocked')
@@ -152,7 +152,7 @@ class FreeplaySongs extends MusicBeatState
 						addSong('Laugh-Track', 3, (GameData.rickyLock != 'unlocked' && GameData.rickyLock != 'beaten' ? 'untouched-song' : 'placeholder'), FlxColor.fromRGB(181, 0, 0), 'Toko', 'HARD', FlxColor.fromRGB(255, 187, 187));
 						addSong('Bless', 3, (GameData.blessLock != 'unlocked' && GameData.blessLock != 'beaten' ? 'untouched-song' : 'white-noise'), FlxColor.WHITE, 'END_SELLA', 'HARD', FlxColor.fromRGB(255, 187, 187));
 						addSong('Scrapped', 3, (GameData.scrappedLock != 'unlocked' && GameData.scrappedLock != 'beaten' ? 'untouched-song' : 'rs'), FlxColor.fromRGB(0, 0, 0), 'FR3SHMoure', 'HARD', FlxColor.fromRGB(255, 187, 187));
-						addSong("Don't-Cross!", 3, (GameData.crossinLock != 'unlocked' && GameData.crossinLock != 'beaten' ? 'untouched-song' : 'dctl-mickey'), FlxColor.fromRGB(255, 0, 0), 'Toko', 'GOOD LUCK', FlcColor.fromRGB(201, 0, 0));
+						addSong("Don't-Cross!", 3, (GameData.crossinLock != 'unlocked' && GameData.crossinLock != 'beaten' ? 'untouched-song' : 'dctl-mickey'), FlxColor.fromRGB(255, 0, 0), 'Toko', 'GOOD LUCK', FlxColor.fromRGB(201, 0, 0));
 					}
 						
 					if (GameData.episodeWFPLock == 'unlocked')
@@ -339,7 +339,7 @@ class FreeplaySongs extends MusicBeatState
 						{
 							var castSong:SwagSong = Song.loadFromJson(i, i);
 							icon = (castSong != null) ? castSong.player2 : 'gf';
-							addSong(CoolUtil.spaceToDash(castSong.song), 1, icon, FlxColor.WHITE);
+							addSong(CoolUtil.spaceToDash(castSong.song), 1, icon, FlxColor.WHITE, 'NOT FOUND', 'UNKNOWN', FlxColor.WHITE);
 						}
 					}
 				}
