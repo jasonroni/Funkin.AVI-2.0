@@ -1413,6 +1413,11 @@ class PlayState extends MusicBeatState
 					chromNormalShader.setFloat('bOffset', -chromEffect / 20);
 					if (Init.trueSettings.get('Epilepsy Mode')) blurShader.setFloat('bluramount', blurEffect);
 					
+				case 'Malfunction Legacy':
+					chromNormalShader.setFloat('rOffset', chromEffect / 20);
+					chromNormalShader.setFloat('bOffset', -chromEffect / 20);
+					if (Init.trueSettings.get('Epilepsy Mode')) blurShader.setFloat('bluramount', blurEffect);
+					
 				case 'Isolated Beta' | 'Isolated Legacy' | 'Isolated Old' | 'Lunacy Legacy' | 'Delusional Legacy':
 					andromeda.setFloat('iTime', shaderAnim);
 				
@@ -1823,34 +1828,27 @@ class PlayState extends MusicBeatState
 									i.shake(0.015, 0.07);
 							}
 							if (canaddshaders)
-							{
-						
-												if(!Init.trueSettings.get('Low Quality') && Init.trueSettings.get('Epilepsy Mode'))
-												{
-													camGame.setFilters(
-														[
-															new ShaderFilter(chromZoomShader),
-															new ShaderFilter(blurShader)
-														]
-													);
-						
-													camHUD.setFilters(
-														[
-															new ShaderFilter(chromNormalShader),
-															new ShaderFilter(blurShader)
-														]
-													);
-						
-													for (i in strumHUD)
-													{
-														i.setFilters(
-															[
-																new ShaderFilter(chromNormalShader),
-																new ShaderFilter(blurShader)
-															]
-														);
-													}
-												}
+							{			
+								if(!Init.trueSettings.get('Low Quality') && Init.trueSettings.get('Epilepsy Mode'))
+								{
+									camGame.setFilters([
+										new ShaderFilter(chromZoomShader),
+										new ShaderFilter(chromNormalShader),
+										new ShaderFilter(blurShader)
+									]);
+									camHUD.setFilters([
+										new ShaderFilter(chromNormalShader),
+										new ShaderFilter(blurShader)
+									]);
+									for (i in strumHUD)
+									{
+										i.setFilters([
+											new ShaderFilter(chromNormalShader),
+											new ShaderFilter(blurShader)
+										]);
+									}
+								}
+								
 								chromEffect += 0.5;
 								blurEffect += 5;
 								
@@ -1873,7 +1871,6 @@ class PlayState extends MusicBeatState
 										}
 									}
 								);
-
 								blurTween = FlxTween.tween(
 									this,
 									{
@@ -1885,29 +1882,12 @@ class PlayState extends MusicBeatState
 										onComplete: function(twn:FlxTween)
 										{
 										
-														if(!Init.trueSettings.get('Low Quality'))
-														{
-															camGame.setFilters(
-																[
-																	new ShaderFilter(chromZoomShader),
-																]
-															);
-								
-															camHUD.setFilters(
-																[
-																	new ShaderFilter(chromNormalShader),
-																]
-															);
-								
-															for (i in strumHUD)
-															{
-																i.setFilters(
-																	[
-																		new ShaderFilter(chromNormalShader),
-																	]
-																);
-															}
-														}
+											if(!Init.trueSettings.get('Low Quality'))
+											{
+												camGame.setFilters([new ShaderFilter(chromZoomShader), new ShaderFilter(chromNormalShader)]);
+												camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
+												for (i in strumHUD) i.setFilters([new ShaderFilter(chromNormalShader)]);
+											}
 											blurTween = null;
 										}
 									}
@@ -1927,30 +1907,69 @@ class PlayState extends MusicBeatState
 							}
 							if (canaddshaders)
 							{
-								if (Init.trueSettings.get('Epilepsy Mode'))
+								if(!Init.trueSettings.get('Low Quality') && Init.trueSettings.get('Epilepsy Mode'))
 								{
-									addShaderToCamera('hud', new FuckingBlurEffect(0.8, 0));
-									addShaderToCamera('notes', new FuckingBlurEffect(0.8, 0));
-									addShaderToCamera('game', new FuckingBlurEffect(1, 0));
-								}
-								if(!Init.trueSettings.get('Low Quality'))
-								{
-									addShaderToCamera('hud', new MalfunctionLegacyEffect(0.003));
-									addShaderToCamera('notes', new MalfunctionLegacyEffect(0.003));
-									addShaderToCamera('game', new MalfunctionNewEffect(0.15, 0.1));
-								}
-								new FlxTimer().start(0.04, function(tmr:FlxTimer)
-								{
-									clearShaderFromCamera('game');
-									clearShaderFromCamera('notes');
-									clearShaderFromCamera('hud');
-									if(!Init.trueSettings.get('Low Quality'))
+									camGame.setFilters([
+										new ShaderFilter(chromZoomShader),
+										new ShaderFilter(chromNormalShader),
+										new ShaderFilter(blurShader)
+									]);
+									camHUD.setFilters([
+										new ShaderFilter(chromNormalShader),
+										new ShaderFilter(blurShader)
+									]);
+									for (i in strumHUD)
 									{
-										addShaderToCamera('hud', new MalfunctionLegacyEffect(0.002));
-										addShaderToCamera('notes', new MalfunctionLegacyEffect(0.002));
-										addShaderToCamera('game', new MalfunctionNewEffect(0.01, 0.01));
+										i.setFilters([
+											new ShaderFilter(chromNormalShader),
+											new ShaderFilter(blurShader)
+										]);
 									}
-								});
+								}
+								
+								chromEffect += 0.25;
+								blurEffect += 2.5;
+								
+								if (chromTween != null)
+									chromTween.cancel();
+								if (blurTween != null)
+									blurTween.cancel();
+
+								chromTween = FlxTween.tween(
+									this,
+									{
+										chromEffect: 0.0001
+									},
+									0.1,
+									{
+										ease: FlxEase.sineOut,
+										onComplete: function(twn:FlxTween)
+										{
+											chromTween = null;
+										}
+									}
+								);
+								blurTween = FlxTween.tween(
+									this,
+									{
+										blurEffect: 0.0
+									},
+									0.1,
+									{
+										ease: FlxEase.sineOut,
+										onComplete: function(twn:FlxTween)
+										{
+										
+											if(!Init.trueSettings.get('Low Quality'))
+											{
+												camGame.setFilters([new ShaderFilter(chromZoomShader), new ShaderFilter(chromNormalShader)]);
+												camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
+												for (i in strumHUD) i.setFilters([new ShaderFilter(chromNormalShader)]);
+											}
+											blurTween = null;
+										}
+									}
+								);
 							}
 						}
 						
@@ -1966,30 +1985,68 @@ class PlayState extends MusicBeatState
 						}
 						if (canaddshaders)
 						{
-							if (Init.trueSettings.get('Epilepsy Mode'))
+							if(!Init.trueSettings.get('Low Quality') && Init.trueSettings.get('Epilepsy Mode'))
 							{
-								addShaderToCamera('hud', new FuckingBlurEffect(1, 0));
-								addShaderToCamera('notes', new FuckingBlurEffect(1, 0));
-								addShaderToCamera('game', new FuckingBlurEffect(1.5, 0));
-							}
-							if(!Init.trueSettings.get('Low Quality'))
-							{
-								addShaderToCamera('hud', new MalfunctionLegacyEffect(0.01));
-								addShaderToCamera('notes', new MalfunctionLegacyEffect(0.01));
-								addShaderToCamera('game', new MalfunctionLegacyEffect(0.01));
-							}
-							new FlxTimer().start(0.04, function(tmr:FlxTimer)
-							{
-								clearShaderFromCamera('game');
-								clearShaderFromCamera('notes');
-								clearShaderFromCamera('hud');
-								if(!Init.trueSettings.get('Low Quality'))
+								camGame.setFilters([
+									new ShaderFilter(chromNormalShader),
+									new ShaderFilter(blurShader)
+								]);
+								camHUD.setFilters([
+									new ShaderFilter(chromNormalShader),
+									new ShaderFilter(blurShader)
+								]);
+								for (i in strumHUD)
 								{
-									addShaderToCamera('hud', new MalfunctionLegacyEffect(0.004));
-									addShaderToCamera('notes', new MalfunctionLegacyEffect(0.004));
-									addShaderToCamera('game', new MalfunctionLegacyEffect(0.008));
+									i.setFilters([
+										new ShaderFilter(chromNormalShader),
+										new ShaderFilter(blurShader)
+									]);
 								}
-							});
+							}
+								
+							chromEffect += 0.3;
+							blurEffect += 1.5;
+								
+							if (chromTween != null)
+								chromTween.cancel();
+							if (blurTween != null)
+								blurTween.cancel();
+
+							chromTween = FlxTween.tween(
+								this,
+								{
+									chromEffect: 0.0001
+								},
+								0.1,
+								{
+									ease: FlxEase.sineOut,
+									onComplete: function(twn:FlxTween)
+									{
+										chromTween = null;
+									}
+								}
+							);
+							blurTween = FlxTween.tween(
+								this,
+								{
+									blurEffect: 0.0
+								},
+								0.1,
+								{
+									ease: FlxEase.sineOut,
+									onComplete: function(twn:FlxTween)
+									{
+										
+										if(!Init.trueSettings.get('Low Quality'))
+										{
+											camGame.setFilters([new ShaderFilter(chromNormalShader)]);
+											camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
+											for (i in strumHUD) i.setFilters([new ShaderFilter(chromNormalShader)]);
+										}
+										blurTween = null;
+									}
+								}
+							);
 						}
 						
 					case "Don't Cross!":
@@ -4148,126 +4205,7 @@ class PlayState extends MusicBeatState
 
 	/*
 		Extra functions and stuffs
-	 */
-	 
-	// Reused from Psych cause I REALLY do NOT wanna do this shit again
-	public function addShaderToCamera(cam:String, effect:ShaderEffect)
-	{ // STOLE FROM ANDROMEDA
-		if(canaddshaders) 
-		{
-			switch (cam.toLowerCase())
-			{
-				case 'camhud' | 'hud':
-					camHUDShaders.push(effect);
-					var newCamEffects:Array<BitmapFilter> = []; // IT SHUTS HAXE UP IDK WHY BUT WHATEVER IDK WHY I CANT JUST ARRAY<SHADERFILTER>
-					for (i in camHUDShaders)
-					{
-						newCamEffects.push(new ShaderFilter(i.shader));
-					}
-					camHUD.setFilters(newCamEffects);
-				case 'camalt' | 'alt':
-					camAltShaders.push(effect);
-					var newCamEffects:Array<BitmapFilter> = []; // IT SHUTS HAXE UP IDK WHY BUT WHATEVER IDK WHY I CANT JUST ARRAY<SHADERFILTER>
-					for (i in camAltShaders)
-					{
-						newCamEffects.push(new ShaderFilter(i.shader));
-					}
-					camAlt.setFilters(newCamEffects);
-				case 'camgame' | 'game':
-					camGameShaders.push(effect);
-					var newCamEffects:Array<BitmapFilter> = []; // IT SHUTS HAXE UP IDK WHY BUT WHATEVER IDK WHY I CANT JUST ARRAY<SHADERFILTER>
-					for (i in camGameShaders)
-					{
-						newCamEffects.push(new ShaderFilter(i.shader));
-					}
-					camGame.setFilters(newCamEffects);
-				case 'strums' | 'strumhud' | 'strumlines' | 'notes':
-					strumShaders.push(effect);
-					var newCamEffects:Array<BitmapFilter> = []; // IT SHUTS HAXE UP IDK WHY BUT WHATEVER IDK WHY I CANT JUST ARRAY<SHADERFILTER>
-					for (i in strumShaders)
-					{
-						newCamEffects.push(new ShaderFilter(i.shader));
-					}
-					for (i in strumHUD)
-					{
-						i.setFilters(newCamEffects);
-					}
-			}
-		}
-	}
-	
-	public function removeShaderFromCamera(cam:String, effect:ShaderEffect)
-	{
-		if(canaddshaders) {
-		switch (cam.toLowerCase())
-		{
-			case 'camhud' | 'hud':
-				camHUDShaders.remove(effect);
-				var newCamEffects:Array<BitmapFilter> = [];
-				for (i in camHUDShaders)
-				{
-					newCamEffects.push(new ShaderFilter(i.shader));
-				}
-				camHUD.setFilters(newCamEffects);
-			case 'camalt' | 'alt':
-				camAltShaders.remove(effect);
-				var newCamEffects:Array<BitmapFilter> = [];
-				for (i in camAltShaders)
-				{
-					newCamEffects.push(new ShaderFilter(i.shader));
-				}
-				camAlt.setFilters(newCamEffects);
-			case 'strums' | 'strumhud' | 'strumlines' | 'notes':
-				strumShaders.remove(effect);
-				var newCamEffects:Array<BitmapFilter> = [];
-				for (i in strumShaders)
-				{
-					newCamEffects.push(new ShaderFilter(i.shader));
-				}
-				for (i in strumHUD)
-				{
-					i.setFilters(newCamEffects);
-				}
-			default:
-				camGameShaders.remove(effect);
-				var newCamEffects:Array<BitmapFilter> = [];
-				for (i in camGameShaders)
-				{
-					newCamEffects.push(new ShaderFilter(i.shader));
-				}
-				camGame.setFilters(newCamEffects);
-			}
-		}
-	}
-	
-	public function clearShaderFromCamera(cam:String)
-	{
-		if(canaddshaders) {
-		switch (cam.toLowerCase())
-		{
-			case 'camhud' | 'hud':
-				camHUDShaders = [];
-				var newCamEffects:Array<BitmapFilter> = [];
-				camHUD.setFilters(newCamEffects);
-			case 'camalt' | 'alt':
-				camAltShaders = [];
-				var newCamEffects:Array<BitmapFilter> = [];
-				camAlt.setFilters(newCamEffects);
-			case 'strums' | 'strumhud' | 'strumlines' | 'notes':
-				strumShaders = [];
-				var newCamEffects:Array<BitmapFilter> = [];
-				for (i in strumHUD)
-				{
-					i.setFilters(newCamEffects);
-				}
-			default:
-				camGameShaders = [];
-				var newCamEffects:Array<BitmapFilter> = [];
-				camGame.setFilters(newCamEffects);
-			}
-		}
-	}
-	
+	 */	
 	public function createVideoCutscene(name:String)
 	{
 		callFunc('createVideoCutscene', [name]);
