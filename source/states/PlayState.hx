@@ -549,7 +549,7 @@ class PlayState extends MusicBeatState
 				if (!init.trueSettings.get('Low Quality'))
 				{
 					camGame.setFilters([
-						new ShaderFilter(grainFilter),
+						new ShaderFilter(dramaticCamMovement),
 						new ShaderFilter(bloomEffect),
 						new ShaderFilter(monitorFilter),
 						new ShaderFilter(chromZoomShader),
@@ -1399,12 +1399,14 @@ class PlayState extends MusicBeatState
 					chromZoomShader.setFloat('effectTime', chromEffect);
 					chromNormalShader.setFloat('rOffset', chromEffect / 70);
 					chromNormalShader.setFloat('bOffset', -chromEffect / 70);
+					dramaticCamMovement.setFloat('time', shaderAnim);
 
 				case 'Isolated' | 'Lunacy' | 'Delusional':
 					chromZoomShader.setFloat('aberration', chromEffect);
 					chromZoomShader.setFloat('effectTime', chromEffect);
 					chromNormalShader.setFloat('rOffset', chromEffect / 45);
 					chromNormalShader.setFloat('bOffset', -chromEffect / 45);
+					dramaticCamMovement.setFloat('time', shaderAnim);
 
 				case 'Malfunction':
 					chromZoomShader.setFloat('aberration', chromEffect);
@@ -1432,7 +1434,7 @@ class PlayState extends MusicBeatState
 					chromNormalShader.setFloat('rOffset', chromEffect / 35);
 					chromNormalShader.setFloat('bOffset', -chromEffect / 35);
 					staticEffect.setFloat('uTime', shaderAnim);
-    					staticEffect.setFloat('iTime', shaderAnim);
+    				staticEffect.setFloat('iTime', shaderAnim);
 			}
 		}
 
