@@ -1,8 +1,6 @@
 package states;
 
-import base.events.CamChromEvent;
 import base.events.Events;
-import base.events.MalfunctionShaders;
 import openfl.filters.BitmapFilter;
 import openfl.utils.Assets as OpenFlAssets;
 import openfl.filters.ShaderFilter;
@@ -96,13 +94,6 @@ class PlayState extends MusicBeatState
 
 	// lazyness
 	public var canaddshaders = !Init.trueSettings.get('Disable Screen Shaders');
-	
-	public var camGameShaders:Array<ShaderEffect> = [];
-	public var camHUDShaders:Array<ShaderEffect> = [];
-	public var camAltShaders:Array<ShaderEffect> = [];
-	public var strumShaders:Array<ShaderEffect> = [];
-	public var shaderUpdates:Array<Float->Void> = [];
-	var filters:Array<BitmapFilter> = [];
 
 	// Song;
 	public static var SONG:SwagSong;
@@ -132,10 +123,6 @@ class PlayState extends MusicBeatState
 	public static var opponent:Character;
 	public static var gf:Character;
 	public static var boyfriend:Boyfriend;
-
-	var grayScale:FlxRuntimeShader;
-	var tilt:FlxRuntimeShader;
-	var andromeda:FlxRuntimeShader;
 
 	// used by events, stores characters and character names in maps;
 	public static var playerMap:Map<String, Character> = new Map();
@@ -269,18 +256,28 @@ class PlayState extends MusicBeatState
 	var fade:FlxSprite;
 	
 	// for Tweening shaders and shit later
+	var grayScale:FlxRuntimeShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 120);
+	var andromeda:FlxRuntimeShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/andromedaShader.frag'), null, 140);
 	var chromZoomShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/aberration.frag'), null, 150);
 	var chromNormalShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/aberrationLegacy.frag'), null, 150);
 	var blurShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tiltShift.frag'), null, 120);
-	var grainFilter:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/bloomGame.frag'), null, 120);
-	var monitorFilter:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
-	var bloomEffect:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
+	var blurShaderHUD:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tiltShift.frag'), null, 120);
+	var bloomEffect:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/bloomGame.frag'), null, 120);
+	var dramaticCamMovement:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
+	var monitorFilter:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
+	var staticEffect:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag', null, 120));
 
 	var chromEffect:Float = 0.0001;
 	var blurEffect:Float = 0.0;
+	var blurHUD:Float = 0.0;
+	var staticModifer:Float = 0.0;
+	
+	var shaderAnim:Float = 0;
 
 	var blurTween:FlxTween;
 	var chromTween:FlxTween;
+	var blurHUDTween:FlxTween;
+	var staticTween:FlxTween;
 
 	function loadWindowTitleData()
 	{
@@ -498,106 +495,131 @@ class PlayState extends MusicBeatState
 		switch (SONG.song)
 		{
 			case 'Malfunction':
-				if (canaddshaders)
-					{
-						if(!Init.trueSettings.get('Low Quality'))
-						{
-							camGame.setFilters(
-								[
-									new ShaderFilter(chromZoomShader),
-									new ShaderFilter(blurShader)
-								]
-							);
-
-							camHUD.setFilters(
-								[
-									new ShaderFilter(chromNormalShader),
-									new ShaderFilter(blurShader)
-								]
-							);
-
-							for (i in strumHUD)
-							{
-								i.setFilters(
-									[
-										new ShaderFilter(chromNormalShader),
-										new ShaderFilter(blurShader)
-									]
-								);
-							}
-
-							new FlxTimer().start(5, function(tmr:FlxTimer)
-							{
-								camGame.setFilters(
-									[
-										new ShaderFilter(chromZoomShader),
-									]
-								);
-
-								camHUD.setFilters(
-									[
-										new ShaderFilter(chromNormalShader),
-									]
-								);
-
-								for (i in strumHUD)
-								{
-									i.setFilters(
-										[
-											new ShaderFilter(chromNormalShader),
-										]
-									);
-								}
-							});
-						}
-					}
-			case 'Malfunction Legacy':
-				if (canaddshaders)
-					{
-						if (Init.trueSettings.get('Epilepsy Mode'))
-						{
-							addShaderToCamera('hud', new FuckingBlurEffect(0.0001, 0));
-							addShaderToCamera('notes', new FuckingBlurEffect(0.0001, 0));
-							addShaderToCamera('game', new FuckingBlurEffect(0.0001, 0));
-						}
-						if(!Init.trueSettings.get('Low Quality'))
-						{
-							addShaderToCamera('hud', new MalfunctionLegacyEffect(0.00001));
-							addShaderToCamera('notes', new MalfunctionLegacyEffect(0.00001));
-							addShaderToCamera('game', new MalfunctionLegacyEffect(0.00001));
-						}
-						new FlxTimer().start(1, function(tmr:FlxTimer)
-						{
-							clearShaderFromCamera("game");
-							clearShaderFromCamera("notes");
-							clearShaderFromCamera("hud");
-						});
-					}
-			case 'Devilish Deal':
-				if (canaddshaders)
+				if(!Init.trueSettings.get('Low Quality'))
 				{
-					camGame.setFilters([new ShaderFilter(chromZoomShader)]);
-					camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
+					camGame.setFilters(
+					[
+						new ShaderFilter(chromZoomShader),
+						new ShaderFilter(blurShader)
+					]);
+					camHUD.setFilters(
+					[
+						new ShaderFilter(chromNormalShader),
+						new ShaderFilter(blurShader)
+					]);
 					for (i in strumHUD)
 					{
-						i.setFilters([new ShaderFilter(chromNormalShader)]);
+						i.setFilters(
+						[
+							new ShaderFilter(chromNormalShader),
+							new ShaderFilter(blurShader)
+						]);
+					}
+
+					new FlxTimer().start(5, function(tmr:FlxTimer)
+					{
+						camGame.setFilters([new ShaderFilter(chromZoomShader)]);
+						camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
+						for (i in strumHUD) i.setFilters([new ShaderFilter(chromNormalShader)]);
+					});
+				}
+			case 'Malfunction Legacy':
+				if(!Init.trueSettings.get('Low Quality'))
+				{
+					camGame.setFilters(
+					[
+						new ShaderFilter(chromNormalShader),
+						new ShaderFilter(blurShader)
+					]);
+					camHUD.setFilters(
+					[
+						new ShaderFilter(chromNormalShader),
+						new ShaderFilter(blurShader)
+					]);
+					for (i in strumHUD)
+					{
+						i.setFilters(
+						[
+							new ShaderFilter(chromNormalShader),
+							new ShaderFilter(blurShader)
+						]);
 					}
 				}
-
-			case 'Lunacy':
-				if (canaddshaders)
+			case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional':
+				if (!init.trueSettings.get('Low Quality'))
 				{
 					camGame.setFilters([
 						new ShaderFilter(grainFilter),
-						new ShaderFilter(monitorFilter),
 						new ShaderFilter(bloomEffect),
+						new ShaderFilter(monitorFilter),
 						new ShaderFilter(chromZoomShader),
 						new ShaderFilter(chromNormalShader)
 					]);
-
-					camHUD.setFilters([
+					camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
+					for (i in strumHUD) i.setFilters([new ShaderFilter(grayscale), new ShaderFilter(chromNormalShader)]);
+				}
+				else
+				{
+					camGame.setFilters([
+						new ShaderFilter(monitorFilter),
 						new ShaderFilter(chromNormalShader)
 					]);
+					camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
+					for (i in strumHUD) i.setFilters([new ShaderFilter(grayscale)]);
+				}
+			case 'Isolated Old' | 'Isolated Legacy' | 'Isolated Beta' | 'Lunacy Legacy' | 'Delusional Legacy':
+				blurShader.setFloat('bluramount', 0.6);
+				blurShaderHUD.setFloat('bluramount', 0.1);
+				andromeda.setFloat('glitchModifier', 0.2);
+				andromeda.setBool('perspectiveOn', false);
+				andromeda.setBool('vignetteMoving', true);
+				if (!init.trueSettings.get('Low Quality'))
+				{
+					camGame.setFilters([
+						new ShaderFilter(grayscale),
+						new ShaderFilter(blurShader),
+						new ShaderFilter(andromeda)
+					]);
+					camHUD.setFilters([
+						new ShaderFilter(grayscale),
+						new ShaderFilter(blurShaderHUD),
+						new ShaderFilter(andromeda)
+					]);
+				}
+				else
+				{
+					camGame.setFilters([new ShaderFilter(grayscale)]);
+					camHUD.setFilters([new ShaderFilter(grayscale)]);
+				}
+			case 'Hunted Legacy':
+				camGame.setFilters([new ShaderFilter(monitorFilter)]);
+				
+			case 'Scrapped':
+				if (!Init.trueSettings.get('Low Quality'))
+				{
+					camGame.setFilters([
+						new ShaderFilter(staticEffect),
+						new ShaderFilter(blurShader),
+						new ShaderFilter(chromNormalShader),
+						new ShaderFilter(chromZoomShader)
+					]);
+					camHUD.setFilters([
+						new ShaderFilter(blurShaderHUD),
+						new ShaderFilter(chromNormalShader)
+					]);
+					for (i in strumHUD)
+					{
+						i.setFilters([
+							new ShaderFilter(blurShaderHUD),
+							new ShaderFilter(chromNormalShader)
+						]);
+					}
+				}
+				else
+				{
+					camGame.setFilters([new ShaderFilter(chromNormalShader)]);
+					camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
+					for (i in strumHUD) i.setFilters([new ShaderFilter(chromNormalShader)]);
 				}
 		}
 	}
@@ -841,15 +863,6 @@ class PlayState extends MusicBeatState
 		// strumline camera setup
 		strumHUD = [];
 
-		grayScale = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 120);
-		andromeda = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/andromedaShader.frag'), null, 140);
-		tilt = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/tiltShift.frag'), null, 140);
-		tilt.setFloat('bluramount', 0.1);
-		andromeda.setFloat('glitchModifier', 0.6);
-		andromeda.setBool('perspectiveOn', false);
-		andromeda.setBool('vignetteMoving', true);
-		andromeda.setFloat('iTime', 0);
-
 		for (i in 0...strumLines.length)
 		{
 			// generate a new strum camera
@@ -865,23 +878,8 @@ class PlayState extends MusicBeatState
 				case 'theLoop' | 'forestOld':
 					strumLines.members[i].cameras = [camHUD];
 
-				case 'abandonedStreet' | 'forestNew' | 'apartment' | 'smilesOffice' | 'clubhouse' | 'delusionalStreet':
-					strumHUD[i].setFilters([new openfl.filters.ShaderFilter(grayScale)]);
-					strumLines.members[i].cameras = [strumHUD[i]];
-
 				default:
 					strumLines.members[i].cameras = [strumHUD[i]];
-					// nothing, you get no shaders lol
-			}
-
-			if (SONG.song == 'Lunacy')
-			{
-				strumHUD[i].setFilters(
-					[
-						new ShaderFilter(grayScale),
-						new ShaderFilter(chromNormalShader)
-					]
-				);
 			}
 		}
 		add(strumLines);
@@ -1155,7 +1153,7 @@ class PlayState extends MusicBeatState
 
 		// call the funny intro cutscene depending on the song
 		songCutscene(false);
-		initializeShaders();
+		if (canaddshaders) initializeShaders();
 	}
 
 	var keysHeld:Array<Bool> = [];
@@ -1389,6 +1387,8 @@ class PlayState extends MusicBeatState
 	override public function update(elapsed:Float)
 	{
 		callFunc('update', [elapsed]);
+		
+		shaderAnim += elapsed;
 
 		if (canaddshaders)
 		{
@@ -1400,7 +1400,7 @@ class PlayState extends MusicBeatState
 					chromNormalShader.setFloat('rOffset', chromEffect / 70);
 					chromNormalShader.setFloat('bOffset', -chromEffect / 70);
 
-				case 'Lunacy':
+				case 'Isolated' | 'Lunacy' | 'Delusional':
 					chromZoomShader.setFloat('aberration', chromEffect);
 					chromZoomShader.setFloat('effectTime', chromEffect);
 					chromNormalShader.setFloat('rOffset', chromEffect / 45);
@@ -1412,6 +1412,22 @@ class PlayState extends MusicBeatState
 					chromNormalShader.setFloat('rOffset', chromEffect / 20);
 					chromNormalShader.setFloat('bOffset', -chromEffect / 20);
 					if (Init.trueSettings.get('Epilepsy Mode')) blurShader.setFloat('bluramount', blurEffect);
+					
+				case 'Isolated Beta' | 'Isolated Legacy' | 'Isolated Old' | 'Lunacy Legacy' | 'Delusional Legacy':
+					andromeda.setFloat('iTime', shaderAnim);
+				
+				case 'Scrapped':
+					if (Init.trueSettings.get('Epilepsy Mode'))
+					{
+						blurShader.setFloat('bluramount', blurEffect);
+						blurShaderHUD.setFloat('bluramount', blurHUD);
+					}
+					chromZoomShader.setFloat('aberration', chromEffect);
+					chromZoomShader.setFloat('effectTime', chromEffect);
+					chromNormalShader.setFloat('rOffset', chromEffect / 35);
+					chromNormalShader.setFloat('bOffset', -chromEffect / 35);
+					staticEffect.setFloat('uTime', shaderAnim);
+    					staticEffect.setFloat('iTime', shaderAnim);
 			}
 		}
 
