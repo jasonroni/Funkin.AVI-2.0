@@ -37,6 +37,10 @@ class Episode1HUD extends FlxSpriteGroup
   public var isolatedHappy:HealthIcon;
   public var fakeBFLosingFrame:HealthIcon;
   public var demonBFScary:HealthIcon;
+
+  // Hardcoded Devilish Deal Icon Frames
+  public var minnieIcon:HealthIcon;
+  public var satanIcon:HealthIcon;
   
   // Lunacy Mechanic?????
   public var disguiseFailCheck:Bool = false;
@@ -85,7 +89,7 @@ class Episode1HUD extends FlxSpriteGroup
 	}
 	add(fancyBarOverlay);
 
-	healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8));
+	healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, (PlayState.SONG.song == 'Devilish Deal' ? LEFT_TO_RIGHT : RIGHT_TO_LEFT), Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8));
 	healthBar.scrollFactor.set();
 	reloadHealthBar();
 	add(healthBar);
@@ -138,12 +142,24 @@ class Episode1HUD extends FlxSpriteGroup
 	lunacyIcon.visible = false;
 	add(lunacyIcon);
 	
-	delusionalIcon = new HealthIcon('insanemick', false);
+	delusionalIcon = new HealthIcon('insanemick', true);
 	delusionalIcon.y = healthBar.y - (delusionalIcon.height / 2);
 	delusionalIcon.canBounce = false;
 	delusionalIcon.visible = false;
 	add(delusionalIcon);
-
+	  
+	/*minnieIcon = new HealthIcon('minnie', true);
+	minnieIcon.y = healthBar.y - (minnieIcon.height / 2);
+	minnieIcon.canBounce = true;
+	minnieIcon.animation.curAnim.curFrame = 0;
+	add(minnieIcon);
+	  
+	satanIcon = new HealthIcon('satan-disguised' false);
+	satanIcon.y = healthBar.y - (satanIcon.height / 2);
+	satanIcon.canBounce = false;
+	satanIcon.animation.curAnim.curFrame = 0;
+	add(satanIcon);*/
+	  
 	scoreTxt = new FlxText(FlxG.width / 2, Math.floor(healthBarBG.y + 40), 0, scoreDisplay);
 	scoreTxt.setFormat(Paths.font('DisneyFont'), 26, FlxColor.WHITE);
 	scoreTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
@@ -236,6 +252,8 @@ class Episode1HUD extends FlxSpriteGroup
 		isolatedHappy.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (isolatedHappy.width - iconOffset);
 		lunacyIcon.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (lunacyIcon.width - iconOffset);
 		delusionalIcon.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (delusionalIcon.width - iconOffset);
+		//minnieIcon.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - iconOffset);
+		//satanIcon.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (satanIcon.width - iconOffset);
 
 		iconP1.updateAnim(healthBar.percent);
 		iconP2.updateAnim(100 - healthBar.percent);
@@ -252,6 +270,8 @@ class Episode1HUD extends FlxSpriteGroup
 		
 		demonBFIcon.bop(0.1);
 		lunacyIcon.bop(0.1);
+		
+		//minnieIcon.bop(0.2);
 
 		/*if (autoplayTxt.visible)
 		{
