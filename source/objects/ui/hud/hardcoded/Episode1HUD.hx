@@ -114,7 +114,7 @@ class Episode1HUD extends FlxSpriteGroup
 		iconP2.visible = false;
 	}
 	
-	// Isolated & Lunacy stuff
+	// Hardcoded Icons
 	demonBFIcon = new HealthIcon('bf-demon', true);
 	demonBFIcon.y = healthBar.y - (demonBFIcon.height / 2);
 	demonBFIcon.canBounce = true;
@@ -161,12 +161,14 @@ class Episode1HUD extends FlxSpriteGroup
 	minnieIcon.y = healthBar.y - (minnieIcon.height / 2);
 	minnieIcon.canBounce = true;
 	minnieIcon.animation.curAnim.curFrame = 0;
+	minnieIcon.visible = false;
 	add(minnieIcon);
 	  
 	satanIcon = new HealthIcon('bf-demon', true);
 	satanIcon.y = healthBar.y - (satanIcon.height / 2);
 	satanIcon.canBounce = false;
 	satanIcon.animation.curAnim.curFrame = 0;
+	satanIcon.visible = false;
 	add(satanIcon);
 
 	satanIconPulse = new HealthIcon('bf-demon', true);
@@ -176,6 +178,7 @@ class Episode1HUD extends FlxSpriteGroup
 	satanIconPulse.visible = false;
 	add(satanIconPulse);
 
+	// Text Setup
 	scoreTxt = new FlxText(FlxG.width / 2, Math.floor(healthBarBG.y + 40), 0, scoreDisplay);
 	scoreTxt.setFormat(Paths.font('DisneyFont'), 26, FlxColor.WHITE);
 	scoreTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
@@ -419,6 +422,9 @@ class Episode1HUD extends FlxSpriteGroup
 			case 'Devilish Deal':
 				switch (curBeat)
 				{
+					case 1:
+						minnieIcon.visible = true;
+						satanIcon.visible = true;
 					case 62: satanIcon.animation.curAnim.curFrame = 2;
 					case 63: minnieIcon.animation.curAnim.curFrame = 1;
 					case 64:
@@ -436,7 +442,6 @@ class Episode1HUD extends FlxSpriteGroup
 						watermarkTxt.visible = false;
 						songTxt.visible = false;
 				}
-
 				if (curBeat >= 64 && curBeat <= 79)
 				{
 					if (iconPulseTween != null)
@@ -459,7 +464,6 @@ class Episode1HUD extends FlxSpriteGroup
 						}
 					});
 				}
-
 				if (curBeat >= 80 && curBeat <= 95)
 				{
 					if (iconPulseTween != null)
@@ -482,7 +486,6 @@ class Episode1HUD extends FlxSpriteGroup
 						}
 					});
 				}
-
 				if (curBeat >= 96 && curBeat <= 111)
 				{
 					if (iconPulseTween != null)
@@ -505,7 +508,6 @@ class Episode1HUD extends FlxSpriteGroup
 						}
 					});
 				}
-
 				if (curBeat >= 112 && curBeat <= 130)
 				{
 					if (iconPulseTween != null)

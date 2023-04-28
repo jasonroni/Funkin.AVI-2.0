@@ -3753,6 +3753,142 @@ class PlayState extends MusicBeatState
 					);
 				}
 
+				if (curBeat == 160 || curBeat == 168 || curBeat == 176 || curBeat == 184 || curBeat == 192 || curBeat == 200 || curBeat == 208 || curBeat == 216)
+				{
+					if (chromTween != null)
+						chromTween.cancel();
+
+					chromEffect = 0.55;
+
+					chromTween = FlxTween.tween(
+						this,
+						{
+							chromEffect: 0.0001
+						},
+						0.6,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromTween = null;
+							}
+						}
+					);
+				}
+
+				if (curBeat == 162 || curBeat == 170 || curBeat == 178 || curBeat == 186 || curBeat == 194 || curBeat == 202 || curBeat == 210 || curBeat == 218)
+				{
+					if (chromTween != null)
+						chromTween.cancel();
+
+					chromEffect = 0.6;
+
+					chromTween = FlxTween.tween(
+						this,
+						{
+							chromEffect: 0.0001
+						},
+						0.25,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromTween = null;
+							}
+						}
+					);
+				}
+
+				if (curBeat == 163 || curBeat == 171 || curBeat == 179 || curBeat == 187 || curBeat == 195 || curBeat == 203 || curBeat == 211 || curBeat == 219)
+				{
+					if (chromTween != null)
+						chromTween.cancel();
+
+					chromTween = FlxTween.tween(
+						this,
+						{
+							chromEffect: 0.5
+						},
+						0.22,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromTween = null;
+								chromEffect = 0.00001;
+							}
+						}
+					);
+				}
+
+				if (curBeat == 165 || curBeat == 173 || curBeat == 181 || curBeat == 189 || curBeat == 197 || curBeat == 205 || curBeat == 213 || curBeat == 221)
+				{
+					if (chromTween != null)
+						chromTween.cancel();
+
+					chromTween = FlxTween.tween(
+						this,
+						{
+							chromEffect: 0.35
+						},
+						0.2,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromTween = null;
+								chromEffect = 0.00001;
+							}
+						}
+					);
+				}
+
+				if (curBeat == 166 || curBeat == 174 || curBeat == 182 || curBeat == 190 || curBeat == 198 || curBeat == 206 || curBeat == 214 || curBeat == 222)
+				{
+					if (chromTween != null)
+						chromTween.cancel();
+
+					chromEffect = 0.45;
+
+					chromTween = FlxTween.tween(
+						this,
+						{
+							chromEffect: 0.0001
+						},
+						0.2,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromTween = null;
+							}
+						}
+					);
+				}
+
+				if (curBeat == 167 || curBeat == 175 || curBeat == 183 || curBeat == 191 || curBeat == 199 || curBeat == 207 || curBeat == 215 || curBeat == 223)
+				{
+					if (chromTween != null)
+						chromTween.cancel();
+
+					chromEffect = 0.56;
+
+					chromTween = FlxTween.tween(
+						this,
+						{
+							chromEffect: 0.0001
+						},
+						0.2,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromTween = null;
+							}
+						}
+					);
+				}
+
 				switch (curBeat)
 				{
 					// I'm NOT gonna have a fun time recoding all this for the BG dimming in and out later lmao
