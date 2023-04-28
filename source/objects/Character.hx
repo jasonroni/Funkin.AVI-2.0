@@ -6,8 +6,6 @@ import base.utils.FNFUtils.FNFSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import haxe.Json;
 import objects.CharacterData.CharacterOrigin;
-import objects.CharacterData.PsychAnimArray;
-import objects.CharacterData.PsychEngineChar;
 import states.PlayState;
 import sys.FileSystem;
 import sys.io.File;

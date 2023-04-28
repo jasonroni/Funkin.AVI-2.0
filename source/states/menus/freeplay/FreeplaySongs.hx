@@ -27,7 +27,6 @@ import base.song.Conductor;
 class FreeplaySongs extends MusicBeatState
 {
 	var songs:Array<SongMetadata> = [];
-	var shaders:Array<ShaderEffect> = [];
 
 	static var curSelected:Int = 0;
 	var curSongPlaying:Int = -1;

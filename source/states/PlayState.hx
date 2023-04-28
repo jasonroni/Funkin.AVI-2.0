@@ -264,7 +264,7 @@ class PlayState extends MusicBeatState
 	var bloomEffect:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/bloomGame.frag'), null, 120);
 	var dramaticCamMovement:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
 	var monitorFilter:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
-	var staticEffect:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag', null, 120));
+	var staticEffect:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
 
 	var chromEffect:Float = 0.0001;
 	var blurEffect:Float = 0.0;
@@ -545,7 +545,7 @@ class PlayState extends MusicBeatState
 					}
 				}
 			case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional':
-				if (!init.trueSettings.get('Low Quality'))
+				if (!Init.trueSettings.get('Low Quality'))
 				{
 					camGame.setFilters([
 						new ShaderFilter(dramaticCamMovement),
@@ -555,7 +555,7 @@ class PlayState extends MusicBeatState
 						new ShaderFilter(chromNormalShader)
 					]);
 					camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
-					for (i in strumHUD) i.setFilters([new ShaderFilter(grayscale), new ShaderFilter(chromNormalShader)]);
+					for (i in strumHUD) i.setFilters([new ShaderFilter(grayScale), new ShaderFilter(chromNormalShader)]);
 				}
 				else
 				{
@@ -564,7 +564,7 @@ class PlayState extends MusicBeatState
 						new ShaderFilter(chromNormalShader)
 					]);
 					camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
-					for (i in strumHUD) i.setFilters([new ShaderFilter(grayscale)]);
+					for (i in strumHUD) i.setFilters([new ShaderFilter(grayScale)]);
 				}
 			case 'Isolated Old' | 'Isolated Legacy' | 'Isolated Beta' | 'Lunacy Legacy' | 'Delusional Legacy':
 				blurShader.setFloat('bluramount', 0.6);
@@ -572,23 +572,23 @@ class PlayState extends MusicBeatState
 				andromeda.setFloat('glitchModifier', 0.2);
 				andromeda.setBool('perspectiveOn', false);
 				andromeda.setBool('vignetteMoving', true);
-				if (!init.trueSettings.get('Low Quality'))
+				if (!Init.trueSettings.get('Low Quality'))
 				{
 					camGame.setFilters([
-						new ShaderFilter(grayscale),
+						new ShaderFilter(grayScale),
 						new ShaderFilter(blurShader),
 						new ShaderFilter(andromeda)
 					]);
 					camHUD.setFilters([
-						new ShaderFilter(grayscale),
+						new ShaderFilter(grayScale),
 						new ShaderFilter(blurShaderHUD),
 						new ShaderFilter(andromeda)
 					]);
 				}
 				else
 				{
-					camGame.setFilters([new ShaderFilter(grayscale)]);
-					camHUD.setFilters([new ShaderFilter(grayscale)]);
+					camGame.setFilters([new ShaderFilter(grayScale)]);
+					camHUD.setFilters([new ShaderFilter(grayScale)]);
 				}
 			case 'Hunted Legacy':
 				camGame.setFilters([new ShaderFilter(monitorFilter)]);
@@ -1440,11 +1440,6 @@ class PlayState extends MusicBeatState
 		stageBuild.stageUpdateConstant(elapsed, boyfriend, gf, opponent);
 
 		super.update(elapsed);
-		
-		for (i in shaderUpdates)
-		{
-			i(elapsed);
-		}
 
 		if(FlxG.keys.justPressed.F5)
 			isDebugMode = true;
@@ -3407,7 +3402,6 @@ class PlayState extends MusicBeatState
 					
 						case 128:
 							camGame.visible = false;
-							camHUD.visible = false;
 							for (i in strumHUD)
 							{
 								i.visible = false;

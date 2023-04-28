@@ -13,6 +13,6 @@ using base.Controls;
 using base.dependency.ForeverDeps;
 using base.utils.CoolUtil;
 using flixel.addons.display.FlxRuntimeShader;
-using globals.TypedefHandler;
+using globals.TypedefUtilities;
 using globals.GameData;
 using globals.Main;
