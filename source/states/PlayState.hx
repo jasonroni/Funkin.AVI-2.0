@@ -3753,7 +3753,9 @@ class PlayState extends MusicBeatState
 					);
 				}
 
-				if (curBeat == 160 || curBeat == 168 || curBeat == 176 || curBeat == 184 || curBeat == 192 || curBeat == 200 || curBeat == 208 || curBeat == 216 || curBeat == 224 || curBeat == 232 || curBeat == 240)
+				if (curBeat == 160 || curBeat == 168 || curBeat == 176 || curBeat == 184 || curBeat == 192 || curBeat == 200 || curBeat == 208 || curBeat == 216 || curBeat == 224 || curBeat == 232 || curBeat == 240 ||
+					curBeat == 248 || curBeat == 256 || curBeat == 264 || curBeat == 272 || curBeat == 280 || curBeat == 288 || curBeat == 296 || curBeat == 304 || curBeat == 312 || curBeat == 320 || curBeat == 328 ||
+					curBeat == 336 || curBeat == 344)
 				{
 					if (chromTween != null)
 						chromTween.cancel();
@@ -3776,7 +3778,9 @@ class PlayState extends MusicBeatState
 					);
 				}
 
-				if (curBeat == 162 || curBeat == 170 || curBeat == 178 || curBeat == 186 || curBeat == 194 || curBeat == 202 || curBeat == 210 || curBeat == 218 || curBeat == 226 || curBeat == 234 || curBeat == 242)
+				if (curBeat == 162 || curBeat == 170 || curBeat == 178 || curBeat == 186 || curBeat == 194 || curBeat == 202 || curBeat == 210 || curBeat == 218 || curBeat == 226 || curBeat == 234 || curBeat == 242 ||
+					curBeat == 250 || curBeat == 258 || curBeat == 266 || curBeat == 274 || curBeat == 282 || curBeat == 290 || curBeat == 298 || curBeat == 306 || curBeat == 314 || curBeat == 322 || curBeat == 330 ||
+					curBeat == 338 || curBeat == 346)
 				{
 					if (chromTween != null)
 						chromTween.cancel();
@@ -3799,7 +3803,9 @@ class PlayState extends MusicBeatState
 					);
 				}
 
-				if (curBeat == 163 || curBeat == 171 || curBeat == 179 || curBeat == 187 || curBeat == 195 || curBeat == 203 || curBeat == 211 || curBeat == 219 || curBeat == 227 || curBeat == 235 || curBeat == 243)
+				if (curBeat == 163 || curBeat == 171 || curBeat == 179 || curBeat == 187 || curBeat == 195 || curBeat == 203 || curBeat == 211 || curBeat == 219 || curBeat == 227 || curBeat == 235 || curBeat == 243 ||
+					curBeat == 251 || curBeat == 259 || curBeat == 267 || curBeat == 275 || curBeat == 283 || curBeat == 291 || curBeat == 299 || curBeat == 307 || curBeat == 315 || curBeat == 323 || curBeat == 331 ||
+					curBeat == 339 || curBeat == 347)
 				{
 					if (chromTween != null)
 						chromTween.cancel();
@@ -3889,12 +3895,15 @@ class PlayState extends MusicBeatState
 					);
 				}
 
-				if (curBeat >= 228 && curBeat <= 231 || curBeat >= 236 && curBeat <= 239 || curBeat >= 244 && curBeat <= 247)
+				if (curBeat >= 228 && curBeat <= 231 || curBeat >= 236 && curBeat <= 239 || curBeat >= 244 && curBeat <= 247 || curBeat >= 252 && curBeat <= 255 || curBeat >= 260 && curBeat <= 263 ||
+					curBeat >= 168 && curBeat <= 171 || curBeat >= 276 && curBeat <= 279 || curBeat >= 284 && curBeat <= 287 || curBeat >= 292 && curBeat <= 295 || curBeat >= 300 && curBeat <= 303 ||
+					curBeat >= 308 && curBeat <= 311 || curBeat >= 316 && curBeat <= 319 || curBeat >= 324 && curBeat <= 327 || curBeat >= 332 && curBeat <= 335 || curBeat >= 340 && curBeat <= 343 ||
+					curBeat >= 348 && curBeat <= 351)
 				{
 					if (chromTween != null)
 						chromTween.cancel();
 
-					chromEffect = 0.25;
+					chromEffect = 0.32;
 
 					chromTween = FlxTween.tween(
 						this,
@@ -3910,6 +3919,85 @@ class PlayState extends MusicBeatState
 							}
 						}
 					);
+				}
+
+				if (curBeat == 352 || curBeat == 354 || curBeat == 356 || curBeat == 358 || curBeat == 360 || curBeat == 362 || curBeat == 364 || curBeat == 366 || curBeat == 368 || curBeat == 370 || curBeat == 372 ||
+					curBeat == 374 || curBeat == 376 || curBeat == 378 || curBeat == 380 || curBeat == 382 || curBeat == 384 || curBeat == 386 || curBeat == 388 || curBeat == 390 || curBeat == 392 || curBeat == 394 ||
+					curBeat == 396 || curBeat == 398 || curBeat == 400 || curBeat == 402 || curBeat == 404 || curBeat == 406 || curBeat == 408 || curBeat == 410 || curBeat == 416 || curBeat == 418 || curBeat == 420 ||
+					curBeat == 422 || curBeat == 424 || curBeat == 426 || curBeat == 428 || curBeat == 430 || curBeat == 432 || curBeat == 434 || curBeat == 436 || curBeat == 438 || curBeat == 440 || curBeat == 442 ||
+					curBeat == 444 || curBeat == 446 || curBeat == 448 || curBeat == 450 || curBeat == 452 || curBeat == 454 || curBeat == 456 || curBeat == 458 || curBeat == 460 || curBeat == 462 || curBeat == 464 ||
+					curBeat == 466 || curBeat == 468 || curBeat == 470 || curBeat == 472 || curBeat == 474)
+				{
+					if (chromTween != null)
+						chromTween.cancel();
+
+					chromEffect = 0.3;
+
+					chromTween = FlxTween.tween(
+						this,
+						{
+							chromEffect: 0.00001
+						},
+						0.5,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromTween = null;
+							}
+						}
+					);
+				}
+
+				if (curBeat == 412)
+				{
+					if (chromTween != null)
+						chromTween.cancel();
+
+					chromEffect = 0.36;
+
+					chromTween = FlxTween.tween(
+						this,
+						{
+							chromEffect: 0.00001
+						},
+						1,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromTween = null;
+							}
+						}
+					);
+				}
+
+				if (curBeat == 476)
+				{
+					if (chromTween != null)
+						chromTween.cancel();
+
+					chromTween = FlxTween.tween(
+						this,
+						{
+							chromEffect: 0.45
+						},
+						1.6,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromTween = null;
+							}
+						}
+					);
+				}
+
+				if (curBeat == 480)
+				{
+					chromTween.cancel();
+
+					chromEffect = 0.00001;
 				}
 
 				switch (curBeat)
