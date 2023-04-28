@@ -3753,7 +3753,7 @@ class PlayState extends MusicBeatState
 					);
 				}
 
-				if (curBeat == 160 || curBeat == 168 || curBeat == 176 || curBeat == 184 || curBeat == 192 || curBeat == 200 || curBeat == 208 || curBeat == 216)
+				if (curBeat == 160 || curBeat == 168 || curBeat == 176 || curBeat == 184 || curBeat == 192 || curBeat == 200 || curBeat == 208 || curBeat == 216 || curBeat == 224 || curBeat == 232 || curBeat == 240)
 				{
 					if (chromTween != null)
 						chromTween.cancel();
@@ -3776,7 +3776,7 @@ class PlayState extends MusicBeatState
 					);
 				}
 
-				if (curBeat == 162 || curBeat == 170 || curBeat == 178 || curBeat == 186 || curBeat == 194 || curBeat == 202 || curBeat == 210 || curBeat == 218)
+				if (curBeat == 162 || curBeat == 170 || curBeat == 178 || curBeat == 186 || curBeat == 194 || curBeat == 202 || curBeat == 210 || curBeat == 218 || curBeat == 226 || curBeat == 234 || curBeat == 242)
 				{
 					if (chromTween != null)
 						chromTween.cancel();
@@ -3799,7 +3799,7 @@ class PlayState extends MusicBeatState
 					);
 				}
 
-				if (curBeat == 163 || curBeat == 171 || curBeat == 179 || curBeat == 187 || curBeat == 195 || curBeat == 203 || curBeat == 211 || curBeat == 219)
+				if (curBeat == 163 || curBeat == 171 || curBeat == 179 || curBeat == 187 || curBeat == 195 || curBeat == 203 || curBeat == 211 || curBeat == 219 || curBeat == 227 || curBeat == 235 || curBeat == 243)
 				{
 					if (chromTween != null)
 						chromTween.cancel();
@@ -3879,6 +3879,29 @@ class PlayState extends MusicBeatState
 							chromEffect: 0.0001
 						},
 						0.2,
+						{
+							ease: FlxEase.sineOut,
+							onComplete: function(twn:FlxTween)
+							{
+								chromTween = null;
+							}
+						}
+					);
+				}
+
+				if (curBeat >= 228 && curBeat <= 231 || curBeat >= 236 && curBeat <= 239 || curBeat >= 244 && curBeat <= 247)
+				{
+					if (chromTween != null)
+						chromTween.cancel();
+
+					chromEffect = 0.25;
+
+					chromTween = FlxTween.tween(
+						this,
+						{
+							chromEffect: 0.00001
+						},
+						0.22,
 						{
 							ease: FlxEase.sineOut,
 							onComplete: function(twn:FlxTween)
