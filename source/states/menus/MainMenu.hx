@@ -752,6 +752,10 @@ class MainMenu extends MusicBeatState
 			{
 				Main.switchState(this, new GameJoltLogin());
 			}
+			else if(FlxG.keys.justPressed.ONE)
+			{
+				GameData.unlockEverything();
+			}
 
 		if (Math.floor(curSelected) != lastCurSelected)
 			updateSelection();

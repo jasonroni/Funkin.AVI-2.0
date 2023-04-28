@@ -195,4 +195,44 @@ class GameData
 	    
         saveShit();
     }
+
+    public static function unlockEverything():Void {
+        FlxG.save.bind("gameProgression", CoolUtil.getSavePath());
+
+        episode1FPLock = 'unlocked';
+	    
+        episodeSFPLock = 'unlocked';
+	episodeWFPLock = 'unlocked';
+
+        huntedLock = 'beaten';
+        oldisolateLock = 'beaten';
+        betaisolateLock = 'beaten';
+        malfunctionLock = 'beaten';
+        blessLock = 'beaten';
+        scrappedLock = 'beaten';
+        sinsLock = 'beaten';
+        warLock = 'beaten';
+        crossinLock = 'beaten';
+        mercyLock = 'beaten';
+        pnmLock = 'beaten';
+        rickyLock = 'beaten';
+	    
+	legacyILock = 'beaten';
+	legacyLLock = 'beaten';
+	legacyDLock = 'beaten';
+	legacyHLock = 'beaten';
+	legacyMLock = 'beaten';
+	legacyWLock = 'beaten';
+	legacyBLock = 'beaten';
+	legacySLock = 'beaten';
+	legacyNLock = 'beaten';
+	legacyTLock = 'beaten';
+	legacyRLock = 'beaten';
+    
+	canAddMalfunction = true;
+        muckneyLock = 'beaten';
+        highOnCrackLock = 'completed';
+
+        saveShit();
+    }
 }
