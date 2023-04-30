@@ -3,37 +3,15 @@
 	"tasks": [
 		{
 			"type": "lime",
-			"command": "build",
+			"command": "test",
+			"targetConfiguration": "Windows",
 			"problemMatcher": [
 				"$haxe-absolute",
 				"$haxe",
 				"$haxe-error",
 				"$haxe-trace"
 			],
-			"group": "build",
-			"label": "Build"
-		},
-		{
-			"type": "lime",
-			"command": "run",
-			"problemMatcher": [
-				"$haxe-absolute",
-				"$haxe",
-				"$haxe-error",
-				"$haxe-trace"
-			],
-			"label": "Launch"
-		},
-		{
-			"type": "lime",
-			"command": "update",
-			"problemMatcher": [
-				"$haxe-absolute",
-				"$haxe",
-				"$haxe-error",
-				"$haxe-trace"
-			],
-			"label": "Update Assets"
+			"label": "lime: test windows"
 		}
 	]
 }

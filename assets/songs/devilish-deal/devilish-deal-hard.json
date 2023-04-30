@@ -1418,6 +1418,7 @@
 		"needsVoices": true,
 		"validScore": true,
 		"bpm": 90,
+		"stage": "ddStage",
 		"speed": 2.3
 	}
 }
