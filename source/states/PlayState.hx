@@ -287,26 +287,26 @@ class PlayState extends MusicBeatState
 					switch (SONG.song)
 					{
 						case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional':
-							Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "]";
+							Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + " - Composed by: " + SONG.composer;
 						
 						case 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus':
-							Application.current.window.title = 'Funkin.avi - Episode S: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "]";
+							Application.current.window.title = 'Funkin.avi - Episode S: ' + SONG.song + " - Composed by: " + SONG.composer;
 				
 						case 'Mercy' | 'Affliction':
-							Application.current.window.title = 'Funkin.avi - Episode W: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "]";
+							Application.current.window.title = 'Funkin.avi - Episode W: ' + SONG.song + " - Composed by: " + SONG.composer;
 				
 						default:
-							Application.current.window.title = 'Funkin.avi - Episode ???: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "]";
+							Application.current.window.title = 'Funkin.avi - Episode ???: ' + SONG.song + " - Composed by: " + SONG.composer;
 					}
 					
 				case FREEPLAY:
-					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "]";
+					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer;
 				
 				case CHARTING:
 					if (SONG.song == 'Malfunction')
 						Application.current.window.title = 'glitchedMickey.xml - CHEATER MODE ACTIVATED: ' + SONG.song + " - Composed by: I CAN SEE YOU CHEATING! - [!CHEATER DETECTED!]";
 					else
-						Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "]";
+						Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer;
 		}
 	}
 
@@ -868,7 +868,8 @@ class PlayState extends MusicBeatState
 			strumHUD[i] = new FlxCamera();
 			strumHUD[i].bgColor.alpha = 0;
 
-			strumHUD[i].cameras = [camHUD];
+			// basically there's a random crash about "camera.cameras" or whatever while using 5.3.0 and stuff so here's a fix
+			#if (flixel < "5.3.0") strumHUD[i].cameras = [camHUD]; #end
 			allUIs.push(strumHUD[i]);
 			FlxG.cameras.add(strumHUD[i], false);
 			// set this strumline's camera to the designated camera
@@ -4839,27 +4840,27 @@ class PlayState extends MusicBeatState
 		{
 			case 'psych': // psych engine fans gonna go nuts about this
 				FlxTween.tween(psychHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
-				demolitionHUD.destroy();
-				uiHUD.destroy();
-				kadeHUD.destroy();
-				demolitionHUD.destroy();
-				vanillaHUD.destroy();
+				demolitionHUD.kill();
+				uiHUD.kill();
+				kadeHUD.kill();
+				demolitionHUD.kill();
+				vanillaHUD.kill();
 	
 			case 'demolition': // demoliton HUD
 				FlxTween.tween(demolitionHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
-				psychHUD.destroy();
-				uiHUD.destroy();
-				kadeHUD.destroy();
-				demolitionHUD.destroy();
-				vanillaHUD.destroy();
+				psychHUD.kill();
+				uiHUD.kill();
+				kadeHUD.kill();
+				demolitionHUD.kill();
+				vanillaHUD.kill();
 	
 			default: // forever HUD
 				FlxTween.tween(uiHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
-				demolitionHUD.destroy();
-				psychHUD.destroy();
-				kadeHUD.destroy();
-				demolitionHUD.destroy();
-				vanillaHUD.destroy();
+				demolitionHUD.kill();
+				psychHUD.kill();
+				kadeHUD.kill();
+				demolitionHUD.kill();
+				vanillaHUD.kill();
 		}
 
 		return Init.trueSettings.get('HUD Style');

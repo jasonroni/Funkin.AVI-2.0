@@ -407,6 +407,12 @@ class FreeplaySongs extends MusicBeatState
 			}
 		}
 
+		if(songs[curSelected].name != "don't-cross!" && freeplayMenuList == 1)
+			{
+				grpSongs.members[6].shake(11, 10, 0.1);
+				iconArray[6].shake(4, 30, 0.1);
+			}
+
 		if (bg != null && mainColor != null)
 			FlxTween.color(bg, 0.35, bg.color, mainColor);
 
@@ -516,7 +522,7 @@ class FreeplaySongs extends MusicBeatState
 		difficultyRank = songs[curSelected].difficultyRank;
 		diffText.color = songs[curSelected].textColor;
 				
-		diffText.text = '< ' + difficultyRank + ' >'; // display the text
+		diffText.text = 'RANK: ' + difficultyRank; // display the text
 		lastDifficulty = existingDifficulties[curSelected][curDifficulty];
 	}
 
