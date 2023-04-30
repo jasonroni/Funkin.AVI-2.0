@@ -575,7 +575,7 @@ class MainMenu extends MusicBeatState
 							flashThing = 1;
 							FlxTween.tween(this, {flashThing: 0}, 1);
 							selectedSomethin = true;
-							FlxG.sound.play(Paths.sound('funkinAVI/menu/select_sfx'));
+							FlxG.sound.play(Paths.sound('base/menus/confirmMenu'));
 							FlxTween.tween(camGame, {zoom: 6}, 2, {ease: FlxEase.cubeInOut, startDelay: 0.5});
 	
 							menuItems.forEach(function(spr:FlxSprite)
@@ -748,7 +748,8 @@ class MainMenu extends MusicBeatState
 		if(FlxG.keys.justPressed.SEVEN) 
 			{
 				Main.switchState(this, new states.menus.PsychDebugTrollState());
-			} else if(FlxG.keys.justPressed.EIGHT) 
+			} 
+			else if(FlxG.keys.justPressed.EIGHT) 
 			{
 				Main.switchState(this, new GameJoltLogin());
 			}

@@ -5,7 +5,8 @@ function eventTrigger(params)
 
 function getChar(character:String = "boyfriend")
 {
-	var target:Character = null;
+	// im sorry for all experienced coders seeing Dynamic
+	var target:Dynamic = null;
 	switch (character)
 	{
 		case 'dad', 'dadOpponent', 'opponent', '1':

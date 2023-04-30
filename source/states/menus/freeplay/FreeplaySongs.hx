@@ -431,6 +431,13 @@ class FreeplaySongs extends MusicBeatState
 		else if (downP)
 			changeSelection(1);
 
+		if(FlxG.mouse.wheel != 0)
+			{
+				changeSelection(-1 * FlxG.mouse.wheel);
+				changeDiff();
+				changeSongPlaying();
+			}
+
 		if (Controls.getPressEvent("back"))
 		{
 			if (!FlxG.keys.pressed.SHIFT)
