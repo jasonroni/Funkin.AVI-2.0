@@ -225,30 +225,9 @@ class Main extends Sprite
 		FlxGraphic.defaultPersist = false;
 		
 		FlxG.signals.gameResized.add(onResizeGame);
-		FlxG.signals.preStateSwitch.add(function () {
-			Paths.clearStoredMemory(true);
-			Paths.clearUnusedMemory();
-			FlxG.bitmap.dumpCache();
-			
-			gc();
-
-			var cache = cast(Assets.cache, AssetCache);
-			for (key=>font in cache.font)
-				{
-					cache.removeFont(key); 
-					trace('removed font $key');
-				}
-			for (key=>sound in cache.sound)
-				{
-					cache.removeSound(key); 
-					trace('removed sound $key');
-				}
-		});
-		FlxG.signals.postStateSwitch.add(function () {
-			Paths.clearUnusedMemory();
-			gc();
-			trace(System.totalMemory);
-		});
+		FlxG.signals.postStateSwitch.add(()->optimizeGame(true));
+		FlxG.signals.preStateSwitch.add(()->optimizeGame(false));
+		FlxG.signals.focusLost.add(()->gc()); // they don't know
 
 		FlxGraphic.defaultPersist = false;
 
@@ -441,6 +420,41 @@ class Main extends Sprite
 
 		destroyGame();
 	}
+
+	public static function optimizeGame(post:Bool = false)
+		{
+			if(!post)
+				{
+					Paths.clearStoredMemory(true);
+					Paths.clearUnusedMemory();
+					FlxG.bitmap.dumpCache();
+					
+					gc();
+		
+					var cache = cast(Assets.cache, AssetCache);
+					for (key=>font in cache.font)
+						{
+							cache.removeFont(key); 
+							trace('removed font $key');
+						}
+					for (key=>sound in cache.sound)
+						{
+							cache.removeSound(key); 
+							trace('removed sound $key');
+						}
+				} else {
+					Paths.clearUnusedMemory();
+					openfl.Assets.cache.clear('assets/songs');
+					openfl.Assets.cache.clear('assets/data');
+					openfl.Assets.cache.clear('assets/shaders');
+					openfl.Assets.cache.clear('assets/fonts');
+					openfl.Assets.cache.clear('assets/images');
+					openfl.Assets.cache.clear('assets/music');
+					openfl.Assets.cache.clear('assets/videos');
+					gc();
+					trace(System.totalMemory);
+				}
+		}
 	
 	/**
 	* Shader Fixes when game window gets resized.

@@ -526,17 +526,6 @@ class FreeplaySongs extends MusicBeatState
 		lastDifficulty = existingDifficulties[curSelected][curDifficulty];
 	}
 
-	override function beatHit()
-	{
-		super.beatHit();
-
-		if (freeplayMenuList != 2)
-		{
-			FlxG.camera.zoom += 0.025;
-			FlxTween.tween(FlxG.camera, {zoom: 1}, 0.1);
-		}
-	}
-
 	function changeSelection(change:Int = 0)
 	{
 		FlxG.sound.play(Paths.sound('base/menus/scrollMenu'), 0.4);
