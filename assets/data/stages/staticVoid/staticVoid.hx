@@ -1,10 +1,6 @@
 var datTV:FlxSprite;
 var redGradThing:FlxSprite = new FlxSprite(-1200, 0).makeGraphic(FlxG.width, 1, 0xFFAA00AA);
 
-var holyShitStatic:FlxRuntimeShader;
-
-var shaderTime:Float = 0;
-
 var canZoom:Bool = false;
 
 function onCreate()
@@ -12,15 +8,7 @@ function onCreate()
   	spawnGirlfriend(false);
 	hideBoyfriend(true);
 	
-	PlayState.defaultCamZoom = 0.45;
-
-	holyShitStatic = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag', null, 120));
-
-	PlayState.camGame.setFilters(
-	[
-		new ShaderFilter(holyShitStatic)
-	]);
-	
+	PlayState.defaultCamZoom = 0.45;	
   
 	var thePath:String = 'data/stages/staticVoid/images';
 
@@ -117,12 +105,4 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 			for(_strumHUD in PlayState.strumHUD)
 				_strumHUD.zoom += 0.04;
 		}
-}
-
-function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Character)
-{
-    shaderTime += elapsed;
-
-    holyShitStatic.setFloat('uTime', shaderTime);
-    holyShitStatic.setFloat('iTime', shaderTime);
 }

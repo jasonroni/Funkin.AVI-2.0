@@ -37,6 +37,13 @@ class Episode1HUD extends FlxSpriteGroup
   public var isolatedHappy:HealthIcon;
   public var fakeBFLosingFrame:HealthIcon;
   public var demonBFScary:HealthIcon;
+
+  // Hardcoded Devilish Deal Icon Frames
+  public var minnieIcon:HealthIcon;
+  public var satanIcon:HealthIcon;
+  public var satanIconPulse:HealthIcon;
+  public var iconPulseTween:FlxTween;
+  public var satanTween:FlxTween;
   
   // Lunacy Mechanic?????
   public var disguiseFailCheck:Bool = false;
@@ -100,8 +107,14 @@ class Episode1HUD extends FlxSpriteGroup
 	iconP2.y = healthBar.y - (iconP2.height / 2);
         iconP2.canBounce = true;
 	add(iconP2);
+
+	if (PlayState.SONG.song == 'Devilish Deal')
+	{
+		iconP1.visible = false;
+		iconP2.visible = false;
+	}
 	
-	// Isolated & Lunacy stuff
+	// Hardcoded Icons
 	demonBFIcon = new HealthIcon('bf-demon', true);
 	demonBFIcon.y = healthBar.y - (demonBFIcon.height / 2);
 	demonBFIcon.canBounce = true;
@@ -144,6 +157,28 @@ class Episode1HUD extends FlxSpriteGroup
 	delusionalIcon.visible = false;
 	add(delusionalIcon);
 
+	minnieIcon = new HealthIcon('mickey-new', false);
+	minnieIcon.y = healthBar.y - (minnieIcon.height / 2);
+	minnieIcon.canBounce = true;
+	minnieIcon.animation.curAnim.curFrame = 0;
+	minnieIcon.visible = false;
+	add(minnieIcon);
+	  
+	satanIcon = new HealthIcon('bf-demon', true);
+	satanIcon.y = healthBar.y - (satanIcon.height / 2);
+	satanIcon.canBounce = false;
+	satanIcon.animation.curAnim.curFrame = 0;
+	satanIcon.visible = false;
+	add(satanIcon);
+
+	satanIconPulse = new HealthIcon('bf-demon', true);
+	satanIconPulse.y = healthBar.y - (satanIconPulse.height / 2);
+	satanIconPulse.canBounce = true;
+	satanIconPulse.animation.curAnim.curFrame = 1;
+	satanIconPulse.visible = false;
+	add(satanIconPulse);
+
+	// Text Setup
 	scoreTxt = new FlxText(FlxG.width / 2, Math.floor(healthBarBG.y + 40), 0, scoreDisplay);
 	scoreTxt.setFormat(Paths.font('DisneyFont'), 26, FlxColor.WHITE);
 	scoreTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
@@ -224,6 +259,8 @@ class Episode1HUD extends FlxSpriteGroup
 
 		// pain, this is like the 7th attempt
 		healthBar.percent = (PlayState.health * 50);
+		if (PlayState.SONG.song == 'Devilish Deal')
+			healthBar.percent = ((2 - PlayState.health) * 50);
 		
 		var iconOffset:Int = 26;
 
@@ -236,6 +273,10 @@ class Episode1HUD extends FlxSpriteGroup
 		isolatedHappy.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (isolatedHappy.width - iconOffset);
 		lunacyIcon.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (lunacyIcon.width - iconOffset);
 		delusionalIcon.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (delusionalIcon.width - iconOffset);
+
+		minnieIcon.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (minnieIcon.width - iconOffset);
+		satanIcon.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
+		satanIconPulse.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 
 		iconP1.updateAnim(healthBar.percent);
 		iconP2.updateAnim(100 - healthBar.percent);
@@ -252,6 +293,9 @@ class Episode1HUD extends FlxSpriteGroup
 		
 		demonBFIcon.bop(0.1);
 		lunacyIcon.bop(0.1);
+
+		minnieIcon.bop(0.2);
+		satanIconPulse.bop(0.35);
 
 		/*if (autoplayTxt.visible)
 		{
@@ -302,11 +346,21 @@ class Episode1HUD extends FlxSpriteGroup
 		var colorOpponent = PlayState.opponent.characterData.healthColor;
 		var colorPlayer = PlayState.boyfriend.characterData.healthColor;
 
-		if (!Init.trueSettings.get('Colored Health Bar'))
-			healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33 - 0xFFFF0000);
+		if (PlayState.SONG.song != 'Devilish Deal')
+		{
+			if (!Init.trueSettings.get('Colored Health Bar'))
+				healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33 - 0xFFFF0000);
+			else
+				healthBar.createFilledBar(FlxColor.fromRGB(Std.int(colorOpponent[0]), Std.int(colorOpponent[1]), Std.int(colorOpponent[2])),
+					FlxColor.fromRGB(Std.int(colorPlayer[0]), Std.int(colorPlayer[1]), Std.int(colorPlayer[2])));
+		}
 		else
-			healthBar.createFilledBar(FlxColor.fromRGB(Std.int(colorOpponent[0]), Std.int(colorOpponent[1]), Std.int(colorOpponent[2])),
-				FlxColor.fromRGB(Std.int(colorPlayer[0]), Std.int(colorPlayer[1]), Std.int(colorPlayer[2])));
+		{
+			if (!Init.trueSettings.get('Colored Health Bar'))
+				healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33 - 0xFFFF0000);
+			else
+				healthBar.createFilledBar(FlxColor.fromRGB(158, 158, 158), FlxColor.fromRGB(135, 99, 99));
+		}
 	}
 
 	public function beatHit(curBeat:Int)
@@ -348,11 +402,134 @@ class Episode1HUD extends FlxSpriteGroup
 				fakeBFLosingFrame.setGraphicSize(Std.int(fakeBFLosingFrame.width + 30));
 				fakeBFLosingFrame.updateHitbox();
 			}
+
+			if (minnieIcon.canBounce)
+			{
+				minnieIcon.setGraphicSize(Std.int(minnieIcon.width + 30));
+				minnieIcon.updateHitbox();
+			}
+
+			if (satanIconPulse.canBounce)
+			{
+				satanIconPulse.setGraphicSize(Std.int(satanIconPulse.width + 50));
+				satanIconPulse.updateHitbox();
+			}
 		}
 
 		// Cool Mid-Song Icon Changes
 		switch (PlayState.SONG.song)
 		{
+			case 'Devilish Deal':
+				switch (curBeat)
+				{
+					case 1:
+						minnieIcon.visible = true;
+						satanIcon.visible = true;
+					case 62: satanIcon.animation.curAnim.curFrame = 2;
+					case 63: minnieIcon.animation.curAnim.curFrame = 1;
+					case 64:
+						satanIconPulse.visible = true;
+						satanIconPulse.alpha = 0.001;
+					case 96: minnieIcon.animation.curAnim.curFrame = 0;
+					case 112: minnieIcon.animation.curAnim.curFrame = 2;
+					case 128:
+						healthBarBG.visible = false;
+						healthBar.visible = false;
+						minnieIcon.visible = false;
+						satanIcon.visible = false;
+						fancyBarOverlay.visible = false;
+						scoreTxt.visible = false;
+						watermarkTxt.visible = false;
+						songTxt.visible = false;
+				}
+				if (curBeat >= 64 && curBeat <= 79)
+				{
+					if (iconPulseTween != null)
+						iconPulseTween.cancel();
+					if (satanTween != null)
+						satanTween.cancel();
+
+					satanIconPulse.alpha = 0.25;
+					satanIcon.alpha = 0.75;
+
+					iconPulseTween = FlxTween.tween(satanIconPulse, {alpha: 0}, 0.65, {onComplete: function(twn:FlxTween)
+						{
+							iconPulseTween = null;
+						}
+					});
+
+					satanTween = FlxTween.tween(satanIcon, {alpha: 1}, 0.65, {onComplete: function(twn:FlxTween)
+						{
+							satanTween = null;
+						}
+					});
+				}
+				if (curBeat >= 80 && curBeat <= 95)
+				{
+					if (iconPulseTween != null)
+						iconPulseTween.cancel();
+					if (satanTween != null)
+						satanTween.cancel();
+
+					satanIconPulse.alpha = 0.35;
+					satanIcon.alpha = 0.65;
+
+					iconPulseTween = FlxTween.tween(satanIconPulse, {alpha: 0}, 0.65, {onComplete: function(twn:FlxTween)
+						{
+							iconPulseTween = null;
+						}
+					});
+
+					satanTween = FlxTween.tween(satanIcon, {alpha: 1}, 0.65, {onComplete: function(twn:FlxTween)
+						{
+							satanTween = null;
+						}
+					});
+				}
+				if (curBeat >= 96 && curBeat <= 111)
+				{
+					if (iconPulseTween != null)
+						iconPulseTween.cancel();
+					if (satanTween != null)
+						satanTween.cancel();
+
+					satanIconPulse.alpha = 0.5;
+					satanIcon.alpha = 0.5;
+
+					iconPulseTween = FlxTween.tween(satanIconPulse, {alpha: 0}, 0.65, {onComplete: function(twn:FlxTween)
+						{
+							iconPulseTween = null;
+						}
+					});
+
+					satanTween = FlxTween.tween(satanIcon, {alpha: 1}, 0.65, {onComplete: function(twn:FlxTween)
+						{
+							satanTween = null;
+						}
+					});
+				}
+				if (curBeat >= 112 && curBeat <= 130)
+				{
+					if (iconPulseTween != null)
+						iconPulseTween.cancel();
+					if (satanTween != null)
+						satanTween.cancel();
+
+					satanIconPulse.alpha = 0.75;
+					satanIcon.alpha = 0.25;
+
+					iconPulseTween = FlxTween.tween(satanIconPulse, {alpha: 0}, 0.65, {onComplete: function(twn:FlxTween)
+						{
+							iconPulseTween = null;
+						}
+					});
+
+					satanTween = FlxTween.tween(satanIcon, {alpha: 1}, 0.65, {onComplete: function(twn:FlxTween)
+						{
+							satanTween = null;
+						}
+					});
+				}
 			case 'Isolated':
 				switch (curBeat)
 				{

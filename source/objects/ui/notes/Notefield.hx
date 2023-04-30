@@ -43,11 +43,11 @@ class Notefield extends FlxTypedGroup<Note>
 	public function noteCalls(daNote:Note, strumline:Strumline)
 	{
 		// set the notes x and y
-		var downscrollMultiplier:Int = (strumline.downscroll ? -1 : 1) * FlxMath.signOf(PlayState.songSpeed);
+		var downscrollMultiplier:Float = (strumline.downscroll ? -1: 1) * FlxMath.signOf(PlayState.songSpeed);
 
 		var roundedSpeed = FlxMath.roundDecimal(daNote.noteSpeed, 2);
 		var receptorPosX:Float = strumline.receptors.members[Math.floor(daNote.noteData)].x;
-		var receptorPosY:Float = strumline.receptors.members[Math.floor(daNote.noteData)].y /* + Note.swagWidth / 6 */;
+		var receptorPosY:Float = strumline.receptors.members[Math.floor(daNote.noteData)].y + Note.swagWidth / 6;
 		//
 		var psuedoY:Float = (downscrollMultiplier * -((Conductor.songPosition - daNote.strumTime) * (0.45 * roundedSpeed)));
 		var psuedoX = 25 + daNote.noteVisualOffset;

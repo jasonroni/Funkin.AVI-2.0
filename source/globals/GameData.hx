@@ -57,6 +57,7 @@ class GameData
     public static var hasSeenWarning:Bool = false;
 	
     // Hidden Songs
+    public static var canAddMalfunction:Bool = false;
     public static var muckneyLock:String = "uncompleted";
     public static var highOnCrackLock:String = "undiscovered";
 
@@ -98,6 +99,7 @@ class GameData
 	if (FlxG.save.data.legacyTLock == null) FlxG.save.data.legacyYLock = 'locked';
 	if (FlxG.save.data.legacyRLock == null) FlxG.save.data.legacyRLock = 'locked';
 	    
+	if (FlxG.save.data.canAddMalfunction == null) FlxG.save.data.canAddMalfunction = false;
 	if (FlxG.save.data.muckneyLock == null) FlxG.save.data.muckneyLock = "uncompleted";
 	if (FlxG.save.data.highOnCrackLock == null) FlxG.save.data.highOnCrackLock = "undiscovered";   
         
@@ -142,6 +144,7 @@ class GameData
 	    
 	FlxG.save.data.hasSeenWarning = hasSeenWarning;
 	    
+	FlxG.save.data.canAddMalfunction = canAddMalfunction;
         FlxG.save.data.muckneyLock = muckneyLock;
         FlxG.save.data.highOnCrackLock = highOnCrackLock;
 
@@ -186,9 +189,50 @@ class GameData
 	    
 	hasSeenWarning = FlxG.save.data.hasSeenWarning;
 	    
+	canAddMalfunction = FlxG.save.data.canAddMalfunction;
         muckneyLock = FlxG.save.data.muckneyLock;
         highOnCrackLock = FlxG.save.data.highOnCrackLock;
 	    
+        saveShit();
+    }
+
+    public static function unlockEverything():Void {
+        FlxG.save.bind("gameProgression", CoolUtil.getSavePath());
+
+        episode1FPLock = 'unlocked';
+	    
+        episodeSFPLock = 'unlocked';
+	episodeWFPLock = 'unlocked';
+
+        huntedLock = 'beaten';
+        oldisolateLock = 'beaten';
+        betaisolateLock = 'beaten';
+        malfunctionLock = 'beaten';
+        blessLock = 'beaten';
+        scrappedLock = 'beaten';
+        sinsLock = 'beaten';
+        warLock = 'beaten';
+        crossinLock = 'beaten';
+        mercyLock = 'beaten';
+        pnmLock = 'beaten';
+        rickyLock = 'beaten';
+	    
+	legacyILock = 'beaten';
+	legacyLLock = 'beaten';
+	legacyDLock = 'beaten';
+	legacyHLock = 'beaten';
+	legacyMLock = 'beaten';
+	legacyWLock = 'beaten';
+	legacyBLock = 'beaten';
+	legacySLock = 'beaten';
+	legacyNLock = 'beaten';
+	legacyTLock = 'beaten';
+	legacyRLock = 'beaten';
+    
+	canAddMalfunction = true;
+        muckneyLock = 'beaten';
+        highOnCrackLock = 'completed';
+
         saveShit();
     }
 }

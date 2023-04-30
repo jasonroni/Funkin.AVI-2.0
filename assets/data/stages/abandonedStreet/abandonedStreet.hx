@@ -1,39 +1,14 @@
-// Shaders
-var grainFilter:FlxRuntimeShader;
-var monitorFilter:FlxRuntimeShader;
-var bloomEffect:FlxRuntimeShader;
-
 // Stage Assets
 var colorsOrSmthElse:FNFSprite;
 var floor:FNFSprite;
 var stageCurtains:FNFSprite;
 var stageFront:FNFSprite;
 
-// Shader Animations
-var shaderTime:Float = 0;
-
 // For events
 var objects:Array<FlxSprite>;
 
 function onCreate()
 {
-	bloomEffect = new FlxRuntimeShader(File.getContent('./assets/shaders/bloomGame.frag'), null, 120);
-	grainFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
-	monitorFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
-	
-	if(!lowQuality)
-		{
-			PlayState.camGame.setFilters([
-				new ShaderFilter(grainFilter),
-				new ShaderFilter(monitorFilter),
-				new ShaderFilter(bloomEffect)
-			]);
-		} else {
-			PlayState.camGame.setFilters([
-				new ShaderFilter(monitorFilter),
-			]);
-		}
-	
 	spawnGirlfriend(false);
 	PlayState.defaultCamZoom = 0.87;
 	PlayState.cameraSpeed = 1;
@@ -121,14 +96,6 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 					FlxTween.tween(_stuff, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
 			}
 	}
-}
-
-
-function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Character)
-{
-	//Shader stuff
-	shaderTime += elapsed;
-	grainFilter.setFloat('time', shaderTime);
 }
 	
 function charStagePos(boyfriend:Character, gf:Character, dad:Character)

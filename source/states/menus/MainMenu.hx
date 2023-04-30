@@ -19,7 +19,6 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import states.MusicBeatState;
-import flixel.addons.display.FlxRuntimeShader;
 import flixel.input.keyboard.FlxKeyboard;
 import flixel.input.keyboard.FlxKey;
 import flixel.util.FlxTimer;
@@ -88,6 +87,11 @@ class MainMenu extends MusicBeatState
 	var gradient:FlxSprite;
 
 	var arrow:FlxSprite;
+
+	var arrowTween:FlxTween;
+
+	var arrowFlash:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/whiteOverlayItem.frag'), null, 120);
+	var flashThing:Float = 0.0;
 
 	var firstStart:Bool = true;
 	var finishedFunnyMove:Bool = false;
@@ -168,8 +172,10 @@ class MainMenu extends MusicBeatState
 			"I think one of the codes is a certain date",
 			"This mod was an idea that started on 03/21/22, pretty crazy, right?",
 			"Everyday is Muckney's Birthday",
-			"there is no message, go play some minecraft"
-			
+			"there is no message, go play some minecraft",
+			"THEY HIT THE FUCKING PENTAGON, SMILES",
+			"Want a break from the ads? If you tap now to take a short servey, you'll recieve 30 minutes of ad-free music.",
+			"I bet you're complaining that this isn't on Psych Engine right about now, silly kiddo"
 	];
 
 	var defaultShader:FlxRuntimeShader;
@@ -310,6 +316,7 @@ class MainMenu extends MusicBeatState
 		arrow.setGraphicSize(Std.int(arrow.width * 0.3));
 		arrow.screenCenter(X);
 		arrow.scrollFactor.set(0, 0);
+		if (!Init.trueSettings.get('Disable Screen Shaders')) arrow.shader = arrowFlash;
 		add(arrow);
 
 		gradient = new FlxSprite().loadGraphic(Paths.image('filters/gradient'));
@@ -348,19 +355,15 @@ class MainMenu extends MusicBeatState
 				var offset:Float = 108 - (Math.max(optionShit.length, 4) - 4) * 80;
 				var menuItem:FlxSprite = new FlxSprite(0, (i * 100)  + offset);
 				menuItem.scale.set(0.6, 0.6);
-				menuItem.frames = Paths.getSparrowAtlas('menus/Funkin_avi/mainmenu/menu_' + optionShit[i]);
-				menuItem.animation.addByPrefix('idle', optionShit[i] + " basic", 24);
-				menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
-				menuItem.animation.play('idle');
+				menuItem.loadGraphic(Paths.image('menus/Funkin_avi/menu/buttons/' + optionShit[i]));
 				menuItem.ID = i;
 				menuItem.screenCenter(X);
-				menuItem.x -= 180;
-				menuItem.y += 158 + (0 * 25) - 100;
+				menuItem.x -= 100;
+				menuItem.y += 158 + (0 * 25) - 200;
 				menuItems.add(menuItem);
 				var scr:Float = (optionShit.length - 4) * 0.135;
 				menuItem.scrollFactor.set(0, scr);
 				menuItem.antialiasing = true;
-				//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
 				menuItem.updateHitbox();
 
 				if(arrow != null)
@@ -448,8 +451,9 @@ class MainMenu extends MusicBeatState
 		var down_p = Controls.getPressEvent("ui_down");
 		var controlArray:Array<Bool> = [up, down, up_p, down_p];
 
+		arrowFlash.setFloat('progress', flashThing);
+
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 7.5, 0, 1);
-		//camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 
 		//you are 100% obligated lmao
 			if (FlxG.keys.justPressed.ANY) {
@@ -503,6 +507,11 @@ class MainMenu extends MusicBeatState
 							theBirthdayCode = 1;
 					}
 				}
+
+				if (theBirthdayCode == 1)
+					FlxG.sound.muteKeys = null;
+				else
+					FlxG.sound.muteKeys = [FlxKey.ZERO, FlxKey.NUMPADZERO];
 			}
 
 		if ((controlArray.contains(true)) && (!selectedSomethin))
@@ -563,6 +572,8 @@ class MainMenu extends MusicBeatState
 			{
 						if(GameData.episode1FPLock == 'unlocked')
 						{
+							flashThing = 1;
+							FlxTween.tween(this, {flashThing: 0}, 1);
 							selectedSomethin = true;
 							FlxG.sound.play(Paths.sound('funkinAVI/menu/select_sfx'));
 							FlxTween.tween(camGame, {zoom: 6}, 2, {ease: FlxEase.cubeInOut, startDelay: 0.5});
@@ -571,7 +582,6 @@ class MainMenu extends MusicBeatState
 								{
 									if (curSelected != spr.ID)
 									{
-										// Main Menu Select Animations
 										FlxTween.tween(spr, {x: -250, alpha: 0}, 0.4, {
 											ease: FlxEase.quadOut,
 											onComplete: function(twn:FlxTween)
@@ -582,7 +592,7 @@ class MainMenu extends MusicBeatState
 									}
 									else
 									{
-										FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
+										FlxFlicker.flicker(spr, 1, flashValue, false, false, function(flick:FlxFlicker)
 										{
 											switch (daChoice)
 											{
@@ -700,7 +710,7 @@ class MainMenu extends MusicBeatState
 			{
 				if (curSelected != spr.ID)
 				{
-					FlxTween.tween(spr, {alpha: 0, x: FlxG.width * 2}, 0.4, {
+					FlxTween.tween(spr, {x: -250, alpha: 0}, 0.4, {
 						ease: FlxEase.quadOut,
 						onComplete: function(twn:FlxTween)
 						{
@@ -724,6 +734,8 @@ class MainMenu extends MusicBeatState
 								Main.switchState(this, new states.menus.OptionsMenu());
 						}
 					});
+					flashThing = 1;
+					FlxTween.tween(this, {flashThing: 0}, 1);
 					selectedSomethin = true;
 					FlxG.sound.play(Paths.sound('base/menus/confirmMenu'));
 					FlxTween.tween(camGame, {zoom: 6}, 2, {ease: FlxEase.cubeInOut, startDelay: 0.5});
@@ -735,10 +747,14 @@ class MainMenu extends MusicBeatState
 		// It actually makes sense since some pepole doesn't know we moved to forever or just think we ported the psych editor lol
 		if(FlxG.keys.justPressed.SEVEN) 
 			{
-				Main.switchState(this, new states.menus.SexState());
+				Main.switchState(this, new states.menus.PsychDebugTrollState());
 			} else if(FlxG.keys.justPressed.EIGHT) 
 			{
 				Main.switchState(this, new GameJoltLogin());
+			}
+			else if(FlxG.keys.justPressed.ONE)
+			{
+				GameData.unlockEverything();
 			}
 
 		if (Math.floor(curSelected) != lastCurSelected)
@@ -758,30 +774,77 @@ class MainMenu extends MusicBeatState
 		// reset all selections
 		menuItems.forEach(function(spr:FlxSprite)
 		{
-			spr.animation.play('idle');
+			if (!Init.trueSettings.get('Disable Screen Shaders')) spr.shader = null;
+			spr.alpha = 0.45;
 			spr.updateHitbox();
 		});
+
+		if (arrowTween != null)
+			arrowTween.cancel();
 
 		if(arrow != null) {
 		switch(curSelected)
 		{
 			case 0:
-				arrow.y = 60;
-				arrow.x = -20;
+				arrowTween = FlxTween.tween(arrow,
+					{
+						x: -35,
+						y: 60
+					},
+					0.1,
+					{ease: FlxEase.quadOut,
+					onComplete: function(twn:FlxTween)
+						{
+							arrowTween = null;
+						}
+				});
 			case 1:
-				arrow.y = 170;
-				arrow.x = 35;
+				arrowTween = FlxTween.tween(arrow,
+					{
+						x: 25,
+						y: 160
+					},
+					0.1,
+					{ease: FlxEase.quadOut,
+					onComplete: function(twn:FlxTween)
+						{
+							arrowTween = null;
+						}
+				});
 			case 2:
-				arrow.y = 265;
-				arrow.x = 35;
+				arrowTween = FlxTween.tween(arrow,
+					{
+						x: 35,
+						y: 255
+					},
+					0.1,
+					{ease: FlxEase.quadOut,
+					onComplete: function(twn:FlxTween)
+						{
+							arrowTween = null;
+						}
+				});
 			case 3:
-				arrow.y = 355;
-				arrow.x = 35;
+				arrowTween = FlxTween.tween(arrow,
+					{
+						x: 15,
+						y: 355
+					},
+					0.1,
+					{ease: FlxEase.quadOut,
+					onComplete: function(twn:FlxTween)
+						{
+							arrowTween = null;
+						}
+				});
 		}
 	}
 
-		if (menuItems.members[Math.floor(curSelected)].animation.curAnim.name == 'idle')
-			menuItems.members[Math.floor(curSelected)].animation.play('selected');
+		if (menuItems.members[Math.floor(curSelected)].alpha == 0.45)
+		{
+			if (!Init.trueSettings.get('Disable Screen Shaders')) menuItems.members[Math.floor(curSelected)].shader = arrowFlash;
+			menuItems.members[Math.floor(curSelected)].alpha = 1;
+		}
 
 		menuItems.members[Math.floor(curSelected)].updateHitbox();
 

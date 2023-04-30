@@ -57,7 +57,10 @@ class DemolitionHUD extends FlxSpriteGroup
 		"no.",
 		"If you're doing this on Malfunction, you're gonna die lmao",
 		"i bet you fail to the tutorial still...",
-		"I will personally skin you <3"
+		"I will personally skin you <3",
+		"BOTPLAY 2: ELECTRIC BOOGALOO",
+		"five nights at freddy's",
+		"Hi guys, Satan here, and welcome to Jackass *snaps Mickey in half*"
 	];
 
 	// icons

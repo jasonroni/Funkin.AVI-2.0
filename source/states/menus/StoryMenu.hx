@@ -427,6 +427,8 @@ class StoryMenu extends MusicBeatState
 		txtWeekTitle.text = storyName.toUpperCase();
 		txtWeekTitle.x = FlxG.width - (txtWeekTitle.width + 10);
 
+		lime.app.Application.current.window.title = "Funkin.avi - Story Menu - " + storyName;
+
 		var bullShit:Int = 0;
 
 		for (item in grpWeekText.members)

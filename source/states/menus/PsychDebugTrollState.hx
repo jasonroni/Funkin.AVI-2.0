@@ -18,11 +18,10 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import states.MusicBeatState;
-import flixel.addons.display.FlxRuntimeShader;
 
 using StringTools;
 
-class SexState extends MusicBeatState 
+class PsychDebugTrollState extends MusicBeatState 
 {
    var background:FlxSprite; // for some reason, the game would crash without it
 

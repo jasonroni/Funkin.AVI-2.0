@@ -54,26 +54,15 @@ class PauseSubstate extends MusicBeatSubstate
 	{
 		super();
 		
-		// apprently, it works like this
-		if (PlayState.SONG.song == 'War Dilemma')
+		if (itemStack == null)
 		{
-			if (itemStack == null)
-				itemStack = ['wd-continue', 'wd-restart', 'wd-settings', 'wd-escape'];
-		}
-		else if (PlayState.SONG.song == 'Birthday')
-		{
-			if (itemStack == null)
-				itemStack = ['continue', 'restart', 'settings', 'leave'];
-		}
-		else if (PlayState.SONG.song == 'Malfunction')
-		{
-			if (itemStack == null)
-				itemStack = ['mal-continue', 'mal-restart', 'mal-settings', 'rage'];
-		}
-		else
-		{
-			if (itemStack == null)
-				itemStack = ['continue', 'restart', 'settings', 'escape'];
+			switch (PlayState.SONG.song)
+			{
+				case 'War Dilemma': itemStack = ['wd-continue', 'wd-restart', 'wd-settings', 'wd-escape'];
+				case 'Malfunction': itemStack = ['mal-continue', 'mal-restart', 'mal-settings', 'rage'];
+				case 'Birthday': itemStack = ['continue', 'restart', 'settings', 'leave'];
+				default: itemStack = ['continue', 'restart', 'settings', 'escape'];
+			}
 		}
 
 		toOptions = false;
@@ -330,27 +319,27 @@ class PauseSubstate extends MusicBeatSubstate
 			case STORY:
 				switch (PlayState.SONG.song)
 				{
-					case 'Isolated' | 'Lunacy' | 'Delusional':
-						Application.current.window.title = 'Funkin.avi - Episode 1: ' + PlayState.SONG.song + " - Composed by: " + PlayState.SONG.composer + " - [" + CoolUtil.difficultyString + "] - {PAUSED}";
+					case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional':
+						Application.current.window.title = 'Funkin.avi - Episode 1: ' + PlayState.SONG.song + " - Composed by: " + PlayState.SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "] - {PAUSED}";
 						
 					case 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus':
-						Application.current.window.title = 'Funkin.avi - Episode S: ' + PlayState.SONG.song + " - Composed by: " + PlayState.SONG.composer + " - [" + CoolUtil.difficultyString + "] - {PAUSED}";
+						Application.current.window.title = 'Funkin.avi - Episode S: ' + PlayState.SONG.song + " - Composed by: " + PlayState.SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "] - {PAUSED}";
 				
 					case 'Mercy' | 'Affliction':
-						Application.current.window.title = 'Funkin.avi - Episode W: ' + PlayState.SONG.song + " - Composed by: " + PlayState.SONG.composer + " - [" + CoolUtil.difficultyString + "] - {PAUSED}";
+						Application.current.window.title = 'Funkin.avi - Episode W: ' + PlayState.SONG.song + " - Composed by: " + PlayState.SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "] - {PAUSED}";
 				
 					default:
-						Application.current.window.title = 'Funkin.avi - Episode ???: ' + PlayState.SONG.song + " - Composed by: " + PlayState.SONG.composer + " - [" + CoolUtil.difficultyString + "] - {PAUSED}";
+						Application.current.window.title = 'Funkin.avi - Episode ???: ' + PlayState.SONG.song + " - Composed by: " + PlayState.SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "] - {PAUSED}";
 				}
 					
 			case FREEPLAY:
-				Application.current.window.title = 'Funkin.avi - Freeplay: ' + PlayState.SONG.song + " - Composed by: " + PlayState.SONG.composer + " - [" + CoolUtil.difficultyString + "] - {PAUSED}";
+				Application.current.window.title = 'Funkin.avi - Freeplay: ' + PlayState.SONG.song + " - Composed by: " + PlayState.SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "] - {PAUSED}";
 				
 			case CHARTING:
 				if (PlayState.SONG.song == 'Malfunction')
 					Application.current.window.title = 'glitchedMickey.xml - CHEATER MODE ACTIVATED: ' + PlayState.SONG.song + " - Composed by: I CAN SEE YOU CHEATING! - [!CHEATER DETECTED!] - {PAUSED}";
 				else
-					Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + PlayState.SONG.song + " - Composed by: " + PlayState.SONG.composer + " - [" + CoolUtil.difficultyString + "] - {PAUSED}";
+					Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + PlayState.SONG.song + " - Composed by: " + PlayState.SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "] - {PAUSED}";
 		}
 	}
 
