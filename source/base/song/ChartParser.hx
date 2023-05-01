@@ -56,11 +56,6 @@ class ChartParser
 							songNotes[4] = '-alt'; // animation string;
 						case "GF Sing":
 							songNotes[3] = 'default';
-						case "No Animation":
-							songNotes[3] = 'default';
-							songNotes[4] = '';
-							songNotes[5] = '';
-							songNotes.noAnim = true;
 					}
 					daNoteType = songNotes[3];
 				}

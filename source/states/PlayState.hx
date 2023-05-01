@@ -88,7 +88,7 @@ class PlayState extends MusicBeatState
 	public static var timedEvents:Array<TimedEvent> = [];
 	
 	// note stuff
-	@:isVar public static var songSpeed(get, default):Float = 0;
+	@:isVar public static var songSpeed(get, set):Float = 0;
 	public var songSpeedTween:FlxTween;
 
 	// lazyness
@@ -1256,30 +1256,32 @@ class PlayState extends MusicBeatState
 		super.destroy();
 	}
 				
-	inline static function get_songSpeed()
-		return FlxMath.roundDecimal(songSpeed, 2);
+	function get_songSpeed():Float {
+		return songSpeed;
+	}
 
-	inline static function set_songSpeed(value:Float):Float
-	{
-		var offset:Float = songSpeed / value;
-		for (note in bfStrums.allNotes)
-		{
-			if (note.isSustainNote && !note.animation.curAnim.name.endsWith('end'))
+	function set_songSpeed(value:Float):Float {
+		if (generatedMusic) {
+			var ratio:Float = value / songSpeed; // funny word huh
+			for (note in bfStrums.allNotes)
 			{
-				note.scale.y *= offset;
-				note.updateHitbox();
+				if (!note.customScrollspeed && note.isSustainNote && !note.animation.curAnim.name.endsWith('end'))
+				{
+					note.scale.y *= offset;
+					note.updateHitbox();
+				}
+			}
+			for (note in dadStrums.allNotes)
+			{
+				if (note.customScrollspeed && note.isSustainNote && !note.animation.curAnim.name.endsWith('end'))
+				{
+					note.scale.y *= offset;
+					note.updateHitbox();
+				}
 			}
 		}
-		for (note in dadStrums.allNotes)
-		{
-			if (note.isSustainNote && !note.animation.curAnim.name.endsWith('end'))
-			{
-				note.scale.y *= offset;
-				note.updateHitbox();
-			}
-		}
-
-		return cast songSpeed = value;
+		songSpeed = value;
+		return value;
 	}
 
 	public function updateSectionCamera(value:String, isPlayer:Bool = false)
