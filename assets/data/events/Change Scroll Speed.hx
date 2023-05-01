@@ -11,13 +11,13 @@ function eventTrigger(params) {
 	//
 	var newValue:Float = PlayState.SONG.speed * val1;
 	if (val2 <= 0)
-		PlayState.instance.songSpeed = newValue;
+		PlayState.main.songSpeed = newValue;
 	else {
-		PlayState.instance.songSpeedTween = FlxTween.tween(PlayState.instance, {songSpeed: newValue}, val2 * (Conductor.stepCrochet / 1000), {
+		PlayState.main.songSpeedTween = FlxTween.tween(PlayState.main, {songSpeed: newValue}, val2 * (Conductor.stepCrochet / 1000), {
             ease: FlxEase.linear,
             onComplete: function(twn:FlxTween) 
             {
-                PlayState.instance.songSpeedTween = null;
+                PlayState.main.songSpeedTween = null;
             }
         });
 	}
