@@ -6,6 +6,9 @@
 //
 import gamejolt.*;
 import gamejolt.GJClient;
+#if !macro
+import globals.Paths;
+#end 
 import globals.*; // using doesn't have '*' support
 
 using StringTools;
