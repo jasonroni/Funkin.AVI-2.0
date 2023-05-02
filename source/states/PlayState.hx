@@ -3268,13 +3268,13 @@ class PlayState extends MusicBeatState
 				Conductor.changeBPM(SONG.notes[curSection].bpm);
 		}
 
-		uiHUD.beatHit(curBeat);
-		demolitionHUD.beatHit(curBeat);
-		psychHUD.beatHit(curBeat);
-		vanillaHUD.beatHit(curBeat);
-		kadeHUD.beatHit(curBeat);
-		cycledSinsHUD.beatHit(curBeat);
-		episode1HUD.beatHit(curBeat);
+		if(uiHUD != null) uiHUD.beatHit(curBeat);
+		if(demolitionHUD != null) demolitionHUD.beatHit(curBeat);
+		if(psychHUD != null) psychHUD.beatHit(curBeat);
+		if(vanillaHUD != null) vanillaHUD.beatHit(curBeat);
+		if(kadeHUD != null) kadeHUD.beatHit(curBeat);
+		if(cycledSinsHUD != null) cycledSinsHUD.beatHit(curBeat);
+		if(episode1HUD != null) episode1HUD.beatHit(curBeat);
 
 		//
 		charactersDance(curBeat);
@@ -4891,16 +4891,25 @@ class PlayState extends MusicBeatState
 		switch (Init.trueSettings.get('HUD Style').toLowerCase())
 		{
 			case 'psych': // psych engine fans gonna go nuts about this
-				psychHUD.autoplayMark.visible = bfStrums.autoplay;
-				psychHUD.scoreBar.visible = !bfStrums.autoplay;
-	
+				if(psychHUD != null)
+					{
+						psychHUD.autoplayMark.visible = bfStrums.autoplay;
+						psychHUD.scoreBar.visible = !bfStrums.autoplay;
+					}
+
 			case 'demolition': // demoliton HUD
-				demolitionHUD.autoplayMark.visible = bfStrums.autoplay;
-				demolitionHUD.scoreBar.visible = !bfStrums.autoplay;
-	
+				if(demolitionHUD != null)
+					{
+						demolitionHUD.autoplayMark.visible = bfStrums.autoplay;
+						demolitionHUD.scoreBar.visible = !bfStrums.autoplay;
+					}
+
 			default: // forever HUD
-				uiHUD.autoplayMark.visible = bfStrums.autoplay;
-				uiHUD.scoreBar.visible = !bfStrums.autoplay;
+				if(uiHUD != null)
+					{
+						uiHUD.autoplayMark.visible = bfStrums.autoplay;
+						uiHUD.scoreBar.visible = !bfStrums.autoplay;
+					}
 		}
 
 		return Init.trueSettings.get('HUD Style');
@@ -4912,12 +4921,27 @@ class PlayState extends MusicBeatState
 		{
 			case 'psych': // psych engine fans gonna go nuts about this
 				FlxTween.tween(psychHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
-	
+				demolitionHUD.kill();
+				uiHUD.kill();
+				kadeHUD.kill();
+				demolitionHUD.kill();
+				vanillaHUD.kill();
+
 			case 'demolition': // demoliton HUD
 				FlxTween.tween(demolitionHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
-	
+				psychHUD.kill();
+				uiHUD.kill();
+				kadeHUD.kill();
+				demolitionHUD.kill();
+				vanillaHUD.kill();
+
 			default: // forever HUD
 				FlxTween.tween(uiHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+				demolitionHUD.kill();
+				psychHUD.kill();
+				kadeHUD.kill();
+				demolitionHUD.kill();
+				vanillaHUD.kill();
 		}
 
 		return Init.trueSettings.get('HUD Style');
