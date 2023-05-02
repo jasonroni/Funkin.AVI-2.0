@@ -30,6 +30,9 @@ class Strumline extends FlxSpriteGroup
 	public var keyAmount:Int = 4;
 	public var xPos:Float = 0;
 	public var yPos:Float = 0;
+	
+	//Malfunction shit (hopefully)
+	public var direction:Float = 0;
 
 	public function new(xPos:Float = 0, yPos:Float = 0, characters:Array<Character>, ?downscroll:Bool = false, ?displayJudges:Bool = true,
 			?autoplay:Bool = true, ?doTween:Bool = true, displaySplashes:Bool = false, ?keyAmount:Int = 4)
