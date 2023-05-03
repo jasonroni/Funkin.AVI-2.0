@@ -38,6 +38,7 @@
 	<define name="DISCORD_RPC" if="desktop" unless="web || neko" />
 	<define name="VIDEO_PLUGIN" if="windows" unless="32bits || HXCPP_M32 || neko" />
 	<define name="SHOW_CONSOLE" if="debug" />
+	<define name="GAMEJOLT_ALLOWED" if="desktop"/>
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
@@ -60,8 +61,9 @@
 	<haxelib name="flixel-addons" />
 	<haxelib name="flixel-ui" />
 	<haxelib name="discord_rpc" if="DISCORD_RPC" />
-	<haxelib name="systools" />
-	<ndll name="systools" haxelib="systools" />
+	
+	<!--haxelib install crypto-->
+	<haxelib name="crypto" if="GAMEJOLT_ALLOWED"/>
 
 	<haxelib name="hxCodec" if="desktop || android" />
 	<haxelib name="SScript" if="desktop" />

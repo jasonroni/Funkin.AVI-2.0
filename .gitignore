@@ -3,3 +3,4 @@ export/
 crash-dialog/export
 crash-dialog/build
 source/gamejolt/GJKeys.hx
+source/gamejolt/GJDebug.hx

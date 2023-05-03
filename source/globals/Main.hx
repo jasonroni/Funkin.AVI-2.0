@@ -1,5 +1,6 @@
 package globals;
 
+import states.MusicBeatState;
 import cpp.vm.Gc;
 import openfl.system.System;
 import openfl.utils.AssetCache;
@@ -294,6 +295,17 @@ class Main extends Sprite
 		FlxTransitionableState.skipNextTransOut = false;
 		// load the state
 		FlxG.switchState(target);
+
+		#if GAMEJOLT_ALLOWED
+		@:privateAccess
+		{
+			if(MusicBeatState.gjPingTrigger != null)
+				{
+					MusicBeatState.gjPingTrigger.cancel();
+					MusicBeatState.gjPingTrigger.destroy();
+				}
+		}
+		#end
 	}
 
 	public static function updateFramerate(newFramerate:Int)
@@ -452,7 +464,7 @@ class Main extends Sprite
 					openfl.Assets.cache.clear('assets/music');
 					openfl.Assets.cache.clear('assets/videos');
 					gc();
-					trace(System.totalMemory);
+					trace(Math.abs(System.totalMemory / 1000000));
 				}
 		}
 	

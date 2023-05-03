@@ -5,7 +5,6 @@
 
 //
 import gamejolt.*;
-import gamejolt.GJClient;
 #if !macro
 import globals.Paths;
 #end 

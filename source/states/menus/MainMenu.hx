@@ -209,6 +209,8 @@ class MainMenu extends MusicBeatState
 
 		super.create();
 
+		trace(GJClient.logged);
+
 		if (!Init.trueSettings.get('Disable Screen Shaders'))
 		{
 			defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
@@ -438,6 +440,10 @@ class MainMenu extends MusicBeatState
 		grain.cameras = [camHUD];
 		add(grain);
 		}
+
+		#if GAMEJOLT_ALLOWED
+		GJClient.initialize(user -> add(new gamejolt.extras.Popup(user.developer_name, "You were successfully logged in!", GJClient.userGraphics.get(user.id))));
+		#end
 	}
 
 	var selectedSomethin:Bool = false;
@@ -751,7 +757,7 @@ class MainMenu extends MusicBeatState
 			} 
 			else if(FlxG.keys.justPressed.EIGHT) 
 			{
-				Main.switchState(this, new GameJoltLogin());
+				FlxG.switchState(new gamejolt.menus.GJOptionsState());
 			}
 			else if(FlxG.keys.justPressed.ONE)
 			{
@@ -762,10 +768,6 @@ class MainMenu extends MusicBeatState
 			updateSelection();
 
 		super.update(elapsed);
-
-		menuItems.forEach(function(menuItem:FlxSprite)
-		{
-		});
 	}
 
 	var lastCurSelected:Int = 0;
