@@ -88,7 +88,7 @@ class PlayState extends MusicBeatState
 	public static var timedEvents:Array<TimedEvent> = [];
 	
 	// note stuff
-	@:isVar public static var songSpeed(get, default):Float = 0;
+	@:isVar public var songSpeed(get, set):Float = 0;
 	public var songSpeedTween:FlxTween;
 
 	// lazyness
@@ -1257,30 +1257,32 @@ class PlayState extends MusicBeatState
 		super.destroy();
 	}
 				
-	inline static function get_songSpeed()
-		return FlxMath.roundDecimal(songSpeed, 2);
+	function get_songSpeed():Float {
+		return songSpeed;
+	}
 
-	inline static function set_songSpeed(value:Float):Float
-	{
-		var offset:Float = songSpeed / value;
-		for (note in bfStrums.allNotes)
-		{
-			if (note.isSustainNote && !note.animation.curAnim.name.endsWith('end'))
+	function set_songSpeed(value:Float):Float {
+		if (generatedMusic) {
+			var ratio:Float = value / songSpeed; // funny word huh
+			for (note in bfStrums.allNotes)
 			{
-				note.scale.y *= offset;
-				note.updateHitbox();
+				if (note.customScrollspeed && note.isSustainNote && !note.animation.curAnim.name.endsWith('end'))
+				{
+					note.scale.y *= ratio;
+					note.updateHitbox();
+				}
+			}
+			for (note in dadStrums.allNotes)
+			{
+				if (note.customScrollspeed && note.isSustainNote && !note.animation.curAnim.name.endsWith('end'))
+				{
+					note.scale.y *= ratio;
+					note.updateHitbox();
+				}
 			}
 		}
-		for (note in dadStrums.allNotes)
-		{
-			if (note.isSustainNote && !note.animation.curAnim.name.endsWith('end'))
-			{
-				note.scale.y *= offset;
-				note.updateHitbox();
-			}
-		}
-
-		return cast songSpeed = value;
+		songSpeed = value;
+		return value;
 	}
 
 	public function updateSectionCamera(value:String, isPlayer:Bool = false)
@@ -4896,14 +4898,14 @@ class PlayState extends MusicBeatState
 						psychHUD.autoplayMark.visible = bfStrums.autoplay;
 						psychHUD.scoreBar.visible = !bfStrums.autoplay;
 					}
-
+	
 			case 'demolition': // demoliton HUD
 				if(demolitionHUD != null)
 					{
 						demolitionHUD.autoplayMark.visible = bfStrums.autoplay;
 						demolitionHUD.scoreBar.visible = !bfStrums.autoplay;
 					}
-
+	
 			default: // forever HUD
 				if(uiHUD != null)
 					{
@@ -4926,7 +4928,7 @@ class PlayState extends MusicBeatState
 				kadeHUD.kill();
 				demolitionHUD.kill();
 				vanillaHUD.kill();
-
+	
 			case 'demolition': // demoliton HUD
 				FlxTween.tween(demolitionHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 				psychHUD.kill();
@@ -4934,7 +4936,7 @@ class PlayState extends MusicBeatState
 				kadeHUD.kill();
 				demolitionHUD.kill();
 				vanillaHUD.kill();
-
+	
 			default: // forever HUD
 				FlxTween.tween(uiHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 				demolitionHUD.kill();
