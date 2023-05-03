@@ -87,6 +87,7 @@ class Strumline extends FlxSpriteGroup
 			receptor.initialX = Math.floor(receptor.x);
 			receptor.initialY = Math.floor(receptor.y);
 			receptor.angleTo = 0;
+			receptor.strumDirection = 90;
 			receptor.y -= 10;
 			receptor.playAnim('static');
 
@@ -167,6 +168,8 @@ class Receptor extends FlxSprite
 	public var xTo:Float;
 	public var yTo:Float;
 	public var angleTo:Float;
+
+	public var strumDirection:Float = 90;
 
 	public var overrideAlpha:Bool = false;
 
