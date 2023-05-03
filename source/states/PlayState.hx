@@ -1668,6 +1668,18 @@ class PlayState extends MusicBeatState
 							daNote.active = true;
 						}
 
+						var strumGroup:Strumline = PlayState.bfStrums;
+						if(!daNote.mustPress) strumGroup = PlayState.dadStrums;
+
+						var strumAngle:Float = strumGroup.members[daNote.noteData].angle;
+						var strumDirection:Float = 90;
+
+						strumAngle += daNote.noteDirection;
+
+						var angleDir = strumDirection * Math.PI / 180;
+						if (daNote.copyAngle)
+							daNote.angle = strumDirection - 90 + strumAngle;
+
 						if (!daNote.tooLate && daNote.strumTime < Conductor.songPosition - (ScoreUtils.msThreshold) && !daNote.wasGoodHit)
 						{
 							if ((!daNote.tooLate) && (daNote.mustPress))
