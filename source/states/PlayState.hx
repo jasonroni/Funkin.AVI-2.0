@@ -29,7 +29,11 @@ import flixel.input.keyboard.FlxKey;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
-import flixel.system.FlxSound;
+#if (flixel <= "5.2.2")
+	import flixel.system.FlxSound;
+#else
+	import flixel.sound.FlxSound;
+#end
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -4925,7 +4929,6 @@ class PlayState extends MusicBeatState
 				demolitionHUD.kill();
 				uiHUD.kill();
 				kadeHUD.kill();
-				demolitionHUD.kill();
 				vanillaHUD.kill();
 	
 			case 'demolition': // demoliton HUD
@@ -4933,7 +4936,6 @@ class PlayState extends MusicBeatState
 				psychHUD.kill();
 				uiHUD.kill();
 				kadeHUD.kill();
-				demolitionHUD.kill();
 				vanillaHUD.kill();
 	
 			default: // forever HUD
@@ -4941,7 +4943,6 @@ class PlayState extends MusicBeatState
 				demolitionHUD.kill();
 				psychHUD.kill();
 				kadeHUD.kill();
-				demolitionHUD.kill();
 				vanillaHUD.kill();
 		}
 
