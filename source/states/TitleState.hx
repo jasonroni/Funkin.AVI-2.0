@@ -1,5 +1,6 @@
 package states;
 
+import gamejolt.GameJolt.GameJoltAPI;
 #if desktop
 import base.dependency.Discord;
 import sys.thread.Thread;
@@ -192,6 +193,9 @@ class TitleState extends states.MusicBeatState
 
 	override public function create():Void
 	{	
+		GameJoltAPI.connect();
+		GameJoltAPI.authDaUser(FlxG.save.data.gjUser, FlxG.save.data.gjToken);
+
 		FlxG.game.focusLostFramerate = 60;
 		FlxG.sound.muteKeys = muteKeys;
 		FlxG.sound.volumeDownKeys = volumeDownKeys;

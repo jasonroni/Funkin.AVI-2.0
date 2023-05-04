@@ -1,5 +1,7 @@
 package states.menus;
 
+import gamejolt.GameJolt.GameJoltAPI;
+import gamejolt.GameJolt.GameJoltLogin;
 import base.system.CppAPI;
 import sys.io.File;
 import base.dependency.Discord;
@@ -210,7 +212,7 @@ class MainMenu extends MusicBeatState
 
 		super.create();
 
-		trace(GJClient.logged);
+		trace(GameJoltAPI.userLogin);
 
 		if (!Init.trueSettings.get('Disable Screen Shaders'))
 		{
@@ -442,13 +444,13 @@ class MainMenu extends MusicBeatState
 		add(grain);
 		}
 
-		#if GAMEJOLT_ALLOWED
+		/*#if GAMEJOLT_ALLOWED
 		GJClient.initialize(
 		(user) -> {
 		add(new gamejolt.extras.Popup(user.developer_name, "You were successfully logged in!", GJClient.userGraphics.get(user.id)));
 		GJClient.trophyAdd(192974);
 	});
-		#end
+		#end*/
 	}
 
 	var selectedSomethin:Bool = false;
@@ -762,7 +764,7 @@ class MainMenu extends MusicBeatState
 			} 
 			else if(FlxG.keys.justPressed.EIGHT) 
 			{
-				FlxG.switchState(new gamejolt.menus.GJOptionsState());
+				FlxG.switchState(new GameJoltLogin());
 			}
 			else if(FlxG.keys.justPressed.ONE)
 			{

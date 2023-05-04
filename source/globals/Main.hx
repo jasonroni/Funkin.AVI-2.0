@@ -28,6 +28,7 @@ import openfl.display.Sprite;
 import openfl.events.UncaughtErrorEvent;
 import sys.FileSystem;
 import sys.io.File;
+import gamejolt.GameJolt;
 import sys.io.Process;
 
 typedef GameWeek =
@@ -67,6 +68,8 @@ class Main extends Sprite
 		versionFE: "0.3.1", // version of Forever Engine Legacy
 		versionFF: "0.1", // version of Forever Engine Feather
 	};
+
+	public static var gjToastManager:GJToastManager;
 
 	public static var baseGame:FNFGame;
 
@@ -241,6 +244,11 @@ class Main extends Sprite
 		Discord.changePresence('');
 		#end
 
+		#if GAMEJOLT_ALLOWED
+		gjToastManager = new GJToastManager();
+		addChild(gjToastManager);
+		#end
+
 		#if !mobile
 		infoCounter = new Overlay(0, 0);
 		addChild(infoCounter);
@@ -295,17 +303,6 @@ class Main extends Sprite
 		FlxTransitionableState.skipNextTransOut = false;
 		// load the state
 		FlxG.switchState(target);
-
-		#if GAMEJOLT_ALLOWED
-		@:privateAccess
-		{
-			if(MusicBeatState.gjPingTrigger != null)
-				{
-					MusicBeatState.gjPingTrigger.cancel();
-					MusicBeatState.gjPingTrigger.destroy();
-				}
-		}
-		#end
 	}
 
 	public static function updateFramerate(newFramerate:Int)

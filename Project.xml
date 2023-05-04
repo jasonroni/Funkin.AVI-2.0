@@ -63,7 +63,9 @@
 	<haxelib name="discord_rpc" if="DISCORD_RPC" />
 	
 	<!--haxelib install crypto-->
-	<haxelib name="crypto" if="GAMEJOLT_ALLOWED"/>
+	<haxelib name="tentools" if="GAMEJOLT_ALLOWED"/>
+	<haxelib name="systools" if="GAMEJOLT_ALLOWED"/>
+	<ndll name="systools" haxelib="systools" if="GAMEJOLT_ALLOWED"/>
 
 	<haxelib name="hxCodec" if="desktop || android" />
 	<haxelib name="SScript" if="desktop" />

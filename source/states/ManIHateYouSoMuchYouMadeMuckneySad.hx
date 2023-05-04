@@ -1,5 +1,6 @@
 package states;
 
+import gamejolt.GameJolt.GameJoltAPI;
 import flixel.FlxSprite;
 import lime.app.Application;
 import lime.ui.Window;
@@ -14,7 +15,11 @@ class ManIHateYouSoMuchYouMadeMuckneySad extends MusicBeatState
    
    override function create() {
       super.create();
+
       Application.current.window.borderless = true;
+
+      if(!GameJoltAPI.checkTrophy(184288))
+         GameJoltAPI.getTrophy(184288);
    }
 
    override function update(e)

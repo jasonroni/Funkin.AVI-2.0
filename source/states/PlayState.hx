@@ -1,5 +1,6 @@
 package states;
 
+import gamejolt.GameJolt.GameJoltAPI;
 import base.events.Events;
 import openfl.filters.BitmapFilter;
 import openfl.utils.Assets as OpenFlAssets;
@@ -4615,8 +4616,30 @@ class PlayState extends MusicBeatState
 			default:
 				leavePlayState();
 		}
+
+		checkGameJoltAchievement();
 		//
 	}
+
+	private function checkGameJoltAchievement():Void 
+		{
+			switch(SONG.song.toLowerCase().replace('-', ' '))
+			{
+				case 'devilish deal':
+					if(gameplayMode == STORY)
+						{
+							if(!GameJoltAPI.checkTrophy(193090))
+								GameJoltAPI.getTrophy(193090);
+						}
+
+				case 'delusional': 
+					if(gameplayMode == STORY)
+						{
+							if(!GameJoltAPI.checkTrophy(193091))
+								GameJoltAPI.getTrophy(193091);
+						}
+			}
+		}
 
 	public function callDefaultSongEnd()
 	{

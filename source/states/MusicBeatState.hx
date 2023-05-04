@@ -9,9 +9,6 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.ui.FlxUIState;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
-#if GAMEJOLT_ALLOWED
-import gamejolt.GJClient;
-#end
 import flixel.util.FlxTimer;
 
 /* 
@@ -33,10 +30,6 @@ class MusicBeatState extends FlxUIState
 
 	// fixes a bug with FlxUITabMenu where it wouldn't respect the current camera zoom
 	public var camBeat:FlxCamera;
-
-	#if GAMEJOLT_ALLOWED
-	private static var gjPingTrigger:FlxTimer;
-	#end
 
 	// class create event
 	override function create()
