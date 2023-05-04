@@ -14,7 +14,7 @@ import flixel.input.keyboard.FlxKey;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
-#if (flixel <= 5.2.2)
+#if (flixel <= "5.2.2")
 	import flixel.system.FlxSound;
 #else
 	import flixel.sound.FlxSound;

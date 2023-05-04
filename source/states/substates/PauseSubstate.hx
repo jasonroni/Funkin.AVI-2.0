@@ -6,7 +6,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
-#if (flixel <= 5.2.2)
+#if (flixel <= "5.2.2")
 	import flixel.system.FlxSound;
 #else
 	import flixel.sound.FlxSound;
