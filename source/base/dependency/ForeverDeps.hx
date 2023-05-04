@@ -14,7 +14,11 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
-import flixel.sound.FlxSound;
+#if (flixel <= 5.2.2)
+	import flixel.system.FlxSound;
+#else
+	import flixel.sound.FlxSound;
+#end
 import flixel.text.FlxText;
 import flixel.effects.particles.FlxEmitter;
 import flixel.tweens.FlxEase;
