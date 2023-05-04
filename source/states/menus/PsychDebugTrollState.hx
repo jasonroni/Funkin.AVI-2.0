@@ -1,25 +1,12 @@
 package states.menus;
 
 import base.dependency.Discord;
-import base.dependency.FeatherDeps.ScriptHandler;
-import globals.Paths;
-import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
-import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.addons.transition.FlxTransitionableState;
-import flixel.effects.FlxFlicker;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.math.FlxMath;
 import flixel.text.FlxText;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import states.MusicBeatState;
-
-using StringTools;
 
 class PsychDebugTrollState extends MusicBeatState 
 {
@@ -34,8 +21,8 @@ class PsychDebugTrollState extends MusicBeatState
    var monitor:FlxRuntimeShader;
    var bloom:FlxRuntimeShader;
 
-   override function create() {
-
+   override public function create() 
+	{
       	noBitchCam = new FlxCamera();
       	bgCam = new FlxCamera();
       	bgCam.bgColor.alpha = 0;
@@ -44,9 +31,9 @@ class PsychDebugTrollState extends MusicBeatState
       	FlxG.cameras.add(bgCam, false);
       	FlxG.cameras.setDefaultDrawTarget(noBitchCam, true);
 	   
-	#if DISCORD_RPC
-	Discord.changePresence('PSYCH ENGINE KID DETECTED', 'Get a load of this loser lmfao', 'troll', 'psych');
-	#end
+		#if DISCORD_RPC
+		Discord.changePresence('PSYCH ENGINE KID DETECTED', 'Get a load of this loser lmfao', 'troll', 'psych');
+		#end
 
       	super.create();
 
@@ -55,31 +42,31 @@ class PsychDebugTrollState extends MusicBeatState
 
       	noBitchCam.setFilters([
           	new openfl.filters.ShaderFilter(bloom),
-		new openfl.filters.ShaderFilter(monitor)
+			new openfl.filters.ShaderFilter(monitor)
         ]);
 
         background = new FlxSprite(0, 0).makeGraphic(FlxG.width, 1000, FlxColor.BLACK);
-	background.scale.set(5, 5);
+		background.scale.set(5, 5);
         background.cameras = [bgCam];
 
       	var eyes:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/NEWmenu/HahaSadBoi'));
-	eyes.scrollFactor.set(0, 0);
-	eyes.screenCenter();
-	eyes.updateHitbox();
-	eyes.antialiasing = true;
-	add(eyes);
+		eyes.scrollFactor.set(0, 0);
+		eyes.screenCenter();
+		eyes.updateHitbox();
+		eyes.antialiasing = true;
+		add(eyes);
 	   
-         upText = new FlxText(0, 20, 0, 'Lmao, you thought this was on Psych Engine?', 32);
-         upText.setFormat(Paths.font('DisneyFont'), 50, ForeverTools.setTextAlign('center'), FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-         upText.screenCenter(X);
-         add(upText);
+		upText = new FlxText(0, 20, 0, 'Lmao, you thought this was on Psych Engine?', 32);
+		upText.setFormat(Paths.font('DisneyFont'), 50, ForeverTools.setTextAlign('center'), FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		upText.screenCenter(X);
+		add(upText);
 
-         downText = new FlxText(0, 560, 0, 'It\'s on Forever Engine ya bum, silly Psych Engine kid.\n(Press ESC to leave)', 32);
-         downText.setFormat(Paths.font('DisneyFont'), 50, ForeverTools.setTextAlign('center'), FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-         downText.screenCenter(X);
-         add(downText);
+		downText = new FlxText(0, 560, 0, 'It\'s on Forever Engine ya bum, silly Psych Engine kid.\n(Press ESC to leave)', 32);
+		downText.setFormat(Paths.font('DisneyFont'), 50, ForeverTools.setTextAlign('center'), FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		downText.screenCenter(X);
+		add(downText);
 
-         var scratchStuff:FlxSprite = new FlxSprite();
+        var scratchStuff:FlxSprite = new FlxSprite();
 		scratchStuff.frames = Paths.getSparrowAtlas('filters/scratchShit');
 		scratchStuff.animation.addByPrefix('idle', 'scratch thing 1', 24, true);
 		scratchStuff.animation.play('idle');
@@ -96,14 +83,19 @@ class PsychDebugTrollState extends MusicBeatState
 		grain.scale.x = 1.1;
 		grain.scale.y = 1.1;
 		add(grain);
-     
+
+		if(Init.trueSettings.get('Low Quality'))
+			{
+				grain.destroy();
+				scratchStuff.destroy();
+			}
    }
 
-   override function update(elapsed:Float) {
-
+   override public function update(elapsed:Float) 
+	{
       if(Controls.getPressEvent("back"))
          {
-            lime.app.Application.current.window.alert('Psych engine loser, laugh at this user', 'L moment');
+            lime.app.Application.current.window.alert('Psych engine loser, laugh at this user');
             Main.switchState(this, new MainMenu());
          }
 

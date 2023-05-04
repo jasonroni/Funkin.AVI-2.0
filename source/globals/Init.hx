@@ -29,14 +29,20 @@ enum SettingState
 **/
 class Init extends FlxState
 {
-	/*
-		Okay so here we'll set custom settings. As opposed to the previous options menu, everything will be handled in here with no hassle.
+	/**
+		Okay so here we'll set custom settings.
+		
+		As opposed to the previous options menu, everything will be handled in here with no hassle.
 		This will read what the second value of the key's array is, and then it will categorise it, telling the game which option to set it to.
 
 		0 - boolean, true or false checkmark
+
 		1 - choose string
+
 		2 - choose number (for fps so its low capped at 30)
+
 		3 - offsets, this is unused but it'd bug me if it were set to 0
+
 		might redo offset code since I didnt make it and it bugs me that it's hardcoded the the last part of the controls menu
 	 */
 	public static var gameSettings:Map<String, Dynamic> = [

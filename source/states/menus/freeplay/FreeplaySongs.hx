@@ -192,7 +192,7 @@ class FreeplaySongs extends MusicBeatState
 					if (GameData.episodeSFPLock == 'unlocked')
 					{
 						addSong('Twisted-Grins-Legacy', 3, (GameData.legacyTLock != 'unlocked' && GameData.legacyTLock != 'beaten' ? 'untouched-song' : 'mr-smiles'), FlxColor.fromRGB(115, 86, 86), 'Sayan Sama', 'HARD', FlxColor.fromRGB(255, 187, 187));
-						addSong('Resentment-Legacy', 3, (GameData.legacyRLock != 'unlocked' && GameData.legacyRLock != 'beaten' ? 'untouched-song' : 'mr-smiles'), FlxColor.fromRGB(115, 86, 86), 'obscurity', 'NORMAL', FlxColor.fromRGB(255, 220, 220));
+						addSong('Facade', 3, (GameData.legacyRLock != 'unlocked' && GameData.legacyRLock != 'beaten' ? 'untouched-song' : 'mr-smiles'), FlxColor.fromRGB(115, 86, 86), 'obscurity', 'NORMAL', FlxColor.fromRGB(255, 220, 220));
 						addSong('Bless-Legacy', 3, (GameData.legacyBLock != 'unlocked' && GameData.legacyBLock != 'beaten' ? 'untouched-song' : 'white-noise'), FlxColor.WHITE, 'END_SELLA', 'HARD', FlxColor.fromRGB(255, 187, 187));
 					}
 						
@@ -320,11 +320,14 @@ class FreeplaySongs extends MusicBeatState
 
 			gradient = new FlxSprite().loadGraphic(Paths.image('UI/gimmicks/gradient'));
 			gradient.screenCenter();
-	 		if (freeplayMenuList != 2) add(gradient);
+			gradient.setGraphicSize(Std.int(gradient.width * 0.8));
+	 		add(gradient);
 
 			scratchStuff.cameras = [camHUD];
 			grain.cameras = [camHUD];
 			gradient.cameras = [camHUD];
+
+			if (freeplayMenuList == 2) gradient.destroy();
 		}
 	}
 
@@ -477,6 +480,9 @@ class FreeplaySongs extends MusicBeatState
 
 			if (FlxG.keys.pressed.SHIFT)
 			{
+				if (FlxG.sound.music != null)
+					FlxG.sound.music.stop();
+
 				PlayState.SONG.validScore = false;
 				Main.switchState(this, new states.editors.OriginalChartingState());
 			}
@@ -706,7 +712,7 @@ class FreeplaySongs extends MusicBeatState
 						}
 
 						if(Init.trueSettings.get('Screen Shake'))
-						FlxG.camera.shake(0.015, 99999999);
+						FlxG.camera.shake(0.015, FlxMath.MAX_VALUE_FLOAT);
 
 					case 'scrapped':
 						if(Init.trueSettings.get('Low Quality')) {

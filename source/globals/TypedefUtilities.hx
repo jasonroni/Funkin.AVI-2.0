@@ -240,7 +240,7 @@ typedef StoryCharacter =
 	var flipX:Bool;
 }
 
-/**
+/*
  * GAMEJOLT STUFF
  */
 

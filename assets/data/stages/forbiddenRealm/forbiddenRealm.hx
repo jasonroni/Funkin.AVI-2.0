@@ -1,4 +1,4 @@
-public var mickeyEmitter:FlxEmitter;
+var mickeyEmitter:FlxEmitter;
 var fuckingsquares:FlxSprite;
 
 var whiteBG:FlxSprite;

@@ -1824,8 +1824,7 @@ class PlayState extends MusicBeatState
 							if (Init.trueSettings.get('Screen Shake'))
 							{
 								camGame.shake(0.008, 0.07);
-								camHUD.shake(0.015, 0.07);
-								for (i in strumHUD)
+								for (i in allUIs)
 									i.shake(0.015, 0.07);
 							}
 							if (canaddshaders)
@@ -1980,8 +1979,7 @@ class PlayState extends MusicBeatState
 						if (Init.trueSettings.get('Screen Shake'))
 						{
 							camGame.shake(0.008, 0.07);
-							camHUD.shake(0.015, 0.07);
-							for (i in strumHUD)
+							for (i in allUIs)
 								i.shake(0.015, 0.07);
 						}
 						if (canaddshaders)
@@ -2052,9 +2050,9 @@ class PlayState extends MusicBeatState
 						
 					case "Don't Cross!":
 						boyfriend.x += 1.2;
-					        boyfriend.y -= 1.2;
-					        boyfriend.scale.x -= 0.0012;
-					        boyfriend.scale.y -= 0.0012;
+						boyfriend.y -= 1.2;
+						boyfriend.scale.x -= 0.0012;
+						boyfriend.scale.y -= 0.0012;
 
 						if (!Init.trueSettings.get('Disable Mechanics'))
 						{
@@ -2817,8 +2815,8 @@ class PlayState extends MusicBeatState
 		}
 	}
 			
-	/*
-	* # Cinematic Bars
+	/**
+	*  # Cinematic Bars
 	*
 	* WORK IN PROGRESS, NOT FINAL
 	*/		
@@ -3039,7 +3037,7 @@ class PlayState extends MusicBeatState
 			FlxG.sound.play(Paths.sound('funkinAVI/wiiCrash'), 1);
 
 			if(FlxG.random.bool(10)) 
-				Application.current.window.alert("Fuck You, You Suck LMAO", 'Note About Your Skill:'); //10% of probability
+				Application.current.window.alert("You Suck LMAO", 'Note About Your Skill:'); //10% of probability
 			else 
 				Application.current.window.alert("Message: if(note.noteType = 'Error Note') {trace('0 lives left, closing game...')}", 'Error On Funkin.avi.exe!:');
 
