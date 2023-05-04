@@ -74,13 +74,13 @@ class Stage extends FlxTypedGroup<FlxBasic>
 	{
 		foreground.forEach(function(a:Dynamic)
 		{
-			if (a != null && !Std.isOfType(a, flixel.system.FlxSound))
+			if (a != null && !Std.isOfType(a, flixel.sound.FlxSound))
 				remove(a);
 		});
 
 		layers.forEach(function(a:Dynamic)
 		{
-			if (a != null && !Std.isOfType(a, flixel.system.FlxSound))
+			if (a != null && !Std.isOfType(a, flixel.sound.FlxSound))
 				remove(a);
 		});
 	}
