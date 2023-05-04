@@ -4626,18 +4626,12 @@ class PlayState extends MusicBeatState
 			switch(SONG.song.toLowerCase().replace('-', ' '))
 			{
 				case 'devilish deal':
-					if(gameplayMode == STORY)
-						{
-							if(!GameJoltAPI.checkTrophy(193090))
-								GameJoltAPI.getTrophy(193090);
-						}
+					if(!GameJoltAPI.checkTrophy(193090))
+						GameJoltAPI.getTrophy(193090);
 
 				case 'delusional': 
-					if(gameplayMode == STORY)
-						{
-							if(!GameJoltAPI.checkTrophy(193091))
-								GameJoltAPI.getTrophy(193091);
-						}
+					if(!GameJoltAPI.checkTrophy(193091))
+						GameJoltAPI.getTrophy(193091);
 			}
 		}
 
