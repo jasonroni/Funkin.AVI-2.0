@@ -1254,6 +1254,7 @@ class PlayState extends MusicBeatState
 	override public function destroy()
 	{
 		Controls.keyEventTrigger.remove(keyEventTrigger);
+		FlxG.game.setFilters([]); // clears game filters
 		super.destroy();
 	}
 				

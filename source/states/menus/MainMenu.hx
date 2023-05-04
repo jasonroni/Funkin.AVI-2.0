@@ -1,5 +1,6 @@
 package states.menus;
 
+import base.system.CppAPI;
 import sys.io.File;
 import base.dependency.Discord;
 import base.dependency.FeatherDeps.ScriptHandler;
@@ -442,7 +443,11 @@ class MainMenu extends MusicBeatState
 		}
 
 		#if GAMEJOLT_ALLOWED
-		GJClient.initialize(user -> add(new gamejolt.extras.Popup(user.developer_name, "You were successfully logged in!", GJClient.userGraphics.get(user.id))));
+		GJClient.initialize(
+		(user) -> {
+		add(new gamejolt.extras.Popup(user.developer_name, "You were successfully logged in!", GJClient.userGraphics.get(user.id)));
+		GJClient.trophyAdd(192974);
+	});
 		#end
 	}
 

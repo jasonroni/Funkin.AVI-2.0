@@ -55,8 +55,6 @@ class MusicBeatState extends FlxUIState
 
 		camBeat = FlxG.camera;
 
-		#if GAMEJOLT_ALLOWED gjPingTrigger = new FlxTimer().start(3, tmr -> GJClient.pingSession(), 0); #end
-
 		if (!FlxTransitionableState.skipNextTransOut)
 			openSubState(new FNFTransition(0.5, true));
 

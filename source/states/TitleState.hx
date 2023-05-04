@@ -1,6 +1,5 @@
 package states;
 
-import gamejolt.GJDebug.GameJoltDebug;
 #if desktop
 import base.dependency.Discord;
 import sys.thread.Thread;
@@ -38,14 +37,6 @@ import openfl.display.BitmapData;
 import openfl.filters.BitmapFilter;
 import openfl.filters.ShaderFilter;
 import base.song.Song;
-
-#if GAMEJOLT_ALLOWED
-import gamejolt.GJClient;
-import gamejolt.GJKeys;
-import haxe.crypto.Aes;
-import haxe.io.Bytes;
-import lime.app.Application;
-#end
 
 using StringTools;
 
@@ -268,11 +259,6 @@ class TitleState extends states.MusicBeatState
 				FlxG.sound.music.fadeIn(4, 0, 0.7);
 			}
 		}
-
-		#if GAMEJOLT_ALLOWED
-		GameJoltDebug.checkNewGJData();
-		Application.current.onExit.add(exitCode -> GJClient.logout());
-		#end
 
 		Conductor.changeBPM(50);
 		persistentUpdate = true;

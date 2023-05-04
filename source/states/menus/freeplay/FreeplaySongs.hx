@@ -48,6 +48,7 @@ class FreeplaySongs extends MusicBeatState
 
 	private var mainColor:Null<FlxColor> = FlxColor.WHITE;
 	private var bg:Null<FlxSprite>;
+	private var delutranceBg:Null<FlxSprite>;
 	private var scoreBG:FlxSprite;
 
 	private var existingSongs:Array<String> = [];
@@ -68,6 +69,7 @@ class FreeplaySongs extends MusicBeatState
 	var glitchyStuff:FlxRuntimeShader;
 	var chromAberration:FlxRuntimeShader;
 	var urFucked:FlxRuntimeShader;
+	var pixelShader:FlxRuntimeShader;
 	var shaderTime:Float = 0;
 	
 	var gradient:FlxSprite;
@@ -137,6 +139,8 @@ class FreeplaySongs extends MusicBeatState
 					urFucked.setFloat('amount', 1);
 					smilesShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
 					defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
+					pixelShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/pixelate.frag'), null, 140);
+					pixelShader.setFloat('size', 7.5);
 
 					if (GameData.episode1FPLock == 'unlocked')
 					{
@@ -231,6 +235,12 @@ class FreeplaySongs extends MusicBeatState
 		bg = new FlxSprite().loadGraphic(Paths.image('menus/base/menuDesat'));
 		add(bg);
 
+		delutranceBg = new FlxSprite();
+		delutranceBg.frames = Paths.getSparrowAtlas('background', "data/stages/trance");
+		delutranceBg.animation.addByPrefix("lmao", "background lmao", 24, true);
+		delutranceBg.scale.set(5, 5);
+		delutranceBg.animation.play("lmao");
+
 		grpSongs = new FlxTypedGroup<Alphabet>();
 		add(grpSongs);
 
@@ -278,7 +288,6 @@ class FreeplaySongs extends MusicBeatState
 
 		changeSelection();
 		changeDiff();
-		if (freeplayMenuList != 2) changeCurBPM();
 
 		camZoomTween = FlxTween.tween(this, {}, 0);
 		
@@ -445,8 +454,6 @@ class FreeplaySongs extends MusicBeatState
 				FlxG.sound.play(Paths.sound('base/menus/cancelMenu'));
 				FlxG.sound.music.stop();
 			}
-			Conductor.changeBPM(50);
-			trace('Current BPM: ${Conductor.bpm}');
 			threadActive = false;
 			FlxG.sound.playMusic(Paths.music('freakyMenu'), 1);
 			Main.switchState(this, new states.menus.freeplay.FreeplayCategories());
@@ -636,7 +643,6 @@ class FreeplaySongs extends MusicBeatState
 			}
 		}
 
-		if (freeplayMenuList != 2) changeCurBPM();
 		changeDiff();
 		changeSongPlaying();
 		updateDiscord();
@@ -648,6 +654,12 @@ class FreeplaySongs extends MusicBeatState
 			{
 				switch (songs[curSelected].name.toLowerCase())
 				{
+					case 'hunted': 
+						FlxG.camera.setFilters([new ShaderFilter(defaultShader2)]);
+						// pretty sure you know why
+						remove(delutranceBg);
+						add(bg);
+
 					case 'bless':
 						if(Init.trueSettings.get('Low Quality')) {
 						FlxG.camera.setFilters(
@@ -726,6 +738,9 @@ class FreeplaySongs extends MusicBeatState
 									new ShaderFilter(defaultShader2)
 								]);
 						}
+						// pretty sure you know why
+						remove(delutranceBg);
+						add(bg);
 
 					case 'twisted-grins' | 'resentment' | 'mortiferum-risus':
 						if(Init.trueSettings.get('Low Quality'))
@@ -772,6 +787,9 @@ class FreeplaySongs extends MusicBeatState
 							FlxG.camera.setFilters([new ShaderFilter(defaultShader2)]);
 							FlxG.camera.shake(0.01, 0.001);
 						}
+						// fixing a bug of delulu bg not disappearing, and no, im not gonna use alpha
+						remove(delutranceBg);
+						add(bg);
 					
 					case 'devilish-deal' | 'delusional':
 						if(!Init.trueSettings.get('Low Quality'))
@@ -780,9 +798,16 @@ class FreeplaySongs extends MusicBeatState
 							FlxG.camera.setFilters([new ShaderFilter(defaultShader2)]);
 						FlxG.camera.shake(0.01, 0.001);
 
+					case 'delutrance': 
+						FlxG.camera.setFilters([new ShaderFilter(defaultShader2), new ShaderFilter(pixelShader)]);
+						remove(bg);
+						add(delutranceBg);
+
 					default:
 						FlxG.camera.setFilters([new ShaderFilter(defaultShader2)]);
 						FlxG.camera.shake(0.01, 0.001);
+						remove(delutranceBg);
+						add(bg);
 				}
 			}
 		}
@@ -835,28 +860,6 @@ class FreeplaySongs extends MusicBeatState
 			case 'delutrance': difficultyRank = 'DELUSIONAL';
 			default: difficultyRank = 'HARD';
 		}
-	}
-
-	function changeCurBPM()
-	{
-		switch (songs[curSelected].name.toLowerCase())
-		{
-			case 'devilish-deal': Conductor.changeBPM(90);
-			case 'isolated' | "don't-cross!": Conductor.changeBPM(165);
-			case 'lunacy': Conductor.changeBPM(188);
-			case 'delusional' | 'birthday': Conductor.changeBPM(175);
-			case 'twisted-grins' | 'mercy' | 'hunted' | 'war-dilemma': Conductor.changeBPM(160);
-			case 'resentment' | 'scrapped': Conductor.changeBPM(180);
-			case 'mortiferum-risus': Conductor.changeBPM(167);
-			case 'affliction': Conductor.changeBPM(150); // this one will be changed later
-			case 'isolated-old' | 'isolated-beta' | 'bless': Conductor.changeBPM(120);
-			case 'laugh-track': Conductor.changeBPM(200);
-			case 'neglection': Conductor.changeBPM(155);
-			case 'cycled-sins': Conductor.changeBPM(161);
-			case 'malfunction': Conductor.changeBPM(166);
-			case 'delutrance': Conductor.changeBPM(123);
-		}
-		trace('Current BPM: ${Conductor.bpm}');
 	}
 
 	function updateDiscord()
