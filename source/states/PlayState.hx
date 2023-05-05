@@ -1,5 +1,6 @@
 package states;
 
+import base.events.SongLoop;
 import gamejolt.GameJolt.GameJoltAPI;
 import base.events.Events;
 import openfl.filters.BitmapFilter;
@@ -1575,6 +1576,9 @@ class PlayState extends MusicBeatState
 			}
 
 			Conductor.songPosition += elapsed * 1000;
+
+			if(FlxG.keys.justPressed.SHIFT)
+				new SongLoop().setTime(Conductor.songPosition + 10 * 1000);
 
 			if (Conductor.songPosition >= 0)
 				Conductor.shouldStartSong = true;
@@ -4440,6 +4444,15 @@ class PlayState extends MusicBeatState
 					// Ight Jason, the fun part's all yours
 					// The fun begins 0_0
 				}
+
+				case 'Delutrance': 
+					switch(curBeat)
+					{
+						case 530:
+							var loop:SongLoop = new SongLoop();
+							loop.repeat();
+							loop.setTime(1);
+					}
 		}
 
 		callFunc('beatHit', [curBeat]);
@@ -4481,6 +4494,41 @@ class PlayState extends MusicBeatState
 		if (vocals != null)
 			vocals.stop();
 	}
+
+	public function clearNotesBefore(time:Float)
+		{
+			var i:Int = notesGroup.length - 1;
+			while (i >= 0) {
+				var daNote:Note = notesGroup.members[i];
+				if(daNote.strumTime - 350 < time)
+				{
+					daNote.active = false;
+					daNote.visible = false;
+					daNote.ignoreNote = true;
+	
+					daNote.kill();
+					notesGroup.remove(daNote);
+					daNote.destroy();
+				}
+				--i;
+			}
+	
+			i = notesGroup.length - 1;
+			while (i >= 0) {
+				var daNote:Note = notesGroup.members[i];
+				if(daNote.strumTime - 350 < time)
+				{
+					daNote.active = false;
+					daNote.visible = false;
+					daNote.ignoreNote = true;
+	
+					daNote.kill();
+					notesGroup.remove(daNote, true);
+					daNote.destroy();
+				}
+				--i;
+			}
+		}
 
 	override function openSubState(SubState:FlxSubState)
 	{
