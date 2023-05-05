@@ -1540,7 +1540,7 @@ class PlayState extends MusicBeatState
 							case 'cycled sins':
 								//cycledSinsHUD.autoplayMark.visible = bfStrums.autoplay;
 								//cycledSinsHUD.scoreBar.visible = !bfStrums.autoplay;
-							case 'Isolated' | 'Lunacy' | 'Delusional':
+							case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional':
 								//episode1HUD.autoplayMark.visible = bfStrums.autoplay;
 								//episode1HUD.scoreBar.visible = !bfStrums.autoplay;
 							default:
