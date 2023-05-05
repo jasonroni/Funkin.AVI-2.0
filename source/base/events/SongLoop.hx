@@ -1,12 +1,16 @@
 package base.events;
 
+import states.MusicBeatState;
 import base.song.Conductor;
 import flixel.FlxG;
 import states.PlayState;
 
-class SongLoop
+class SongLoop extends MusicBeatState
 {
-    public function new() {}
+    public function new() 
+        {
+            super();
+        }
 
     public function repeat():SongLoop
         {
@@ -25,6 +29,10 @@ class SongLoop
             PlayState.bf_vocals.play();
             PlayState.opp_vocals.play();
             PlayState.songMusic.play();
+
+            curStep = 0;
+            curBeat = 0;
+            curSection = 0;
 
             return this;
         }
