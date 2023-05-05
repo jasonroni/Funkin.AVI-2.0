@@ -563,6 +563,29 @@ class MainMenu extends MusicBeatState
 			counterControl = 0;
 		}
 
+		if (FlxG.mouse.justPressed && Main.focused)
+		{
+			if (FlxG.mouse.overlaps(menuItems.members[Math.floor(curSelected)]))
+			{				
+				enterSelection();
+			}
+		}
+
+		if (FlxG.mouse.justMoved)
+		{
+			for (i in 0...menuItems.length)
+			{
+				if (i != curSelected)
+				{
+					if (FlxG.mouse.overlaps(menuItems.members[i]) && !FlxG.mouse.overlaps(menuItems.members[Math.floor(curSelected)]))
+					{
+						FlxG.sound.play(Paths.sound('base/menus/scrollMenu'));
+						changeSelection(i);
+					}
+				}
+			}			
+		}
+
 		if (!Init.trueSettings.get('Disable Screen Shaders')) darkFilter.setFloat('iTime', elapsed);
 
 		if ((Controls.getPressEvent("back")) && (!selectedSomethin))
@@ -575,7 +598,62 @@ class MainMenu extends MusicBeatState
 
 		if ((Controls.getPressEvent("accept")) && (!selectedSomethin))
 		{
-			var daChoice:String = optionShit[Math.floor(curSelected)];
+			enterSelection();
+		}
+
+		// It actually makes sense since some pepole doesn't know we moved to forever or just think we ported the psych editor lol
+		if(FlxG.keys.justPressed.SEVEN) 
+			{
+				Main.switchState(this, new states.menus.PsychDebugTrollState());
+			} 
+			else if(FlxG.keys.justPressed.EIGHT) 
+			{
+				FlxG.switchState(new GameJoltLogin());
+			}
+			else if(FlxG.keys.justPressed.ONE)
+			{
+				GameData.unlockEverything();
+			}
+
+		if (Math.floor(curSelected) != lastCurSelected)
+			updateSelection();
+
+		super.update(elapsed);
+	}
+
+	// corny ass functions for mouse usage grah
+	function changeSelection(selection:Int)
+		{
+			if (selection != curSelected)
+			{
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+			}
+	
+			if (selection < 0)
+				selection = optionShit.length - 1;
+			if (selection >= optionShit.length)
+				selection = 0;
+	
+			for (i in 0...optionShit.length)
+			{
+				var str:String = optionShit[i];
+				var menuItem:FlxSprite = menuItems.members[i];
+				if (i == selection)
+				{
+					menuItem.alpha = 1.0;
+				}
+				else
+				{
+					menuItem.alpha = 0.5;
+				}
+			}
+	
+			curSelected = selection;
+		}
+
+	function enterSelection()
+	{
+		var daChoice:String = optionShit[Math.floor(curSelected)];
 
 			var flashValue:Float = 0.1;
 			if (Init.trueSettings.get('Disable Flashing Lights'))
@@ -863,26 +941,6 @@ class MainMenu extends MusicBeatState
 				}
 			});
 		}
-	}
-
-		// It actually makes sense since some pepole doesn't know we moved to forever or just think we ported the psych editor lol
-		if(FlxG.keys.justPressed.SEVEN) 
-			{
-				Main.switchState(this, new states.menus.PsychDebugTrollState());
-			} 
-			else if(FlxG.keys.justPressed.EIGHT) 
-			{
-				FlxG.switchState(new GameJoltLogin());
-			}
-			else if(FlxG.keys.justPressed.ONE)
-			{
-				GameData.unlockEverything();
-			}
-
-		if (Math.floor(curSelected) != lastCurSelected)
-			updateSelection();
-
-		super.update(elapsed);
 	}
 
 	var lastCurSelected:Int = 0;
