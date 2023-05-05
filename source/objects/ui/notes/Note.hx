@@ -9,6 +9,10 @@ import objects.ui.notes.Strumline.Receptor;
 
 class Note extends FNFSprite
 {
+ 	//add these 2 variables for the renderer
+ 	public var mesh:flixel.FlxStrip = null; 
+ 	public var z:Float = 0;
+
 	public var strumTime:Float = 0;
 	
 	public var noAnim:Bool = false;
