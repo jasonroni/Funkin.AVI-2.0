@@ -30,7 +30,7 @@ class FreeplayCategories extends MusicBeatState {
 	var unfinishedText:FlxText;
     	var freeplayCats:Array<String>;
 	var fpCateBanners:FlxSprite;
-	var grpCats:FlxTypedGroup<Alphabet>;
+	var grpCats:FlxTypedGroup<FlxSprite>;
 	var curSelected:Int = 0;
 	var noFreeplay:FlxText;
 	var BG:FlxSprite;
@@ -50,7 +50,7 @@ class FreeplayCategories extends MusicBeatState {
 		{
 			freeplayCats = ['Episodes', 'Extras', 'Legacy', 'Covers']; // probably won't be used till V3 most likely unless Yama decides we add this category thing
 		}else*/ 
-	    		freeplayCats = ['Episodes', 'Extras', 'Legacy'];
+	    		freeplayCats = ['episodes', 'extras', 'legacy'];
     		//}
 
         	BG = new FlxSprite().loadGraphic(Paths.image('menus/base/menuDesat'));
@@ -66,15 +66,24 @@ class FreeplayCategories extends MusicBeatState {
 
 		Application.current.window.title = "Funkin.avi - Freeplay: Category Menu";
 
-       		grpCats = new FlxTypedGroup<Alphabet>();
+       		grpCats = new FlxTypedGroup<FlxSprite>();
 		add(grpCats);
 
+		// so what if it's just a cheap copy and paste of the main menu items? if it works, it works bitch /jjjjjjjjjjj (don)
 		for (i in 0...freeplayCats.length)
 		{
-			var catsText:Alphabet = new Alphabet(0, (70 * i) + 250, freeplayCats[i], true, false);
-			catsText.isMenuItem = true;
-			catsText.targetY = i;
-			grpCats.add(catsText);
+			var offset:Float = 108 - (Math.max(freeplayCats.length, 4) - 4) * 80;
+			var catsBanners:FlxSprite = new FlxSprite(0, (i * 100)  + offset).loadGraphic(Paths.image("menus/Funkin_avi/freeplay/categoryAssets/" + freeplayCats[i]));
+			catsBanners.scale.set(0.6, 0.6);
+			catsBanners.ID = i;
+			catsBanners.screenCenter(X);
+			catsBanners.y += 158 + (0 * 25) - 200;
+			grpCats.add(catsBanners);
+
+			var scr:Float = (freeplayCats.length - 4) * 0.135;
+			catsBanners.scrollFactor.set(0, scr);
+			catsBanners.antialiasing = true;
+			catsBanners.updateHitbox();
 		}
 
 			unfinishedText = new FlxText(907, FlxG.height - 54, 0, "Currently, The category Menu is Unfinished, The Final Verion Will Be Different!", 25);
@@ -103,18 +112,54 @@ class FreeplayCategories extends MusicBeatState {
 			add(grain);
 		}
 
-        changeSelection();
+        updateSelection();
     }
+
+	var counterControl:Float = 0;
 
     override public function update(elapsed:Float){
 
+		var up = Controls.getPressEvent("ui_up", "pressed");
+		var down = Controls.getPressEvent("ui_down", "pressed");
 		var up_p = Controls.getPressEvent("ui_up");
 		var down_p = Controls.getPressEvent("ui_down");
+		var controlArray:Array<Bool> = [up, down, up_p, down_p];
 
-		if (up_p && curSelected != 0) 
-			changeSelection(-1);
-		if (down_p && curSelected != 2) 
-			changeSelection(1);
+		if ((controlArray.contains(true)))
+		{
+
+			for (i in 0...controlArray.length)
+			{
+				// here we check which keys are pressed
+				if (controlArray[i] == true)
+				{
+					/*
+						i > 1 is single pressá
+						up is 2, down is 3
+					 */
+
+					var changeValue:Int = 0;
+
+					if (i > 1)
+					{
+						if (i == 2 && curSelected != 0)
+							changeValue -= 1;
+						else if (i == 3 && curSelected != 2)
+							changeValue += 1;
+
+						FlxG.sound.play(Paths.sound('base/menus/scrollMenu'));
+					}
+
+					curSelected = FlxMath.wrap(Math.floor(curSelected) + changeValue, 0, freeplayCats.length - 1);
+				}
+				//
+			}
+		}
+		else
+		{
+			// reset variables
+			counterControl = 0;
+		}
 		
 		if ((Controls.getPressEvent("back"))) {
 			Main.switchState(this, new states.menus.MainMenu());
@@ -126,29 +171,31 @@ class FreeplayCategories extends MusicBeatState {
 		Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
         }
 
+		if (Math.floor(curSelected) != lastCurSelected)
+			updateSelection();
+
         super.update(elapsed);
     }
 
-    function changeSelection(change:Int = 0) {
-		curSelected += change;
-		if (curSelected < 0)
-			curSelected = freeplayCats.length - 1;
-		if (curSelected >= freeplayCats.length)
-			curSelected = 0;
+	var lastCurSelected:Int = 0;
 
-		var bullShit:Int = 0;
+	private function updateSelection()
+	{
+		// reset all selections
+		grpCats.forEach(function(spr:FlxSprite)
+		{
+			if (!Init.trueSettings.get('Disable Screen Shaders')) spr.shader = null;
+			spr.alpha = 0.45;
+			spr.updateHitbox();
+		});
 
-		for (item in grpCats.members) {
-			item.targetY = bullShit - curSelected;
-			bullShit++;
-
-			item.alpha = 0.6;
-			if (item.targetY == 0) {
-				item.alpha = 1;
-			}
+		if (grpCats.members[Math.floor(curSelected)].alpha == 0.45)
+		{
+			grpCats.members[Math.floor(curSelected)].alpha = 1;
 		}
-		//FlxG.sound.play(Paths.sound('funkinAVI/menu/scroll_sfx'));
-	    
-	    	//I'll come up with a replacement with the code that used to be here
+
+		grpCats.members[Math.floor(curSelected)].updateHitbox();
+
+		lastCurSelected = Math.floor(curSelected);
 	}
 }
