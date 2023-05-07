@@ -39,6 +39,7 @@
 	<define name="VIDEO_PLUGIN" if="windows" unless="32bits || HXCPP_M32 || neko" />
 	<define name="SHOW_CONSOLE" if="debug" />
 	<define name="GAMEJOLT_ALLOWED" if="desktop"/>
+	<define name="FOREVER_LEGACY" if="desktop"/>
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
