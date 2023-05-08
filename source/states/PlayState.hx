@@ -578,7 +578,7 @@ class PlayState extends MusicBeatState
 				blurShader.setFloat('bluramount', 0.6);
 				blurShaderHUD.setFloat('bluramount', 0.1);
 				andromeda.setFloat('glitchModifier', 0.2);
-				andromeda.setBool('perspectiveOn', false);
+				andromeda.setBool('perspectiveOn', true);
 				andromeda.setBool('vignetteMoving', true);
 				if (!Init.trueSettings.get('Low Quality'))
 				{
@@ -599,7 +599,28 @@ class PlayState extends MusicBeatState
 					camHUD.setFilters([new ShaderFilter(grayScale)]);
 				}
 			case 'Hunted Legacy':
-				camGame.setFilters([new ShaderFilter(monitorFilter)]);
+				blurShader.setFloat('bluramount', 0.6);
+				blurShaderHUD.setFloat('bluramount', 0.1);
+				andromeda.setFloat('glitchModifier', 0.2);
+				andromeda.setBool('perspectiveOn', true);
+				andromeda.setBool('vignetteMoving', true);
+				if (!Init.trueSettings.get('Low Quality'))
+				{
+					camGame.setFilters([
+						new ShaderFilter(grayScale),
+						new ShaderFilter(blurShader),
+					]);
+					for(_camHUD in allUIs) _camHUD.setFilters([
+						new ShaderFilter(grayScale),
+						new ShaderFilter(blurShaderHUD),
+						new ShaderFilter(andromeda)
+					]);
+				}
+				else
+				{
+					camGame.setFilters([new ShaderFilter(grayScale)]);
+					camHUD.setFilters([new ShaderFilter(grayScale)]);
+				}
 				
 			case 'Scrapped':
 				if (!Init.trueSettings.get('Low Quality'))
