@@ -4,12 +4,10 @@
  */
 
 //
-import gamejolt.*;
 #if !macro
+import gamejolt.*;
 import globals.Paths;
-#end 
 import globals.*; // using doesn't have '*' support
-
 using StringTools;
 using base.Controls;
 using base.dependency.ForeverDeps;
@@ -18,3 +16,4 @@ using flixel.addons.display.FlxRuntimeShader;
 using globals.TypedefUtilities;
 using globals.GameData;
 using globals.Main;
+#end

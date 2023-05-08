@@ -1,7 +1,16 @@
 package globals;
 
 import states.MusicBeatState;
+#if cpp
+import cpp.NativeGc;
 import cpp.vm.Gc;
+#elseif hl
+import hl.Gc;
+#elseif java
+import java.vm.Gc;
+#elseif neko
+import neko.vm.Gc;
+#end
 import openfl.system.System;
 import openfl.utils.AssetCache;
 import openfl.Assets;
@@ -175,7 +184,7 @@ class Main extends Sprite
 
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
 		
-		#if cpp 
+		#if desktop
 		Gc.enable(true);
 		#end
 
@@ -500,7 +509,14 @@ class Main extends Sprite
 	}
 	
 	public static function gc() {
+		trace("Huh");
+
 		#if cpp
+		NativeGc.compact();
+		NativeGc.run(true);
+		#elseif hl
+		Gc.major();
+		#elseif (java || neko)
 		Gc.run(true);
 		#else
 		openfl.system.System.gc();

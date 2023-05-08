@@ -106,6 +106,8 @@
 	<haxedef name="HXCPP_CHECK_POINTER" if="release" />
 	<haxedef name="HXCPP_STACK_LINE" if="release" />
 
+	<haxedef name="no-deprecation-warnings" />
+
 	<!-- _________________________________ Custom _______________________________ -->
 
 	<icon path="art/icon16.png" size='16' />

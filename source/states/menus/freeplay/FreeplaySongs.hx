@@ -550,7 +550,7 @@ class FreeplaySongs extends MusicBeatState
 	function changeSelection(change:Int = 0)
 	{
 		FlxG.sound.play(Paths.sound('base/menus/scrollMenu'), 0.4);
-		FlxG.camera.flash(FlxColor.BLACK, 0.1);
+		if(!Init.trueSettings.get('Disable Flashing Lights')) FlxG.camera.flash(FlxColor.BLACK, 0.1);
 		curSelected = FlxMath.wrap(curSelected + change, 0, songs.length - 1);
 
 		intendedScore = ScoreUtils.getScore(songs[curSelected].name, curDifficulty);
