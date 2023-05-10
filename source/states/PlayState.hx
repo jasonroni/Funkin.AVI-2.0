@@ -3576,10 +3576,6 @@ class PlayState extends MusicBeatState
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
 						flashBGEffect('normal', 0.32, 0.35, 'linear', 255, 255, 255);
 					
-					case 208:
-						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.BLACK, 1.5);
-						flashBGEffect('normal', 0.32, 0.35, 'linear', 255, 255, 255);
-					
 					case 96 | 128 | 256 | 288:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
 						flashBGEffect('normal', 0.4, 0.35, 'linear', 255, 255, 255);

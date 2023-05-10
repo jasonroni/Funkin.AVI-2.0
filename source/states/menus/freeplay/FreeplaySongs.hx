@@ -372,7 +372,7 @@ class FreeplaySongs extends MusicBeatState
 		var coolDifficultyArray = [];
 		for (i in CoolUtil.difficulties)
 			if (FileSystem.exists(Paths.songJson(songName, songName + '-' + i))
-				|| (FileSystem.exists(Paths.songJson(songName, songName)) && i == "NORMAL"))
+				|| (FileSystem.exists(Paths.songJson(songName, songName)) && i == "HARD"))
 				coolDifficultyArray.push(i);
 
 		if (coolDifficultyArray.length > 0)
