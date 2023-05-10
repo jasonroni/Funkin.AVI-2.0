@@ -16,4 +16,5 @@ using flixel.addons.display.FlxRuntimeShader;
 using globals.TypedefUtilities;
 using globals.GameData;
 using globals.Main;
+using base.dependency.Shaders;
 #end

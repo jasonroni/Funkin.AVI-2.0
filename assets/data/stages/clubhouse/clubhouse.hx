@@ -12,7 +12,7 @@ function onCreate()
 
 	bloomEffect = new FlxRuntimeShader(File.getContent('./assets/shaders/bloomGame.frag'), null, 120);
 	monitorFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
-	aberrationBoom = new FlxRuntimeShader(File.getContent('./assets/shaders/aberration.frag'), null, 150);
+	aberrationBoom = new FlxRuntimeShader(Shaders.aberration, null, 150);
 
 	aberrationBoom.setFloat('aberration', 0.001);
 	aberrationBoom.setFloat('effectTime', 0.001);

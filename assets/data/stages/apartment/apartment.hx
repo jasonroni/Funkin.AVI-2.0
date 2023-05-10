@@ -20,11 +20,11 @@ function onCreate()
     monitorFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
 
     //Phase 2 shaders
-    chrom = new FlxRuntimeShader(File.getContent('./assets/shaders/aberration.frag'), null, 150);
+    chrom = new FlxRuntimeShader(Shaders.aberration, null, 150);
     chrom.setFloat('aberration', 0.12);
     chrom.setFloat('effectTime', 0.24);
     phase2Static = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
-    glitchBG = new FlxRuntimeShader(File.getContent('./assets/shaders/vignetteGlitch.frag'), null, 130);
+    glitchBG = new FlxRuntimeShader(Shaders.vignetteGlitch, null, 130);
     vignette = new FlxRuntimeShader(File.getContent('./assets/shaders/vignetteApparition.frag'), null, 120);
 
     PlayState.camGame.setFilters(

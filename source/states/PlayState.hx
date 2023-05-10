@@ -263,9 +263,9 @@ class PlayState extends MusicBeatState
 	var fade:FlxSprite;
 	
 	// for Tweening shaders and shit later
-	var grayScale:FlxRuntimeShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 120);
+	var grayScale:FlxRuntimeShader = new FlxRuntimeShader(Shaders.grayScale, null, 120);
 	var andromeda:FlxRuntimeShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/andromedaShader.frag'), null, 140);
-	var chromZoomShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/aberration.frag'), null, 150);
+	var chromZoomShader:FlxRuntimeShader = new FlxRuntimeShader(Shaders.aberration, null, 150);
 	var chromNormalShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/aberrationLegacy.frag'), null, 150);
 	var blurShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tiltShift.frag'), null, 120);
 	var blurShaderHUD:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tiltShift.frag'), null, 120);
