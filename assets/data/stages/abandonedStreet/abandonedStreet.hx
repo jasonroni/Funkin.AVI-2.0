@@ -3,6 +3,7 @@ var colorsOrSmthElse:FNFSprite;
 var floor:FNFSprite;
 var stageCurtains:FNFSprite;
 var stageFront:FNFSprite;
+var rain:FlxSprite;
 
 // For events
 var objects:Array<FlxSprite>;
@@ -43,10 +44,7 @@ function onCreate()
 			stageCurtains.scrollFactor.set(1.3, 1.3);
 			stageCurtains.active = false;
 			add(stageCurtains);	
-		}
-	
-	if(!lowQuality)
-		{
+
 			stageFront = new FNFSprite(-3000, 130).loadGraphic(Paths.image('cables', 'data/stages/abandonedStreet/images'));
 			stageFront.scale.set(9, 2.1);
 			stageFront.updateHitbox();
@@ -54,47 +52,63 @@ function onCreate()
 			stageFront.scrollFactor.set(5, 2.6);
 			stageFront.active = false;
 			foreground.add(stageFront);
-		}
-
-	if(!lowQuality)
-		{
-			objects = [
-				colorsOrSmthElse,
-				stageFront,
-				stageCurtains,
-				floor
-			];
-		} else {
-			objects = [
-				colorsOrSmthElse,
-				floor
-			];
+			
+			rain = new FlxSprite(-400, -300);
+			rain.frames = Paths.getSparrowAtlas('rain', 'data/stages/abandonedStreet/images');
+			rain.animation.addByPrefix('Symbol 8 instance 1', 'Symbol 8 instance 1', 30, true);
+			rain.scale.set(1.6, 1.6);
+			rain.alpha = 0.0001;
+			foreground.add(rain);
+			rain.animation.play('Symbol 8 instance 1');
 		}
 }
-	
+
 function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 {
-	// Stage asset modcharts cause I can't do this in PlayState.hx nor Stage.hx unless I shove FE-Legacy stuff into the code :(
-	switch (PlayState.SONG.song)
+	if (PlayState.SONG.song == 'Delusional')
 	{
-		case 'Lunacy':
-			// Brightens BG
-			if (curBeat == 160 || curBeat == 230 || curBeat == 240 || curBeat == 248 || curBeat == 256 || curBeat == 262 || curBeat == 272
-				|| curBeat == 280 || curBeat == 280 || curBeat == 288 || curBeat == 296 || curBeat == 304 || curBeat == 312 || curBeat == 320
-				|| curBeat == 328 || curBeat == 336 || curBeat == 344 || curBeat == 352)
-			{
-				for(_stuff in objects)
-					FlxTween.tween(_stuff, {alpha: 1}, 0.5, {ease: FlxEase.quartOut});
-			}
-
-			// Darkens BG
-			if (curBeat == 156 || curBeat == 228 || curBeat == 238 || curBeat == 244 || curBeat == 252 || curBeat == 260 || curBeat == 270
-				|| curBeat == 276 || curBeat == 284 || curBeat == 292 || curBeat == 300 || curBeat == 308 || curBeat == 316 || curBeat == 324
-				|| curBeat == 332 || curBeat == 340 || curBeat == 348)
-			{
-				for(_stuff in objects)
-					FlxTween.tween(_stuff, {alpha: 0.23}, 0.5, {ease: FlxEase.quartOut});
-			}
+		if (curBeat == 176)
+			rain.alpha = 1;
+		//if (curBeat == 280)
+			//FlxTween.tween(smoke, {alpha: 0.85}, 1.5);
+		//if (curBeat == 312)
+		//{
+			//FlxTween.tween(firePhase1, {alpha: 1}, 1);
+			//smokeParticles.emitting = true;
+		//}
+		//if (curBeat == 336)
+		//{
+			//FlxTween.tween(smoke, {alpha: 0.3}, 1.5);
+			//decayedBuildings.alpha = 1;
+			//floor.alpha = 0;
+		//}
+		//if (curBeat == 474) // load mickey's bedroom
+		//{
+			//colorsOrSmthElse.alpha = 0;
+			//decayedBuildings.alpha = 0;
+			//smokeParticles.emitting = false;
+			//firePhase1.alpha = 0;
+			//smoke.alpha = 0;
+			//stageCurtains.alpha = 0;
+			//stageFront.alpha = 0;
+			//rain.alpha = 0;
+			//bedroom.alpha = 1;
+			//windowViewStreet.alpha = 1;
+		//}
+		//if (curBeat == 740) // go back to the street in a even more decayed state
+		//{
+			//colorsOrSmthElse.alpha = 1;
+			//decayedBuildings2.alpha = 1;
+			//firePhase2.alpha = 1;
+			//smokeParticles.emitting = true;
+			//fireParticles.emitting = true;
+			//smoke.alpha = 0.56;
+			//stageCurtains.alpha = 1;
+			//cablesRuined.alpha = 1;
+			//rain.alpha = 1;
+			//bedroom.alpha = 0;
+			//windowViewStreet.alpha = 0;
+		//}
 	}
 }
 	
