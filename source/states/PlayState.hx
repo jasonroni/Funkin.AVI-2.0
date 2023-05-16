@@ -2916,14 +2916,14 @@ class PlayState extends MusicBeatState
 	* @param alpha - the visiblity of your BG you want it to flash at
 	* @param time - How long you want the tween to take
 	* @param ease - Uses ForeverTools to handle the ease function, so I suggest looking at ForeverDeps.hx to see your options
-	* @param r - a value used for FlxColor.fromRGBFloat() as an individual number to make a color
+	* @param r - a value used for FlxColor.fromRGB() as an individual number to make a color
 	* @param g - same as the "r" value
 	* @param b - you get the idea
 	* @param a - color's alpha, you get the point
 	*
 	* @author DEMOLITIONDON96
 	*/
-	function flashBGEffect(flashType:String = 'normal', alpha:Float = 0.5, time:Float = 1, ease:String = 'linear', ?r:Float = 255, ?g:Float = 255, ?b:Float = 255, ?a:Float = 255) // TODO: Make this function shorter
+	function flashBGEffect(flashType:String = 'normal', alpha:Float = 0.5, time:Float = 1, ease:String = 'linear', ?r:Int = 255, ?g:Int = 255, ?b:Int = 255, ?a:Int = 255) // TODO: Make this function shorter
 	{
 		if (!Init.trueSettings.get('Disable Flashing Lights') && stageBGFlash != null)
 		{
@@ -2943,7 +2943,7 @@ class PlayState extends MusicBeatState
 						else
 							stageBGFlash.blend = ADD;
 
-						stageBGFlash.color = FlxColor.fromRGBFloat(r, g, b, a);
+						stageBGFlash.color = FlxColor.fromRGB(r, g, b, a);
 
 						if (BGFlashTween != null) // makes it so it won't look wonky, visually
 							BGFlashTween.cancel();

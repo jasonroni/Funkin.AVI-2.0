@@ -113,7 +113,8 @@ class Init extends FlxState
 			false,
 			Checkmark,
 			'If checked, tons of content gets removed for more optimization (objects, some shaders, etc).',
-			NOT_FORCED
+			NOT_FORCED//,
+			//['Off', 'Default', 'Ultra']
 		],
 		'Disable Flashing Lights' => [
 			false,
