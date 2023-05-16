@@ -4243,6 +4243,8 @@ class PlayState extends MusicBeatState
 						camGame.shake(0.01, 1.2);
 					// The Drop Starts
 					case 216:
+						FlxTween.tween(camHUD, {alpha: 1}, 1, {ease: FlxEase.quadOut});
+						for (i in strumHUD) FlxTween.tween(i, {alpha: 1}, 1, {ease: FlxEase.quadOut});
 						chromTween.cancel();
 						chromTween = FlxTween.tween(this, {chromEffect: 0.18}, 0.6, {ease: FlxEase.sineOut});
 						camGame.flash(FlxColor.WHITE, 0.5);
