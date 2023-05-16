@@ -273,6 +273,7 @@ class PlayState extends MusicBeatState
 	var dramaticCamMovement:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
 	var monitorFilter:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
 	var staticEffect:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
+	var delusionalShift:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/vhsShift.frag'), null, 120);
 
 	var chromEffect:Float = 0.0001;
 	var blurEffect:Float = 0.0;
@@ -1438,6 +1439,8 @@ class PlayState extends MusicBeatState
 					chromNormalShader.setFloat('rOffset', chromEffect / 45);
 					chromNormalShader.setFloat('bOffset', -chromEffect / 45);
 					dramaticCamMovement.setFloat('time', shaderAnim);
+					delusionalShift.setFloat('uTime', shaderAnim);
+					delusionalShift.setFloat('iTime', shaderAnim);
 
 				case 'Malfunction':
 					chromZoomShader.setFloat('aberration', chromEffect);
@@ -4187,6 +4190,159 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(camGame, {alpha: 0}, 5, {ease: FlxEase.quartInOut});
 				}
 				
+			case 'Delusional':
+				switch (curBeat)
+				{
+					case 132: defaultCamZoom = 1.3;
+					case 136:
+						camGame.alpha = 0;
+						camHUD.alpha = 0;
+						for (i in strumHUD) i.alpha = 0;
+					// BF Starts Singing Some Lyrics
+					case 144:
+						defaultCamZoom = 0.8;
+						FlxTween.tween(camGame, {alpha: 1}, 5);
+					case 152 | 170:
+						flashBGEffect('darken', 0.2, 0.3, 'quartInOut');
+						defaultCamZoom = 0.9;
+					case 154 | 172:
+						flashBGEffect('darken', 0.4, 0.3, 'quartInOut');
+						defaultCamZoom = 1;
+					case 156:
+						flashBGEffect('darken', 0.6, 0.3, 'quartInOut');
+						defaultCamZoom = 1.1;
+					case 158 | 174:
+						flashBGEffect('darken', 0.8, 0.3, 'quartInOut');
+						defaultCamZoom = 1.2;
+					case 160:
+						flashBGEffect('darken', 0, 0.3, 'quartInOut');
+						defaultCamZoom = 0.8;
+					case 168:
+						flashBGEffect('darken', 0.1, 0.3, 'quartInOut');
+						defaultCamZoom = 0.85;
+					case 176:
+						flashBGEffect('darken', 0, 0.3, 'quartInOut');
+						defaultCamZoom = 0.75;
+						camGame.flash(FlxColor.WHITE, 1);
+					case 180 | 188 | 196:
+						camGame.zoom += 0.3;
+						flashBGEffect('normal', 0.5, 0.35, 'linear', 255, 255, 255);
+					case 184 | 192 | 200:
+						camGame.zoom += 0.15;
+						flashBGEffect('normal', 0.25, 0.35, 'linear', 255, 255, 255);
+					case 204: defaultCamZoom = 1;
+					case 208:
+						camGame.visible = false;
+						defaultCamZoom = 1.3;
+					// Mickey Screams Like A Bitch
+					case 212:
+						chromEffect = 0.3;
+						chromTween = FlxTween.tween(this, {chromEffect: 1}, 1.2);
+						camGame.visible = true;
+						defaultCamZoom = 0.75;
+						camGame.shake(0.01, 1.2);
+					// The Drop Starts
+					case 216:
+						FlxTween.tween(camHUD, {alpha: 1}, 1, {ease: FlxEase.quadOut});
+						for (i in strumHUD) FlxTween.tween(i, {alpha: 1}, 1, {ease: FlxEase.quadOut});
+						chromTween.cancel();
+						chromTween = FlxTween.tween(this, {chromEffect: 0.18}, 0.6, {ease: FlxEase.sineOut});
+						camGame.flash(FlxColor.WHITE, 0.5);
+						camGame.setFilters([
+							new ShaderFilter(dramaticCamMovement),
+							new ShaderFilter(bloomEffect),
+							new ShaderFilter(monitorFilter),
+							new ShaderFilter(chromZoomShader),
+							new ShaderFilter(chromNormalShader),
+							new ShaderFilter(delusionalShift)
+						]);
+						camHUD.setFilters([
+							new ShaderFilter(chromNormalShader),
+							new ShaderFilter(delusionalShift)
+						]);
+						for (i in strumHUD) i.setFilters([
+							new ShaderFilter(grayScale), 
+							new ShaderFilter(chromNormalShader),
+							new ShaderFilter(delusionalShift)
+						]);
+					case 228:
+						chromTween = null;
+						defaultCamZoom = 0.85;
+					case 230: defaultCamZoom = 1;
+					case 232: defaultCamZoom = 0.75;
+					case 278: defaultCamZoom = 1;
+					case 280 | 312 | 344: defaultCamZoom = 0.7;
+					case 288 | 296 | 304 | 320 | 328 | 336: defaultCamZoom += 0.1;
+					case 308: defaultCamZoom += 0.2;
+					case 340: defaultCamZoom += 0.3;
+					case 356 | 388: defaultCamZoom = 1.2;
+					case 358 | 390: defaultCamZoom = 1.3;
+					case 360 | 192: defaultCamZoom = 0.75;
+					case 375:
+						chromTween = FlxTween.tween(this, {chromEffect: 1}, 0.1, {ease: FlxEase.sineInOut});
+						tweenCamera(1.5, 0.1, 'sineInOut');
+					case 376:
+						chromTween.cancel();
+						chromTween = null;
+						camGame.visible = false;
+						camHUD.visible = false;
+					case 377:
+						camGame.visible = true;
+						camHUD.visible = true;
+						camGame.flash(FlxColor.WHITE, 1);
+						defaultCamZoom = 0.8;
+						chromTween = FlxTween.tween(this, {chromEffect: 0.1}, 0.6, {ease: FlxEase.quadOut});
+					case 472:
+						camGame.visible = false;
+						camHUD.visible = false;
+						for (i in strumHUD) i.visible = false;
+					case 473:
+						camGame.setFilters([
+							new ShaderFilter(dramaticCamMovement),
+							new ShaderFilter(bloomEffect),
+							new ShaderFilter(monitorFilter),
+							new ShaderFilter(chromZoomShader),
+							new ShaderFilter(chromNormalShader)
+						]);
+						camHUD.setFilters([
+							new ShaderFilter(chromNormalShader)
+						]);
+						for (i in strumHUD) i.setFilters([
+							new ShaderFilter(grayScale), 
+							new ShaderFilter(chromNormalShader)
+						]);
+						chromEffect = 0.00001;
+					case 480:
+						// no healthbar to add more onto the atmosphere of this section
+						camGame.visible = true;
+						for (i in strumHUD) i.visible = true;
+					case 720:
+						FlxTween.tween(camGame, {alpha: 0.0001}, 5, {ease: FlxEase.quartInOut});
+						for (i in strumHUD) FlxTween.tween(i, {alpha: 0.0001}, 5, {ease: FlxEase.quartInOut});
+					case 744:
+						camGame.alpha = 1;
+						camHUD.visible = true;
+						for (i in strumHUD) i.alpha = 1;
+						chromEffect = 0.1;
+						camGame.flash(FlxColor.WHITE, 0.5);
+						camGame.setFilters([
+							new ShaderFilter(dramaticCamMovement),
+							new ShaderFilter(bloomEffect),
+							new ShaderFilter(monitorFilter),
+							new ShaderFilter(chromZoomShader),
+							new ShaderFilter(chromNormalShader),
+							new ShaderFilter(delusionalShift)
+						]);
+						camHUD.setFilters([
+							new ShaderFilter(chromNormalShader),
+							new ShaderFilter(delusionalShift)
+						]);
+						for (i in strumHUD) i.setFilters([
+							new ShaderFilter(grayScale), 
+							new ShaderFilter(chromNormalShader),
+							new ShaderFilter(delusionalShift)
+						]);
+				}
 			case 'Scrapped':
 				switch (curBeat)
 				{
