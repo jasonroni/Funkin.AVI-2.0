@@ -92,9 +92,6 @@ class PauseSubstate extends MusicBeatSubstate
 			mutex.release();
 		});
 
-		Conductor.changeBPM(70);
-		trace('Current BPM: ${Conductor.bpm}');
-
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		bg.alpha = 0;
 		bg.scrollFactor.set();
@@ -175,7 +172,7 @@ class PauseSubstate extends MusicBeatSubstate
 		FlxTween.tween(funnyButton, {alpha: 1}, 0.8, {ease: FlxEase.quartInOut});
 
 		changeSelection();
-		loadPauseTitleData();
+		CoolUtil.loadWindowTitleData();
 
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 	}
@@ -245,12 +242,9 @@ class PauseSubstate extends MusicBeatSubstate
 			switch (daSelected)
 			{
 				case "continue" | 'wd-continue' | 'mal-continue':
-					Conductor.changeBPM(PlayState.SONG.bpm);
-					trace('Current BPM: ${Conductor.bpm}');
 					close();
 					remove(disc);
-					@:privateAccess
-					PlayState.main.loadWindowTitleData(); // resets the title bar to the PlayState info
+					CoolUtil.loadWindowTitleData(); // resets the title bar to the PlayState info
 				case "restart" | 'wd-restart' | 'mal-restart':
 					Main.switchState(this, new PlayState());
 				case "Back to Charter":
@@ -313,39 +307,6 @@ class PauseSubstate extends MusicBeatSubstate
 		{
 			if (pauseMusic.volume < 0.5)
 				pauseMusic.volume += 0.01 * elapsed;
-		}
-	}
-	
-	// copy of the function from PlayState so I'm not having to do all this shit again
-	
-	function loadPauseTitleData()
-	{
-		switch (PlayState.gameplayMode)
-		{
-			case STORY:
-				switch (PlayState.SONG.song)
-				{
-					case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional':
-						Application.current.window.title = 'Funkin.avi - Episode 1: ' + PlayState.SONG.song + " - Composed by: " + PlayState.SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "] - {PAUSED}";
-						
-					case 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus':
-						Application.current.window.title = 'Funkin.avi - Episode S: ' + PlayState.SONG.song + " - Composed by: " + PlayState.SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "] - {PAUSED}";
-				
-					case 'Mercy' | 'Affliction':
-						Application.current.window.title = 'Funkin.avi - Episode W: ' + PlayState.SONG.song + " - Composed by: " + PlayState.SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "] - {PAUSED}";
-				
-					default:
-						Application.current.window.title = 'Funkin.avi - Episode ???: ' + PlayState.SONG.song + " - Composed by: " + PlayState.SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "] - {PAUSED}";
-				}
-					
-			case FREEPLAY:
-				Application.current.window.title = 'Funkin.avi - Freeplay: ' + PlayState.SONG.song + " - Composed by: " + PlayState.SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "] - {PAUSED}";
-				
-			case CHARTING:
-				if (PlayState.SONG.song == 'Malfunction')
-					Application.current.window.title = 'glitchedMickey.xml - CHEATER MODE ACTIVATED: ' + PlayState.SONG.song + " - Composed by: I CAN SEE YOU CHEATING! - [!CHEATER DETECTED!] - {PAUSED}";
-				else
-					Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + PlayState.SONG.song + " - Composed by: " + PlayState.SONG.composer + " - [" + states.menus.freeplay.FreeplaySongs.difficultyRank + "] - {PAUSED}";
 		}
 	}
 

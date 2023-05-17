@@ -2,6 +2,7 @@ package globals;
 
 import flixel.FlxG;
 import flixel.util.FlxSave;
+import states.PlayState;
 
 /**
  * **lmao you ain't gonna play malfunction so easly**.
@@ -235,4 +236,127 @@ class GameData
 
         saveShit();
     }
+
+    public function setFreeplayData()
+    {
+                switch (PlayState.SONG.song.toLowerCase())
+                {
+                        case 'hunted':
+                                if (FlxG.save.data.huntedLock != 'beaten')
+                                        huntedLock = 'unlocked';
+                        case 'isolated old':
+                                if (FlxG.save.data.oldisolateLock != 'beaten')
+                                        oldisolateLock = 'unlocked';
+                        case 'isolated beta':
+                                if (FlxG.save.data.betaisolateLock != 'beaten')
+                                        betaisolateLock = 'unlocked';
+                        case 'neglection':
+                                if (FlxG.save.data.pnmLock != 'beaten')
+                                        pnmLock = 'unlocked';
+                        case "don't cross!":
+                                if (FlxG.save.data.crossinLock != 'beaten')
+                                        crossinLock = 'unlocked';
+                        case 'war dilemma':
+                                if (FlxG.save.data.warLock != 'beaten')
+                                        warLock = 'unlocked';
+                        case 'cycled sins':
+                                if (FlxG.save.data.sinsLock != 'beaten')
+                                        sinsLock = 'unlocked';
+                        case 'malfunction':
+                                if (FlxG.save.data.malfunctionLock != 'beaten')
+                                        malfunctionLock = 'unlocked';
+                        case 'scrapped':
+                                if (FlxG.save.data.scrappedLock != 'beaten')
+                                        scrappedLock = 'unlocked';
+                        case 'bless':
+                                if (FlxG.save.data.blessLock != 'beaten')
+                                        blessLock = 'unlocked';
+                        case 'laugh track':
+                                if (FlxG.save.data.rickyLock != 'beaten')
+                                        rickyLock = 'unlocked';
+                        case 'birthday':
+                                if (FlxG.save.data.muckneyLock != 'beaten')
+                                        muckneyLock = "voidIsOpen";
+                        case 'mercy legacy':
+                                if (FlxG.save.data.legacyWLock != 'beaten')
+                                        legacyWLock = 'unlocked';
+                        case 'isolated legacy':
+                                if (FlxG.save.data.legacyILock != 'beaten')
+                                        legacyILock = 'unlocked';
+                        case 'lunacy legacy':
+                                if (FlxG.save.data.legacyLLock != 'beaten')
+                                        legacyLLock = 'unlocked';
+                        case 'delusional legacy':
+                                if (FlxG.save.data.legacyDLock != 'beaten')
+                                        legacyDLock = 'unlocked';
+                        case 'hunted legacy':
+                                if (FlxG.save.data.legacyHLock != 'beaten')
+                                        legacyHLock = 'unlocked';
+                        case 'malfunction legacy':
+                                if (FlxG.save.data.legacyMLock != 'beaten')
+                                        legacyMLock = 'unlocked';
+                        case 'cycled sins legacy':
+                                if (FlxG.save.data.legacySLock != 'beaten')
+                                        legacySLock = 'unlocked';
+                        case 'bless legacy':
+                                if (FlxG.save.data.legacyBLock != 'beaten')
+                                        legacyBLock = 'unlocked';
+                        case 'twisted grins legacy':
+                                if (FlxG.save.data.legacyTLock != 'beaten')
+                                        legacyTLock = 'unlocked';
+                        case 'neglection legacy':
+                                if (FlxG.save.data.legacyNLock != 'beaten')
+                                        legacyNLock = 'unlocked';
+                        case 'resentment legacy':
+                                if (FlxG.save.data.legacyRLock != 'beaten')
+                                        legacyRLock = 'unlocked';
+                        case 'delutrance':
+                                if (FlxG.save.data.highOnCrackLock != 'completed')
+                                        highOnCrackLock = 'forceBackToSong';
+                }
+                saveShit();
+        }
+        
+        public function completeFPSong()
+        {
+                switch (PlayState.SONG.song.toLowerCase())
+                {
+                        case 'hunted': huntedLock = 'beaten';
+                        case 'isolated old': oldisolateLock = 'beaten';
+                        case 'isolated beta': betaisolateLock = 'beaten';
+                        case 'neglection': pnmLock = 'beaten';
+                        case "don't cross!": crossinLock = 'beaten';
+                        case 'war dilemma': warLock = 'beaten';
+                        case 'cycled sins': sinsLock = 'beaten';
+                        case 'malfunction': malfunctionLock = 'beaten';
+                        case 'scrapped': scrappedLock = 'beaten';
+                        case 'bless': blessLock = 'beaten';
+                        case 'laugh track': rickyLock = 'beaten';
+                        case 'birthday': muckneyLock = 'beaten';
+                        case 'mercy legacy': legacyWLock = 'beaten';
+                        case 'isolated legacy': legacyILock = 'beaten';
+                        case 'lunacy legacy': legacyLLock = 'beaten';
+                        case 'delusional legacy': legacyDLock = 'beaten';
+                        case 'hunted legacy': legacyHLock = 'beaten';
+                        case 'malfunction legacy': legacyMLock = 'beaten';
+                        case 'cycled sins legacy': legacySLock = 'beaten';
+                        case 'bless legacy': legacyBLock = 'beaten';
+                        case 'neglection legacy': legacyNLock = 'beaten';
+                        case 'twisted grins legacy': legacyTLock = 'beaten';
+                        case 'resentment legacy': legacyRLock = 'beaten';
+                        case 'delutrance': highOnCrackLock = 'completed';
+                }
+                saveShit();
+        }
+        
+        public function completeEpisode()
+        {
+                switch (PlayState.SONG.song.toLowerCase())
+                {
+                        case 'delusional': episode1FPLock = 'unlocked';
+                        case 'mortiferum risus': episodeSFPLock = 'unlocked';
+                        case 'affliction': episodeWFPLock = 'unlocked';
+                }
+                saveShit();
+        }
 }
