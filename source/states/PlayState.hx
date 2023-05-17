@@ -263,17 +263,17 @@ class PlayState extends MusicBeatState
 	var fade:FlxSprite;
 	
 	// for Tweening shaders and shit later
-	public var grayScale:FlxRuntimeShader = new FlxRuntimeShader(Shaders.grayScale, null, 120);
-	public var andromeda:FlxRuntimeShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/andromedaShader.frag'), null, 140);
-	public var chromZoomShader:FlxRuntimeShader = new FlxRuntimeShader(Shaders.aberration, null, 150);
-	public var chromNormalShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/aberrationLegacy.frag'), null, 150);
-	public var blurShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tiltShift.frag'), null, 120);
-	public var blurShaderHUD:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tiltShift.frag'), null, 120);
-	public var bloomEffect:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/bloomGame.frag'), null, 120);
-	public var dramaticCamMovement:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
-	public var monitorFilter:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
-	public var staticEffect:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
-	public var delusionalShift:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/vhsShift.frag'), null, 120);
+	var grayScale:FlxRuntimeShader = new FlxRuntimeShader(Shaders.grayScale, null, 120);
+	var andromeda:FlxRuntimeShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/andromedaShader.frag'), null, 140);
+	var chromZoomShader:FlxRuntimeShader = new FlxRuntimeShader(Shaders.aberration, null, 150);
+	var chromNormalShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/aberrationLegacy.frag'), null, 150);
+	var blurShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tiltShift.frag'), null, 120);
+	var blurShaderHUD:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tiltShift.frag'), null, 120);
+	var bloomEffect:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/bloomGame.frag'), null, 120);
+	var dramaticCamMovement:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
+	var monitorFilter:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
+	var staticEffect:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
+	var delusionalShift:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/vhsShift.frag'), null, 120);
 
 	var chromEffect:Float = 0.0001;
 	var blurEffect:Float = 0.0;
@@ -1120,8 +1120,6 @@ class PlayState extends MusicBeatState
 					chromNormalShader.setFloat('rOffset', chromEffect / 45);
 					chromNormalShader.setFloat('bOffset', -chromEffect / 45);
 					dramaticCamMovement.setFloat('time', shaderAnim);
-					delusionalShift.setFloat('uTime', shaderAnim);
-					delusionalShift.setFloat('iTime', shaderAnim);
 
 				case 'Malfunction':
 					chromZoomShader.setFloat('aberration', chromEffect);
@@ -3876,12 +3874,13 @@ class PlayState extends MusicBeatState
 				{
 					case 132: defaultCamZoom = 1.3;
 					case 136:
-						FlxG.camera.fade();
-						for(daUIs in allUIs) FlxTween.tween(daUIs, {alpha: 0}, 3);
+						camGame.alpha = 0;
+						camHUD.alpha = 0;
+						for (i in strumHUD) i.alpha = 0;
 					// BF Starts Singing Some Lyrics
 					case 144:
 						defaultCamZoom = 0.8;
-						FlxG.camera.fade(0x000000, 5, true);
+						FlxTween.tween(camGame, {alpha: 1}, 5);
 					case 152 | 170:
 						flashBGEffect('darken', 0.2, 0.3, 'quartInOut');
 						defaultCamZoom = 0.9;
