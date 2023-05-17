@@ -56,7 +56,7 @@ class StoryMenu extends MusicBeatState
 	{
 		super.create();
 
-		defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
+		defaultShader = new FlxRuntimeShader(Shaders.grayScale, null, 140);
 		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
 		blur = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/gaussian.frag'), null, 140);
 		FlxG.camera.setFilters(

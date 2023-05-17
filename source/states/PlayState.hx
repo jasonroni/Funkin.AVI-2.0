@@ -263,16 +263,17 @@ class PlayState extends MusicBeatState
 	var fade:FlxSprite;
 	
 	// for Tweening shaders and shit later
-	var grayScale:FlxRuntimeShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 120);
-	var andromeda:FlxRuntimeShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/andromedaShader.frag'), null, 140);
-	var chromZoomShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/aberration.frag'), null, 150);
-	var chromNormalShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/aberrationLegacy.frag'), null, 150);
-	var blurShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tiltShift.frag'), null, 120);
-	var blurShaderHUD:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tiltShift.frag'), null, 120);
-	var bloomEffect:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/bloomGame.frag'), null, 120);
-	var dramaticCamMovement:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
-	var monitorFilter:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
-	var staticEffect:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
+	public var grayScale:FlxRuntimeShader = new FlxRuntimeShader(Shaders.grayScale, null, 120);
+	public var andromeda:FlxRuntimeShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/andromedaShader.frag'), null, 140);
+	public var chromZoomShader:FlxRuntimeShader = new FlxRuntimeShader(Shaders.aberration, null, 150);
+	public var chromNormalShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/aberrationLegacy.frag'), null, 150);
+	public var blurShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tiltShift.frag'), null, 120);
+	public var blurShaderHUD:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tiltShift.frag'), null, 120);
+	public var bloomEffect:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/bloomGame.frag'), null, 120);
+	public var dramaticCamMovement:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
+	public var monitorFilter:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
+	public var staticEffect:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
+	public var delusionalShift:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/vhsShift.frag'), null, 120);
 
 	var chromEffect:Float = 0.0001;
 	var blurEffect:Float = 0.0;
@@ -286,38 +287,6 @@ class PlayState extends MusicBeatState
 	var blurHUDTween:FlxTween;
 	var staticTween:FlxTween;
 
-	function loadWindowTitleData()
-	{
-		states.menus.freeplay.FreeplaySongs.getDiffRank();
-		switch (gameplayMode)
-		{
-				case STORY:
-					switch (SONG.song)
-					{
-						case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional':
-							Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + " - Composed by: " + SONG.composer;
-						
-						case 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus':
-							Application.current.window.title = 'Funkin.avi - Episode S: ' + SONG.song + " - Composed by: " + SONG.composer;
-				
-						case 'Mercy' | 'Affliction':
-							Application.current.window.title = 'Funkin.avi - Episode W: ' + SONG.song + " - Composed by: " + SONG.composer;
-				
-						default:
-							Application.current.window.title = 'Funkin.avi - Episode ???: ' + SONG.song + " - Composed by: " + SONG.composer;
-					}
-					
-				case FREEPLAY:
-					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer;
-				
-				case CHARTING:
-					if (SONG.song == 'Malfunction')
-						Application.current.window.title = 'glitchedMickey.xml - CHEATER MODE ACTIVATED: ' + SONG.song + " - Composed by: I CAN SEE YOU CHEATING! - [!CHEATER DETECTED!]";
-					else
-						Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer;
-		}
-	}
-
 	/**
 	 * Loads all RPC's icons
 	 */
@@ -328,138 +297,6 @@ class PlayState extends MusicBeatState
 		#else
 			iconRPC = CoolUtil.spaceToDash(SONG.song.toLowerCase()); // basically, it'll now look for the icon in the RPC via song name, if it doesn't it'll just return with no icon
 		#end
-	}
-
-	/**
-	 * Sets the Freeplay songs data
-	 */
-	function setFreeplayData()
-	{
-		switch (SONG.song.toLowerCase())
-		{
-			case 'hunted':
-				if (FlxG.save.data.huntedLock != 'beaten')
-					GameData.huntedLock = 'unlocked';
-			case 'isolated old':
-				if (FlxG.save.data.oldisolateLock != 'beaten')
-					GameData.oldisolateLock = 'unlocked';
-			case 'isolated beta':
-				if (FlxG.save.data.betaisolateLock != 'beaten')
-					GameData.betaisolateLock = 'unlocked';
-			case 'neglection':
-				if (FlxG.save.data.pnmLock != 'beaten')
-					GameData.pnmLock = 'unlocked';
-			case "don't cross!":
-				if (FlxG.save.data.crossinLock != 'beaten')
-					GameData.crossinLock = 'unlocked';
-			case 'war dilemma':
-				if (FlxG.save.data.warLock != 'beaten')
-					GameData.warLock = 'unlocked';
-			case 'cycled sins':
-				if (FlxG.save.data.sinsLock != 'beaten')
-					GameData.sinsLock = 'unlocked';
-			case 'malfunction':
-				if (FlxG.save.data.malfunctionLock != 'beaten')
-					GameData.malfunctionLock = 'unlocked';
-			case 'scrapped':
-				if (FlxG.save.data.scrappedLock != 'beaten')
-					GameData.scrappedLock = 'unlocked';
-			case 'bless':
-				if (FlxG.save.data.blessLock != 'beaten')
-					GameData.blessLock = 'unlocked';
-			case 'laugh track':
-				if (FlxG.save.data.rickyLock != 'beaten')
-					GameData.rickyLock = 'unlocked';
-			case 'birthday':
-				if (FlxG.save.data.muckneyLock != 'beaten')
-					GameData.muckneyLock = "voidIsOpen";
-			case 'mercy legacy':
-				if (FlxG.save.data.legacyWLock != 'beaten')
-					GameData.legacyWLock = 'unlocked';
-			case 'isolated legacy':
-				if (FlxG.save.data.legacyILock != 'beaten')
-					GameData.legacyILock = 'unlocked';
-			case 'lunacy legacy':
-				if (FlxG.save.data.legacyLLock != 'beaten')
-					GameData.legacyLLock = 'unlocked';
-			case 'delusional legacy':
-				if (FlxG.save.data.legacyDLock != 'beaten')
-					GameData.legacyDLock = 'unlocked';
-			case 'hunted legacy':
-				if (FlxG.save.data.legacyHLock != 'beaten')
-					GameData.legacyHLock = 'unlocked';
-			case 'malfunction legacy':
-				if (FlxG.save.data.legacyMLock != 'beaten')
-					GameData.legacyMLock = 'unlocked';
-			case 'cycled sins legacy':
-				if (FlxG.save.data.legacySLock != 'beaten')
-					GameData.legacySLock = 'unlocked';
-			case 'bless legacy':
-				if (FlxG.save.data.legacyBLock != 'beaten')
-					GameData.legacyBLock = 'unlocked';
-			case 'twisted grins legacy':
-				if (FlxG.save.data.legacyTLock != 'beaten')
-					GameData.legacyTLock = 'unlocked';
-			case 'neglection legacy':
-				if (FlxG.save.data.legacyNLock != 'beaten')
-					GameData.legacyNLock = 'unlocked';
-			case 'resentment legacy':
-				if (FlxG.save.data.legacyRLock != 'beaten')
-					GameData.legacyRLock = 'unlocked';
-			case 'delutrance':
-				if (FlxG.save.data.highOnCrackLock != 'completed')
-					GameData.highOnCrackLock = 'forceBackToSong';
-		}
-		GameData.saveShit();
-	}
-
-	/**
-	 * Sets data when you complete a song
-	 */
-	function completeFPSong()
-	{
-		switch (SONG.song.toLowerCase())
-		{
-			case 'hunted': GameData.huntedLock = 'beaten';
-			case 'isolated old': GameData.oldisolateLock = 'beaten';
-			case 'isolated beta': GameData.betaisolateLock = 'beaten';
-			case 'neglection': GameData.pnmLock = 'beaten';
-			case "don't cross!": GameData.crossinLock = 'beaten';
-			case 'war dilemma': GameData.warLock = 'beaten';
-			case 'cycled sins': GameData.sinsLock = 'beaten';
-			case 'malfunction': GameData.malfunctionLock = 'beaten';
-			case 'scrapped': GameData.scrappedLock = 'beaten';
-			case 'bless': GameData.blessLock = 'beaten';
-			case 'laugh track': GameData.rickyLock = 'beaten';
-			case 'birthday': GameData.muckneyLock = 'beaten';
-			case 'mercy legacy': GameData.legacyWLock = 'beaten';
-			case 'isolated legacy': GameData.legacyILock = 'beaten';
-			case 'lunacy legacy': GameData.legacyLLock = 'beaten';
-			case 'delusional legacy': GameData.legacyDLock = 'beaten';
-			case 'hunted legacy': GameData.legacyHLock = 'beaten';
-			case 'malfunction legacy': GameData.legacyMLock = 'beaten';
-			case 'cycled sins legacy': GameData.legacySLock = 'beaten';
-			case 'bless legacy': GameData.legacyBLock = 'beaten';
-			case 'neglection legacy': GameData.legacyNLock = 'beaten';
-			case 'twisted grins legacy': GameData.legacyTLock = 'beaten';
-			case 'resentment legacy': GameData.legacyRLock = 'beaten';
-			case 'delutrance': GameData.highOnCrackLock = 'completed';
-		}
-		GameData.saveShit();
-	}
-
-	/**
-	 * Checks if you completed a episode, if true, unlocks freeplay songs and more content
-	 */
-	function completeEpisode()
-	{
-		switch (SONG.song.toLowerCase())
-		{
-			case 'delusional': GameData.episode1FPLock = 'unlocked';
-			case 'mortiferum risus': GameData.episodeSFPLock = 'unlocked';
-			case 'affliction': GameData.episodeWFPLock = 'unlocked';
-		}
-		GameData.saveShit();
 	}
 
 	function resetStatics()
@@ -495,161 +332,6 @@ class PlayState extends MusicBeatState
 		if (skipCountdown)
 			return false;
 		return true;
-	}
-
-	public function initializeShaders()
-	{
-		switch (SONG.song)
-		{
-			case 'Malfunction':
-				if(!Init.trueSettings.get('Low Quality'))
-				{
-					camGame.setFilters(
-					[
-						new ShaderFilter(chromZoomShader),
-						new ShaderFilter(blurShader)
-					]);
-					camHUD.setFilters(
-					[
-						new ShaderFilter(chromNormalShader),
-						new ShaderFilter(blurShader)
-					]);
-					for (i in strumHUD)
-					{
-						i.setFilters(
-						[
-							new ShaderFilter(chromNormalShader),
-							new ShaderFilter(blurShader)
-						]);
-					}
-
-					new FlxTimer().start(5, function(tmr:FlxTimer)
-					{
-						camGame.setFilters([new ShaderFilter(chromZoomShader)]);
-						camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
-						for (i in strumHUD) i.setFilters([new ShaderFilter(chromNormalShader)]);
-					});
-				}
-			case 'Malfunction Legacy':
-				if(!Init.trueSettings.get('Low Quality'))
-				{
-					camGame.setFilters(
-					[
-						new ShaderFilter(chromNormalShader),
-						new ShaderFilter(blurShader)
-					]);
-					camHUD.setFilters(
-					[
-						new ShaderFilter(chromNormalShader),
-						new ShaderFilter(blurShader)
-					]);
-					for (i in strumHUD)
-					{
-						i.setFilters(
-						[
-							new ShaderFilter(chromNormalShader),
-							new ShaderFilter(blurShader)
-						]);
-					}
-				}
-			case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional':
-				if (!Init.trueSettings.get('Low Quality'))
-				{
-					camGame.setFilters([
-						new ShaderFilter(dramaticCamMovement),
-						new ShaderFilter(bloomEffect),
-						new ShaderFilter(monitorFilter),
-						new ShaderFilter(chromZoomShader),
-						new ShaderFilter(chromNormalShader)
-					]);
-					camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
-					for (i in strumHUD) i.setFilters([new ShaderFilter(grayScale), new ShaderFilter(chromNormalShader)]);
-				}
-				else
-				{
-					camGame.setFilters([
-						new ShaderFilter(monitorFilter),
-						new ShaderFilter(chromNormalShader)
-					]);
-					camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
-					for (i in strumHUD) i.setFilters([new ShaderFilter(grayScale)]);
-				}
-			case 'Isolated Old' | 'Isolated Legacy' | 'Isolated Beta' | 'Lunacy Legacy' | 'Delusional Legacy':
-				blurShader.setFloat('bluramount', 0.6);
-				blurShaderHUD.setFloat('bluramount', 0.1);
-				andromeda.setFloat('glitchModifier', 0.2);
-				andromeda.setBool('perspectiveOn', true);
-				andromeda.setBool('vignetteMoving', true);
-				if (!Init.trueSettings.get('Low Quality'))
-				{
-					camGame.setFilters([
-						new ShaderFilter(grayScale),
-						new ShaderFilter(blurShader),
-						new ShaderFilter(andromeda)
-					]);
-					camHUD.setFilters([
-						new ShaderFilter(grayScale),
-						new ShaderFilter(blurShaderHUD),
-						new ShaderFilter(andromeda)
-					]);
-				}
-				else
-				{
-					camGame.setFilters([new ShaderFilter(grayScale)]);
-					camHUD.setFilters([new ShaderFilter(grayScale)]);
-				}
-			case 'Hunted Legacy':
-				blurShader.setFloat('bluramount', 0.6);
-				blurShaderHUD.setFloat('bluramount', 0.1);
-				andromeda.setFloat('glitchModifier', 0.2);
-				andromeda.setBool('perspectiveOn', true);
-				andromeda.setBool('vignetteMoving', true);
-				if (!Init.trueSettings.get('Low Quality'))
-				{
-					camGame.setFilters([
-						new ShaderFilter(grayScale),
-						new ShaderFilter(blurShader),
-					]);
-					for(_camHUD in allUIs) _camHUD.setFilters([
-						new ShaderFilter(grayScale),
-						new ShaderFilter(blurShaderHUD),
-						new ShaderFilter(andromeda)
-					]);
-				}
-				else
-				{
-					camGame.setFilters([new ShaderFilter(grayScale)]);
-					camHUD.setFilters([new ShaderFilter(grayScale)]);
-				}
-				
-			case 'Scrapped':
-				if (!Init.trueSettings.get('Low Quality'))
-				{
-					camGame.setFilters([
-						new ShaderFilter(staticEffect),
-						new ShaderFilter(blurShader),
-						new ShaderFilter(chromNormalShader),
-						new ShaderFilter(chromZoomShader)
-					]);
-					camHUD.setFilters([
-						new ShaderFilter(blurShaderHUD),
-						new ShaderFilter(chromNormalShader)
-					]);
-					for (i in strumHUD)
-					{
-						i.setFilters([
-							new ShaderFilter(blurShaderHUD),
-							new ShaderFilter(chromNormalShader)
-						]);
-					}
-				}
-				else
-				{
-					camGame.setFilters([new ShaderFilter(chromNormalShader)]);
-					camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
-					for (i in strumHUD) i.setFilters([new ShaderFilter(chromNormalShader)]);
-				}
-		}
 	}
 
 	public function generateCharacters()
@@ -751,9 +433,9 @@ class PlayState extends MusicBeatState
 	{
 		super.create();
 
-		setFreeplayData();
+		GameData.setFreeplayData();
 		loadRPCIcon();
-		loadWindowTitleData();
+		CoolUtil.loadWindowTitleData();
 
 		FlxG.mouse.visible = false;
 
@@ -1181,7 +863,7 @@ class PlayState extends MusicBeatState
 
 		// call the funny intro cutscene depending on the song
 		songCutscene(false);
-		if (canaddshaders) initializeShaders();
+		if (canaddshaders) CoolUtil.initializeShaders();
 	}
 
 	var keysHeld:Array<Bool> = [];
@@ -1438,6 +1120,8 @@ class PlayState extends MusicBeatState
 					chromNormalShader.setFloat('rOffset', chromEffect / 45);
 					chromNormalShader.setFloat('bOffset', -chromEffect / 45);
 					dramaticCamMovement.setFloat('time', shaderAnim);
+					delusionalShift.setFloat('uTime', shaderAnim);
+					delusionalShift.setFloat('iTime', shaderAnim);
 
 				case 'Malfunction':
 					chromZoomShader.setFloat('aberration', chromEffect);
@@ -2916,14 +2600,14 @@ class PlayState extends MusicBeatState
 	* @param alpha - the visiblity of your BG you want it to flash at
 	* @param time - How long you want the tween to take
 	* @param ease - Uses ForeverTools to handle the ease function, so I suggest looking at ForeverDeps.hx to see your options
-	* @param r - a value used for FlxColor.fromRGBFloat() as an individual number to make a color
+	* @param r - a value used for FlxColor.fromRGB() as an individual number to make a color
 	* @param g - same as the "r" value
 	* @param b - you get the idea
 	* @param a - color's alpha, you get the point
 	*
 	* @author DEMOLITIONDON96
 	*/
-	function flashBGEffect(flashType:String = 'normal', alpha:Float = 0.5, time:Float = 1, ease:String = 'linear', ?r:Float = 255, ?g:Float = 255, ?b:Float = 255, ?a:Float = 255) // TODO: Make this function shorter
+	function flashBGEffect(flashType:String = 'normal', alpha:Float = 0.5, time:Float = 1, ease:String = 'linear', ?r:Int = 255, ?g:Int = 255, ?b:Int = 255, ?a:Int = 255) // TODO: Make this function shorter
 	{
 		if (!Init.trueSettings.get('Disable Flashing Lights') && stageBGFlash != null)
 		{
@@ -2943,7 +2627,7 @@ class PlayState extends MusicBeatState
 						else
 							stageBGFlash.blend = ADD;
 
-						stageBGFlash.color = FlxColor.fromRGBFloat(r, g, b, a);
+						stageBGFlash.color = FlxColor.fromRGB(r, g, b, a);
 
 						if (BGFlashTween != null) // makes it so it won't look wonky, visually
 							BGFlashTween.cancel();
@@ -3576,10 +3260,6 @@ class PlayState extends MusicBeatState
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
 						flashBGEffect('normal', 0.32, 0.35, 'linear', 255, 255, 255);
 					
-					case 208:
-						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.BLACK, 1.5);
-						flashBGEffect('normal', 0.32, 0.35, 'linear', 255, 255, 255);
-					
 					case 96 | 128 | 256 | 288:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
 						flashBGEffect('normal', 0.4, 0.35, 'linear', 255, 255, 255);
@@ -4191,6 +3871,159 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(camGame, {alpha: 0}, 5, {ease: FlxEase.quartInOut});
 				}
 				
+			case 'Delusional':
+				switch (curBeat)
+				{
+					case 132: defaultCamZoom = 1.3;
+					case 136:
+						camGame.alpha = 0;
+						camHUD.alpha = 0;
+						for (i in strumHUD) i.alpha = 0;
+					// BF Starts Singing Some Lyrics
+					case 144:
+						defaultCamZoom = 0.8;
+						FlxTween.tween(camGame, {alpha: 1}, 5);
+					case 152 | 170:
+						flashBGEffect('darken', 0.2, 0.3, 'quartInOut');
+						defaultCamZoom = 0.9;
+					case 154 | 172:
+						flashBGEffect('darken', 0.4, 0.3, 'quartInOut');
+						defaultCamZoom = 1;
+					case 156:
+						flashBGEffect('darken', 0.6, 0.3, 'quartInOut');
+						defaultCamZoom = 1.1;
+					case 158 | 174:
+						flashBGEffect('darken', 0.8, 0.3, 'quartInOut');
+						defaultCamZoom = 1.2;
+					case 160:
+						flashBGEffect('darken', 0, 0.3, 'quartInOut');
+						defaultCamZoom = 0.8;
+					case 168:
+						flashBGEffect('darken', 0.1, 0.3, 'quartInOut');
+						defaultCamZoom = 0.85;
+					case 176:
+						flashBGEffect('darken', 0, 0.3, 'quartInOut');
+						defaultCamZoom = 0.75;
+						camGame.flash(FlxColor.WHITE, 1);
+					case 180 | 188 | 196:
+						camGame.zoom += 0.3;
+						flashBGEffect('normal', 0.5, 0.35, 'linear', 255, 255, 255);
+					case 184 | 192 | 200:
+						camGame.zoom += 0.15;
+						flashBGEffect('normal', 0.25, 0.35, 'linear', 255, 255, 255);
+					case 204: defaultCamZoom = 1;
+					case 208:
+						camGame.visible = false;
+						defaultCamZoom = 1.3;
+					// Mickey Screams Like A Bitch
+					case 212:
+						chromEffect = 0.3;
+						chromTween = FlxTween.tween(this, {chromEffect: 1}, 1.2);
+						camGame.visible = true;
+						defaultCamZoom = 0.75;
+						camGame.shake(0.01, 1.2);
+					// The Drop Starts
+					case 216:
+						FlxTween.tween(camHUD, {alpha: 1}, 1, {ease: FlxEase.quadOut});
+						for (i in strumHUD) FlxTween.tween(i, {alpha: 1}, 1, {ease: FlxEase.quadOut});
+						chromTween.cancel();
+						chromTween = FlxTween.tween(this, {chromEffect: 0.18}, 0.6, {ease: FlxEase.sineOut});
+						camGame.flash(FlxColor.WHITE, 0.5);
+						camGame.setFilters([
+							new ShaderFilter(dramaticCamMovement),
+							new ShaderFilter(bloomEffect),
+							new ShaderFilter(monitorFilter),
+							new ShaderFilter(chromZoomShader),
+							new ShaderFilter(chromNormalShader),
+							new ShaderFilter(delusionalShift)
+						]);
+						camHUD.setFilters([
+							new ShaderFilter(chromNormalShader),
+							new ShaderFilter(delusionalShift)
+						]);
+						for (i in strumHUD) i.setFilters([
+							new ShaderFilter(grayScale), 
+							new ShaderFilter(chromNormalShader),
+							new ShaderFilter(delusionalShift)
+						]);
+					case 228:
+						chromTween = null;
+						defaultCamZoom = 0.85;
+					case 230: defaultCamZoom = 1;
+					case 232: defaultCamZoom = 0.75;
+					case 278: defaultCamZoom = 1;
+					case 280 | 312 | 344: defaultCamZoom = 0.7;
+					case 288 | 296 | 304 | 320 | 328 | 336: defaultCamZoom += 0.1;
+					case 308: defaultCamZoom += 0.2;
+					case 340: defaultCamZoom += 0.3;
+					case 356 | 388: defaultCamZoom = 1.2;
+					case 358 | 390: defaultCamZoom = 1.3;
+					case 360 | 192: defaultCamZoom = 0.75;
+					case 375:
+						chromTween = FlxTween.tween(this, {chromEffect: 1}, 0.1, {ease: FlxEase.sineInOut});
+						tweenCamera(1.5, 0.1, 'sineInOut');
+					case 376:
+						chromTween.cancel();
+						chromTween = null;
+						camGame.visible = false;
+						camHUD.visible = false;
+					case 377:
+						camGame.visible = true;
+						camHUD.visible = true;
+						camGame.flash(FlxColor.WHITE, 1);
+						defaultCamZoom = 0.8;
+						chromTween = FlxTween.tween(this, {chromEffect: 0.1}, 0.6, {ease: FlxEase.quadOut});
+					case 472:
+						camGame.visible = false;
+						camHUD.visible = false;
+						for (i in strumHUD) i.visible = false;
+					case 473:
+						camGame.setFilters([
+							new ShaderFilter(dramaticCamMovement),
+							new ShaderFilter(bloomEffect),
+							new ShaderFilter(monitorFilter),
+							new ShaderFilter(chromZoomShader),
+							new ShaderFilter(chromNormalShader)
+						]);
+						camHUD.setFilters([
+							new ShaderFilter(chromNormalShader)
+						]);
+						for (i in strumHUD) i.setFilters([
+							new ShaderFilter(grayScale), 
+							new ShaderFilter(chromNormalShader)
+						]);
+						chromEffect = 0.00001;
+					case 480:
+						// no healthbar to add more onto the atmosphere of this section
+						camGame.visible = true;
+						for (i in strumHUD) i.visible = true;
+					case 720:
+						FlxTween.tween(camGame, {alpha: 0.0001}, 5, {ease: FlxEase.quartInOut});
+						for (i in strumHUD) FlxTween.tween(i, {alpha: 0.0001}, 5, {ease: FlxEase.quartInOut});
+					case 744:
+						camGame.alpha = 1;
+						camHUD.visible = true;
+						for (i in strumHUD) i.alpha = 1;
+						chromEffect = 0.1;
+						camGame.flash(FlxColor.WHITE, 0.5);
+						camGame.setFilters([
+							new ShaderFilter(dramaticCamMovement),
+							new ShaderFilter(bloomEffect),
+							new ShaderFilter(monitorFilter),
+							new ShaderFilter(chromZoomShader),
+							new ShaderFilter(chromNormalShader),
+							new ShaderFilter(delusionalShift)
+						]);
+						camHUD.setFilters([
+							new ShaderFilter(chromNormalShader),
+							new ShaderFilter(delusionalShift)
+						]);
+						for (i in strumHUD) i.setFilters([
+							new ShaderFilter(grayScale), 
+							new ShaderFilter(chromNormalShader),
+							new ShaderFilter(delusionalShift)
+						]);
+				}
 			case 'Scrapped':
 				switch (curBeat)
 				{
@@ -5045,12 +4878,12 @@ class PlayState extends MusicBeatState
 		switch (gameplayMode)
 		{
 			case STORY:
-				completeEpisode();
+				GameData.completeEpisode();
 				Main.switchState(this, new StoryMenu());
 				ForeverTools.resetMenuMusic();
 				clearStored = true;
 			case FREEPLAY:
-				completeFPSong();
+				GameData.completeFPSong();
 				switch (CoolUtil.dashToSpace(SONG.song))
 				{
 					case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus' | 'Mercy' | 'Affliction':

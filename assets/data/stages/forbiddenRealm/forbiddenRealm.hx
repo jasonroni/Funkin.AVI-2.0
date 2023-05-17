@@ -15,7 +15,7 @@ function onCreate()
 
 	
     	staticBG = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
-    	glitchBG = new FlxRuntimeShader(File.getContent('./assets/shaders/vignetteGlitch.frag'), null, 130);
+    	glitchBG = new FlxRuntimeShader(Shaders.vignetteGlitch, null, 130);
 
 	fuckingsquares = new FlxSprite(-750, -850);
 	if (PlayState.SONG.song == 'Malfunction Legacy')

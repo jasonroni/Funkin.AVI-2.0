@@ -213,12 +213,15 @@ class TitleState extends states.MusicBeatState
 
 		Application.current.window.title = 'Funkin.avi - ${windowArray[FlxG.random.int(0, windowArray.length-1)]}';
 
-		defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
+		defaultShader = new FlxRuntimeShader(Shaders.grayScale, null, 140);
 		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
-		FlxG.camera.setFilters(
-			[
-				new openfl.filters.ShaderFilter(defaultShader2)
-			]);
+		if(!Init.trueSettings.get('Disable Screen Shaders'))
+			{
+				FlxG.camera.setFilters(
+					[
+						new openfl.filters.ShaderFilter(defaultShader2)
+					]);
+			}
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 

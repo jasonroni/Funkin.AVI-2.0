@@ -13,7 +13,7 @@ function onCreate()
 	spawnGirlfriend(false);
 
 	bloom = new FlxRuntimeShader(File.getContent('./assets/shaders/bloomGame.frag'), null, 120);
-	chrom = new FlxRuntimeShader(File.getContent('./assets/shaders/aberration.frag'), null, 150);
+	chrom = new FlxRuntimeShader(Shaders.aberration, null, 150);
 	chrom.setFloat('aberration', 0.06);
 	chrom.setFloat('effectTime', 0.12);
 

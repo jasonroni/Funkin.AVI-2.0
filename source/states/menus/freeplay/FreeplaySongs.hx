@@ -101,7 +101,7 @@ class FreeplaySongs extends MusicBeatState
 					defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
 					mercyShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/vhs.frag'), null, 130);
 					mercyShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
-					chromAberration = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/aberration.frag'), null, 150);
+					chromAberration = new FlxRuntimeShader(Shaders.aberration, null, 150);
 					chromAberration.setFloat('aberration', 0.12);
 					chromAberration.setFloat('effectTime', 0.24);
 
@@ -129,8 +129,8 @@ class FreeplaySongs extends MusicBeatState
 			case 1: // Extras Menu
 				{		
 					getBlessed = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/bloom.frag'), null, 120);
-					glitchyStuff = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/vignetteGlitch.frag'), null, 130);
-					chromAberration = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/aberration.frag'), null, 150);
+					glitchyStuff = new FlxRuntimeShader(Shaders.vignetteGlitch, null, 130);
+					chromAberration = new FlxRuntimeShader(Shaders.aberration, null, 150);
 					chromAberration.setFloat('aberration', 0.12);
 					chromAberration.setFloat('effectTime', 0.24);
 					mercyShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/vhs.frag'), null, 130);
@@ -211,7 +211,7 @@ class FreeplaySongs extends MusicBeatState
 				}
 			case 3: // Void/Muckney Hidden Song Menu
 				{				
-					chromAberration = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/aberration.frag'), null, 150);
+					chromAberration = new FlxRuntimeShader(Shaders.aberration, null, 150);
 					chromAberration.setFloat('aberration', 0.12);
 					chromAberration.setFloat('effectTime', 0.24);				
 					defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
@@ -372,7 +372,7 @@ class FreeplaySongs extends MusicBeatState
 		var coolDifficultyArray = [];
 		for (i in CoolUtil.difficulties)
 			if (FileSystem.exists(Paths.songJson(songName, songName + '-' + i))
-				|| (FileSystem.exists(Paths.songJson(songName, songName)) && i == "NORMAL"))
+				|| (FileSystem.exists(Paths.songJson(songName, songName)) && i == "HARD"))
 				coolDifficultyArray.push(i);
 
 		if (coolDifficultyArray.length > 0)
@@ -550,7 +550,10 @@ class FreeplaySongs extends MusicBeatState
 	function changeSelection(change:Int = 0)
 	{
 		FlxG.sound.play(Paths.sound('base/menus/scrollMenu'), 0.4);
-		if(!Init.trueSettings.get('Disable Flashing Lights')) FlxG.camera.flash(FlxColor.BLACK, 0.1);
+
+		if(!Init.trueSettings.get('Disable Flashing Lights'))
+			FlxG.camera.flash(FlxColor.BLACK, 0.1);
+		
 		curSelected = FlxMath.wrap(curSelected + change, 0, songs.length - 1);
 
 		intendedScore = ScoreUtils.getScore(songs[curSelected].name, curDifficulty);

@@ -141,6 +141,7 @@ class ScriptHandler extends SScript
 		// OTHER
 		set('GraphicsShader', openfl.display.GraphicsShader);
 		set('ShaderFilter', openfl.filters.ShaderFilter);
+		set('Shaders', base.dependency.Shaders);
 
 		// ENUMS AND TYPEDEFINES;
 		set('GameMode', states.PlayState.GameMode);

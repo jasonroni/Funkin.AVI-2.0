@@ -216,7 +216,7 @@ class MainMenu extends MusicBeatState
 
 		if (!Init.trueSettings.get('Disable Screen Shaders'))
 		{
-			defaultShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/grayScale.frag'), null, 140);
+			defaultShader = new FlxRuntimeShader(Shaders.grayScale, null, 140);
 			defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
 			darkFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/coolDarkFilter.frag'), null, 120);
 
@@ -468,63 +468,90 @@ class MainMenu extends MusicBeatState
 
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 7.5, 0, 1);
 
-		//you are 100% obligated lmao
-			if (FlxG.keys.justPressed.ANY) {
-				var hitCorrectKey:Bool = false;
-				var birthdayKey:Bool = false;
+		if(FlxG.keys.justPressed.R)
+			{
+				var redGradient:FlxSprite = new FlxSprite(0, 0, Paths.image('UI/gimmicks/redGradient'));
+				redGradient.setGraphicSize(Std.int(redGradient.width * 0.7));
+				redGradient.screenCenter();
+				redGradient.cameras = [camHUD];
+				FlxTween.tween(redGradient, {alpha: 0.001}, 0.9);
+				add(redGradient);
 
-				for (i in 0...delutranceLmao[theCodeOrder].length) {
-					if (FlxG.keys.checkStatus(delutranceLmao[theCodeOrder][i], JUST_PRESSED))
-						hitCorrectKey = true;
-				}
+				FlxG.sound.play(Paths.sound('funkinAVI/oof'), 1, false, null, true, ()->redGradient.destroy());
+			}
 
-				for (b in 0...birthdayCode[theBirthdayCode].length) {
-					if (FlxG.keys.checkStatus(birthdayCode[theBirthdayCode][b], JUST_PRESSED))
-						birthdayKey = true;
-				}
+		if (FlxG.keys.justPressed.ANY) {
+			var hitCorrectKey:Bool = false;
+			var birthdayKey:Bool = false;
 
-				if (hitCorrectKey) {
-					if (theCodeOrder == (delutranceLmao.length - 1)) {
-						PlayState.gameplayMode = FREEPLAY;
-						PlayState.storyDifficulty = 0;
-						PlayState.SONG = Song.loadFromJson('delutrance-hard', 'delutrance');
-						PlayState.campaignScore = 0;
-						PlayState.campaingMisses = 0;
-						new FlxTimer().start(0.25, function(tmr:FlxTimer)
-						{
-							Main.switchState(this, new states.PlayState());
-							FlxG.sound.music.volume = 0;
-						});
-					} else {
-						theCodeOrder++;
-					}
+			for (i in 0...delutranceLmao[theCodeOrder].length) {
+				if (FlxG.keys.checkStatus(delutranceLmao[theCodeOrder][i], JUST_PRESSED))
+					hitCorrectKey = true;
+			}
+
+			for (b in 0...birthdayCode[theBirthdayCode].length) {
+				if (FlxG.keys.checkStatus(birthdayCode[theBirthdayCode][b], JUST_PRESSED))
+					birthdayKey = true;
+			}
+
+			if (hitCorrectKey) {
+				if (theCodeOrder == (delutranceLmao.length - 1)) {
+					PlayState.gameplayMode = FREEPLAY;
+					PlayState.storyDifficulty = 0;
+					FlxG.sound.play(Paths.sound('funkinAVI/easterEggSound'));
+					FlxG.camera.fade(FlxColor.BLACK, 1);
+					camHUD.fade(FlxColor.BLACK, 1);
+					FlxG.sound.music.fadeOut(0.7);
+					PlayState.SONG = Song.loadFromJson('delutrance-hard', 'delutrance');
+					PlayState.campaignScore = 0;
+					PlayState.campaingMisses = 0;
+					new FlxTimer().start(1.4, function(tmr:FlxTimer)
+					{
+						Main.switchState(this, new states.PlayState());
+						FlxG.sound.music.volume = 0;
+					});
 				} else {
-					theCodeOrder = 0;
-					for (i in 0...delutranceLmao[0].length) {
-						if (FlxG.keys.checkStatus(delutranceLmao[0][i], JUST_PRESSED))
-							theCodeOrder = 1;
-					}
+					theCodeOrder++;
 				}
+			} else {
+				theCodeOrder = 0;
+				for (i in 0...delutranceLmao[0].length) {
+					if (FlxG.keys.checkStatus(delutranceLmao[0][i], JUST_PRESSED))
+						theCodeOrder = 1;
+				}
+			}
 
-				if (birthdayKey) {
-					if (theBirthdayCode == (birthdayCode.length - 1)) {
-						states.menus.freeplay.FreeplaySongs.freeplayMenuList = 3; //void lol
-						Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
-					} else {
-						theBirthdayCode++;
-					}
+			if (birthdayKey) {
+				if (theBirthdayCode == (birthdayCode.length - 1)) {
+					PlayState.gameplayMode = FREEPLAY;
+					PlayState.storyDifficulty = 0;
+					PlayState.SONG = Song.loadFromJson('birthday-hard', 'birthday');
+					PlayState.campaignScore = 0;
+					PlayState.campaingMisses = 0;
+					FlxG.sound.music.fadeOut(0.7);
+					FlxG.sound.play(Paths.sound('funkinAVI/easterEggSound'));
+					FlxG.camera.fade(FlxColor.BLACK, 1);
+					camHUD.fade(FlxColor.BLACK, 1);
+					new FlxTimer().start(1.4, function(tmr:FlxTimer)
+					{
+						Main.switchState(this, new states.PlayState());
+						FlxG.sound.music.volume = 0;
+					});
 				} else {
-					theBirthdayCode = 0;
-					for (b in 0...birthdayCode[0].length) {
-						if (FlxG.keys.checkStatus(birthdayCode[0][b], JUST_PRESSED))
-							theBirthdayCode = 1;
-					}
+					theBirthdayCode++;
 				}
+			} else {
+				theBirthdayCode = 0;
+				for (b in 0...birthdayCode[0].length) {
+					if (FlxG.keys.checkStatus(birthdayCode[0][b], JUST_PRESSED))
+						theBirthdayCode = 1;
+				}
+			}
 
-				if (theBirthdayCode == 1)
-					FlxG.sound.muteKeys = null;
-				else
-					FlxG.sound.muteKeys = [FlxKey.ZERO, FlxKey.NUMPADZERO];
+			if (theBirthdayCode == 1)
+				FlxG.sound.muteKeys = null;
+			else
+				FlxG.sound.muteKeys = [FlxKey.ZERO, FlxKey.NUMPADZERO];
 			}
 
 		if ((controlArray.contains(true)) && (!selectedSomethin))
