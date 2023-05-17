@@ -263,17 +263,17 @@ class PlayState extends MusicBeatState
 	var fade:FlxSprite;
 	
 	// for Tweening shaders and shit later
-	var grayScale:FlxRuntimeShader = new FlxRuntimeShader(Shaders.grayScale, null, 120);
-	var andromeda:FlxRuntimeShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/andromedaShader.frag'), null, 140);
-	var chromZoomShader:FlxRuntimeShader = new FlxRuntimeShader(Shaders.aberration, null, 150);
-	var chromNormalShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/aberrationLegacy.frag'), null, 150);
-	var blurShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tiltShift.frag'), null, 120);
-	var blurShaderHUD:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tiltShift.frag'), null, 120);
-	var bloomEffect:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/bloomGame.frag'), null, 120);
-	var dramaticCamMovement:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
-	var monitorFilter:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
-	var staticEffect:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
-	var delusionalShift:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/vhsShift.frag'), null, 120);
+	public var grayScale:FlxRuntimeShader = new FlxRuntimeShader(Shaders.grayScale, null, 120);
+	public var andromeda:FlxRuntimeShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/andromedaShader.frag'), null, 140);
+	public var chromZoomShader:FlxRuntimeShader = new FlxRuntimeShader(Shaders.aberration, null, 150);
+	public var chromNormalShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/aberrationLegacy.frag'), null, 150);
+	public var blurShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tiltShift.frag'), null, 120);
+	public var blurShaderHUD:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tiltShift.frag'), null, 120);
+	public var bloomEffect:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/bloomGame.frag'), null, 120);
+	public var dramaticCamMovement:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
+	public var monitorFilter:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
+	public var staticEffect:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
+	public var delusionalShift:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/vhsShift.frag'), null, 120);
 
 	var chromEffect:Float = 0.0001;
 	var blurEffect:Float = 0.0;

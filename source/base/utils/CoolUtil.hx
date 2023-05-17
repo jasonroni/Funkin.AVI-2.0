@@ -10,6 +10,7 @@ import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.util.FlxSave;
+import flixel.util.FlxTimer;
 
 using StringTools;
 #if sys
@@ -158,28 +159,28 @@ class CoolUtil
 				{
 					PlayState.camGame.setFilters(
 					[
-						new ShaderFilter(chromZoomShader),
-						new ShaderFilter(blurShader)
+						new ShaderFilter(PlayState.chromZoomShader),
+						new ShaderFilter(PlayState.blurShader)
 					]);
 					PlayState.camHUD.setFilters(
 					[
-						new ShaderFilter(chromNormalShader),
-						new ShaderFilter(blurShader)
+						new ShaderFilter(PlayState.chromNormalShader),
+						new ShaderFilter(PlayState.blurShader)
 					]);
 					for (i in PlayState.strumHUD)
 					{
 						i.setFilters(
 						[
-							new ShaderFilter(chromNormalShader),
-							new ShaderFilter(blurShader)
+							new ShaderFilter(PlayState.chromNormalShader),
+							new ShaderFilter(PlayState.blurShader)
 						]);
 					}
 	
 					new FlxTimer().start(5, function(tmr:FlxTimer)
 					{
-						PlayState.camGame.setFilters([new ShaderFilter(chromZoomShader)]);
-						PlayState.camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
-						for (i in PlayState.strumHUD) i.setFilters([new ShaderFilter(chromNormalShader)]);
+						PlayState.camGame.setFilters([new ShaderFilter(PlayState.chromZoomShader)]);
+						PlayState.camHUD.setFilters([new ShaderFilter(PlayState.chromNormalShader)]);
+						for (i in PlayState.strumHUD) i.setFilters([new ShaderFilter(PlayState.chromNormalShader)]);
 					});
 				}
 			case 'Malfunction Legacy':
@@ -187,20 +188,20 @@ class CoolUtil
 				{
 					PlayState.camGame.setFilters(
 					[
-						new ShaderFilter(chromNormalShader),
-						new ShaderFilter(blurShader)
+						new ShaderFilter(PlayState.chromNormalShader),
+						new ShaderFilter(PlayState.blurShader)
 					]);
 					PlayState.camHUD.setFilters(
 					[
-						new ShaderFilter(chromNormalShader),
-						new ShaderFilter(blurShader)
+						new ShaderFilter(PlayState.chromNormalShader),
+						new ShaderFilter(PlayState.blurShader)
 					]);
 					for (i in PlayState.strumHUD)
 					{
 						i.setFilters(
 						[
-							new ShaderFilter(chromNormalShader),
-							new ShaderFilter(blurShader)
+							new ShaderFilter(PlayState.chromNormalShader),
+							new ShaderFilter(PlayState.blurShader)
 						]);
 					}
 				}
@@ -208,97 +209,97 @@ class CoolUtil
 				if (!Init.trueSettings.get('Low Quality'))
 				{
 					PlayState.camGame.setFilters([
-						new ShaderFilter(dramaticCamMovement),
-						new ShaderFilter(bloomEffect),
-						new ShaderFilter(monitorFilter),
-						new ShaderFilter(chromZoomShader),
-						new ShaderFilter(chromNormalShader)
+						new ShaderFilter(PlayState.dramaticCamMovement),
+						new ShaderFilter(PlayState.bloomEffect),
+						new ShaderFilter(PlayState.monitorFilter),
+						new ShaderFilter(PlayState.chromZoomShader),
+						new ShaderFilter(PlayState.chromNormalShader)
 					]);
-					PlayState.camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
-					for (i in PlayState.strumHUD) i.setFilters([new ShaderFilter(grayScale), new ShaderFilter(chromNormalShader)]);
+					PlayState.camHUD.setFilters([new ShaderFilter(PlayState.chromNormalShader)]);
+					for (i in PlayState.strumHUD) i.setFilters([new ShaderFilter(PlayState.grayScale), new ShaderFilter(PlayState.chromNormalShader)]);
 				}
 				else
 				{
 					PlayState.camGame.setFilters([
-						new ShaderFilter(monitorFilter),
-						new ShaderFilter(chromNormalShader)
+						new ShaderFilter(PlayState.monitorFilter),
+						new ShaderFilter(PlayState.chromNormalShader)
 					]);
-					PlayState.camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
-					for (i in PlayState.strumHUD) i.setFilters([new ShaderFilter(grayScale)]);
+					PlayState.camHUD.setFilters([new ShaderFilter(PlayState.chromNormalShader)]);
+					for (i in PlayState.strumHUD) i.setFilters([new ShaderFilter(PlayState.grayScale)]);
 				}
 			case 'Isolated Old' | 'Isolated Legacy' | 'Isolated Beta' | 'Lunacy Legacy' | 'Delusional Legacy':
-				blurShader.setFloat('bluramount', 0.6);
-				blurShaderHUD.setFloat('bluramount', 0.1);
-				andromeda.setFloat('glitchModifier', 0.2);
-				andromeda.setBool('perspectiveOn', true);
-				andromeda.setBool('vignetteMoving', true);
+				PlayState.blurShader.setFloat('bluramount', 0.6);
+				PlayState.blurShaderHUD.setFloat('bluramount', 0.1);
+				PlayState.andromeda.setFloat('glitchModifier', 0.2);
+				PlayState.andromeda.setBool('perspectiveOn', true);
+				PlayState.andromeda.setBool('vignetteMoving', true);
 				if (!Init.trueSettings.get('Low Quality'))
 				{
 					PlayState.camGame.setFilters([
-						new ShaderFilter(grayScale),
-						new ShaderFilter(blurShader),
-						new ShaderFilter(andromeda)
+						new ShaderFilter(PlayState.grayScale),
+						new ShaderFilter(PlayState.blurShader),
+						new ShaderFilter(PlayState.andromeda)
 					]);
 					PlayState.camHUD.setFilters([
-						new ShaderFilter(grayScale),
-						new ShaderFilter(blurShaderHUD),
-						new ShaderFilter(andromeda)
+						new ShaderFilter(PlaySTate.grayScale),
+						new ShaderFilter(PlayState.blurShaderHUD),
+						new ShaderFilter(PlayState.andromeda)
 					]);
 				}
 				else
 				{
-					PlayState.camGame.setFilters([new ShaderFilter(grayScale)]);
-					PlayState.camHUD.setFilters([new ShaderFilter(grayScale)]);
+					PlayState.camGame.setFilters([new ShaderFilter(PlayState.grayScale)]);
+					PlayState.camHUD.setFilters([new ShaderFilter(PlayState.grayScale)]);
 				}
 			case 'Hunted Legacy':
-				blurShader.setFloat('bluramount', 0.6);
-				blurShaderHUD.setFloat('bluramount', 0.1);
-				andromeda.setFloat('glitchModifier', 0.2);
-				andromeda.setBool('perspectiveOn', true);
-				andromeda.setBool('vignetteMoving', true);
+				PlayState.blurShader.setFloat('bluramount', 0.6);
+				PlayState.blurShaderHUD.setFloat('bluramount', 0.1);
+				PlayState.andromeda.setFloat('glitchModifier', 0.2);
+				PlayState.andromeda.setBool('perspectiveOn', true);
+				PlayState.andromeda.setBool('vignetteMoving', true);
 				if (!Init.trueSettings.get('Low Quality'))
 				{
 					PlayState.camGame.setFilters([
-						new ShaderFilter(grayScale),
-						new ShaderFilter(blurShader),
+						new ShaderFilter(PlayState.grayScale),
+						new ShaderFilter(PlayState.blurShader),
 					]);
 					for(_camHUD in PlayState.allUIs) _camHUD.setFilters([
-						new ShaderFilter(grayScale),
-						new ShaderFilter(blurShaderHUD),
-						new ShaderFilter(andromeda)
+						new ShaderFilter(PlayState.grayScale),
+						new ShaderFilter(PlayState.blurShaderHUD),
+						new ShaderFilter(PlayState.andromeda)
 					]);
 				}
 				else
 				{
-					PlayState.camGame.setFilters([new ShaderFilter(grayScale)]);
-					PlayState.camHUD.setFilters([new ShaderFilter(grayScale)]);
+					PlayState.camGame.setFilters([new ShaderFilter(PlayState.grayScale)]);
+					PlayState.camHUD.setFilters([new ShaderFilter(PlayState.grayScale)]);
 				}				
 			case 'Scrapped':
 				if (!Init.trueSettings.get('Low Quality'))
 				{
 					PlayState.camGame.setFilters([
-						new ShaderFilter(staticEffect),
-						new ShaderFilter(blurShader),
-						new ShaderFilter(chromNormalShader),
-						new ShaderFilter(chromZoomShader)
+						new ShaderFilter(PlayState.staticEffect),
+						new ShaderFilter(PlayState.blurShader),
+						new ShaderFilter(PlayState.chromNormalShader),
+						new ShaderFilter(PlayState.chromZoomShader)
 					]);
 					PlayState.camHUD.setFilters([
-						new ShaderFilter(blurShaderHUD),
-						new ShaderFilter(chromNormalShader)
+						new ShaderFilter(PlayState.blurShaderHUD),
+						new ShaderFilter(PlayState.chromNormalShader)
 					]);
 					for (i in PlayState.strumHUD)
 					{
 						i.setFilters([
-							new ShaderFilter(blurShaderHUD),
-							new ShaderFilter(chromNormalShader)
+							new ShaderFilter(PlayState.blurShaderHUD),
+							new ShaderFilter(PlayState.chromNormalShader)
 						]);
 					}
 				}
 				else
 				{
-					PlayState.camGame.setFilters([new ShaderFilter(chromNormalShader)]);
-					PlayState.camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
-					for (i in PlayState.strumHUD) i.setFilters([new ShaderFilter(chromNormalShader)]);
+					PlayState.camGame.setFilters([new ShaderFilter(PlayState.chromNormalShader)]);
+					PlayState.camHUD.setFilters([new ShaderFilter(PlayState.chromNormalShader)]);
+					for (i in PlayState.strumHUD) i.setFilters([new ShaderFilter(PlayState.chromNormalShader)]);
 				}
 		}
 	}
