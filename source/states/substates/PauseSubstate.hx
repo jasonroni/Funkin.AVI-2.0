@@ -172,7 +172,7 @@ class PauseSubstate extends MusicBeatSubstate
 		FlxTween.tween(funnyButton, {alpha: 1}, 0.8, {ease: FlxEase.quartInOut});
 
 		changeSelection();
-		CoolUtil.loadWindowTitleData();
+		CoolUtil.staticAccess.loadWindowTitleData();
 
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 	}
@@ -244,7 +244,7 @@ class PauseSubstate extends MusicBeatSubstate
 				case "continue" | 'wd-continue' | 'mal-continue':
 					close();
 					remove(disc);
-					CoolUtil.loadWindowTitleData(); // resets the title bar to the PlayState info
+					CoolUtil.staticAccess.loadWindowTitleData(); // resets the title bar to the PlayState info
 				case "restart" | 'wd-restart' | 'mal-restart':
 					Main.switchState(this, new PlayState());
 				case "Back to Charter":
