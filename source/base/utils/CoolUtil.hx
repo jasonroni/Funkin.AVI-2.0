@@ -28,6 +28,8 @@ class CoolUtil
 
 	private var SONG = PlayState.SONG;
 
+	public function new() {staticAccess = this;}
+
 	public static var staticAccess:CoolUtil;
 
 	inline public static function difficultyFromNumber(number:Int):String
@@ -130,8 +132,6 @@ class CoolUtil
 
 	public function loadWindowTitleData()
 	{
-		staticAccess = this;
-
 		switch (PlayState.gameplayMode)
 		{
 			case STORY:
