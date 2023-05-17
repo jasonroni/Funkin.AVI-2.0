@@ -590,29 +590,6 @@ class MainMenu extends MusicBeatState
 			counterControl = 0;
 		}
 
-		if (FlxG.mouse.justPressed && Main.focused)
-		{
-			if (FlxG.mouse.overlaps(menuItems.members[Math.floor(curSelected)]))
-			{				
-				enterSelection();
-			}
-		}
-
-		if (FlxG.mouse.justMoved)
-		{
-			for (i in 0...menuItems.length)
-			{
-				if (i != curSelected)
-				{
-					if (FlxG.mouse.overlaps(menuItems.members[i]) && !FlxG.mouse.overlaps(menuItems.members[Math.floor(curSelected)]))
-					{
-						FlxG.sound.play(Paths.sound('base/menus/scrollMenu'));
-						changeSelection(i);
-					}
-				}
-			}			
-		}
-
 		if (!Init.trueSettings.get('Disable Screen Shaders')) darkFilter.setFloat('iTime', elapsed);
 
 		if ((Controls.getPressEvent("back")) && (!selectedSomethin))

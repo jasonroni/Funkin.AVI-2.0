@@ -4195,13 +4195,12 @@ class PlayState extends MusicBeatState
 				{
 					case 132: defaultCamZoom = 1.3;
 					case 136:
-						camGame.alpha = 0;
-						camHUD.alpha = 0;
-						for (i in strumHUD) i.alpha = 0;
+						FlxG.camera.fade();
+						for(daUIs in allUIs) FlxTween.tween(daUIs, {alpha: 0}, 3);
 					// BF Starts Singing Some Lyrics
 					case 144:
 						defaultCamZoom = 0.8;
-						FlxTween.tween(camGame, {alpha: 1}, 5);
+						FlxG.camera.fade(0x000000, 5, true);
 					case 152 | 170:
 						flashBGEffect('darken', 0.2, 0.3, 'quartInOut');
 						defaultCamZoom = 0.9;
