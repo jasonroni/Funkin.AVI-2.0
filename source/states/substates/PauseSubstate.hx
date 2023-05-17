@@ -244,7 +244,6 @@ class PauseSubstate extends MusicBeatSubstate
 				case "continue" | 'wd-continue' | 'mal-continue':
 					close();
 					remove(disc);
-					@:privateAccess
 					CoolUtil.loadWindowTitleData(); // resets the title bar to the PlayState info
 				case "restart" | 'wd-restart' | 'mal-restart':
 					Main.switchState(this, new PlayState());
