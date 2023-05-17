@@ -26,6 +26,10 @@ class CoolUtil
 
 	public static var defaultDifficulty:String = 'HARD';
 
+	private var SONG = PlayState.SONG;
+
+	public static var staticAccess:CoolUtil;
+
 	inline public static function difficultyFromNumber(number:Int):String
 		return difficulties[number];
 
@@ -126,31 +130,33 @@ class CoolUtil
 
 	public function loadWindowTitleData()
 	{
+		staticAccess = this;
+
 		switch (PlayState.gameplayMode)
 		{
 			case STORY:
 				switch (PlayState.SONG.song)
 				{
 					case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional':
-						Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + " - Composed by: " + SONG.composer + (PlayState.paused ? '{PAUSED}' : "");							
+						Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + " - Composed by: " + SONG.composer + (PlayState.main.paused ? '{PAUSED}' : "");							
 					case 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus':
-						Application.current.window.title = 'Funkin.avi - Episode S: ' + SONG.song + " - Composed by: " + SONG.composer + (PlayState.paused ? '{PAUSED}' : "");					
+						Application.current.window.title = 'Funkin.avi - Episode S: ' + SONG.song + " - Composed by: " + SONG.composer + (PlayState.main.paused ? '{PAUSED}' : "");					
 					case 'Mercy' | 'Affliction':
-						Application.current.window.title = 'Funkin.avi - Episode W: ' + SONG.song + " - Composed by: " + SONG.composer + (PlayState.paused ? '{PAUSED}' : "");			
+						Application.current.window.title = 'Funkin.avi - Episode W: ' + SONG.song + " - Composed by: " + SONG.composer + (PlayState.main.paused ? '{PAUSED}' : "");			
 					default:
-						Application.current.window.title = 'Funkin.avi - Episode ???: ' + SONG.song + " - Composed by: " + SONG.composer + (PlayState.paused ? '{PAUSED}' : "");
+						Application.current.window.title = 'Funkin.avi - Episode ???: ' + SONG.song + " - Composed by: " + SONG.composer + (PlayState.main.paused ? '{PAUSED}' : "");
 				}						
 			case FREEPLAY:
-				Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + (PlayState.paused ? '{PAUSED}' : "");					
+				Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + (PlayState.main.paused ? '{PAUSED}' : "");					
 			case CHARTING:
-				if (SONG.song == 'Malfunction')
-					Application.current.window.title = 'glitchedMickey.xml - CHEATER MODE ACTIVATED: ' + SONG.song + " - Composed by: I CAN SEE YOU CHEATING! - [!CHEATER DETECTED!]" + (PlayState.paused ? '{PAUSED}' : "");
+				if (PlayState.SONG.song == 'Malfunction')
+					Application.current.window.title = 'glitchedMickey.xml - CHEATER MODE ACTIVATED: ' + SONG.song + " - Composed by: I CAN SEE YOU CHEATING! - [!CHEATER DETECTED!]" + (PlayState.main.paused ? '{PAUSED}' : "");
 				else
-					Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + (PlayState.paused ? '{PAUSED}' : "");
+					Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + (PlayState.main.paused ? '{PAUSED}' : "");
 		}
 	}
 
-	public function initializeShaders()
+	public static function initializeShaders()
 	{
 		switch (PlayState.SONG.song)
 		{
@@ -241,7 +247,7 @@ class CoolUtil
 						new ShaderFilter(PlayState.andromeda)
 					]);
 					PlayState.camHUD.setFilters([
-						new ShaderFilter(PlaySTate.grayScale),
+						new ShaderFilter(PlayState.grayScale),
 						new ShaderFilter(PlayState.blurShaderHUD),
 						new ShaderFilter(PlayState.andromeda)
 					]);
@@ -263,7 +269,7 @@ class CoolUtil
 						new ShaderFilter(PlayState.grayScale),
 						new ShaderFilter(PlayState.blurShader),
 					]);
-					for(_camHUD in PlayState.allUIs) _camHUD.setFilters([
+					@:privateAccess for(_camHUD in PlayState.main.allUIs) _camHUD.setFilters([
 						new ShaderFilter(PlayState.grayScale),
 						new ShaderFilter(PlayState.blurShaderHUD),
 						new ShaderFilter(PlayState.andromeda)

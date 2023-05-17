@@ -237,7 +237,7 @@ class GameData
         saveShit();
     }
 
-    public function setFreeplayData()
+    public static function setFreeplayData()
     {
                 switch (PlayState.SONG.song.toLowerCase())
                 {
@@ -317,7 +317,7 @@ class GameData
                 saveShit();
         }
         
-        public function completeFPSong()
+        public static function completeFPSong()
         {
                 switch (PlayState.SONG.song.toLowerCase())
                 {
@@ -349,7 +349,7 @@ class GameData
                 saveShit();
         }
         
-        public function completeEpisode()
+        public static function completeEpisode()
         {
                 switch (PlayState.SONG.song.toLowerCase())
                 {
