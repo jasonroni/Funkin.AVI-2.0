@@ -3925,24 +3925,27 @@ class PlayState extends MusicBeatState
 						for (i in strumHUD) FlxTween.tween(i, {alpha: 1}, 1, {ease: FlxEase.quadOut});
 						chromTween.cancel();
 						chromTween = FlxTween.tween(this, {chromEffect: 0.18}, 0.6, {ease: FlxEase.sineOut});
-						camGame.flash(FlxColor.WHITE, 0.5);
-						camGame.setFilters([
-							new ShaderFilter(dramaticCamMovement),
-							new ShaderFilter(bloomEffect),
-							new ShaderFilter(monitorFilter),
-							new ShaderFilter(chromZoomShader),
-							new ShaderFilter(chromNormalShader),
-							new ShaderFilter(delusionalShift)
-						]);
-						camHUD.setFilters([
-							new ShaderFilter(chromNormalShader),
-							new ShaderFilter(delusionalShift)
-						]);
-						for (i in strumHUD) i.setFilters([
-							new ShaderFilter(grayScale), 
-							new ShaderFilter(chromNormalShader),
-							new ShaderFilter(delusionalShift)
-						]);
+						if (!Init.trueSetings.get("Disable Flashing Lights")) camGame.flash(FlxColor.WHITE, 0.5);
+						if (canaddshaders)
+						{
+							camGame.setFilters([
+								new ShaderFilter(dramaticCamMovement),
+								new ShaderFilter(bloomEffect),
+								new ShaderFilter(monitorFilter),
+								new ShaderFilter(chromZoomShader),
+								new ShaderFilter(chromNormalShader),
+								new ShaderFilter(delusionalShift)
+							]);
+							camHUD.setFilters([
+								new ShaderFilter(chromNormalShader),
+								new ShaderFilter(delusionalShift)
+							]);
+							for (i in strumHUD) i.setFilters([
+								new ShaderFilter(grayScale), 
+								new ShaderFilter(chromNormalShader),
+								new ShaderFilter(delusionalShift)
+							]);
+						}
 					case 228:
 						chromTween = null;
 						defaultCamZoom = 0.85;
@@ -3967,7 +3970,7 @@ class PlayState extends MusicBeatState
 					case 377:
 						camGame.visible = true;
 						camHUD.visible = true;
-						camGame.flash(FlxColor.WHITE, 1);
+						if (!Init.trueSettings.get("Disable Flashing Lights")) camGame.flash(FlxColor.WHITE, 1);
 						defaultCamZoom = 0.8;
 						chromTween = FlxTween.tween(this, {chromEffect: 0.1}, 0.6, {ease: FlxEase.quadOut});
 					case 472:
@@ -3975,20 +3978,23 @@ class PlayState extends MusicBeatState
 						camHUD.visible = false;
 						for (i in strumHUD) i.visible = false;
 					case 473:
-						camGame.setFilters([
-							new ShaderFilter(dramaticCamMovement),
-							new ShaderFilter(bloomEffect),
-							new ShaderFilter(monitorFilter),
-							new ShaderFilter(chromZoomShader),
-							new ShaderFilter(chromNormalShader)
-						]);
-						camHUD.setFilters([
-							new ShaderFilter(chromNormalShader)
-						]);
-						for (i in strumHUD) i.setFilters([
-							new ShaderFilter(grayScale), 
-							new ShaderFilter(chromNormalShader)
-						]);
+						if (canaddshaders)
+						{
+							camGame.setFilters([
+								new ShaderFilter(dramaticCamMovement),
+								new ShaderFilter(bloomEffect),
+								new ShaderFilter(monitorFilter),
+								new ShaderFilter(chromZoomShader),
+								new ShaderFilter(chromNormalShader)
+							]);
+							camHUD.setFilters([
+								new ShaderFilter(chromNormalShader)
+							]);
+							for (i in strumHUD) i.setFilters([
+								new ShaderFilter(grayScale), 
+								new ShaderFilter(chromNormalShader)
+							]);
+						}
 						chromEffect = 0.00001;
 					case 480:
 						// no healthbar to add more onto the atmosphere of this section
@@ -4002,24 +4008,27 @@ class PlayState extends MusicBeatState
 						camHUD.visible = true;
 						for (i in strumHUD) i.alpha = 1;
 						chromEffect = 0.1;
-						camGame.flash(FlxColor.WHITE, 0.5);
-						camGame.setFilters([
-							new ShaderFilter(dramaticCamMovement),
-							new ShaderFilter(bloomEffect),
-							new ShaderFilter(monitorFilter),
-							new ShaderFilter(chromZoomShader),
-							new ShaderFilter(chromNormalShader),
-							new ShaderFilter(delusionalShift)
-						]);
-						camHUD.setFilters([
-							new ShaderFilter(chromNormalShader),
-							new ShaderFilter(delusionalShift)
-						]);
-						for (i in strumHUD) i.setFilters([
-							new ShaderFilter(grayScale), 
-							new ShaderFilter(chromNormalShader),
-							new ShaderFilter(delusionalShift)
-						]);
+						if (!Init.trueSettings.get("Disable Flashing Lights")) camGame.flash(FlxColor.WHITE, 0.5);
+						if (canaddshaders)
+						{
+							camGame.setFilters([
+								new ShaderFilter(dramaticCamMovement),
+								new ShaderFilter(bloomEffect),
+								new ShaderFilter(monitorFilter),
+								new ShaderFilter(chromZoomShader),
+								new ShaderFilter(chromNormalShader),
+								new ShaderFilter(delusionalShift)
+							]);
+							camHUD.setFilters([
+								new ShaderFilter(chromNormalShader),
+								new ShaderFilter(delusionalShift)
+							]);
+							for (i in strumHUD) i.setFilters([
+								new ShaderFilter(grayScale), 
+								new ShaderFilter(chromNormalShader),
+								new ShaderFilter(delusionalShift)
+							]);
+						}
 				}
 			case 'Scrapped':
 				switch (curBeat)
