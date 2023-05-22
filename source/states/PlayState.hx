@@ -435,7 +435,7 @@ class PlayState extends MusicBeatState
 
 		GameData.setFreeplayData();
 		loadRPCIcon();
-		CoolUtil.staticAccess.loadWindowTitleData();
+		loadWindowTitleData();
 
 		FlxG.mouse.visible = false;
 
@@ -863,7 +863,7 @@ class PlayState extends MusicBeatState
 
 		// call the funny intro cutscene depending on the song
 		songCutscene(false);
-		if (canaddshaders) CoolUtil.initializeShaders();
+		if (canaddshaders) initializeShaders();
 	}
 
 	var keysHeld:Array<Bool> = [];
@@ -4181,7 +4181,7 @@ class PlayState extends MusicBeatState
 				{
 					// Intro Cam Stuff
 					case 1:	FlxTween.tween(camGame, {alpha: 1}, 5, {ease: FlxEase.sineInOut});
-					case 16: tweenCamera(1.2, 5, 'quartInOut'); // yes you gonna have to add a ; at the end of the {} because flixel
+					case 16: tweenCamera(1.2, 5, 'quartInOut'); 
 					case 32:
 						defaultCamZoom = 0.8;
 						FlxTween.tween(camHUD, {alpha: 1}, 0.5, {ease: FlxEase.sineOut});
@@ -5128,4 +5128,184 @@ class PlayState extends MusicBeatState
 			return Reflect.copy(reflector);
 		});
 	}
+
+	public function loadWindowTitleData()
+		{
+			switch (gameplayMode)
+			{
+				case STORY:
+					switch (SONG.song)
+					{
+						case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional':
+							Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + " - Composed by: " + SONG.composer + (paused ? '{PAUSED}' : "");							
+						case 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus':
+							Application.current.window.title = 'Funkin.avi - Episode S: ' + SONG.song + " - Composed by: " + SONG.composer + (paused ? '{PAUSED}' : "");					
+						case 'Mercy' | 'Affliction':
+							Application.current.window.title = 'Funkin.avi - Episode W: ' + SONG.song + " - Composed by: " + SONG.composer + (paused ? '{PAUSED}' : "");			
+						default:
+							Application.current.window.title = 'Funkin.avi - Episode ???: ' + SONG.song + " - Composed by: " + SONG.composer + (paused ? '{PAUSED}' : "");
+					}						
+				case FREEPLAY:
+					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + (paused ? '{PAUSED}' : "");					
+				case CHARTING:
+					if (SONG.song == 'Malfunction')
+						Application.current.window.title = 'glitchedMickey.xml - CHEATER MODE ACTIVATED: ' + SONG.song + " - Composed by: I CAN SEE YOU CHEATING! - [!CHEATER DETECTED!]" + (paused ? '{PAUSED}' : "");
+					else
+						Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + (paused ? '{PAUSED}' : "");
+			}
+		}
+	
+		public static function initializeShaders()
+		{
+			switch (SONG.song)
+			{
+				case 'Malfunction':
+					if(!Init.trueSettings.get('Low Quality'))
+					{
+						camGame.setFilters(
+						[
+							new ShaderFilter(chromZoomShader),
+							new ShaderFilter(blurShader)
+						]);
+						camHUD.setFilters(
+						[
+							new ShaderFilter(chromNormalShader),
+							new ShaderFilter(blurShader)
+						]);
+						for (i in strumHUD)
+						{
+							i.setFilters(
+							[
+								new ShaderFilter(chromNormalShader),
+								new ShaderFilter(blurShader)
+							]);
+						}
+		
+						new FlxTimer().start(5, function(tmr:FlxTimer)
+						{
+							camGame.setFilters([new ShaderFilter(chromZoomShader)]);
+							camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
+							for (i in strumHUD) i.setFilters([new ShaderFilter(chromNormalShader)]);
+						});
+					}
+				case 'Malfunction Legacy':
+					if(!Init.trueSettings.get('Low Quality'))
+					{
+						camGame.setFilters(
+						[
+							new ShaderFilter(chromNormalShader),
+							new ShaderFilter(blurShader)
+						]);
+						camHUD.setFilters(
+						[
+							new ShaderFilter(chromNormalShader),
+							new ShaderFilter(blurShader)
+						]);
+						for (i in strumHUD)
+						{
+							i.setFilters(
+							[
+								new ShaderFilter(chromNormalShader),
+								new ShaderFilter(blurShader)
+							]);
+						}
+					}
+				case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional':
+					if (!Init.trueSettings.get('Low Quality'))
+					{
+						camGame.setFilters([
+							new ShaderFilter(dramaticCamMovement),
+							new ShaderFilter(bloomEffect),
+							new ShaderFilter(monitorFilter),
+							new ShaderFilter(chromZoomShader),
+							new ShaderFilter(chromNormalShader)
+						]);
+						camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
+						for (i in strumHUD) i.setFilters([new ShaderFilter(grayScale), new ShaderFilter(chromNormalShader)]);
+					}
+					else
+					{
+						camGame.setFilters([
+							new ShaderFilter(monitorFilter),
+							new ShaderFilter(chromNormalShader)
+						]);
+						camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
+						for (i in strumHUD) i.setFilters([new ShaderFilter(grayScale)]);
+					}
+				case 'Isolated Old' | 'Isolated Legacy' | 'Isolated Beta' | 'Lunacy Legacy' | 'Delusional Legacy':
+					blurShader.setFloat('bluramount', 0.6);
+					blurShaderHUD.setFloat('bluramount', 0.1);
+					andromeda.setFloat('glitchModifier', 0.2);
+					andromeda.setBool('perspectiveOn', true);
+					andromeda.setBool('vignetteMoving', true);
+					if (!Init.trueSettings.get('Low Quality'))
+					{
+						camGame.setFilters([
+							new ShaderFilter(grayScale),
+							new ShaderFilter(blurShader),
+							new ShaderFilter(andromeda)
+						]);
+						camHUD.setFilters([
+							new ShaderFilter(grayScale),
+							new ShaderFilter(blurShaderHUD),
+							new ShaderFilter(andromeda)
+						]);
+					}
+					else
+					{
+						camGame.setFilters([new ShaderFilter(grayScale)]);
+						camHUD.setFilters([new ShaderFilter(grayScale)]);
+					}
+				case 'Hunted Legacy':
+					blurShader.setFloat('bluramount', 0.6);
+					blurShaderHUD.setFloat('bluramount', 0.1);
+					andromeda.setFloat('glitchModifier', 0.2);
+					andromeda.setBool('perspectiveOn', true);
+					andromeda.setBool('vignetteMoving', true);
+					if (!Init.trueSettings.get('Low Quality'))
+					{
+						camGame.setFilters([
+							new ShaderFilter(grayScale),
+							new ShaderFilter(blurShader),
+						]);
+						@:privateAccess for(_camHUD in main.allUIs) _camHUD.setFilters([
+							new ShaderFilter(grayScale),
+							new ShaderFilter(blurShaderHUD),
+							new ShaderFilter(andromeda)
+						]);
+					}
+					else
+					{
+						camGame.setFilters([new ShaderFilter(grayScale)]);
+						camHUD.setFilters([new ShaderFilter(grayScale)]);
+					}				
+				case 'Scrapped':
+					if (!Init.trueSettings.get('Low Quality'))
+					{
+						camGame.setFilters([
+							new ShaderFilter(staticEffect),
+							new ShaderFilter(blurShader),
+							new ShaderFilter(chromNormalShader),
+							new ShaderFilter(chromZoomShader)
+						]);
+						camHUD.setFilters([
+							new ShaderFilter(blurShaderHUD),
+							new ShaderFilter(chromNormalShader)
+						]);
+						for (i in strumHUD)
+						{
+							i.setFilters([
+								new ShaderFilter(blurShaderHUD),
+								new ShaderFilter(chromNormalShader)
+							]);
+						}
+					}
+					else
+					{
+						camGame.setFilters([new ShaderFilter(chromNormalShader)]);
+						camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
+						for (i in strumHUD) i.setFilters([new ShaderFilter(chromNormalShader)]);
+					}
+			}
+		}
 }
