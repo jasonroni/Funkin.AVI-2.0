@@ -3925,7 +3925,7 @@ class PlayState extends MusicBeatState
 						for (i in strumHUD) FlxTween.tween(i, {alpha: 1}, 1, {ease: FlxEase.quadOut});
 						chromTween.cancel();
 						chromTween = FlxTween.tween(this, {chromEffect: 0.18}, 0.6, {ease: FlxEase.sineOut});
-						if (!Init.trueSetings.get("Disable Flashing Lights")) camGame.flash(FlxColor.WHITE, 0.5);
+						if (!Init.trueSettings.get("Disable Flashing Lights")) camGame.flash(FlxColor.WHITE, 0.5);
 						if (canaddshaders)
 						{
 							camGame.setFilters([
