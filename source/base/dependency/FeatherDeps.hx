@@ -127,8 +127,8 @@ class ScriptHandler extends SScript
 		set('Paths', globals.Paths);
 
 		// CLASSES (FOREVER);
-		set('Init', Init);
-		set('Main', Main);
+		set('Init', globals.Init);
+		set('Main', globals.Main);
 		set('Stage', objects.Stage);
 		set('FNFSprite', base.utils.FNFUtils.FNFSprite);
 		set('ForeverAssets', base.dependency.ForeverDeps.ForeverAssets);
