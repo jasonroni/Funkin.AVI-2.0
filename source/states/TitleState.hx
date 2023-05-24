@@ -235,9 +235,6 @@ class TitleState extends states.MusicBeatState
 
 		startIntro();
 
-		GameData.loadShit(); // Collect Any Data
-		GameData.lockinIt(); // Now add missing data for any new stuff
-
 		if (FlxG.save.data.highOnCrackLock == 'forceBackToSong') // you can't run from delutrance lol
 		{
 			PlayState.gameplayMode = FREEPLAY;

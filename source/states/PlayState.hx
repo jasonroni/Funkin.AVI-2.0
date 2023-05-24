@@ -4474,15 +4474,26 @@ class PlayState extends MusicBeatState
 		bf_vocals.pause();
 		opp_vocals.pause();
 
-		if (ignoreOffset || Init.trueSettings['Offset'] <= 0)
-			onFinish();
-		else
-		{
-			new FlxTimer().start(Init.trueSettings['Offset'] / 1000, function(offset:FlxTimer)
-			{
+		var save:AutoSaveLogo = new AutoSaveLogo('autoSave', FlxG.width * 0.78, FlxG.height * 0.69);
+		save.saveOnly();
+		add(save);
+
+		for(uis in allUIs)
+		FlxTween.tween(uis, {alpha: 0}, 1, {ease: FlxEase.cubeOut});
+
+		new FlxTimer().start(3, _ -> {
+			save.fade(true);
+
+			if (ignoreOffset || Init.trueSettings['Offset'] <= 0)
 				onFinish();
-			});
-		}
+			else
+			{
+				new FlxTimer().start(Init.trueSettings['Offset'] / 1000, function(offset:FlxTimer)
+				{
+					onFinish();
+				});
+			}
+		});
 	}
 
 	function endSong():Void

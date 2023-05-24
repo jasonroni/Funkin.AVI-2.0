@@ -109,6 +109,7 @@ class GameData
 
     public static function saveShit():Void {
         FlxG.save.bind("gameProgression", CoolUtil.getSavePath());
+        trace('saving data');
         
         FlxG.save.data.episode1FPLock = episode1FPLock;
 	    
@@ -154,6 +155,8 @@ class GameData
 
     public static function loadShit():Void {
         FlxG.save.bind("gameProgression", CoolUtil.getSavePath());
+
+        trace('loading data');
 
         episode1FPLock = FlxG.save.data.episode1FPLock;
 	    
