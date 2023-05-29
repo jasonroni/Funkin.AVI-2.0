@@ -188,8 +188,8 @@ class GameData
 	legacyTLock = FlxG.save.data.legacyTLock;
 	legacyRLock = FlxG.save.data.legacyRLock;
 	    
-	//GJ_username = FlxG.save.data.gjUser;
-	//GJ_token = FlxG.save.data.gjToken;
+	GJ_username = FlxG.save.data.gjUser;
+	GJ_token = FlxG.save.data.gjToken;
 	    
 	hasSeenWarning = FlxG.save.data.hasSeenWarning;
 	    

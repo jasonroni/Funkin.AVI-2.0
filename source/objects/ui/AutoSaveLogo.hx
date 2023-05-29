@@ -22,12 +22,11 @@ class AutoSaveLogo extends FlxSprite
         cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
     }
 
-    public function saveAndLoad():Void
+    public function saveAndLoad():AutoSaveLogo
         {
-            return {
-                GameData.saveShit(); 
-                GameData.loadShit();
-            }
+            GameData.saveShit(); 
+            GameData.loadShit();
+            return this;
         }
 
     public function saveOnly():Void
@@ -36,7 +35,7 @@ class AutoSaveLogo extends FlxSprite
         }
 
     override function update(elapsed:Float) {
-        angle += 1 / (60 / Init.trueSettings.get('Framerate Cap'));
+        angle += 1;
 
         super.update(elapsed);
     }
