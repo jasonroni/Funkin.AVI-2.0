@@ -1280,9 +1280,6 @@ class PlayState extends MusicBeatState
 
 			Conductor.songPosition += elapsed * 1000;
 
-			if(FlxG.keys.justPressed.SHIFT)
-				new SongLoop().setTime(Conductor.songPosition + 10 * 1000);
-
 			if (Conductor.songPosition >= 0)
 				Conductor.shouldStartSong = true;
 
