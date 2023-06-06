@@ -6211,7 +6211,7 @@
 		"gfVersion": "gf",
 		"splashSkin": "noteSplashes",
 		"song": "Delutrance",
-		"validScore": false,
+		"validScore": true,
 		"stage": "trance",
 		"arrowSkin": "",
 		"needsVoices": true,

@@ -6613,7 +6613,7 @@
 			}
 		],
 		"splashSkin": "noteSplashes",
-		"validScore": false,
+		"validScore": true,
 		"gfVersion": "gf",
 		"bpm": 175,
 		"arrowSkin": "",

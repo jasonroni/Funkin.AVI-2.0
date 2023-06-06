@@ -1304,7 +1304,7 @@
 		],
 		"notes": [],
 		"splashSkin": null,
-		"validScore": false,
+		"validScore": true,
 		"gfVersion": "nogf",
 		"bpm": 165,
 		"arrowSkin": "",

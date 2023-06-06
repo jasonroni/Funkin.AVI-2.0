@@ -1,5 +1,6 @@
 package states;
 
+import flixel.math.FlxMath;
 import gamejolt.GameJolt.GameJoltAPI;
 #if desktop
 import base.dependency.Discord;
@@ -428,6 +429,8 @@ class TitleState extends states.MusicBeatState
 			skipIntro();
 		}
 
+		FlxG.camera.zoom = FlxMath.lerp(1, FlxG.camera.zoom, FlxMath.bound(1 - (Main.globalElapsed * 1.925), 0, 1));
+
 		windowFixesAndEvents(); // changes window names, shutting down the game, etc
 
 		super.update(elapsed);
@@ -471,11 +474,7 @@ class TitleState extends states.MusicBeatState
 	{
 		super.beatHit();
 		
-      FlxG.camera.zoom += 0.025;
-
-		if(!camZooming) { //Copied from PlayState.hx
-			FlxTween.tween(FlxG.camera, {zoom: 1}, 0.5);
-		}
+      	FlxG.camera.zoom += 0.035;
 
 		// logo doesn't have animation, we make one by ourselfs instead
 		logoBl.scale.x += 0.02;

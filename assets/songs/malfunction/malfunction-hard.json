@@ -21742,7 +21742,7 @@
 		],
 		"song": "Malfunction",
 		"stage": "forbiddenRealm",
-		"validScore": false,
+		"validScore": true,
 		"needsVoices": true,
 		"assetModifier": "pixel",
 		"speed": 3,

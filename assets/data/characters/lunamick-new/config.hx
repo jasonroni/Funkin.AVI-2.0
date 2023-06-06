@@ -9,10 +9,10 @@ function loadAnimations()
 
 	addOffset('idle', -5, 0);
 
-	addOffset('singUP', 0, 50);
-	addOffset('singLEFT', -18, 50);
-	addOffset('singRIGHT', 0, 60);
-	addOffset('singDOWN', 10, 52);
+	addOffset('singUP', 0, 0);
+	addOffset('singLEFT', -18, 0);
+	addOffset('singRIGHT', 0, 10);
+	addOffset('singDOWN', 10, 2);
 
 	playAnim('idle');
 

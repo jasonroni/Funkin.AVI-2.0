@@ -420,7 +420,7 @@ class FreeplaySongs extends MusicBeatState
 			}
 		}
 
-		if(songs[curSelected].name != "don't-cross!" && freeplayMenuList == 1)
+		if(songs[curSelected].name != "don't-cross!" && freeplayMenuList == 1 && grpSongs.members[6] != null && grpSongs.members[6].exists)
 			{
 				grpSongs.members[6].shake(11, 10, 0.1);
 				iconArray[6].shake(4, 30, 0.1);

@@ -83,6 +83,9 @@ class Main extends Sprite
 
 	public static var baseGame:FNFGame;
 
+	// i really need this
+	public static var globalElapsed(default, set):Float = 0;
+
 	/**
 	 * The desing width of this game. You will use either this or the design heigh
 	 */
@@ -170,6 +173,11 @@ class Main extends Sprite
 			rawJson = File.getContent(path);
 
 		return Json.parse(rawJson);
+	}
+
+	public static function set_globalElapsed(value:Float):Float
+	{
+		return globalElapsed = value;
 	}
 
 	// most of these variables are just from the base game!
@@ -385,10 +393,8 @@ class Main extends Sprite
 					focusMusicTween.cancel();
 	
 				focusMusicTween = FlxTween.tween(FlxG.sound, {volume: oldVol}, 0.5);
-	
-				// Bring framerate back when focused
-				FlxG.drawFramerate = 60;
-				FlxG.updateFramerate = 60;
+
+				Main.updateFramerate(Init.trueSettings.get("Framerate Cap"));
 		}
 
 	function onCrash(e:UncaughtErrorEvent):Void

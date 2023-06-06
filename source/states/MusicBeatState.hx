@@ -78,6 +78,8 @@ import flixel.util.FlxTimer;
 	{
 		updateContents();
 
+		Main.globalElapsed = elapsed;
+
 		super.update(elapsed);
 	}
 

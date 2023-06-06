@@ -10,7 +10,7 @@ function onCreate()
 	PlayState.defaultCamZoom = 0.85;
 	PlayState.cameraSpeed = 1.35;
 
-	bloomEffect = new FlxRuntimeShader(File.getContent('./assets/shaders/bloomGame.frag'), null, 120);
+	bloomEffect = new FlxRuntimeShader(Shaders.bloom_alt, null, 120);
 	monitorFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
 	aberrationBoom = new FlxRuntimeShader(Shaders.aberration, null, 150);
 

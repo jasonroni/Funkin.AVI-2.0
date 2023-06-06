@@ -1,3 +1,6 @@
 package states.menus;
 
-// we need this lol
+class CreditsMenu extends MusicBeatState 
+{
+    
+}

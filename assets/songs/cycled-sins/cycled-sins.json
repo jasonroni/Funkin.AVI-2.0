@@ -7299,7 +7299,7 @@
 		"player3": null,
 		"splashSkin": "NoteSplashSkins/GREYnoteSplashes",
 		"song": "Cycled Sins",
-		"validScore": false,
+		"validScore": true,
 		"arrowSkin": "",
 		"speed": 2.7,
 		"gfVersion": "gf",

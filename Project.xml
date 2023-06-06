@@ -108,6 +108,10 @@
 
 	<haxedef name="no-deprecation-warnings" />
 
+	<!--The really needed macro fixes-->
+	<haxeflag name="--macro" value="allowPackage('flash')" />
+	<haxeflag name="--macro" value="include('my.pack')" />
+
 	<!-- _________________________________ Custom _______________________________ -->
 
 	<icon path="art/icon16.png" size='16' />

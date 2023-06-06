@@ -1,5 +1,8 @@
 package objects.ui.hud.toggleable;
 
+import base.song.Conductor;
+import flixel.util.FlxStringUtil;
+import objects.psychutils.AttachedSprite;
 import base.utils.ScoreUtils;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -38,6 +41,12 @@ class KadeHUD extends FlxSpriteGroup
 	public var infoDisplay:String = "";
 	public var diffDisplay:String = "";
 	public var engineDisplay:String = '';
+
+	public var timeTxt:FlxText;
+	public var timeBar:FlxBar;
+	public var timeBarBG:AttachedSprite;
+
+	var songPercent:Float = 0;
 
 	// eep
 	public function new()
@@ -87,6 +96,25 @@ class KadeHUD extends FlxSpriteGroup
 		centerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		centerMark.screenCenter(X);
 		add(centerMark);
+
+		timeTxt = new FlxText(0, 10, 400, "", 32);
+		timeTxt.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		timeTxt.scrollFactor.set();
+		timeTxt.borderSize = 2;
+		timeTxt.screenCenter(X);
+		if(Init.trueSettings.get('Downscroll'))
+			timeTxt.y = FlxG.height - 44;
+
+		if(Init.trueSettings.get('Downscroll')) timeTxt.y = FlxG.height - 44;
+
+		timeBar = new FlxBar(timeTxt.x - 300, (timeTxt.y + (timeTxt.height / 4)) + 4, LEFT_TO_RIGHT, 1000, 20, this,
+			'songPercent', 0, 1);
+		timeBar.scrollFactor.set();
+		timeBar.numDivisions = 800;
+		timeBar.createFilledBar(FlxColor.GRAY, FlxColor.LIME, true, FlxColor.BLACK);
+
+		add(timeBar);
+		add(timeTxt);
 
 		autoplayMark = new FlxText(-5, (Init.trueSettings.get('Downscroll') ? centerMark.y - 60 : centerMark.y + 60), FlxG.width - 800, '\n', 32);
 		autoplayMark.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE, CENTER);
@@ -164,6 +192,23 @@ class KadeHUD extends FlxSpriteGroup
 		}
 
 		updateScoreText();
+
+		var curTime:Float = Conductor.songPosition - Init.trueSettings.get('Offset');
+		var songCalc:Float = (PlayState.songLength - curTime);
+		var totalTime = PlayState.songLength;
+		var secondsTotal:Int = Math.floor(songCalc / 1000);
+
+		if (curTime < 0)
+			curTime = 0;
+		songPercent = (curTime / PlayState.songMusic.length);
+		
+		if (secondsTotal < 0)
+			secondsTotal = 0;
+
+		timeTxt.text = PlayState.SONG.song;
+		timeBar.updateBar();
+		timeBar.active = true;
+		timeBar.update(elapsed);
 	}
 
 	public static var divider:String = " • ";
@@ -198,10 +243,7 @@ class KadeHUD extends FlxSpriteGroup
 
 	public function reloadHealthBar()
 	{
-		var colorOpponent = PlayState.opponent.characterData.healthColor;
-		var colorPlayer = PlayState.boyfriend.characterData.healthColor;
-
-			healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
+		healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
 	}
 
 	public function beatHit(curBeat:Int)

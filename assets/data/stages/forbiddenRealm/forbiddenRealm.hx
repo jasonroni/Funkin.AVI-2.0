@@ -8,20 +8,20 @@ var staticBG:FlxRuntimeShader;
 
 var shaderTime:Float = 0;
 
+var accessPath:String;
+
 function onCreate()
 {
 	PlayState.defaultCamZoom = 0.8;
 	spawnGirlfriend(false);
 
+	accessPath = PlayState.SONG.song == 'Malfunction Legacy' ? 'PixelMouse' : 'malfunctionBG-NEW';
 	
-    	staticBG = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
-    	glitchBG = new FlxRuntimeShader(Shaders.vignetteGlitch, null, 130);
+	staticBG = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
+	glitchBG = new FlxRuntimeShader(Shaders.vignetteGlitch, null, 130);
 
 	fuckingsquares = new FlxSprite(-750, -850);
-	if (PlayState.SONG.song == 'Malfunction Legacy')
-		fuckingsquares.loadGraphic(Paths.image('PixelMouse', 'data/stages/forbiddenRealm/images'));
-	else
-		fuckingsquares.loadGraphic(Paths.image('malfunctionBG-NEW', 'data/stages/forbiddenRealm/images'));
+	fuckingsquares.loadGraphic(Paths.image(accessPath, 'data/stages/forbiddenRealm/images'));
 	fuckingsquares.scale.set(1.2, 1);
 	fuckingsquares.updateHitbox();
 	fuckingsquares.antialiasing = false;
@@ -91,21 +91,11 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 	{
 		if (curBeat == 160)
 		{
-			whiteBG.alpha = 1;
-			FlxTween.tween(whiteBG, {alpha: 0}, 3, {ease: FlxEase.sineOut});
 			FlxTween.tween(fuckingsquares, {alpha: 0}, 5, {ease: FlxEase.sineOut});
-		}
-
-		if (curBeat == 176)
-		{
-			whiteBG.alpha = 1;
-			FlxTween.tween(whiteBG, {alpha: 0}, 1);
 		}
 
 		if (curBeat == 184)
 		{
-			whiteBG.alpha = 1;
-			FlxTween.tween(whiteBG, {alpha: 0}, 1, {ease: FlxEase.sineOut});
 			FlxTween.tween(fuckingsquares, {alpha: 1}, 1.5, {ease: FlxEase.sineOut});
 		}
 	}

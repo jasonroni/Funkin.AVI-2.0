@@ -444,14 +444,6 @@ class MainMenu extends MusicBeatState
 		grain.cameras = [camHUD];
 		add(grain);
 		}
-
-		/*#if GAMEJOLT_ALLOWED
-		GJClient.initialize(
-		(user) -> {
-		add(new gamejolt.extras.Popup(user.developer_name, "You were successfully logged in!", GJClient.userGraphics.get(user.id)));
-		GJClient.trophyAdd(192974);
-	});
-		#end*/
 	}
 
 	var selectedSomethin:Bool = false;

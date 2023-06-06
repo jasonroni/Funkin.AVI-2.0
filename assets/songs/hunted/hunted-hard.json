@@ -7876,7 +7876,7 @@
 		"needsVoices": true,
 		"arrowSkin": "",
 		"stage": "forestNew",
-		"validScore": false,
+		"validScore": true,
 		"bpm": 160,
 		"speed": 2.5
 	}

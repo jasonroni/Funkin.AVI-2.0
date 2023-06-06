@@ -262,14 +262,14 @@ class PlayState extends MusicBeatState
 
 	var fade:FlxSprite;
 	
-	// for Tweening shaders and shit later
+	// for Tweening shaders and stuff
 	public static var grayScale:FlxRuntimeShader = new FlxRuntimeShader(Shaders.grayScale, null, 120);
-	public static var andromeda:FlxRuntimeShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/andromedaShader.frag'), null, 140);
+	public static var andromeda:FlxRuntimeShader = new FlxRuntimeShader(Shaders.andromedaVCR, null, 140);
 	public static var chromZoomShader:FlxRuntimeShader = new FlxRuntimeShader(Shaders.aberration, null, 150);
-	public static var chromNormalShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/aberrationLegacy.frag'), null, 150);
-	public static var blurShader:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tiltShift.frag'), null, 120);
-	public static var blurShaderHUD:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tiltShift.frag'), null, 120);
-	public static var bloomEffect:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/bloomGame.frag'), null, 120);
+	public static var chromNormalShader:FlxRuntimeShader = new FlxRuntimeShader(Shaders.aberrationDefault, null, 150);
+	public static var blurShader:FlxRuntimeShader = new FlxRuntimeShader(Shaders.tiltShift, null, 120);
+	public static var blurShaderHUD:FlxRuntimeShader = new FlxRuntimeShader(Shaders.tiltShift, null, 120);
+	public static var bloomEffect:FlxRuntimeShader = new FlxRuntimeShader(Shaders.bloom_alt, null, 120);
 	public static var dramaticCamMovement:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
 	public static var monitorFilter:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
 	public static var staticEffect:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
@@ -286,6 +286,8 @@ class PlayState extends MusicBeatState
 	var chromTween:FlxTween;
 	var blurHUDTween:FlxTween;
 	var staticTween:FlxTween;
+
+	var globalGradient:FlxSprite;
 
 	/**
 	 * Loads all RPC's icons
@@ -775,6 +777,16 @@ class PlayState extends MusicBeatState
 		lyricsIcon.visible = false;
 		lyricsIcon.cameras = [camAlt];
 		add(lyricsIcon);
+
+		if(!Init.trueSettings.get('Low Quality'))
+			{
+				globalGradient = new FlxSprite().loadGraphic(Paths.image('UI/gimmicks/gradient'));
+				globalGradient.screenCenter();
+				globalGradient.setGraphicSize(Std.int(globalGradient.width * 0.68));
+				globalGradient.cameras = [camAlt];
+				globalGradient.alpha = 0;
+				add(globalGradient);
+			}
 			
 		// Cleaner Initialization for the mechanics and note visibility stuff
 		switch (SONG.song)
@@ -1443,7 +1455,7 @@ class PlayState extends MusicBeatState
 				});
 
 				// unoptimised asf camera control based on strums
-				strumCameraRoll(strumline.receptors, (strumline == bfStrums));
+				strumCameraRoll(strumline.receptors, ((strumline == bfStrums) ? true : false));
 			}
 		}
 
@@ -1490,7 +1502,10 @@ class PlayState extends MusicBeatState
 				
 				switch (SONG.song)
 				{
-					case 'Lunacy':
+					// i wanna do something more interesting
+					//                            - jason
+					/**
+					 * case 'Lunacy':
 						if (!Init.trueSettings.get('Disable Mechanics'))
 						{
 							if (opponent.curCharacter == 'lunamick-new')
@@ -1499,21 +1514,15 @@ class PlayState extends MusicBeatState
 									health -= 0.02;
 							}
 						}
+					 */
 					
 					case 'Delusional':
+						// keeping that cus deserved
+						//                          - jason
 						if (!Init.trueSettings.get('Disable Mechanics'))
 						{
-							if (opponent.curCharacter == 'lunamick-new')
-							{
-								if (health > 0.35)
-									health -= 0.02;
-							}
-							else if (opponent.curCharacter == 'mick-delusional-new')
-							{
-
 								if (health > 0.1)
 									health -= 0.035;
-							}
 						}
 						
 					case 'Laugh Track':
@@ -2721,6 +2730,9 @@ class PlayState extends MusicBeatState
 			}
 		});
 
+		// to be honest we can just use shake 
+		//                                - jason
+
 		FlxTween.tween(crashLives, {x: 620}, 0.01);
 		FlxTween.tween(crashLivesIcon, {x: 570}, 0.01);
 		FlxTween.tween(crashLives, {x: 585}, 0.01, {startDelay: 0.1});
@@ -2794,6 +2806,11 @@ class PlayState extends MusicBeatState
 				FlxG.camera.shake(0.05, 0.05);
 				health -= damageAmount;
 				trace("lmfao you got shot depsite the fact this is nerfed");
+				if (!FlxG.stage.window.title.contains(' - lmfao you got shot depsite the fact this is nerfed'))
+					{
+						FlxG.stage.window.title += ' - lmfao you got shot depsite the fact this is nerfed'; // troll
+						new FlxTimer().start(5, _ -> loadWindowTitleData());
+					}
 				dodged = false;
 			} else {
 				boyfriend.playAnim('dodge');
@@ -2978,13 +2995,13 @@ class PlayState extends MusicBeatState
 				Conductor.changeBPM(SONG.notes[curSection].bpm);
 		}
 
-		if(uiHUD != null) uiHUD.beatHit(curBeat);
-		if(demolitionHUD != null) demolitionHUD.beatHit(curBeat);
-		if(psychHUD != null) psychHUD.beatHit(curBeat);
-		if(vanillaHUD != null) vanillaHUD.beatHit(curBeat);
-		if(kadeHUD != null) kadeHUD.beatHit(curBeat);
-		if(cycledSinsHUD != null) cycledSinsHUD.beatHit(curBeat);
-		if(episode1HUD != null) episode1HUD.beatHit(curBeat);
+		if(uiHUD != null && uiHUD.exists) uiHUD.beatHit(curBeat);
+		if(demolitionHUD != null && demolitionHUD.exists) demolitionHUD.beatHit(curBeat);
+		if(psychHUD != null && psychHUD.exists) psychHUD.beatHit(curBeat);
+		if(vanillaHUD != null && vanillaHUD.exists) vanillaHUD.beatHit(curBeat);
+		if(kadeHUD != null && kadeHUD.exists) kadeHUD.beatHit(curBeat);
+		if(cycledSinsHUD != null && cycledSinsHUD.exists) cycledSinsHUD.beatHit(curBeat);
+		if(episode1HUD != null && episode1HUD.exists) episode1HUD.beatHit(curBeat);
 
 		//
 		charactersDance(curBeat);
@@ -3259,7 +3276,7 @@ class PlayState extends MusicBeatState
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);
 						flashBGEffect('normal', 0.4, 0.35, 'linear', 255, 255, 255);
 					
-					case 48 | 336 | 304 | 272 | 248 | 112 | 144:
+					case 48 | 336 | 304 | 272 | 112 | 144:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.BLACK, 1.5);
 						flashBGEffect('normal', 0.32, 1.2, 'linear', 255, 255, 255);
 				
@@ -3698,7 +3715,7 @@ class PlayState extends MusicBeatState
 					chromTween = FlxTween.tween(
 						this,
 						{
-							chromEffect: 0.45
+							chromEffect: 0.85
 						},
 						1.6,
 						{
@@ -3757,7 +3774,7 @@ class PlayState extends MusicBeatState
 					case 128 | 256:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) camGame.flash(FlxColor.WHITE, 1.5);	
 					
-					case 156 | 392:
+					case 156:
 						defaultCamZoom = 1.05;
 					
 					case 160:
@@ -3768,13 +3785,13 @@ class PlayState extends MusicBeatState
 						defaultCamZoom = 0.75;
 					case 200 | 238 | 270 | 316 | 332 | 344:
 						defaultCamZoom = 0.8;
-					case 208 | 360:
+					case 208:
 						defaultCamZoom = 0.85;
-					case 216 | 368 | 252 | 284:
+					case 216 | 252 | 284:
 						defaultCamZoom = 0.9;
-					case 220 | 376:
+					case 220:
 						defaultCamZoom = 0.95;
-					case 222 | 384 | 235 | 267 | 239 | 271 | 334:
+					case 222 | 235 | 267 | 239 | 271 | 334:
 						defaultCamZoom = 1;
 
 					case 224 | 288:
@@ -3786,7 +3803,7 @@ class PlayState extends MusicBeatState
 							FlxTween.tween(i, {alpha: 0}, 3, {ease: FlxEase.sineInOut});
 						}
 
-					case 228 | 260 | 292 | 286 | 400:
+					case 228 | 260 | 292 | 286:
 						defaultCamZoom = 1.1;
 
 					case 230 | 262 | 296 | 312 | 236 | 268:
@@ -3823,12 +3840,15 @@ class PlayState extends MusicBeatState
 						defaultCamZoom = 1.25;
 
 					case 352:
-						defaultCamZoom = 0.8;
-						FlxTween.tween(camHUD, {alpha: 0.15}, 8, {ease: FlxEase.sineInOut});
+						defaultCamZoom = 0.65;
+						FlxTween.tween(camHUD, {alpha: 0.25}, 8, {ease: FlxEase.sineInOut});
 						for (i in strumHUD)
 						{
-							FlxTween.tween(i, {alpha: 0.15}, 8, {ease: FlxEase.sineInOut});
+							FlxTween.tween(i, {alpha: 0.25}, 8, {ease: FlxEase.sineInOut});
 						}
+						FlxTween.tween(PlayState, {health: 0.01}, 20);
+						if(globalGradient != null) FlxTween.tween(globalGradient, {alpha: 0.8}, 10);
+						FlxTween.tween(FlxG.camera, {zoom: 1.1}, 18, {startDelay: 2});
 
 					case 408:
 						defaultCamZoom = 0.9;
@@ -3955,7 +3975,7 @@ class PlayState extends MusicBeatState
 					case 340: defaultCamZoom += 0.3;
 					case 356 | 388: defaultCamZoom = 1.2;
 					case 358 | 390: defaultCamZoom = 1.3;
-					case 360 | 192: defaultCamZoom = 0.75;
+					case 360: defaultCamZoom = 0.75;
 					case 375:
 						chromTween = FlxTween.tween(this, {chromEffect: 1}, 0.1, {ease: FlxEase.sineInOut});
 						tweenCamera(1.5, 0.1, 'sineInOut');
@@ -4870,6 +4890,20 @@ class PlayState extends MusicBeatState
 				uiHUD.kill();
 				kadeHUD.kill();
 				vanillaHUD.kill();
+
+			case 'vanilla': // vanilla HUD
+				FlxTween.tween(vanillaHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+				psychHUD.kill();
+				uiHUD.kill();
+				kadeHUD.kill();
+				demolitionHUD.kill();
+
+			case 'kade': // Kade engine HUD
+				FlxTween.tween(kadeHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+				psychHUD.kill();
+				uiHUD.kill();
+				vanillaHUD.kill();
+				demolitionHUD.kill();
 	
 			default: // forever HUD
 				FlxTween.tween(uiHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});

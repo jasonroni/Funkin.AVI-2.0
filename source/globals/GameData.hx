@@ -149,7 +149,7 @@ class GameData
 	FlxG.save.data.canAddMalfunction = canAddMalfunction;
         FlxG.save.data.muckneyLock = muckneyLock;
         FlxG.save.data.highOnCrackLock = highOnCrackLock;
-
+        
         FlxG.save.flush();
     }
 
@@ -196,7 +196,7 @@ class GameData
 	canAddMalfunction = FlxG.save.data.canAddMalfunction;
         muckneyLock = FlxG.save.data.muckneyLock;
         highOnCrackLock = FlxG.save.data.highOnCrackLock;
-	    
+
         saveShit();
     }
 
