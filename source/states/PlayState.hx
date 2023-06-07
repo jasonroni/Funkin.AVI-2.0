@@ -4710,9 +4710,21 @@ class PlayState extends MusicBeatState
 		{
 			case 'cycled sins':
 				FlxTween.tween(cycledSinsHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+				demolitionHUD.kill();
+				uiHUD.kill();
+				kadeHUD.kill();
+				vanillaHUD.kill();
+				psychHUD.kill();
+				episode1HUD.kill();
 				
 			case 'devilish deal' | 'isolated' | 'lunacy' | 'delusional':
 				FlxTween.tween(episode1HUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+				demolitionHUD.kill();
+				uiHUD.kill();
+				kadeHUD.kill();
+				vanillaHUD.kill();
+				psychHUD.kill();
+				cycledSinsHUD.kill();
 
 			default:
 				checkHUDS();
@@ -4883,6 +4895,8 @@ class PlayState extends MusicBeatState
 				uiHUD.kill();
 				kadeHUD.kill();
 				vanillaHUD.kill();
+				cycledSinsHUD.kill();
+				episode1HUD.kill();
 	
 			case 'demolition': // demoliton HUD
 				FlxTween.tween(demolitionHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
@@ -4890,6 +4904,8 @@ class PlayState extends MusicBeatState
 				uiHUD.kill();
 				kadeHUD.kill();
 				vanillaHUD.kill();
+				cycledSinsHUD.kill();
+				episode1HUD.kill();
 
 			case 'vanilla': // vanilla HUD
 				FlxTween.tween(vanillaHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
@@ -4897,6 +4913,8 @@ class PlayState extends MusicBeatState
 				uiHUD.kill();
 				kadeHUD.kill();
 				demolitionHUD.kill();
+				cycledSinsHUD.kill();
+				episode1HUD.kill();
 
 			case 'kade': // Kade engine HUD
 				FlxTween.tween(kadeHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
@@ -4904,6 +4922,8 @@ class PlayState extends MusicBeatState
 				uiHUD.kill();
 				vanillaHUD.kill();
 				demolitionHUD.kill();
+				cycledSinsHUD.kill();
+				episode1HUD.kill();
 	
 			default: // forever HUD
 				FlxTween.tween(uiHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
@@ -4911,6 +4931,8 @@ class PlayState extends MusicBeatState
 				psychHUD.kill();
 				kadeHUD.kill();
 				vanillaHUD.kill();
+				cycledSinsHUD.kill();
+				episode1HUD.kill();
 		}
 
 		return Init.trueSettings.get('HUD Style');
