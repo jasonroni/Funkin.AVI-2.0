@@ -1,5 +1,6 @@
 package states.substates;
 
+import base.utils.PlayStateUtils;
 import sys.FileSystem;
 import base.song.Conductor;
 import flixel.FlxG;
@@ -172,7 +173,7 @@ class PauseSubstate extends MusicBeatSubstate
 		FlxTween.tween(funnyButton, {alpha: 1}, 0.8, {ease: FlxEase.quartInOut});
 
 		changeSelection();
-		PlayState.main.loadWindowTitleData();
+		PlayStateUtils.instance.loadWindowTitleData();
 
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 	}
@@ -244,7 +245,7 @@ class PauseSubstate extends MusicBeatSubstate
 				case "continue" | 'wd-continue' | 'mal-continue':
 					close();
 					remove(disc);
-					PlayState.main.loadWindowTitleData(); // resets the title bar to the PlayState info
+					PlayStateUtils.instance.loadWindowTitleData(); // resets the title bar to the PlayState info
 				case "restart" | 'wd-restart' | 'mal-restart':
 					Main.switchState(this, new PlayState());
 				case "Back to Charter":

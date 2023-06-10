@@ -1,5 +1,6 @@
 package states;
 
+import base.utils.PlayStateUtils;
 import base.events.SongLoop;
 import gamejolt.GameJolt.GameJoltAPI;
 import base.events.Events;
@@ -437,7 +438,7 @@ class PlayState extends MusicBeatState
 
 		GameData.setFreeplayData();
 		loadRPCIcon();
-		loadWindowTitleData();
+		PlayStateUtils.instance.loadWindowTitleData();
 
 		FlxG.mouse.visible = false;
 
@@ -875,7 +876,7 @@ class PlayState extends MusicBeatState
 
 		// call the funny intro cutscene depending on the song
 		songCutscene(false);
-		if (canaddshaders) initializeShaders();
+		if (canaddshaders) PlayStateUtils.initializeShaders();
 	}
 
 	var keysHeld:Array<Bool> = [];
@@ -1069,20 +1070,7 @@ class PlayState extends MusicBeatState
 			opp_vocals.volume = 1;
 		}
 	}
-	
-	/**
-	* The better and simplified Walt gimmick
-	*
-	* @author Wither362
-	*/
-	function tweenWaltScreen(percentage:Float, alpha:Float):Bool {
-		if (health <= percentage)
-			FlxTween.tween(waltScreenThing, {alpha: alpha}, 0.15, {ease: FlxEase.sineInOut});
-		else
-			return true;
-		return false;
-	}
-	
+
 	function checkCamPosition()
 	{
 		/*
@@ -1108,6 +1096,275 @@ class PlayState extends MusicBeatState
 				updateSectionCamera('bf', true);
 		}
 	}
+
+	// stuff that isn't on PlayStateUtils cus the game hates me
+
+	/**
+        * # Malfunction Life System Checker
+        * 
+        * Self explanitory, don't you think?
+        * 
+        * Checks on your lives in Malfunction and is used by the Error Notes
+        * It will make sure to close your game if it goes below 0
+        * 
+        * @author DEMOLITIONDON96
+        */
+        public function updateMalfunctionLives()
+			{
+				callFunc('updateMalfunctionLives', []);
+		
+				crashLivesCounter -= 1;
+		
+				if (malfunctionTxt != null)
+					malfunctionTxt.cancel();
+		
+				if (heartTween != null)
+					heartTween.cancel();
+		
+				malfunctionTxt = FlxTween.tween(crashLives, {alpha: 1}, 0.6, {ease: FlxEase.sineOut,
+					onComplete: function(twn:FlxTween)
+					{
+						malfunctionTxt = FlxTween.tween(crashLives, {alpha: 0.3}, 2, {ease: FlxEase.quartInOut, startDelay: 5,
+							onComplete: function(twn:FlxTween)
+							{
+								malfunctionTxt = null;
+							}
+						});
+					}
+				});
+		
+				heartTween = FlxTween.tween(crashLivesIcon, {alpha: 1}, 0.6, {ease: FlxEase.sineOut,
+					onComplete: function(twn:FlxTween)
+					{
+						heartTween = FlxTween.tween(crashLivesIcon, {alpha: 0.3}, 2, {ease: FlxEase.quartInOut, startDelay: 5,
+							onComplete: function(twn:FlxTween)
+							{
+								heartTween = null;
+							}
+						});
+					}
+				});
+		
+				// to be honest we can just use shake 
+				//                                - jason
+		
+				FlxTween.tween(crashLives, {x: 620}, 0.01);
+				FlxTween.tween(crashLivesIcon, {x: 570}, 0.01);
+				FlxTween.tween(crashLives, {x: 585}, 0.01, {startDelay: 0.1});
+				FlxTween.tween(crashLivesIcon, {x: 535}, 0.01, {startDelay: 0.1});
+				FlxTween.tween(crashLives, {x: 610}, 0.01, {startDelay: 0.2});
+				FlxTween.tween(crashLivesIcon, {x: 560}, 0.01, {startDelay: 0.2});
+				FlxTween.tween(crashLives, {x: 595}, 0.01, {startDelay: 0.3});
+				FlxTween.tween(crashLivesIcon, {x: 545}, 0.01, {startDelay: 0.3});
+				FlxTween.tween(crashLives, {x: 600}, 0.01, {startDelay: 0.4});
+				FlxTween.tween(crashLivesIcon, {x: 550}, 0.01, {startDelay: 0.4});
+		
+				crashLivesIcon.animation.play("OMFG IT GLITCHES");
+				
+				new FlxTimer().start(0.25, function(tmr:FlxTimer)
+				{
+					crashLivesIcon.animation.play('idle');
+				});
+		
+				if (crashLivesCounter == -1)
+				{
+					finishSong();
+					trace('0 lives left, closing game...');
+					FlxG.sound.play(Paths.sound('funkinAVI/wiiCrash'), 1);
+		
+					if(FlxG.random.bool(10)) 
+						Application.current.window.alert("You Suck LMAO", 'Note About Your Skill:'); //10% of probability
+					else 
+						Application.current.window.alert("Message: if(note.noteType = 'Error Note') {trace('0 lives left, closing game...')}", 'Error On Funkin.avi.exe!:');
+		
+					Sys.exit(0);
+				}
+			}
+		
+			/**
+			* # **The Cycled Sins Gimmick**
+			*
+			* As you can see, it's different than how it was before, it can actually be
+			* used now without the need of a fucking event or some shit, so, have fun lol
+			*
+			* @param reactionTime - Amount of time you have to react before he shoots you
+			* @param damageAmount - how much health it'll remove if you fail to dodge
+			*
+			* @author DEMOLITIONDON96
+			*/
+			public function relapseGimmick(reactionTime:Float = 2, damageAmount:Float = 0.4)
+			{
+				callFunc('relapseGimmick', [reactionTime, damageAmount]);
+		
+				dodged = false;
+				shootin = true;	
+				FlxG.sound.play(Paths.sound('funkinAVI/relapseMechs/Reload'), 0.4);
+				updateSectionCamera('dad', false);
+				//holyShitMOVEBITCH.alpha = 1;
+				//holyShitMOVEBITCH.y = -420;
+				defaultCamZoom = 1.5;
+				opponent.playAnim("reload", true);
+				opponent.specialAnim = true;
+				/*new FlxTimer().start(reactionTime - 0.6, function(tmr:FlxTimer)
+				{
+					FlxTween.tween(holyShitMOVEBITCH, {alpha: 0, y: -400}, 0.3, {ease: FlxEase.quadInOut});
+				});*/
+				
+				new FlxTimer().start(reactionTime, function(tmr:FlxTimer){
+					FlxG.sound.play(Paths.sound('funkinAVI/relapseMechs/Shoot'), 0.4);
+					opponent.playAnim("attack", true);
+					opponent.specialAnim = true;
+					defaultCamZoom = 0.6;
+					checkCamPosition();
+					new FlxTimer().start(0.1, function(tmr:FlxTimer) {
+					if(!dodged) {
+						FlxG.camera.shake(0.05, 0.05);
+						PlayState.health -= damageAmount;
+						trace("lmfao you got shot depsite the fact this is nerfed");
+						if (!FlxG.stage.window.title.contains(' - lmfao you got shot depsite the fact this is nerfed'))
+							{
+								FlxG.stage.window.title += ' - lmfao you got shot depsite the fact this is nerfed'; // troll
+								new FlxTimer().start(5, _ -> PlayStateUtils.instance.loadWindowTitleData());
+							}
+						dodged = false;
+					} else {
+						boyfriend.playAnim('dodge');
+						dodged = false;
+						shootin = false;
+						health += 0.05;
+					}
+					});
+				});
+			}
+
+	public function manageLyrics(icon:String = 'bf', text:String = 'swaggers', font:String = 'vcr', size:Int = 15, duration:Float = 5, tweenType:String = 'linear')
+		{
+			lyricsIcon.updateIcon(icon, false);
+			if (!lyricsIcon.visible)
+			{
+				lyricsIcon.visible = true;
+				lyricsIcon.alpha = 0;
+			}
+	
+			lyrics.font = Paths.font(font);
+			lyrics.text = text;
+	
+			if (lyricsTween != null)
+				lyricsTween.cancel();
+	
+			if (iconTween != null)
+				iconTween.cancel();
+	
+			iconTween = FlxTween.tween(lyricsIcon, {
+					'scale.x': 1,
+					'scale.y': 1,
+					alpha: 1
+				},
+				0.5,
+				{ease: ForeverTools.returnTweenEase(tweenType),
+				onComplete: function(twn:FlxTween)
+				{
+					iconTween = FlxTween.tween(lyricsIcon, {alpha: 0, 'scale.x': 0, 'scale.y': 0}, 0.25, {startDelay: duration, ease: ForeverTools.returnTweenEase(tweenType),
+						onComplete: function(twn:FlxTween)
+						{
+							iconTween = null;
+						}
+					});
+				}
+			});
+	
+			lyricsTween = FlxTween.tween(lyrics, {
+					size: size,
+					alpha: 1
+				},
+				0.5,
+				{ease: ForeverTools.returnTweenEase(tweenType),
+				onComplete: function(twn:FlxTween)
+				{
+					lyricsTween = FlxTween.tween(lyrics, {alpha: 0, size: 0}, 0.25, {startDelay: duration, ease: ForeverTools.returnTweenEase(tweenType),
+						onComplete: function(twn:FlxTween)
+						{
+							lyricsTween = null;
+						}
+					});
+				}
+			});
+		}
+		
+	/**
+	* # Stage Background Flash Function
+	*
+	* Basically the BG Flash used in Isolated but it's now hardcoded and can be used globally now.
+	* The reasoning for this is cause I'm NOT gonna go and duplicate the flash assets from the episode 1
+	* stage onto other stages I want to use it at, too much work!
+	*
+	* @param flashType - Defines how you want the BG flash handler to behave
+	* @param alpha - the visiblity of your BG you want it to flash at
+	* @param time - How long you want the tween to take
+	* @param ease - Uses ForeverTools to handle the ease function, so I suggest looking at ForeverDeps.hx to see your options
+	* @param r - a value used for FlxColor.fromRGB() as an individual number to make a color
+	* @param g - same as the "r" value
+	* @param b - you get the idea
+	* @param a - color's alpha, you get the point
+	*
+	* @author DEMOLITIONDON96
+	*/
+	public function flashBGEffect(flashType:String = 'normal', alpha:Float = 0.5, time:Float = 1, ease:String = 'linear', ?r:Int = 255, ?g:Int = 255, ?b:Int = 255, ?a:Int = 255) // TODO: Make this function shorter
+		{
+			if (!Init.trueSettings.get('Disable Flashing Lights') && stageBGFlash != null)
+			{
+				switch (flashType.toLowerCase())
+				{
+					case 'normal' | 'flash':
+							if (alpha > 1 || alpha < 0) // prevents a crash from making a dumb mistake
+								stageBGFlash.alpha = 0.5;
+							else
+								stageBGFlash.alpha = alpha;
+	
+							if (time <= 0) // another check to prevent a crash
+								time = 1;
+	
+							if (r == 0 && g == 0 && b == 0) // blend check cause it makes it look cool
+								stageBGFlash.blend = NORMAL;
+							else
+								stageBGFlash.blend = ADD;
+	
+							stageBGFlash.color = FlxColor.fromRGB(r, g, b, a);
+	
+							if (BGFlashTween != null) // makes it so it won't look wonky, visually
+								BGFlashTween.cancel();
+	
+							BGFlashTween = FlxTween.tween(stageBGFlash, {alpha: 0}, time, {ease: ForeverTools.returnTweenEase(ease), 
+								onComplete: function(twn:FlxTween)
+								{
+									BGFlashTween = null;
+								}
+							});
+						
+					case 'dim' | 'darken' | 'dark':
+						if (stageBGFlash != null)
+						{
+							if (BGFlashTween != null)
+								BGFlashTween.cancel();
+	
+							if (stageBGFlash.blend != NORMAL)
+								stageBGFlash.blend = NORMAL;
+	
+							if (time <= 0)
+								time = 1;
+	
+							stageBGFlash.color = FlxColor.BLACK; // hardcoded to be black
+	
+							BGFlashTween = FlxTween.tween(stageBGFlash, {alpha: alpha}, time, {ease: ForeverTools.returnTweenEase(ease),
+								onComplete: function(twn:FlxTween)
+								{
+									BGFlashTween = null;
+								}
+							});
+						}
+				}
+			}
+		}
 
 	override public function update(elapsed:Float)
 	{
@@ -1181,7 +1438,7 @@ class PlayState extends MusicBeatState
 			}
 		
 		if (!Init.trueSettings.get('Disable Mechanics'))
-			detectSpace(bfStrums.autoplay); // checks on the autoplay to determine whether or not it would play the mechanics for you
+			PlayStateUtils.instance.detectSpace(bfStrums.autoplay); // checks on the autoplay to determine whether or not it would play the mechanics for you
 
 		if (curStage == 'forbiddenRealm')
 			crashLives.text = 'Lives: ${crashLivesCounter}';
@@ -1208,7 +1465,7 @@ class PlayState extends MusicBeatState
 				var lastOne:Bool = true;
 				for(i in 0...healths.length) {
 					if(lastOne) {
-						lastOne = tweenWaltScreen(healths[i], alphas[i]);
+						lastOne = PlayStateUtils.instance.tweenWaltScreen(healths[i], alphas[i]);
 					}
 				}
 			}
@@ -1480,304 +1737,9 @@ class PlayState extends MusicBeatState
 			if (vocals != null)
 			        vocals.volume = 1;
 			
-			if (strumline == bfStrums)
-			{
-			        if (bf_vocals != null)
-				        bf_vocals.volume = 1;
-				
-				switch (SONG.song)
-				{
-					case "Don't Cross!":
-						boyfriend.x -= 1.2;
-						boyfriend.y += 1.2;
-						boyfriend.scale.x += 0.0012;
-						boyfriend.scale.y += 0.0012;
-				}
-			}
-			
 			if (strumline == dadStrums)
 			{
-			        if (opp_vocals != null)
-				        opp_vocals.volume = 1;
-				
-				switch (SONG.song)
-				{
-					// i wanna do something more interesting
-					//                            - jason
-					/**
-					 * case 'Lunacy':
-						if (!Init.trueSettings.get('Disable Mechanics'))
-						{
-							if (opponent.curCharacter == 'lunamick-new')
-							{
-								if (health > 0.35)
-									health -= 0.02;
-							}
-						}
-					 */
-					
-					case 'Delusional':
-						// keeping that cus deserved
-						//                          - jason
-						if (!Init.trueSettings.get('Disable Mechanics'))
-						{
-								if (health > 0.1)
-									health -= 0.035;
-						}
-						
-					case 'Laugh Track':
-						if (Init.trueSettings.get('Screen Shake'))
-						{
-							camGame.shake(0.005, 0.07);
-							camHUD.shake(0.010, 0.07);
-							for (i in strumHUD)
-								i.shake(0.010, 0.07);
-						}
-						
-					case 'Malfunction':
-						if (opponent.curCharacter == 'glitched-mickey-new-pixel')
-						{
-							if (health > 0.05)
-									health -= 0.018;
-							if (Init.trueSettings.get('Screen Shake'))
-							{
-								camGame.shake(0.008, 0.07);
-								for (i in allUIs)
-									i.shake(0.015, 0.07);
-							}
-							if (canaddshaders)
-							{			
-								if(!Init.trueSettings.get('Low Quality') && Init.trueSettings.get('Epilepsy Mode'))
-								{
-									camGame.setFilters([
-										new ShaderFilter(chromZoomShader),
-										new ShaderFilter(chromNormalShader),
-										new ShaderFilter(blurShader)
-									]);
-									camHUD.setFilters([
-										new ShaderFilter(chromNormalShader),
-										new ShaderFilter(blurShader)
-									]);
-									for (i in strumHUD)
-									{
-										i.setFilters([
-											new ShaderFilter(chromNormalShader),
-											new ShaderFilter(blurShader)
-										]);
-									}
-								}
-								
-								chromEffect += 0.5;
-								blurEffect += 5;
-								
-								if (chromTween != null)
-									chromTween.cancel();
-								if (blurTween != null)
-									blurTween.cancel();
-
-								chromTween = FlxTween.tween(
-									this,
-									{
-										chromEffect: 0.0001
-									},
-									0.1,
-									{
-										ease: FlxEase.sineOut,
-										onComplete: function(twn:FlxTween)
-										{
-											chromTween = null;
-										}
-									}
-								);
-								blurTween = FlxTween.tween(
-									this,
-									{
-										blurEffect: 0.0
-									},
-									0.1,
-									{
-										ease: FlxEase.sineOut,
-										onComplete: function(twn:FlxTween)
-										{
-										
-											if(!Init.trueSettings.get('Low Quality'))
-											{
-												camGame.setFilters([new ShaderFilter(chromZoomShader), new ShaderFilter(chromNormalShader)]);
-												camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
-												for (i in strumHUD) i.setFilters([new ShaderFilter(chromNormalShader)]);
-											}
-											blurTween = null;
-										}
-									}
-								);
-							}
-						}
-						else if (opponent.curCharacter == 'gm-tired-pixel')
-						{
-							if (health > 0.36)
-								health -= 0.01;
-							if (Init.trueSettings.get('Screen Shake'))
-							{
-								camGame.shake(0.004, 0.07);
-								camHUD.shake(0.007, 0.07);
-								for (i in strumHUD)
-									i.shake(0.07, 0.07);
-							}
-							if (canaddshaders)
-							{
-								if(!Init.trueSettings.get('Low Quality') && Init.trueSettings.get('Epilepsy Mode'))
-								{
-									camGame.setFilters([
-										new ShaderFilter(chromZoomShader),
-										new ShaderFilter(chromNormalShader),
-										new ShaderFilter(blurShader)
-									]);
-									camHUD.setFilters([
-										new ShaderFilter(chromNormalShader),
-										new ShaderFilter(blurShader)
-									]);
-									for (i in strumHUD)
-									{
-										i.setFilters([
-											new ShaderFilter(chromNormalShader),
-											new ShaderFilter(blurShader)
-										]);
-									}
-								}
-								
-								chromEffect += 0.25;
-								blurEffect += 2.5;
-								
-								if (chromTween != null)
-									chromTween.cancel();
-								if (blurTween != null)
-									blurTween.cancel();
-
-								chromTween = FlxTween.tween(
-									this,
-									{
-										chromEffect: 0.0001
-									},
-									0.1,
-									{
-										ease: FlxEase.sineOut,
-										onComplete: function(twn:FlxTween)
-										{
-											chromTween = null;
-										}
-									}
-								);
-								blurTween = FlxTween.tween(
-									this,
-									{
-										blurEffect: 0.0
-									},
-									0.1,
-									{
-										ease: FlxEase.sineOut,
-										onComplete: function(twn:FlxTween)
-										{
-										
-											if(!Init.trueSettings.get('Low Quality'))
-											{
-												camGame.setFilters([new ShaderFilter(chromZoomShader), new ShaderFilter(chromNormalShader)]);
-												camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
-												for (i in strumHUD) i.setFilters([new ShaderFilter(chromNormalShader)]);
-											}
-											blurTween = null;
-										}
-									}
-								);
-							}
-						}
-						
-					case 'Malfunction Legacy': // the reason this gets a separate case is cause shader effects are gonna be different
-						if (health > 0.05)
-    							health -= 0.016;
-						if (Init.trueSettings.get('Screen Shake'))
-						{
-							camGame.shake(0.008, 0.07);
-							for (i in allUIs)
-								i.shake(0.015, 0.07);
-						}
-						if (canaddshaders)
-						{
-							if(!Init.trueSettings.get('Low Quality') && Init.trueSettings.get('Epilepsy Mode'))
-							{
-								camGame.setFilters([
-									new ShaderFilter(chromNormalShader),
-									new ShaderFilter(blurShader)
-								]);
-								camHUD.setFilters([
-									new ShaderFilter(chromNormalShader),
-									new ShaderFilter(blurShader)
-								]);
-								for (i in strumHUD)
-								{
-									i.setFilters([
-										new ShaderFilter(chromNormalShader),
-										new ShaderFilter(blurShader)
-									]);
-								}
-							}
-								
-							chromEffect += 0.3;
-							blurEffect += 1.5;
-								
-							if (chromTween != null)
-								chromTween.cancel();
-							if (blurTween != null)
-								blurTween.cancel();
-
-							chromTween = FlxTween.tween(
-								this,
-								{
-									chromEffect: 0.0001
-								},
-								0.1,
-								{
-									ease: FlxEase.sineOut,
-									onComplete: function(twn:FlxTween)
-									{
-										chromTween = null;
-									}
-								}
-							);
-							blurTween = FlxTween.tween(
-								this,
-								{
-									blurEffect: 0.0
-								},
-								0.1,
-								{
-									ease: FlxEase.sineOut,
-									onComplete: function(twn:FlxTween)
-									{
-										
-										if(!Init.trueSettings.get('Low Quality'))
-										{
-											camGame.setFilters([new ShaderFilter(chromNormalShader)]);
-											camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
-											for (i in strumHUD) i.setFilters([new ShaderFilter(chromNormalShader)]);
-										}
-										blurTween = null;
-									}
-								}
-							);
-						}
-						
-					case "Don't Cross!":
-						boyfriend.x += 1.2;
-						boyfriend.y -= 1.2;
-						boyfriend.scale.x -= 0.0012;
-						boyfriend.scale.y -= 0.0012;
-
-						if (!Init.trueSettings.get('Disable Mechanics'))
-						{
-							if(health > 0.05) // trol
-								health -= 0.015;
-						}
-				}
+			    PlayStateUtils.instance.opponentNoteHit();
 			}
 
 			callFunc(coolNote.mustPress ? 'goodNoteHit' : 'opponentNoteHit', [coolNote, strumline]);
@@ -2450,431 +2412,8 @@ class PlayState extends MusicBeatState
 		callFunc('eventTrigger', [name, params]);
 	}
 		
-	var dodged:Bool;
-	var shootin:Bool;
-		
-	/**
-	* Checks on the spacebar if there's a spacebar mechanic required
-	* if you have a mechanic you want to add with the spacebar
-	* simply tag in your gimmick here with the stage/song you want it
-	* to occur at, in other words, go nuts
-	*
-	* @param isAutoplay - Do I REALLY need to explain this one?
-	*
-	* @author DEMOLITIONDON96
-	*/
-	function detectSpace(isAutoplay:Bool = false)
-	{
-		if (!isAutoplay)
-		{
-			if (FlxG.keys.justPressed.SPACE)
-			{
-				/*
-				* This set is for song-specific gimmicks
-				* Try messing around with it
-				*
-				* - DEMOLITIONDON96
-				*/
-
-				switch (SONG.song)
-				{
-					default:
-						// nothing
-				}
-
-				/*
-				* This is if you want the gimmicks to affect
-				* ALL songs globally, if they use a certain stage
-				* 2 examples are already provided below
-				*
-				* - DEMOLITIOONDON96
-				*/
-
-				switch (curStage)
-				{
-					case 'waltRoom':
-						if (limitThing > 0)
-						{
-							health += 1.25;
-							limitThing -= 1;
-						}
-					
-					case 'apartment':
-						if (shootin)
-							dodged = true;
-
-					default:
-						// nothing
-				}
-			}
-		}else{
-			switch (SONG.song)
-			{
-				default:
-					//nothing
-			}
-			
-			switch (curStage)
-			{
-				case 'waltRoom':
-					if (health < 0.3 && limitThing > 0)
-					{
-						health += 1.25;
-						limitThing -= 1;
-					}
-					
-				case 'apartment':
-					if (shootin)
-						dodged = true;
-				
-				default:
-					// nothing
-			}
-		}
-	}
-			
-	/**
-	*  # Cinematic Bars
-	*
-	* WORK IN PROGRESS, NOT FINAL
-	*/		
-	function cinematicBarControls(speed:Float, ease:String = "circInOut", position:Float = 0, controlType:String = "add")
-	{
-		switch (controlType.toLowerCase())
-		{
-			case "add" | "create":
-				if (cinematicBars["top"] == null)
-				{
-					cinematicBars["top"] = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-					cinematicBars["top"].screenCenter(X);
-					cinematicBars["top"].cameras = [camBars];
-					cinematicBars["top"].y = 0 - cinematicBars["top"].height; // offscreen
-					add(cinematicBars["top"]);
-				}
-
-				if (cinematicBars["bottom"] == null)
-				{
-					cinematicBars["bottom"] = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-					cinematicBars["bottom"].screenCenter(X);
-					cinematicBars["bottom"].cameras = [camBars];
-					cinematicBars["bottom"].y = FlxG.height; // offscreen
-					add(cinematicBars["bottom"]);
-				}
-				
-			case "remove" | "kill" | "delete":
-				if (cinematicBars["top"] != null)
-					cinematicBars["top"].kill();
-				if (cinematicBars["bottom"] != null)
-					cinematicBars["bottom"].kill();
-				
-			case "movetop" | "move top":
-				FlxTween.tween(cinematicBars["top"], {y: position}, speed, {ease: ForeverTools.returnTweenEase(ease)});
-				
-			case "movebottom" | "move bottom":
-				FlxTween.tween(cinematicBars["bottom"], {y: -position}, speed, {ease: ForeverTools.returnTweenEase(ease)});
-				
-			case "moveboth" | "move both":
-				FlxTween.tween(cinematicBars["top"], {y: position}, speed, {ease: ForeverTools.returnTweenEase(ease)});
-				FlxTween.tween(cinematicBars["bottom"], {y: -position}, speed, {ease: ForeverTools.returnTweenEase(ease)});
-				
-			case "boptop" | "bop top":
-				cinematicBars["top"].y = position;
-				FlxTween.tween(cinematicBars["top"], {y: position - 20}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});
-				
-			case "bopbottom" | "bop bottom":
-				cinematicBars["bottom"].y = -position;
-				FlxTween.tween(cinematicBars["bottom"], {y: -position + 20}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});
-				
-			case "bopboth" | "bop both":
-				cinematicBars["top"].y = position;
-				cinematicBars["bottom"].y = -position;
-				FlxTween.tween(cinematicBars["top"], {y: position - 20}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});
-				FlxTween.tween(cinematicBars["bottom"], {y: -position + 20}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});			
-		}
-	}
-					
-	/**
-	* # Stage Background Flash Function
-	*
-	* Basically the BG Flash used in Isolated but it's now hardcoded and can be used globally now.
-	* The reasoning for this is cause I'm NOT gonna go and duplicate the flash assets from the episode 1
-	* stage onto other stages I want to use it at, too much work!
-	*
-	* @param flashType - Defines how you want the BG flash handler to behave
-	* @param alpha - the visiblity of your BG you want it to flash at
-	* @param time - How long you want the tween to take
-	* @param ease - Uses ForeverTools to handle the ease function, so I suggest looking at ForeverDeps.hx to see your options
-	* @param r - a value used for FlxColor.fromRGB() as an individual number to make a color
-	* @param g - same as the "r" value
-	* @param b - you get the idea
-	* @param a - color's alpha, you get the point
-	*
-	* @author DEMOLITIONDON96
-	*/
-	function flashBGEffect(flashType:String = 'normal', alpha:Float = 0.5, time:Float = 1, ease:String = 'linear', ?r:Int = 255, ?g:Int = 255, ?b:Int = 255, ?a:Int = 255) // TODO: Make this function shorter
-	{
-		if (!Init.trueSettings.get('Disable Flashing Lights') && stageBGFlash != null)
-		{
-			switch (flashType.toLowerCase())
-			{
-				case 'normal' | 'flash':
-						if (alpha > 1 || alpha < 0) // prevents a crash from making a dumb mistake
-							stageBGFlash.alpha = 0.5;
-						else
-							stageBGFlash.alpha = alpha;
-
-						if (time <= 0) // another check to prevent a crash
-							time = 1;
-
-						if (r == 0 && g == 0 && b == 0) // blend check cause it makes it look cool
-							stageBGFlash.blend = NORMAL;
-						else
-							stageBGFlash.blend = ADD;
-
-						stageBGFlash.color = FlxColor.fromRGB(r, g, b, a);
-
-						if (BGFlashTween != null) // makes it so it won't look wonky, visually
-							BGFlashTween.cancel();
-
-						BGFlashTween = FlxTween.tween(stageBGFlash, {alpha: 0}, time, {ease: ForeverTools.returnTweenEase(ease), 
-							onComplete: function(twn:FlxTween)
-							{
-								BGFlashTween = null;
-							}
-						});
-					
-				case 'dim' | 'darken' | 'dark':
-					if (stageBGFlash != null)
-					{
-						if (BGFlashTween != null)
-							BGFlashTween.cancel();
-
-						if (stageBGFlash.blend != NORMAL)
-							stageBGFlash.blend = NORMAL;
-
-						if (time <= 0)
-							time = 1;
-
-						stageBGFlash.color = FlxColor.BLACK; // hardcoded to be black
-
-						BGFlashTween = FlxTween.tween(stageBGFlash, {alpha: alpha}, time, {ease: ForeverTools.returnTweenEase(ease),
-							onComplete: function(twn:FlxTween)
-							{
-								BGFlashTween = null;
-							}
-						});
-					}
-			}
-		}
-	}
-
-	/**
-	* # Camera Zoom Tween Fix
-	* 
-	* Don't know why, but this was NEEDED to fix the zooming from breaking, smh.
-	*
-	* @param zoom - Sets the zoom value of the camera
-	* @param time - How long you want the tween to take
-	* @param ease - I suggest reading the HaxeFlixel API on this one, this uses FlxEase's library components if you don't know how to use this
-	*
-	* @author JustJasonLol
-	*/
-	function tweenCamera(zoom:Float = 0.9, time:Float = 0.6, ease:Null<String>):Void
-	{
-		FlxTween.tween(FlxG.camera, {zoom: zoom}, time, {ease: ForeverTools.returnTweenEase(ease), onComplete: e -> defaultCamZoom = zoom});
-	}
-
-	/**
-	* # Malfunction Life System Checker
-	* 
-	* Self explanitory, don't you think?
-	* 
-	* Checks on your lives in Malfunction and is used by the Error Notes
-	* It will make sure to close your game if it goes below 0
-	* 
-	* @author DEMOLITIONDON96
-	*/
-	function updateMalfunctionLives()
-	{
-		callFunc('updateMalfunctionLives', []);
-
-		crashLivesCounter -= 1;
-
-		if (malfunctionTxt != null)
-			malfunctionTxt.cancel();
-
-		if (heartTween != null)
-			heartTween.cancel();
-
-		malfunctionTxt = FlxTween.tween(crashLives, {alpha: 1}, 0.6, {ease: FlxEase.sineOut,
-			onComplete: function(twn:FlxTween)
-			{
-				malfunctionTxt = FlxTween.tween(crashLives, {alpha: 0.3}, 2, {ease: FlxEase.quartInOut, startDelay: 5,
-					onComplete: function(twn:FlxTween)
-					{
-						malfunctionTxt = null;
-					}
-				});
-			}
-		});
-
-		heartTween = FlxTween.tween(crashLivesIcon, {alpha: 1}, 0.6, {ease: FlxEase.sineOut,
-			onComplete: function(twn:FlxTween)
-			{
-				heartTween = FlxTween.tween(crashLivesIcon, {alpha: 0.3}, 2, {ease: FlxEase.quartInOut, startDelay: 5,
-					onComplete: function(twn:FlxTween)
-					{
-						heartTween = null;
-					}
-				});
-			}
-		});
-
-		// to be honest we can just use shake 
-		//                                - jason
-
-		FlxTween.tween(crashLives, {x: 620}, 0.01);
-		FlxTween.tween(crashLivesIcon, {x: 570}, 0.01);
-		FlxTween.tween(crashLives, {x: 585}, 0.01, {startDelay: 0.1});
-		FlxTween.tween(crashLivesIcon, {x: 535}, 0.01, {startDelay: 0.1});
-		FlxTween.tween(crashLives, {x: 610}, 0.01, {startDelay: 0.2});
-		FlxTween.tween(crashLivesIcon, {x: 560}, 0.01, {startDelay: 0.2});
-		FlxTween.tween(crashLives, {x: 595}, 0.01, {startDelay: 0.3});
-		FlxTween.tween(crashLivesIcon, {x: 545}, 0.01, {startDelay: 0.3});
-		FlxTween.tween(crashLives, {x: 600}, 0.01, {startDelay: 0.4});
-		FlxTween.tween(crashLivesIcon, {x: 550}, 0.01, {startDelay: 0.4});
-
-		crashLivesIcon.animation.play("OMFG IT GLITCHES");
-		
-		new FlxTimer().start(0.25, function(tmr:FlxTimer)
-		{
-			crashLivesIcon.animation.play('idle');
-		});
-
-		if (crashLivesCounter == -1)
-		{
-			finishSong();
-			trace('0 lives left, closing game...');
-			FlxG.sound.play(Paths.sound('funkinAVI/wiiCrash'), 1);
-
-			if(FlxG.random.bool(10)) 
-				Application.current.window.alert("You Suck LMAO", 'Note About Your Skill:'); //10% of probability
-			else 
-				Application.current.window.alert("Message: if(note.noteType = 'Error Note') {trace('0 lives left, closing game...')}", 'Error On Funkin.avi.exe!:');
-
-			System.exit(0);
-		}
-	}
-
-	/**
-	* # **The Cycled Sins Gimmick**
-	*
-	* As you can see, it's different than how it was before, it can actually be
-	* used now without the need of a fucking event or some shit, so, have fun lol
-	*
-	* @param reactionTime - Amount of time you have to react before he shoots you
-	* @param damageAmount - how much health it'll remove if you fail to dodge
-	*
-	* @author DEMOLITIONDON96
-	*/
-	function relapseGimmick(reactionTime:Float = 2, damageAmount:Float = 0.4)
-	{
-		callFunc('relapseGimmick', [reactionTime, damageAmount]);
-
-		dodged = false;
-		shootin = true;	
-		FlxG.sound.play(Paths.sound('funkinAVI/relapseMechs/Reload'), 0.4);
-		updateSectionCamera('dad', false);
-		//holyShitMOVEBITCH.alpha = 1;
-		//holyShitMOVEBITCH.y = -420;
-		defaultCamZoom = 1.5;
-		opponent.playAnim("reload", true);
-		opponent.specialAnim = true;
-		/*new FlxTimer().start(reactionTime - 0.6, function(tmr:FlxTimer)
-		{
-			FlxTween.tween(holyShitMOVEBITCH, {alpha: 0, y: -400}, 0.3, {ease: FlxEase.quadInOut});
-		});*/
-		
-		new FlxTimer().start(reactionTime, function(tmr:FlxTimer){
-			FlxG.sound.play(Paths.sound('funkinAVI/relapseMechs/Shoot'), 0.4);
-			opponent.playAnim("attack", true);
-			opponent.specialAnim = true;
-			defaultCamZoom = 0.6;
-			checkCamPosition();
-			new FlxTimer().start(0.1, function(tmr:FlxTimer) {
-			if(!dodged) {
-				FlxG.camera.shake(0.05, 0.05);
-				health -= damageAmount;
-				trace("lmfao you got shot depsite the fact this is nerfed");
-				if (!FlxG.stage.window.title.contains(' - lmfao you got shot depsite the fact this is nerfed'))
-					{
-						FlxG.stage.window.title += ' - lmfao you got shot depsite the fact this is nerfed'; // troll
-						new FlxTimer().start(5, _ -> loadWindowTitleData());
-					}
-				dodged = false;
-			} else {
-				boyfriend.playAnim('dodge');
-				dodged = false;
-				shootin = false;
-				health += 0.05;
-			}
-			});
-		});
-	}
-
-	function manageLyrics(icon:String = 'bf', text:String = 'swaggers', font:String = 'vcr', size:Int = 15, duration:Float = 5, tweenType:String = 'linear')
-	{
-		lyricsIcon.updateIcon(icon, false);
-		if (!lyricsIcon.visible)
-		{
-			lyricsIcon.visible = true;
-			lyricsIcon.alpha = 0;
-		}
-
-		lyrics.font = Paths.font(font);
-		lyrics.text = text;
-
-		if (lyricsTween != null)
-			lyricsTween.cancel();
-
-		if (iconTween != null)
-			iconTween.cancel();
-
-		iconTween = FlxTween.tween(lyricsIcon, {
-				'scale.x': 1,
-				'scale.y': 1,
-				alpha: 1
-			},
-			0.5,
-			{ease: ForeverTools.returnTweenEase(tweenType),
-			onComplete: function(twn:FlxTween)
-			{
-				iconTween = FlxTween.tween(lyricsIcon, {alpha: 0, 'scale.x': 0, 'scale.y': 0}, 0.25, {startDelay: duration, ease: ForeverTools.returnTweenEase(tweenType),
-					onComplete: function(twn:FlxTween)
-					{
-						iconTween = null;
-					}
-				});
-			}
-		});
-
-		lyricsTween = FlxTween.tween(lyrics, {
-				size: size,
-				alpha: 1
-			},
-			0.5,
-			{ease: ForeverTools.returnTweenEase(tweenType),
-			onComplete: function(twn:FlxTween)
-			{
-				lyricsTween = FlxTween.tween(lyrics, {alpha: 0, size: 0}, 0.25, {startDelay: duration, ease: ForeverTools.returnTweenEase(tweenType),
-					onComplete: function(twn:FlxTween)
-					{
-						lyricsTween = null;
-					}
-				});
-			}
-		});
-	}
+	public var dodged:Bool;
+	public var shootin:Bool;
 
 	function resyncVocals():Void
 	{
@@ -3978,7 +3517,7 @@ class PlayState extends MusicBeatState
 					case 360: defaultCamZoom = 0.75;
 					case 375:
 						chromTween = FlxTween.tween(this, {chromEffect: 1}, 0.1, {ease: FlxEase.sineInOut});
-						tweenCamera(1.5, 0.1, 'sineInOut');
+						PlayStateUtils.instance.tweenCamera(1.5, 0.1, 'sineInOut');
 					case 376:
 						chromTween.cancel();
 						chromTween = null;
@@ -4207,7 +3746,7 @@ class PlayState extends MusicBeatState
 				{
 					// Intro Cam Stuff
 					case 1:	FlxTween.tween(camGame, {alpha: 1}, 5, {ease: FlxEase.sineInOut});
-					case 16: tweenCamera(1.2, 5, 'quartInOut'); 
+					case 16: PlayStateUtils.instance.tweenCamera(1.2, 5, 'quartInOut'); 
 					case 32:
 						defaultCamZoom = 0.8;
 						FlxTween.tween(camHUD, {alpha: 1}, 0.5, {ease: FlxEase.sineOut});
@@ -4216,13 +3755,13 @@ class PlayState extends MusicBeatState
 						        FlxTween.tween(i, {alpha: 1}, 0.5, {ease: FlxEase.sineOut});
 						}	
 					case 39 | 48 | 64 | 72 | 88 | 96 | 103 | 113 | 128 | 184 | 192: defaultCamZoom = 0.8;
-					case 38 | 102: tweenCamera(1.5, 0.25, 'sineInOut');
+					case 38 | 102: PlayStateUtils.instance.tweenCamera(1.5, 0.25, 'sineInOut');
 					case 45 | 61 | 110 | 126 | 187: defaultCamZoom = 0.9;
 					case 46 | 62 | 67 | 76 | 83 | 92 | 111 | 127 | 158 | 190: defaultCamZoom = 1;
 					case 47 | 63 | 68 | 84 | 112 | 159: defaultCamZoom = 1.3;
 					case 69 | 85: defaultCamZoom = 1.1;				
 					case 160: defaultCamZoom = 0.65;
-					case 164: tweenCamera(1.5, 6, 'sineInOut');
+					case 164: PlayStateUtils.instance.tweenCamera(1.5, 6, 'sineInOut');
 					case 191:
 						if (canaddshaders)
 							{
@@ -5201,184 +4740,4 @@ class PlayState extends MusicBeatState
 			return Reflect.copy(reflector);
 		});
 	}
-
-	public function loadWindowTitleData()
-		{
-			switch (gameplayMode)
-			{
-				case STORY:
-					switch (SONG.song)
-					{
-						case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional':
-							Application.current.window.title = 'Funkin.avi - Episode 1: ' + SONG.song + " - Composed by: " + SONG.composer + (paused ? '{PAUSED}' : "");							
-						case 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus':
-							Application.current.window.title = 'Funkin.avi - Episode S: ' + SONG.song + " - Composed by: " + SONG.composer + (paused ? '{PAUSED}' : "");					
-						case 'Mercy' | 'Affliction':
-							Application.current.window.title = 'Funkin.avi - Episode W: ' + SONG.song + " - Composed by: " + SONG.composer + (paused ? '{PAUSED}' : "");			
-						default:
-							Application.current.window.title = 'Funkin.avi - Episode ???: ' + SONG.song + " - Composed by: " + SONG.composer + (paused ? '{PAUSED}' : "");
-					}						
-				case FREEPLAY:
-					Application.current.window.title = 'Funkin.avi - Freeplay: ' + SONG.song + " - Composed by: " + SONG.composer + (paused ? '{PAUSED}' : "");					
-				case CHARTING:
-					if (SONG.song == 'Malfunction')
-						Application.current.window.title = 'glitchedMickey.xml - CHEATER MODE ACTIVATED: ' + SONG.song + " - Composed by: I CAN SEE YOU CHEATING! - [!CHEATER DETECTED!]" + (paused ? '{PAUSED}' : "");
-					else
-						Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + SONG.song + " - Composed by: " + SONG.composer + (paused ? '{PAUSED}' : "");
-			}
-		}
-	
-		public static function initializeShaders()
-		{
-			switch (SONG.song)
-			{
-				case 'Malfunction':
-					if(!Init.trueSettings.get('Low Quality'))
-					{
-						camGame.setFilters(
-						[
-							new ShaderFilter(chromZoomShader),
-							new ShaderFilter(blurShader)
-						]);
-						camHUD.setFilters(
-						[
-							new ShaderFilter(chromNormalShader),
-							new ShaderFilter(blurShader)
-						]);
-						for (i in strumHUD)
-						{
-							i.setFilters(
-							[
-								new ShaderFilter(chromNormalShader),
-								new ShaderFilter(blurShader)
-							]);
-						}
-		
-						new FlxTimer().start(5, function(tmr:FlxTimer)
-						{
-							camGame.setFilters([new ShaderFilter(chromZoomShader)]);
-							camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
-							for (i in strumHUD) i.setFilters([new ShaderFilter(chromNormalShader)]);
-						});
-					}
-				case 'Malfunction Legacy':
-					if(!Init.trueSettings.get('Low Quality'))
-					{
-						camGame.setFilters(
-						[
-							new ShaderFilter(chromNormalShader),
-							new ShaderFilter(blurShader)
-						]);
-						camHUD.setFilters(
-						[
-							new ShaderFilter(chromNormalShader),
-							new ShaderFilter(blurShader)
-						]);
-						for (i in strumHUD)
-						{
-							i.setFilters(
-							[
-								new ShaderFilter(chromNormalShader),
-								new ShaderFilter(blurShader)
-							]);
-						}
-					}
-				case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional':
-					if (!Init.trueSettings.get('Low Quality'))
-					{
-						camGame.setFilters([
-							new ShaderFilter(dramaticCamMovement),
-							new ShaderFilter(bloomEffect),
-							new ShaderFilter(monitorFilter),
-							new ShaderFilter(chromZoomShader),
-							new ShaderFilter(chromNormalShader)
-						]);
-						camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
-						for (i in strumHUD) i.setFilters([new ShaderFilter(grayScale), new ShaderFilter(chromNormalShader)]);
-					}
-					else
-					{
-						camGame.setFilters([
-							new ShaderFilter(monitorFilter),
-							new ShaderFilter(chromNormalShader)
-						]);
-						camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
-						for (i in strumHUD) i.setFilters([new ShaderFilter(grayScale)]);
-					}
-				case 'Isolated Old' | 'Isolated Legacy' | 'Isolated Beta' | 'Lunacy Legacy' | 'Delusional Legacy':
-					blurShader.setFloat('bluramount', 0.6);
-					blurShaderHUD.setFloat('bluramount', 0.1);
-					andromeda.setFloat('glitchModifier', 0.2);
-					andromeda.setBool('perspectiveOn', true);
-					andromeda.setBool('vignetteMoving', true);
-					if (!Init.trueSettings.get('Low Quality'))
-					{
-						camGame.setFilters([
-							new ShaderFilter(grayScale),
-							new ShaderFilter(blurShader),
-							new ShaderFilter(andromeda)
-						]);
-						camHUD.setFilters([
-							new ShaderFilter(grayScale),
-							new ShaderFilter(blurShaderHUD),
-							new ShaderFilter(andromeda)
-						]);
-					}
-					else
-					{
-						camGame.setFilters([new ShaderFilter(grayScale)]);
-						camHUD.setFilters([new ShaderFilter(grayScale)]);
-					}
-				case 'Hunted Legacy':
-					blurShader.setFloat('bluramount', 0.6);
-					blurShaderHUD.setFloat('bluramount', 0.1);
-					andromeda.setFloat('glitchModifier', 0.2);
-					andromeda.setBool('perspectiveOn', true);
-					andromeda.setBool('vignetteMoving', true);
-					if (!Init.trueSettings.get('Low Quality'))
-					{
-						camGame.setFilters([
-							new ShaderFilter(grayScale),
-							new ShaderFilter(blurShader),
-						]);
-						@:privateAccess for(_camHUD in main.allUIs) _camHUD.setFilters([
-							new ShaderFilter(grayScale),
-							new ShaderFilter(blurShaderHUD),
-							new ShaderFilter(andromeda)
-						]);
-					}
-					else
-					{
-						camGame.setFilters([new ShaderFilter(grayScale)]);
-						camHUD.setFilters([new ShaderFilter(grayScale)]);
-					}				
-				case 'Scrapped':
-					if (!Init.trueSettings.get('Low Quality'))
-					{
-						camGame.setFilters([
-							new ShaderFilter(staticEffect),
-							new ShaderFilter(blurShader),
-							new ShaderFilter(chromNormalShader),
-							new ShaderFilter(chromZoomShader)
-						]);
-						camHUD.setFilters([
-							new ShaderFilter(blurShaderHUD),
-							new ShaderFilter(chromNormalShader)
-						]);
-						for (i in strumHUD)
-						{
-							i.setFilters([
-								new ShaderFilter(blurShaderHUD),
-								new ShaderFilter(chromNormalShader)
-							]);
-						}
-					}
-					else
-					{
-						camGame.setFilters([new ShaderFilter(chromNormalShader)]);
-						camHUD.setFilters([new ShaderFilter(chromNormalShader)]);
-						for (i in strumHUD) i.setFilters([new ShaderFilter(chromNormalShader)]);
-					}
-			}
-		}
 }
