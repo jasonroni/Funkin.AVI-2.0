@@ -214,7 +214,7 @@ class MainMenu extends MusicBeatState
 		super.create();
 
 		trace(GameJoltAPI.userLogin);
-
+		
 		if (!Init.trueSettings.get('Disable Screen Shaders'))
 		{
 			defaultShader = new FlxRuntimeShader(Shaders.grayScale, null, 140);
@@ -661,112 +661,7 @@ class MainMenu extends MusicBeatState
 			if (Init.trueSettings.get('Disable Flashing Lights'))
 				flashValue = 0.2;
 
-			if(daChoice == 'credits')
-				{
-								if (freeplayTxtTween != null)
-									freeplayTxtTween.cancel();
-								if (freeplayTxtTween2 != null)
-									freeplayTxtTween2.cancel();
-								if (freeplayTxtTween3 != null)
-									freeplayTxtTween3.cancel();
-
-								freeplayPopup.text = "Credits are locked!";
-								freeplayPopupSub.text = "This menu is unfortunately not ready yet...";
-									
-								FlxG.sound.play(Paths.sound('base/menus/cancelMenu'));
-								// Okay, this should work better now
-								freeplayTxtTween = FlxTween.tween(
-									freeplayPopup,
-									{
-										alpha: 1,
-										x: 0
-									},
-									   0.8,
-									   {
-										ease: FlxEase.sineOut,
-										onComplete: function(twn:FlxTween)
-										{
-											freeplayTxtTween = FlxTween.tween(
-												freeplayPopup,
-												{
-													alpha: 0,
-													x: -400
-												},
-												1.5,
-												{
-													startDelay: 3,
-													ease: FlxEase.sineInOut,
-													onComplete: function(twn:FlxTween)
-													{
-														freeplayTxtTween = null;
-													}
-												}
-											);
-										}
-									}
-								);
-								freeplayTxtTween2 = FlxTween.tween(
-									freeplayPopupSub,
-									{
-										alpha: 1,
-										x: 0
-									},
-									   0.8,
-									   {
-										ease: FlxEase.sineOut,
-										onComplete: function(twn:FlxTween)
-										{
-											freeplayTxtTween2 = FlxTween.tween(
-												freeplayPopupSub,
-												{
-													alpha: 0,
-													x: -400
-												},
-												1.5,
-												{
-													startDelay: 3,
-													ease: FlxEase.sineInOut,
-													onComplete: function(twn:FlxTween)
-													{
-														freeplayTxtTween2 = null;
-													}
-												}
-											);
-										}
-									}
-								);
-								freeplayTxtTween3 = FlxTween.tween(
-									freeplayTxtBox,
-									{
-										alpha: 1,
-										x: 0
-									},
-									   0.8,
-									   {
-										ease: FlxEase.sineOut,
-										onComplete: function(twn:FlxTween)
-										{
-											freeplayTxtTween3 = FlxTween.tween(
-												freeplayTxtBox,
-												{
-													alpha: 0,
-													x: -400
-												},
-												1.5,
-												{
-													startDelay: 3,
-													ease: FlxEase.sineInOut,
-													onComplete: function(twn:FlxTween)
-													{
-														freeplayTxtTween3 = null;
-													}
-												}
-											);
-										}
-									}
-								);
-			} 
-			else if(daChoice == 'freeplay')
+		if(daChoice == 'freeplay')
 			{
 						if(GameData.episode1FPLock == 'unlocked')
 						{
@@ -927,8 +822,8 @@ class MainMenu extends MusicBeatState
 						{
 							case 'story_mode':
 								Main.switchState(this, new states.menus.StoryMenu());
-							//case 'credits':
-								//Main.switchState(this, new states.menus.CreditsMenu());
+							case 'credits':
+								Main.switchState(this, new states.menus.CreditsMenu());
 							case 'options':
 								transIn = FlxTransitionableState.defaultTransIn;
 								transOut = FlxTransitionableState.defaultTransOut;
