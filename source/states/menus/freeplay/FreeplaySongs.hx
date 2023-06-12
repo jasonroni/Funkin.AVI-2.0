@@ -394,6 +394,11 @@ class FreeplaySongs extends MusicBeatState
 	{
 		super.update(elapsed);
 
+		if (FlxG.sound.music != null)
+			Conductor.songPosition = FlxG.sound.music.time;
+
+		ForeverTools.cameraBumpingZooms(FlxG.camera, 1);
+
 		if (!Init.trueSettings.get('Disable Screen Shaders')) // bye bye lag
 		{
 			switch (freeplayMenuList)
@@ -545,6 +550,15 @@ class FreeplaySongs extends MusicBeatState
 				
 		diffText.text = 'RANK: ' + difficultyRank; // display the text
 		lastDifficulty = existingDifficulties[curSelected][curDifficulty];
+	}
+
+	override function beatHit() {
+		super.beatHit();
+
+		trace(curBeat);
+
+		if(curBeat % 2 == 0)
+		FlxG.camera.zoom += 0.055;
 	}
 
 	function changeSelection(change:Int = 0)
@@ -820,6 +834,44 @@ class FreeplaySongs extends MusicBeatState
 						add(bg);
 				}
 			}
+		}
+
+		changeSongBPM();
+	}
+
+	function changeSongBPM() 
+	{
+		switch (songs[curSelected].name.toLowerCase().replace('-', ' '))
+		{
+			case 'cycled sins' | 'cycled sins legacy' | 'facade' | 'resentment' | 'scrapped':
+				Conductor.changeBPM(180);
+
+			case 'hunted' | 'hunted legacy' | 'mercy' | 'mercy legacy' | 'war dilemma':
+				Conductor.changeBPM(160);
+
+			case 'neglection': 
+				Conductor.changeBPM(155);
+
+			case 'birthday' | 'delusional':
+				Conductor.changeBPM(175);
+
+			case 'bless legacy':
+				Conductor.changeBPM(120);
+
+			case 'delusional legacy':
+				Conductor.changeBPM(185);
+
+			case 'affliction':
+				Conductor.changeBPM(150);
+
+			case 'isolated beta' | 'isolated old':
+				Conductor.changeBPM(120);
+
+			case 'isolated' | "don't cross!" | 'isolated legacy':
+				Conductor.changeBPM(165);
+
+			default:
+				Conductor.changeBPM(100);
 		}
 	}
 

@@ -12,10 +12,16 @@ import flixel.FlxSprite;
 class CreditsMenu extends MusicBeatState 
 {
     // Also the number is for identificate the current selected
-    // Name, Icon, Works, Description, X, Y, Size
+    // Name, Icon, Works, Description, icon X, icon Y, Size, Goofy ahh long text
     public static var creditMap:Map<Int, Array<Dynamic>> = [
-        0 => ['Yama haki / Toko', 'toko', 'Owner, Director, Composer, PlayTester', 'Now THIS is how you delusional', -320, -140, 0.55],
-        1 => ['DEMOLITIONDON96', 'don', 'Director, Composer, Main coder, Artist, Animator, Charter', 'Shut the fuck up you lame ass Psych engine kiddo', 0, 0, 1],
+        0 => ['Yama haki / Toko', 'toko', 'Owner, Director, Composer, PlayTester', 'Now THIS is how you delusional', -320, -140, 0.55, false],
+        1 => ['DEMOLITIONDON96', 'don', 'Director, Composer, Main coder, Artist, Animator, Charter', 'Shut the fuck up you lame ass Psych engine kiddo', -320, -140, 0.55, false],
+        2 => ['Domingo', 'domingo', 'Director, Main Artist, Animator, Cutscenes, PlayTester', "A realistic depiction of working on Funkin.Avi!!
+In all seriousness this mod has taken so long to finish its update, I think it was about a year already… 
+OH WAIT by the time, June 12, 2023, I'm writing this I'm pretty sure it has been exactly 1 year since we have uploaded the very first demo of the mod. 
+We have come such a long way and I'm happy with what we've been able to achieve and the story hasn't even reached its climax. 
+Thank you for playing!
+        ", -320, -140, 0.55, true],
     ];
 
     var curSelected:Int = 0;
@@ -99,7 +105,7 @@ class CreditsMenu extends MusicBeatState
         if (Controls.getPressEvent("ui_up"))
             {
                 changeSelection(-1);
-            } else if ( Controls.getPressEvent("ui_down")) {
+            } else if (Controls.getPressEvent("ui_down")) {
                 changeSelection(1);
             }
 
@@ -115,12 +121,6 @@ class CreditsMenu extends MusicBeatState
         ForeverTools.resetMenuMusic();
     }
 
-    override function beatHit() {
-        super.beatHit();
-
-        FlxG.camera.zoom += 0.035;
-    }
-
     private function changeSelection(newSelect:Int = 0) 
     {
         curSelected += newSelect;
@@ -131,7 +131,26 @@ class CreditsMenu extends MusicBeatState
         creditIconSprite.loadGraphic(Paths.image('$path/icons/${creditMap[curSelected][1]}'));
         creditIconSprite.setGraphicSize(Std.int(creditIconSprite.width * creditMap[curSelected][6]));
         creditIconSprite.setPosition(creditMap[curSelected][4], creditMap[curSelected][5]);
+
         if (newSelect != 0) FlxG.sound.play(Paths.sound('base/menus/scrollMenu'), 0.6);
+
+        // guys this is a bool i promise
+        if(creditMap[curSelected][7])
+            {
+                creditNameText.y = FlxG.height * 0.1;
+                creditWorkText.y = FlxG.height * 0.21;
+                creditDescText.fieldWidth = 1000;
+                creditDescText.x = FlxG.width * 0.32;
+                creditDescText.y = FlxG.height * 0.16;
+                creditDescText.scale.set(0.6, 0.6);
+            } else { // reload reasons
+                creditDescText.fieldWidth = 500;
+                creditDescText.x = FlxG.width * 0.52;
+                creditDescText.y = FlxG.height * 0.6;
+                creditDescText.scale.set(1, 1);
+                creditNameText.y = FlxG.height * 0.3;
+                creditWorkText.y = FlxG.height * 0.41;
+            }
 
         trace('huh: credits edition');
     }
