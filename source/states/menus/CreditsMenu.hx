@@ -1,5 +1,6 @@
 package states.menus;
 
+import base.song.Conductor;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.addons.display.FlxGridOverlay;
@@ -39,7 +40,9 @@ class CreditsMenu extends MusicBeatState
 
         path = 'menus/Funkin_avi/credits';
 
-        FlxG.sound.playMusic(Paths.music('totally_placeholder_music'));
+        FlxG.sound.playMusic(Paths.music('credits'));
+
+        Conductor.changeBPM(164);
 
         background = new FlxSprite().loadGraphic(Paths.image('$path/background'));
         background.screenCenter();
@@ -91,6 +94,8 @@ class CreditsMenu extends MusicBeatState
     {
         super.update(elapsed);
 
+        ForeverTools.cameraBumpingZooms(FlxG.camera, 1);
+
         if (Controls.getPressEvent("ui_up"))
             {
                 changeSelection(-1);
@@ -108,6 +113,12 @@ class CreditsMenu extends MusicBeatState
         super.destroy();
 
         ForeverTools.resetMenuMusic();
+    }
+
+    override function beatHit() {
+        super.beatHit();
+
+        FlxG.camera.zoom += 0.035;
     }
 
     private function changeSelection(newSelect:Int = 0) 
