@@ -119,7 +119,7 @@ class CreditsMenu extends MusicBeatState
         creditWorkText.text = creditMap[curSelected][2] != null ? creditMap[curSelected][2] : 'has not worked';
         creditIconSprite.loadGraphic(Paths.image('$path/icons/${creditMap[curSelected][1]}'));
         creditIconSprite.setGraphicSize(Std.int(creditIconSprite.width * creditMap[curSelected][6]));
-
+        creditIconSprite.setPosition(creditMap[curSelected][4], creditMap[curSelected][5]);
         if (newSelect != 0) FlxG.sound.play(Paths.sound('base/menus/scrollMenu'), 0.6);
 
         trace('huh: credits edition');
