@@ -555,8 +555,6 @@ class FreeplaySongs extends MusicBeatState
 	override function beatHit() {
 		super.beatHit();
 
-		trace(curBeat);
-
 		if(curBeat % 2 == 0)
 		FlxG.camera.zoom += 0.055;
 	}
