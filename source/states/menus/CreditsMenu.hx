@@ -13,7 +13,7 @@ class CreditsMenu extends MusicBeatState
     // Also the number is for identificate the current selected
     // Name, Icon, Works, Description, X, Y, Size
     public static var creditMap:Map<Int, Array<Dynamic>> = [
-        0 => ['Yama haki / Toko', 'toko', 'Owner, Director, Composer, PlayTester', 'Now THIS is how you delusional', 0, 0, 1],
+        0 => ['Yama haki / Toko', 'toko', 'Owner, Director, Composer, PlayTester', 'Now THIS is how you delusional', -320, -140, 0.55],
         1 => ['DEMOLITIONDON96', 'don', 'Director, Composer, Main coder, Artist, Animator, Charter', 'Shut the fuck up you lame ass Psych engine kiddo', 0, 0, 1],
     ];
 
@@ -31,11 +31,13 @@ class CreditsMenu extends MusicBeatState
 
     var maxLength = 1;
 
+    var path:String;
+
     override function create() 
     {
         FlxG.stage.window.title = "Funkin.avi - Credit Menu";
 
-        var path = 'menus/Funkin_avi/credits';
+        path = 'menus/Funkin_avi/credits';
 
         FlxG.sound.playMusic(Paths.music('totally_placeholder_music'));
 
@@ -61,7 +63,7 @@ class CreditsMenu extends MusicBeatState
         box.setGraphicSize(Std.int(box.width * 0.6));
         add(box);
 
-        creditDescText = new FlxText(FlxG.width * 0.22, FlxG.height * 0.53, FlxG.width,creditMap[curSelected][3]);
+        creditDescText = new FlxText(FlxG.width * 0.52, FlxG.height * 0.6, 500, creditMap[curSelected][3]);
         creditDescText.setFormat(Paths.font('vcr'), 40, FlxColor.WHITE, CENTER, OUTLINE, FlxColor.BLACK);
         creditDescText.borderSize = 1.3;
         add(creditDescText);
@@ -71,13 +73,14 @@ class CreditsMenu extends MusicBeatState
         creditNameText.borderSize = 1.3;
         add(creditNameText);
 
-        creditWorkText = new FlxText(FlxG.width * 0.22, FlxG.height * 0.41, FlxG.width, creditMap[curSelected][2]);
+        creditWorkText = new FlxText(FlxG.width * 0.52, FlxG.height * 0.41, 500, creditMap[curSelected][2]);
         creditWorkText.setFormat(Paths.font('vcr'), 30, FlxColor.WHITE, CENTER, OUTLINE, FlxColor.BLACK);
         creditWorkText.borderSize = 1.3;
         add(creditWorkText);
 
         creditIconSprite = new FlxSprite(creditMap[curSelected][4], creditMap[curSelected][5]).loadGraphic(Paths.image('$path/icons/${creditMap[curSelected][1]}'));
-
+        creditIconSprite.setGraphicSize(Std.int(creditIconSprite.width * creditMap[curSelected][6]));
+        add(creditIconSprite);
 
         changeSelection();
 
@@ -114,25 +117,10 @@ class CreditsMenu extends MusicBeatState
         creditNameText.text = creditMap[curSelected][0] != null ? creditMap[curSelected][0] : 'unknown';
         creditDescText.text = creditMap[curSelected][3] != null ? creditMap[curSelected][3] : 'unknown';
         creditWorkText.text = creditMap[curSelected][2] != null ? creditMap[curSelected][2] : 'has not worked';
+        creditIconSprite.loadGraphic(Paths.image('$path/icons/${creditMap[curSelected][1]}'));
+        creditIconSprite.setGraphicSize(Std.int(creditIconSprite.width * creditMap[curSelected][6]));
 
         if (newSelect != 0) FlxG.sound.play(Paths.sound('base/menus/scrollMenu'), 0.6);
-
-        // here we have mathemactical shit    
-        if(creditDescText.text.length > 35) {
-            creditDescText.scale.x = 0.5;
-            creditDescText.scale.y = 0.5;
-        } else {
-            creditDescText.scale.x = 1;
-            creditDescText.scale.y = 1;
-        }
-
-        if(creditWorkText.text.length > 35) {
-            creditWorkText.scale.x = 0.7;
-            creditWorkText.scale.y = 0.7;
-        } else {
-            creditWorkText.scale.x = 1;
-            creditWorkText.scale.y = 1;
-        }
 
         trace('huh: credits edition');
     }
