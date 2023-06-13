@@ -1,35 +1,19 @@
 package states.warnings;
 
 import flash.system.System;
-import flixel.FlxBasic;
-import flixel.FlxCamera;
 import flixel.FlxG;
-import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.addons.transition.FlxTransitionableState;
-import flixel.graphics.FlxGraphic;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.group.FlxSpriteGroup;
-import flixel.input.keyboard.FlxKey;
-import flixel.math.FlxMath;
-import flixel.math.FlxPoint;
-import flixel.math.FlxRect;
 #if (flixel <= "5.2.2")
-	import flixel.system.FlxSound;
+import flixel.system.FlxSound;
 #else
-	import flixel.sound.FlxSound;
+import flixel.sound.FlxSound;
 #end
 import flixel.text.FlxText;
-import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import flixel.util.FlxSort;
-import flixel.util.FlxTimer;
 import lime.app.Application;
-import openfl.media.Sound;
-import states.MusicBeatState;
 
-class WarningState extends MusicBeatState
+class WarningState extends states.MusicBeatState
 {
         var warnText:FlxText;
 
@@ -50,20 +34,20 @@ class WarningState extends MusicBeatState
         override function create()
         {
                 Application.current.window.title = 'Funkin.avi - WARNING';
-		
-		#if windows
-		base.system.CppAPI.darkMode();
-      		#end
-			
-		GameData.loadShit();
-		
+                
+                #if windows
+                base.system.CppAPI.darkMode();
+                #end
+                        
+                GameData.loadShit();
+                
                 if (GameData.hasSeenWarning)
                         Main.switchState(this, new states.TitleState());
 
                 coolInstance = this;
 
                 var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		add(bg);
+                add(bg);
 
                 warnText = new FlxText(0, 0, FlxG.width,
 "WARNING:\n

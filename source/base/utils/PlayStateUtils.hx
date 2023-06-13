@@ -268,9 +268,6 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
      */
     public function opponentNoteHit():Void
         {
-            if (PlayState.opp_vocals != null)
-                PlayState.opp_vocals.volume = 1;
-        
         switch (PlayState.SONG.song)
         {   
             case 'Delusional':

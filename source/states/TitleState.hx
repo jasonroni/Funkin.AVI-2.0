@@ -251,6 +251,8 @@ class TitleState extends states.MusicBeatState
 		}
 
 		FlxG.mouse.visible = true;
+
+		closedState = false;
 	}
 
 	var logoBl:FlxSprite;
@@ -339,6 +341,8 @@ class TitleState extends states.MusicBeatState
 			skipIntro();
 		else
 			initialized = true;
+
+		windowFixesAndEvents(); // changes window names, shutting down the game, etc	
 	}
 
 	function getIntroTextShit():Array<Array<String>>
@@ -419,6 +423,7 @@ class TitleState extends states.MusicBeatState
 				FlxTween.tween(titleText, {y: 2000}, 3, {ease: FlxEase.quadIn});
 
 				new FlxTimer().start(1.3, function(tmr:FlxTimer){
+					closedState = true;
 					Main.switchState(this, new states.menus.MainMenu());
 				});
 			}
@@ -430,8 +435,8 @@ class TitleState extends states.MusicBeatState
 		}
 
 		FlxG.camera.zoom = FlxMath.lerp(1, FlxG.camera.zoom, FlxMath.bound(1 - (Main.globalElapsed * 1.925), 0, 1));
-
-		windowFixesAndEvents(); // changes window names, shutting down the game, etc
+		logoBl.scale.x = FlxMath.lerp(0.4, logoBl.scale.x, FlxMath.bound(1 - (Main.globalElapsed * 1.995), 0, 1));
+		logoBl.scale.y = FlxMath.lerp(0.4, logoBl.scale.y, FlxMath.bound(1 - (Main.globalElapsed * 1.995), 0, 1));
 
 		super.update(elapsed);
 	}
@@ -473,15 +478,14 @@ class TitleState extends states.MusicBeatState
 	override function beatHit()
 	{
 		super.beatHit();
-		
-      	FlxG.camera.zoom += 0.035;
-
-		// logo doesn't have animation, we make one by ourselfs instead
-		logoBl.scale.x += 0.02;
-		logoBl.scale.y += 0.02;
-		FlxTween.tween(logoBl.scale, {x: logoBl.scale.x - 0.02, y: logoBl.scale.y - 0.02}, 0.18);
 
 		if(!closedState) {
+			FlxG.camera.zoom += 0.035;
+
+			// logo doesn't have animation, we make one by ourselfs instead
+			logoBl.scale.x += 0.02;
+			logoBl.scale.y += 0.02;
+
 			sickBeats++;
 			switch (sickBeats)
 			{

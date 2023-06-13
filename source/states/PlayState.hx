@@ -1736,9 +1736,15 @@ class PlayState extends MusicBeatState
 			
 			if (vocals != null)
 			        vocals.volume = 1;
+
+			if(bf_vocals != null)
+				bf_vocals.volume = 1;
 			
 			if (strumline == dadStrums)
 			{
+				if (PlayState.opp_vocals != null)
+					PlayState.opp_vocals.volume = 1;
+
 			    PlayStateUtils.instance.opponentNoteHit();
 			}
 

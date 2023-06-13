@@ -1,5 +1,7 @@
 package states.menus;
 
+import sys.io.File;
+import openfl.filters.ShaderFilter;
 import base.song.Conductor;
 import flixel.util.FlxColor;
 import flixel.FlxG;
@@ -14,7 +16,7 @@ class CreditsMenu extends MusicBeatState
     // Also the number is for identificate the current selected
     // Name, Icon, Works, Description, icon X, icon Y, Size, Goofy ahh long text
     public static var creditMap:Map<Int, Array<Dynamic>> = [
-        0 => ['Yama haki / Toko', 'toko', 'Owner, Director, Composer, PlayTester', 'Now THIS is how you delusional', -320, -140, 0.55, false],
+        0 => ['Yama haki / Toko', 'toko', 'Creator, Owner, Director, Composer, PlayTester', 'Now THIS is how you delusional', -320, -140, 0.55, false],
         1 => ['DEMOLITIONDON96', 'don', 'Director, Composer, Main coder, Artist, Animator, Charter', 'Shut the fuck up you lame ass Psych engine kiddo', -320, -140, 0.55, false],
         2 => ['Domingo', 'domingo', 'Director, Main Artist, Animator, Cutscenes, PlayTester', "A realistic depiction of working on Funkin.Avi!!
 In all seriousness this mod has taken so long to finish its update, I think it was about a year already… 
@@ -35,6 +37,8 @@ Thank you for playing!
     var box:FlxSprite;
     var daStrip:FlxSprite;
     var creditIconText:FlxSprite;
+
+    var cool_1980_shader:FlxRuntimeShader;
 
     var maxLength = 1;
 
@@ -94,11 +98,46 @@ Thank you for playing!
         changeSelection();
 
         super.create();
+
+        cool_1980_shader = new FlxRuntimeShader(File.getContent('./assets/shaders/1980_shader.frag'), null, 140);
+
+        if(!Init.trueSettings.get('Disable Screen Shaders')) FlxG.camera.setFilters([
+            new ShaderFilter(cool_1980_shader),
+            new ShaderFilter(new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140))
+        ]);
+
+        if(!Init.trueSettings.get('Low Quality')) {
+			var scratchStuff:FlxSprite = new FlxSprite();
+			scratchStuff.frames = Paths.getSparrowAtlas('filters/scratchShit');
+			scratchStuff.animation.addByPrefix('idle', 'scratch thing 1', 24, true);
+			scratchStuff.animation.play('idle');
+			scratchStuff.screenCenter();
+			scratchStuff.scale.x = 1.1;
+			scratchStuff.scale.y = 1.1;
+			add(scratchStuff);
+
+			var grain:FlxSprite = new FlxSprite();
+			grain.frames = Paths.getSparrowAtlas('filters/Grainshit');
+			grain.animation.addByPrefix('idle', 'grains 1', 24, true);
+			grain.animation.play('idle');
+			grain.screenCenter();
+			grain.scale.x = 1.1;
+			grain.scale.y = 1.1;
+			add(grain);
+		}
     }
 
+    var shaderTime:Float = 0;
     override function update(elapsed:Float)
     {
         super.update(elapsed);
+
+        shaderTime += elapsed;
+
+        if(!Init.trueSettings.get('Disable Screen Shaders'))
+            {
+                cool_1980_shader.setFloat('iTime', shaderTime);
+            }
 
         ForeverTools.cameraBumpingZooms(FlxG.camera, 1);
 

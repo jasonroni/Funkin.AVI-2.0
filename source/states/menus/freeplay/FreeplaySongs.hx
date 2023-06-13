@@ -1,5 +1,6 @@
 package states.menus.freeplay;
 
+import flixel.util.FlxTimer;
 import base.dependency.Discord;
 import base.song.Song;
 import base.song.SongFormat.SwagSong;
@@ -89,6 +90,11 @@ class FreeplaySongs extends MusicBeatState
 		Paths.clearUnusedMemory();
 
 		super.create();
+
+		closedState = true;
+
+		// i am pretty sure this is gonna work
+		new FlxTimer().start(0.0001, _->closedState = false);
 		
 		lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Setting Up Category...";
 
@@ -167,7 +173,7 @@ class FreeplaySongs extends MusicBeatState
 					
 					if (GameData.canAddMalfunction)
 					{
-						addSong('Malfunction', 3, (GameData.malfunctionLock != 'unlocked' && GameData.malfunctionLock != 'beaten' ? 'untouched-song' : 'glitched-mickey-new-pixel'), FlxColor.fromRGB(150, 149, 186), 'obscurity', 'null', FlxColor.WHITE); // Because Malfunction is getting some major upgrades later
+						addSong('Malfunction', 3, (GameData.malfunctionLock != 'unlocked' && GameData.malfunctionLock != 'beaten' ? 'untouched-song' : 'glitched-mickey-new-pixel'), FlxColor.fromRGB(150, 149, 186), 'obscurity', null, FlxColor.WHITE); // Because Malfunction is getting some major upgrades later
 					}
 					
 					if (GameData.muckneyLock == 'beaten')
@@ -394,7 +400,7 @@ class FreeplaySongs extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		if (FlxG.sound.music != null)
+		if (FlxG.sound.music != null && FlxG.sound.music.playing)
 			Conductor.songPosition = FlxG.sound.music.time;
 
 		ForeverTools.cameraBumpingZooms(FlxG.camera, 1);
@@ -484,6 +490,8 @@ class FreeplaySongs extends MusicBeatState
 
 			threadActive = false;
 
+			closedState = true;
+
 			if (FlxG.keys.pressed.SHIFT)
 			{
 				if (FlxG.sound.music != null)
@@ -552,11 +560,17 @@ class FreeplaySongs extends MusicBeatState
 		lastDifficulty = existingDifficulties[curSelected][curDifficulty];
 	}
 
+	private var sickBeats:Int = 0; // curBeat but won't be skipped if you hold the tab or resize the screen
+	var closedState:Bool = false;
 	override function beatHit() {
 		super.beatHit();
 
-		if(curBeat % 2 == 0)
-		FlxG.camera.zoom += 0.055;
+		if(!closedState)
+			sickBeats++;
+
+		if(!Init.trueSettings.get('Reduced Movements'))
+			if(sickBeats % 2 == 0)
+				FlxG.camera.zoom += 0.055;
 	}
 
 	function changeSelection(change:Int = 0)
@@ -844,7 +858,7 @@ class FreeplaySongs extends MusicBeatState
 			case 'cycled sins' | 'cycled sins legacy' | 'facade' | 'resentment' | 'scrapped':
 				Conductor.changeBPM(180);
 
-			case 'hunted' | 'hunted legacy' | 'mercy' | 'mercy legacy' | 'war dilemma':
+			case 'hunted' | 'hunted legacy' | 'mercy' | 'mercy legacy' | 'war dilemma' | 'malfunction legacy' | 'twisted grins legacy':
 				Conductor.changeBPM(160);
 
 			case 'neglection': 
@@ -867,6 +881,18 @@ class FreeplaySongs extends MusicBeatState
 
 			case 'isolated' | "don't cross!" | 'isolated legacy':
 				Conductor.changeBPM(165);
+
+			case 'devilish deal': 
+				Conductor.changeBPM(90);
+
+			case 'lunacy': 
+				Conductor.changeBPM(188);
+
+			case 'delutrance':
+				Conductor.changeBPM(123);
+
+			case 'malfunction': 
+				Conductor.changeBPM(166);
 
 			default:
 				Conductor.changeBPM(100);

@@ -151,7 +151,8 @@ class MainMenu extends MusicBeatState
 			"GUYS, LOOK, IT'S SHIPY, SAY HELLO TO HER! :D",
 			"Don't leave Muckney's party, please, you'll make him sad if you do :(",
 			"It's about drive, it's about power, we stay hungry, we devour.",
-			"Main Menu Music: idfk, you might've removed the damn menu music by going in and out of freeplay >:(",
+			// i miss this one it was funny asf................
+			// "Main Menu Music: idfk, you might've removed the damn menu music by going in and out of freeplay >:(",
 			"Peter, the horse is here.",
 			"*horse walks in*",
 			"Anyone here watch Yahiamice?",
