@@ -72,39 +72,39 @@ function onCreate()
 
 function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 {
-	if (curBeat == 184) PlayState.defaultCamZoom = 1.4;
-	if (curBeat == 190) PlayState.defaultCamZoom = 0.65;
 	if (!Init.trueSettings.get('Disable Screen Shaders'))
-	{
-		if (curBeat == 192)
-		{	
-			if(!lowQuality && goofyBG != null && treesFront != null)
-				{
-					goofyBG.shader = wobblyBG;
-					goofyStreet.shader = wobblyBG;
-					treesBack.shader = wobblyBG;
-					treesFront.shader = wobblyBG;
-				}
-			PlayState.camGame.flash("white", 1);
+		{
+			if (curBeat == 192)
+			{	
+				if(!lowQuality && goofyBG != null && treesFront != null)
+					{
+						goofyBG.shader = wobblyBG;
+						goofyStreet.shader = wobblyBG;
+						treesBack.shader = wobblyBG;
+						treesFront.shader = wobblyBG;
+					}
+				PlayState.camGame.flash("white", 1);
 
-			if(!lowQuality)
-				{
-					PlayState.camGame.setFilters(
-						[	
-							new ShaderFilter(vignette),
-							new ShaderFilter(grainFilter),
-							new ShaderFilter(monitorFilter),
-							new ShaderFilter(bloomEffect)
-						]);
-				} else {
-					PlayState.camGame.setFilters(
-						[	
-							new ShaderFilter(vignette),
-							new ShaderFilter(monitorFilter),
-						]);
-				}
+				if(!lowQuality)
+					{
+						PlayState.camGame.setFilters(
+							[	
+								new ShaderFilter(vignette),
+								new ShaderFilter(grainFilter),
+								new ShaderFilter(monitorFilter),
+								new ShaderFilter(bloomEffect)
+							]);
+					} else {
+						PlayState.camGame.setFilters(
+							[	
+								new ShaderFilter(vignette),
+								new ShaderFilter(monitorFilter),
+							]);
+					}
+			}
 		}
-		if (curBeat == 256)
+		
+	if (curBeat == 256)
 		{
 			if(!lowQuality && treesFront != null && goofyBG != null)
 				{
@@ -130,7 +130,6 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 						]);
 				}
 		}
-	}
 }
 
 function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Character)

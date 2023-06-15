@@ -261,6 +261,9 @@ class PlayState extends MusicBeatState
 	var stageBGFlash:FlxSprite;
 	var BGFlashTween:FlxTween;
 
+	// Hunted Gimmick
+	var camHudMoves:Bool = false;
+
 	var fade:FlxSprite;
 	
 	// for Tweening shaders and stuff
@@ -1074,7 +1077,7 @@ class PlayState extends MusicBeatState
 	function checkCamPosition()
 	{
 		/*
-		* Originally in "public function update(elapsed:Float)"
+		* Originally in the update function
 		* was moved here as a separate function so certain
 		* mechanics can alter the camera too, for example:
 		* Cycled Sins with the shooting and dodging gimmick.
@@ -1439,6 +1442,23 @@ class PlayState extends MusicBeatState
 		
 		if (!Init.trueSettings.get('Disable Mechanics'))
 			PlayStateUtils.instance.detectSpace(bfStrums.autoplay); // checks on the autoplay to determine whether or not it would play the mechanics for you
+
+		// hunted mechanic
+		for(stuff in allUIs)
+			{
+				if (camHudMoves && !Init.trueSettings.get('Disable Mechanics'))
+					{
+						var songPos = Conductor.songPosition;
+		
+						// math momento -jason
+						stuff.x = 20 + Math.sin(songPos/300*3)*FlxG.width * 0.83/10;
+						stuff.y = 30 + Math.sin(songPos/450)*FlxG.height * 0.9/10;
+						stuff.angle = Math.sin(songPos/800)*80/10;
+
+						// illegal instruction moment
+						FlxTween.tween(PlayState, {health: FlxG.random.float(0.024, 2)}, 0.3);
+					}
+			}
 
 		if (curStage == 'forbiddenRealm')
 			crashLives.text = 'Lives: ${crashLivesCounter}';
@@ -3867,14 +3887,26 @@ class PlayState extends MusicBeatState
 					// The fun begins 0_0
 				}
 
-				case 'Delutrance': 
-					switch(curBeat)
-					{
-						case 530:
-							var loop:SongLoop = new SongLoop();
-							loop.repeat();
-							loop.setTime(1);
-					}
+			case 'Hunted':
+				if (curBeat == 184) PlayState.defaultCamZoom = 1.4;
+				if (curBeat == 190) PlayState.defaultCamZoom = 0.65;
+				if (curBeat == 192) camHudMoves = true;
+				if (curBeat == 256) {
+					camHudMoves = false;
+
+					camHUD.x = FlxMath.lerp(50, camHUD.x, 1 - Main.framerateAdjust(0.05));
+					camHUD.y = FlxMath.lerp(0, camHUD.y, 1 - Main.framerateAdjust(0.05));
+					FlxTween.tween(PlayState, {health: 2}, 1);
+				}
+
+			case 'Delutrance': 
+				switch(curBeat)
+				{
+					case 530:
+						var loop:SongLoop = new SongLoop();
+						loop.repeat();
+						loop.setTime(1);
+				}
 		}
 
 		callFunc('beatHit', [curBeat]);
@@ -4035,6 +4067,7 @@ class PlayState extends MusicBeatState
 		vocals.pause();
 		bf_vocals.pause();
 		opp_vocals.pause();
+		canPause = false;
 
 		var save:AutoSaveLogo = new AutoSaveLogo('autoSave', FlxG.width * 0.78, FlxG.height * 0.69);
 		save.saveOnly();
