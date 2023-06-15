@@ -40,8 +40,8 @@ class AutoSaveLogo extends FlxSprite
         super.update(elapsed);
     }
 
-    public function fade(__remove:Bool = false):FlxTween
+    public function fade(__destroy:Bool = false):FlxTween
     {
-        return FlxTween.tween(this, {alpha: 0, y: y + 40}, 2, {ease: FlxEase.quadInOut, onComplete: _->if(__remove) kill()});
+        return FlxTween.tween(this, {alpha: 0, y: y + 40}, 2, {ease: FlxEase.quadInOut, onComplete: _->if(__destroy) destroy()});
     }
 }
