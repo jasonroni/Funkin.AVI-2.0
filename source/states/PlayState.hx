@@ -482,6 +482,10 @@ class PlayState extends MusicBeatState
 		// always draw new objects on the main camera
 		FlxG.cameras.setDefaultDrawTarget(camGame, true);
 
+		camGame.setSize(Std.int(camGame.width * 2), Std.int(camGame.height * 2));
+		camGame.x -= camGame.width / 4;
+		camGame.y -= camGame.height / 4;
+
 		// default song
 		if (SONG == null)
 			SONG = Song.loadFromJson('test', 'test');

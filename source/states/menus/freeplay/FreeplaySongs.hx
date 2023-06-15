@@ -94,7 +94,7 @@ class FreeplaySongs extends MusicBeatState
 		closedState = true;
 
 		// i am pretty sure this is gonna work
-		new FlxTimer().start(0.0001, _->closedState = false);
+		new FlxTimer().start(0.005, _->closedState = false);
 		
 		lime.app.Application.current.window.title = "Funkin.avi - Freeplay: Setting Up Category...";
 
@@ -400,7 +400,7 @@ class FreeplaySongs extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		if (FlxG.sound.music != null && FlxG.sound.music.playing)
+		if (FlxG.sound.music != null && FlxG.sound.music.playing && !closedState)
 			Conductor.songPosition = FlxG.sound.music.time;
 
 		ForeverTools.cameraBumpingZooms(FlxG.camera, 1);

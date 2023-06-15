@@ -245,6 +245,7 @@ class TitleState extends states.MusicBeatState
 			PlayState.campaingMisses = 0;
 			new FlxTimer().start(0.25, function(tmr:FlxTimer)
 			{
+				closedState = true;
 				Main.switchState(this, new states.PlayState());
 				FlxG.sound.music.volume = 0;
 			});
@@ -365,7 +366,7 @@ class TitleState extends states.MusicBeatState
 	override function update(elapsed:Float)
 	{
 
-		if (FlxG.sound.music != null)
+		if (FlxG.sound.music != null && !closedState)
 			Conductor.songPosition = FlxG.sound.music.time;
 
 		var pressedEnter:Bool = FlxG.mouse.justPressed || FlxG.keys.justPressed.ENTER;
