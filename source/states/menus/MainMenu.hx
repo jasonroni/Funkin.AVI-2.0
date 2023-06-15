@@ -639,7 +639,6 @@ class MainMenu extends MusicBeatState
 	
 			for (i in 0...optionShit.length)
 			{
-				var str:String = optionShit[i];
 				var menuItem:FlxSprite = menuItems.members[i];
 				if (i == selection)
 				{
