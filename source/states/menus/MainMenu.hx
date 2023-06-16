@@ -156,7 +156,7 @@ class MainMenu extends MusicBeatState
 			"Peter, the horse is here.",
 			"*horse walks in*",
 			"Anyone here watch Yahiamice?",
-			"*cantaloupe jumpscare*",
+			"*cantaloupe jumpscare*",    
 			"Prank 'em John",
 			"POV: You're a YouTuber doing some generic intro right about now",
 			"Another very well thought out idea of a random message that this game can randomly pick from within the code.",
@@ -445,6 +445,20 @@ class MainMenu extends MusicBeatState
 		grain.cameras = [camHUD];
 		add(grain);
 		}
+
+		if(FlxG.stage.window.title.contains('*cantaloupe jumpscare*'))
+			{
+				var cantaloupe = new FlxSprite(-200, -100).loadGraphic(Paths.image('menus/Funkin_avi/cantaloupe'));
+				cantaloupe.scale.set(0.05, 0.05);
+				cantaloupe.screenCenter(XY).x -= 700;
+				cantaloupe.y -= 300;
+				FlxTween.tween(cantaloupe.scale, {x: 2, y: 2}, 3, {ease: FlxEase.bounceOut, onComplete: _->FlxTween.tween(cantaloupe, {alpha: 0}, 3)});
+				add(cantaloupe);
+
+				FlxG.camera.shake(0.02, 5);
+
+				FlxG.sound.play(Paths.sound('funkinAVI/fnaf_jumpscare'), 0.7, false, null, true, ()->cantaloupe.destroy());
+			}
 	}
 
 	var selectedSomethin:Bool = false;

@@ -3894,8 +3894,11 @@ class PlayState extends MusicBeatState
 				if (curBeat == 256) {
 					camHudMoves = false;
 
-					camHUD.x = FlxMath.lerp(50, camHUD.x, 1 - Main.framerateAdjust(0.05));
-					camHUD.y = FlxMath.lerp(0, camHUD.y, 1 - Main.framerateAdjust(0.05));
+					for(goofyAhhUIS in allUIs)
+						{
+							goofyAhhUIS.x += 80;
+							goofyAhhUIS.y = FlxMath.lerp(0, goofyAhhUIS.y, 1 - Main.framerateAdjust(0.05));
+						}
 					FlxTween.tween(PlayState, {health: 2}, 1);
 				}
 
