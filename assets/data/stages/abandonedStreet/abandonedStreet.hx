@@ -67,7 +67,7 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 {
 	if (PlayState.SONG.song == 'Delusional')
 	{
-		if (curBeat == 176)
+		if (curBeat == 176 && rain != null)
 			rain.alpha = 1;
 		//if (curBeat == 280)
 			//FlxTween.tween(smoke, {alpha: 0.85}, 1.5);
