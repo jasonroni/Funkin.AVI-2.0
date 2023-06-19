@@ -10208,7 +10208,7 @@
 				"typeOfSection": 0,
 				"sectionNotes": [],
 				"bpm": 160,
-				"sectionBeats": 4,
+				"lengthInSteps": 16,
 				"changeBPM": false,
 				"mustHitSection": true
 			}

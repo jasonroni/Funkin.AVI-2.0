@@ -13129,7 +13129,7 @@
 				"typeOfSection": 0,
 				"sectionNotes": [],
 				"bpm": 185,
-				"sectionBeats": 4,
+				"lengthInSteps": 16,
 				"changeBPM": false,
 				"mustHitSection": true
 			},
@@ -13139,7 +13139,7 @@
 				"typeOfSection": 0,
 				"sectionNotes": [],
 				"bpm": 185,
-				"sectionBeats": 4,
+				"lengthInSteps": 16,
 				"changeBPM": false,
 				"mustHitSection": true
 			}

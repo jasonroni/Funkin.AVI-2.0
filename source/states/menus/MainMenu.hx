@@ -458,6 +458,10 @@ class MainMenu extends MusicBeatState
 				FlxG.camera.shake(0.02, 5);
 
 				FlxG.sound.play(Paths.sound('funkinAVI/fnaf_jumpscare'), 0.7, false, null, true, ()->cantaloupe.destroy());
+
+				// adds a achievement
+				if(!GameJoltAPI.checkTrophy(196692))
+					GameJoltAPI.getTrophy(196692);
 			}
 	}
 

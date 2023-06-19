@@ -151,7 +151,7 @@ class GameJoltAPI // Connects to tentools.api.FlxGameJolt
                 var bool:Bool = false;
                 if (data.exists("message"))
                     bool = true;
-                Main.gjToastManager.createToast(GameJoltInfo.imagePath, "Unlocked a new trophy"+(bool ? "... again?" : "!"), "Thank you for testing this out!\nCheck out Vs. King, it's cool", true);
+                Main.gjToastManager.createToast(GameJoltInfo.imagePath, "Achievement Unlocked "+(bool ? "... again?" : "!"), "", true);
             });
         }
     }

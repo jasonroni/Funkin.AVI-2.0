@@ -1,68 +1,138 @@
 {
 	"animations": [
 		{
-			"loop": true,
 			"offsets": [
+				816, -82
+			],
+			"indices": [
+				0,
+				1,
 				2,
-				260
-			],
-			"anim": "idle",
-			"fps": 16,
-			"name": "True_Idle",
-			"indices": []
-		},
-		{
-			"loop": false,
-			"offsets": [
-				-16,
-				272
-			],
-			"anim": "singLEFT",
-			"fps": 24,
-			"name": "True_Left",
-			"indices": []
-		},
-		{
-			"loop": false,
-			"offsets": [
-				-70,
-				139
-			],
-			"anim": "singDOWN",
-			"fps": 24,
-			"name": "True_Down",
-			"indices": []
-		},
-		{
-			"loop": false,
-			"offsets": [
-				34,
-				403
-			],
-			"anim": "singUP",
-			"fps": 24,
-			"name": "True_Up",
-			"indices": []
-		},
-		{
-			"offsets": [
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
 				16,
-				300
+				17,
+				18
 			],
+			"fps": 34,
+			"anim": "singLEFT",
 			"loop": false,
-			"fps": 24,
-			"anim": "singRIGHT",
+			"name": "Leftwalt"
+		},
+		{
+			"offsets": [
+				180, -240
+			],
 			"indices": [],
-			"name": "True_Right"
+			"fps": 30,
+			"anim": "singDOWN",
+			"loop": false,
+			"name": "Downwalt"
+		},
+		{
+			"offsets": [
+				0,
+				0
+			],
+			"indices": [
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				16,
+				16,
+				16
+			],
+			"fps": 30,
+			"anim": "idle",
+			"loop": true,
+			"name": "idlewalt"
+		},
+		{
+			"offsets": [
+				25, 124
+			],
+			"indices": [
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13
+			],
+			"fps": 22,
+			"anim": "singUP",
+			"loop": false,
+			"name": "Upwalt"
+		},
+		{
+			"offsets": [
+				-208, 88
+			],
+			"indices": [
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18
+			],
+			"fps": 28,
+			"anim": "singRIGHT",
+			"loop": false,
+			"name": "Rightwalt"
 		}
 	],
 	"no_antialiasing": false,
-	"image": "characters/Walt_True",
+	"image": "characters/Walt",
 	"position": [
-		30,
-		30
+		-800,
+		900
 	],
-	"healthicon": "walt",
+	"healthicon": "face",
 	"flip_x": false,
 	"healthbar_colors": [
 		161,
@@ -70,9 +140,9 @@
 		161
 	],
 	"camera_position": [
-		50,
-		-60
+		-230,
+		100
 	],
 	"sing_duration": 6.1,
-	"scale": 0.7
+	"scale": 0.9
 }
