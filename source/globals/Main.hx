@@ -490,19 +490,19 @@ class Main extends Sprite
 	    function onResizeGame(w:Int, h:Int) {
 	        if (FlxG.cameras == null)
 	            return;
-
+	
 	        for (cam in FlxG.cameras.list) {
 	            @:privateAccess
 	            if (cam != null && (cam._filters != null || cam._filters != []))
 	                fixShaderSize(cam);
 	        }    
 	    }
-
+	
 	    function fixShaderSize(camera:flixel.FlxCamera)
 	    {
 	        @:privateAccess {
 	            var sprite:Sprite = camera.flashSprite;
-
+	
 	            if (sprite != null)
 	            {
 	                sprite.__cacheBitmap = null;
