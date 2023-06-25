@@ -13,6 +13,10 @@ class CppAPI
 	public static function darkMode()
 	{
 		WindowsData.setWindowColorMode(DARK);
+
+		// thank you memehovy for helping me fixing this love you no homo
+        lime.app.Application.current.window.borderless = true;
+		lime.app.Application.current.window.borderless = false;
 	}
 
 	public static function lightMode()

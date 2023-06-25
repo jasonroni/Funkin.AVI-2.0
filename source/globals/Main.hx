@@ -487,28 +487,32 @@ class Main extends Sprite
 				}
 		}
 	
-	private function onResizeGame(width:Int, height:Int)
-		{
-			@:privateAccess
-			{
-				for (camera in FlxG.cameras?.list)
-				{
-					if (camera != null && ((camera?._filters?.length ?? -1) > 0))
-					{
-						var sprite:Sprite = camera.flashSprite;
-						if (sprite != null)
-						{
-							sprite.__cacheBitmap = null;
-							sprite.__cacheBitmapData
-								= sprite.__cacheBitmapData2
-								= sprite.__cacheBitmapData3
-									= null;
-							sprite.__cacheBitmapColorTransform = null;
-						}
-					}
-				}
-			}
-		}
+	    function onResizeGame(w:Int, h:Int) {
+	        if (FlxG.cameras == null)
+	            return;
+
+	        for (cam in FlxG.cameras.list) {
+	            @:privateAccess
+	            if (cam != null && (cam._filters != null || cam._filters != []))
+	                fixShaderSize(cam);
+	        }    
+	    }
+
+	    function fixShaderSize(camera:flixel.FlxCamera)
+	    {
+	        @:privateAccess {
+	            var sprite:Sprite = camera.flashSprite;
+
+	            if (sprite != null)
+	            {
+	                sprite.__cacheBitmap = null;
+	                sprite.__cacheBitmapData = null;
+	                sprite.__cacheBitmapData2 = null;
+	                sprite.__cacheBitmapData3 = null;
+	                sprite.__cacheBitmapColorTransform = null;
+	            }
+	        }
+	    }
 	
 	public static function gc() {
 		trace("Huh");
