@@ -694,7 +694,240 @@ final class Shaders
     }
     ";
 
+    /*
+    * Filter used for Credits Menu
+    */
+    public static inline var filter1990:String =
+    "
+    #pragma header
+    vec2 uv = openfl_TextureCoordv.xy;
+    vec2 fragCoord = openfl_TextureCoordv*openfl_TextureSize;
+	vec2 iResolution = openfl_TextureSize;
+	uniform float iTime;
+	#define iChannel0 bitmap
+	#define iChannel1 bitmap
+	#define iChannel2 bitmap
+	#define iChannelResolution bitmap
+	#define texture flixel_texture2D
+	#define fragColor gl_FragColor
+	#define mainImage main
+	uniform float uTime;
+	uniform vec4 iMouse;
+	
+	#define V vec2(0.,1.)
+	#define PI 3.14159265
+	#define HUGE 1E9
+	#define VHSRES vec2(1280.0,720.0)
+	#define saturate(i) clamp(i,0.,1.)
+	#define lofi(i,d) floor(i/d)*d
+	#define validuv(v) (abs(v.x-0.5)<0.5&&abs(v.y-0.5)<0.5)
+	
+	float v2random( vec2 uv ) {
+	  return texture( iChannel1, mod( uv, vec2( 1.0 ) ) ).x;
+	}
+	
+	mat2 rotate2D( float t ) {
+	  return mat2( cos( t ), sin( t ), -sin( t ), cos( t ) );
+	}
+	
+	vec3 rgb2yiq( vec3 rgb ) {
+	  return mat3( 0.299, 0.596, 0.211, 0.587, -0.274, -0.523, 0.114, -0.322, 0.312 ) * rgb;
+	}
+	
+	vec3 yiq2rgb( vec3 yiq ) {
+	  return mat3( 1.000, 1.000, 1.000, 0.956, -0.272, -1.106, 0.621, -0.647, 1.703 ) * yiq;
+	}
+	
+	#define SAMPLES 6
+	
+	vec3 vhsTex2D( vec2 uv, float rot ) {
+	  if ( validuv( uv ) ) {
+	    vec3 yiq = vec3( 0.0 );
+	    for ( int i = 0; i < SAMPLES; i ++ ) {
+	      yiq += (
+	        rgb2yiq( texture( iChannel0, uv - vec2( float( i ), 0.0 ) / VHSRES ).xyz ) *
+	        vec2( float( i ), float( SAMPLES - 1 - i ) ).yxx / float( SAMPLES - 1 )
+	      ) / float( SAMPLES ) * 2.0;
+	    }
+	    if ( rot != 0.0 ) { yiq.yz = rotate2D( rot ) * yiq.yz; }
+	    return yiq2rgb( yiq );
+	  }
+	  return vec3( 0.1, 0.1, 0.1 );
+	}
+	
+	void mainImage(  ) {
+	  vec2 uv = fragCoord.xy / VHSRES;
+	  float time = iTime;
+	
+	  vec2 uvn = uv;
+	  vec3 col = vec3( 0.0, 0.0, 0.0 );
+	
+	  // tape wave
+	  uvn.x += ( v2random( vec2( uvn.y / 10.0, time / 10.0 ) / 1.0 ) - 0.5 ) / VHSRES.x * 1.0;
+	  uvn.x += ( v2random( vec2( uvn.y, time * 10.0 ) ) - 0.5 ) / VHSRES.x * 1.0;
+	
+	  // tape crease
+	  float tcPhase = smoothstep( 0.9, 0.96, sin( uvn.y * 8.0 - ( time + 0.14 * v2random( time * vec2( 0.67, 0.59 ) ) ) * PI * 1.2 ) );
+	  float tcNoise = smoothstep( 0.3, 1.0, v2random( vec2( uvn.y * 4.77, time ) ) );
+	  float tc = tcPhase * tcNoise;
+	  uvn.x = uvn.x - tc / VHSRES.x * 8.0;
+	
+	  // switching noise
+	  float snPhase = smoothstep( 6.0 / VHSRES.y, 0.0, uvn.y );
+	  uvn.y += snPhase * 0.3;
+	  uvn.x += snPhase * ( ( v2random( vec2( uv.y * 100.0, time * 10.0 ) ) - 0.5 ) / VHSRES.x * 24.0 );
+	
+	  // fetch
+	  col = vhsTex2D( uvn, tcPhase * 0.2 + snPhase * 2.0 );
+	
+	  // crease noise
+	  float cn = tcNoise * ( 0.3 + 0.7 * tcPhase );
+	  if ( 0.29 < cn ) {
+	    vec2 uvt = ( uvn + V.yx * v2random( vec2( uvn.y, time ) ) ) * vec2( 0.1, 1.0 );
+	    float n0 = v2random( uvt );
+	    float n1 = v2random( uvt + V.yx / VHSRES.x );
+	    if ( n1 < n0 ) {
+	      col = mix( col, 2.0 * V.yyy, pow( n0, 10.0 ) );
+	    }
+	  }
+	
+	  // ac beat
+	  col *= 1.0 + 0.1 * smoothstep( 0.4, 0.6, v2random( vec2( 0.0, 0.1 * ( uv.y + time * 0.2 ) ) / 10.0 ) );
+	
+	  // color noise
+	  col *= 0.9 + 0.1 * texture( iChannel1, mod( uvn * vec2( 1.0, 1.0 ) + time * vec2( 5.97, 4.45 ), vec2( 1.0 ) ) ).xyz;
+	  col = saturate( col );
+	
+	  // yiq
+	  col = rgb2yiq( col );
+	  col = vec3( 0.1, -0.1, 0.0 ) + vec3( 0.9, 1.1, 1.5 ) * col;
+	  col = yiq2rgb( col );
+	
+	  fragColor = vec4( col, 1.0 );
+	}
+    ";
+
+    /*
+    * Don't Cross Freeplay Shader
+    */
+    public static inline var theBlurOf87:String =
+    "
+	//source: https://www.shadertoy.com/view/fsV3R3
+
+	#pragma header
+	
+	uniform float iTime;
+	
+	vec2 iResolution = openfl_TextureSize;
+	
+	uniform float amount = 0.5;
+	
+	const float pi = radians(180.);
+	const int samples = 20;
+	const float sigma = float(samples) * 0.25;
+	
+	// we don't need to recalculate these every time
+	const float sigma2 = 2. * sigma * sigma;
+	const float pisigma2 = pi * sigma2;
+	
+	float gaussian(vec2 i) {
+	    float top = exp(-((i.x * i.x) + (i.y * i.y)) / sigma2);
+	    float bot = pisigma2;
+	    return top / bot;
+	}
+	
+	vec3 blur(sampler2D sp, vec2 uv, vec2 scale) {
+	    vec2 offset;
+	    float weight = gaussian(offset);
+	    vec3 col = texture2D(sp, uv).rgb * weight;
+	    float accum = weight * amount;
+	    
+	    // we need to use x <= samples / 2
+	    // to ensure symmetry
+	    for (int x = 0; x <= samples / 2; ++x) {
+	        for (int y = 1; y <= samples / 2; ++y) {
+	            offset = vec2(x, y);
+	            weight = gaussian(offset);
+	            col += texture2D(sp, uv + scale * offset).rgb * weight;
+	            accum += weight;
+	
+	            // since values are symmetrical
+	            // we can re-use the "weight" value, saving 3 function calls
+	
+	            col += texture2D(sp, uv - scale * offset).rgb * weight;
+	            accum += weight;
+	
+	            offset = vec2(-y, x);
+	            col += texture2D(sp, uv + scale * offset).rgb * weight;
+	            accum += weight;
+	
+	            col += texture2D(sp, uv - scale * offset).rgb * weight;
+	            accum += weight;
+	        }
+	    }
+	    
+	    return col / accum;
+	}
+	
+	void main() {
+	    vec2 fragCoord = openfl_TextureCoordv * iResolution;
+	
+	    vec2 ps = vec2(1.0) / iResolution.xy;
+	    vec2 uv = fragCoord * ps;
+	
+	    gl_FragColor = vec4(blur(bitmap, uv, ps * amount), texture2D(bitmap,uv).a);
+	}
+    ";
+
+    /*
+    * For Dramatic Effect on the Cam movement
+    */
     public static inline var cameraMovement:String = 
     "
+	#pragma header
+
+	uniform float time = 0.0;
+	
+	vec2 ShakeUV(vec2 uv, float time) {
+	    uv.x += 0.002 * sin(time*3.141) * sin(time*14.14);
+	    uv.y += 0.002 * sin(time*1.618) * sin(time*17.32);
+	    return uv;
+	}
+	
+	void main() {
+	    gl_FragColor = texture2D(bitmap, ShakeUV(openfl_TextureCoordv, time / 2.0));
+	}
+    ";
+
+    /*
+    * The Shader that's used on basically everything in the game except for certain songs
+    */
+    public static inline var monitorFilter:String =
+    "
+    	#pragma header
+
+	float zoom = 1;
+	void main()
+	{
+	    vec2 uv = openfl_TextureCoordv;
+	    uv = (uv-.5)*2.;
+	    uv *= zoom;
+	    
+	    uv.x *= 1. + pow(abs(uv.y/2.),3.);
+	    uv.y *= 1. + pow(abs(uv.x/2.),3.);
+	    uv = (uv + 1.)*.5;
+	    
+	    vec4 tex = vec4( 
+	        texture2D(bitmap, uv+.001).r,
+	        texture2D(bitmap, uv).g,
+	        texture2D(bitmap, uv-.001).b, 
+	        1.0
+	    );
+	    
+	    tex *= smoothstep(uv.x,uv.x+0.01,1.)*smoothstep(uv.y,uv.y+0.01,1.)*smoothstep(-0.01,0.,uv.x)*smoothstep(-0.01,0.,uv.y);
+	    
+	    float avg = (tex.r+tex.g+tex.b)/3.;
+	    gl_FragColor = tex + pow(avg,3.);
+	}
     ";
 }
