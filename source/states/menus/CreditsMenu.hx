@@ -13,17 +13,35 @@ import flixel.FlxSprite;
 
 class CreditsMenu extends MusicBeatState 
 {
-    // Also the number is for identificate the current selected
-    // Name, Icon, Works, Description, icon X, icon Y, Size, Goofy ahh long text
+    	/*
+	* Custom Credits Mapping System
+	* 
+	* Numbers are the current selected mapping the menu will display when it uses the number
+	* It kinda goes something like this:
+    	* curSelected # => [Name of Contributor, Icon, Work They've Done, Description/Quote, X Value of Icon, Y Value of Icon, Size of Icon, Bool for in case someone has a stupidly long description]
+	*/
     public static var creditMap:Map<Int, Array<Dynamic>> = [
         0 => ['Yama haki / Toko', 'toko', 'Creator, Owner, Director, Composer, PlayTester', 'Now THIS is how you delusional', -320, -140, 0.55, false],
-        1 => ['DEMOLITIONDON96', 'don', 'Director, Composer, Main coder, Artist, Animator, Charter', 'Shut the fuck up you lame ass Psych engine kiddo', -320, -140, 0.55, false],
+        1 => ['DEMOLITIONDON96', 'don', 'Director, Composer, Main Programmer, Artist, Animator, Charter', 'Shut the fuck up you lame ass Psych engine kiddo.', -320, -140, 0.55, false],
         2 => ['Domingo', 'domingo', 'Director, Main Artist, Animator, Cutscenes, PlayTester', "A realistic depiction of working on Funkin.Avi!!
-In all seriousness this mod has taken so long to finish its update, I think it was about a year already… 
-OH WAIT by the time, June 12, 2023, I'm writing this I'm pretty sure it has been exactly 1 year since we have uploaded the very first demo of the mod. 
-We have come such a long way and I'm happy with what we've been able to achieve and the story hasn't even reached its climax. 
-Thank you for playing!
-        ", -320, -140, 0.55, true],
+		In all seriousness this mod has taken so long to finish its update, I think it was about a year already… 
+		OH WAIT by the time, June 12, 2023, I'm writing this I'm pretty sure it has been exactly 1 year since we have uploaded the very first demo of the mod. 
+		We have come such a long way and I'm happy with what we've been able to achieve and the story hasn't even reached its climax. 
+		Thank you for playing!", -320, -140, 0.55, true],
+	3 => ['KKCopinXD', 'kopin', 'Co-Director, Icon Artist & Concept Menu Artist', "if it wasn't for Coolye3ted I wouldn't be here on this Mod to be able to work on it 
+		I've been here since 1.5 and It's an honor to be here working for this amazing team, 
+		I made a lot of friends I appreciate being able to be friends with them I hope you enjoyed the update we all worked hard to finish it! YIPPEEEEEEE-
+		\nI made Malfuntion background, all MOD icons ( except Hunter Goofy ) all OST arts, dubbed Relapse Mouse and Malfuntion countdowns and I made FreePlay Concept", -320, -140, 0.55, true],
+	4 => ['HanaCat', 'hana', 'Artist & Charter', 'i am the charter of devilish-deal!11!1! and also animator some character1!1!1!1!\nand you are so isolated!1!1\n-BenCat / HanaCat', -320, -140, 0.55, false],
+	5 => ['RetroJogador', 'joga', 'Composed Main Menu, Both Joke Songs, & Made Menu Art', "Btw I really enjoyed joining the mod team and ending this amazing update, 
+	      	along the way I met and made a lot of cool friends. Changing the subject, 
+	      	I was responsible for making the Menu Music, Pause Music, Sanguis Muris and others, Arts I practically created the main menu, hud and Others, 
+	      	and I gave the voice to Mrs Smile in V2, Change the World, My Final Message: YIPPEEE- ", -320, -140, 0.55, true],
+	6 => ['IPhantom_Sprite', 'iphantom', 'Cutscenes, Icon Art for Hunter Goofy, Mother of Miserable Funk', "holy crap its mother of miserable funk", -320, -140, 0.55, false],
+	7 => ['theonlyshittyre.', 'shitty', 'Hunter Goofy.', "I've been on this mod for a long time, when I arrived, 
+		the quality of the mod was still pretty questionable, 
+	      	but im pretty proud of what this mod has become, like.. bro this gotta be my fav mod in fnf community and im not saying that cuz i work here, lol. 
+		Well, im pretty happy to say that my balls are itchy, have a good day.", -320, -140, 0.55, true],
     ];
 
     var curSelected:Int = 0;
@@ -172,6 +190,10 @@ Thank you for playing!
         creditIconSprite.setPosition(creditMap[curSelected][4], creditMap[curSelected][5]);
 
         if (newSelect != 0) FlxG.sound.play(Paths.sound('base/menus/scrollMenu'), 0.6);
+
+	// maybe this prevents the crash issue??????
+	if (newSelect < 0) newSelect = 7;
+	if (newSelect > 7) newSelect = 0;
 
         // guys this is a bool i promise
         if(creditMap[curSelected][7])
