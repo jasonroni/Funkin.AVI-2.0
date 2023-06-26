@@ -59,8 +59,6 @@ class TitleState extends states.MusicBeatState
 	public static var initialized:Bool = false;
 	public var camZooming:Bool = false;
 
-	public var camGame:FlxCamera;
-
 	var blackScreen:FlxSprite;
 	var credTextShit:Alphabet;
 	var textGroup:FlxGroup;

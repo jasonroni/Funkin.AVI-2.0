@@ -473,6 +473,8 @@ class Main extends Sprite
 							cache.removeSound(key); 
 							trace('removed sound $key');
 						}
+					cache = null; // nulling the cache moment
+						
 				} else {
 					Paths.clearUnusedMemory();
 					openfl.Assets.cache.clear('assets/songs');

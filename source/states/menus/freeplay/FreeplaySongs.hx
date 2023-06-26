@@ -215,15 +215,6 @@ class FreeplaySongs extends MusicBeatState
 						addSong('Malfunction-Legacy', 3, (GameData.legacyMLock != 'unlocked' && GameData.legacyMLock != 'beaten' ? 'untouched-song' : 'glitched-mickey-legacy-pixel'), FlxColor.fromRGB(140, 120, 180), 'obscurity', 'INSANE', FlxColor.fromRGB(255, 110, 110));
 					}
 				}
-			case 3: // Void/Muckney Hidden Song Menu
-				{				
-					chromAberration = new FlxRuntimeShader(Shaders.aberration, null, 150);
-					chromAberration.setFloat('aberration', 0.12);
-					chromAberration.setFloat('effectTime', 0.24);				
-					defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
-					
-					addSong('Birthday', 3, 'muckney', FlxColor.BLACK, '???', '???', FlxColor.fromRGB(250, 234, 92));
-				}
 		}
 
 		mutex = new Mutex();
@@ -400,7 +391,7 @@ class FreeplaySongs extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		if (FlxG.sound.music != null && FlxG.sound.music.playing && !closedState)
+		if (FlxG.sound.music != null && FlxG.sound.music.playing && !closedState && freeplayMenuList != 2)
 			Conductor.songPosition = FlxG.sound.music.time;
 
 		ForeverTools.cameraBumpingZooms(FlxG.camera, 1);
