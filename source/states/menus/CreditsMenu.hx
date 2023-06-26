@@ -16,9 +16,8 @@ class CreditsMenu extends MusicBeatState
     /**
 	* ## Custom Credits Mapping System
 	* 
-	* Numbers are the current selected mapping the menu will display when it uses the number
-	* It kinda goes something like this:
-    	* curSelected => [Name of Contributor, Icon, Work They've Done, Description/Quote, X Value of Icon, Y Value of Icon, Size of Icon, Bool for in case someone has a stupidly long description]
+	* How it Works:
+    	* [Name of Contributor, Icon, Work They've Done, Description/Quote, X Value of Icon, Y Value of Icon, Size of Icon, Bool for in case someone has a stupidly long description]
 	*/
     public static var creditArray:Array<Dynamic> = [
         ['Yama haki / Toko', 'toko', 'Creator, Owner, Director, Composer, PlayTester', 'Now THIS is how you delusional', -320, -140, 0.55, false],
@@ -42,10 +41,10 @@ class CreditsMenu extends MusicBeatState
 		the quality of the mod was still pretty questionable, 
 	      	but im pretty proud of what this mod has become, like.. bro this gotta be my fav mod in fnf community and im not saying that cuz i work here, lol. 
 		Well, im pretty happy to say that my balls are itchy, have a good day.",  50, 40, 1, true],
-	8 => ['AustinTheRedDragon', 'austin', 'Artist, Owner of Mr. Smiles & Professionally Horny', 'I am not an alligator' /*yes you are :trollface: -don*/, -320, -140, 0.55, false],
-	9 => ['The Gamerchoice', 'gamerchoice', 'Concept Artist & Playtester', 'where are the men???1?! * has an erection *', -320, -140, 0.55, false],
-	10 => ['FR3SHMoure', 'fresh', "Composer that's mostly well known for Delusional", 'the swagging of 68', -320, -140, 0.55, false],
-	11 => ['Dreupy', 'dreupy', 'Charter', 'MICKEY DIES????', -320, -140, 0.55, false],
+	['AustinTheRedDragon', 'austin', 'Artist, Owner of Mr. Smiles & Professionally Horny', 'I am not an alligator' /*yes you are :trollface: -don*/, -320, -140, 0.55, false],
+	['The Gamerchoice', 'gamerchoice', 'Concept Artist & Playtester', 'where are the men???1?! * has an erection *', -320, -140, 0.55, false],
+	['FR3SHMoure', 'fresh', "Composer that's mostly well known for Delusional", 'the swagging of 68', -320, -140, 0.55, false],
+	['Dreupy', 'dreupy', 'Charter', 'MICKEY DIES????', -320, -140, 0.55, false],
     ];
 
     var curSelected:Int = 0;
