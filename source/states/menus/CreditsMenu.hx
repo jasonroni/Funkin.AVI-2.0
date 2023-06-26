@@ -41,10 +41,10 @@ class CreditsMenu extends MusicBeatState
 		the quality of the mod was still pretty questionable, 
 	      	but im pretty proud of what this mod has become, like.. bro this gotta be my fav mod in fnf community and im not saying that cuz i work here, lol. 
 		Well, im pretty happy to say that my balls are itchy, have a good day.",  50, 40, 1, true],
-        ['AustinTheRedDragon', 'austin', 'Artist, Owner of Mr. Smiles & Professionally Horny', 'I am not an alligator' /*yes you are :trollface: -don*/, -320, -140, 0.55, false],
-        ['The Gamerchoice', 'gamerchoice', 'Concept Artist & Playtester', 'where are the men???1?! * has an erection *', -320, -140, 0.55, false],
-        ['FR3SHMoure', 'fresh', "Composer that's mostly well known for Delusional", 'the swagging of 68', -320, -140, 0.55, false],
-        ['Dreupy', 'dreupy', 'Charter', 'MICKEY DIES????', -320, -140, 0.55, false],
+        ['AustinTheRedDragon', 'austin', 'Artist, Owner of Mr. Smiles & Professionally Horny', 'I am not an alligator' /*yes you are :trollface: -don*/, 30, 40, 1, false],
+        ['The Gamerchoice', 'gamerchoice', 'Concept Artist & Playtester', 'where are the men???1?! * has an erection *', 20, 40, 0.9, false],
+        ['FR3SHMoure', 'fresh', "Composer that's mostly well known for Delusional", 'the swagging of 68', 30, 40, 1, false],
+        ['Dreupy', 'dreupy', 'Charter', 'MICKEY DIES????', -35, 40, 0.85, false],
     ];
 
     var curSelected:Int = 0;
