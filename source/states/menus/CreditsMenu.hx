@@ -16,9 +16,8 @@ class CreditsMenu extends MusicBeatState
     /**
 	* ## Custom Credits Mapping System
 	* 
-	* Numbers are the current selected mapping the menu will display when it uses the number
-	* It kinda goes something like this:
-    	* curSelected => [Name of Contributor, Icon, Work They've Done, Description/Quote, X Value of Icon, Y Value of Icon, Size of Icon, Bool for in case someone has a stupidly long description]
+	* How it Works:
+    	* [Name of Contributor, Icon, Work They've Done, Description/Quote, X Value of Icon, Y Value of Icon, Size of Icon, Bool for in case someone has a stupidly long description]
 	*/
     public static var creditArray:Array<Dynamic> = [
         ['Yama haki / Toko', 'toko', 'Creator, Owner, Director, Composer, PlayTester', 'Now THIS is how you delusional', -320, -140, 0.55, false],
@@ -176,8 +175,8 @@ class CreditsMenu extends MusicBeatState
             }
 
             // maybe this prevents the crash issue??????
-            if (curSelected < 0) curSelected = 7;
-            else if (curSelected > 7) curSelected = 0;
+            if (curSelected < 0) curSelected = 11;
+            else if (curSelected > 11) curSelected = 0;
     }
 
     override function destroy() {
