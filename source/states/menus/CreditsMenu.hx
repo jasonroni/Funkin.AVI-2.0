@@ -20,25 +20,25 @@ class CreditsMenu extends MusicBeatState
 	* It kinda goes something like this:
     	* curSelected => [Name of Contributor, Icon, Work They've Done, Description/Quote, X Value of Icon, Y Value of Icon, Size of Icon, Bool for in case someone has a stupidly long description]
 	*/
-    public static var creditMap:Map<Int, Array<Dynamic>> = [
-        0 => ['Yama haki / Toko', 'toko', 'Creator, Owner, Director, Composer, PlayTester', 'Now THIS is how you delusional', -320, -140, 0.55, false],
-        1 => ['DEMOLITIONDON96', 'don', 'Director, Composer, Main Programmer, Artist, Animator, Charter', 'Shut the fuck up you lame ass Psych engine kiddo.', -320, -140, 0.55, false],
-        2 => ['Domingo', 'domingo', 'Director, Main Artist, Animator, Cutscenes, PlayTester', "A realistic depiction of working on Funkin.Avi!!
+    public static var creditArray:Array<Dynamic> = [
+        ['Yama haki / Toko', 'toko', 'Creator, Owner, Director, Composer, PlayTester', 'Now THIS is how you delusional', -320, -140, 0.55, false],
+        ['DEMOLITIONDON96', 'don', 'Director, Composer, Main Programmer, Artist, Animator, Charter', 'Shut the fuck up you lame ass Psych engine kiddo.', -320, -140, 0.55, false],
+        ['Domingo', 'domingo', 'Director, Main Artist, Animator, Cutscenes, PlayTester', "A realistic depiction of working on Funkin.Avi!!
 		In all seriousness this mod has taken so long to finish its update, I think it was about a year already… 
 		OH WAIT by the time, June 12, 2023, I'm writing this I'm pretty sure it has been exactly 1 year since we have uploaded the very first demo of the mod. 
 		We have come such a long way and I'm happy with what we've been able to achieve and the story hasn't even reached its climax. 
 		Thank you for playing!", -320, -140, 0.55, true],
-	3 => ['KKCopinXD', 'kopin', 'Co-Director, Icon Artist & Concept Menu Artist', "if it wasn't for Coolye3ted I wouldn't be here on this Mod to be able to work on it 
+	    ['KKCopinXD', 'kopin', 'Co-Director, Icon Artist & Concept Menu Artist', "if it wasn't for Coolye3ted I wouldn't be here on this Mod to be able to work on it 
 		I've been here since 1.5 and It's an honor to be here working for this amazing team, 
 		I made a lot of friends I appreciate being able to be friends with them I hope you enjoyed the update we all worked hard to finish it! YIPPEEEEEEE-
 		\nI made Malfuntion background, all MOD icons ( except Hunter Goofy ) all OST arts, dubbed Relapse Mouse and Malfuntion countdowns and I made FreePlay Concept", 50, 40, 1, true],
-	4 => ['HanaCat', 'hana', 'Artist & Charter', 'i am the charter of devilish-deal!11!1! and also animator some character1!1!1!1! and you are so isolated!1!1', 50, 40, 1, false],
-	5 => ['RetroJogador', 'joga', 'Composed Main Menu, Both Joke Songs, & Made Menu Art', "Btw I really enjoyed joining the mod team and ending this amazing update, 
+	    ['HanaCat', 'hana', 'Artist & Charter', 'i am the charter of devilish-deal!11!1! and also animator some character1!1!1!1! and you are so isolated!1!1', 50, 40, 1, false],
+	    ['RetroJogador', 'joga', 'Composed Main Menu, Both Joke Songs, & Made Menu Art', "Btw I really enjoyed joining the mod team and ending this amazing update, 
 	      	along the way I met and made a lot of cool friends. Changing the subject, 
 	      	I was responsible for making the Menu Music, Pause Music, Sanguis Muris and others, Arts I practically created the main menu, hud and Others, 
 	      	and I gave the voice to Mrs Smile in V2, Change the World, My Final Message: YIPPEEE- ", -320, -140, 0.55, true],
-	6 => ['IPhantom_Sprite', 'iphantom', 'Cutscenes, Icon Art for Hunter Goofy, Mother of Miserable Funk', "holy crap its mother of miserable funk", -320, -140, 0.55, false],
-	7 => ['theonlyshittyre.', 'shitty', 'Hunter Goofy.', "I've been on this mod for a long time, when I arrived, 
+	    ['IPhantom_Sprite', 'iphantom', 'Cutscenes, Icon Art for Hunter Goofy, Mother of Miserable Funk', "holy crap its mother of miserable funk", -320, -140, 0.55, false],
+        ['theonlyshittyre.', 'shitty', 'Hunter Goofy.', "I've been on this mod for a long time, when I arrived, 
 		the quality of the mod was still pretty questionable, 
 	      	but im pretty proud of what this mod has become, like.. bro this gotta be my fav mod in fnf community and im not saying that cuz i work here, lol. 
 		Well, im pretty happy to say that my balls are itchy, have a good day.",  50, 40, 1, true],
@@ -94,23 +94,23 @@ class CreditsMenu extends MusicBeatState
         box.setGraphicSize(Std.int(box.width * 0.6));
         add(box);
 
-        creditDescText = new FlxText(FlxG.width * 0.52, FlxG.height * 0.6, 500, creditMap[curSelected][3]);
+        creditDescText = new FlxText(FlxG.width * 0.52, FlxG.height * 0.6, 500, creditArray[curSelected][3]);
         creditDescText.setFormat(Paths.font('vcr'), 40, FlxColor.WHITE, CENTER, OUTLINE, FlxColor.BLACK);
         creditDescText.borderSize = 1.3;
         add(creditDescText);
 
-        creditNameText = new FlxText(FlxG.width * 0.22, FlxG.height * 0.3, FlxG.width, creditMap[curSelected][0]);
+        creditNameText = new FlxText(FlxG.width * 0.22, FlxG.height * 0.3, FlxG.width, creditArray[curSelected][0]);
         creditNameText.setFormat(Paths.font('vcr'), 70, FlxColor.WHITE, CENTER, OUTLINE, FlxColor.BLACK);
         creditNameText.borderSize = 1.3;
         add(creditNameText);
 
-        creditWorkText = new FlxText(FlxG.width * 0.52, FlxG.height * 0.41, 500, creditMap[curSelected][2]);
+        creditWorkText = new FlxText(FlxG.width * 0.52, FlxG.height * 0.41, 500, creditArray[curSelected][2]);
         creditWorkText.setFormat(Paths.font('vcr'), 30, FlxColor.WHITE, CENTER, OUTLINE, FlxColor.BLACK);
         creditWorkText.borderSize = 1.3;
         add(creditWorkText);
 
-        creditIconSprite = new FlxSprite(creditMap[curSelected][4], creditMap[curSelected][5]).loadGraphic(Paths.image('$path/icons/${creditMap[curSelected][1]}'));
-        creditIconSprite.setGraphicSize(Std.int(creditIconSprite.width * creditMap[curSelected][6]));
+        creditIconSprite = new FlxSprite(creditArray[curSelected][4], creditArray[curSelected][5]).loadGraphic(Paths.image('$path/icons/${creditArray[curSelected][1]}'));
+        creditIconSprite.setGraphicSize(Std.int(creditIconSprite.width * creditArray[curSelected][6]));
         add(creditIconSprite);
 
         changeSelection();
@@ -185,18 +185,22 @@ class CreditsMenu extends MusicBeatState
     private function changeSelection(newSelect:Int = 0) 
     {
         curSelected += newSelect;
+        if (curSelected < 0)
+            curSelected = creditArray.length - 1;
+        if (curSelected >= creditArray.length)
+            curSelected = 0;
 
-        creditNameText.text = creditMap[curSelected][0] != null ? creditMap[curSelected][0] : 'unknown';
-        creditDescText.text = creditMap[curSelected][3] != null ? creditMap[curSelected][3] : 'unknown';
-        creditWorkText.text = creditMap[curSelected][2] != null ? creditMap[curSelected][2] : 'has not worked';
-        creditIconSprite.loadGraphic(Paths.image('$path/icons/${creditMap[curSelected][1]}'));
-        creditIconSprite.setGraphicSize(Std.int(creditIconSprite.width * creditMap[curSelected][6]));
-        creditIconSprite.setPosition(creditMap[curSelected][4], creditMap[curSelected][5]);
+        creditNameText.text = creditArray[curSelected][0] != null ? creditArray[curSelected][0] : 'unknown';
+        creditDescText.text = creditArray[curSelected][3] != null ? creditArray[curSelected][3] : 'unknown';
+        creditWorkText.text = creditArray[curSelected][2] != null ? creditArray[curSelected][2] : 'has not worked';
+        creditIconSprite.loadGraphic(Paths.image('$path/icons/${creditArray[curSelected][1]}'));
+        creditIconSprite.setGraphicSize(Std.int(creditIconSprite.width * creditArray[curSelected][6]));
+        creditIconSprite.setPosition(creditArray[curSelected][4], creditArray[curSelected][5]);
 
         if (newSelect != 0) FlxG.sound.play(Paths.sound('base/menus/scrollMenu'), 0.6);
 
         // guys this is a bool i promise
-        if(creditMap[curSelected][7])
+        if(creditArray[curSelected][7])
             {
                 creditNameText.y = FlxG.height * 0.1;
                 creditWorkText.y = FlxG.height * 0.21;
@@ -212,6 +216,8 @@ class CreditsMenu extends MusicBeatState
                 creditNameText.y = FlxG.height * 0.3;
                 creditWorkText.y = FlxG.height * 0.41;
             }
+
+            
 
         trace('huh: credits edition');
     }
