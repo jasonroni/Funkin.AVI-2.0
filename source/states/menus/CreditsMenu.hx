@@ -13,12 +13,12 @@ import flixel.FlxSprite;
 
 class CreditsMenu extends MusicBeatState 
 {
-    	/*
-	* Custom Credits Mapping System
+    /**
+	* ## Custom Credits Mapping System
 	* 
 	* Numbers are the current selected mapping the menu will display when it uses the number
 	* It kinda goes something like this:
-    	* curSelected # => [Name of Contributor, Icon, Work They've Done, Description/Quote, X Value of Icon, Y Value of Icon, Size of Icon, Bool for in case someone has a stupidly long description]
+    	* curSelected => [Name of Contributor, Icon, Work They've Done, Description/Quote, X Value of Icon, Y Value of Icon, Size of Icon, Bool for in case someone has a stupidly long description]
 	*/
     public static var creditMap:Map<Int, Array<Dynamic>> = [
         0 => ['Yama haki / Toko', 'toko', 'Creator, Owner, Director, Composer, PlayTester', 'Now THIS is how you delusional', -320, -140, 0.55, false],
@@ -31,8 +31,8 @@ class CreditsMenu extends MusicBeatState
 	3 => ['KKCopinXD', 'kopin', 'Co-Director, Icon Artist & Concept Menu Artist', "if it wasn't for Coolye3ted I wouldn't be here on this Mod to be able to work on it 
 		I've been here since 1.5 and It's an honor to be here working for this amazing team, 
 		I made a lot of friends I appreciate being able to be friends with them I hope you enjoyed the update we all worked hard to finish it! YIPPEEEEEEE-
-		\nI made Malfuntion background, all MOD icons ( except Hunter Goofy ) all OST arts, dubbed Relapse Mouse and Malfuntion countdowns and I made FreePlay Concept", -320, -140, 0.55, true],
-	4 => ['HanaCat', 'hana', 'Artist & Charter', 'i am the charter of devilish-deal!11!1! and also animator some character1!1!1!1!\nand you are so isolated!1!1\n-BenCat / HanaCat', -320, -140, 0.55, false],
+		\nI made Malfuntion background, all MOD icons ( except Hunter Goofy ) all OST arts, dubbed Relapse Mouse and Malfuntion countdowns and I made FreePlay Concept", 50, 40, 1, true],
+	4 => ['HanaCat', 'hana', 'Artist & Charter', 'i am the charter of devilish-deal!11!1! and also animator some character1!1!1!1! and you are so isolated!1!1', 50, 40, 1, false],
 	5 => ['RetroJogador', 'joga', 'Composed Main Menu, Both Joke Songs, & Made Menu Art', "Btw I really enjoyed joining the mod team and ending this amazing update, 
 	      	along the way I met and made a lot of cool friends. Changing the subject, 
 	      	I was responsible for making the Menu Music, Pause Music, Sanguis Muris and others, Arts I practically created the main menu, hud and Others, 
@@ -41,7 +41,7 @@ class CreditsMenu extends MusicBeatState
 	7 => ['theonlyshittyre.', 'shitty', 'Hunter Goofy.', "I've been on this mod for a long time, when I arrived, 
 		the quality of the mod was still pretty questionable, 
 	      	but im pretty proud of what this mod has become, like.. bro this gotta be my fav mod in fnf community and im not saying that cuz i work here, lol. 
-		Well, im pretty happy to say that my balls are itchy, have a good day.", -320, -140, 0.55, true],
+		Well, im pretty happy to say that my balls are itchy, have a good day.",  50, 40, 1, true],
     ];
 
     var curSelected:Int = 0;
@@ -170,6 +170,10 @@ class CreditsMenu extends MusicBeatState
             {
                 Main.switchState(this, new MainMenu());
             }
+
+            // maybe this prevents the crash issue??????
+            if (curSelected < 0) curSelected = 7;
+            else if (curSelected > 7) curSelected = 0;
     }
 
     override function destroy() {
@@ -190,10 +194,6 @@ class CreditsMenu extends MusicBeatState
         creditIconSprite.setPosition(creditMap[curSelected][4], creditMap[curSelected][5]);
 
         if (newSelect != 0) FlxG.sound.play(Paths.sound('base/menus/scrollMenu'), 0.6);
-
-	// maybe this prevents the crash issue??????
-	if (newSelect < 0) newSelect = 7;
-	if (newSelect > 7) newSelect = 0;
 
         // guys this is a bool i promise
         if(creditMap[curSelected][7])
