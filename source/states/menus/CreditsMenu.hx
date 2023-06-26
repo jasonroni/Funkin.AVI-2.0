@@ -173,10 +173,6 @@ class CreditsMenu extends MusicBeatState
             {
                 Main.switchState(this, new MainMenu());
             }
-
-            // maybe this prevents the crash issue??????
-            if (curSelected < 0) curSelected = 11;
-            else if (curSelected > 11) curSelected = 0;
     }
 
     override function destroy() {
