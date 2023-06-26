@@ -16,7 +16,6 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import objects.fonts.Alphabet;
 import states.MusicBeatState.MusicBeatSubstate;
 import states.menus.*;
 import sys.thread.Mutex;
@@ -27,33 +26,20 @@ import flixel.addons.display.FlxRuntimeShader;
 import lime.app.Application;
 import flixel.FlxCamera;
 
-using StringTools;
-
 class PauseSubstate extends MusicBeatSubstate
 {
-	var grpMenuShit:FlxTypedGroup<Alphabet>;
-
 	var menuItems:Array<String>;
 	var curSelected:Int = 0;
-
 	var funnyButton:FlxSprite;
-
 	var songText:FlxSprite;
-
 	var pauseMusic:FlxSound;
-
 	public static var toOptions:Bool = false;
-
 	var mutex:Mutex;
-
 	var disc:FlxSprite;
 	var songArt:FlxSprite;
-	var songArtOutline:FlxSprite;
-	
+	var songArtOutline:FlxSprite;	
 	var creditsCard:FlxSprite; // Planning on adding a card showing credits to everyone that worked on a single song that shows from the top in the middle
 	var creditsTxt:FlxText;
-
-	// var songList:Array<String> = ['cycled-sins', 'malfunction', 'episode2', 'mercy', 'bless', 'hunted', 'unknown-song'];
 
 	public function new(x:Float, y:Float, ?itemStack:Array<String>)
 	{
@@ -142,9 +128,6 @@ class PauseSubstate extends MusicBeatSubstate
 		FlxTween.tween(disc, {x: 0, alpha: 1}, 0.8, {ease: FlxEase.quartInOut});
 		FlxTween.tween(songArt, {x: 675, alpha: 1}, 0.8, {ease: FlxEase.quartInOut});
 		FlxTween.tween(songArtOutline, {x: 655, alpha: 1}, 0.8, {ease: FlxEase.quartInOut});
-
-		grpMenuShit = new FlxTypedGroup<Alphabet>();
-		add(grpMenuShit);
 
 		for (i in 0...menuItems.length)
 		{
@@ -327,17 +310,6 @@ class PauseSubstate extends MusicBeatSubstate
 			curSelected = FlxMath.wrap(curSelected + change, 0, menuItems.length - 1);
 
 		var bullShit:Int = 0;
-
-		for (item in grpMenuShit.members)
-		{
-			item.targetY = bullShit - curSelected;
-			bullShit++;
-
-			item.alpha = 0.6;
-			if (item.targetY == 0)
-				item.alpha = 1;
-		}
-		//
 	}
 
 	// TODO: making it small
