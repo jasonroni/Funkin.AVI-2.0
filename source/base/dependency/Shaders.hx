@@ -5,7 +5,7 @@ package base.dependency;
  * 
  * @see [The Shadertoy page](https://shadertoy.com)
  */
-final class Shaders 
+enum abstract Shaders(String) from String to String
 {
     /**
      * Aberration shader
@@ -13,7 +13,7 @@ final class Shaders
      * @param aberration aberration value
      * @param effectTime the effect time to set to the shader
      */
-    public static inline var aberration:String =
+    var aberration =
     "
     #pragma header
     /*
@@ -74,7 +74,7 @@ final class Shaders
      * 
      * no values needed
      */
-    public static inline var grayScale:String = 
+    var grayScale = 
     "
     #pragma header
     vec2 uv = openfl_TextureCoordv.xy;
@@ -97,7 +97,7 @@ final class Shaders
      * @param prob to be honest i don't know what does it do
      * @param vignetteIntensity intensity of the glitch, default is by 0.75
      */
-    public static inline var vignetteGlitch:String =
+    var vignetteGlitch =
     "
     // https://www.shadertoy.com/view/XtyXzW
 
@@ -336,7 +336,7 @@ final class Shaders
      * @param scanlinesOn sets if the scanlines are on
      * @param distortionOn sets if the shader should have distortion on
      */
-    public static inline var andromedaVCR:String = 
+    var andromedaVCR = 
     "
     #pragma header
 
@@ -465,7 +465,7 @@ final class Shaders
      * @param gOffset same as ```rOffset``` but green
      * @param bOffset same as ```rOffset``` but blue
      */
-    public static inline var aberrationDefault:String = 
+    var aberrationDefault = 
     "
     #pragma header
 
@@ -498,7 +498,7 @@ final class Shaders
      * @param steps steps to set
      * @param stepSize sets the ```steps``` value size
      */
-    public static inline var tiltShift:String =
+    var tiltShift =
     "
     #pragma header
 
@@ -588,7 +588,7 @@ final class Shaders
      * @param Quality the quality to set
      * @param Size the bloom shader size 
      */
-    public static inline var bloom:String =
+    var bloom =
     "
     #pragma header
     vec2 uv = openfl_TextureCoordv.xy;
@@ -641,7 +641,7 @@ final class Shaders
     }
     ";
 
-    @:noCompletion public static inline var bloom_alt:String = 
+    @:noCompletion var bloom_alt = 
     "
     #pragma header
     vec2 uv = openfl_TextureCoordv.xy;
@@ -694,7 +694,7 @@ final class Shaders
     }
     ";
 
-    public static inline var cameraMovement:String = 
+    var cameraMovement = 
     "
     ";
 }

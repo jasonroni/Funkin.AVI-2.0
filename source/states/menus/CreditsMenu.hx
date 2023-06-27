@@ -14,7 +14,7 @@ import flixel.FlxSprite;
 class CreditsMenu extends MusicBeatState 
 {
     /**
-	* ## Custom Credits Mapping System
+	* ## Custom Credits Array System
 	* 
 	* How it Works:
     	* [Name of Contributor, Icon, Work They've Done, Description/Quote, X Value of Icon, Y Value of Icon, Size of Icon, Bool for in case someone has a stupidly long description]
@@ -30,8 +30,8 @@ class CreditsMenu extends MusicBeatState
 	    ['KKCopinXD', 'kopin', 'Co-Director, Icon Artist & Concept Menu Artist', "if it wasn't for Coolye3ted I wouldn't be here on this Mod to be able to work on it 
 		I've been here since 1.5 and It's an honor to be here working for this amazing team, 
 		I made a lot of friends I appreciate being able to be friends with them I hope you enjoyed the update we all worked hard to finish it! YIPPEEEEEEE-
-		\nI made Malfuntion background, all MOD icons ( except Hunter Goofy ) all OST arts, dubbed Relapse Mouse and Malfuntion countdowns and I made FreePlay Concept", 50, 40, 1, true],
-	    ['HanaCat', 'hana', 'Artist & Charter', 'i am the charter of devilish-deal!11!1! and also animator some character1!1!1!1! and you are so isolated!1!1', 50, 40, 1, false],
+		\nI made Malfuntion background, all MOD icons ( except Hunter Goofy ) all OST arts, dubbed Relapse Mouse and Malfuntion countdowns and I made FreePlay Concept", 40, 40, 1, true],
+	    ['HanaCat', 'hana', 'Artist & Charter', 'i am the charter of devilish-deal!11!1! and also animator some character1!1!1!1! and you are so isolated!1!1', 40, 50, 1, false],
 	    ['RetroJogador', 'joga', 'Composed Main Menu, Both Joke Songs, & Made Menu Art', "Btw I really enjoyed joining the mod team and ending this amazing update, 
 	      	along the way I met and made a lot of cool friends. Changing the subject, 
 	      	I was responsible for making the Menu Music, Pause Music, Sanguis Muris and others, Arts I practically created the main menu, hud and Others, 
@@ -39,12 +39,12 @@ class CreditsMenu extends MusicBeatState
 	    ['IPhantom_Sprite', 'iphantom', 'Cutscenes, Icon Art for Hunter Goofy, Mother of Miserable Funk', "holy crap its mother of miserable funk", -320, -140, 0.55, false],
         ['theonlyshittyre.', 'shitty', 'Hunter Goofy.', "I've been on this mod for a long time, when I arrived, 
 		the quality of the mod was still pretty questionable, 
-	      	but im pretty proud of what this mod has become, like.. bro this gotta be my fav mod in fnf community and im not saying that cuz i work here, lol. 
+	    but im pretty proud of what this mod has become, like.. bro this gotta be my fav mod in fnf community and im not saying that cuz i work here, lol. 
 		Well, im pretty happy to say that my balls are itchy, have a good day.",  50, 40, 1, true],
         ['AustinTheRedDragon', 'austin', 'Artist, Owner of Mr. Smiles & Professionally Horny', 'I am not an alligator' /*yes you are :trollface: -don*/, 30, 40, 1, false],
         ['The Gamerchoice', 'gamerchoice', 'Concept Artist & Playtester', 'where are the men???1?! * has an erection *', 20, 40, 0.9, false],
-        ['FR3SHMoure', 'fresh', "Composer that's mostly well known for Delusional", 'the swagging of 68', 30, 40, 1, false],
-        ['Dreupy', 'dreupy', 'Charter', 'MICKEY DIES????', -35, 40, 0.85, false],
+        ['FR3SHMoure', 'fresh', "Composer (mostly well known for Delusional)", 'the swagging of 68', 30, 40, 1, false],
+        ['Dreupy', 'dreupy', 'Charter', 'MICKEY DIES????', -45, 40, 0.85, false],
     ];
 
     var curSelected:Int = 0;
@@ -198,24 +198,38 @@ class CreditsMenu extends MusicBeatState
 
         if (newSelect != 0) FlxG.sound.play(Paths.sound('base/menus/scrollMenu'), 0.6);
 
-        // guys this is a bool i promise
-        if(creditArray[curSelected][7])
-            {
-                creditNameText.y = FlxG.height * 0.1;
-                creditWorkText.y = FlxG.height * 0.21;
-                creditDescText.fieldWidth = 1000;
-                creditDescText.x = FlxG.width * 0.32;
-                creditDescText.y = FlxG.height * 0.16;
-                creditDescText.scale.set(0.6, 0.6);
-            } else { // reload reasons
-                creditDescText.fieldWidth = 500;
-                creditDescText.x = FlxG.width * 0.52;
-                creditDescText.y = FlxG.height * 0.6;
-                creditDescText.scale.set(1, 1);
-                creditNameText.y = FlxG.height * 0.3;
-                creditWorkText.y = FlxG.height * 0.41;
-            }
+        // shit i have to done propertly
+        switch(creditArray[curSelected][0].toLowerCase())
+        {
+            case 'hanacat':
+                creditDescText.y -= 40;
+                creditDescText.fieldWidth = 700;
+
+            default:
+                reloadText(creditArray[curSelected][7]);
+        }
 
         trace('huh: credits edition');
     }
+
+    @:noCompletion
+    private function reloadText(long) 
+        {
+            if (long)
+                {
+                    creditNameText.y = FlxG.height * 0.1;
+                    creditWorkText.y = FlxG.height * 0.21;
+                    creditDescText.fieldWidth = 1000;
+                    creditDescText.x = FlxG.width * 0.32;
+                    creditDescText.y = FlxG.height * 0.16;
+                    creditDescText.scale.set(0.6, 0.6);
+                } else { // reload reasons
+                    creditDescText.fieldWidth = 500;
+                    creditDescText.x = FlxG.width * 0.52;
+                    creditDescText.y = FlxG.height * 0.6;
+                    creditDescText.scale.set(1, 1);
+                    creditNameText.y = FlxG.height * 0.3;
+                    creditWorkText.y = FlxG.height * 0.41;
+                }
+        }
 }

@@ -144,7 +144,7 @@ class ScriptHandler extends SScript
 		// OTHER
 		set('GraphicsShader', openfl.display.GraphicsShader);
 		set('ShaderFilter', openfl.filters.ShaderFilter);
-		set('Shaders', base.dependency.Shaders);
+		set('Shaders', base.dependency.FeatherDeps.ShaderNonAbstract);
 
 		// ENUMS AND TYPEDEFINES;
 		set('GameMode', states.PlayState.GameMode);
@@ -291,4 +291,16 @@ class Events
 		trace('Event $event has no description.');
 		return '';
 	}
+}
+
+@:noCompletion class ShaderNonAbstract
+{
+	public var aberration = Shaders.aberration;
+	public var grayScale = Shaders.grayScale;
+	public var vignetteGlitch = Shaders.vignetteGlitch;
+	public var andromedaVCR = Shaders.andromedaVCR;
+	public var aberrationDefault = Shaders.aberrationDefault;
+	public var tiltShift = Shaders.tiltShift;
+	public var bloom = Shaders.bloom;
+	public var bloom_alt = Shaders.bloom_alt;
 }
