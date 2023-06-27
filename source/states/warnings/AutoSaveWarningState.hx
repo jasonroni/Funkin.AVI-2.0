@@ -14,6 +14,19 @@ class AutoSaveWarningState extends FlxState
 {
     var warningText:FlxText;
 
+    var doofinschmirtzFactinator:Array<Any> = [
+	    "This update took almost 2 years to develop!",
+	    "I bet nobody's reading this...",
+	    "This mod contains 40k+ lines of code.",
+	    "The update wasn't suppose to be nearly 3 hours long at first.",
+	    "This mod runs on Forever Engine now!",
+	    "This mod was made by a group of 50 people!",
+	    "Malfunction was originally NEVER suppose to be in the game.",
+	    "Some characters showcased in the game are in fact original ideas!",
+	    "You are delusional.",
+	    "No facts for now :)"
+    ];
+	
     var saveDetectorImage:AutoSaveLogo;
 
     override function create() {
@@ -22,6 +35,12 @@ class AutoSaveWarningState extends FlxState
         #if windows
 		base.system.CppAPI.darkMode();
         #end
+
+	#if DISCORD_RPC
+	Discord.changePresence("FUN FACT:", doofinschmirtzFactinator[FlxG.random.int(0, doofinschmirtzFactinator.length-1)], 'icon'); // dw, I'll make sure to update the RPC shit, if anything, I'm gonna end up making a seperate RPC for this version of the engine
+	#end
+
+	openfl.Lib.application.window.title = "Funkin.avi - The Show Will Begin Shortly...";
 
         GameData.loadShit(); // Collect Any Data
 		GameData.lockinIt(); // Now add missing data for any new stuff
