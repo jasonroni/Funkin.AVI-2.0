@@ -1,5 +1,6 @@
 package states.menus;
 
+import base.dependency.Discord;
 import sys.io.File;
 import openfl.filters.ShaderFilter;
 import base.song.Conductor;
@@ -67,9 +68,13 @@ class CreditsMenu extends MusicBeatState
 
     override function create() 
     {
-        FlxG.stage.window.title = "Funkin.avi - Credit Menu";
+        FlxG.stage.window.title = "Funkin.avi - Credits";
 
         path = 'menus/Funkin_avi/credits';
+
+	#if DISCORD_RPC
+	Discord.changePresence('BROWSING THE CREDITS', 'Credits Menu', 'icon', 'book');
+	#end
 
         FlxG.sound.playMusic(Paths.music('credits'));
 
@@ -172,6 +177,8 @@ class CreditsMenu extends MusicBeatState
         if (Controls.getPressEvent("back"))
             {
                 Main.switchState(this, new MainMenu());
+		Conductor.changeBPM(50); //changes back to titlescreen bpm
+		FlxG.sound.playMusic(Paths.music('freakyMenu'), 1); //resets music back to menu music
             }
     }
 
