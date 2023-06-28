@@ -1,5 +1,6 @@
 package states.warnings;
 
+import base.dependency.Discord;
 import flixel.util.FlxTimer;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
