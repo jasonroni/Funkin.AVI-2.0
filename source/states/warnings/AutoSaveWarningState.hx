@@ -1,5 +1,6 @@
 package states.warnings;
 
+import base.dependency.Discord;
 import flixel.util.FlxTimer;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -36,11 +37,11 @@ class AutoSaveWarningState extends FlxState
 		base.system.CppAPI.darkMode();
         #end
 
-	#if DISCORD_RPC
-	Discord.changePresence("FUN FACT:", doofinschmirtzFactinator[FlxG.random.int(0, doofinschmirtzFactinator.length-1)], 'icon'); // dw, I'll make sure to update the RPC shit, if anything, I'm gonna end up making a seperate RPC for this version of the engine
-	#end
+        #if DISCORD_RPC
+        Discord.changePresence("FUN FACT:", doofinschmirtzFactinator[FlxG.random.int(0, doofinschmirtzFactinator.length-1)], 'icon'); // dw, I'll make sure to update the RPC shit, if anything, I'm gonna end up making a seperate RPC for this version of the engine
+        #end
 
-	openfl.Lib.application.window.title = "Funkin.avi - The Show Will Begin Shortly...";
+        openfl.Lib.application.window.title = "Funkin.avi - The Show Will Begin Shortly...";
 
         GameData.loadShit(); // Collect Any Data
 		GameData.lockinIt(); // Now add missing data for any new stuff
