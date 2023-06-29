@@ -16,8 +16,8 @@ function onCreate()
     PlayState.defaultCamZoom = 0.6;
 	PlayState.cameraSpeed = 0.9;
 
-    dramaticCam = new FlxRuntimeShader(File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
-    monitorFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
+    dramaticCam = new FlxRuntimeShader(Shaders.cameraMovement, null, 150);
+    monitorFilter = new FlxRuntimeShader(Shaders.monitorShader, null, 140);
 
     //Phase 2 shaders
     chrom = new FlxRuntimeShader(Shaders.aberration, null, 150);

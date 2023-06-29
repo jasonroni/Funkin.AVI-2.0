@@ -104,9 +104,9 @@ class FreeplaySongs extends MusicBeatState
 			case 0: // Story Songs Menu
 				{
 					smilesShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
-					defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
+					defaultShader2 = new FlxRuntimeShader(Shaders.monitorFilter, null, 140);
 					mercyShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/vhs.frag'), null, 130);
-					mercyShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
+					mercyShader2 = new FlxRuntimeShader(Shaders.cameraMovement, null, 150);
 					chromAberration = new FlxRuntimeShader(Shaders.aberration, null, 150);
 					chromAberration.setFloat('aberration', 0.12);
 					chromAberration.setFloat('effectTime', 0.24);
@@ -140,11 +140,11 @@ class FreeplaySongs extends MusicBeatState
 					chromAberration.setFloat('aberration', 0.12);
 					chromAberration.setFloat('effectTime', 0.24);
 					mercyShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/vhs.frag'), null, 130);
-					mercyShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
+					mercyShader2 = new FlxRuntimeShader(Shaders.cameraMovement, null, 150);
 					urFucked = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/gaussian.frag'), null, 150);
 					urFucked.setFloat('amount', 1);
 					smilesShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
-					defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
+					defaultShader2 = new FlxRuntimeShader(Shaders.monitorFilter, null, 140);
 					pixelShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/pixelate.frag'), null, 140);
 					pixelShader.setFloat('size', 7.5);
 
@@ -551,16 +551,12 @@ class FreeplaySongs extends MusicBeatState
 		lastDifficulty = existingDifficulties[curSelected][curDifficulty];
 	}
 
-	private var sickBeats:Int = 0; // curBeat but won't be skipped if you hold the tab or resize the screen
 	var closedState:Bool = false;
 	override function beatHit() {
 		super.beatHit();
 
-		if(!closedState)
-			sickBeats++;
-
-		if(!Init.trueSettings.get('Reduced Movements'))
-			if(sickBeats % 2 == 0)
+		if(!Init.trueSettings.get('Reduced Movements') && !closedState)
+			if(curBeat % 2 == 0)
 				FlxG.camera.zoom += 0.055;
 	}
 

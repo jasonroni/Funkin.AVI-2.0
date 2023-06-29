@@ -40,7 +40,7 @@ class FreeplayCategories extends MusicBeatState {
 
 		super.create();
 
-		defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
+		defaultShader2 = new FlxRuntimeShader(Shaders.monitorFilter, null, 140);
 		FlxG.camera.setFilters(
 			[
 				new openfl.filters.ShaderFilter(defaultShader2)

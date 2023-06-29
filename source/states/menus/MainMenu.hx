@@ -219,7 +219,7 @@ class MainMenu extends MusicBeatState
 		if (!Init.trueSettings.get('Disable Screen Shaders'))
 		{
 			defaultShader = new FlxRuntimeShader(Shaders.grayScale, null, 140);
-			defaultShader2 = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
+			defaultShader2 = new FlxRuntimeShader(Shaders.monitorFilter, null, 140);
 			darkFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/coolDarkFilter.frag'), null, 120);
 
 			if(!Init.trueSettings.get('Disable Screen Shaders'))

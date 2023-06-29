@@ -12,7 +12,7 @@ function onCreate()
 
 	staticS = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
 	greyScale = new FlxRuntimeShader(File.getContent('./assets/shaders/grayScale.frag'), null, 120);
-	monitor = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
+	monitor = new FlxRuntimeShader(Shaders.monitorFilter, null, 140);
 
 	PlayState.camGame.setFilters(
 		[

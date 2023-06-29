@@ -129,7 +129,7 @@ class CreditsMenu extends MusicBeatState
 
         if(!Init.trueSettings.get('Disable Screen Shaders')) FlxG.camera.setFilters([
             new ShaderFilter(cool_1980_shader),
-            new ShaderFilter(new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140))
+            new ShaderFilter(new FlxRuntimeShader(Shaders.monitorFilter, null, 140))
         ]);
 
         if(!Init.trueSettings.get('Low Quality')) {

@@ -14,7 +14,7 @@ function onCreate()
 {
 	bloomEffect = new FlxRuntimeShader(Shaders.bloom_alt, null, 120);
 	grainFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
-	monitorFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
+	monitorFilter = new FlxRuntimeShader(Shaders.monitorFilter, null, 140);
 	vignette = new FlxRuntimeShader(File.getContent('./assets/shaders/vignetteApparition.frag'), null, 120);
 
 	// Literally what Goofy is seeing right about now lmfao

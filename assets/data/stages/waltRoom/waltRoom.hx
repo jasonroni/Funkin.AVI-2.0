@@ -54,7 +54,7 @@ function onCreate()
 
 	vhsFilter = new FlxRuntimeShader(File.getContent("./assets/shaders/vhs.frag"), null, 130);
 
-	grainFilter = new FlxRuntimeShader(File.getContent("./assets/shaders/filmgrain.frag"), null, 150);
+	grainFilter = new FlxRuntimeShader(Shaders.cameraMovement, null, 150);
 
 	if(!lowQuality)
 		{

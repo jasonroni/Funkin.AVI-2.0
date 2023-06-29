@@ -11,7 +11,7 @@ function onCreate()
 	PlayState.cameraSpeed = 1.35;
 
 	bloomEffect = new FlxRuntimeShader(Shaders.bloom_alt, null, 120);
-	monitorFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/monitor.frag'), null, 140);
+	monitorFilter = new FlxRuntimeShader(Shaders.monitorFilter, null, 140);
 	aberrationBoom = new FlxRuntimeShader(Shaders.aberration, null, 150);
 
 	aberrationBoom.setFloat('aberration', 0.001);

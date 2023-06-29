@@ -38,7 +38,7 @@ class PsychDebugTrollState extends MusicBeatState
       	super.create();
 
       	bloom = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/bloom.frag'), null, 120);
-      	monitor = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/monitor.frag'), null, 140);
+      	monitor = new FlxRuntimeShader(Shaders.monitorFilter, null, 140);
 
       	noBitchCam.setFilters([
           	new openfl.filters.ShaderFilter(bloom),
