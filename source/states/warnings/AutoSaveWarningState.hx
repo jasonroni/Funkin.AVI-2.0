@@ -15,7 +15,7 @@ class AutoSaveWarningState extends FlxState
 {
     var warningText:FlxText;
 
-    var doofinschmirtzFactinator:Array<Any> = [
+    var doofinschmirtzFactinator:Array<String> = [
 	    "This update took almost 2 years to develop!",
 	    "I bet nobody's reading this...",
 	    "This mod contains 40k+ lines of code.",
