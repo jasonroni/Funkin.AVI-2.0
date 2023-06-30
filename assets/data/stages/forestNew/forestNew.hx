@@ -13,12 +13,12 @@ var goofyBG:FNFSprite;
 function onCreate()
 {
 	bloomEffect = new FlxRuntimeShader(Shaders.bloom_alt, null, 120);
-	grainFilter = new FlxRuntimeShader(File.getContent('./assets/shaders/filmgrain.frag'), null, 150);
+	grainFilter = new FlxRuntimeShader(Shaders.cameraMovement, null, 150);
 	monitorFilter = new FlxRuntimeShader(Shaders.monitorFilter, null, 140);
-	vignette = new FlxRuntimeShader(File.getContent('./assets/shaders/vignetteApparition.frag'), null, 120);
+	vignette = new FlxRuntimeShader(Shaders.redFromAngryBirds, null, 120);
 
 	// Literally what Goofy is seeing right about now lmfao
-	wobblyBG = new FlxRuntimeShader(File.getContent('./assets/shaders/weebleWobble.frag'), null, 120);
+	wobblyBG = new FlxRuntimeShader(Shaders.acidTrip, null, 120);
 
 	wobblyBG.setFloat('uSpeed', 1.0);
 	wobblyBG.setFloat('uFrequency', 1.0);
