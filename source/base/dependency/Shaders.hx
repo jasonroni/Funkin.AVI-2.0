@@ -930,4 +930,512 @@ enum abstract Shaders(String) from String to String
 	    gl_FragColor = tex + pow(avg,3.);
 	}
     ";
+
+    /*
+    * Dark Filter used for Main Menu
+    */
+    var dimScreen =
+    "
+	#pragma header
+	vec2 uv = openfl_TextureCoordv.xy;
+	vec2 fragCoord = openfl_TextureCoordv*openfl_TextureSize;
+	vec2 iResolution = openfl_TextureSize;
+	uniform float iTime;
+	#define iChannel0 bitmap
+	#define iChannel1 bitmap
+	#define texture flixel_texture2D
+	#define fragColor gl_FragColor
+	#define mainImage main
+	
+	float noise(float x) {
+	 
+	    return fract(sin(x) * 100000.);
+	    
+	}
+	
+	float tape(vec2 uv) {
+	 
+		float t = iTime / 4.;
+	    vec3 tex = texture(iChannel1, vec2(uv.x, uv.y - t)).xyz;
+	    
+	    float nx = (tex.x + tex.y + tex.z) / 3.;
+	    vec3 amn = tex * noise(uv.y + t);
+	    
+	    return (amn.x + amn.y + amn.z) / 3.;
+	    
+	}
+	
+	void mainImage(  )
+	{
+		vec2 uv = fragCoord.xy / iResolution.xy;
+	    
+	    float t = tape(uv) * tape(-uv);
+		vec3 noise = vec3(t) * 1.;
+	                      
+	 	fragColor = mix(texture(iChannel0, uv), vec4(noise,1.), .45);
+	}
+    ";
+
+    /*
+    * It's the desaturation shader, it's in a nutshell,
+    * the greyscale shader but you have control on how strong
+    * you want the effect to be, plus, can be altered with,
+    * useful for doing transitions from color to greyscale.
+    *
+    * @param desaturationAmount - controls the visibility of colors on-screen
+    * @param distortionTime - unknown
+    * @param amplitude - unknown
+    * @param frequency - unknown
+    */
+    var greyScaleButControllable =
+    "
+	#pragma header
+
+	uniform float desaturationAmount = 0.0;
+	uniform float distortionTime = 0.0;
+	uniform float amplitude = -0.1;
+	uniform float frequency = 8.0;
+	
+	void main() {
+	    vec4 desatTexture = texture2D(bitmap, vec2(openfl_TextureCoordv.x + sin((openfl_TextureCoordv.y * frequency) + distortionTime) * amplitude, openfl_TextureCoordv.y));
+	    gl_FragColor = vec4(mix(vec3(dot(desatTexture.xyz, vec3(.2126, .7152, .0722))), desatTexture.xyz, desaturationAmount), desatTexture.a);
+	}
+    ";
+
+    var tvStatic =
+    "
+	#pragma header
+	vec2 uv = openfl_TextureCoordv.xy;
+	vec2 fragCoord = openfl_TextureCoordv*openfl_TextureSize;
+	vec2 iResolution = openfl_TextureSize;
+	uniform float iTime;
+	#define iChannel0 bitmap
+	#define iChannel1 bitmap
+	#define iChannel2 bitmap
+	#define iChannelResolution bitmap
+	#define texture flixel_texture2D
+	#define fragColor gl_FragColor
+	#define mainImage main
+	uniform float uTime;
+	uniform vec4 iMouse;
+	
+	// change these values to 0.0 to turn off individual effects
+	float vertJerkOpt = 0.0;
+	float vertMovementOpt = 0.03;
+	float bottomStaticOpt = 0.5;
+	float scalinesOpt = 2.3;
+	float rgbOffsetOpt = 0.2;
+	float horzFuzzOpt = 1.0;
+	
+	// Noise generation functions borrowed from: 
+	// https://github.com/ashima/webgl-noise/blob/master/src/noise2D.glsl
+	
+	vec3 mod289(vec3 x) {
+	  return x - floor(x * (1.0 / 289.0)) * 289.0;
+	}
+	
+	vec2 mod289(vec2 x) {
+	  return x - floor(x * (1.0 / 289.0)) * 289.0;
+	}
+	
+	vec3 permute(vec3 x) {
+	  return mod289(((x*34.0)+1.0)*x);
+	}
+	
+	float snoise(vec2 v)
+	  {
+	  const vec4 C = vec4(0.211324865405187,  // (3.0-sqrt(3.0))/6.0
+	                      0.366025403784439,  // 0.5*(sqrt(3.0)-1.0)
+	                     -0.577350269189626,  // -1.0 + 2.0 * C.x
+	                      0.024390243902439); // 1.0 / 41.0
+	// First corner
+	  vec2 i  = floor(v + dot(v, C.yy) );
+	  vec2 x0 = v -   i + dot(i, C.xx);
+	
+	// Other corners
+	  vec2 i1;
+	  //i1.x = step( x0.y, x0.x ); // x0.x > x0.y ? 1.0 : 0.0
+	  //i1.y = 1.0 - i1.x;
+	  i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+	  // x0 = x0 - 0.0 + 0.0 * C.xx ;
+	  // x1 = x0 - i1 + 1.0 * C.xx ;
+	  // x2 = x0 - 1.0 + 2.0 * C.xx ;
+	  vec4 x12 = x0.xyxy + C.xxzz;
+	  x12.xy -= i1;
+	
+	// Permutations
+	  i = mod289(i); // Avoid truncation effects in permutation
+	  vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 ))
+			+ i.x + vec3(0.0, i1.x, 1.0 ));
+	
+	  vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+	  m = m*m ;
+	  m = m*m ;
+	
+	// Gradients: 41 points uniformly over a line, mapped onto a diamond.
+	// The ring size 17*17 = 289 is close to a multiple of 41 (41*7 = 287)
+	
+	  vec3 x = 2.0 * fract(p * C.www) - 1.0;
+	  vec3 h = abs(x) - 0.5;
+	  vec3 ox = floor(x + 0.5);
+	  vec3 a0 = x - ox;
+	
+	// Normalise gradients implicitly by scaling m
+	// Approximation of: m *= inversesqrt( a0*a0 + h*h );
+	  m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
+	
+	// Compute final noise value at P
+	  vec3 g;
+	  g.x  = a0.x  * x0.x  + h.x  * x0.y;
+	  g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+	  return 130.0 * dot(m, g);
+	}
+	
+	float staticV(vec2 uv) {
+	    float staticHeight = snoise(vec2(9.0,iTime*1.2+3.0))*0.3+5.0;
+	    float staticAmount = snoise(vec2(1.0,iTime*1.2-6.0))*0.1+0.3;
+	    float staticStrength = snoise(vec2(-9.75,iTime*0.6-3.0))*2.0+2.0;
+		return (1.0-step(snoise(vec2(5.0*pow(iTime,2.0)+pow(uv.x*7.0,1.2),pow((mod(iTime,100.0)+100.0)*uv.y*0.3+3.0,staticHeight))),staticAmount))*staticStrength;
+	}
+	
+	void mainImage()
+	{
+	
+		vec2 uv =  fragCoord.xy/iResolution.xy;
+		
+		float jerkOffset = (1.0-step(snoise(vec2(iTime*1.3,5.0)),0.8))*0.05;
+		
+		float fuzzOffset = snoise(vec2(iTime*15.0,uv.y*80.0))*0.003;
+		float largeFuzzOffset = snoise(vec2(iTime*1.0,uv.y*25.0))*0.004;
+	    
+	    float vertMovementOn = (1.0-step(snoise(vec2(iTime*0.2,8.0)),0.4))*vertMovementOpt;
+	    float vertJerk = (1.0-step(snoise(vec2(iTime*1.5,5.0)),0.6))*vertJerkOpt;
+	    float vertJerk2 = (1.0-step(snoise(vec2(iTime*5.5,5.0)),0.2))*vertJerkOpt;
+	    float yOffset = abs(sin(iTime)*4.0)*vertMovementOn+vertJerk*vertJerk2*0.3;
+	    float y = mod(uv.y+yOffset,1.0);
+	    
+		
+		float xOffset = (fuzzOffset + largeFuzzOffset) * horzFuzzOpt;
+	    
+	    float staticVal = 0.0;
+	   
+	    for (float y = -1.0; y <= 1.0; y += 1.0) {
+	        float maxDist = 5.0/200.0;
+	        float dist = y/200.0;
+	    	staticVal += staticV(vec2(uv.x,uv.y+dist))*(maxDist-abs(dist))*1.5;
+	    }
+	        
+	    staticVal *= bottomStaticOpt;
+		
+		float red 	=   texture(	iChannel0, 	vec2(uv.x + xOffset -0.01*rgbOffsetOpt,y)).r+staticVal;
+		float green = 	texture(	iChannel0, 	vec2(uv.x + xOffset,	  y)).g+staticVal;
+		float blue 	=	texture(	iChannel0, 	vec2(uv.x + xOffset +0.01*rgbOffsetOpt,y)).b+staticVal;
+		
+		vec3 color = vec3(red,green,blue);
+		float scanline = sin(uv.y*800.0)*0.04*scalinesOpt;
+		color -= scanline;
+		
+		fragColor = vec4(color,1.0);
+	}
+    ";
+
+    /*
+    * An overused shader within the FNF D&B community, you know the drill...
+    */
+    var acidTrip =
+    "
+	#pragma header
+	//uniform float tx, ty; // x,y waves phase
+	
+	//modified version of the wave shader to create weird garbled corruption like messes
+	uniform float uTime;
+	    
+	/**
+	* How fast the waves move over time
+	*/
+	uniform float uSpeed;
+	    
+	/**
+	* Number of waves over time
+	*/
+	uniform float uFrequency;
+	    
+	/**
+	* How much the pixels are going to stretch over the waves
+	*/
+	uniform float uWaveAmplitude;
+	
+	vec2 sineWave(vec2 pt)
+	{
+	float x = 0.0;
+	float y = 0.0;
+	        
+	float offsetX = sin(pt.y * uFrequency + uTime * uSpeed) * (uWaveAmplitude / pt.x * pt.y);
+	float offsetY = sin(pt.x * uFrequency - uTime * uSpeed) * (uWaveAmplitude / pt.y * pt.x);
+	pt.x += offsetX; // * (pt.y - 1.0); // <- Uncomment to stop bottom part of the screen from moving
+	pt.y += offsetY;
+	
+	return vec2(pt.x + x, pt.y + y);
+	}
+	
+	void main()
+	{
+	vec2 uv = sineWave(openfl_TextureCoordv);
+	gl_FragColor = texture2D(bitmap, uv);
+	}
+    ";
+
+    /*
+    * This shader is used on the menu buttons so they look like
+    * they flash when you select them, kinda like in Indie Cross tbh
+    */
+    var flashyFlash =
+    "
+	#pragma header
+
+	uniform float progress;
+
+	void main(void)
+	{
+		vec4 color = flixel_texture2D(bitmap, openfl_TextureCoordv);
+		gl_FragColor = mix(color, vec4(color.a), progress);
+	}
+    ";
+
+    /*
+    * HAHAHAHA, FUNNY RED VIGNETTE OVERLAY THING, SOOOOO FUNNY
+    */
+    var redFromAngryBirds =
+    "
+	#pragma header
+
+	#define PI 3.14159265
+	uniform float time = 0.0;
+	uniform float vignetteIntensity = 0.75;
+	
+	void main() {
+	    float amount = (0.25 * sin(time * PI) + vignetteIntensity);
+	    vec4 color = texture2D(bitmap, openfl_TextureCoordv);
+	    float vignette = distance(openfl_TextureCoordv, vec2(0.5));
+	    vignette = mix(1.0, 1.0 - amount, vignette);
+		gl_FragColor = vec4(mix(vec3(1.0, 0.0, 0.0), color.rgb, vignette), 1.0 - vignette);
+	}
+    ";
+
+    var vhsFilter =
+    "
+	// Based on a shader by FMS_Cat.
+	// https://www.shadertoy.com/view/XtBXDt
+	// Modified to support OpenFL.
+	
+	#pragma header
+	#define PI 3.14159265
+	
+	uniform float time;
+	
+	vec3 tex2D(sampler2D _tex,vec2 _p)
+	{
+	    vec3 col=texture(_tex,_p).xyz;
+	    if(.5<abs(_p.x-.5)){
+	        col=vec3(.1);
+	    }
+	    return col;
+	}
+	
+	float hash(vec2 _v)
+	{
+	    return fract(sin(dot(_v,vec2(89.44,19.36)))*22189.22);
+	}
+	
+	float iHash(vec2 _v,vec2 _r)
+	{
+	    float h00=hash(vec2(floor(_v*_r+vec2(0.,0.))/_r));
+	    float h10=hash(vec2(floor(_v*_r+vec2(1.,0.))/_r));
+	    float h01=hash(vec2(floor(_v*_r+vec2(0.,1.))/_r));
+	    float h11=hash(vec2(floor(_v*_r+vec2(1.,1.))/_r));
+	    vec2 ip=vec2(smoothstep(vec2(0.,0.),vec2(1.,1.),mod(_v*_r,1.)));
+	    return(h00*(1.-ip.x)+h10*ip.x)*(1.-ip.y)+(h01*(1.-ip.x)+h11*ip.x)*ip.y;
+	}
+	
+	float noise(vec2 _v)
+	{
+	    float sum=0.;
+	    for(int i=1;i<9;i++)
+	    {
+	        sum+=iHash(_v+vec2(i),vec2(2.*pow(2.,float(i))))/pow(2.,float(i));
+	    }
+	    return sum;
+	}
+	
+	void main()
+	{
+	    vec2 uv=openfl_TextureCoordv;
+	    vec2 uvn=uv;
+	    vec3 col=vec3(0.);
+	    
+	    // tape wave
+	    uvn.x+=(noise(vec2(uvn.y,time))-.5)*.005;
+	    uvn.x+=(noise(vec2(uvn.y*100.,time*10.))-.5)*.01;
+	    
+	    // tape crease
+	    float tcPhase=clamp((sin(uvn.y*8.-time*PI*1.2)-.92)*noise(vec2(time)),0.,.01)*10.;
+	    float tcNoise=max(noise(vec2(uvn.y*100.,time*10.))-.5,0.);
+	    uvn.x=uvn.x-tcNoise*tcPhase;
+	    
+	    // switching noise
+	    float snPhase=smoothstep(.03,0.,uvn.y);
+	    uvn.y+=snPhase*.3;
+	    uvn.x+=snPhase*((noise(vec2(uv.y*100.,time*10.))-.5)*.2);
+	    
+	    col=tex2D(bitmap,uvn);
+	    col*=1.-tcPhase;
+	    col=mix(
+	        col,
+	        col.yzx,
+	        snPhase
+	    );
+	    
+	    // bloom
+	    for(float x=-4.;x<2.5;x+=1.){
+	        col.xyz+=vec3(
+	            tex2D(bitmap,uvn+vec2(x-0.,0.)*7E-3).x,
+	            tex2D(bitmap,uvn+vec2(x-2.,0.)*7E-3).y,
+	            tex2D(bitmap,uvn+vec2(x-4.,0.)*7E-3).z
+	        )*.1;
+	    }
+	    col*=.6;
+	    
+	    // ac beat
+	    col*=1.+clamp(noise(vec2(0.,uv.y+time*.2))*.6-.25,0.,.1);
+	    
+	    gl_FragColor=vec4(col,1.);
+	}
+    ";
+
+    var delusionalShift =
+    "
+	//definitions and stuff
+	#pragma header
+	vec2 uv = openfl_TextureCoordv.xy;
+	vec2 fragCoord = openfl_TextureCoordv*openfl_TextureSize;
+	vec2 iResolution = openfl_TextureSize;
+	uniform float iTime;
+	#define iChannel0 bitmap
+	#define iChannel1 bitmap
+	#define iChannel2 bitmap
+	#define iChannelResolution bitmap
+	#define texture flixel_texture2D
+	#define fragColor gl_FragColor
+	#define mainImage main
+	uniform float uTime;
+	uniform vec4 iMouse;
+	
+	
+	//
+	// Description : Array and textureless GLSL 2D simplex noise function.
+	//      Author : Ian McEwan, Ashima Arts.
+	//  Maintainer : stegu
+	//     Lastmod : 20110822 (ijm)
+	//     License : Copyright (C) 2011 Ashima Arts. All rights reserved.
+	//               Distributed under the MIT License. See LICENSE file.
+	//               https://github.com/ashima/webgl-noise
+	//               https://github.com/stegu/webgl-noise
+	// 
+	
+	vec3 mod289(vec3 x) {
+	  return x - floor(x * (1.0 / 289.0)) * 289.0;
+	}
+	
+	vec2 mod289(vec2 x) {
+	  return x - floor(x * (1.0 / 289.0)) * 289.0;
+	}
+	
+	vec3 permute(vec3 x) {
+	  return mod289(((x*34.0)+1.0)*x);
+	}
+	
+	float snoise(vec2 v)
+	  {
+	  const vec4 C = vec4(0.211324865405187,  // (3.0-sqrt(3.0))/6.0
+	                      0.366025403784439,  // 0.5*(sqrt(3.0)-1.0)
+	                     -0.577350269189626,  // -1.0 + 2.0 * C.x
+	                      0.024390243902439); // 1.0 / 41.0
+	// First corner
+	  vec2 i  = floor(v + dot(v, C.yy) );
+	  vec2 x0 = v -   i + dot(i, C.xx);
+	
+	// Other corners
+	  vec2 i1;
+	  //i1.x = step( x0.y, x0.x ); // x0.x > x0.y ? 1.0 : 0.0
+	  //i1.y = 1.0 - i1.x;
+	  i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+	  // x0 = x0 - 0.0 + 0.0 * C.xx ;
+	  // x1 = x0 - i1 + 1.0 * C.xx ;
+	  // x2 = x0 - 1.0 + 2.0 * C.xx ;
+	  vec4 x12 = x0.xyxy + C.xxzz;
+	  x12.xy -= i1;
+	
+	// Permutations
+	  i = mod289(i); // Avoid truncation effects in permutation
+	  vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 ))
+			+ i.x + vec3(0.0, i1.x, 1.0 ));
+	
+	  vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+	  m = m*m ;
+	  m = m*m ;
+	
+	// Gradients: 41 points uniformly over a line, mapped onto a diamond.
+	// The ring size 17*17 = 289 is close to a multiple of 41 (41*7 = 287)
+	
+	  vec3 x = 2.0 * fract(p * C.www) - 1.0;
+	  vec3 h = abs(x) - 0.5;
+	  vec3 ox = floor(x + 0.5);
+	  vec3 a0 = x - ox;
+	
+	// Normalise gradients implicitly by scaling m
+	// Approximation of: m *= inversesqrt( a0*a0 + h*h );
+	  m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
+	
+	// Compute final noise value at P
+	  vec3 g;
+	  g.x  = a0.x  * x0.x  + h.x  * x0.y;
+	  g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+	  return 130.0 * dot(m, g);
+	}
+	
+	float rand(vec2 co)
+	{
+	   return fract(sin(dot(co.xy,vec2(12.9898,78.233))) * 43758.5453);
+	}
+	
+	
+	void mainImage()
+	{
+		vec2 uv = fragCoord.xy / iResolution.xy;    
+	    float time = iTime * 2.0;
+	    
+	    // Create large, incidental noise waves
+	    float noise = max(0.0, snoise(vec2(time, uv.y * 0.3)) - 0.3) * (1.0 / 0.7);
+	    
+	    // Offset by smaller, constant noise waves
+	    noise = noise + (snoise(vec2(time*10.0, uv.y * 2.4)) - 0.5) * 0.15;
+	    
+	    // Apply the noise as x displacement for every line
+	    float xpos = uv.x - noise * noise * 0.25;
+		fragColor = texture(iChannel0, vec2(xpos, uv.y));
+	    
+	    // Mix in some random interference for lines
+	    fragColor.rgb = mix(fragColor.rgb, vec3(rand(vec2(uv.y * time))), noise * 0.3).rgb;
+	    
+	    // Apply a line pattern every 4 pixels
+	    if (floor(mod(fragCoord.y * 0.25, 2.0)) == 0.0)
+	    {
+	        fragColor.rgb *= 1.0 - (0.15 * noise);
+	    }
+	    
+	    // Shift green/blue channels (using the red channel)
+	    fragColor.g = mix(fragColor.r, texture(iChannel0, vec2(xpos + noise * 0.05, uv.y)).g, 0.25);
+	    fragColor.b = mix(fragColor.r, texture(iChannel0, vec2(xpos - noise * 0.05, uv.y)).b, 0.25);
+	}
+    ";
 }

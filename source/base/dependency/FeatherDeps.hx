@@ -105,7 +105,6 @@ class ScriptHandler extends SScript
 		set('FlxTween', flixel.tweens.FlxTween);
 		set('FlxEase', flixel.tweens.FlxEase);
 		set('FlxTrail', flixel.addons.effects.FlxTrail);
-		set('FlxRuntimeShader', flixel.addons.display.FlxRuntimeShader);
 		set('FlxEmitter', flixel.effects.particles.FlxEmitter);
 		set('FlxParticle', flixel.effects.particles.FlxParticle);
 		set('FlxGradient', flixel.util.FlxGradient);
@@ -141,10 +140,11 @@ class ScriptHandler extends SScript
 		set('FeatherSprite', base.dependency.FeatherSprite);
 		set('Controls', base.Controls);
 
-		// OTHER
+		// SHADER HANDLERS
+		set('FlxRuntimeShader', flixel.addons.display.FlxRuntimeShader);
 		set('GraphicsShader', openfl.display.GraphicsShader);
 		set('ShaderFilter', openfl.filters.ShaderFilter);
-		set('Shaders', base.dependency.FeatherDeps.ShaderNonAbstract);
+		set('Shaders', base.dependency.FeatherDeps.EmbeddedShaders);
 
 		// ENUMS AND TYPEDEFINES;
 		set('GameMode', states.PlayState.GameMode);
@@ -293,7 +293,7 @@ class Events
 	}
 }
 
-@:noCompletion class ShaderNonAbstract
+@:noCompletion class EmbeddedShaders
 {
 	public var aberration = Shaders.aberration;
 	public var grayScale = Shaders.grayScale;
@@ -303,4 +303,16 @@ class Events
 	public var tiltShift = Shaders.tiltShift;
 	public var bloom = Shaders.bloom;
 	public var bloom_alt = Shaders.bloom_alt;
+	public var filter1990 = Shaders.filter1990;
+	public var theBlurOf87 = Shaders.theBlurOf87;
+	public var cameraMovement = Shaders.cameraMovement;
+	public var monitorFilter = Shaders.monitorFilter;
+	public var dimScreen = Shaders.dimScreen;
+	public var greyScaleButControllable = Shaders.greyScaleButControllable;
+	public var tvStatic = Shaders.tvStatic;
+	public var acidTrip = Shaders.acidTrip;
+	public var flashyFlash = Shaders.flashyFlash;
+	public var redFromAngryBirds = Shaders.redFromAngryBirds;
+	public var vhsEffect = Shaders.vhsEffect;
+	public var delusionalShift = Shaders.delusionalShift;
 }
