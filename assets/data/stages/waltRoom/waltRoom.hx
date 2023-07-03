@@ -52,7 +52,7 @@ function onCreate()
 			add(vignette);
 		}
 
-	vhsFilter = new FlxRuntimeShader(File.getContent("./assets/shaders/vhs.frag"), null, 130);
+	vhsFilter = new FlxRuntimeShader(Shaders.vhsFilter, null, 130);
 
 	grainFilter = new FlxRuntimeShader(Shaders.cameraMovement, null, 150);
 
