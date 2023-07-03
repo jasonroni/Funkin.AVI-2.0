@@ -324,27 +324,27 @@ class GameData
         {
                 switch (PlayState.SONG.song.toLowerCase())
                 {
-                        case 'hunted': if (!Init.trueSettings.get("Disable Mechanics") huntedLock = 'beaten';
+                        case 'hunted': if (!Init.trueSettings.get("Disable Mechanics")) huntedLock = 'beaten';
                         case 'isolated old': oldisolateLock = 'beaten';
                         case 'isolated beta': betaisolateLock = 'beaten';
                         case 'neglection': pnmLock = 'beaten';
-                        case "don't cross!": if (!Init.trueSettings.get("Disable Mechanics") crossinLock = 'beaten';
+                        case "don't cross!": if (!Init.trueSettings.get("Disable Mechanics")) crossinLock = 'beaten';
                         case 'war dilemma': warLock = 'beaten';
-                        case 'cycled sins': if (!Init.trueSettings.get("Disable Mechanics") sinsLock = 'beaten';
+                        case 'cycled sins': if (!Init.trueSettings.get("Disable Mechanics")) sinsLock = 'beaten';
                         case 'malfunction': malfunctionLock = 'beaten';
                         case 'scrapped': scrappedLock = 'beaten';
                         case 'bless': blessLock = 'beaten';
                         case 'laugh track': rickyLock = 'beaten';
                         case 'birthday': muckneyLock = 'beaten';
-                        case 'mercy legacy': if (!Init.trueSettings.get("Disable Mechanics") legacyWLock = 'beaten';
+                        case 'mercy legacy': if (!Init.trueSettings.get("Disable Mechanics")) legacyWLock = 'beaten';
                         case 'isolated legacy': legacyILock = 'beaten';
                         case 'lunacy legacy': legacyLLock = 'beaten';
                         case 'delusional legacy': legacyDLock = 'beaten';
                         case 'hunted legacy': legacyHLock = 'beaten';
                         case 'malfunction legacy': legacyMLock = 'beaten';
-                        case 'cycled sins legacy': if (!Init.trueSettings.get("Disable Mechanics") legacySLock = 'beaten';
+                        case 'cycled sins legacy': if (!Init.trueSettings.get("Disable Mechanics")) legacySLock = 'beaten';
                         case 'bless legacy': legacyBLock = 'beaten';
-                        case 'neglection legacy': if (!Init.trueSettings.get("Disable Mechanics") legacyNLock = 'beaten';
+                        case 'neglection legacy': if (!Init.trueSettings.get("Disable Mechanics")) legacyNLock = 'beaten';
                         case 'twisted grins legacy': legacyTLock = 'beaten';
                         case 'resentment legacy': legacyRLock = 'beaten';
                         case 'delutrance': highOnCrackLock = 'completed';
@@ -358,7 +358,7 @@ class GameData
                 {
                         case 'delusional': episode1FPLock = 'unlocked';
                         case 'mortiferum risus': episodeSFPLock = 'unlocked';
-                        case 'affliction': if (!Init.trueSettings.get("Disable Mechanics") episodeWFPLock = 'unlocked';
+                        case 'affliction': if (!Init.trueSettings.get("Disable Mechanics")) episodeWFPLock = 'unlocked';
                 }
                 saveShit();
         }
