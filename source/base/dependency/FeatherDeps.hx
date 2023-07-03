@@ -313,6 +313,6 @@ class Events
 	public var acidTrip = Shaders.acidTrip;
 	public var flashyFlash = Shaders.flashyFlash;
 	public var redFromAngryBirds = Shaders.redFromAngryBirds;
-	public var vhsEffect = Shaders.vhsFilter;
+	public var vhsFilter = Shaders.vhsFilter;
 	public var delusionalShift = Shaders.delusionalShift;
 }
