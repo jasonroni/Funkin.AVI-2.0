@@ -76,7 +76,7 @@ class CreditsMenu extends MusicBeatState
 	Discord.changePresence('BROWSING THE CREDITS', 'Credits Menu', 'icon', 'book');
 	#end
 
-        FlxG.sound.playMusic(Paths.music('credits'));
+        FlxG.sound.playMusic(Paths.music('funkinAVI/credits'));
 
         Conductor.changeBPM(164);
 
@@ -205,16 +205,7 @@ class CreditsMenu extends MusicBeatState
 
         if (newSelect != 0) FlxG.sound.play(Paths.sound('base/menus/scrollMenu'), 0.6);
 
-        // shit i have to done propertly
-        switch(creditArray[curSelected][0].toLowerCase())
-        {
-            case 'hanacat':
-                creditDescText.y -= 40;
-                creditDescText.fieldWidth = 700;
-
-            default:
-                reloadText(creditArray[curSelected][7]);
-        }
+        reloadText(creditArray[curSelected][7]);
 
         trace('huh: credits edition');
     }
@@ -224,19 +215,43 @@ class CreditsMenu extends MusicBeatState
         {
             if (long)
                 {
-                    creditNameText.y = FlxG.height * 0.1;
-                    creditWorkText.y = FlxG.height * 0.21;
-                    creditDescText.fieldWidth = 1000;
-                    creditDescText.x = FlxG.width * 0.32;
-                    creditDescText.y = FlxG.height * 0.16;
-                    creditDescText.scale.set(0.6, 0.6);
+                    switch(creditArray[curSelected][0].toLowerCase())
+                    {
+                        case 'domingo' | 'retrojogador':
+                            creditNameText.y = FlxG.height * 0.1;
+                            creditWorkText.y = FlxG.height * 0.21;
+                            creditDescText.fieldWidth = 1000;
+                            creditDescText.x = FlxG.width * 0.32;
+                            creditDescText.y = FlxG.height * 0.195;
+                            creditDescText.scale.set(0.6, 0.6);
+
+                        default:
+                            creditNameText.y = FlxG.height * 0.1;
+                            creditWorkText.y = FlxG.height * 0.21;
+                            creditDescText.fieldWidth = 1000;
+                            creditDescText.x = FlxG.width * 0.32;
+                            creditDescText.y = FlxG.height * 0.16;
+                            creditDescText.scale.set(0.6, 0.6);
+                    }
                 } else { // reload reasons
-                    creditDescText.fieldWidth = 500;
-                    creditDescText.x = FlxG.width * 0.52;
-                    creditDescText.y = FlxG.height * 0.6;
-                    creditDescText.scale.set(1, 1);
-                    creditNameText.y = FlxG.height * 0.3;
-                    creditWorkText.y = FlxG.height * 0.41;
+                    switch(creditArray[curSelected][0].toLowerCase())
+                    {
+                        case 'hanacat':
+                            creditDescText.fieldWidth = 500;
+                            creditDescText.x = FlxG.width * 0.52;
+                            creditDescText.y = FlxG.height * 0.46;
+                            creditDescText.scale.set(1, 1);
+                            creditNameText.y = FlxG.height * 0.3;
+                            creditWorkText.y = FlxG.height * 0.41;
+                            creditDescText.scale.set(0.8, 0.8);
+                        default:
+                            creditDescText.fieldWidth = 500;
+                            creditDescText.x = FlxG.width * 0.52;
+                            creditDescText.y = FlxG.height * 0.6;
+                            creditDescText.scale.set(1, 1);
+                            creditNameText.y = FlxG.height * 0.3;
+                            creditWorkText.y = FlxG.height * 0.41;
+                    }
                 }
         }
 }

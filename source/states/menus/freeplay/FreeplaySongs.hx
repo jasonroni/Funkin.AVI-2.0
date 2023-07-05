@@ -48,8 +48,18 @@ class FreeplaySongs extends MusicBeatState
 	private var iconArray:Array<HealthIcon> = [];
 
 	private var mainColor:Null<FlxColor> = FlxColor.WHITE;
+
+	var path:String = 'menus/Funkin_avi/freeplay/';
+
 	private var bg:Null<FlxSprite>;
 	private var delutranceBg:Null<FlxSprite>;
+
+	var bgslider:FlxSprite;
+	var musicPlayer:FlxSprite;
+	var musicNotes:FlxSprite;
+	var disc:FlxSprite;
+	var arrows:FlxSprite;
+
 	private var scoreBG:FlxSprite;
 
 	private var existingSongs:Array<String> = [];
@@ -74,6 +84,8 @@ class FreeplaySongs extends MusicBeatState
 	var shaderTime:Float = 0;
 	
 	var gradient:FlxSprite;
+	var coolFilter:FlxSprite;
+
 	public var loadCustom:Bool = true;
 	public static var freeplayMenuList = 0;
 
@@ -230,7 +242,11 @@ class FreeplaySongs extends MusicBeatState
 
 		FlxG.cameras.setDefaultDrawTarget(camGame, true);
 
-		bg = new FlxSprite().loadGraphic(Paths.image('menus/base/menuDesat'));
+		bg = new FlxSprite();
+		if (freeplayMenuList == 2)
+			bg.loadGraphic(Paths.image('menus/base/menuDesat'));
+		else
+			bg.loadGraphic(Paths.image(path + 'fp-bg'));
 		add(bg);
 
 		delutranceBg = new FlxSprite();
@@ -238,6 +254,38 @@ class FreeplaySongs extends MusicBeatState
 		delutranceBg.animation.addByPrefix("lmao", "background lmao", 24, true);
 		delutranceBg.scale.set(5, 5);
 		delutranceBg.animation.play("lmao");
+
+		if (freeplayMenuList != 2)
+		{
+			bgslider = new FlxSprite().loadGraphic(Paths.image(path + 'foreground-fp'));
+			add(bgslider);
+
+			musicPlayer = new FlxSprite().loadGraphic(Paths.image(path + 'music-player'));
+			add(musicPlayer);
+
+			musicNotes = new FlxSprite().loadGraphic(Paths.image(path + 'music-notes'));
+			add(musicNotes);
+
+			arrows = new FlxSprite().loadGraphic(Paths.image(path + 'arrows'));
+			add(arrows);
+
+			disc = new FlxSprite().loadGraphic(Paths.image(path + 'disc'));
+			add(disc);
+
+			bg.scale.set(0.78, 0.78);
+			bgslider.scale.set(0.78, 0.78);
+			musicPlayer.scale.set(0.78, 0.78);
+			musicNotes.scale.set(0.78, 0.78);
+			arrows.scale.set(0.78, 0.78);
+			disc.scale.set(0.78, 0.78);
+
+			bg.screenCenter();
+			bgslider.screenCenter();
+			musicPlayer.screenCenter();
+			musicNotes.screenCenter();
+			arrows.screenCenter();
+			disc.screenCenter();
+		}
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
 		add(grpSongs);
@@ -321,11 +369,20 @@ class FreeplaySongs extends MusicBeatState
 			gradient.setGraphicSize(Std.int(gradient.width * 0.8));
 	 		add(gradient);
 
+			coolFilter = new FlxSprite().loadGraphic(Paths.image(path + 'thing'));
+			coolFilter.screenCenter();
+			add(coolFilter);
+
 			scratchStuff.cameras = [camHUD];
 			grain.cameras = [camHUD];
 			gradient.cameras = [camHUD];
+			coolFilter.cameras = [camHUD];
 
-			if (freeplayMenuList == 2) gradient.destroy();
+			if (freeplayMenuList == 2)
+			{ 
+				gradient.destroy();
+				coolFilter.destroy();
+			}
 		}
 	}
 

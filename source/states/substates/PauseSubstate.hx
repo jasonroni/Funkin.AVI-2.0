@@ -72,7 +72,7 @@ class PauseSubstate extends MusicBeatSubstate
 		Thread.create(function()
 		{
 			mutex.acquire();
-			pauseMusic = new FlxSound().loadEmbedded(Paths.music('funkinAVI/pauseTheme'), true, true);
+			pauseMusic = new FlxSound().loadEmbedded(Paths.music('funkinAVI/calmlyWinds'), true, true);
 			pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
 			FlxG.sound.list.add(pauseMusic);
 			pauseMusic.volume = 0;
