@@ -247,6 +247,13 @@ class Init extends FlxState
 			NOT_FORCED,
 			['none', 'bf', 'gf', 'dad', 'center']
 		],
+		"Cursor Style" => [
+			'Default',
+			Selector,
+			"Chooses what cursor you prefer.",
+			NOT_FORCED,
+			['Default', 'Hand', 'Mickey', 'Silhouette', 'The Eye']
+		],
 		"Timing Preset" => [
 			'forever',
 			Selector,
@@ -330,7 +337,7 @@ class Init extends FlxState
 
 		// Some additional changes to default HaxeFlixel settings, both for ease of debugging and usability.
 		FlxG.fixedTimestep = false; // This ensures that the game is not tied to the FPS
-		FlxG.mouse.useSystemCursor = true; // Use system cursor because it's prettier
+		FlxG.mouse.useSystemCursor = false;
 		FlxG.mouse.visible = false; // Hide mouse on start
 
 		Main.switchState(this, cast Type.createInstance(Main.game.initialState, []));
