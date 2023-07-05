@@ -337,8 +337,7 @@ class FreeplaySongs extends MusicBeatState
 
 		camZoomTween = FlxTween.tween(this, {}, 0);
 		
-		if (GameData.huntedLock == 'beaten' && GameData.oldisolateLock == 'beaten' && GameData.betaisolateLock == 'beaten' && GameData.rickyLock == 'beaten' && GameData.blessLock == 'beaten' && GameData.scrappedLock == 'beaten' && GameData.crossinLock == 'beaten' && GameData.warLock == 'beaten' && GameData.pnmLock == 'beaten' && GameData.sinsLock == 'beaten' && 
-		GameData.legacyILock == 'beaten' && GameData.legacyLLock == 'beaten' && GameData.legacyDLock == 'beaten' && GameData.legacyHLock == 'beaten' && GameData.legacyWLock == 'beaten' && GameData.legacySLock == 'beaten' && !GameData.canAddMalfunction)
+		if (GameData.check(NO_MALFUNCTION))
 		{
 			GameData.canAddMalfunction = true;
 			GameData.saveShit();
@@ -452,6 +451,11 @@ class FreeplaySongs extends MusicBeatState
 			Conductor.songPosition = FlxG.sound.music.time;
 
 		ForeverTools.cameraBumpingZooms(FlxG.camera, 1);
+
+		if (musicNotes != null)
+			{
+				musicNotes.y = -110 + Math.sin(Conductor.songPosition/850)*((FlxG.height * 0.015));
+			}
 
 		if (!Init.trueSettings.get('Disable Screen Shaders')) // bye bye lag
 		{
