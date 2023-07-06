@@ -261,9 +261,11 @@ class FreeplaySongs extends MusicBeatState
 			add(bgslider);
 
 			musicPlayer = new FlxSprite().loadGraphic(Paths.image(path + 'music-player'));
+			musicPlayer.blend = ADD;
 			add(musicPlayer);
 
 			musicNotes = new FlxSprite().loadGraphic(Paths.image(path + 'music-notes'));
+			musicNotes.blend = ADD;
 			add(musicNotes);
 
 			arrows = new FlxSprite().loadGraphic(Paths.image(path + 'arrows'));
@@ -285,6 +287,9 @@ class FreeplaySongs extends MusicBeatState
 			musicNotes.screenCenter();
 			arrows.screenCenter();
 			disc.screenCenter();
+			disc.origin.set(1000, 558);
+
+			FlxTween.angle(disc, disc.angle, 360, 1.2, {ease: FlxEase.quadInOut, type: LOOPING});
 		}
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
@@ -306,7 +311,9 @@ class FreeplaySongs extends MusicBeatState
 			grpSongs.add(songText);
 
 			var icon:HealthIcon = new HealthIcon(songs[i].character);
-			icon.sprTracker = songText;
+			icon.x = 900;
+			icon.screenCenter(Y);
+			icon.setGraphicSize(Std.int(icon.width * 2.1));
 
 			// using a FlxGroup is too much fuss!
 			iconArray.push(icon);
@@ -684,7 +691,7 @@ class FreeplaySongs extends MusicBeatState
 				default:
 					for (i in 0...iconArray.length)
 					{
-						iconArray[i].alpha = 0.6;
+						iconArray[i].alpha = 0;
 						iconArray[i].animation.curAnim.curFrame = 0;
 					}
 
@@ -712,7 +719,7 @@ class FreeplaySongs extends MusicBeatState
 		else
 		{
 			for (i in 0...iconArray.length)
-				iconArray[i].alpha = 0.6;
+				iconArray[i].alpha = 0;
 	
 			iconArray[curSelected].alpha = 1;
 	
@@ -721,7 +728,7 @@ class FreeplaySongs extends MusicBeatState
 				item.targetY = bullShit - curSelected;
 				bullShit++;
 	
-				item.alpha = 0.6;
+				item.alpha = 0;
 				if (item.targetY == 0)
 					item.alpha = 1;
 			}
