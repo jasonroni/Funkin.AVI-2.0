@@ -215,6 +215,11 @@ class FlxSprite extends FlxObject
 	public var alpha(default, set):Float = 1.0;
 
 	/**
+        * the `Dynamic` of the FlxSprite
+        */
+	public var dynamicContent:Dynamic = {};
+
+	/**
 	 * Can be set to `LEFT`, `RIGHT`, `UP`, and `DOWN` to take advantage
 	 * of flipped sprites and/or just track player orientation more easily.
 	 * @see https://snippets.haxeflixel.com/sprites/facing/
@@ -753,6 +758,9 @@ class FlxSprite extends FlxObject
 	{
 		super.update(elapsed);
 		updateAnimation(elapsed);
+
+		if (dynamicContent.update != null)
+			dynamicContent.update(elapsed);
 	}
 
 	/**
