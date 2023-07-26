@@ -777,7 +777,7 @@ class FreeplaySongs extends MusicBeatState
 		else
 		{
 			for (i in 0...iconArray.length)
-				iconArray[i].alpha = 0.6;
+				iconArray[i].alpha = 0;
 	
 			iconArray[curSelected].alpha = 1;
 
