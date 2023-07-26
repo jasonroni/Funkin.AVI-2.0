@@ -1392,6 +1392,8 @@ class PlayState extends MusicBeatState
 					chromNormalShader.setFloat('rOffset', chromEffect / 45);
 					chromNormalShader.setFloat('bOffset', -chromEffect / 45);
 					dramaticCamMovement.setFloat('time', shaderAnim);
+					delusionalShift.setFloat('iTime', shaderAnim);
+					delusionalShift.setFloat('uTime', shaderAnim);
 
 				case 'Malfunction':
 					chromZoomShader.setFloat('aberration', chromEffect);

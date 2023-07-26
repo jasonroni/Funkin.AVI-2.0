@@ -4,6 +4,12 @@ import flixel.FlxG;
 import flixel.util.FlxSave;
 import states.PlayState;
 
+private enum DATA_CHECK_TYPE
+{
+    NO_MALFUNCTION;
+    ALL;
+}
+
 /**
  * **lmao you ain't gonna play malfunction so easly**.
  * 
@@ -350,6 +356,29 @@ class GameData
                         case 'delutrance': highOnCrackLock = 'completed';
                 }
                 saveShit();
+        }
+
+        public static function check(type:DATA_CHECK_TYPE):Dynamic
+        {
+             switch (type)
+             {
+                case NO_MALFUNCTION:
+                    return (GameData.huntedLock == 'beaten' && GameData.oldisolateLock == 'beaten' && GameData.betaisolateLock == 'beaten' && 
+                    GameData.rickyLock == 'beaten' && GameData.blessLock == 'beaten' && GameData.scrappedLock == 'beaten' && 
+                    GameData.crossinLock == 'beaten' && GameData.warLock == 'beaten' && GameData.pnmLock == 'beaten' && GameData.sinsLock == 'beaten' && 
+                    GameData.legacyILock == 'beaten' && GameData.legacyLLock == 'beaten' && GameData.legacyDLock == 'beaten' && 
+                    GameData.legacyHLock == 'beaten' && GameData.legacyWLock == 'beaten' && GameData.legacySLock == 'beaten' && !GameData.canAddMalfunction);
+
+                case ALL: 
+                    return (GameData.huntedLock == 'beaten' && GameData.oldisolateLock == 'beaten' && GameData.betaisolateLock == 'beaten' && 
+                    GameData.rickyLock == 'beaten' && GameData.blessLock == 'beaten' && GameData.scrappedLock == 'beaten' && GameData.crossinLock == 'beaten' && 
+                    GameData.warLock == 'beaten' && GameData.pnmLock == 'beaten' && GameData.sinsLock == 'beaten' && 
+                    GameData.legacyILock == 'beaten' && GameData.legacyLLock == 'beaten' && GameData.legacyDLock == 'beaten' 
+                    && GameData.legacyHLock == 'beaten' && GameData.legacyWLock == 'beaten' && GameData.legacySLock == 'beaten' && GameData.canAddMalfunction);
+             }
+
+             // tragic
+             return false;
         }
         
         public static function completeEpisode()

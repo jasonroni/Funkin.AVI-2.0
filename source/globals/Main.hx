@@ -250,6 +250,7 @@ class Main extends Sprite
 		FlxG.signals.postStateSwitch.add(()->{
 			optimizeGame(true);
 			GameData.saveShit();
+			FlxG.mouse.load('assets/images/UI/funkinAVI/mouses/${Init.trueSettings.get('Cursor Style')}.png');
 		});
 		FlxG.signals.preStateSwitch.add(()-> {
 			optimizeGame(false);

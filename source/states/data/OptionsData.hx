@@ -39,6 +39,7 @@ class OptionsData
 		{name: 'FPS Counter', type: "option"},
 		{name: 'Memory Counter', type: "option"},
 		{name: 'Framerate Cap', type: "option"},
+		{name: 'Cursor Style', type: "option"},
 	];
 
 	/* == Accessibility Group == */

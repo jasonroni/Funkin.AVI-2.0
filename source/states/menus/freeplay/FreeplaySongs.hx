@@ -43,7 +43,12 @@ class FreeplaySongs extends MusicBeatState
 	var mutex:Mutex;
 	var songToPlay:Sound = null;
 
+	var freeplayCtrlTxt:FlxText;
+	var menuType:FlxText;
+
 	private var grpSongs:FlxTypedGroup<Alphabet>;
+
+	private var songDisplay:Array<FlxText> = [];
 
 	private var iconArray:Array<HealthIcon> = [];
 
@@ -261,9 +266,11 @@ class FreeplaySongs extends MusicBeatState
 			add(bgslider);
 
 			musicPlayer = new FlxSprite().loadGraphic(Paths.image(path + 'music-player'));
+			musicPlayer.blend = ADD;
 			add(musicPlayer);
 
 			musicNotes = new FlxSprite().loadGraphic(Paths.image(path + 'music-notes'));
+			musicNotes.blend = ADD;
 			add(musicNotes);
 
 			arrows = new FlxSprite().loadGraphic(Paths.image(path + 'arrows'));
@@ -284,7 +291,25 @@ class FreeplaySongs extends MusicBeatState
 			musicPlayer.screenCenter();
 			musicNotes.screenCenter();
 			arrows.screenCenter();
-			disc.screenCenter();
+			disc.screenCenter(Y);
+
+			disc.x += 650;
+
+			FlxTween.angle(disc, disc.angle, 360, 1.5, {type: LOOPING});
+
+			disc.x += 700;
+			arrows.alpha = 0.0001;
+			musicPlayer.x -= 700;
+			musicNotes.x -= 700;
+			bgslider.x -= 700;
+			bg.alpha = 0.0001;
+
+			FlxTween.tween(bg, {alpha: 1}, 1.5, {ease: FlxEase.sineInOut});
+			FlxTween.tween(disc, {x: disc.x - 700}, 2, {ease: FlxEase.sineInOut, startDelay: 1});
+			FlxTween.tween(arrows, {alpha: 1}, 2, {startDelay: 3});
+			FlxTween.tween(musicPlayer, {x: musicPlayer.x + 700}, 2.3, {ease: FlxEase.sineInOut, startDelay: 1});
+			FlxTween.tween(musicNotes, {x: musicNotes.x + 700}, 2.2, {ease: FlxEase.sineInOut, startDelay: 1});
+			FlxTween.tween(bgslider, {x: bgslider.x + 700}, 2, {ease: FlxEase.sineInOut, startDelay: 1});
 		}
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
@@ -292,53 +317,98 @@ class FreeplaySongs extends MusicBeatState
 
 		for (i in 0...songs.length)
 		{
+			var songText2:FlxText = new FlxText(0, 0, 470, CoolUtil.swapSpaceDash(songs[i].name));
 			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, CoolUtil.swapSpaceDash(songs[i].name), true, false);
+			var icon:HealthIcon = new HealthIcon(songs[i].character);
+
 			if (freeplayMenuList == 2)
 			{
 				songText.isMenuItemCenter = true;
 				songText.xAdd = -80;
+
+				icon.sprTracker = songText;
 			}
 			else 
 			{
 				songText.isMenuItem = true;
+
+				songText2.setFormat(Paths.font("whiteDream"), 65, FlxColor.WHITE);
+				songText2.setBorderStyle(OUTLINE, FlxColor.BLACK, 8);
+
+				icon.x = 880;
+				icon.screenCenter(Y);
+				icon.setGraphicSize(Std.int(icon.width * 2.1));
+				icon.x += 700;
+
+				songText2.x = icon.x - 130;
+				songText2.y = icon.y - 250;
+				songText2.alignment = CENTER;
+				songText2.y -= 300;
 			}
 			songText.targetY = i;
 			grpSongs.add(songText);
 
-			var icon:HealthIcon = new HealthIcon(songs[i].character);
-			icon.sprTracker = songText;
+			songDisplay.push(songText2);
+			add(songText2);
 
 			// using a FlxGroup is too much fuss!
 			iconArray.push(icon);
 			add(icon);
+			FlxTween.tween(icon, {x: icon.x - 700}, 2.2, {ease: FlxEase.sineInOut, startDelay: 1});
+			FlxTween.tween(songText2, {x: songText2.x - 700}, 2.2, {ease: FlxEase.sineInOut, startDelay: 1});
+			FlxTween.tween(songText2, {y: songText2.y + 300}, 1.5, {ease: FlxEase.sineInOut, startDelay: 3});
 		}
-
-		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
-		scoreText.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE, RIGHT);
-
-		scoreBG = new FlxSprite(scoreText.x - scoreText.width, 0).makeGraphic(Std.int(FlxG.width * 0.35), 66, 0xFF000000);
-		scoreBG.alpha = 0.6;
-		add(scoreBG);
-
-		diffText = new FlxText(scoreText.x, scoreText.y + 36, 0, "", 24);
-		diffText.alignment = CENTER;
-		diffText.font = scoreText.font;
-		diffText.x = scoreBG.getGraphicMidpoint().x;
-		add(diffText);
-
-		add(scoreText);
-
-		scoreText.cameras = [camHUD];
-		scoreBG.cameras = [camHUD];
-		diffText.cameras = [camHUD];
+			
+		// Basically an exact replica of the Funkin.avi V1 Freeplay Menu lol
+		if (freeplayMenuList == 2)
+		{
+			scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
+			scoreBG = new FlxSprite(scoreText.x - scoreText.width, 0).makeGraphic(Std.int(FlxG.width * 0.35), 66, 0xFF000000);
+			diffText = new FlxText(scoreText.x, scoreText.y + 36, 0, "", 24);
+			scoreText.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE, RIGHT);
+			scoreBG.alpha = 0.6;
+			diffText.alignment = CENTER;
+			diffText.font = scoreText.font;
+			diffText.x = scoreBG.getGraphicMidpoint().x;
+			scoreText.cameras = [camHUD];
+			scoreBG.cameras = [camHUD];
+			diffText.cameras = [camHUD];
+			add(scoreBG);
+			add(diffText);
+			add(scoreText);
+		}
+		else //The Newer, Better, Cooler Menu
+		{
+			scoreText = new FlxText(FlxG.width * 0.7, 5, 450, "", 32);
+			scoreBG = new FlxSprite(scoreText.x - scoreText.width, 0).makeGraphic(Std.int(FlxG.width * 0.35), 66, 0xFF000000);
+			diffText = new FlxText(scoreText.x, scoreText.y + 36, 500, "", 40);
+			freeplayCtrlTxt = new FlxText(30, 550, 0, "Left & Right Keybinds - Change Song Choice\n\nESC - Exit Menu\n\nENTER - Play Song", 36);
+			scoreText.setFormat(Paths.font("disneyFreeplayFont"), 45, FlxColor.WHITE, CENTER);
+			scoreText.setBorderStyle(OUTLINE, FlxColor.BLACK, 8);
+			scoreBG.alpha = 0;
+			scoreText.alpha = 0.0001;
+			diffText.alpha = 0.0001;
+			diffText.alignment = CENTER;
+			diffText.font = scoreText.font;
+			diffText.setBorderStyle(OUTLINE, FlxColor.BLACK, 8);
+			freeplayCtrlTxt.setFormat(Paths.font('whiteDream'), 20, FlxColor.WHITE, LEFT);
+			freeplayCtrlTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 8);
+			freeplayCtrlTxt.alpha = 0.0001;
+			add(scoreBG);
+			add(diffText);
+			add(scoreText);
+			add(freeplayCtrlTxt);
+			FlxTween.tween(freeplayCtrlTxt, {alpha: 1}, 1.5, {ease: FlxEase.sineInOut, startDelay: 3});
+			FlxTween.tween(scoreText, {alpha: 1}, 1.5, {ease: FlxEase.sineInOut, startDelay: 3});
+			FlxTween.tween(diffText, {alpha: 1}, 1.5, {ease: FlxEase.sineInOut, startDelay: 3});
+		}
 
 		changeSelection();
 		changeDiff();
 
 		camZoomTween = FlxTween.tween(this, {}, 0);
 		
-		if (GameData.huntedLock == 'beaten' && GameData.oldisolateLock == 'beaten' && GameData.betaisolateLock == 'beaten' && GameData.rickyLock == 'beaten' && GameData.blessLock == 'beaten' && GameData.scrappedLock == 'beaten' && GameData.crossinLock == 'beaten' && GameData.warLock == 'beaten' && GameData.pnmLock == 'beaten' && GameData.sinsLock == 'beaten' && 
-		GameData.legacyILock == 'beaten' && GameData.legacyLLock == 'beaten' && GameData.legacyDLock == 'beaten' && GameData.legacyHLock == 'beaten' && GameData.legacyWLock == 'beaten' && GameData.legacySLock == 'beaten' && !GameData.canAddMalfunction)
+		if (GameData.check(NO_MALFUNCTION))
 		{
 			GameData.canAddMalfunction = true;
 			GameData.saveShit();
@@ -453,6 +523,11 @@ class FreeplaySongs extends MusicBeatState
 
 		ForeverTools.cameraBumpingZooms(FlxG.camera, 1);
 
+		if (musicNotes != null)
+			{
+				musicNotes.y = -110 + Math.sin(Conductor.songPosition/850)*((FlxG.height * 0.015));
+			}
+
 		if (!Init.trueSettings.get('Disable Screen Shaders')) // bye bye lag
 		{
 			switch (freeplayMenuList)
@@ -493,9 +568,9 @@ class FreeplaySongs extends MusicBeatState
 
 		if (Math.abs(lerpScore - intendedScore) <= 10)
 			lerpScore = intendedScore;
-
-		var upP = Controls.getPressEvent("ui_up");
-		var downP = Controls.getPressEvent("ui_down");
+ 
+		var upP = Controls.getPressEvent((freeplayMenuList == 2 ? "ui_up" : "ui_left"));
+		var downP = Controls.getPressEvent((freeplayMenuList == 2 ? "ui_down" : "ui_right"));
 		var accepted = Controls.getPressEvent("accept");
 
 		if (upP)
@@ -562,11 +637,22 @@ class FreeplaySongs extends MusicBeatState
 		}
 
 		// Adhere the position of all the things (I'm sorry it was just so ugly before I had to fix it Shubs)
-		scoreText.text = "PERSONAL BEST:" + lerpScore;
-		scoreText.x = FlxG.width - scoreText.width - 5;
-		scoreBG.width = scoreText.width + 8;
-		scoreBG.x = FlxG.width - scoreBG.width;
-		diffText.x = scoreBG.x + (scoreBG.width / 2) - (diffText.width / 2);
+		if (freeplayMenuList == 2)
+		{
+			scoreText.text = "PERSONAL BEST:" + lerpScore;
+			scoreText.x = FlxG.width - scoreText.width - 5;
+			scoreBG.width = scoreText.width + 8;
+			scoreBG.x = FlxG.width - scoreBG.width;
+			diffText.x = scoreBG.x + (scoreBG.width / 2) - (diffText.width / 2);
+		}
+		else
+		{
+			scoreText.text = "Score: " + lerpScore;
+			scoreText.x = 770;
+			scoreText.y = 560;
+			diffText.x = scoreText.x - 20;
+			diffText.y = scoreText.y + 70;
+		}
 
 		mutex.acquire();
 		if (songToPlay != null)
@@ -604,7 +690,7 @@ class FreeplaySongs extends MusicBeatState
 		difficultyRank = songs[curSelected].difficultyRank;
 		diffText.color = songs[curSelected].textColor;
 				
-		diffText.text = 'RANK: ' + difficultyRank; // display the text
+		if (freeplayMenuList == 2) diffText.text = 'RANK: ' + difficultyRank; else diffText.text = "Difficulty: " + difficultyRank;// display the text
 		lastDifficulty = existingDifficulties[curSelected][curDifficulty];
 	}
 
@@ -659,28 +745,9 @@ class FreeplaySongs extends MusicBeatState
 
 		if (freeplayMenuList != 2)
 		{
-			switch(songs[curSelected].name.toLowerCase())
-			{
-				case 'scrapped':
 					for (i in 0...iconArray.length)
+					{
 						iconArray[i].alpha = 0;
-
-					iconArray[curSelected].alpha = 1;
-
-					for (item in grpSongs.members)
-					{
-						item.targetY = bullShit - curSelected;
-						bullShit++;
-
-						item.alpha = 0;
-						if (item.targetY == 0)
-							item.alpha = 1;
-					}
-
-				default:
-					for (i in 0...iconArray.length)
-					{
-						iconArray[i].alpha = 0.6;
 						iconArray[i].animation.curAnim.curFrame = 0;
 					}
 
@@ -699,11 +766,13 @@ class FreeplaySongs extends MusicBeatState
 						item.targetY = bullShit - curSelected;
 						bullShit++;
 
-						item.alpha = 0.6;
-						if (item.targetY == 0)
-							item.alpha = 1;
+						item.alpha = 0;
 					}
-			}
+
+					for (s in 0...songDisplay.length)
+						songDisplay[s].alpha = 0;
+
+					songDisplay[curSelected].alpha = 1;
 		}
 		else
 		{
@@ -711,13 +780,17 @@ class FreeplaySongs extends MusicBeatState
 				iconArray[i].alpha = 0.6;
 	
 			iconArray[curSelected].alpha = 1;
+
+			for (s in 0...songDisplay.length)
+				songDisplay[s].alpha = 0;
 	
 			for (item in grpSongs.members)
 			{
 				item.targetY = bullShit - curSelected;
 				bullShit++;
 	
-				item.alpha = 0.6;
+				
+					item.alpha = 0.6;
 				if (item.targetY == 0)
 					item.alpha = 1;
 			}
