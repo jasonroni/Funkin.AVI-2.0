@@ -26,9 +26,7 @@ As you can already tell, this version of the mod now runs on a modded version of
 
 Join to our [**Dunkin Dunkin' Community Server**](https://discord.gg/fdFEnQ8Dst)
 
-## Also read the bee movie script. Please and you get a reward
-
-lol
+## Also read the bee movie script because is cool lol
 
 # bee 
 
