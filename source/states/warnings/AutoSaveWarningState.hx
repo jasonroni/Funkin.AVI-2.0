@@ -46,7 +46,7 @@ class AutoSaveWarningState extends FlxState
         GameData.loadShit(); // Collect Any Data
 		GameData.lockinIt(); // Now add missing data for any new stuff
 
-        warningText = new FlxText(0, 0, FlxG.width, 'WARNING:\nThis game contains an auto save system.\nIf you see this logo right bellow\n^DON\'T TURN OFF THE DEVICE!^', 44);
+        warningText = new FlxText(0, 0, FlxG.width, 'WARNING:\nThis game contains an auto save system.\nIf you see this logo right below\n^DON\'T TURN OFF THE DEVICE!^', 44);
         warningText.setFormat(Paths.font('vcr'), 37, FlxColor.WHITE, CENTER, OUTLINE, FlxColor.BLACK);
         warningText.screenCenter().y -= 40;
         warningText.alpha = 0;

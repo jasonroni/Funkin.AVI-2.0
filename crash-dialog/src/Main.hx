@@ -18,7 +18,7 @@ class Main
 		"Glitched Mickey is in your walls. - DEMOLITIONDON96",
 		"Lmao you really got hunted - Jason",
 		"i have inserted a virus on your PC /j - Jason",
-		"read bellow. - Jason",
+		"read below. - Jason",
 		"walter. - Literally everyone in the F.AVI Dev Team",
 		"Walt just hates you that much, huh? - DEMOLITIONDON96",
 		"Ooga booga, go back to Africa. (Santa, probably), - Jason",
