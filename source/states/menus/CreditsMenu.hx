@@ -46,6 +46,10 @@ class CreditsMenu extends MusicBeatState
         ['The Gamerchoice', 'gamerchoice', 'Concept Artist & Playtester', 'where are the men???1?! * has an erection *', 20, 40, 0.9, false],
         ['FR3SHMoure', 'fresh', "Composer (mostly well known for Delusional)", 'the swagging of 68', 30, 40, 1, false],
         ['Dreupy', 'dreupy', 'Charter', 'MICKEY DIES????', -45, 40, 0.85, false],
+        ['Writer Anon', 'writer', "Rewrote story of the mod & VA of certain cutscenes", "Hey! I'm the guy that voiced the narrator and gave many ideas for Delusional's events. This is genuinely the first mod I've been a part of, 
+        and what a great experience it has been. Thanks for inviting me on, Demo and Toko, it's been great, and I cannot wait to do more.\nplease help me I am still trapped in demo's basement--\n
+        P.S: Bonoan is cool and great", -300, -140, 0.58, true],
+        ['Bax', 'bax', "\"Peak\" Artist", "Guh stop saying me peak >:(", -590, -450, 0.18, false],
     ];
 
     var curSelected:Int = 0;
@@ -223,6 +227,14 @@ class CreditsMenu extends MusicBeatState
                             creditDescText.fieldWidth = 1000;
                             creditDescText.x = FlxG.width * 0.32;
                             creditDescText.y = FlxG.height * 0.195;
+                            creditDescText.scale.set(0.6, 0.6);
+
+                        case 'writer anon':
+                            creditNameText.y = FlxG.height * 0.1;
+                            creditWorkText.y = FlxG.height * 0.21;
+                            creditDescText.fieldWidth = 1000;
+                            creditDescText.x = FlxG.width * 0.32;
+                            creditDescText.y = FlxG.height * 0.2;
                             creditDescText.scale.set(0.6, 0.6);
 
                         default:

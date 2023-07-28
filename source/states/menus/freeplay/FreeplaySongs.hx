@@ -138,7 +138,7 @@ class FreeplaySongs extends MusicBeatState
 
 					if (GameData.episodeSFPLock == 'unlocked')
 					{
-						addSong('Twisted-Grins', 3, 'mr-smiles', FlxColor.fromRGB(54, 38, 38), 'Sayan Sama', 'HARD', FlxColor.fromRGB(255, 187, 187));
+						addSong('Twisted-Grins', 3, 'mr-smiles', FlxColor.fromRGB(54, 38, 38), 'ForFutherNotice', 'HARD', FlxColor.fromRGB(255, 187, 187));
 						addSong('Resentment', 3, 'mr-smiles', FlxColor.fromRGB(99, 66, 66), 'obscurity', 'NORMAL', FlxColor.fromRGB(255, 220, 220));
 						addSong('Mortiferum-Risus', 3, 'mr-smiles', FlxColor.fromRGB(143, 91, 91), 'Sayan Sama', 'NORMAL', FlxColor.fromRGB(255, 220, 220));
 					}
@@ -158,11 +158,11 @@ class FreeplaySongs extends MusicBeatState
 					chromAberration.setFloat('effectTime', 0.24);
 					mercyShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/vhs.frag'), null, 130);
 					mercyShader2 = new FlxRuntimeShader(Shaders.cameraMovement, null, 150);
-					urFucked = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/gaussian.frag'), null, 150);
+					urFucked = new FlxRuntimeShader(Shaders.theBlurOf87, null, 150);
 					urFucked.setFloat('amount', 1);
-					smilesShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
+					smilesShader = new FlxRuntimeShader(Shaders.tvStatic, null, 120);
 					defaultShader2 = new FlxRuntimeShader(Shaders.monitorFilter, null, 140);
-					pixelShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/pixelate.frag'), null, 140);
+					pixelShader = new FlxRuntimeShader(Shaders.unregisteredHyperCam2Quality, null, 140);
 					pixelShader.setFloat('size', 7.5);
 
 					if (GameData.episode1FPLock == 'unlocked')
@@ -1010,6 +1010,9 @@ class FreeplaySongs extends MusicBeatState
 
 			case 'malfunction': 
 				Conductor.changeBPM(166);
+
+			case 'twisted grins':
+				Conductor.changeBPM(390);
 
 			default:
 				Conductor.changeBPM(100);

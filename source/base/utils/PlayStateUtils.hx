@@ -167,6 +167,51 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.camHUD.setFilters([new ShaderFilter(PlayState.chromNormalShader)]);
 						for (i in PlayState.strumHUD) i.setFilters([new ShaderFilter(PlayState.chromNormalShader)]);
 					}
+                case 'Twisted Grins':
+                    if (!Init.trueSettings.get('Low Quality'))
+                    {
+                        PlayState.camGame.setFilters([
+                            new ShaderFilter(PlayState.staticEffect),
+                            new ShaderFilter(PlayState.grayScale)
+                        ]);
+                    }
+                    else
+                    {
+                        PlayState.camGame.setFilters([new ShaderFilter(PlayState.grayScale)]);
+                    }
+                    PlayState.camHUD.setFilters([new ShaderFilter(PlayState.grayScale)]);
+                    for (i in PlayState.strumHUD)
+                        i.setFilters([new ShaderFilter(PlayState.grayScale)]);
+                case 'Hunted':
+                    if (!Init.trueSettings.get('Low Quality'))
+                    {
+                        PlayState.camGame.setFilters([
+                            new ShaderFilter(PlayState.dramaticCamMovement),
+                            new ShaderFilter(PlayState.monitorFilter),
+                            new ShaderFilter(PlayState.bloomEffect)
+                        ]);
+                    }
+                    else
+                    {
+                        PlayState.camGame.setFilters([new ShaderFilter(PlayState.monitorFilter)]);
+                    }
+                    for (i in PlayState.strumHUD)
+                        i.setFilters([new ShaderFilter(PlayState.grayScale)]);
+                case 'Mercy' | 'Mercy Legacy':
+                    if (!Init.trueSettings.get('Low Quality'))
+                    {
+                        PlayState.camGame.setFilters([
+                            new ShaderFilter(PlayState.waltStatic),
+                            new ShaderFilter(PlayState.dramaticCamMovement)
+                        ]);
+                    }
+                    else
+                    {
+                        PlayState.camGame.setFilters([new ShaderFilter(PlayState.dramaticCamMovement)]);
+                    }
+                    PlayState.camHUD.setFilters([new ShaderFilter(PlayState.dramaticCamMovement)]);
+                    for (i in PlayState.strumHUD)
+                        i.setFilters([new ShaderFilter(PlayState.dramaticCamMovement)]);
 			}
 		}
 		
