@@ -1650,22 +1650,22 @@ class PlayState extends MusicBeatState
 				{
 					camTween.cancel();
 				}
-				/*if (camTween2 != null)
+				if (camTween2 != null)
 				{
 					camTween2.cancel();
-				}*/
+				}
 				camTween = FlxTween.tween(camFollowPos, {
 					x: camFollow.x + charAnimOffsetX,
 					y: camFollow.y + charAnimOffsetY,
-					//angle: camGame.angle + charAnimOffsetX
+					angle: camGame.angle + charAnimOffsetX
 				}, 1.1 / cameraSpeed, {
 					ease: FlxEase.quadOut
 				});
-				/*camTween2 = FlxTween.tween(camGame, {
+				camTween2 = FlxTween.tween(camGame, {
 					angle: 0 - charAnimOffsetX / 28 // me when angles :trollface:
 				}, 0.8 / cameraSpeed, {
 					ease: FlxEase.sineOut
-				});*/
+				});
 			}
 
 		callFunc('postUpdate', [elapsed]);
