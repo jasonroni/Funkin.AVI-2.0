@@ -1,25 +1,8 @@
-var staticS:FlxRuntimeShader;
-var greyScale:FlxRuntimeShader;
-var monitor:FlxRuntimeShader;
-
-var shaderTime:Float = 0;
-
 function onCreate()
 {
 	spawnGirlfriend(false);
 	PlayState.defaultCamZoom = 0.75;
 	PlayState.cameraSpeed = 2.5;
-
-	staticS = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
-	greyScale = new FlxRuntimeShader(File.getContent('./assets/shaders/grayScale.frag'), null, 120);
-	monitor = new FlxRuntimeShader(Shaders.monitorFilter, null, 140);
-
-	PlayState.camGame.setFilters(
-		[
-			new ShaderFilter(greyScale),
-			new ShaderFilter(staticS),
-			new ShaderFilter(monitor)
-		]);
 
 	var office:FNFSprite = new FNFSprite(-500, -300).loadGraphic(Paths.image('office', 'data/stages/trueGrinsOfSins/images'));
 	office.antialiasing = true;
@@ -45,14 +28,6 @@ function onCreate()
     chair.scale.set(0.9, 0.85);
     funiLight.scale.set(0.85, 0.8);
 }
-
-function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Character)
-	{
-			//Shader stuff
-			shaderTime += elapsed;
-			staticS.setFloat('uTime', shaderTime);
-			staticS.setFloat('iTime', shaderTime);
-	}
 
 function charStagePos(boyfriend:Character, gf:Character, dad:Character)
 {

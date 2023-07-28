@@ -1,7 +1,3 @@
-var grainFilter:FlxRuntimeShader;
-var monitorFilter:FlxRuntimeShader;
-var bloomEffect:FlxRuntimeShader;
-var vignette:FlxRuntimeShader;
 var wobblyBG:FlxRuntimeShader;
 var shaderTime:Float = 0;
 
@@ -12,30 +8,12 @@ var goofyBG:FNFSprite;
 
 function onCreate()
 {
-	bloomEffect = new FlxRuntimeShader(Shaders.bloom_alt, null, 120);
-	grainFilter = new FlxRuntimeShader(Shaders.cameraMovement, null, 150);
-	monitorFilter = new FlxRuntimeShader(Shaders.monitorFilter, null, 140);
-	vignette = new FlxRuntimeShader(Shaders.redFromAngryBirds, null, 120);
-
 	// Literally what Goofy is seeing right about now lmfao
-	wobblyBG = new FlxRuntimeShader(Shaders.acidTrip, null, 120);
+	wobblyBG = new FlxRuntimeShader(File.getContent("./assets/shaders/weebleWobble.frag"), null, 120);
 
 	wobblyBG.setFloat('uSpeed', 1.0);
 	wobblyBG.setFloat('uFrequency', 1.0);
 	wobblyBG.setFloat('uWaveAmplitude', 0.5);
-
-	if(!lowQuality)
-		{
-			PlayState.camGame.setFilters([
-				new ShaderFilter(grainFilter),
-				new ShaderFilter(monitorFilter),
-				new ShaderFilter(bloomEffect)
-			]);
-		} else {
-			PlayState.camGame.setFilters([
-				new ShaderFilter(monitorFilter),
-			]);
-		}
 
 	spawnGirlfriend(false);
 	PlayState.cameraSpeed = 0.9;
@@ -83,26 +61,7 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 						treesBack.shader = wobblyBG;
 						treesFront.shader = wobblyBG;
 					}
-				PlayState.camGame.flash("white", 1);
-
-				if(!lowQuality)
-					{
-						PlayState.camGame.setFilters(
-							[	
-								new ShaderFilter(vignette),
-								new ShaderFilter(grainFilter),
-								new ShaderFilter(monitorFilter),
-								new ShaderFilter(bloomEffect)
-							]);
-					} else {
-						PlayState.camGame.setFilters(
-							[	
-								new ShaderFilter(vignette),
-								new ShaderFilter(monitorFilter),
-							]);
-					}
 			}
-		}
 		
 	if (curBeat == 256)
 		{
@@ -113,31 +72,14 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 					treesBack.shader = null;
 					treesFront.shader = null;
 				}
-			PlayState.camGame.flash("white", 1);
-			
-			if(!lowQuality)
-				{
-					PlayState.camGame.setFilters(
-						[	
-							new ShaderFilter(grainFilter),
-							new ShaderFilter(monitorFilter),
-							new ShaderFilter(bloomEffect)
-						]);
-				} else {
-					PlayState.camGame.setFilters(
-						[	
-							new ShaderFilter(monitorFilter),
-						]);
-				}
 		}
+	}
 }
 
 function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Character)
 {
 	// Shader stuff
 	shaderTime += elapsed;
-	grainFilter.setFloat('time', shaderTime);
-	vignette.setFloat('time', shaderTime);
 	wobblyBG.setFloat('uTime', shaderTime);
 }
 
