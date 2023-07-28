@@ -295,7 +295,7 @@ class PlayState extends MusicBeatState
 
 	var globalGradient:FlxSprite;
 
-	// Jason's cam thing
+	// cam thing taken from pibby apocalypse (sorry yall *sobs) -jason
 	var camTween:FlxTween;
 	var camTween2:FlxTween;
 	public var focusedCharacter:Character;
