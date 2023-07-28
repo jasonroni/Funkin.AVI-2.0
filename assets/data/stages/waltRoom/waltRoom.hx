@@ -1,10 +1,6 @@
 var pissOfGlory:FNFSprite;
 var greaterPiss:FNFSprite;
 
-var vhsFilter:FlxRuntimeShader;
-var grainFilter:FlxRuntimeShader;
-var shaderTime:Float = 0;
-
 function onCreate()
 {
 	spawnGirlfriend(false);
@@ -51,36 +47,4 @@ function onCreate()
 			vignette.active = false;
 			add(vignette);
 		}
-
-	vhsFilter = new FlxRuntimeShader(Shaders.vhsFilter, null, 130);
-
-	grainFilter = new FlxRuntimeShader(Shaders.cameraMovement, null, 150);
-
-	if(!lowQuality)
-		{
-			PlayState.camGame.setFilters(
-				[
-					new ShaderFilter(vhsFilter),
-					new ShaderFilter(grainFilter),
-				]);
-		} else {
-			PlayState.camGame.setFilters(
-				[
-					new ShaderFilter(vhsFilter),
-				]);
-		}
-}
-
-function charStagePos(boyfriend:Character, gf:Character, dad:Character)
-{
-	dad.setPosition(0, 0);
-    	boyfriend.setPosition(330, 300); //make sure to replace bf with a first-person pov variant
-}
-
-function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Character)
-{
-	//Shader stuff
-	shaderTime += elapsed;
-	vhsFilter.setFloat('time', shaderTime);
-	grainFilter.setFloat('time', shaderTime);
 }
