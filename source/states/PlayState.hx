@@ -57,6 +57,9 @@ import states.CutsceneState;
 import states.editors.CharacterOffsetEditor;
 import states.menus.*;
 import states.substates.GameOverSubstate;
+#if HXCPP_M32
+
+#else
 // This fixes 2.6.0 users
 #if (hxCodec >= "2.6.1")
 import hxcodec.VideoHandler;
@@ -64,6 +67,7 @@ import hxcodec.VideoHandler;
 import VideoHandler;
 #else
 import vlc.MP4Handler;
+#end
 #end
 #if desktop
 import base.dependency.Discord;
@@ -1633,13 +1637,13 @@ class PlayState extends MusicBeatState
 					switch (focusedCharacter.animation.curAnim.name.substring(4))
 					{
 						case 'UP' | 'UP-alt':
-							charAnimOffsetY -= 45;
+							charAnimOffsetY -= 50;
 						case 'DOWN' | 'DOWN-alt':
-							charAnimOffsetY += 45;
+							charAnimOffsetY += 50;
 						case 'LEFT' | 'LEFT-alt':
-							charAnimOffsetX -= 45;
+							charAnimOffsetX -= 50;
 						case 'RIGHT' | 'RIGHT-alt':
-							charAnimOffsetX += 45;
+							charAnimOffsetX += 50;
 					}
 				}
 			}
@@ -1662,7 +1666,7 @@ class PlayState extends MusicBeatState
 					ease: FlxEase.quadOut
 				});
 				camTween2 = FlxTween.tween(camGame, {
-					angle: 0 - charAnimOffsetX / 28 // me when angles :trollface:
+					angle: 0 - charAnimOffsetX / 26 // me when angles :trollface:
 				}, 0.8 / cameraSpeed, {
 					ease: FlxEase.sineOut
 				});
@@ -4112,6 +4116,9 @@ class PlayState extends MusicBeatState
 	/*
 		Extra functions and stuffs
 	 */	
+	 #if HXCPP_M32
+
+	 #else
 	public function createVideoCutscene(name:String)
 	{
 		callFunc('createVideoCutscene', [name]);
@@ -4131,6 +4138,7 @@ class PlayState extends MusicBeatState
 			return;
 		}
 	}
+	#end
 
 	// song end function at the end of the playstate lmao ironic I guess
 	function finishSong(ignoreOffset:Bool = false):Void
@@ -4684,12 +4692,16 @@ class PlayState extends MusicBeatState
 			logTrace(text, time, onConsole);
 		});
 
+		#if HXCPP_M32
+
+		#else
 		// gonna be useful someday
 		setVar('playVideoCutscene', function(video:String, isEnd:Bool = false)
 		{
 			@:privateAccess
 			CutsceneState.playCutscene(video);
 		});
+		#end
 
 		setVar('inCutscene', inCutscene);
 

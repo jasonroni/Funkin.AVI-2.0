@@ -25,7 +25,9 @@ class AutoSaveWarningState extends FlxState
 	    "Malfunction was originally NEVER suppose to be in the game.",
 	    "Some characters showcased in the game are in fact original ideas!",
 	    "You are delusional.",
-	    "No facts for now :)"
+	    "No facts for now :)",
+        "We kicked out 30 members throughout development.",
+        "This mod has about 200+ messages on the title and menu screens!"
     ];
 	
     var saveDetectorImage:AutoSaveLogo;
