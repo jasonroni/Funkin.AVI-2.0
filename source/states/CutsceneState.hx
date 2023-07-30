@@ -17,7 +17,7 @@ using StringTools;
 /**
  * not stolen from WI i swear
  */
- #if HXCPPP_M32
+#if !HXCPP_M32
 class CutsceneState extends FlxState
 {
    public static var completedCutscene:Bool = false;
@@ -79,5 +79,15 @@ class CutsceneState extends FlxState
          FlxG.switchState(new states.warnings.WarningState());
       }
    }
+}
+#else
+class CutsceneState {
+   public static var completedCutscene:Bool = false;
+   public static var isOutro:Bool = false;
+   public var cutscene:String;
+
+   private static function onFinishCallBack():Void {}
+   private static function playCutscene(name:String, isEnd:Bool = false) {}
+   public function new(cutscene:String, isEnd:Bool = false) {}
 }
 #end
