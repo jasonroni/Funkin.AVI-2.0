@@ -4,17 +4,20 @@ import states.warnings.VHSTapeIntro;
 import flixel.FlxState;
 import states.PlayState;
 import flixel.FlxG;
- 
+
+#if !HXCPP_M32
 #if (hxCodec >= "3.0.0") import hxcodec.flixel.FlxVideo as VideoHandler;
 #elseif (hxCodec == "2.6.1") import hxcodec.VideoHandler as VideoHandler;
 #elseif (hxCodec == "2.6.0") import VideoHandler;
 #else import vlc.MP4Handler as VideoHandler; #end
+#end
 
 using StringTools;
 
 /**
  * not stolen from WI i swear
  */
+ #if HXCPPP_M32
 class CutsceneState extends FlxState
 {
    public static var completedCutscene:Bool = false;
@@ -77,3 +80,4 @@ class CutsceneState extends FlxState
       }
    }
 }
+#end
