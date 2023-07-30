@@ -57,14 +57,11 @@ import states.CutsceneState;
 import states.editors.CharacterOffsetEditor;
 import states.menus.*;
 import states.substates.GameOverSubstate;
-// This fixes 2.6.0 users
-#if (hxCodec >= "2.6.1")
-import hxcodec.VideoHandler;
-#elseif (hxCodec == "2.6.0")
-import VideoHandler;
-#else
-import vlc.MP4Handler;
-#end
+// This fixes hxCodec i think????
+#if (hxCodec >= "3.0.0") import hxcodec.flixel.FlxVideo as VideoHandler;
+#elseif (hxCodec == "2.6.1") import hxcodec.VideoHandler as VideoHandler;
+#elseif (hxCodec == "2.6.0") import VideoHandler;
+#else import vlc.MP4Handler as VideoHandler; #end
 #if desktop
 import base.dependency.Discord;
 #end
@@ -4119,11 +4116,7 @@ class PlayState extends MusicBeatState
 		inCutscene = true;
 
 		var filepath:String = Paths.video(name);
-		#if (hxCodec >= "2.6.0")
 		var video:VideoHandler = new VideoHandler();
-		#else
-		var video:MP4Handler = new MP4Handler();
-		#end
 		video.playVideo(filepath);
 		video.finishCallback = function()
 		{
