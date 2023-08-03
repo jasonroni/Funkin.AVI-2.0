@@ -13,11 +13,10 @@ uniform float iTime;
 uniform float uTime;
 uniform vec4 iMouse;
 
-
 #define V vec2(0.,1.)
 #define PI 3.14159265
 #define HUGE 1E9
-#define VHSRES vec2(iResolution.x, iResolution.y)
+#define VHSRES vec2(1280.0,720.0)
 #define saturate(i) clamp(i,0.,1.)
 #define lofi(i,d) floor(i/d)*d
 #define validuv(v) (abs(v.x-0.5)<0.5&&abs(v.y-0.5)<0.5)

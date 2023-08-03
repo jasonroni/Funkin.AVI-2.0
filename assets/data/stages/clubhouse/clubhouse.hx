@@ -22,34 +22,23 @@ function onCreate()
 		new ShaderFilter(monitorFilter),
 		new ShaderFilter(bloomEffect)
 	]);
-	
-	if(PlayState.SONG.song == 'Isolated')
-	{
-	PlayState.camHUD.alpha = 0;
-	
-	var fade:FlxSprite = new FlxSprite(0,0).makeGraphic(1280, 720, 0x000000);
-	fade.scale.set(5,5);
-	fade.screenCenter();
-	add(fade);
-	
-	FlxTween.tween(fade, {alpha: 0}, 3, {ease: FlxEase.sineInOut, startDelay: 6});
-	FlxTween.tween(PlayState.camHUD, {alpha: 1}, 3, {ease: FlxEase.sineInOut, startDelay: 9});
-	}
 
-	var background:FNFSprite = new FNFSprite(-400, -300).loadGraphic(Paths.image('bg', 'data/stages/clubhouse/images'));
-	background.scale.set(1.2, 1.2);
-	background.updateHitbox();
-	background.antialiasing = true;
-	background.scrollFactor.set(0.7, 0.7);
-	background.active = false;
-	add(background);
+	var muckneysHouse:FNFSprite = new FNFSprite(-410, -100).loadGraphic(Paths.image('muckneybg', 'data/stages/clubhouse/images'));
+	muckneysHouse.scale.set(1.9, 1.8);
+	muckneysHouse.updateHitbox();
+	muckneysHouse.antialiasing = true;
+	muckneysHouse.scrollFactor.set(1, 1);
+	muckneysHouse.active = false;
+	add(muckneysHouse);
 
-	var clubhouse:FNFSprite = new FNFSprite(-400, -300).loadGraphic(Paths.image('street', 'data/stages/clubhouse/images'));
-	clubhouse.scale.set(1.2, 1.2);
+	var clubhouse:FlxSprite = new FlxSprite(-410, -100);
+	clubhouse.frames = Paths.getSparrowAtlas('balloons', 'data/stages/clubhouse/images');
+	clubhouse.animation.addByPrefix('balloons bounce', 'balloons bounce', 10, true);
+	clubhouse.animation.play('balloons bounce');
+	clubhouse.scale.set(1.85, 1.75);
 	clubhouse.updateHitbox();
 	clubhouse.antialiasing = true;
-	clubhouse.scrollFactor.set(1, 1);
-	clubhouse.active = false;
+	clubhouse.scrollFactor.set(1.1, 1.1);
 	add(clubhouse);
 
 	var vignette:FNFSprite = new FNFSprite(-250, -140).loadGraphic(Paths.image('vignetteOverlay', 'data/stages/clubhouse/images'));

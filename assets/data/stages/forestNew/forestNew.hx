@@ -62,6 +62,7 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 						treesFront.shader = wobblyBG;
 					}
 			}
+		}
 		
 	if (curBeat == 256)
 		{
@@ -73,7 +74,6 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 					treesFront.shader = null;
 				}
 		}
-	}
 }
 
 function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Character)

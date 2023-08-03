@@ -57,7 +57,9 @@ import states.CutsceneState;
 import states.editors.CharacterOffsetEditor;
 import states.menus.*;
 import states.substates.GameOverSubstate;
-#if !HXCPP_M32
+#if HXCPP_M32
+
+#else
 // This fixes 2.6.0 users
 #if (hxCodec >= "2.6.1")
 import hxcodec.VideoHandler;
@@ -819,7 +821,7 @@ class PlayState extends MusicBeatState
 					i.alpha = 0.001; // 0.001 doesn't cause lag when setting alpha above 0 for some reason, yet it's still invisible
 				}
 				
-			case 'Isolated' | 'Lunacy':
+			case 'Isolated' | 'Lunacy' | 'Cycled Sins':
 				for (i in strumHUD)
 				{
 					i.alpha = 0.001;
@@ -3501,6 +3503,18 @@ class PlayState extends MusicBeatState
 				}
 				
 			case 'Delusional':
+			if (curBeat == 146) manageLyrics('bf-demon', 'Count the minutes...', 'disneyFreeplayFont', 30, 1.1, 'sineInOut');
+			if (curBeat == 150) manageLyrics('bf-demon', "...of how long...", 'disneyFreeplayFont', 30, 1, 'sineInOut');
+			if (curBeat == 154) manageLyrics('bf-demon', "...this show will play!", 'disneyFreeplayFont', 30, 2.2, 'quartInOut');
+			if (curBeat == 162) manageLyrics('bf-demon', "And remind yourself...", 'disneyFreeplayFont', 30, 1.3, 'sineInOut');
+			if (curBeat == 167) manageLyrics('bf-demon', "...no matter what's in...", 'disneyFreeplayFont', 30, 2, 'sineInOut');
+			if (curBeat == 174) manageLyrics('bf-demon', "...THE WAY!", 'disneyFreeplayFont', 30, 1, 'circOut');
+			if (curBeat == 178) manageLyrics('bf-demon', "All your dreams...", 'disneyFreeplayFont', 30, 1, 'sineInOut');
+			if (curBeat == 182) manageLyrics('bf-demon', "...ARE SO FAR OUT OF REACH!", 'disneyFreeplayFont', 30, 4, 'quartInOut');
+			if (curBeat == 190) manageLyrics('bf-demon', "But if YOUR delusions...", 'disneyFreeplayFont', 30, 2.2, 'sineInOut');
+			if (curBeat == 196) manageLyrics('bf-demon', "...loop around then...", 'disneyFreeplayFont', 30, 1.3, "quartOut");
+			if (curBeat == 200) manageLyrics('bf-demon', "...let's LOOP 'ROUND ONCE MORE.", 'satanFont', 30, 3, "sineInOut");
+			
 				switch (curBeat)
 				{
 					case 132: defaultCamZoom = 1.3;
@@ -3627,6 +3641,7 @@ class PlayState extends MusicBeatState
 							]);
 						}
 						chromEffect = 0.00001;
+						defaultCamZoom = 0.65;
 					case 480:
 						// no healthbar to add more onto the atmosphere of this section
 						camGame.visible = true;
@@ -3637,6 +3652,7 @@ class PlayState extends MusicBeatState
 					case 744:
 						camGame.alpha = 1;
 						camHUD.visible = true;
+						defaultCamZoom = 0.8;
 						for (i in strumHUD) i.alpha = 1;
 						chromEffect = 0.1;
 						if (!Init.trueSettings.get("Disable Flashing Lights")) camGame.flash(FlxColor.WHITE, 0.5);
@@ -3795,24 +3811,64 @@ class PlayState extends MusicBeatState
 				{
 					switch (curBeat)
 					{
-						case 158:
+						//Intro Cam Shit
+						case 16: camGame.alpha = 1;
+						case 32: PlayStateUtils.instance.tweenCamera(0.85, 5.5, 'quartInOut');
+						case 46:
+							PlayStateUtils.instance.tweenCamera(0.6, 0.6, 'sineInOut');
+							for (fuckTheseArrays in strumHUD)
+								FlxTween.tween(fuckTheseArrays, {alpha: 1}, 0.8, {ease: FlxEase.circInOut});
+							FlxTween.tween(camHUD, {alpha: 1}, 0.8, {ease: FlxEase.circInOut});
+
+						//Phase 1 Section
+						case 174:
 							relapseGimmick(0.7, 0.3);
-						case 164 | 166 | 180 | 182:
+						case 180 | 182 | 196 | 198 | 212 | 254 | 286 | 303:
 							relapseGimmick(0.35, 0.15);
-						case 172 | 204:
+						case 188 | 204:
 							relapseGimmick(1.4, 0.6);
-						case 190:
+						case 206:
 							relapseGimmick(0.7, 0.54);
-						case 212:
+						case 214:
 							relapseGimmick(0.7, 0.8);
-						case 222 | 264 | 196:
+						case 222 | 228 | 244:
 							relapseGimmick(0.7, 1);
 						case 236:
 							relapseGimmick(0.7, 0.4);
-						case 248:
+						case 248 | 262 | 276:
 							relapseGimmick(1.4, 1.2);
-						case 270:
+						case 270 | 294:
 							relapseGimmick(0.7, 1.5);
+
+						// Cam Shit and Lyrics for intro to Phase 2
+						case 366:
+							for (bitch in strumHUD)
+								FlxTween.tween(bitch, {alpha: 0}, 1);
+							FlxTween.tween(camHUD, {alpha: 0}, 1);
+
+						case 381: manageLyrics('relapse-gun-pixel', 'You REALLY think this is...', 'calibri-regular', 30, 1.1, 'sineInOut');
+						case 384: manageLyrics('relapse-gun-pixel', '...some kind of...', 'calibri-regular', 30, 1.4, 'sineInOut');
+						case 388: manageLyrics('relapse-gun-pixel', '...silly little GAME?', 'calibri-regular', 30, 1.15, 'sineInOut');
+						case 394: manageLyrics('relapse-gun-pixel', 'Soon enough...', 'calibri-regular', 30, 1.3, 'sineInOut');
+						case 398: manageLyrics('relapse-gun-pixel', "...you'll understand what ME...", 'calibri-regular', 30, 1.5, 'sineInOut');
+						case 404: manageLyrics('relapse-gun-pixel', '...AND MY FRIENDS...', 'calibri-regular', 30, 1.6, 'sineInOut');
+						case 408: manageLyrics('relapse-gun-pixel', '...HAVE TO GO THROUGH!', 'calibri-regular', 30, 1.1, 'sineInOut');
+						case 413: manageLyrics('relapse-gun-pixel', 'Sooner or later...', 'calibri-regular', 30, 1.1, 'sineInOut');
+						case 417: manageLyrics('relapse-gun-pixel', '...your DEATH will be nothing...', 'calibri-regular', 30, 1.1, 'sineInOut');
+						case 420: manageLyrics('relapse-gun-pixel', '...BUT CYCLED SINS!', 'calibri-regular', 30, 1.1, 'sineInOut');
+
+						case 432:
+							for (bitch in strumHUD)
+								FlxTween.tween(bitch, {alpha: 1}, 0.5, {ease: FlxEase.sineOut});
+							FlxTween.tween(camHUD, {alpha: 1}, 0.5, {ease: FlxEase.sineOut});
+
+						//Phase 2 Section
+					}
+
+					if (curBeat == 400 || curBeat == 404 || curBeat == 408 || curBeat == 412 || curBeat == 416 || curBeat == 420 || curBeat == 424 || curBeat == 428)
+					{
+						flashBGEffect('normal', 0.32, 1.2, 'linear', 255, 0, 0);
+						FlxG.camera.zoom += 0.1;
 					}
 				}
 
@@ -4124,7 +4180,11 @@ class PlayState extends MusicBeatState
 		inCutscene = true;
 
 		var filepath:String = Paths.video(name);
+		#if (hxCodec >= "2.6.0")
 		var video:VideoHandler = new VideoHandler();
+		#else
+		var video:MP4Handler = new MP4Handler();
+		#end
 		video.playVideo(filepath);
 		video.finishCallback = function()
 		{

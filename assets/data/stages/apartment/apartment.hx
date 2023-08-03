@@ -24,7 +24,7 @@ function onCreate()
     chrom.setFloat('aberration', 0.12);
     chrom.setFloat('effectTime', 0.24);
     phase2Static = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
-    glitchBG = new FlxRuntimeShader(Shaders.vignetteGlitch, null, 130);
+    glitchBG = new FlxRuntimeShader(File.getContent('./assets/shaders/vignetteGlitch.frag'), null, 130);
     vignette = new FlxRuntimeShader(File.getContent('./assets/shaders/vignetteApparition.frag'), null, 120);
 
     PlayState.camGame.setFilters(

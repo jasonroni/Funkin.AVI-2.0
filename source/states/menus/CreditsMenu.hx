@@ -125,8 +125,6 @@ class CreditsMenu extends MusicBeatState
         creditIconSprite.setGraphicSize(Std.int(creditIconSprite.width * creditArray[curSelected][6]));
         add(creditIconSprite);
 
-        changeSelection();
-
         super.create();
 
         cool_1980_shader = new FlxRuntimeShader(File.getContent('./assets/shaders/1980_shader.frag'), null, 140);
@@ -155,6 +153,8 @@ class CreditsMenu extends MusicBeatState
 			grain.scale.y = 1.1;
 			add(grain);
 		}
+
+        changeSelection(0);
     }
 
     var shaderTime:Float = 0;
@@ -207,7 +207,7 @@ class CreditsMenu extends MusicBeatState
         creditIconSprite.setGraphicSize(Std.int(creditIconSprite.width * creditArray[curSelected][6]));
         creditIconSprite.setPosition(creditArray[curSelected][4], creditArray[curSelected][5]);
 
-        if (newSelect != 0) FlxG.sound.play(Paths.sound('base/menus/scrollMenu'), 0.6);
+        FlxG.sound.play(Paths.sound('base/menus/scrollMenu'), 0.6);
 
         reloadText(creditArray[curSelected][7]);
 
