@@ -616,7 +616,7 @@ class CharacterSelectorSubstate extends MusicBeatSubstate
 
 		for (i in 0...characters.length)
 		{
-			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, CoolUtil.swapSpaceDash(characters[i]), true, false);
+			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, characters[i], true, false);
 			songText.isMenuItem = true;
 			songText.targetY = i;
 			grpChars.add(songText);

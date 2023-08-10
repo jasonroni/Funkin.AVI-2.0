@@ -418,7 +418,7 @@ class PlayState extends MusicBeatState
 
 		add(stageBuild.layers);
 		
-		stageBGFlash = new FlxSprite(-800, -200).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFFFFFFF);
+		stageBGFlash = new FlxSprite(-8000, -8000).makeGraphic(100000, 100000, 0xFFFFFFFF);
 		stageBGFlash.alpha = 0.0001; // it's at this value so the game doesn't lag when it becomes visible
 		add(stageBGFlash);
 
@@ -1205,10 +1205,11 @@ class PlayState extends MusicBeatState
 			*
 			* @param reactionTime - Amount of time you have to react before he shoots you
 			* @param damageAmount - how much health it'll remove if you fail to dodge
+			*  @param doubleBarrel - if Relapse Mouse shoots twice instead of once
 			*
 			* @author DEMOLITIONDON96
 			*/
-			public function relapseGimmick(reactionTime:Float = 2, damageAmount:Float = 0.4)
+			public function relapseGimmick(reactionTime:Float = 2, damageAmount:Float = 0.4, ?doubleBarrel:Bool = false)
 			{
 				callFunc('relapseGimmick', [reactionTime, damageAmount]);
 		
@@ -1230,7 +1231,6 @@ class PlayState extends MusicBeatState
 					FlxG.sound.play(Paths.sound('funkinAVI/relapseMechs/Shoot'), 0.4);
 					opponent.playAnim("attack", true);
 					opponent.specialAnim = true;
-					defaultCamZoom = 0.6;
 					checkCamPosition();
 					new FlxTimer().start(0.1, function(tmr:FlxTimer) {
 					if(!dodged) {
@@ -1242,12 +1242,81 @@ class PlayState extends MusicBeatState
 								FlxG.stage.window.title += ' - lmfao you got shot depsite the fact this is nerfed'; // troll
 								new FlxTimer().start(5, _ -> PlayStateUtils.instance.loadWindowTitleData());
 							}
-						dodged = false;
+						if (doubleBarrel)
+						{
+							defaultCamZoom = 1.25;
+							new FlxTimer().start(0.275, function(tmr:FlxTimer){
+								FlxG.sound.play(Paths.sound('funkinAVI/relapseMechs/Shoot'), 0.4);
+								opponent.playAnim("attack", true);
+								opponent.specialAnim = true;
+								checkCamPosition();
+								if(!dodged) {
+									FlxG.camera.shake(0.05, 0.05);
+									PlayState.health -= damageAmount / 2;
+									trace("lmfao you got shot depsite the fact this is nerfed");
+									if (!FlxG.stage.window.title.contains(' - lmfao you got shot depsite the fact this is nerfed'))
+										{
+											FlxG.stage.window.title += " - bet you didn't expect him to shoot twice this time around lol"; // troll
+											new FlxTimer().start(5, _ -> PlayStateUtils.instance.loadWindowTitleData());
+										}
+									dodged = false;
+									shootin = false;
+									defaultCamZoom = 0.6;
+								} else {
+									boyfriend.playAnim('dodge');
+									dodged = false;
+									shootin = false;
+									health += 0.05;
+									defaultCamZoom = 0.6;
+								}
+							});
+						}
+						else
+						{
+							dodged = false;
+							shootin = false;
+							defaultCamZoom = 0.6;
+						}
 					} else {
-						boyfriend.playAnim('dodge');
-						dodged = false;
-						shootin = false;
-						health += 0.05;
+						if (doubleBarrel)
+						{
+							defaultCamZoom = 1.25;
+							dodged = false;
+							health += 0.05;
+							new FlxTimer().start(0.275, function(tmr:FlxTimer){
+								FlxG.sound.play(Paths.sound('funkinAVI/relapseMechs/Shoot'), 0.4);
+								opponent.playAnim("attack", true);
+								opponent.specialAnim = true;
+								checkCamPosition();
+								if(!dodged) {
+									FlxG.camera.shake(0.05, 0.05);
+									PlayState.health -= damageAmount / 2;
+									trace("lmfao you got shot depsite the fact this is nerfed");
+									if (!FlxG.stage.window.title.contains(' - lmfao you got shot depsite the fact this is nerfed'))
+										{
+											FlxG.stage.window.title += " - bet you didn't expect him to shoot twice this time around lol"; // troll
+											new FlxTimer().start(5, _ -> PlayStateUtils.instance.loadWindowTitleData());
+										}
+									dodged = false;
+									shootin = false;
+									defaultCamZoom = 0.6;
+								} else {
+									boyfriend.playAnim('dodge');
+									dodged = false;
+									shootin = false;
+									health += 0.05;
+									defaultCamZoom = 0.6;
+								}
+							});
+						}
+						else
+						{
+							boyfriend.playAnim('dodge');
+							dodged = false;
+							shootin = false;
+							health += 0.05;
+							defaultCamZoom = 0.6;
+						}
 					}
 					});
 				});
@@ -3807,7 +3876,7 @@ class PlayState extends MusicBeatState
 				}
 					
 			case 'Cycled Sins':
-				if (!Init.trueSettings.get('Disable Mechanics'))
+				if (!Init.trueSettings.get("Disable Mechanics"))
 				{
 					switch (curBeat)
 					{
@@ -3820,25 +3889,25 @@ class PlayState extends MusicBeatState
 								FlxTween.tween(fuckTheseArrays, {alpha: 1}, 0.8, {ease: FlxEase.circInOut});
 							FlxTween.tween(camHUD, {alpha: 1}, 0.8, {ease: FlxEase.circInOut});
 
-						//Phase 1 Section
-						case 174:
-							relapseGimmick(0.7, 0.3);
-						case 180 | 182 | 196 | 198 | 212 | 254 | 286 | 303:
-							relapseGimmick(0.35, 0.15);
-						case 188 | 204:
-							relapseGimmick(1.4, 0.6);
-						case 206:
-							relapseGimmick(0.7, 0.54);
-						case 214:
-							relapseGimmick(0.7, 0.8);
-						case 222 | 228 | 244:
-							relapseGimmick(0.7, 1);
-						case 236:
-							relapseGimmick(0.7, 0.4);
-						case 248 | 262 | 276:
-							relapseGimmick(1.4, 1.2);
-						case 270 | 294:
-							relapseGimmick(0.7, 1.5);
+							//Phase 1 Section
+								case 174:
+									relapseGimmick(0.7, 0.3);
+								case 180 | 182 | 196 | 198 | 212 | 254 | 286 | 303:
+									relapseGimmick(0.35, 0.15);
+								case 188 | 204:
+									relapseGimmick(1.4, 0.6);
+								case 206:
+									relapseGimmick(0.7, 0.54);
+								case 214:
+									relapseGimmick(0.7, 0.8);
+								case 222 | 228 | 244:
+									relapseGimmick(0.7, 1);
+								case 236:
+									relapseGimmick(0.7, 0.4);
+								case 248 | 262 | 276:
+									relapseGimmick(1.4, 1.2);
+								case 270 | 294:
+									relapseGimmick(0.7, 1.5);
 
 						// Cam Shit and Lyrics for intro to Phase 2
 						case 366:
@@ -3863,14 +3932,74 @@ class PlayState extends MusicBeatState
 							FlxTween.tween(camHUD, {alpha: 1}, 0.5, {ease: FlxEase.sineOut});
 
 						//Phase 2 Section
+							case 434:
+								relapseGimmick(0.35, 0.5);
+							case 438:
+								relapseGimmick(0.35, 1, true);
+							case 446:
+								relapseGimmick(0.7, 0.35);
+							case 453:
+								relapseGimmick(0.7, 1, true);
+							case 460:
+								relapseGimmick(0.7, 0.9);
+							case 467:
+								relapseGimmick(0.35, 1.8, true);
+							case 471:
+								relapseGimmick(0.35, 1.1);
+							case 474:
+								relapseGimmick(0.35, 1.5);
+							case 476:
+								relapseGimmick(0.7, 1, true);
+							case 484:
+								relapseGimmick(0.35, 1.3);
+							case 486:
+								relapseGimmick(0.35, 2);
+							case 494:
+								relapseGimmick(0.35, 1.3, true);
 					}
+				}
+				else
+				{
+					switch (curBeat)
+					{
+						//Intro Cam Shit
+						case 16: camGame.alpha = 1;
+						case 32: PlayStateUtils.instance.tweenCamera(0.85, 5.5, 'quartInOut');
+						case 46:
+							PlayStateUtils.instance.tweenCamera(0.6, 0.6, 'sineInOut');
+							for (fuckTheseArrays in strumHUD)
+								FlxTween.tween(fuckTheseArrays, {alpha: 1}, 0.8, {ease: FlxEase.circInOut});
+							FlxTween.tween(camHUD, {alpha: 1}, 0.8, {ease: FlxEase.circInOut});
+
+						// Cam Shit and Lyrics for intro to Phase 2
+						case 366:
+							for (bitch in strumHUD)
+								FlxTween.tween(bitch, {alpha: 0}, 1);
+							FlxTween.tween(camHUD, {alpha: 0}, 1);
+
+						case 381: manageLyrics('relapse-gun-pixel', 'You REALLY think this is...', 'calibri-regular', 30, 1.1, 'sineInOut');
+						case 384: manageLyrics('relapse-gun-pixel', '...some kind of...', 'calibri-regular', 30, 1.4, 'sineInOut');
+						case 388: manageLyrics('relapse-gun-pixel', '...silly little GAME?', 'calibri-regular', 30, 1.15, 'sineInOut');
+						case 394: manageLyrics('relapse-gun-pixel', 'Soon enough...', 'calibri-regular', 30, 1.3, 'sineInOut');
+						case 398: manageLyrics('relapse-gun-pixel', "...you'll understand what ME...", 'calibri-regular', 30, 1.5, 'sineInOut');
+						case 404: manageLyrics('relapse-gun-pixel', '...AND MY FRIENDS...', 'calibri-regular', 30, 1.6, 'sineInOut');
+						case 408: manageLyrics('relapse-gun-pixel', '...HAVE TO GO THROUGH!', 'calibri-regular', 30, 1.1, 'sineInOut');
+						case 413: manageLyrics('relapse-gun-pixel', 'Sooner or later...', 'calibri-regular', 30, 1.1, 'sineInOut');
+						case 417: manageLyrics('relapse-gun-pixel', '...your DEATH will be nothing...', 'calibri-regular', 30, 1.1, 'sineInOut');
+						case 420: manageLyrics('relapse-gun-pixel', '...BUT CYCLED SINS!', 'calibri-regular', 30, 1.1, 'sineInOut');
+
+						case 432:
+							for (bitch in strumHUD)
+								FlxTween.tween(bitch, {alpha: 1}, 0.5, {ease: FlxEase.sineOut});
+							FlxTween.tween(camHUD, {alpha: 1}, 0.5, {ease: FlxEase.sineOut});
+					}
+				}
 
 					if (curBeat == 400 || curBeat == 404 || curBeat == 408 || curBeat == 412 || curBeat == 416 || curBeat == 420 || curBeat == 424 || curBeat == 428)
 					{
 						flashBGEffect('normal', 0.32, 1.2, 'linear', 255, 0, 0);
 						FlxG.camera.zoom += 0.1;
 					}
-				}
 
 			case 'Malfunction':
 				switch (curBeat)
