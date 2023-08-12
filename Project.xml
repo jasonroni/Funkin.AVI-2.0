@@ -68,7 +68,7 @@
 	<haxelib name="systools" if="GAMEJOLT_ALLOWED"/>
 	<ndll name="systools" haxelib="systools" if="GAMEJOLT_ALLOWED"/>
 
-	<haxelib name="hxCodec" if="desktop || android" unless"32bits"/>
+	<haxelib name="hxCodec" if="desktop || android" unless= "32bits"/>
 	<haxelib name="SScript" if="desktop" />
 	<haxelib name="hxcpp-debug-server" if="desktop" />
 	
