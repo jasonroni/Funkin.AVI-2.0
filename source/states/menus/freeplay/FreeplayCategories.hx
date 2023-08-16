@@ -1,30 +1,30 @@
 package states.menus.freeplay;
 
 import base.dependency.Discord;
-import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.addons.display.FlxBackdrop;
-import flixel.addons.display.FlxGridOverlay;
-import flixel.addons.text.FlxTypeText;
+import flixel.FlxCamera;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.effects.FlxFlicker;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.input.keyboard.FlxKey;
-import flixel.math.FlxMath;
+import flixel.addons.display.FlxBackdrop;
+import flixel.addons.display.FlxGridOverlay;
 import flixel.text.FlxText;
+import flixel.addons.text.FlxTypeText;
+import flixel.math.FlxMath;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import lime.app.Application;
-import objects.fonts.Alphabet;
+import flixel.input.keyboard.FlxKey;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.BitmapFilter;
-import openfl.filters.ShaderFilter;
 import openfl.utils.Assets as OpenFlAssets;
+import openfl.filters.ShaderFilter;
+import objects.fonts.Alphabet;
 
 using StringTools;
 
@@ -58,6 +58,9 @@ class FreeplayCategories extends MusicBeatState {
 
 		super.create();
 
+		if (!FlxG.mouse.visible)
+			FlxG.mouse.visible = true;
+		
 		defaultShader2 = new FlxRuntimeShader(Shaders.monitorFilter, null, 140);
 		FlxG.camera.setFilters(
 			[
@@ -219,6 +222,7 @@ class FreeplayCategories extends MusicBeatState {
 
 
         if ((Controls.getPressEvent("accept"))){
+			FlxG.mouse.visible = false;
             	states.menus.freeplay.FreeplaySongs.freeplayMenuList = curSelected;
 		Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
         }
@@ -226,9 +230,61 @@ class FreeplayCategories extends MusicBeatState {
 		if (curSelected != lastCurSelected)
 			updateSelection();
 
+		if (FlxG.mouse.justMoved)
+			{
+				for (i in 0...grpCats.length)
+				{
+					if (i != curSelected)
+					{
+						if (FlxG.mouse.overlaps(grpCats.members[i]) && !FlxG.mouse.overlaps(grpCats.members[curSelected]))
+						{
+							changeSelection(i);
+						}
+					}
+				}
+			}
+
+			if (FlxG.mouse.justPressed)
+			{
+				if (FlxG.mouse.overlaps(grpCats.members[curSelected]))
+				{
+					FlxG.mouse.visible = false;
+					states.menus.freeplay.FreeplaySongs.freeplayMenuList = curSelected;
+					Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
+				}
+			}
+
         super.update(elapsed);
     }
 
+	function changeSelection(selection:Int)
+		{
+			if (selection != curSelected)
+			{
+				FlxG.sound.play(Paths.sound('base/menus/scrollMenu'));
+			}
+	
+			if (selection < 0)
+				selection = freeplayCats.length - 1;
+			if (selection >= freeplayCats.length)
+				selection = 0;
+	
+			for (i in 0...freeplayCats.length)
+			{
+				var menuItem:FlxSprite = grpCats.members[i];
+				if (i == selection)
+				{
+					menuItem.alpha = 1.0;
+				}
+				else
+				{
+					menuItem.alpha = 0.45;
+				}
+			}
+	
+			curSelected = selection;
+		}
+		
 	var lastCurSelected:Int = 0;
 
 	private function updateSelection()
