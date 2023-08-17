@@ -249,7 +249,7 @@ class FreeplaySongs extends MusicBeatState
 
 		bg = new FlxSprite();
 		if (freeplayMenuList == 2)
-			bg.loadGraphic(Paths.image(path + 'menuFreeplay')););
+			bg.loadGraphic(Paths.image(path + 'menuFreeplay'));
 		else
 			bg.loadGraphic(Paths.image(path + 'fp-bg'));
 		add(bg);
