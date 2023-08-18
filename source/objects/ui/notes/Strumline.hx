@@ -173,6 +173,9 @@ class Receptor extends FlxSprite
 
 	public var overrideAlpha:Bool = false;
 
+	// this is malfunction
+	public var strumDirection:Float = 0;
+
 	public var setAlpha:Float = Init.trueSettings.get('Arrow Opacity') * 0.01;
 
 	public static var actions:Array<String> = ['left', 'down', 'up', 'right'];

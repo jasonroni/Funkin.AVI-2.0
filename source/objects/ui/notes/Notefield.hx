@@ -55,6 +55,8 @@ class Notefield extends FlxTypedGroup<Note>
 		var psuedoY:Float = (downscrollMultiplier * -((Conductor.songPosition - daNote.strumTime) * (0.45 * roundedSpeed)));
 		var psuedoX = 25 + daNote.noteVisualOffset;
 
+		daNote.noteDirection = strumline.receptors.members[Math.floor(daNote.noteData)].strumDirection;
+
 		daNote.y = receptorPosY
 			+ daNote.offsetY
 			+ (Math.cos(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoY)
@@ -65,7 +67,8 @@ class Notefield extends FlxTypedGroup<Note>
 			+ (Math.sin(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoY);
 
 		// also set note rotation
-		daNote.angle = -daNote.noteDirection;
+		if (daNote.isSustainNote) daNote.angle = -daNote.noteDirection;
+
 
 		// shitty note hack I hate it so much
 		var center:Float = receptorPosY + Note.swagWidth / 2;
@@ -119,5 +122,7 @@ class Notefield extends FlxTypedGroup<Note>
 				}
 			}
 		}
+
+		daNote.updateHitbox();
 	}
 }
