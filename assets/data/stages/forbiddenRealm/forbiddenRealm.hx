@@ -18,7 +18,7 @@ function onCreate()
 	accessPath = PlayState.SONG.song == 'Malfunction Legacy' ? 'PixelMouse' : 'malfunctionBG-NEW';
 	
 	staticBG = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
-	glitchBG = new FlxRuntimeShader(Shaders.vignetteGlitch, null, 130);
+	glitchBG = new FlxRuntimeShader(File.getContent('./assets/shaders/vignetteGlitch.frag'), null, 130);
 
 	fuckingsquares = new FlxSprite(-750, -850);
 	fuckingsquares.loadGraphic(Paths.image(accessPath, 'data/stages/forbiddenRealm/images'));
@@ -73,7 +73,7 @@ function onCreate()
 	mickeyEmitter.emitting = false;
 	
 	whiteBG = new FlxSprite(-800, -200).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFFFFFFF);
-	whiteBG.alpha = 0;
+	whiteBG.alpha = 0.001;
 	whiteBG.active = false;
 	add(whiteBG);
 	
@@ -91,6 +91,8 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 	{
 		if (curBeat == 160)
 		{
+			whiteBG.alpha = 1;
+			FlxTween.tween(whiteBG, {alpha: 0}, 2);
 			FlxTween.tween(fuckingsquares, {alpha: 0}, 5, {ease: FlxEase.sineOut});
 		}
 

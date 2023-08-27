@@ -115,5 +115,9 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 function charStagePos(boyfriend:Character, gf:Character, dad:Character)
 {
 	dad.setPosition(-861, -259);
-	boyfriend.setPosition(260, 0);
+
+	if (boyfriend.curCharacter == 'bf-demon')
+		boyfriend.setPosition(510, 170);
+	else
+		boyfriend.setPosition(260, 0);
 }

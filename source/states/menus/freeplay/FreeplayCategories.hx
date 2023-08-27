@@ -9,7 +9,10 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.effects.FlxFlicker;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.addons.display.FlxBackdrop;
+import flixel.addons.display.FlxGridOverlay;
 import flixel.text.FlxText;
+import flixel.addons.text.FlxTypeText;
 import flixel.math.FlxMath;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -27,19 +30,37 @@ using StringTools;
 
 class FreeplayCategories extends MusicBeatState {
 
-	var unfinishedText:FlxText;
+	//var unfinishedText:FlxText;
     	var freeplayCats:Array<String>;
 	var fpCateBanners:FlxSprite;
 	var grpCats:FlxTypedGroup<FlxSprite>;
 	var curSelected:Int = 0;
-	var noFreeplay:FlxText;
+	var catDesc:FlxTypeText;
 	var BG:FlxSprite;
+	var textInk:FlxSprite;
+	var welcome:FlxSprite;
+	var backdrop:FlxBackdrop;
 	var defaultShader2:FlxRuntimeShader;
+
+	var arrowFlash:FlxRuntimeShader = new FlxRuntimeShader(Shaders.flashyFlash, null, 120);
+	var flashThing:Float = 0;
+
+	var selectTween:FlxTween;
+	var unselectTween:FlxTween;
+
+	var catDescString:Array<String> = [
+		"Story Mode Songs: After the hell seen in Story Mode, everything that was seen was giarted, You can replay the events right this way.",
+		"Extra Songs: Hell lurks in every shadow, in every breath. An uncomfortable sense of unease takes hold as you venture through Disney where fear is a constant companion.",
+		"Legacy Songs: A place where long forgotten memories emerge from the shadows, bringing the past and your spectators back."
+	];
 	
    	 override function create(){
 
 		super.create();
 
+		if (!FlxG.mouse.visible)
+			FlxG.mouse.visible = true;
+		
 		defaultShader2 = new FlxRuntimeShader(Shaders.monitorFilter, null, 140);
 		FlxG.camera.setFilters(
 			[
@@ -53,11 +74,35 @@ class FreeplayCategories extends MusicBeatState {
 	    		freeplayCats = ['episodes', 'extras', 'legacy'];
     		//}
 
-        	BG = new FlxSprite().loadGraphic(Paths.image('menus/base/menuDesat'));
-		BG.color = FlxColor.GRAY;
-		BG.updateHitbox();
+        BG = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/freeplay/category/freeplayBG'));
 		BG.screenCenter();
 		add(BG);
+
+		backdrop = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0xFFFFFF, 0x33FFFFFF));
+		backdrop.velocity.set(40, 40);
+		backdrop.alpha = 0;
+        backdrop.setGraphicSize(Std.int(backdrop.width * 0.6));
+		FlxTween.tween(backdrop, {alpha: 1}, 0.5, {ease: FlxEase.quadOut});
+		add(backdrop);
+
+		textInk = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/freeplay/category/textBoxes'));
+		textInk.screenCenter();
+		add(textInk);
+
+		welcome = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/freeplay/category/freeplayTxt'));
+		welcome.screenCenter();
+		add(welcome);
+
+		catDesc = new FlxTypeText(0, 640, 500, catDescString[curSelected]);
+		catDesc.setFormat(Paths.font("Oceanic_Cocktail_Demo"), 28, FlxColor.WHITE, CENTER, OUTLINE, FlxColor.BLACK);
+		catDesc.borderSize = 1.2;
+		catDesc.screenCenter(X);
+		add(catDesc);
+
+
+		BG.scale.set(0.76, 0.76);
+		textInk.scale.set(0.76, 0.76);
+		welcome.scale.set(0.76, 0.76);
 
 		#if desktop
 		// Updating Discord Rich Presence
@@ -73,24 +118,27 @@ class FreeplayCategories extends MusicBeatState {
 		for (i in 0...freeplayCats.length)
 		{
 			var offset:Float = 108 - (Math.max(freeplayCats.length, 4) - 4) * 80;
-			var catsBanners:FlxSprite = new FlxSprite(0, (i * 100)  + offset).loadGraphic(Paths.image("menus/Funkin_avi/freeplay/categoryAssets/" + freeplayCats[i]));
+			var catsBanners:FlxSprite = new FlxSprite(0, 150).loadGraphic(Paths.image("menus/Funkin_avi/freeplay/category/menuOptions/" + freeplayCats[i]));
 			catsBanners.scale.set(0.6, 0.6);
 			catsBanners.ID = i;
-			catsBanners.screenCenter(X);
-			catsBanners.y += 158 + (0 * 25) - 200;
 			grpCats.add(catsBanners);
 
 			var scr:Float = (freeplayCats.length - 4) * 0.135;
 			catsBanners.scrollFactor.set(0, scr);
+
+			switch (catsBanners.ID)
+			{
+				case 0:
+					catsBanners.x = 50;
+				case 1:
+					catsBanners.x = 450;
+				case 2:
+					catsBanners.x = 850;
+			}
+
 			catsBanners.antialiasing = true;
 			catsBanners.updateHitbox();
 		}
-
-			unfinishedText = new FlxText(907, FlxG.height - 54, 0, "Currently, The category Menu is Unfinished, The Final Verion Will Be Different!", 25);
-			unfinishedText.scrollFactor.set();
-			unfinishedText.screenCenter(X);
-			unfinishedText.setFormat(Paths.font("NewWaltDisneyFontRegular-BPen.ttf"), 25, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-			add(unfinishedText);
 
 		if(!Init.trueSettings.get('Low Quality')) {
 			var scratchStuff:FlxSprite = new FlxSprite();
@@ -113,17 +161,24 @@ class FreeplayCategories extends MusicBeatState {
 		}
 
         updateSelection();
+
+		catDesc.start(0.02, true);
+
+		flashThing = 0.6;
+		FlxTween.tween(this, {flashThing: 0}, 1, {type: PINGPONG});
     }
 
 	var counterControl:Float = 0;
 
     override public function update(elapsed:Float){
 
-		var up = Controls.getPressEvent("ui_up", "pressed");
-		var down = Controls.getPressEvent("ui_down", "pressed");
-		var up_p = Controls.getPressEvent("ui_up");
-		var down_p = Controls.getPressEvent("ui_down");
+		var up = Controls.getPressEvent("ui_left", "pressed");
+		var down = Controls.getPressEvent("ui_right", "pressed");
+		var up_p = Controls.getPressEvent("ui_left");
+		var down_p = Controls.getPressEvent("ui_right");
 		var controlArray:Array<Bool> = [up, down, up_p, down_p];
+
+		arrowFlash.setFloat('progress', flashThing);
 
 		if ((controlArray.contains(true)))
 		{
@@ -167,35 +222,119 @@ class FreeplayCategories extends MusicBeatState {
 
 
         if ((Controls.getPressEvent("accept"))){
+			FlxG.mouse.visible = false;
             	states.menus.freeplay.FreeplaySongs.freeplayMenuList = curSelected;
 		Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
         }
 
-		if (Math.floor(curSelected) != lastCurSelected)
+		if (curSelected != lastCurSelected)
 			updateSelection();
+
+		if (FlxG.mouse.justMoved)
+			{
+				for (i in 0...grpCats.length)
+				{
+					if (i != curSelected)
+					{
+						if (FlxG.mouse.overlaps(grpCats.members[i]) && !FlxG.mouse.overlaps(grpCats.members[curSelected]))
+						{
+							changeSelection(i);
+						}
+					}
+				}
+			}
+
+			if (FlxG.mouse.justPressed)
+			{
+				if (FlxG.mouse.overlaps(grpCats.members[curSelected]))
+				{
+					FlxG.mouse.visible = false;
+					states.menus.freeplay.FreeplaySongs.freeplayMenuList = curSelected;
+					Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
+				}
+			}
 
         super.update(elapsed);
     }
 
+	function changeSelection(selection:Int)
+		{
+			if (selection != curSelected)
+			{
+				FlxG.sound.play(Paths.sound('base/menus/scrollMenu'));
+			}
+	
+			if (selection < 0)
+				selection = freeplayCats.length - 1;
+			if (selection >= freeplayCats.length)
+				selection = 0;
+	
+			for (i in 0...freeplayCats.length)
+			{
+				var menuItem:FlxSprite = grpCats.members[i];
+				if (i == selection)
+				{
+					menuItem.alpha = 1.0;
+				}
+				else
+				{
+					menuItem.alpha = 0.45;
+				}
+			}
+	
+			curSelected = selection;
+		}
+		
 	var lastCurSelected:Int = 0;
 
 	private function updateSelection()
 	{
 		// reset all selections
+		if (unselectTween != null)
+			unselectTween.cancel();
+		if (selectTween != null)
+			selectTween.cancel();
+
 		grpCats.forEach(function(spr:FlxSprite)
 		{
 			if (!Init.trueSettings.get('Disable Screen Shaders')) spr.shader = null;
-			spr.alpha = 0.45;
-			spr.updateHitbox();
+			unselectTween = FlxTween.tween(
+				spr, 
+				{
+					alpha: 0.45, 
+					'scale.x': 0.55, 
+					'scale.y': 0.55
+				}, 
+				0.1, 
+				{
+					ease: FlxEase.sineInOut, 
+					onComplete: function(twn:FlxTween)
+					{
+						unselectTween = null;
+					}
+				});
 		});
 
-		if (grpCats.members[Math.floor(curSelected)].alpha == 0.45)
+		if (!Init.trueSettings.get('Disable Screen Shaders')) grpCats.members[Math.floor(curSelected)].shader = arrowFlash;
+		selectTween = FlxTween.tween(
+		grpCats.members[Math.floor(curSelected)], 
 		{
-			grpCats.members[Math.floor(curSelected)].alpha = 1;
-		}
+			alpha: 1, 
+			'scale.x': 0.6, 
+			'scale.y': 0.6
+			}, 
+			0.12, 
+			{
+				ease: FlxEase.sineInOut, 
+				onComplete: function(twn:FlxTween)
+				{
+					selectTween = null;
+				}
+		});
 
-		grpCats.members[Math.floor(curSelected)].updateHitbox();
+		lastCurSelected = curSelected;
 
-		lastCurSelected = Math.floor(curSelected);
+		catDesc.resetText(catDescString[curSelected]);
+		catDesc.start(0.02, true);
 	}
 }

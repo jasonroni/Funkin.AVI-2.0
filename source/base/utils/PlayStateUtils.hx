@@ -314,12 +314,21 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
     public function opponentNoteHit():Void
         {
         switch (PlayState.SONG.song)
-        {   
+        {  
+            case 'Lunacy':
+                if (!Init.trueSettings.get('Disable Mechanics'))
+                {
+                    if (PlayState.opponent.curCharacter == 'lunamick-new')
+                    {
+                        if (PlayState.health > 0.2)
+                            PlayState.health -= 0.015;
+                    }
+                }
             case 'Delusional':
                 if (!Init.trueSettings.get('Disable Mechanics'))
                 {
                         if (PlayState.health > 0.1)
-                            PlayState.health -= 0.035;
+                            PlayState.health -= 0.022;
                 }
                 
             case 'Laugh Track':

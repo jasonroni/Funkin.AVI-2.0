@@ -5,11 +5,16 @@ import flixel.FlxState;
 import states.PlayState;
 import flixel.FlxG;
 
-#if !HXCPP_M32
-#if (hxCodec >= "3.0.0") import hxcodec.flixel.FlxVideo as VideoHandler;
-#elseif (hxCodec == "2.6.1") import hxcodec.VideoHandler as VideoHandler;
-#elseif (hxCodec == "2.6.0") import VideoHandler;
-#else import vlc.MP4Handler as VideoHandler; #end
+#if HXCPP_M32
+
+#else
+#if (hxCodec >= "2.6.1") 
+import hxcodec.VideoHandler;
+#elseif (hxCodec == "2.6.0")
+import VideoHandler;
+#else
+import vlc.MP4Handler;
+#end
 #end
 
 using StringTools;
@@ -17,7 +22,6 @@ using StringTools;
 /**
  * not stolen from WI i swear
  */
-#if !HXCPP_M32
 class CutsceneState extends FlxState
 {
    public static var completedCutscene:Bool = false;
@@ -46,7 +50,11 @@ class CutsceneState extends FlxState
       {
          FlxG.sound.music.stop();
    
+         #if (hxCodec >= "2.6.0")
          var video:VideoHandler = new VideoHandler();
+         #else
+         var video:MP4Handler = new MP4Handler();
+         #end
          
          isOutro = isEnd;
    
@@ -80,14 +88,3 @@ class CutsceneState extends FlxState
       }
    }
 }
-#else
-class CutsceneState {
-   public static var completedCutscene:Bool = false;
-   public static var isOutro:Bool = false;
-   public var cutscene:String;
-
-   private static function onFinishCallBack():Void {}
-   private static function playCutscene(name:String, isEnd:Bool = false) {}
-   public function new(cutscene:String, isEnd:Bool = false) {}
-}
-#end

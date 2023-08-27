@@ -32,7 +32,8 @@ class Main
 		"Not my fault. - Jason",
 		'We lied, there\'s no sex - Jason',
 		'We gonna fix it i swear - Jason',
-		'I want a quote... - Tycho'
+		'I want a quote... - Tycho',
+		'fue mi pene - Tinny'
 	];
 
 	public static function main()

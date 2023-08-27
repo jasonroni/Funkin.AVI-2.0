@@ -39,7 +39,7 @@ using StringTools;
 class MainMenu extends MusicBeatState
 {
 	var menuItems:FlxTypedGroup<FlxSprite>;
-	var curSelected:Float = 0;
+	var curSelected:Int = 0;
 
 	var bg:FlxSprite; // the background has been separated for more control
 	var magenta:FlxSprite;
@@ -201,6 +201,9 @@ class MainMenu extends MusicBeatState
 	// the create 'state'
 	override function create()
 	{
+		if (!FlxG.mouse.visible)
+			FlxG.mouse.visible = true;
+		
 		camGame = new FlxCamera(); // Main camera for objects and stuff
 
 		camHUD = new FlxCamera(); // for the grain effect and etc
@@ -366,10 +369,22 @@ class MainMenu extends MusicBeatState
 				menuItem.ID = i;
 				menuItem.screenCenter(X);
 				menuItem.x -= 100;
-				menuItem.y += 158 + (0 * 25) - 200;
 				menuItems.add(menuItem);
 				var scr:Float = (optionShit.length - 4) * 0.135;
 				menuItem.scrollFactor.set(0, scr);
+
+				switch (menuItem.ID)
+				{
+					case 0:
+						menuItem.y = 150;
+					case 1:
+						menuItem.y = 250;
+					case 2:
+						menuItem.y = 350;
+					case 3:
+						menuItem.y = 450;
+				}
+
 				menuItem.antialiasing = true;
 				menuItem.updateHitbox();
 
@@ -639,6 +654,28 @@ class MainMenu extends MusicBeatState
 		if (Math.floor(curSelected) != lastCurSelected)
 			updateSelection();
 
+		if (FlxG.mouse.justMoved)
+		{
+			for (i in 0...menuItems.length)
+			{
+				if (i != curSelected)
+				{
+					if (FlxG.mouse.overlaps(menuItems.members[i]) && !FlxG.mouse.overlaps(menuItems.members[curSelected]))
+					{
+						changeSelection(i);
+					}
+				}
+			}
+		}
+
+		if (FlxG.mouse.justPressed)
+		{
+			if (FlxG.mouse.overlaps(menuItems.members[curSelected]))
+			{
+				enterSelection();
+			}
+		}
+
 		super.update(elapsed);
 	}
 
@@ -647,7 +684,7 @@ class MainMenu extends MusicBeatState
 		{
 			if (selection != curSelected)
 			{
-				FlxG.sound.play(Paths.sound('scrollMenu'));
+				FlxG.sound.play(Paths.sound('base/menus/scrollMenu'));
 			}
 	
 			if (selection < 0)
@@ -664,7 +701,7 @@ class MainMenu extends MusicBeatState
 				}
 				else
 				{
-					menuItem.alpha = 0.5;
+					menuItem.alpha = 0.45;
 				}
 			}
 	
@@ -839,8 +876,10 @@ class MainMenu extends MusicBeatState
 						switch (daChoice)
 						{
 							case 'story_mode':
+								FlxG.mouse.visible = false;
 								Main.switchState(this, new states.menus.StoryMenu());
 							case 'credits':
+								FlxG.mouse.visible = false;
 								Main.switchState(this, new states.menus.CreditsMenu());
 							case 'options':
 								transIn = FlxTransitionableState.defaultTransIn;
