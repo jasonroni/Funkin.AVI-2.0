@@ -34,6 +34,18 @@
 				"$haxe-trace"
 			],
 			"label": "Update Assets"
+		},
+		{
+			"type": "lime",
+			"command": "test",
+			"targetConfiguration": "Windows / Final",
+			"problemMatcher": [
+				"$haxe-absolute",
+				"$haxe",
+				"$haxe-error",
+				"$haxe-trace"
+			],
+			"label": "lime: test windows -final"
 		}
 	]
 }

@@ -254,6 +254,12 @@ class Init extends FlxState
 			NOT_FORCED,
 			['Default', 'Hand', 'Mickey', 'Silhouette', 'The Eye']
 		],
+		"GPU Caching" => [
+			false,
+			Checkmark,
+			"If checked, your GPU's VRAM can be used to store some textures. Only enable if you have a good graphics card!",
+			NOT_FORCED,
+		],
 		"Timing Preset" => [
 			'forever',
 			Selector,
