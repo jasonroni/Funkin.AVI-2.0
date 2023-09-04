@@ -25,7 +25,10 @@ import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
 import gamejolt.GameJolt.GameJoltAPI;
 import gamejolt.GameJolt.GameJoltLogin;
+import haxe.io.Path;
 import objects.ui.AutoSaveLogo;
+import openfl.net.SharedObject;
+import openfl.net.SharedObjectFlushStatus;
 import states.MusicBeatState;
 import sys.io.File;
 
@@ -189,9 +192,10 @@ class MainMenu extends MusicBeatState
 	// the create 'state'
 	override function create()
 	{
-		// Ignore this won't work on your machine but works on mine i'm just testing things :)
-		/*@:privateAccess
-			trace(FlxG.save.get_the_path(path, "gameProgression")); */
+		var meta = openfl.Lib.current.stage.application.meta;
+		var path = meta["company"];
+		@:privateAccess
+		trace(FlxG.save.get_the_path(path, "gameProgression"));
 
 		if (!FlxG.mouse.visible)
 			FlxG.mouse.visible = true;
