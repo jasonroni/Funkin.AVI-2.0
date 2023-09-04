@@ -8,13 +8,14 @@
 import gamejolt.*;
 import globals.Paths;
 import globals.*; // using doesn't have '*' support
+import base.Controls;
+import base.dependency.ForeverDeps;
+import base.utils.CoolUtil;
+import flixel.addons.display.FlxRuntimeShader;
+import globals.TypedefUtilities;
+import globals.GameData;
+import globals.Main;
+import base.dependency.Shaders;
+
 using StringTools;
-using base.Controls;
-using base.dependency.ForeverDeps;
-using base.utils.CoolUtil;
-using flixel.addons.display.FlxRuntimeShader;
-using globals.TypedefUtilities;
-using globals.GameData;
-using globals.Main;
-using base.dependency.Shaders;
 #end
