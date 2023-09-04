@@ -1,22 +1,22 @@
 package base.utils;
 
-import haxe.io.Path;
-import lime.utils.Assets;
-import states.PlayState;
-import lime.app.Application;
-import openfl.filters.BitmapFilter;
-import openfl.filters.ShaderFilter;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
+import haxe.io.Path;
+import lime.app.Application;
+import lime.utils.Assets;
+import openfl.filters.BitmapFilter;
+import openfl.filters.ShaderFilter;
+import states.PlayState;
 
 using StringTools;
+
 #if sys
 import sys.FileSystem;
 #end
-
 
 class CoolUtil
 {
@@ -28,7 +28,10 @@ class CoolUtil
 
 	private var SONG = PlayState.SONG;
 
-	public function new() {staticAccess = this;}
+	public function new()
+	{
+		staticAccess = this;
+	}
 
 	public static var staticAccess:CoolUtil;
 
