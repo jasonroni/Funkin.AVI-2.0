@@ -9,6 +9,7 @@ import openfl.text.TextFormatAlign;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.input.keyboard.FlxKey;
 import flixel.input.keyboard.FlxKeyboard;
 import flixel.util.FlxSave;
