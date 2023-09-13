@@ -7,6 +7,14 @@ import openfl.text.TextField;
 import openfl.text.TextFormat;
 import openfl.text.TextFormatAlign;
 import flixel.FlxG;
+import flixel.FlxObject;
+import flixel.FlxSprite;
+import flixel.input.keyboard.FlxKey;
+import flixel.input.keyboard.FlxKeyboard;
+import flixel.util.FlxSave;
+import flixel.text.FlxText;
+import flixel.addons.text.FlxTypeText;
+import base.system.CppAPI;
 import flixel.FlxState;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -22,6 +30,13 @@ class FlxSplash extends FlxState
 	 */
 	public static var muted:Bool = #if html5 true #else false #end;
 
+	var devTeamLogo:FlxSprite;
+	var spriteFlash:FlxRuntimeShader;
+	var customHaxeFlixelLogo:FlxSprite;
+	var funiText:FlxTypeText;
+
+	var glitchFilterThingy:FlxRuntimeShader; //oh looks, yous gots malfuntion ashfreowifr
+	
 	var _sprite:Sprite;
 	var _gfx:Graphics;
 	var _text:TextField;
