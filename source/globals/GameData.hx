@@ -60,8 +60,9 @@ class GameData
     public static var GJ_username:String = "";
     public static var GJ_token:String = "";
 	
-    // Warning Screen
+    // Intro Stuff
     public static var hasSeenWarning:Bool = false;
+    public static var hasSeenFlxSplash:Bool = false;
 	
     // Hidden Songs
     public static var canAddMalfunction:Bool = false;
@@ -93,6 +94,7 @@ class GameData
         if(FlxG.save.data.gjToken == null) FlxG.save.data.gjToken = "";
 	    
 	if (FlxG.save.data.hasSeenWarning == null) FlxG.save.data.hasSeenWarning = false;
+	if (FlxG.save.data.hasSeenFlxSplash == null) FlxG.save.data.hasSeenFlxSplash = false;
 	    
 	if (FlxG.save.data.legacyILock == null) FlxG.save.data.legacyILock = 'locked';
 	if (FlxG.save.data.legacyLLock == null) FlxG.save.data.legacyLLock = 'locked';
@@ -151,6 +153,7 @@ class GameData
         FlxG.save.data.gjToken = GJ_token;
 	    
 	FlxG.save.data.hasSeenWarning = hasSeenWarning;
+	FlxG.save.data.hasSeenFlxSplash = hasSeenFlxSplash;
 	    
 	FlxG.save.data.canAddMalfunction = canAddMalfunction;
         FlxG.save.data.muckneyLock = muckneyLock;
@@ -198,6 +201,7 @@ class GameData
 	GJ_token = FlxG.save.data.gjToken;
 	    
 	hasSeenWarning = FlxG.save.data.hasSeenWarning;
+	hasSeenFlxSplash = FlxG.save.data.hasSeenFlxSplash;
 	    
 	canAddMalfunction = FlxG.save.data.canAddMalfunction;
         muckneyLock = FlxG.save.data.muckneyLock;
@@ -333,25 +337,25 @@ class GameData
                         case 'hunted': if (!Init.trueSettings.get("Disable Mechanics")) huntedLock = 'beaten';
                         case 'isolated old': oldisolateLock = 'beaten';
                         case 'isolated beta': betaisolateLock = 'beaten';
-                        case 'neglection': pnmLock = 'beaten';
+                        case 'neglection': if (!Init.trueSettings.get("Disable Mechanics")) pnmLock = 'beaten';
                         case "don't cross!": if (!Init.trueSettings.get("Disable Mechanics")) crossinLock = 'beaten';
                         case 'war dilemma': warLock = 'beaten';
                         case 'cycled sins': if (!Init.trueSettings.get("Disable Mechanics")) sinsLock = 'beaten';
-                        case 'malfunction': malfunctionLock = 'beaten';
+                        case 'malfunction': if (!Init.trueSettings.get("Disable Mechanics")) malfunctionLock = 'beaten';
                         case 'scrapped': scrappedLock = 'beaten';
                         case 'bless': blessLock = 'beaten';
-                        case 'laugh track': rickyLock = 'beaten';
+                        case 'laugh track': if (!Init.trueSettings.get("Disable Mechanics")) rickyLock = 'beaten';
                         case 'birthday': muckneyLock = 'beaten';
                         case 'mercy legacy': if (!Init.trueSettings.get("Disable Mechanics")) legacyWLock = 'beaten';
                         case 'isolated legacy': legacyILock = 'beaten';
                         case 'lunacy legacy': legacyLLock = 'beaten';
-                        case 'delusional legacy': legacyDLock = 'beaten';
+                        case 'delusional legacy': if (!Init.trueSettings.get("Disable Mechanics")) legacyDLock = 'beaten';
                         case 'hunted legacy': legacyHLock = 'beaten';
-                        case 'malfunction legacy': legacyMLock = 'beaten';
+                        case 'malfunction legacy': if (!Init.trueSettings.get("Disable Mechanics")) legacyMLock = 'beaten';
                         case 'cycled sins legacy': if (!Init.trueSettings.get("Disable Mechanics")) legacySLock = 'beaten';
                         case 'bless legacy': legacyBLock = 'beaten';
                         case 'neglection legacy': if (!Init.trueSettings.get("Disable Mechanics")) legacyNLock = 'beaten';
-                        case 'twisted grins legacy': legacyTLock = 'beaten';
+                        case 'twisted grins legacy': if (!Init.trueSettings.get("Disable Mechanics")) legacyTLock = 'beaten';
                         case 'resentment legacy': legacyRLock = 'beaten';
                         case 'delutrance': highOnCrackLock = 'completed';
                 }
