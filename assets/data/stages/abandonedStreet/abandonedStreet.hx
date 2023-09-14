@@ -128,10 +128,10 @@ function onCreate()
 				cablesDayTime.visible = false;
 			}
 			
-			rain = new FlxSprite(-550, -800);
+			rain = new FlxSprite(-550, -900);
 			rain.frames = Paths.getSparrowAtlas('rain', pathWay);
 			rain.animation.addByPrefix('drippin', 'Rain', 30, true);
-			rain.scale.set(1.6, 1.6);
+			rain.scale.set(2, 2);
 			rain.alpha = 0.0001;
 			foreground.add(rain);
 			rain.animation.play('drippin');
