@@ -181,6 +181,7 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 			//smoke.alpha = 0.56;
 			rain.visible = true;
 			streetRuins.visible = true;
+			fakeLightOfHope.visible = true;
 			brightSky.visible = false;
 			clouds.visible = false;
 			streetDaytime.visible = false;
