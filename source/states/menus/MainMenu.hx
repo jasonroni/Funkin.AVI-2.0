@@ -192,11 +192,6 @@ class MainMenu extends MusicBeatState
 	// the create 'state'
 	override function create()
 	{
-		var meta = openfl.Lib.current.stage.application.meta;
-		var path = meta["company"];
-		@:privateAccess
-		trace(FlxG.save.get_the_path(path, "gameProgression"));
-
 		if (!FlxG.mouse.visible)
 			FlxG.mouse.visible = true;
 
@@ -489,6 +484,15 @@ class MainMenu extends MusicBeatState
 		var up_p = Controls.getPressEvent("ui_up");
 		var down_p = Controls.getPressEvent("ui_down");
 		var controlArray:Array<Bool> = [up, down, up_p, down_p];
+
+		if (!CoolUtil.findCoreFile())
+		{
+			new FlxTimer().start(1.0, function(tmr:FlxTimer)
+			{
+				Main.crashSwitchState(this, new states.SafeModeState());
+				FlxG.sound.music.volume = 0;
+			});
+		}
 
 		arrowFlash.setFloat('progress', flashThing);
 

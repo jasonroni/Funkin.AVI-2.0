@@ -135,7 +135,7 @@ class CoolUtil
 			+ FlxSave.validate(FlxG.stage.application.meta.get('file')) #end;
 	}
 
-	public static function createCoreFile(folder:String = 'Dunkin-Funkin')
+	public static function createCoreFile()
 	{
 		if (!FileSystem.exists(lime.system.System.applicationStorageDirectory + "/core"))
 		{
@@ -150,4 +150,16 @@ class CoolUtil
 
 		File.saveBytes(lime.system.System.applicationStorageDirectory + "/core/core.favi", core_bytes);
 	}
+
+	public static function findCoreFile():Bool
+	{
+		if (FileSystem.exists(lime.system.System.applicationStorageDirectory + "/core/core.favi"))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	};
 }
