@@ -1,12 +1,23 @@
-// Stage Assets
+// Base Assets
 var colorsOrSmthElse:FNFSprite;
 var floor:FNFSprite;
 var stageCurtains:FNFSprite;
 var stageFront:FNFSprite;
 var rain:FlxSprite;
 
+//Delusional
+var streetDaytime:FlxSprite;
+var clouds:FlxSprite;
+var brightSky:FlxSprite;
+var cablesDayTime:FlxSprite;
+
+var streetRuins:FlxSprite;
+var fakeLightOfHope:FlxSprite;
+
 // For events
 var objects:Array<FlxSprite>;
+
+var pathWay:String = 'data/stages/abandonedStreet/images';
 
 function onCreate()
 {
@@ -15,7 +26,7 @@ function onCreate()
 	PlayState.cameraSpeed = 1;
 	PlayState.skipCountdown = true;	
 	
-	colorsOrSmthElse = new FNFSprite(-990, 1600).loadGraphic(Paths.image('randomColors', 'data/stages/abandonedStreet/images'));
+	colorsOrSmthElse = new FNFSprite(-990, 1600).loadGraphic(Paths.image('randomColors', pathWay));
 	colorsOrSmthElse.setGraphicSize(Std.int(colorsOrSmthElse.width * 4));
 	colorsOrSmthElse.updateHitbox();
 	colorsOrSmthElse.antialiasing = true;
@@ -25,16 +36,68 @@ function onCreate()
 	colorsOrSmthElse.active = false;
 	add(colorsOrSmthElse);	
 	
-	floor = new FNFSprite(-20, 200).loadGraphic(Paths.image('street', 'data/stages/abandonedStreet/images'));
+	floor = new FNFSprite(-20, 200).loadGraphic(Paths.image('street', pathWay));
 	floor.antialiasing = true;
 	floor.scale.set(2.2, 2.1);
 	floor.scrollFactor.set(1, 1);
 	floor.active = false;
-	add(floor);		
+	add(floor);	
+
+	if (PlayState.SONG.song == 'Delusional')
+	{
+		brightSky = new FlxSprite(-990, 1600).loadGraphic(Paths.image('brightSky', pathWay));
+		brightSky.setGraphicSize(Std.int(brightSky.width * 4));
+		brightSky.updateHitbox();
+		brightSky.antialiasing = true;
+		brightSky.screenCenter();
+		brightSky.scale.set(3, 3);
+		brightSky.scrollFactor.set(0.9, 0.9);
+		add(brightSky);
+
+		if (!lowQuality)
+		{
+			clouds = new FlxSprite(-990, 1600).loadGraphic(Paths.image('clouds', pathWay));
+			clouds.setGraphicSize(Std.int(clouds.width * 4));
+			clouds.updateHitbox();
+			clouds.antialiasing = true;
+			clouds.screenCenter();
+			clouds.scale.set(3, 3);
+			clouds.scrollFactor.set(1.1, 1.1);
+			add(clouds);
+
+			clouds.visible = false;
+		}
+
+		streetDaytime = new FlxSprite(-20, 200).loadGraphic(Paths.image('streetDay', pathWay));
+		streetDaytime.antialiasing = true;
+		streetDaytime.scale.set(2.2, 2.1);
+		streetDaytime.scrollFactor.set(1, 1);
+		add(streetDaytime);
+
+		fakeLightOfHope = new FlxSprite(-990, 1600).loadGraphic(Paths.image('falseHope', pathWay));
+		fakeLightOfHope.setGraphicSize(Std.int(fakeLightOfHope.width * 4));
+		fakeLightOfHope.updateHitbox();
+		fakeLightOfHope.antialiasing = true;
+		fakeLightOfHope.screenCenter();
+		fakeLightOfHope.scale.set(3, 3);
+		fakeLightOfHope.scrollFactor.set(0.9, 0.9);
+		add(fakeLightOfHope);
+
+		streetRuins = new FlxSprite(-20, 200).loadGraphic(Paths.image('streetDestroyed', pathWay));
+		streetRuins.antialiasing = true;
+		streetRuins.scale.set(2.2, 2.1);
+		streetRuins.scrollFactor.set(1, 1);
+		add(streetRuins);
+
+		brightSky.visible = false;
+		streetDaytime.visible = false;
+		fakeLightOfHope.visible = false;
+		streetRuins.visible = false;
+	}
 	
 	if(!lowQuality)
 		{
-			stageCurtains = new FNFSprite(0, 0).loadGraphic(Paths.image('i_forgor', 'data/stages/abandonedStreet/images'));
+			stageCurtains = new FNFSprite(0, 0).loadGraphic(Paths.image('i_forgor', pathWay));
 			stageCurtains.setGraphicSize(Std.int(stageCurtains.width * 0.9));
 			stageCurtains.updateHitbox();
 			stageCurtains.screenCenter();
@@ -45,21 +108,33 @@ function onCreate()
 			stageCurtains.active = false;
 			add(stageCurtains);	
 
-			stageFront = new FNFSprite(-3000, 130).loadGraphic(Paths.image('cables', 'data/stages/abandonedStreet/images'));
+			stageFront = new FNFSprite(-3000, 130).loadGraphic(Paths.image('cables', pathWay));
 			stageFront.scale.set(9, 2.1);
 			stageFront.updateHitbox();
 			stageFront.antialiasing = true;
 			stageFront.scrollFactor.set(5, 2.6);
 			stageFront.active = false;
 			foreground.add(stageFront);
+
+			if (PlayState.SONG.song == 'Delusional')
+			{
+				cablesDayTime = new FlxSprite(-3000, 130).loadGraphic(Paths.image('cablesDay', pathWay));
+				cablesDayTime.scale.set(9, 2.1);
+				cablesDayTime.updateHitbox();
+				cablesDayTime.antialiasing = true;
+				cablesDayTime.scrollFactor.set(5, 2.6);
+				foreground.add(cablesDayTime);
+
+				cablesDayTime.visible = false;
+			}
 			
-			rain = new FlxSprite(-400, -300);
-			rain.frames = Paths.getSparrowAtlas('rain', 'data/stages/abandonedStreet/images');
-			rain.animation.addByPrefix('Symbol 8 instance 1', 'Symbol 8 instance 1', 30, true);
-			rain.scale.set(1.6, 1.6);
+			rain = new FlxSprite(-550, -900);
+			rain.frames = Paths.getSparrowAtlas('rain', pathWay);
+			rain.animation.addByPrefix('drippin', 'Rain', 30, true);
+			rain.scale.set(2, 2);
 			rain.alpha = 0.0001;
 			foreground.add(rain);
-			rain.animation.play('Symbol 8 instance 1');
+			rain.animation.play('drippin');
 		}
 }
 
@@ -82,33 +157,36 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 			//decayedBuildings.alpha = 1;
 			//floor.alpha = 0;
 		//}
-		//if (curBeat == 474) // load mickey's bedroom
-		//{
-			//colorsOrSmthElse.alpha = 0;
+		if (curBeat == 474) // load daytime street assets
+		{
+			colorsOrSmthElse.visible = false;
 			//decayedBuildings.alpha = 0;
 			//smokeParticles.emitting = false;
 			//firePhase1.alpha = 0;
 			//smoke.alpha = 0;
-			//stageCurtains.alpha = 0;
-			//stageFront.alpha = 0;
-			//rain.alpha = 0;
-			//bedroom.alpha = 1;
-			//windowViewStreet.alpha = 1;
-		//}
-		//if (curBeat == 740) // go back to the street in a even more decayed state
-		//{
-			//colorsOrSmthElse.alpha = 1;
-			//decayedBuildings2.alpha = 1;
+			floor.visible = false;
+			stageCurtains.visible = false;
+			stageFront.visible = false;
+			rain.visible = false;
+			brightSky.visible = true;
+			streetDaytime.visible = true;
+			cablesDayTime.visible = true;
+			clouds.visible = true;
+		}
+		if (curBeat == 740) // go back to the street in a even more decayed state
+		{
 			//firePhase2.alpha = 1;
 			//smokeParticles.emitting = true;
 			//fireParticles.emitting = true;
 			//smoke.alpha = 0.56;
-			//stageCurtains.alpha = 1;
-			//cablesRuined.alpha = 1;
-			//rain.alpha = 1;
-			//bedroom.alpha = 0;
-			//windowViewStreet.alpha = 0;
-		//}
+			rain.visible = true;
+			streetRuins.visible = true;
+			fakeLightOfHope.visible = true;
+			brightSky.visible = false;
+			clouds.visible = false;
+			streetDaytime.visible = false;
+			cablesDayTime.visible = false;
+		}
 	}
 }
 	

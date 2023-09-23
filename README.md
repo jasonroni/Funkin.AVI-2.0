@@ -5,7 +5,7 @@
 </p>
 
 ----------------------------------------------
-As you can already tell, this version of the mod now runs on a modded version of Forever Engine by @BeastlyGhost instead of Psych Engine. Why is that? I never really liked Psych's coding anyways, and plan to completely scrap my custom build of Psych soon in favor for using this engine instead.
+As you can already tell, this version of the mod now runs on a modded version of Forever Engine by @BeastlyGhost instead of Psych Engine. Why is that? I never really liked Psych's coding anyways, and plan to completely scrap my custom build of Psych soon in favor for using this engine instead. (This is old news we might have to switch back to psych)
 
 ----------------------------------------------
  <h1 align="center">To compile a build of this game, use one of the setups in the files, type in the build command `lime build (operating system here)`, or use one of the vs code tasks. (Make sure you have all dependicies installed before doing so)</h1>
