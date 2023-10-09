@@ -16,6 +16,7 @@ import globals.TypedefUtilities;
 import globals.GameData;
 import globals.Main;
 import base.dependency.Shaders;
+import sscript.*;
 
 using StringTools;
 #end
