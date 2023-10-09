@@ -301,12 +301,6 @@ class PlayState extends MusicBeatState
 
 	var globalGradient:FlxSprite;
 
-	// cam thing taken from pibby apocalypse (sorry yall *sobs) -jason
-	var camTween:FlxTween;
-	var camTween2:FlxTween;
-
-	public var focusedCharacter:Character;
-
 	/**
 	 * Loads all RPC's icons
 	 */
@@ -1030,11 +1024,11 @@ class PlayState extends MusicBeatState
 		return value;
 	}
 
+	var cameraOnDad = false;
+
 	public function updateSectionCamera(value:String, isPlayer:Bool = false)
 	{
 		var char = opponent;
-
-		focusedCharacter = opponent;
 
 		if (value == "center")
 			return;
@@ -1043,13 +1037,13 @@ class PlayState extends MusicBeatState
 		{
 			case 'bf':
 				char = boyfriend;
-				focusedCharacter = boyfriend;
+				cameraOnDad = false;
 			case 'dad':
 				char = opponent;
-				focusedCharacter = opponent;
+				cameraOnDad = true;
 			case 'gf':
 				char = gf;
-				focusedCharacter = gf;
+				cameraOnDad = SONG.notes[Std.int(curStep / 16)].mustHitSection;
 		}
 
 		var getCenterX = isPlayer ? char.getMidpoint().x - 100 : char.getMidpoint().x + 100;
@@ -1745,48 +1739,36 @@ class PlayState extends MusicBeatState
 			parseEventColumn();
 		}
 
-		var charAnimOffsetX:Float = 0;
-		var charAnimOffsetY:Float = 0;
-		if (focusedCharacter != null)
+		// the COOLER cam pos thing or whatever
+		// x, y, angle
+		var camOffset = [0.0, 0.0, 0];
+
+		var char = cameraOnDad ? opponent : boyfriend;
+
+		if (char.animation.curAnim != null) 
 		{
-			if (focusedCharacter.animation.curAnim != null)
+			switch (char.animation.curAnim.name.substring(4))
 			{
-				switch (focusedCharacter.animation.curAnim.name.substring(4))
-				{
-					case 'UP' | 'UP-alt':
-						charAnimOffsetY -= 50;
-					case 'DOWN' | 'DOWN-alt':
-						charAnimOffsetY += 50;
-					case 'LEFT' | 'LEFT-alt':
-						charAnimOffsetX -= 50;
-					case 'RIGHT' | 'RIGHT-alt':
-						charAnimOffsetX += 50;
-				}
+				case 'UP' | 'UP-alt' | 'UPmiss':
+					camOffset[1] -= 40;
+
+				case 'RIGHT' | 'RIGHT-alt' | 'RIGHTmiss':
+					camOffset[0] += 40;
+					camOffset[2] += 1.3;
+
+				case 'LEFT' | 'LEFT-alt' | 'LEFTmiss':
+					camOffset[0] -= 40;
+					camOffset[2] -= 1.45;
+
+				case 'DOWN' | 'DOWN-alt' | 'DOWNmiss':
+					camOffset[1] += 40;
 			}
 		}
 
-		if (!inCutscene)
-		{
-			if (camTween != null)
-			{
-				camTween.cancel();
-			}
-			if (camTween2 != null)
-			{
-				camTween2.cancel();
-			}
-			camTween = FlxTween.tween(camFollowPos, {
-				x: camFollow.x + charAnimOffsetX,
-				y: camFollow.y + charAnimOffsetY,
-				angle: (camGame.angle + charAnimOffsetX) * 4
-			}, 1.1 / cameraSpeed, {
-				ease: FlxEase.quadOut
-			});
-			camTween2 = FlxTween.tween(camGame, {
-				angle: 0 - charAnimOffsetX / 26 // me when angles :trollface:
-			}, 0.8 / cameraSpeed, {
-				ease: FlxEase.sineOut
-			});
+		if(!inCutscene) {
+			var lerpVal:Float = CoolUtil.boundTo(elapsed * 2.4 * cameraSpeed, 0, 1);
+			camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x + camOffset[0], lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y + camOffset[1], lerpVal));
+			camGame.angle = FlxMath.lerp(camGame.angle, 0 + camOffset[2], CoolUtil.boundTo(CoolUtil.boundTo(elapsed * 2.4 / 0.4, 0, 1) * cameraSpeed , 0, 1));
 		}
 
 		callFunc('postUpdate', [elapsed]);
