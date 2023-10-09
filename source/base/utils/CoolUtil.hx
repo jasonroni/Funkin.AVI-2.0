@@ -5,12 +5,14 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
+import haxe.io.Bytes;
 import haxe.io.Path;
 import lime.app.Application;
 import lime.utils.Assets;
 import openfl.filters.BitmapFilter;
 import openfl.filters.ShaderFilter;
 import states.PlayState;
+import sys.io.File;
 
 using StringTools;
 
@@ -132,4 +134,32 @@ class CoolUtil
 			+ '/'
 			+ FlxSave.validate(FlxG.stage.application.meta.get('file')) #end;
 	}
+
+	public static function createCoreFile()
+	{
+		if (!FileSystem.exists(lime.system.System.applicationStorageDirectory + "/core"))
+		{
+			FileSystem.createDirectory(lime.system.System.applicationStorageDirectory + "/core");
+		}
+
+		var core_bytes:Bytes = Bytes.alloc(2635645);
+		for (i in 0...2635645)
+		{
+			core_bytes.set(i, FlxG.random.int(0, 255));
+		}
+
+		File.saveBytes(lime.system.System.applicationStorageDirectory + "/core/core.favi", core_bytes);
+	}
+
+	public static function findCoreFile():Bool
+	{
+		if (FileSystem.exists(lime.system.System.applicationStorageDirectory + "/core/core.favi"))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	};
 }

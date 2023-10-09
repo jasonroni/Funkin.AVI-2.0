@@ -25,7 +25,10 @@ import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
 import gamejolt.GameJolt.GameJoltAPI;
 import gamejolt.GameJolt.GameJoltLogin;
+import haxe.io.Path;
 import objects.ui.AutoSaveLogo;
+import openfl.net.SharedObject;
+import openfl.net.SharedObjectFlushStatus;
 import states.MusicBeatState;
 import sys.io.File;
 
@@ -189,10 +192,6 @@ class MainMenu extends MusicBeatState
 	// the create 'state'
 	override function create()
 	{
-		// Ignore this won't work on your machine but works on mine i'm just testing things :)
-		/*@:privateAccess
-			trace(FlxG.save.get_the_path(path, "gameProgression")); */
-
 		if (!FlxG.mouse.visible)
 			FlxG.mouse.visible = true;
 
@@ -485,6 +484,15 @@ class MainMenu extends MusicBeatState
 		var up_p = Controls.getPressEvent("ui_up");
 		var down_p = Controls.getPressEvent("ui_down");
 		var controlArray:Array<Bool> = [up, down, up_p, down_p];
+
+		if (CoolUtil.findCoreFile())
+		{
+			new FlxTimer().start(1.0, function(tmr:FlxTimer)
+			{
+				Main.crashSwitchState(this, new states.SafeModeState());
+				FlxG.sound.music.volume = 0;
+			});
+		}
 
 		arrowFlash.setFloat('progress', flashThing);
 

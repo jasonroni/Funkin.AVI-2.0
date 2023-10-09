@@ -18,8 +18,8 @@ import flixel.util.FlxTimer;
 	I'm not going to change any of this because I don't truly understand how songplaying works, 
 	I mostly just wanted to rewrite the actual gameplay side of things.
  */
- class MusicBeatState extends modcharting.ModchartMusicBeatState
- {
+class MusicBeatState extends modcharting.ModchartMusicBeatState
+{
 	public var lastStep:Int = 0;
 	public var lastBeat:Int = 0;
 	public var lastSection:Int = 0;

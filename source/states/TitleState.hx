@@ -188,6 +188,8 @@ class TitleState extends states.MusicBeatState
 		"Mickey getting bitches, 100% real no fake",
 		"Lets Goku mcdonalds, Y'know what im saiyan?",
 		"Walter",
+		"T H E  'C O R E', D E S T R O Y  I T !",
+		"THE 'CORE' CONTAINS THE EVIL"
 	];
 
 	override public function create():Void
@@ -211,6 +213,8 @@ class TitleState extends states.MusicBeatState
 		super.create();
 
 		Application.current.window.title = 'Funkin.avi - ${windowArray[FlxG.random.int(0, windowArray.length-1)]}';
+
+
 
 		defaultShader = new FlxRuntimeShader(Shaders.grayScale, null, 140);
 		defaultShader2 = new FlxRuntimeShader(Shaders.monitorFilter, null, 140);
