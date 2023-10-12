@@ -71,10 +71,11 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 							]);
 						}
 					}
-				case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional':
+				case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional' | 'Delusion':
 					if (!Init.trueSettings.get('Low Quality'))
 					{
 						PlayState.camGame.setFilters([
+                            new ShaderFilter(PlayState.redVignette),
 							new ShaderFilter(PlayState.dramaticCamMovement),
 							new ShaderFilter(PlayState.bloomEffect),
 							new ShaderFilter(PlayState.monitorFilter),
@@ -327,13 +328,23 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
             case 'Delusional':
                 if (!Init.trueSettings.get('Disable Mechanics'))
                 {
-                        if (PlayState.health > 0.1)
-                            PlayState.health -= 0.022;
+                        if (PlayState.opponent.curCharacter == 'delusional-mickey')
+                        {
+                            if (PlayState.health > 0.25)
+                                PlayState.health -= 0.022;
+                        }
+                        else if (PlayState.opponent.curCharacter == 'lunamick-new')
+                        {
+                            if (PlayState.health > 0.3)
+                                PlayState.health -= 0.014;
+                        }
                 }
                 
             case 'Laugh Track':
                 if (Init.trueSettings.get('Screen Shake'))
                 {
+                    if (PlayState.health > 0.4)
+                        PlayState.health -= 0.01;
                     PlayState.camGame.shake(0.005, 0.07);
                     PlayState.camHUD.shake(0.010, 0.07);
                     for (i in PlayState.strumHUD)
@@ -344,7 +355,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
                 if (PlayState.opponent.curCharacter == 'glitched-mickey-new-pixel')
                 {
                     if (PlayState.health > 0.05)
-                        PlayState.health -= 0.018;
+                        PlayState.health -= 0.01;
                     if (Init.trueSettings.get('Screen Shake'))
                     {
                         PlayState.camGame.shake(0.008, 0.07);

@@ -10,6 +10,28 @@
 					"0.0001"
 				]
 			]
+		],
+		[
+			"Change Character",
+			71101.1583011583,
+			[
+				[
+					"dad",
+					"delusional-mickey",
+					"0.0001"
+				]
+			]
+		],
+		[
+			"Play Animation",
+			71189.1891891892,
+			[
+				[
+					"HOLY-SHIT-HE-SCREAMING",
+					"dad",
+					"3"
+				]
+			]
 		]
 	]
 }

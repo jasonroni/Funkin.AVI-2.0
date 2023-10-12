@@ -136,6 +136,10 @@ class PlayState extends MusicBeatState
 	public static var gf:Character;
 	public static var boyfriend:Boyfriend;
 
+	//Delusional Death Anims
+	public static var death1:Character;
+	public static var death2:Character;
+
 	// used by events, stores characters and character names in maps;
 	public static var playerMap:Map<String, Character> = new Map();
 	public static var opponentMap:Map<String, Character> = new Map();
@@ -291,6 +295,7 @@ class PlayState extends MusicBeatState
 	var blurEffect:Float = 0.0;
 	var blurHUD:Float = 0.0;
 	var staticModifer:Float = 0.0;
+	var effectRed:Float = 0.0;
 
 	var shaderAnim:Float = 0;
 
@@ -298,6 +303,7 @@ class PlayState extends MusicBeatState
 	var chromTween:FlxTween;
 	var blurHUDTween:FlxTween;
 	var staticTween:FlxTween;
+	var vignetteTween:FlxTween;
 
 	var globalGradient:FlxSprite;
 
@@ -354,6 +360,18 @@ class PlayState extends MusicBeatState
 		boyfriend = new Boyfriend();
 		gf = new Character();
 
+		if (PlayState.SONG.song == 'Delusional')
+		{
+			death1 = new Character();
+			death2 = new Character();
+
+			death1.setCharacter(0, 0, 'death-part-1');
+			death2.setCharacter(0, 0, 'death-part-2');
+
+			death1.alpha = 0.001;
+			death2.alpha = 0.001;
+		}
+
 		gf.setCharacter(0, 0, SONG.gfVersion);
 		gf.scrollFactor.set(0.95, 0.95);
 
@@ -379,6 +397,12 @@ class PlayState extends MusicBeatState
 		{
 			add(opponent);
 			add(boyfriend);
+
+			if (PlayState.SONG.song == 'Delusional')
+			{
+				add(death1);
+				add(death2);
+			}
 		}
 
 		if (curStage == 'staticVoid')
@@ -440,6 +464,15 @@ class PlayState extends MusicBeatState
 	{
 		stageBuild.repositionPlayers(curStage, boyfriend, gf, opponent);
 		stageBuild.dadPosition(curStage, boyfriend, gf, opponent, new FlxPoint(gf.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100));
+
+		if (PlayState.SONG.song == 'Delusional')
+		{
+			death1.x = opponent.x + 380;
+			death1.y = opponent.y + 370;
+
+			death2.x = opponent.x + 480;
+			death2.y = opponent.y + 360;
+		}
 	}
 
 	// at the beginning of the playstate
@@ -1685,7 +1718,7 @@ class PlayState extends MusicBeatState
 					if (FlxG.keys.justPressed.EIGHT)
 					{
 						resetMusic();
-						Main.switchState(this, new states.editors.CharacterOffsetEditor());
+						Main.switchState(this, new states.editors.CharacterOffsetEditor(PlayState.SONG.stage));
 					}
 				}
 			}
@@ -3667,7 +3700,7 @@ class PlayState extends MusicBeatState
 								i.setFilters([new ShaderFilter(grayScale), new ShaderFilter(chromNormalShader)]);
 						}
 						chromEffect = 0.00001;
-						defaultCamZoom = 0.65;
+						defaultCamZoom = 0.85;
 					case 480:
 						// no healthbar to add more onto the atmosphere of this section
 						camGame.visible = true;
@@ -3677,10 +3710,12 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(camGame, {alpha: 0.0001}, 5, {ease: FlxEase.quartInOut});
 						for (i in strumHUD)
 							FlxTween.tween(i, {alpha: 0.0001}, 5, {ease: FlxEase.quartInOut});
+					case 740:
+						defaultCamZoom = 0.5;
 					case 744:
 						camGame.alpha = 1;
 						camHUD.visible = true;
-						defaultCamZoom = 0.8;
+						defaultCamZoom = 0.9;
 						for (i in strumHUD)
 							i.alpha = 1;
 						chromEffect = 0.1;
@@ -3704,6 +3739,23 @@ class PlayState extends MusicBeatState
 									new ShaderFilter(delusionalShift)
 								]);
 						}
+					case 1086:
+						FlxTween.tween(camHUD, {alpha: 0}, 2);
+						for (i in strumHUD)
+							FlxTween.tween(i, {alpha: 0}, 2);
+						FlxG.sound.play(Paths.sound('funkinAVI/Mickey_fuckin_dying'));
+						opponent.visible = false;
+						death1.alpha = 1;
+						death1.playAnim('murder', true);
+						death1.specialAnim = true;
+					case 1136:
+						death1.visible = false;
+						death2.alpha = 1;
+						death2.playAnim('murder2-electric-boogaloo', true);
+						death2.specialAnim = true;
+					//case 1140:
+						//FlxTween.tween(camGame, {alpha: 0}, 4);
+				}
 				}
 			case 'Scrapped':
 				switch (curBeat)

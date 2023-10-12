@@ -1,78 +1,96 @@
 {
 	"animations": [
 		{
-			"offsets": [
-				0,
-				0
-			],
 			"loop": false,
-			"fps": 18,
+			"offsets": [
+				-80,
+				50
+			],
 			"anim": "idle",
-			"indices": [],
-			"name": "Demon idle"
+			"fps": 18,
+			"name": "Demon idle",
+			"indices": []
 		},
 		{
-			"offsets": [
-				91,
-				-23
-			],
 			"loop": false,
-			"fps": 18,
-			"anim": "singDOWN",
-			"indices": [],
-			"name": "Demon note down"
-		},
-		{
 			"offsets": [
-				120,
-				-10
+				185,
+				66
 			],
-			"loop": false,
-			"fps": 18,
-			"anim": "singRIGHT",
-			"indices": [],
-			"name": "Demon note right"
-		},
-		{
-			"offsets": [
-				140,
-				49
-			],
-			"loop": false,
-			"fps": 18,
 			"anim": "singLEFT",
-			"indices": [],
-			"name": "Demon note left"
+			"fps": 20,
+			"name": "Demon note left",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				103,
+				10
+			],
+			"anim": "singDOWN",
+			"fps": 20,
+			"name": "Demon note down",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				-90,
+				175
+			],
+			"anim": "singUP",
+			"fps": 20,
+			"name": "Demon note up",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				-76,
+				68
+			],
+			"anim": "singRIGHT",
+			"fps": 20,
+			"name": "Demon note right",
+			"indices": []
 		},
 		{
 			"offsets": [
-				-23,
-				75
+				-80,
+				50
 			],
-			"loop": false,
+			"indices": [
+				12,
+				13,
+				14,
+				15,
+				16,
+				17
+			],
 			"fps": 18,
-			"anim": "singUP",
-			"indices": [],
-			"name": "Demon note up"
+			"anim": "idle-loop",
+			"loop": true,
+			"name": "Demon idle"
 		}
 	],
 	"no_antialiasing": false,
-	"image": "characters/bf-demon",
+	"image": "characters/Final_demo_bf",
 	"position": [
 		0,
 		0
 	],
-	"healthicon": "bf-fake-new",
+	"healthicon": "face",
 	"flip_x": true,
 	"healthbar_colors": [
-		100,
-		100,
-		100
+		0,
+		0,
+		0
 	],
 	"camera_position": [
-		180,
-		230
+		0,
+		0
 	],
 	"sing_duration": 6.1,
-	"scale": 0.65
+	"scale": 0.7
 }
