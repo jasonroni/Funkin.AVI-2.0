@@ -33,6 +33,8 @@ class Note extends FNFSprite
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
 
+	public var distance:Float = 2000;
+
 	// i wanna do some funny modcharts - prism
 	public var flipDownscroll:Bool = false;
 	public var speedMult:Float = 1;

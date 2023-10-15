@@ -42,6 +42,17 @@
 					"-alt"
 				]
 			]
+		],
+		[
+			"Change Character",
+			153191.489361702,
+			[
+				[
+					"dad",
+					"mickey-delu-intro",
+					"0.0001"
+				]
+			]
 		]
 	]
 }

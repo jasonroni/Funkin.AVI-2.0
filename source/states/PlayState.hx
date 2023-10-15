@@ -136,10 +136,6 @@ class PlayState extends MusicBeatState
 	public static var gf:Character;
 	public static var boyfriend:Boyfriend;
 
-	//Delusional Death Anims
-	public static var death1:Character;
-	public static var death2:Character;
-
 	// used by events, stores characters and character names in maps;
 	public static var playerMap:Map<String, Character> = new Map();
 	public static var opponentMap:Map<String, Character> = new Map();
@@ -360,18 +356,6 @@ class PlayState extends MusicBeatState
 		boyfriend = new Boyfriend();
 		gf = new Character();
 
-		if (PlayState.SONG.song == 'Delusional')
-		{
-			death1 = new Character();
-			death2 = new Character();
-
-			death1.setCharacter(0, 0, 'death-part-1');
-			death2.setCharacter(0, 0, 'death-part-2');
-
-			death1.alpha = 0.001;
-			death2.alpha = 0.001;
-		}
-
 		gf.setCharacter(0, 0, SONG.gfVersion);
 		gf.scrollFactor.set(0.95, 0.95);
 
@@ -397,12 +381,6 @@ class PlayState extends MusicBeatState
 		{
 			add(opponent);
 			add(boyfriend);
-
-			if (PlayState.SONG.song == 'Delusional')
-			{
-				add(death1);
-				add(death2);
-			}
 		}
 
 		if (curStage == 'staticVoid')
@@ -464,15 +442,6 @@ class PlayState extends MusicBeatState
 	{
 		stageBuild.repositionPlayers(curStage, boyfriend, gf, opponent);
 		stageBuild.dadPosition(curStage, boyfriend, gf, opponent, new FlxPoint(gf.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100));
-
-		if (PlayState.SONG.song == 'Delusional')
-		{
-			death1.x = opponent.x + 380;
-			death1.y = opponent.y + 370;
-
-			death2.x = opponent.x + 480;
-			death2.y = opponent.y + 360;
-		}
 	}
 
 	// at the beginning of the playstate
@@ -855,7 +824,7 @@ class PlayState extends MusicBeatState
 					i.alpha = 0.001; // 0.001 doesn't cause lag when setting alpha above 0 for some reason, yet it's still invisible
 				}
 
-			case 'Isolated' | 'Lunacy' | 'Cycled Sins':
+			case 'Isolated' | 'Lunacy' | 'Cycled Sins' | 'Delusion':
 				for (i in strumHUD)
 				{
 					i.alpha = 0.001;
@@ -1545,6 +1514,16 @@ class PlayState extends MusicBeatState
 					delusionalShift.setFloat('iTime', shaderAnim);
 					delusionalShift.setFloat('uTime', shaderAnim);
 
+				case 'Delusion':
+					chromZoomShader.setFloat('aberration', chromEffect);
+					chromZoomShader.setFloat('effectTime', chromEffect);
+					chromNormalShader.setFloat('rOffset', chromEffect / 45);
+					chromNormalShader.setFloat('bOffset', -chromEffect / 45);
+					dramaticCamMovement.setFloat('time', shaderAnim);
+					delusionalShift.setFloat('iTime', shaderAnim);
+					delusionalShift.setFloat('uTime', shaderAnim);
+					redVignette.setFloat('time', effectRed);
+
 				case 'Malfunction':
 					chromZoomShader.setFloat('aberration', chromEffect);
 					chromZoomShader.setFloat('effectTime', chromEffect);
@@ -2152,33 +2131,6 @@ class PlayState extends MusicBeatState
 				});
 			}
 		}
-	}
-
-	private function strumCameraRoll(cStrum:FlxTypedSpriteGroup<Receptor>, mustHit:Bool)
-	{
-		if (!Init.trueSettings.get('No Camera Note Movement'))
-		{
-			var camDisplaceExtend:Float = 35;
-			if (PlayState.SONG.notes[curSection] != null)
-			{
-				if ((PlayState.SONG.notes[curSection].mustHitSection && mustHit)
-					|| (!PlayState.SONG.notes[curSection].mustHitSection && !mustHit))
-				{
-					camDisplaceX = 0;
-					if (cStrum.members[0].animation.curAnim.name == 'confirm')
-						camDisplaceX -= camDisplaceExtend;
-					if (cStrum.members[3].animation.curAnim.name == 'confirm')
-						camDisplaceX += camDisplaceExtend;
-
-					camDisplaceY = 0;
-					if (cStrum.members[1].animation.curAnim.name == 'confirm')
-						camDisplaceY += camDisplaceExtend;
-					if (cStrum.members[2].animation.curAnim.name == 'confirm')
-						camDisplaceY -= camDisplaceExtend;
-				}
-			}
-		}
-		//
 	}
 
 	override public function onFocus():Void
@@ -3571,9 +3523,9 @@ class PlayState extends MusicBeatState
 				if (curBeat == 190)
 					manageLyrics('bf-demon', "But if YOUR delusions...", 'disneyFreeplayFont', 30, 2.2, 'sineInOut');
 				if (curBeat == 196)
-					manageLyrics('bf-demon', "...loop around then...", 'disneyFreeplayFont', 30, 1.3, "quartOut");
+					manageLyrics('bf-demon', "...still surround ya.", 'disneyFreeplayFont', 30, 1.3, "quartOut");
 				if (curBeat == 200)
-					manageLyrics('bf-demon', "...let's LOOP 'ROUND ONCE MORE.", 'satanFont', 30, 3, "sineInOut");
+					manageLyrics('bf-demon', "Let's LOOP 'ROUND ONCE MORE.", 'satanFont', 30, 3, "sineInOut");
 
 				switch (curBeat)
 				{
@@ -3744,19 +3696,92 @@ class PlayState extends MusicBeatState
 						for (i in strumHUD)
 							FlxTween.tween(i, {alpha: 0}, 2);
 						FlxG.sound.play(Paths.sound('funkinAVI/Mickey_fuckin_dying'));
-						opponent.visible = false;
-						death1.alpha = 1;
-						death1.playAnim('murder', true);
-						death1.specialAnim = true;
+						flashBGEffect('darken', 0.5, 5);
+					case 1134:
+						flashBGEffect('darken', 1, 0.5, 'sineOut');
 					case 1136:
-						death1.visible = false;
-						death2.alpha = 1;
-						death2.playAnim('murder2-electric-boogaloo', true);
-						death2.specialAnim = true;
-					//case 1140:
-						//FlxTween.tween(camGame, {alpha: 0}, 4);
+						flashBGEffect('normal', 1, 0.3, 'sineOut', 255, 255, 255);
+					case 1144:
+						FlxTween.tween(camGame, {alpha: 0}, 4);
 				}
+
+			case 'Delusion':
+				switch (curBeat)
+				{
+					case 1:
+						FlxTween.tween(camGame, {alpha: 1}, 2);
+					case 8:
+						defaultCamZoom -= 0.08;
+						flashBGEffect('normal', 0.5, 0.35, 'linear', 255, 255, 255);
+						FlxTween.tween(camHUD, {alpha: 1}, 0.4);
+						for (i in strumHUD)
+							FlxTween.tween(i, {alpha: 1}, 0.3);
+					case 16: defaultCamZoom += 0.1;
+					case 24:
+						camGame.zoom += 0.12;
+						defaultCamZoom -= 0.2;
+						flashBGEffect('normal', 0.35, 0.45, 'circOut', 255, 135, 135);
+					case 25 | 26 | 27 | 28 | 29 | 30 | 31 | 32 | 33 | 34 | 35 | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 50 | 51 | 52 | 53 | 54 | 55 | 56 | 57 | 58 | 59 | 60 | 61 | 62 | 63 | 64 | 65 | 66 | 67 | 68 | 69 | 70 | 71 | 137 | 138 | 139 | 140 | 141 | 142 | 143 | 144 | 145 | 146 | 147 | 148 | 149 | 150 | 151 | 152 | 153 | 154 | 155 | 156 | 157 | 158 | 159 | 160 | 161 | 162 | 163 | 164 | 165 | 166 | 167 | 168 | 169 | 170 | 171 | 172 | 173 | 174 | 175 | 176 | 177 | 178 | 179 | 180 | 181 | 182 | 183 | 184 | 185 | 186 | 187 | 188 | 189 | 190 | 191 | 192:
+						flashBGEffect('normal', 0.35, 0.45, 'circOut', 255, 135, 135);
+						camGame.zoom += 0.1;
+					case 72 | 73 | 74 | 75 | 76 | 77 | 78 | 79 | 80 | 81 | 82 | 83 | 84 | 85 | 86 | 87:
+						flashBGEffect('normal', 0.56, 0.45, 'circOut', 255, 135, 135);
+						camGame.zoom += 0.16;
+					case 88 | 89 | 90 | 91 | 92 | 93 | 94 | 95 | 96 | 97 | 98 | 99 | 100 | 101:
+						flashBGEffect('normal', 0.89, 0.45, 'circOut', 255, 135, 135);
+						camGame.zoom += 0.21;
+					case 36 | 134:
+						flashBGEffect('darken', 0.8, 0.21, 'sineOut');
+						defaultCamZoom += 0.3;
+					case 40:
+						defaultCamZoom -= 0.25;
+						flashBGEffect('normal', 0.6, 0.3, 'circOut', 255, 135, 135);
+						camGame.zoom += 0.16;
+					case 104 | 112 | 120 | 128:
+						camGame.zoom += 0.25;
+						flashBGEffect('normal', 0.6, 0.3, 'circOut', 255, 135, 135);
+					case 136:
+						flashBGEffect('normal', 0.35, 0.45, 'circOut', 255, 135, 135);
+						camGame.zoom += 0.1;
+						defaultCamZoom += 0.11;
+					case 108 | 116:
+						flashBGEffect('darken', 0.2, 0.35, 'sineOut');
+					case 110 | 118:
+						flashBGEffect('darken', 0.5, 0.35, 'sineOut');
 				}
+
+				if (curBeat >= 72 && curBeat <= 87)
+				{
+					effectRed = 1;
+
+					if (vignetteTween != null)
+						vignetteTween.cancel();
+
+					vignetteTween = FlxTween.tween(this, {effectRed: 0.0}, 0.4, {ease: FlxEase.sineOut, onComplete: 
+						function(twn:FlxTween)
+							{
+								vignetteTween = null;
+							}
+						}
+					);
+				}
+
+				if (curBeat >= 88 && curBeat <= 103)
+					{
+						effectRed = 1.2;
+						
+						if (vignetteTween != null)
+							vignetteTween.cancel();
+	
+						vignetteTween = FlxTween.tween(this, {effectRed: 0.0}, 0.4, {ease: FlxEase.sineOut, onComplete: 
+							function(twn:FlxTween)
+								{
+									vignetteTween = null;
+								}
+							}
+						);
+					}
+
 			case 'Scrapped':
 				switch (curBeat)
 				{
@@ -4561,7 +4586,7 @@ class PlayState extends MusicBeatState
 				psychHUD.kill();
 				episode1HUD.kill();
 
-			case 'devilish deal' | 'isolated' | 'lunacy' | 'delusional':
+			case 'devilish deal' | 'isolated' | 'lunacy' | 'delusional' | 'delusion':
 				FlxTween.tween(episode1HUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 				demolitionHUD.kill();
 				uiHUD.kill();

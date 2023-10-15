@@ -26,14 +26,11 @@ var fireTweenHandler:FlxTween;
 
 var fireParticle:FlxEmitter;
 
-var bigSmoke1:FlxSprite;
-var bigSmoke2:FlxSprite;
-var bigSmoke3:FlxSprite;
-var smallSmoke1:FlxSprite;
-var smallSmoke2:FlxSprite;
+var smokeShit:FlxTypedGroup<FlxSprite>;
+var smokeFore:FlxTypedGroup<FlxSprite>;
 
-// For events
-var objects:Array<FlxSprite>;
+var spriteShit:Array<String> = ['bigSmoke', 'smallSmoke', 'smallSmoke', 'bigSmoke'];
+var spriteShitForeground:Array<String> = ['bigSmoke', 'bigSmoke', 'smallSmoke', 'bigSmoke'];
 
 var pathWay:String = 'data/stages/abandonedStreet/images';
 
@@ -90,7 +87,6 @@ function onCreate()
 			clouds.scale.set(3, 3);
 			clouds.scrollFactor.set(1.1, 1.1);
 			add(clouds);
-
 			clouds.visible = false;
 		}
 
@@ -109,16 +105,15 @@ function onCreate()
 		fakeLightOfHope.scrollFactor.set(0.9, 0.9);
 		add(fakeLightOfHope);
 
-		if (!lowQuality)
-		{
-			fireThing2 = new FlxSprite(0, -80);
-			fireThing2.scale.set(5.85, 3);
-			fireThing2.alpha = 0.0001;
-			fireThing2.frames = Paths.getSparrowAtlas('delusional-fire', pathWay);
-			fireThing2.animation.addByPrefix('burning', 'delusional-fire fire-idle', 16, true);
-			add(fireThing2);
-			fireThing2.animation.play('burning');
-		}
+		fireThing2 = new FlxSprite(0, -80);
+		fireThing2.scale.set(5.85, 3);
+		fireThing2.alpha = 0.0001;
+		fireThing2.frames = Paths.getSparrowAtlas('delusional-fire', pathWay);
+		fireThing2.animation.addByPrefix('burning', 'delusional-fire fire-idle', 16, true);
+		fireThing2.scrollFactor.set(0.8, 0.8);
+		fireThing2.blend = ForeverTools.returnBlendMode('add');
+		add(fireThing2);
+		fireThing2.animation.play('burning');
 
 		streetRuins = new FlxSprite(-20, 200).loadGraphic(Paths.image('streetDestroyed', pathWay));
 		streetRuins.antialiasing = true;
@@ -128,13 +123,61 @@ function onCreate()
 
 		if (!lowQuality)
 		{
-			fireForeground = new FlxSprite(0, -80);
-			fireForeground.scale.set(5.85, 3);
-			fireForeground.alpha = 0.0001;
+			smokeShit = new FlxTypedGroup();
+			add(smokeShit);
+
+			for (i in 0...spriteShit.length)
+			{
+				var smoke:FlxSprite = new FlxSprite(0, 550);
+				smoke.ID = i;
+				smoke.frames = Paths.getSparrowAtlas(spriteShit[i], pathWay);
+				smoke.animation.addByPrefix('smoke', spriteShit[i] + ' idle', 4, true);
+				smoke.scale.set(1.3, 1.35);
+				smoke.alpha = 0.001;
+				smoke.blend = ForeverTools.returnBlendMode('add');
+				smoke.animation.play('smoke');
+				switch (smoke.ID)
+				{
+					case 0: smoke.x -= 620;
+					case 1: smoke.x += 650;
+					case 2: smoke.x -= 60;
+					case 3: smoke.x += 1100;
+				}
+				smokeShit.add(smoke);
+			}
+
+			smokeFore = new FlxTypedGroup();
+			foreground.add(smokeFore);
+
+			for (i in 0...spriteShitForeground.length)
+			{
+				var smoke:FlxSprite = new FlxSprite(0, 670);
+				smoke.ID = i;
+				smoke.frames = Paths.getSparrowAtlas(spriteShitForeground[i], pathWay);
+				smoke.animation.addByPrefix('smoke', spriteShitForeground[i] + ' idle', 4, true);
+				smoke.scale.set(1.6, 1.4);
+				smoke.alpha = 0.001;
+				smoke.blend = ForeverTools.returnBlendMode('add');
+				smoke.animation.play('smoke');
+				switch (smoke.ID)
+				{
+					case 0: smoke.x -= 620;
+					case 1: smoke.x += 540;
+					case 2: smoke.x -= 60;
+					case 3: smoke.x += 1100;
+				}
+				smokeFore.add(smoke);
+			}
+
+			fireForeground = new FlxSprite(0, 550);
+			fireForeground.scale.set(7.8, 5);
+			fireForeground.alpha = 0.001;
 			fireForeground.frames = Paths.getSparrowAtlas('delusional-fire', pathWay);
-			fireForeground.animation.addByPrefix('burning', 'delusional-fire fire-idle', 16, true);
+			fireForeground.animation.addByPrefix('burningShit', 'delusional-fire fire-idle', 16, true);
+			fireForeground.scrollFactor.set(1.35, 1.18);
+			fireForeground.blend = ForeverTools.returnBlendMode('add');
 			foreground.add(fireForeground);
-			fireForeground.animation.play('burning');		
+			fireForeground.animation.play('burningShit');
 
 			/*fireParticle = new FlxEmitter(-2080.5, 2150.4);
 			fireParticle.launchMode = 'square';
@@ -151,7 +194,6 @@ function onCreate()
 
 		brightSky.visible = false;
 		streetDaytime.visible = false;
-		fakeLightOfHope.visible = false;
 		streetRuins.visible = false;
 	}
 	
@@ -210,7 +252,7 @@ function onCreate()
 			stageFront.active = false;
 			foreground.add(stageFront);
 
-			if (PlayState.SONG.song == 'Delusional')
+			if (PlayState.SONG.song == 'Delusional' || PlayState.SONG.song == 'Delusion')
 			{
 				cablesDayTime = new FlxSprite(-3000, 130).loadGraphic(Paths.image('cablesDay', pathWay));
 				cablesDayTime.scale.set(9, 2.1);
@@ -218,7 +260,6 @@ function onCreate()
 				cablesDayTime.antialiasing = true;
 				cablesDayTime.scrollFactor.set(5, 2.6);
 				foreground.add(cablesDayTime);
-
 				cablesDayTime.visible = false;
 			}
 			
@@ -229,6 +270,16 @@ function onCreate()
 			rain.alpha = 0.0001;
 			foreground.add(rain);
 			rain.animation.play('drippin');
+
+			if (PlayState.SONG.song == 'Delusion')
+			{
+				streetDaytime.visible = true;
+				clouds.visible = true;
+				brightSky.visible = true;
+				cablesDayTime.visible = true;
+			}
+
+			if (PlayState.SONG.song == 'Delusional') stageFront.alpha = 0.001;
 		}
 }
 
@@ -238,121 +289,223 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 	{
 		if (FlxG.random.bool(3))
 		{
-			if (PlayState.SONG.song == 'Delusional' && curBeat < 474)
-				summonWeedMakerLmfao();
+			if (PlayState.SONG.song == 'Delusional')
+			{
+				if (curBeat < 474)
+					summonWeedMakerLmfao();
+			}
 			else
+			{
 				summonWeedMakerLmfao();
+			}
 		}
 	}
 
 	if (PlayState.SONG.song == 'Lunacy')
 	{
-		if (curBeat == 228 || curBeat == 238 || curBeat == 244 || curBeat == 252 || curBeat == 260 || curBeat == 270 || curBeat == 276 || curBeat == 284 || curBeat == 292 || curBeat == 300 || curBeat == 308 || curBeat == 316 || curBeat == 324 || curBeat == 332 || curBeat == 340 || curBeat == 248)
+		if (!lowQuality)
 		{
-			if (fireTweenHandler != null)
-				fireTweenHandler.cancel();
+			if (curBeat == 228 || curBeat == 238 || curBeat == 244 || curBeat == 252 || curBeat == 260 || curBeat == 270 || curBeat == 276 || curBeat == 284 || curBeat == 292 || curBeat == 300 || curBeat == 308 || curBeat == 316 || curBeat == 324 || curBeat == 332 || curBeat == 340 || curBeat == 248)
+			{
+				if (fireTweenHandler != null)
+					fireTweenHandler.cancel();
 
-			fireTweenHandler = FlxTween.tween(fireThing, {alpha: 0.75, y: -250}, 0.35, {ease: ForeverTools.returnTweenEase('sineOut'), onComplete: function(twn:FlxTween)
-				{
-					fireTweenHandler = null;
-				}
-			});
-		}
-		if (curBeat == 230 || curBeat == 240 || curBeat == 248 || curBeat == 256 || curBeat == 262 || curBeat == 272 || curBeat == 280 || curBeat == 288 || curBeat == 296 || curBeat == 304 || curBeat == 312 || curBeat == 320 || curBeat == 328 || curBeat == 336 || curBeat == 344 || curBeat == 352)
-		{
-			if (fireTweenHandler != null)
-				fireTweenHandler.cancel();
+				fireTweenHandler = FlxTween.tween(fireThing, {alpha: 0.75, y: -250}, 0.35, {ease: ForeverTools.returnTweenEase('sineOut'), onComplete: function(twn:FlxTween)
+					{
+						fireTweenHandler = null;
+					}
+				});
+			}
+			if (curBeat == 230 || curBeat == 240 || curBeat == 248 || curBeat == 256 || curBeat == 262 || curBeat == 272 || curBeat == 280 || curBeat == 288 || curBeat == 296 || curBeat == 304 || curBeat == 312 || curBeat == 320 || curBeat == 328 || curBeat == 336 || curBeat == 344 || curBeat == 352)
+			{
+				if (fireTweenHandler != null)
+					fireTweenHandler.cancel();
 
-			fireTweenHandler = FlxTween.tween(fireThing, {alpha: 0.0001, y: -80}, 0.35, {ease: ForeverTools.returnTweenEase('sineOut'), onComplete: function(twn:FlxTween)
-				{
-					fireTweenHandler = null;
-				}
-			});
-		}
-		if (curBeat == 416)
-		{
-			if (fireTweenHandler != null)
-				fireTweenHandler.cancel();
+				fireTweenHandler = FlxTween.tween(fireThing, {alpha: 0.0001, y: -80}, 0.35, {ease: ForeverTools.returnTweenEase('sineOut'), onComplete: function(twn:FlxTween)
+					{
+						fireTweenHandler = null;
+					}
+				});
+			}
+			if (curBeat == 416)
+			{
+				if (fireTweenHandler != null)
+					fireTweenHandler.cancel();
 
-			fireTweenHandler = FlxTween.tween(fireThing, {alpha: 1, y: -350}, 19.5, {ease: ForeverTools.returnTweenEase('sineInOut'), onComplete: function(twn:FlxTween)
-				{
-					fireTweenHandler = null;
-				}
-			});
+				fireTweenHandler = FlxTween.tween(fireThing, {alpha: 1, y: -350}, 19.5, {ease: ForeverTools.returnTweenEase('sineInOut'), onComplete: function(twn:FlxTween)
+					{
+						fireTweenHandler = null;
+					}
+				});
+			}
+			if (curBeat == 480)
+			{
+				fireThing.alpha = 0.35;
+				fireThing.y = -120;
+			}
+			if (curBeat == 536)
+			{
+				fireTweenHandler = FlxTween.tween(fireThing, {alpha: 0, y: 0}, 1, {ease: ForeverTools.returnTweenEase('sineOut'), onComplete: function(twn:FlxTween)
+					{
+						fireTweenHandler = null;
+					}
+				});
+			}
 		}
-		if (curBeat == 480)
+	}
+	if (PlayState.SONG.song == 'Delusion')
+	{
+		if (curBeat == 24)
 		{
-			fireThing.alpha = 0.35;
-			fireThing.y = -120;
+			FlxTween.tween(streetDaytime, {alpha: 0}, 5);
+			FlxTween.tween(clouds, {alpha: 0}, 5);
+			FlxTween.tween(brightSky, {alpha: 0}, 5);
+			FlxTween.tween(cablesDayTime, {alpha: 0}, 5);
 		}
-		if (curBeat == 536)
+		if (curBeat == 232)
 		{
-			fireTweenHandler = FlxTween.tween(fireThing, {alpha: 0, y: 0}, 1, {ease: ForeverTools.returnTweenEase('sineOut'), onComplete: function(twn:FlxTween)
-				{
-					fireTweenHandler = null;
-				}
-			});
+			fakeLightOfHope.visible = true;
+			streetRuins.visible = true;
 		}
 	}
 	if (PlayState.SONG.song == 'Delusional')
 	{
+		if (curBeat == 32)
+		{
+			FlxTween.tween(fakeLightOfHope, {alpha: 0.001}, 1.7);
+			if (!lowQuality) FlxTween.tween(stageFront, {alpha: 1}, 1.5);
+		}
 		if (curBeat == 176 && rain != null && !lowQuality)
 			rain.alpha = 1;
-		//if (curBeat == 280)
-			//FlxTween.tween(smoke, {alpha: 0.85}, 1.5);
-		//if (curBeat == 312)
-		//{
-			//FlxTween.tween(firePhase1, {alpha: 1}, 1);
+		if (curBeat == 280)
+		{
+			if (!lowQuality)
+			{
+				smokeShit.forEach(function(spr:FlxSprite)
+				{
+					FlxTween.tween(spr, {alpha: 0.55}, 1.5);
+				});
+				smokeFore.forEach(function(spr:FlxSprite)
+					{
+						FlxTween.tween(spr, {alpha: 0.55}, 1.5);
+				});
+			}
+		}
+		if (curBeat == 312)
+		{
+			FlxTween.tween(fireThing, {alpha: 1}, 1);
 			//smokeParticles.emitting = true;
-		//}
-		//if (curBeat == 336)
-		//{
-			//FlxTween.tween(smoke, {alpha: 0.3}, 1.5);
-			//decayedBuildings.alpha = 1;
-			//floor.alpha = 0;
-		//}
+		}
+		if (curBeat == 336)
+		{
+			if (!lowQuality)
+			{
+				smokeShit.forEach(function(spr:FlxSprite)
+				{
+					FlxTween.tween(spr, {alpha: 0.25}, 1.5);
+				});
+				smokeFore.forEach(function(spr:FlxSprite)
+				{
+						FlxTween.tween(spr, {alpha: 0.25}, 1.5);
+				});
+			}
+		}
 		if (curBeat == 474) // load daytime street assets
 		{
 			colorsOrSmthElse.visible = false;
-			//decayedBuildings.alpha = 0;
 			//smokeParticles.emitting = false;
-			//firePhase1.alpha = 0;
-			//smoke.alpha = 0;
+			fireThing.alpha = 0;
 			floor.visible = false;
-			stageCurtains.visible = false;
-			stageFront.visible = false;
-			rain.visible = false;
+			if (!lowQuality)
+			{
+				smokeShit.forEach(function(spr:FlxSprite)
+					{
+						spr.alpha = 0;
+					});
+					smokeFore.forEach(function(spr:FlxSprite)
+					{
+						spr.alpha = 0;
+					});
+				rain.visible = false;
+				cablesDayTime.visible = true;
+				clouds.visible = true;
+				stageCurtains.visible = false;
+				stageFront.visible = false;
+			}
 			brightSky.visible = true;
 			streetDaytime.visible = true;
-			cablesDayTime.visible = true;
-			clouds.visible = true;
 		}
 		if (curBeat == 740) // go back to the street in a even more decayed state
 		{
-			//firePhase2.alpha = 1;
+			fireThing2.alpha = 0.75;
 			//smokeParticles.emitting = true;
 			//fireParticles.emitting = true;
-			//smoke.alpha = 0.56;
-			rain.visible = true;
+			if (!lowQuality)
+			{
+				fireForeground.alpha = 0.6;
+				smokeShit.forEach(function(spr:FlxSprite)
+					{
+						spr.alpha = 0.7;
+					});
+					smokeFore.forEach(function(spr:FlxSprite)
+					{
+						spr.alpha = 0.74;
+					});
+				rain.visible = true;
+				clouds.visible = false;
+				cablesDayTime.visible = false;
+				stageCurtains.visible = true;
+			}
 			streetRuins.visible = true;
-			fakeLightOfHope.visible = true;
+			fakeLightOfHope.alpha = 0.5;
 			brightSky.visible = false;
-			clouds.visible = false;
 			streetDaytime.visible = false;
-			cablesDayTime.visible = false;
+		}
+		if (curBeat == 1136)
+		{
+			fireThing2.alpha = 0;
+			if (!lowQuality)
+				{
+					fireForeground.alpha = 0;
+					smokeShit.forEach(function(spr:FlxSprite)
+						{
+							spr.alpha = 0;
+						});
+						smokeFore.forEach(function(spr:FlxSprite)
+						{
+							spr.alpha = 0;
+						});
+					rain.visible = false;
+					clouds.visible = false;
+					cablesDayTime.visible = false;
+					stageCurtains.visible = true;
+				}
+				streetRuins.visible = false;
+				fakeLightOfHope.alpha = 0;
+				brightSky.visible = false;
+				streetDaytime.visible = false;
 		}
 	}
 }
 	
 function charStagePos(boyfriend:Character, gf:Character, dad:Character)
 {
-	if (dad.curCharacter == 'delusional-mickey')
-		dad.setPosition(-260, 100);
-	else
-		dad.setPosition(-870, -190);
+	switch (dad.curCharacter)
+	{
+		case 'delusional-mickey':
+			dad.setPosition(-260, 120);
+		case 'mickey-delu-intro':
+			dad.setPosition(-210, 180);
+		case 'death-part-1':
+			dad.setPosition(-450, 100);
+		case 'death-part-2':
+			dad.setPosition(-430, 100);
+		default:
+			dad.setPosition(-870, -190);
+	}
 
 	if (boyfriend.curCharacter == 'bf-demon')
-		boyfriend.setPosition(550, 170);
+		boyfriend.setPosition(550, 190);
 	else
 		boyfriend.setPosition(275, 50);
 }
