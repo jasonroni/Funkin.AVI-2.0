@@ -485,7 +485,7 @@ class MainMenu extends MusicBeatState
 		var down_p = Controls.getPressEvent("ui_down");
 		var controlArray:Array<Bool> = [up, down, up_p, down_p];
 
-		if (CoolUtil.findCoreFile())
+		if (!CoolUtil.findCoreFile())
 		{
 			new FlxTimer().start(1.0, function(tmr:FlxTimer)
 			{
