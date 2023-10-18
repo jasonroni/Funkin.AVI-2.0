@@ -83,6 +83,12 @@ enum GameMode
 	CHARTING;
 }
 
+enum FlashType
+{
+	NORMAL;
+	DARK;
+}
+
 class PlayState extends MusicBeatState
 {
 	// defines the Gameplay Mode for the game;
@@ -1342,21 +1348,20 @@ class PlayState extends MusicBeatState
 	 * @param alpha - the visiblity of your BG you want it to flash at
 	 * @param time - How long you want the tween to take
 	 * @param ease - Uses ForeverTools to handle the ease function, so I suggest looking at ForeverDeps.hx to see your options
-	 * @param r - a value used for FlxColor.fromRGB() as an individual number to make a color
-	 * @param g - same as the "r" value
-	 * @param b - you get the idea
-	 * @param a - color's alpha, you get the point
+	 * @param colors - an array of the color values ([red, green, blue, alpha])
 	 *
-	 * @author DEMOLITIONDON96
+	 * @author DEMOLITIONDON96 ft. Jason
 	 */
-	public function flashBGEffect(flashType:String = 'normal', alpha:Float = 0.5, time:Float = 1, ease:String = 'linear', ?r:Int = 255, ?g:Int = 255,
-			?b:Int = 255, ?a:Int = 255) // TODO: Make this function shorter
+	public function flashBGEffect(flashType:FlashType, alpha:Float = 0.5, time:Float = 1, ease:String = 'linear', ?colors:Array<Int>) // TODO: Make this function shorter
 	{
+		// haxe fault !!
+		if (colors == null) colors = [255, 255, 255, 1];
+
 		if (!Init.trueSettings.get('Disable Flashing Lights') && stageBGFlash != null)
 		{
-			switch (flashType.toLowerCase())
+			switch (flashType)
 			{
-				case 'normal' | 'flash':
+				case NORMAL:
 					if (alpha > 1 || alpha < 0) // prevents a crash from making a dumb mistake
 						stageBGFlash.alpha = 0.5;
 					else
@@ -1365,12 +1370,12 @@ class PlayState extends MusicBeatState
 					if (time <= 0) // another check to prevent a crash
 						time = 1;
 
-					if (r == 0 && g == 0 && b == 0) // blend check cause it makes it look cool
+					if (colors[0] == 0 && colors[1] == 0 && colors[2] == 0) // blend check cause it makes it look cool
 						stageBGFlash.blend = NORMAL;
 					else
 						stageBGFlash.blend = ADD;
 
-					stageBGFlash.color = FlxColor.fromRGB(r, g, b, a);
+					stageBGFlash.color = FlxColor.fromRGB(colors[0], colors[1], colors[2], colors[3]);
 
 					if (BGFlashTween != null) // makes it so it won't look wonky, visually
 						BGFlashTween.cancel();
@@ -1383,7 +1388,7 @@ class PlayState extends MusicBeatState
 						}
 					});
 
-				case 'dim' | 'darken' | 'dark':
+				case DARK:
 					if (stageBGFlash != null)
 					{
 						if (BGFlashTween != null)
