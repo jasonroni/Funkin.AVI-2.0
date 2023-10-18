@@ -4,11 +4,11 @@
 			"Yama haki / Toko",
 			"toko",
 			"Creator, Owner, Director, Composer, PlayTester",
-			"Now THIS is how you delusional",
+			"Toko/Yama here.\n\nI just wanted to say working on funkin.avi was an honor, and being the director of it is even more of an honor. This project is and will forever be one of the best projects I've ever worked on.\nI'm glad me and the team got to share it with you. \nI wanted to also say, thanks to the team for putting up with my bullshit, and staying with me on this project regardless of me not being the best person at times. \nI want to also thank you, the player. For playing this mod, and I hope you enjoyed it.\n Stay tuned guys me and the team are still cooking (We might burn the food.)",
 			-320,
 			-140,
 			0.55,
-			false
+			true
 		],
 		[
 			"DEMOLITIONDON96",
@@ -37,7 +37,7 @@
 			"\nHey! I'm the guy that voiced the narrator and gave many ideas for Delusional's events. This is genuinely the first mod I've been a part of,\n\nand what a great experience it has been. Thanks for inviting me on, Demo and Toko, it's been great, and I cannot wait to do more.\n\nplease help me I am still trapped in demo's basement--\n\nP.S: Bonoan is cool and great",
 			-300,
 			-140,
-			0.58,
+			0.55,
 			true
 		],
 		[
@@ -45,9 +45,9 @@
 			"hana",
 			"Artist & Charter",
 			"i am the charter of devilish-deal !!\n and also animator some character !!\n\n and you are so isolated !!",
-			40,
-			50,
-			1,
+			-230,
+			-140,
+			0.75,
 			false
 		],
 		[
@@ -71,10 +71,60 @@
 			true
 		],
 		[
-			"IPhantom_Sprite",
-			"iphantom",
-			"Cutscenes, Icon Art for Hunter Goofy, Mother of Miserable Funk",
-			"holy crap its mother of miserable funk",
+			"_k3illy_kimbell",
+			"k3illy",
+			"Artist",
+			"\n\n\nhow to talk? say helloo guys~ \n\nI am an artist for Funkin.aviii mod this is my first mod that I work! \nThank you to HanaCat / Benjicat (close friend) and Demolition and some director! for invite me to work Funkin.avi! \n\nEven though I'm a little shy..- lmao",
+			-320,
+			-140,
+			0.55,
+			true
+		],
+		[
+			"Mr.IDK",
+			"idk",
+			"Artist (Also White Noise and RS)",
+			"uh idk i forgot :3",
+			-314,
+			-140,
+			0.55,
+			false
+		],
+		[
+			"General Secretary Monika",
+			"gsm",
+			"Artist",
+			"I have Skylar Filmed the Studios\n: sunglasses :",
+			-320,
+			-140,
+			0.55,
+			false
+		],
+		[
+			"bladzamc_emerald",
+			"bladz",
+			"Artist and Playtester",
+			"I can feel Malfunction coming inside me",
+			-320,
+			-140,
+			0.55,
+			false
+		],
+		[
+			"Moe",
+			"moe",
+			"Artist, Animator And Cutscenes",
+			"6 FUCKING FARTS MAN. GET THE FUCK OUT",
+			-10,
+			50,
+			0.85,
+			false
+		],
+		[
+			"Teelbe",
+			"teelbe",
+			"Artist",
+			"mickey mouse",
 			-320,
 			-140,
 			0.55,
@@ -84,11 +134,11 @@
 			"theonlyshittyre.",
 			"shitty",
 			"Hunter Goofy.",
-			"\n\nI've been on this mod for a long time, when I arrived,\nthe quality of the mod was still pretty questionable,\nbut im pretty proud of what this mod has become, like.. bro this gotta be my fav mod in fnf community and im not saying that cuz i work here, lol.\n\nWell, im pretty happy to say that my balls are itchy, have a good day.",
+			"my cock has fallen once again.",
 			50,
 			40,
 			1,
-			true
+			false
 		],
 		[
 			"AustinTheRedDragon",
@@ -111,6 +161,16 @@
 			false
 		],
 		[
+			"PlayerTheMobile",
+			"player",
+			"Artist and Cutscenes",
+			"\n\n\n\nDamn,I never thought I would get into this mod,thanks to Teelbe lmfao\nIm the funny cutscenes man,I'm just a random dumbo who likes drawing Mickey Mouse lol\n\nThank you for playing Funkin.AVI!!!",
+			-320,
+			-140,
+			0.55,
+			true
+		],
+		[
 			"FR3SHMoure",
 			"fresh",
 			"Composer (mostly well known for Delusional)",
@@ -118,6 +178,36 @@
 			30,
 			40,
 			1,
+			false
+		],
+		[
+			"Prismatic9k",
+			"pris",
+			"Programmer",
+			"DUDE SHUT THE F- oh were rolling? Clip that out, CLIP THAT OUT!",
+			0,
+			60,
+			0.85,
+			false
+		],
+		[
+			"Schweizer",
+			"schweizer",
+			"Programmer",
+			"no quote :(",
+			-320,
+			-140,
+			0.55,
+			false
+		],
+		[
+			"Stik",
+			"stik",
+			"Programmer and Playtester",
+			"SHUT THE FUCK UP PURG",
+			-310,
+			-150,
+			0.55,
 			false
 		],
 		["Dreupy", "dreupy", "Charter", "MICKEY DIES????", -45, 40, 0.85, false],
