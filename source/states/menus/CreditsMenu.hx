@@ -1,5 +1,6 @@
 package states.menus;
 
+import haxe.Json;
 import base.dependency.Discord;
 import base.song.Conductor;
 import flixel.FlxG;
@@ -11,163 +12,19 @@ import flixel.tweens.*;
 import flixel.util.FlxColor;
 import openfl.filters.ShaderFilter;
 import sys.io.File;
+/** Credit shit or smth !!
+
+How it Works:
+
+* [Name of Contributor, Icon, Work They've Done, Description/Quote, X Value of Icon, Y Value of Icon, Size of Icon, Bool for in case someone has a stupidly long description]
+*/
+typedef CreditStuff = {
+	devs:Array<Dynamic>
+}
 
 class CreditsMenu extends MusicBeatState
 {
-	/**
-	 * ## Custom Credits Array System
-	 * 
-	 * How it Works:
-	 	* [Name of Contributor, Icon, Work They've Done, Description/Quote, X Value of Icon, Y Value of Icon, Size of Icon, Bool for in case someone has a stupidly long description]
-	 */
-	public static var creditArray:Array<Dynamic> = [
-		[
-			'Yama haki / Toko',
-			'toko',
-			'Creator, Owner, Director, Composer, PlayTester',
-			'Now THIS is how you delusional',
-			-320,
-			-140,
-			0.55,
-			false
-		],
-		[
-			'DEMOLITIONDON96',
-			'don',
-			'Director, Composer, Main Programmer, Artist, Animator, Charter',
-			'Shut the fuck up you lame ass Psych engine kiddo.',
-			-320,
-			-140,
-			0.55,
-			false
-		],
-		[
-			'Domingo',
-			'domingo',
-			'Director, Main Artist, Animator, Cutscenes, PlayTester',
-			"A realistic depiction of working on Funkin.Avi!!
-		In all seriousness this mod has taken so long to finish its update, I think it was about a year already… 
-		OH WAIT by the time, June 12, 2023, I'm writing this I'm pretty sure it has been exactly 1 year since we have uploaded the very first demo of the mod. 
-		We have come such a long way and I'm happy with what we've been able to achieve and the story hasn't even reached its climax. 
-		Thank you for playing!",
-			-320,
-			-140,
-			0.55,
-			true
-		],
-		[
-			'KKCopinXD',
-			'kopin',
-			'Co-Director, Icon Artist & Concept Menu Artist',
-			"if it wasn't for Coolye3ted I wouldn't be here on this Mod to be able to work on it 
-		I've been here since 1.5 and It's an honor to be here working for this amazing team, 
-		I made a lot of friends I appreciate being able to be friends with them I hope you enjoyed the update we all worked hard to finish it! YIPPEEEEEEE-
-		\nI made Malfuntion background, all MOD icons ( except Hunter Goofy ) all OST arts, dubbed Relapse Mouse and Malfuntion countdowns and I made FreePlay Concept",
-			40,
-			40,
-			1,
-			true
-		],
-		[
-			'HanaCat',
-			'hana',
-			'Artist & Charter',
-			'i am the charter of devilish-deal!11!1! and also animator some character1!1!1!1! and you are so isolated!1!1',
-			40,
-			50,
-			1,
-			false
-		],
-		[
-			'RetroJogador',
-			'joga',
-			'Composed Main Menu, Both Joke Songs, & Made Menu Art',
-			"Btw I really enjoyed joining the mod team and ending this amazing update, 
-	      	along the way I met and made a lot of cool friends. Changing the subject, 
-	      	I was responsible for making the Menu Music, Pause Music, Sanguis Muris and others, Arts I practically created the main menu, hud and Others, 
-	      	and I gave the voice to Mrs Smile in V2, Change the World, My Final Message: YIPPEEE- ",
-			-320,
-			-140,
-			0.55,
-			true
-		],
-		[
-			'IPhantom_Sprite',
-			'iphantom',
-			'Cutscenes, Icon Art for Hunter Goofy, Mother of Miserable Funk',
-			"holy crap its mother of miserable funk",
-			-320,
-			-140,
-			0.55,
-			false
-		],
-		[
-			'theonlyshittyre.',
-			'shitty',
-			'Hunter Goofy.',
-			"I've been on this mod for a long time, when I arrived, 
-		the quality of the mod was still pretty questionable, 
-	    but im pretty proud of what this mod has become, like.. bro this gotta be my fav mod in fnf community and im not saying that cuz i work here, lol. 
-		Well, im pretty happy to say that my balls are itchy, have a good day.",
-			50,
-			40,
-			1,
-			true
-		],
-		[
-			'AustinTheRedDragon',
-			'austin',
-			'Artist, Owner of Mr. Smiles & Professionally Horny',
-			'I am not an alligator' /*yes you are :trollface: -don*/,
-			30,
-			40,
-			1,
-			false
-		],
-		[
-			'The Gamerchoice',
-			'gamerchoice',
-			'Concept Artist & Playtester',
-			'where are the men???1?! * has an erection *',
-			20,
-			40,
-			0.9,
-			false
-		],
-		[
-			'FR3SHMoure',
-			'fresh',
-			"Composer (mostly well known for Delusional)",
-			'the swagging of 68',
-			30,
-			40,
-			1,
-			false
-		],
-		['Dreupy', 'dreupy', 'Charter', 'MICKEY DIES????', -45, 40, 0.85, false],
-		[
-			'Writer Anon',
-			'writer',
-			"Rewrote story of the mod & VA of certain cutscenes",
-			"Hey! I'm the guy that voiced the narrator and gave many ideas for Delusional's events. This is genuinely the first mod I've been a part of, 
-        and what a great experience it has been. Thanks for inviting me on, Demo and Toko, it's been great, and I cannot wait to do more.\nplease help me I am still trapped in demo's basement--\n
-        P.S: Bonoan is cool and great",
-			-300,
-			-140,
-			0.58,
-			true
-		],
-		[
-			'Bax',
-			'bax',
-			"\"Peak\" Artist",
-			"Guh stop saying me peak >:(",
-			-590,
-			-450,
-			0.18,
-			false
-		],
-	];
+	public static var creditArray:Array<Dynamic>;
 
 	var curSelected:Int = 0;
 
@@ -187,6 +44,9 @@ class CreditsMenu extends MusicBeatState
 
 	var path:String;
 
+	var daJson:String = null;
+	var creditThing:CreditStuff;
+
 	override function create()
 	{
 		FlxG.stage.window.title = "Funkin.avi - Credits";
@@ -200,6 +60,9 @@ class CreditsMenu extends MusicBeatState
 		FlxG.sound.playMusic(Paths.music('funkinAVI/credits'));
 
 		Conductor.changeBPM(164);
+
+		creditThing = jsonStuff();
+		creditArray = creditThing.devs;
 
 		background = new FlxSprite().loadGraphic(Paths.image('$path/background'));
 		background.screenCenter();
@@ -314,6 +177,17 @@ class CreditsMenu extends MusicBeatState
 		super.destroy();
 
 		ForeverTools.resetMenuMusic();
+	}
+
+	function jsonStuff()
+	{
+		daJson = File.getContent(Paths.getPath('data/credits.json', TEXT, null));
+
+		if (daJson != null && daJson.length > 0) {
+			return cast Json.parse(daJson);
+		}
+
+		return null;
 	}
 
 	private function changeSelection(newSelect:Int = 0)
