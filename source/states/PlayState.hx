@@ -1,5 +1,6 @@
 package states;
 
+import flixel.addons.text.FlxTypeText;
 import base.dependency.FeatherDeps.Events;
 import base.dependency.FeatherDeps.ScriptHandler;
 import base.events.Events;
@@ -244,7 +245,7 @@ class PlayState extends MusicBeatState
 
 	// lyrics stuff
 	var lyricsIcon:HealthIcon;
-	var lyrics:FlxText;
+	var lyrics:FlxTypeText;
 	var lyricsTween:FlxTween;
 	var iconTween:FlxTween;
 
@@ -777,13 +778,13 @@ class PlayState extends MusicBeatState
 		spaceBarCounter.alpha = 0;
 		spaceBarCounter.scrollFactor.set();
 
-		lyrics = new FlxText(0, FlxG.height - 60, 0, '', 15);
-		lyrics.setFormat(Paths.font('vcr'), 30, FlxColor.WHITE, ForeverTools.setTextAlign('center'), FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		lyrics = new FlxTypeText(0, FlxG.height - 65, 0, '', 15);
+		lyrics.setFormat(Paths.font('vcr'), 30, FlxColor.WHITE, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		lyrics.cameras = [camAlt];
 		lyrics.alpha = 0;
 		lyrics.borderSize = 4;
 		lyrics.scrollFactor.set();
-		lyrics.screenCenter(X);
+		lyrics.screenCenter(X).x -= 90;
 		add(lyrics);
 
 		lyricsIcon = new HealthIcon('placeholder', false);
@@ -1354,7 +1355,7 @@ class PlayState extends MusicBeatState
 	}
 
 	public function manageLyrics(icon:String = 'bf', text:String = 'swaggers', font:String = 'vcr', size:Int = 15, duration:Float = 5,
-			tweenType:String = 'linear')
+			tweenType:String = 'linear', textDelay:Float = 1)
 	{
 		lyricsIcon.updateIcon(icon, false);
 		if (!lyricsIcon.visible)
@@ -1364,7 +1365,8 @@ class PlayState extends MusicBeatState
 		}
 
 		lyrics.font = Paths.font(font);
-		lyrics.text = text;
+		lyrics.resetText(text);
+		lyrics.start(0.03); // currently placeholder time !!
 
 		if (lyricsTween != null)
 			lyricsTween.cancel();
@@ -3945,8 +3947,8 @@ class PlayState extends MusicBeatState
 						// Cam Shit and Lyrics for intro to Phase 2
 						case 366:
 							for (bitch in strumHUD)
-								FlxTween.tween(bitch, {alpha: 0}, 1);
-							FlxTween.tween(camHUD, {alpha: 0}, 1);
+								FlxTween.tween(bitch, {alpha: 0}, 4);
+							FlxTween.tween(camHUD, {alpha: 0}, 4);
 
 						case 381: manageLyrics('relapse-gun-pixel', 'You REALLY think this is...', 'calibri-regular', 30, 1.1, 'sineInOut');
 						case 384: manageLyrics('relapse-gun-pixel', '...some kind of...', 'calibri-regular', 30, 1.4, 'sineInOut');
@@ -3957,7 +3959,7 @@ class PlayState extends MusicBeatState
 						case 408: manageLyrics('relapse-gun-pixel', '...HAVE TO GO THROUGH!', 'calibri-regular', 30, 1.1, 'sineInOut');
 						case 413: manageLyrics('relapse-gun-pixel', 'Sooner or later...', 'calibri-regular', 30, 1.1, 'sineInOut');
 						case 417: manageLyrics('relapse-gun-pixel', '...your DEATH will be nothing...', 'calibri-regular', 30, 1.1, 'sineInOut');
-						case 420: manageLyrics('relapse-gun-pixel', '...BUT CYCLED SINS!', 'calibri-regular', 30, 1.1, 'sineInOut');
+						case 422: manageLyrics('relapse-gun-pixel', '...BUT CYCLED SINS!', 'calibri-regular', 30, 1.1, 'sineInOut');
 
 						case 432:
 							for (bitch in strumHUD)

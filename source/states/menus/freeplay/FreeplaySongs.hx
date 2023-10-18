@@ -407,7 +407,8 @@ class FreeplaySongs extends MusicBeatState
 		changeSelection();
 		changeDiff();
 
-		camZoomTween = FlxTween.tween(this, {}, 0);
+		// this is probably the most retartded shit ever sorry man
+		// camZoomTween = FlxTween.tween(this, {}, 0);
 		
 		if (GameData.check(NO_MALFUNCTION))
 		{
@@ -698,10 +699,6 @@ class FreeplaySongs extends MusicBeatState
 	var closedState:Bool = false;
 	override function beatHit() {
 		super.beatHit();
-
-		if(!Init.trueSettings.get('Reduced Movements') && !closedState)
-			if(curBeat % 2 == 0)
-				FlxG.camera.zoom += 0.055;
 	}
 
 	function changeSelection(change:Int = 0)
