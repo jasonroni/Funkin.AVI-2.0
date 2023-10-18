@@ -2065,7 +2065,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 		
 	/**
 	* Checks on the spacebar if there's a spacebar mechanic required
-	* if you have a mechanic you want to PlayState.main.add with the spacebar
+	* if you have a mechanic you want to add with the spacebar
 	* simply tag in your gimmick here with the stage/song you want it
 	* to occur at, in other words, go nuts
 	*
@@ -2454,11 +2454,11 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 	*
 	* WORK IN PROGRESS, NOT FINAL
 	*/		
-	function cinematicBarControls(speed:Float, ease:String = "circInOut", position:Float = 0, controlType:String = "PlayState.main.add")
+	function cinematicBarControls(speed:Float, ease:String = "circInOut", position:Float = 0, controlType:String = "add")
         {
             switch (controlType.toLowerCase())
             {
-                case "PlayState.main.add" | "create":
+                case "add" | "create":
                     if (cinematicBars["top"] == null)
                     {
                         PlayState.main.cinematicBars["top"] = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
