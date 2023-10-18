@@ -1860,25 +1860,25 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					PlayState.chromZoomShader.setFloat('effectTime', PlayState.main.chromEffect);
 					PlayState.chromNormalShader.setFloat('rOffset', PlayState.main.chromEffect / 70);
 					PlayState.chromNormalShader.setFloat('bOffset', -PlayState.main.chromEffect / 70);
-					PlayState.dramaticCamMovement.setFloat('time', shaderAnim);
+					PlayState.dramaticCamMovement.setFloat('time', PlayState.main.shaderAnim);
 
 				case 'Isolated' | 'Lunacy' | 'Delusional':
 					PlayState.chromZoomShader.setFloat('aberration', PlayState.main.chromEffect);
 					PlayState.chromZoomShader.setFloat('effectTime', PlayState.main.chromEffect);
 					PlayState.chromNormalShader.setFloat('rOffset', PlayState.main.chromEffect / 45);
 					PlayState.chromNormalShader.setFloat('bOffset', -PlayState.main.chromEffect / 45);
-					PlayState.dramaticCamMovement.setFloat('time', shaderAnim);
-					PlayState.delusionalShift.setFloat('iTime', shaderAnim);
-					PlayState.delusionalShift.setFloat('uTime', shaderAnim);
+					PlayState.dramaticCamMovement.setFloat('time', PlayState.main.shaderAnim);
+					PlayState.delusionalShift.setFloat('iTime', PlayState.main.shaderAnim);
+					PlayState.delusionalShift.setFloat('uTime', PlayState.main.shaderAnim);
 
 				case 'Delusion':
 					PlayState.chromZoomShader.setFloat('aberration', PlayState.main.chromEffect);
 					PlayState.chromZoomShader.setFloat('effectTime', PlayState.main.chromEffect);
 					PlayState.chromNormalShader.setFloat('rOffset', PlayState.main.chromEffect / 45);
 					PlayState.chromNormalShader.setFloat('bOffset', -PlayState.main.chromEffect / 45);
-					PlayState.dramaticCamMovement.setFloat('time', shaderAnim);
-					PlayState.delusionalShift.setFloat('iTime', shaderAnim);
-					PlayState.delusionalShift.setFloat('uTime', shaderAnim);
+					PlayState.dramaticCamMovement.setFloat('time', PlayState.main.shaderAnim);
+					PlayState.delusionalShift.setFloat('iTime', PlayState.main.shaderAnim);
+					PlayState.delusionalShift.setFloat('uTime', PlayState.main.shaderAnim);
 					PlayState.redVignette.setFloat('time', PlayState.main.effectRed);
 
 				case 'Malfunction':
@@ -1896,7 +1896,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.blurShader.setFloat('bluramount', PlayState.main.blurEffect);
 
 				case 'Isolated Beta' | 'Isolated Legacy' | 'Isolated Old' | 'Lunacy Legacy' | 'Delusional Legacy':
-					PlayState.andromeda.setFloat('iTime', shaderAnim);
+					PlayState.andromeda.setFloat('iTime', PlayState.main.shaderAnim);
 
 				case 'Scrapped':
 					if (Init.trueSettings.get('Epilepsy Mode'))
@@ -1908,18 +1908,18 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					PlayState.chromZoomShader.setFloat('effectTime', PlayState.main.chromEffect);
 					PlayState.chromNormalShader.setFloat('rOffset', PlayState.main.chromEffect / 35);
 					PlayState.chromNormalShader.setFloat('bOffset', -PlayState.main.chromEffect / 35);
-					PlayState.staticEffect.setFloat('uTime', shaderAnim);
-					PlayState.staticEffect.setFloat('iTime', shaderAnim);
+					PlayState.staticEffect.setFloat('uTime', PlayState.main.shaderAnim);
+					PlayState.staticEffect.setFloat('iTime', PlayState.main.shaderAnim);
 
 				case 'Twisted Grins':
-					PlayState.staticEffect.setFloat('uTime', shaderAnim);
-					PlayState.staticEffect.setFloat('iTime', shaderAnim);
+					PlayState.staticEffect.setFloat('uTime', PlayState.main.shaderAnim);
+					PlayState.staticEffect.setFloat('iTime', PlayState.main.shaderAnim);
 
 				case 'Hunted':
-					PlayState.redVignette.setFloat('time', shaderAnim);
+					PlayState.redVignette.setFloat('time', PlayState.main.shaderAnim);
 
 				case 'Mercy' | 'Mercy Legacy':
-					PlayState.waltStatic.setFloat('time', shaderAnim);
+					PlayState.waltStatic.setFloat('time', PlayState.main.shaderAnim);
 			}
     }
 
