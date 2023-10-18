@@ -21,7 +21,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
     /*
     * A function made to initialize your shaders with, only for song-specific initiation atm
     * 
-    *  @author DEMOLITIONDON96
+    *  @author DEMOLITIONDON96 ft. Jason
     */
     public static function initializeShaders()
 		{
@@ -317,7 +317,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
     * 
     *  Pretty cool if I say so myself, ngl, fun as well
     * 
-    *  @author DEMOLITIONDON96
+    *  @author DEMOLITIONDON96 ft. Jason
     */
     public function createEvents(curBeat:Int)
     {
