@@ -355,7 +355,7 @@ class FreeplaySongs extends MusicBeatState
 			// using a FlxGroup is too much fuss!
 			iconArray.push(icon);
 			add(icon);
-			FlxTween.tween(icon, {x: icon.x - 700}, 2.2, {ease: FlxEase.sineInOut, startDelay: 1});
+			if (freeplayMenuList != 2) FlxTween.tween(icon, {x: icon.x - 700}, 2.2, {ease: FlxEase.sineInOut, startDelay: 1});
 			FlxTween.tween(songText2, {x: songText2.x - 700}, 2.2, {ease: FlxEase.sineInOut, startDelay: 1});
 			FlxTween.tween(songText2, {y: songText2.y + 300}, 1.5, {ease: FlxEase.sineInOut, startDelay: 3});
 		}
@@ -627,8 +627,9 @@ class FreeplaySongs extends MusicBeatState
 			}
 			else
 			{
-				FlxTween.tween(FlxG.camera, {zoom: 2.5}, 1.5, {ease: FlxEase.expoInOut});
-				new flixel.util.FlxTimer().start(0.7, function(e)
+				// ignore that im using the short "if" thing is for less code stuff due to lazyness lol
+				FlxTween.tween(FlxG.camera, {zoom: freeplayMenuList == 2 ? 1 : 2.5}, freeplayMenuList == 2 ? 0.0001 : 1.5, {ease: FlxEase.expoInOut});
+				new flixel.util.FlxTimer().start(freeplayMenuList == 2 ? 0.0001 : 0.7, function(e)
 				{
 					if (FlxG.sound.music != null)
 						FlxG.sound.music.stop();
