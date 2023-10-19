@@ -831,7 +831,7 @@ class PlayState extends MusicBeatState
 
 		if (state == PRESSED)
 		{
-			if (generatedMusic)
+			if (generatedMusic && !boyfriend.stunned && !endingSong)
 			{
 				var previousTime:Float = Conductor.songPosition;
 				if (SONG.instType == "Legacy" || SONG.instType == null)
@@ -1647,6 +1647,7 @@ class PlayState extends MusicBeatState
 	{
 		if (health <= 0 && startedCountdown && !isDead)
 		{
+			boyfriend.stunned = true;
 			paused = true;
 			persistentUpdate = false;
 			persistentDraw = false;
@@ -2554,6 +2555,12 @@ class PlayState extends MusicBeatState
 		{
 			if (gf.animation.curAnim.name.startsWith("idle") || gf.animation.curAnim.name.startsWith("dance"))
 				gf.dance();
+		}
+
+		if (boyfriend != null && curBeat % boyfriend.characterData.headBopSpeed == 0)
+		{
+			if (boyfriend.animation.curAnim.name.startsWith("idle") && !boyfriend.stunned || boyfriend.animation.curAnim.name.startsWith("dance") && !boyfriend.stunned)
+				boyfriend.dance();
 		}
 	}
 

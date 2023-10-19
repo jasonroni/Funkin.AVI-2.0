@@ -27,7 +27,7 @@ class ScoreUtils
 	public static var notesHit:Int = 0;
 	public static var minesHit:Int = 0;
 
-	inline static function get_accuracy():Float
+	public static function get_accuracy():Float
 		return notesAccuracy / notesHit;
 
 	public static final judges:Array<Judgement> = [

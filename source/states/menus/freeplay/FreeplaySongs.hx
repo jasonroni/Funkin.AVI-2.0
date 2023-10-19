@@ -130,10 +130,10 @@ class FreeplaySongs extends MusicBeatState
 
 					if (GameData.episode1FPLock == 'unlocked')
 					{
-						addSong('Devilish-Deal', 3, 'mickey-new', FlxColor.fromRGB(65, 88, 94), 'obscurity', 'EASY', FlxColor.WHITE);
+						addSong('Devilish-Deal', 3, 'minnie', FlxColor.fromRGB(65, 88, 94), 'obscurity', 'EASY', FlxColor.WHITE);
 						addSong('Isolated', 3, 'mickey-new', FlxColor.fromRGB(60, 60, 60), 'obscurity', 'EASY', FlxColor.WHITE);
 						addSong('Lunacy', 3, 'lunamick-new', FlxColor.fromRGB(69, 54, 54), 'obscurity', 'NORMAL', FlxColor.fromRGB(255, 220, 220));
-						addSong('Delusional', 3, 'insanemick', FlxColor.fromRGB(79, 32, 32), 'FR3SHMoure', 'INSANE', FlxColor.fromRGB(255, 110, 110));
+						addSong('Delusional', 3, 'delusional-mickey', FlxColor.fromRGB(79, 32, 32), 'FR3SHMoure', 'INSANE', FlxColor.fromRGB(255, 110, 110));
 					}
 
 					if (GameData.episodeSFPLock == 'unlocked')
@@ -355,7 +355,7 @@ class FreeplaySongs extends MusicBeatState
 			// using a FlxGroup is too much fuss!
 			iconArray.push(icon);
 			add(icon);
-			if (freeplayMenuList != 2) FlxTween.tween(icon, {x: icon.x - 700}, 2.2, {ease: FlxEase.sineInOut, startDelay: 1});
+			FlxTween.tween(icon, {x: icon.x - 700}, 2.2, {ease: FlxEase.sineInOut, startDelay: 1});
 			FlxTween.tween(songText2, {x: songText2.x - 700}, 2.2, {ease: FlxEase.sineInOut, startDelay: 1});
 			FlxTween.tween(songText2, {y: songText2.y + 300}, 1.5, {ease: FlxEase.sineInOut, startDelay: 3});
 		}
