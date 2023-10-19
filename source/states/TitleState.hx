@@ -95,7 +95,7 @@ class TitleState extends states.MusicBeatState
 		"Fun Fact: Beep Bap Brip Skippity Bop",
 		"3 Episodes are here, WOOOOOO",
 		"Sample Text",
-		"Shipy's SNS is peak, frfr",
+		"Shipy's SNS was peak, frfr",
 		"Stfu, I'm playing Minecraft",
 		"Stfu, I'm playing Fortnite",
 		"RIP: Suicidal Remixes.",
