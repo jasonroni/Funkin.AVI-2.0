@@ -310,6 +310,8 @@ class PlayState extends MusicBeatState
 
 	var globalGradient:FlxSprite;
 
+	var isCamForced = false;
+
 	function resetStatics()
 	{
 		GameOverSubstate.resetDeathVariables();
@@ -1612,7 +1614,7 @@ class PlayState extends MusicBeatState
 
 		var char = cameraOnDad ? opponent : boyfriend;
 
-		if (char.animation.curAnim != null) 
+		if (char.animation.curAnim != null && !isCamForced) 
 		{
 			switch (char.animation.curAnim.name.substring(4))
 			{
@@ -1639,6 +1641,17 @@ class PlayState extends MusicBeatState
 		}
 
 		callFunc('postUpdate', [elapsed]);
+	}
+
+        public function moveCamera(isDad, forcePos, camX, camY)
+        {
+		isCamForced = forcePos;
+
+		if (!isCamForced) {
+			if (!shootin)
+			    checkCamPosition();
+		} else 
+			camFollow.setPosition(camX, camY);
 	}
 
 	private var isDead:Bool = false;
@@ -2629,6 +2642,7 @@ class PlayState extends MusicBeatState
 				camDisplaceX = 0;
 				camDisplaceY = 0;
 			}
+		         moveCamera(SONG.notes[Std.int(curStep / 16)].mustHitSection, isCamForced);
 		}
 
 		callFunc('sectionHit', [curSection]);
