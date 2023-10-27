@@ -1573,9 +1573,6 @@ class PlayState extends MusicBeatState
 					}
 					lastSection = Std.int(curStep / 16);
 				}
-
-				if (!shootin) // just for safety so the game doesn't freak out
-					checkCamPosition();
 			}
 
 			Conductor.songPosition += elapsed * 1000;
