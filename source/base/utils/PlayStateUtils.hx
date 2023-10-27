@@ -175,7 +175,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.camHUD.setFilters([new ShaderFilter(PlayState.chromNormalShader)]);
 						for (i in PlayState.strumHUD) i.setFilters([new ShaderFilter(PlayState.chromNormalShader)]);
 					}
-                case 'Twisted Grins':
+                case 'Twisted Grins' | 'Twisted Grins Legacy':
                     if (!Init.trueSettings.get('Low Quality'))
                     {
                         PlayState.camGame.setFilters([
@@ -220,6 +220,13 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
                     PlayState.camHUD.setFilters([new ShaderFilter(PlayState.dramaticCamMovement)]);
                     for (i in PlayState.strumHUD)
                         i.setFilters([new ShaderFilter(PlayState.dramaticCamMovement)]);
+				case 'Cycled Sins Legacy':
+					PlayState.chromZoomShader.setFloat('aberration', 0.12);
+   		 			PlayState.chromZoomShader.setFloat('effectTime', 0.24);
+					PlayState.camGame.setFilters(
+					[
+						new ShaderFilter(PlayState.dramaticCamMovement)
+					]);
 			}
 		}
 
@@ -311,18 +318,216 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 		}
     }
 
-    /*
-    * The Events handling system for hardcoded stuff you want to trigger in-game
-    *  but don't want anyone to actually mess with
-    * 
-    *  Pretty cool if I say so myself, ngl, fun as well
-    * 
-    *  @author DEMOLITIONDON96 ft. Jason
-    */
+    /**
+     * The Events handling system for hardcoded stuff you want to trigger in-game
+     *  but don't want anyone to actually mess with
+     * 
+     *  Pretty cool if I say so myself, ngl, fun as well
+     * 
+     *  @author DEMOLITIONDON96 ft. Jason
+     */
     public function createEvents(curBeat:Int)
     {
         switch (PlayState.SONG.song)
 		{
+			case 'Isolated Legacy':
+				switch (curBeat)
+				{
+					case 1 | 16 | 352 | 368: tweenCamera(1.3, 5, 'sineInOut');
+					case 14 | 30 | 46 | 64 | 80 | 84: PlayState.defaultCamZoom = 0.9;
+					case 32 | 48: tweenCamera(1.2, 3, 'sinInOut');
+					case 40 | 42 | 44 | 56 | 58 | 60 | 62 | 82: PlayState.defaultCamZoom += 0.12;
+					case 66 | 86: PlayState.defaultCamZoom += 0.2;
+					case 68 | 88: PlayState.defaultCamZoom -= 0.15;
+					case 72 | 74 | 76 | 78 | 90 | 92 | 94: PlayState.defaultCamZoom += 0.09;
+					case 96 | 224:
+						PlayState.main.flashBGEffect(DARK, 0, 0.001, 'sineInOut');
+						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.WHITE, 1);
+						PlayState.defaultCamZoom = 0.9;
+					case 98 | 106 | 114 | 122 | 130 | 138 | 146 | 154 | 226 | 234 | 242 | 250 | 258 | 266 | 274 | 282 | 290 | 298 | 306 | 314 | 322 | 330 | 338 | 346:
+						PlayState.main.flashBGEffect(NORMAL, 0.75, 0.5, 'circOut');
+						FlxG.camera.zoom += 0.2;
+						PlayState.camHUD.zoom += 0.23;
+						for (i in PlayState.strumHUD) i.zoom += 0.23;
+					case 99 | 107 | 115 | 123 | 131 | 139 | 147 | 155 | 227 | 235 | 243 | 251 | 259 | 267 | 275 | 283 | 291 | 299 | 307 | 315 | 323 | 331 | 339 | 347:
+						PlayState.main.flashBGEffect(NORMAL, 0.3, 0.5, 'circOut');
+						FlxG.camera.zoom += 0.08;
+						PlayState.camHUD.zoom += 0.11;
+						for (i in PlayState.strumHUD) i.zoom += 0.11;
+					case 101 | 109 | 117 | 125 | 133 | 141 | 149 | 157 | 229 | 237 | 245 | 253 | 261 | 269 | 277 | 285 | 293 | 301 | 309 | 317 | 325 | 333 | 341 | 349:
+						PlayState.main.flashBGEffect(NORMAL, 0.4, 0.5, 'circOut');
+						FlxG.camera.zoom += 0.1;
+						PlayState.camHUD.zoom += 0.13;
+						for (i in PlayState.strumHUD) i.zoom += 0.13;
+					case 102 | 110 | 118 | 126 | 134 | 142 | 150 | 230 | 238 | 246 | 254 | 262 | 270 | 278 | 286 | 294 | 302 | 310 | 318 | 326 | 334 | 342 | 350:
+						PlayState.main.flashBGEffect(NORMAL, 0.55, 0.5, 'circOut');
+						FlxG.camera.zoom += 0.12;
+						PlayState.camHUD.zoom += 0.15;
+						for (i in PlayState.strumHUD) i.zoom += 0.15;
+					case 104 | 112 | 120 | 128 | 136 | 144 | 152 | 232 | 240 | 248 | 256 | 264 | 272 | 280 | 288 | 296 | 304 | 312 | 320 | 328 | 336 | 344:
+						PlayState.main.flashBGEffect(NORMAL, 0.6, 0.5, 'circOut');
+						FlxG.camera.zoom += 0.23;
+						PlayState.camHUD.zoom += 0.26;
+						for (i in PlayState.strumHUD) i.zoom += 0.26;
+					case 158:
+						PlayState.main.flashBGEffect(DARK, 0.85, 1.2, 'sineInOut');
+						FlxG.camera.zoom += 0.23;
+						PlayState.camHUD.zoom += 0.26;
+						for (i in PlayState.strumHUD) i.zoom += 0.26;
+					case 192 | 200 | 208 | 216:
+						PlayState.defaultCamZoom += 0.1;
+					case 366 | 382:
+						PlayState.defaultCamZoom -= 0.1;
+					case 367 | 383:
+						PlayState.defaultCamZoom -= 0.25;
+					case 412:
+						tweenCamera(2, 2, "sineIn");
+					case 416:
+						PlayState.camGame.visible = false;
+						PlayState.camHUD.visible = false;
+						for (i in PlayState.strumHUD) i.visible = false;
+				}
+			case 'Lunacy Legacy':
+				switch (curBeat)
+				{
+					case 4 | 8 | 12 | 14 | 40 | 56 | 104 | 112 | 120 | 124 | 126: PlayState.defaultCamZoom += 0.1;
+					case 16 | 48: 
+						PlayState.defaultCamZoom = 0.9;
+						PlayState.camHUD.zoom += 0.2;
+						for (i in PlayState.strumHUD) i.zoom += 0.23;
+					case 20 | 44 | 60 | 132 | 142 | 164 | 174: PlayState.defaultCamZoom += 0.2;
+					case 24:
+						tweenCamera(0.7, 2, "quartInOut");
+						FlxTween.tween(PlayState.camGame, {alpha: 0}, 1.5, {ease: FlxEase.quartInOut});
+						FlxTween.tween(PlayState.camHUD, {alpha: 0}, 1.5, {ease: FlxEase.quartInOut});
+						for (i in PlayState.strumHUD) FlxTween.tween(i, {alpha: 0.4}, 1.5, {ease: FlxEase.quartInOut});
+					case 32:
+						PlayState.camGame.alpha = 1;
+						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.WHITE, 1.5);
+						PlayState.camHUD.alpha = 1;
+						PlayState.camHUD.zoom += 0.2;
+						for (i in PlayState.strumHUD)
+						{ 
+							i.alpha = 1;
+							i.zoom += 0.23;
+						}
+						PlayState.defaultCamZoom = 0.9;
+					case 64:
+						PlayState.defaultCamZoom = 1.15;
+						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.BLACK, 2);
+					case 68 | 76 | 176: PlayState.defaultCamZoom -= 0.1;
+					case 72 | 134 | 144: PlayState.defaultCamZoom -= 0.15;
+					case 80: PlayState.defaultCamZoom = 1.1;
+					case 88 | 166 | 224: PlayState.defaultCamZoom = 0.8;
+					case 128 | 256:
+						PlayState.defaultCamZoom = 0.78;
+						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.WHITE, 1.5);
+						PlayState.camHUD.alpha = 0.0001;
+						for (i in PlayState.strumHUD) i.alpha = 0.0001;
+					case 156 | 284:
+						tweenCamera(1, 1, "sineInOut");
+						FlxTween.tween(PlayState.camHUD, {alpha: 1}, 1.5, {ease: FlxEase.quartInOut});
+						for (i in PlayState.strumHUD) FlxTween.tween(i, {alpha: 1}, 1.5, {ease: FlxEase.quartInOut});
+					case 160: if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.BLACK, 1.5);
+					case 192: PlayState.defaultCamZoom += 0.25;
+					case 320:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.BLACK, 1);
+						PlayState.main.flashBGEffect(DARK, 0.85, 1, 'quartInOut');
+						PlayState.defaultCamZoom += 0.2;
+					case 336: PlayState.defaultCamZoom -= 0.35;
+					case 368: tweenCamera(1.3, 8, "quartInOut");
+					case 400:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.BLACK, 1.5);
+						PlayState.main.flashBGEffect(DARK, 0, 1, "sineOut");
+					case 404:
+						FlxTween.tween(PlayState.camGame, {alpha: 0}, 1.5, {ease: FlxEase.quartInOut});
+						FlxTween.tween(PlayState.camHUD, {alpha: 0}, 1.5, {ease: FlxEase.quartInOut});
+						for (i in PlayState.strumHUD) FlxTween.tween(i, {alpha: 0}, 1.5, {ease: FlxEase.quartInOut});
+				}
+			case "Twisted Grins Legacy":
+				switch (curBeat)
+				{
+					case 62:
+						FlxTween.tween(PlayState.camGame, {alpha: 0}, 3, {ease: FlxEase.quartInOut});
+						FlxTween.tween(PlayState.camHUD, {alpha: 0}, 3, {ease: FlxEase.quartInOut});
+						for (i in PlayState.strumHUD) FlxTween.tween(i, {alpha: 0}, 3, {ease: FlxEase.quartInOut});
+					case 72:
+						PlayState.camGame.alpha = 1;
+						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.WHITE, 1.5);
+						PlayState.camHUD.alpha = 1;
+						for (i in PlayState.strumHUD)
+						{ 
+							i.alpha = 1;
+						}
+					case 120 | 122 | 125 | 324 | 320 | 332 | 356 | 360 | 364: PlayState.defaultCamZoom += 0.15;
+					case 128: tweenCamera(0.9, 1, "sineInOut");
+					case 156 | 400: PlayState.defaultCamZoom += 0.35;
+					case 159 | 308 | 340 | 376: PlayState.defaultCamZoom = 0.9;
+					case 160 | 228 | 404 | 472:
+						PlayState.defaultCamZoom = 0.9;
+						PlayState.main.flashBGEffect(DARK, 0, 0.5, 'quartOut');
+						if (Init.trueSettings.get("Screen Shake"))
+						{
+							PlayState.camGame.shake(0.01, 24);
+							PlayState.camHUD.shake(0.004, 24);
+							for (i in PlayState.strumHUD) i.shake(0.004, 24);
+						}
+					case 224 | 468:
+						PlayState.main.flashBGEffect(DARK, 0.8, 0.5, 'quartOut');
+						PlayState.defaultCamZoom += 0.35;
+					case 292: PlayState.defaultCamZoom = 1.3;
+					case 336: PlayState.defaultCamZoom -= 0.1;
+					case 536:
+						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.WHITE, 1.5);
+						PlayState.camHUD.visible = false;
+						for (i in PlayState.strumHUD)
+						{ 
+							i.visible = false;
+						}
+					case 575: PlayState.camGame.visible = false;
+				}
+			case 'Cycled Sins Legacy':
+				switch (curBeat)
+				{
+					case 128:
+						FlxTween.tween(PlayState.camHUD, {alpha: 0}, 1, {ease: FlxEase.sineInOut});
+						FlxTween.tween(PlayState.camGame, {alpha: 0}, 1.5, {ease: FlxEase.sineInOut});
+						FlxTween.tween(PlayState.dadStrums, {alpha: 0}, 1, {ease: FlxEase.sineInOut});
+					case 138: FlxTween.tween(PlayState.camGame, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
+					case 142:
+						PlayState.camGame.alpha = 0;
+						PlayState.strumHUD[1].alpha = 0;
+					case 144:
+						PlayState.camGame.setFilters(
+						[
+							new ShaderFilter(PlayState.staticEffect),
+							new ShaderFilter(PlayState.redVignette),
+							new ShaderFilter(PlayState.chromZoomShader),
+							new ShaderFilter(PlayState.dramaticCamMovement),
+						]);
+						PlayState.camGame.alpha = 1;
+						PlayState.camHUD.alpha = 1;
+						PlayState.strumHUD[1].alpha = 1;
+						PlayState.camGame.flash(FlxColor.RED, 1.2);
+						FlxTween.tween(PlayState, {health: 0.1}, 1, {ease: FlxEase.sineInOut});
+					case 272:
+						FlxTween.tween(PlayState, {health: 0.1}, 20, {ease: FlxEase.quartInOut});
+						FlxTween.tween(PlayState.camHUD, {alpha: 0}, 1, {ease: FlxEase.sineInOut});
+						FlxTween.tween(PlayState.strumHUD[1], {alpha: 0}, 1, {ease: FlxEase.sineInOut, startDelay: 0.5});
+					case 332:
+						FlxTween.tween(PlayState.camHUD, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
+           	 			FlxTween.tween(PlayState.strumHUD[1], {alpha: 1}, 1, {ease: FlxEase.sineInOut});
+					case 544:
+						PlayState.camGame.flash(FlxColor.BLACK, 1.5);
+						PlayState.camHUD.visible = false;
+						for (i in PlayState.strumHUD) i.visible = false;
+					//gunshots pew pew
+					case 158 | 172 | 190 | 204 | 212 | 220 | 222 | 228 | 236 | 244 | 252 | 254 | 260 | 268 | 334 | 398 | 422 | 428 | 430 | 436 | 446 | 452 | 462 | 468 | 472 | 478 | 486 | 492 | 494 | 500 | 510 | 514 | 520 | 524 | 526 | 532 | 540 | 542:
+						if (!Init.trueSettings.get("Disable Mechanics"))
+						{
+							PlayState.main.relapseGimmick(0.7, 0.3);
+						}
+				}
 			case 'Devilish Deal':
 				switch (curBeat)
 				{
@@ -1911,7 +2116,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					PlayState.staticEffect.setFloat('uTime', PlayState.main.shaderAnim);
 					PlayState.staticEffect.setFloat('iTime', PlayState.main.shaderAnim);
 
-				case 'Twisted Grins':
+				case 'Twisted Grins' | 'Twisted Grins Legacy':
 					PlayState.staticEffect.setFloat('uTime', PlayState.main.shaderAnim);
 					PlayState.staticEffect.setFloat('iTime', PlayState.main.shaderAnim);
 
@@ -1920,6 +2125,13 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 
 				case 'Mercy' | 'Mercy Legacy':
 					PlayState.waltStatic.setFloat('time', PlayState.main.shaderAnim);
+					PlayState.dramaticCamMovement.setFloat('time', PlayState.main.shaderAnim);
+
+				case 'Cycled Sins Legacy':
+					PlayState.redVignette.setFloat('time', PlayState.main.shaderAnim);
+					PlayState.dramaticCamMovement.setFloat('time', PlayState.main.shaderAnim);
+					PlayState.staticEffect.setFloat('uTime', PlayState.main.shaderAnim);
+					PlayState.staticEffect.setFloat('iTime', PlayState.main.shaderAnim);
 			}
     }
 
@@ -1929,7 +2141,13 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 	public function loadRPCIcon()
     {
         #if DevBuild
-        PlayState.iconRPC = 'icon';
+		switch (PlayState.SONG.song)
+		{
+			case 'Isolated' | 'Hunted' | 'Hunted Legacy':
+				PlayState.iconRPC = CoolUtil.spaceToDash(PlayState.SONG.song.toLowerCase());
+			default:
+				PlayState.iconRPC = 'icon';
+		}
         #else
         PlayState.iconRPC = CoolUtil.spaceToDash(PlayState.SONG.song.toLowerCase()); // basically, it'll now look for the icon in the RPC via song name, if it doesn't it'll just return with no icon
         #end
@@ -2064,6 +2282,8 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
     }
 		
 	/**
+	 * # SPACEBAR Gimmick Checker
+	 * 
 	* Checks on the spacebar if there's a spacebar mechanic required
 	* if you have a mechanic you want to add with the spacebar
 	* simply tag in your gimmick here with the stage/song you want it

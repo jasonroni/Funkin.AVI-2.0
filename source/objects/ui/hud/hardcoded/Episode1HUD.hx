@@ -45,13 +45,6 @@ class Episode1HUD extends FlxSpriteGroup
   public var iconPulseTween:FlxTween;
   public var satanTween:FlxTween;
   
-  // Lunacy Mechanic?????
-  public var disguiseFailCheck:Bool = false;
-  public var disguisePercent:Float = 5; // 5 = 100% for the math later
-  public var disguiseBar:FlxBar;
-  public var disguiseBarBG:FlxSprite;
-  public var disguiseBarOverlay:FlxSprite;
-  
   // Other
   public var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop'; // fnf mods
   public var autoplaySine:Float = 0;
@@ -608,7 +601,7 @@ class Episode1HUD extends FlxSpriteGroup
 						demonBFScary.visible = true;
 						iconP1.alpha = 0;
 						FlxTween.tween(demonBFScary, {alpha: 0}, 1);
-						FlxTween.tween(iconP1, {alpha: 1}, 0.6);	
+						FlxTween.tween(iconP1, {alpha: 1}, 0.6);
 				}
 		}
 	}

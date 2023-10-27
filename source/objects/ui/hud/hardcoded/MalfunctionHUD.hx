@@ -42,4 +42,9 @@ class MalfunctionHUD extends FlxSpriteGroup
   public var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
   public var diffDisplay:String = '[-MISSING_ASSETS_OR_COULD_NOT_LOAD_PROPERLY-]';
   public var engineDisplay:String = '<ERROR_110>';
+
+  override function create()
+  {
+      
+  }
 }

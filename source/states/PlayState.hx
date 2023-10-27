@@ -64,13 +64,10 @@ import flixel.sound.FlxSound;
 #if HXCPP_M32
 #else
 // This fixes 2.6.0 users
-#if (hxCodec >= "2.6.1")
-import hxcodec.VideoHandler;
-#elseif (hxCodec == "2.6.0")
-import VideoHandler;
-#else
-import vlc.MP4Handler;
-#end
+#if (hxCodec >= "3.0.0") import hxcodec.flixel.FlxVideo as VideoHandler;
+#elseif (hxCodec >= "2.6.1") import hxcodec.VideoHandler as VideoHandler;
+#elseif (hxCodec == "2.6.0") import VideoHandler;
+#else import vlc.MP4Handler as VideoHandler; #end
 #end
 #if desktop
 import base.dependency.Discord;
@@ -365,7 +362,7 @@ class PlayState extends MusicBeatState
 
 		add(stageBuild.layers);
 
-		stageBGFlash = new FlxSprite(-800, -200).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFFFFFFF);
+		stageBGFlash = new FlxSprite(-1000, -800).makeGraphic(FlxG.width * 6, FlxG.height * 6, 0xFFFFFFFF);
 		stageBGFlash.alpha = 0.0001; // it's at this value so the game doesn't lag when it becomes visible
 		add(stageBGFlash);
 
@@ -2752,28 +2749,43 @@ class PlayState extends MusicBeatState
 	/*
 		Extra functions and stuffs
 	 */
-	#if HXCPP_M32
-	#else
 	public function createVideoCutscene(name:String)
 	{
 		callFunc('createVideoCutscene', [name]);
 
 		inCutscene = true;
-
-		var filepath:String = Paths.video(name);
-		#if (hxCodec >= "2.6.0")
-		var video:VideoHandler = new VideoHandler();
-		#else
-		var video:MP4Handler = new MP4Handler();
-		#end
-		video.playVideo(filepath);
-		video.finishCallback = function()
-		{
-			startCountdown();
+	
+			var filepath:String = Paths.video(name);
+			if(!sys.FileSystem.exists(name))
+			{
+				FlxG.log.warn('Couldnt find video file: ' + name);
+				startAndEnd();
+				return;
+			}
+	
+			var video:VideoHandler = new VideoHandler();
+				#if (hxCodec >= "3.0.0")
+				// Recent versions
+				video.play(name);
+				video.onEndReached.add(function()
+				{
+					video.dispose();
+					startAndEnd();
+					return;
+				}, true);
+				#else
+				// Older versions
+				video.playVideo(name);
+				video.finishCallback = function()
+				{
+					startAndEnd();
+					return;
+				}
+				#end
+			FlxG.log.warn('Platform not supported!');
+			startAndEnd();
 			return;
-		}
 	}
-	#end
 
 	// song end function at the end of the playstate lmao ironic I guess
 	function finishSong(ignoreOffset:Bool = false):Void
@@ -2855,6 +2867,14 @@ class PlayState extends MusicBeatState
 
 		checkGameJoltAchievement();
 		//
+	}
+
+	public function startAndEnd()
+	{
+		if(endingSong)
+			endSong();
+		else
+			startCountdown();
 	}
 
 	private function checkGameJoltAchievement():Void
