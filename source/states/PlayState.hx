@@ -362,7 +362,7 @@ class PlayState extends MusicBeatState
 
 		add(stageBuild.layers);
 
-		stageBGFlash = new FlxSprite(-1000, -800).makeGraphic(FlxG.width * 6, FlxG.height * 6, 0xFFFFFFFF);
+		stageBGFlash = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 6, FlxG.height * 6, 0xFFFFFFFF);
 		stageBGFlash.alpha = 0.0001; // it's at this value so the game doesn't lag when it becomes visible
 		add(stageBGFlash);
 
@@ -1355,6 +1355,10 @@ class PlayState extends MusicBeatState
 	{
 		// haxe fault !!
 		if (colors == null) colors = [255, 255, 255, 1];
+
+		// due to the fact that some silly 19 year old guy called demo overuses the shit
+		// out of the zooms this has to exist in cases of emergency   - jason the silly !!
+		stageBGFlash.setPosition(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom);
 
 		if (!Init.trueSettings.get('Disable Flashing Lights') && stageBGFlash != null)
 		{
