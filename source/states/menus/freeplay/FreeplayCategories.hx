@@ -140,6 +140,8 @@ class FreeplayCategories extends MusicBeatState {
 			catsBanners.updateHitbox();
 		}
 
+		grpCats.members[2].flipX = true; // man
+
 		if(!Init.trueSettings.get('Low Quality')) {
 			var scratchStuff:FlxSprite = new FlxSprite();
 			scratchStuff.frames = Paths.getSparrowAtlas('filters/scratchShit');
@@ -264,10 +266,10 @@ class FreeplayCategories extends MusicBeatState {
 				FlxG.sound.play(Paths.sound('base/menus/scrollMenu'));
 			}
 	
-			if (selection < 0)
-				selection = freeplayCats.length - 1;
-			if (selection >= freeplayCats.length)
-				selection = 0;
+			if (curSelected < 0)
+				curSelected = freeplayCats.length - 1;
+			if (curSelected >= freeplayCats.length)
+				curSelected = 0;
 	
 			for (i in 0...freeplayCats.length)
 			{

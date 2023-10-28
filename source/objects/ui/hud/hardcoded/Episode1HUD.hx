@@ -45,13 +45,6 @@ class Episode1HUD extends FlxSpriteGroup
   public var iconPulseTween:FlxTween;
   public var satanTween:FlxTween;
   
-  // Lunacy Mechanic?????
-  public var disguiseFailCheck:Bool = false;
-  public var disguisePercent:Float = 5; // 5 = 100% for the math later
-  public var disguiseBar:FlxBar;
-  public var disguiseBarBG:FlxSprite;
-  public var disguiseBarOverlay:FlxSprite;
-  
   // Other
   public var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop'; // fnf mods
   public var autoplaySine:Float = 0;
@@ -157,10 +150,10 @@ class Episode1HUD extends FlxSpriteGroup
 	delusionalIcon.visible = false;
 	add(delusionalIcon);
 
-	minnieIcon = new HealthIcon('mickey-new', false);
+	minnieIcon = new HealthIcon('minnie', false);
 	minnieIcon.y = healthBar.y - (minnieIcon.height / 2);
 	minnieIcon.canBounce = true;
-	minnieIcon.animation.curAnim.curFrame = 0;
+	minnieIcon.animation.curAnim.curFrame = 2;
 	minnieIcon.visible = false;
 	add(minnieIcon);
 	  
@@ -255,7 +248,48 @@ class Episode1HUD extends FlxSpriteGroup
 
 	override public function update(elapsed:Float)
 	{
-        	updateScoreText();
+        updateScoreText();
+
+		//HOLY SHIT LUNACY GIMMICK!!!!!!!??!??!?!?!??!
+		if (PlayState.SONG.song == "Lunacy" && PlayState.boyfriend.curCharacter == 'bf-lunacy')
+		{
+			if (ScoreUtils.get_accuracy() < 90 && ScoreUtils.get_accuracy() >= 85)
+				PlayState.health -= 0.001;
+			else if (ScoreUtils.get_accuracy() < 85 && ScoreUtils.get_accuracy() >= 80)
+				PlayState.health -= 0.0025;
+			else if (ScoreUtils.get_accuracy() < 80 && ScoreUtils.get_accuracy() >= 75)
+				PlayState.health -= 0.004;
+			else if (ScoreUtils.get_accuracy() < 75 && ScoreUtils.get_accuracy() >= 70)
+				PlayState.health -= 0.0055;
+			else if (ScoreUtils.get_accuracy() < 70 && ScoreUtils.get_accuracy() >= 65)
+				PlayState.health -= 0.007;
+			else if (ScoreUtils.get_accuracy() < 65 && ScoreUtils.get_accuracy() >= 60)
+				PlayState.health -= 0.0085;
+			else if (ScoreUtils.get_accuracy() < 60 && ScoreUtils.get_accuracy() >= 55)
+				PlayState.health -= 0.01;
+			else if (ScoreUtils.get_accuracy() < 55 && ScoreUtils.get_accuracy() >= 50)
+				PlayState.health -= 0.0115;
+			else if (ScoreUtils.get_accuracy() < 50 && ScoreUtils.get_accuracy() >= 45)
+				PlayState.health -= 0.013;
+			else if (ScoreUtils.get_accuracy() < 45 && ScoreUtils.get_accuracy() >= 40)
+				PlayState.health -= 0.0145;
+			else if (ScoreUtils.get_accuracy() < 40 && ScoreUtils.get_accuracy() >= 35)
+				PlayState.health -= 0.016;
+			else if (ScoreUtils.get_accuracy() < 35 && ScoreUtils.get_accuracy() >= 30)
+				PlayState.health -= 0.0175;
+			else if (ScoreUtils.get_accuracy() < 30 && ScoreUtils.get_accuracy() >= 25)
+				PlayState.health -= 0.019;
+			else if (ScoreUtils.get_accuracy() < 25 && ScoreUtils.get_accuracy() >= 20)
+				PlayState.health -= 0.0205;
+			else if (ScoreUtils.get_accuracy() < 20 && ScoreUtils.get_accuracy() >= 15)
+				PlayState.health -= 0.023;
+			else if (ScoreUtils.get_accuracy() < 15 && ScoreUtils.get_accuracy() >= 10)
+				PlayState.health -= 0.0245;
+			else if (ScoreUtils.get_accuracy() < 10 && ScoreUtils.get_accuracy() >= 5)
+				PlayState.health -= 0.026;
+			else if (ScoreUtils.get_accuracy() < 5 && ScoreUtils.get_accuracy() >= 0)
+				PlayState.health -= 0.0275;
+		}
 
 		// pain, this is like the 7th attempt
 		healthBar.percent = (PlayState.health * 50);
@@ -430,8 +464,8 @@ class Episode1HUD extends FlxSpriteGroup
 					case 64:
 						satanIconPulse.visible = true;
 						satanIconPulse.alpha = 0.001;
-					case 96: minnieIcon.animation.curAnim.curFrame = 0;
-					case 112: minnieIcon.animation.curAnim.curFrame = 2;
+					case 96: minnieIcon.animation.curAnim.curFrame = 2;
+					case 112: minnieIcon.animation.curAnim.curFrame = 0;
 					case 128:
 						healthBarBG.visible = false;
 						healthBar.visible = false;
@@ -567,7 +601,7 @@ class Episode1HUD extends FlxSpriteGroup
 						demonBFScary.visible = true;
 						iconP1.alpha = 0;
 						FlxTween.tween(demonBFScary, {alpha: 0}, 1);
-						FlxTween.tween(iconP1, {alpha: 1}, 0.6);	
+						FlxTween.tween(iconP1, {alpha: 1}, 0.6);
 				}
 		}
 	}

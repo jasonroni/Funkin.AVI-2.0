@@ -392,7 +392,7 @@ class MainMenu extends MusicBeatState
 		updateSelection();
 
 		// from the base game lol
-		var versionShit:FlxText = new FlxText(5, FlxG.height * 0.01, 0, 'Funkin.avi v2.0.0\nForever engine v0.3.1', 24);
+		var versionShit:FlxText = new FlxText(5, FlxG.height * 0.01, 0, 'Funkin.avi v1.7.0\nForever engine v0.3.1', 24);
 		versionShit.setFormat(Paths.font("DisneyFont"), 29, 0xFFFFFFFF, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
 		versionShit.scrollFactor.set();
 		versionShit.cameras = [camHUD];

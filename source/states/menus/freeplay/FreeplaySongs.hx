@@ -130,10 +130,10 @@ class FreeplaySongs extends MusicBeatState
 
 					if (GameData.episode1FPLock == 'unlocked')
 					{
-						addSong('Devilish-Deal', 3, 'mickey-new', FlxColor.fromRGB(65, 88, 94), 'obscurity', 'EASY', FlxColor.WHITE);
+						addSong('Devilish-Deal', 3, 'minnie', FlxColor.fromRGB(65, 88, 94), 'obscurity', 'EASY', FlxColor.WHITE);
 						addSong('Isolated', 3, 'mickey-new', FlxColor.fromRGB(60, 60, 60), 'obscurity', 'EASY', FlxColor.WHITE);
 						addSong('Lunacy', 3, 'lunamick-new', FlxColor.fromRGB(69, 54, 54), 'obscurity', 'NORMAL', FlxColor.fromRGB(255, 220, 220));
-						addSong('Delusional', 3, 'insanemick', FlxColor.fromRGB(79, 32, 32), 'FR3SHMoure', 'INSANE', FlxColor.fromRGB(255, 110, 110));
+						addSong('Delusional', 3, 'delusional-mickey', FlxColor.fromRGB(79, 32, 32), 'FR3SHMoure', 'INSANE', FlxColor.fromRGB(255, 110, 110));
 					}
 
 					if (GameData.episodeSFPLock == 'unlocked')
@@ -407,7 +407,8 @@ class FreeplaySongs extends MusicBeatState
 		changeSelection();
 		changeDiff();
 
-		camZoomTween = FlxTween.tween(this, {}, 0);
+		// this is probably the most retartded shit ever sorry man
+		// camZoomTween = FlxTween.tween(this, {}, 0);
 		
 		if (GameData.check(NO_MALFUNCTION))
 		{
@@ -626,8 +627,9 @@ class FreeplaySongs extends MusicBeatState
 			}
 			else
 			{
-				FlxTween.tween(FlxG.camera, {zoom: 2.5}, 1.5, {ease: FlxEase.expoInOut});
-				new flixel.util.FlxTimer().start(0.7, function(e)
+				// ignore that im using the short "if" thing is for less code stuff due to lazyness lol
+				FlxTween.tween(FlxG.camera, {zoom: freeplayMenuList == 2 ? 1 : 2.5}, freeplayMenuList == 2 ? 0.0001 : 1.5, {ease: FlxEase.expoInOut});
+				new flixel.util.FlxTimer().start(freeplayMenuList == 2 ? 0.0001 : 0.7, function(e)
 				{
 					if (FlxG.sound.music != null)
 						FlxG.sound.music.stop();
@@ -698,10 +700,6 @@ class FreeplaySongs extends MusicBeatState
 	var closedState:Bool = false;
 	override function beatHit() {
 		super.beatHit();
-
-		if(!Init.trueSettings.get('Reduced Movements') && !closedState)
-			if(curBeat % 2 == 0)
-				FlxG.camera.zoom += 0.055;
 	}
 
 	function changeSelection(change:Int = 0)
