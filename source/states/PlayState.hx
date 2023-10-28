@@ -1641,7 +1641,7 @@ class PlayState extends MusicBeatState
 		callFunc('postUpdate', [elapsed]);
 	}
 
-        public function moveCamera(isDad, forcePos, camX, camY)
+        public function moveCamera(isDad, forcePos, ?camX, ?camY)
         {
 		isCamForced = forcePos;
 
