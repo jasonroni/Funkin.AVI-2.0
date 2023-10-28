@@ -1625,7 +1625,7 @@ class PlayState extends MusicBeatState
 
 				case 'LEFT' | 'LEFT-alt' | 'LEFTmiss':
 					camOffset[0] -= 40;
-					camOffset[2] -= 1.45;
+					camOffset[2] -= 1.3;
 
 				case 'DOWN' | 'DOWN-alt' | 'DOWNmiss':
 					camOffset[1] += 40;
