@@ -87,7 +87,6 @@ class TitleState extends states.MusicBeatState
 
 	private var windowArray:Array<Any> = [
 		"Also try Your Mom Simulator",
-		"No We Don't Support The Engine's Creator Actions",
 		"Imagine making yet another Suicide Mouse mod?",
 		"Comically Large Spoon",
 		"snas uddertail",
@@ -96,7 +95,7 @@ class TitleState extends states.MusicBeatState
 		"Fun Fact: Beep Bap Brip Skippity Bop",
 		"3 Episodes are here, WOOOOOO",
 		"Sample Text",
-		"Shipy's SNS was peak, frfr",
+		"Shipy's SNS is peak, frfr",
 		"Stfu, I'm playing Minecraft",
 		"Stfu, I'm playing Fortnite",
 		"RIP: Suicidal Remixes.",

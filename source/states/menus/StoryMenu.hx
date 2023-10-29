@@ -27,6 +27,7 @@ class StoryMenu extends MusicBeatState
 	static var lastDifficulty:String = '';
 
 	var weekCharacters:Array<Array<String>> = [];
+	var bookImage:Array<String> = ['depression'];
 
 	var txtWeekTitle:FlxText;
 
@@ -36,6 +37,7 @@ class StoryMenu extends MusicBeatState
 
 	var grpWeekText:FlxTypedGroup<MenuItem>;
 	var grpWeekCharacters:FlxTypedGroup<MenuCharacter>;
+	var bookStuff:FlxTypedGroup<FlxSprite>;
 
 	var grpLocks:FlxTypedGroup<FlxSprite>;
 
@@ -115,6 +117,19 @@ class StoryMenu extends MusicBeatState
 		ispy.antialiasing = true;
 		if (!Init.trueSettings.get('Disable Screen Shaders')) ispy.shader = blur;
 		add(ispy);
+
+		bookStuff = new FlxTypedGroup<FlxSprite>();
+		add(bookStuff);
+
+		for (i in 0...bookImage.length)
+		{
+			var image:FlxSprite = new FlxSprite(100, 0).loadGraphic(Paths.image('menus/Funkin_avi/storymenu/bookPics/' + bookImage[i]));
+			image.ID = i;
+			image.angle = FlxG.random.float(-15, 18);
+			image.alpha = 0.0001;
+			image.scale.set(0.45, 0.45);
+			bookStuff.add(image);
+		}
 
 		scoreText = new FlxText(10, 10, 0, "SCORE: 49324858", 36);
 		scoreText.setFormat(Paths.font("vcr"), 32);
@@ -474,6 +489,14 @@ class StoryMenu extends MusicBeatState
 		var gameWeek = Main.weeksMap.get(Main.weeks[curWeek]);
 		var weekChars = gameWeek.characters;
 
+		bookStuff.forEach(function(image:FlxSprite)
+		{
+			image.alpha	= 0.0001;
+		});
+
+		if (bookStuff.members[curWeek].alpha == 0.0001)
+			bookStuff.members[curWeek].alpha = 1;
+			
 		for (i in 0...grpWeekCharacters.length)
 			grpWeekCharacters.members[i].createCharacter(weekChars[i], true);
 		txtTracklist.text = "Tracks\n";
