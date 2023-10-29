@@ -36,15 +36,15 @@ class GameOverSubstate extends MusicBeatSubstate
 		Conductor.songPosition = 0;
 
 		bf = new Boyfriend();
-		bf.setCharacter(x, y + PlayState.boyfriend.height, bfType);
+		bf.setCharacter(x, y + PlayState.boyfriend.height, "bf-dead");
 		add(bf);
 
-		PlayState.boyfriend.destroy();
+		PlayState.boyfriend.visible = false;
 
 		camFollow = new FlxObject(bf.getGraphicMidpoint().x + 20, bf.getGraphicMidpoint().y - 40, 1, 1);
 		add(camFollow);
 
-		Conductor.changeBPM(trackBpm);
+		Conductor.changeBPM(100);
 
 		// FlxG.camera.followLerp = 1;
 		// FlxG.camera.focusOn(FlxPoint.get(FlxG.width / 2, FlxG.height / 2));
@@ -105,7 +105,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			FlxG.camera.follow(camFollow, LOCKON, 0.01);
 
 		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.finished)
-			FlxG.sound.playMusic(Paths.music(deathTrack));
+			FlxG.sound.playMusic(Paths.music('gameOver'));
 
 		// if (FlxG.sound.music.playing)
 		//	Conductor.songPosition = FlxG.sound.music.time;
@@ -127,7 +127,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			isEnding = true;
 			bf.playAnim('deathConfirm', true);
 			FlxG.sound.music.stop();
-			FlxG.sound.play(Paths.music(leaveTrack));
+			FlxG.sound.play(Paths.music("gameOverEnd"));
 			new FlxTimer().start(0.7, function(tmr:FlxTimer)
 			{
 				FlxG.camera.fade(FlxColor.BLACK, 1, false, function()

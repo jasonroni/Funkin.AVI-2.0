@@ -392,7 +392,7 @@ class MainMenu extends MusicBeatState
 		updateSelection();
 
 		// from the base game lol
-		var versionShit:FlxText = new FlxText(5, FlxG.height * 0.01, 0, 'Funkin.avi v1.7.0\nForever engine v0.3.1', 24);
+		var versionShit:FlxText = new FlxText(5, FlxG.height * 0.01, 0, 'Funkin.avi v1.8.0\nForever engine v0.3.1', 24);
 		versionShit.setFormat(Paths.font("DisneyFont"), 29, 0xFFFFFFFF, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
 		versionShit.scrollFactor.set();
 		versionShit.cameras = [camHUD];
@@ -891,6 +891,8 @@ class MainMenu extends MusicBeatState
 	}
 
 	var lastCurSelected:Int = 0;
+	var arrowX:Float = 0;
+	var arrowY:Float = 0;
 
 	private function updateSelection()
 	{
@@ -911,50 +913,28 @@ class MainMenu extends MusicBeatState
 			switch (curSelected)
 			{
 				case 0:
-					arrowTween = FlxTween.tween(arrow, {
-						x: -35,
-						y: 60
-					}, 0.1, {
-						ease: FlxEase.quadOut,
-						onComplete: function(twn:FlxTween)
-						{
-							arrowTween = null;
-						}
-					});
+					arrowX = -35;
+					arrowY = 60;
 				case 1:
-					arrowTween = FlxTween.tween(arrow, {
-						x: 25,
-						y: 160
-					}, 0.1, {
-						ease: FlxEase.quadOut,
-						onComplete: function(twn:FlxTween)
-						{
-							arrowTween = null;
-						}
-					});
+					arrowX = 25;
+					arrowY = 160;
 				case 2:
-					arrowTween = FlxTween.tween(arrow, {
-						x: 35,
-						y: 255
-					}, 0.1, {
-						ease: FlxEase.quadOut,
-						onComplete: function(twn:FlxTween)
-						{
-							arrowTween = null;
-						}
-					});
+					arrowX = 35;
+					arrowY = 255;
 				case 3:
-					arrowTween = FlxTween.tween(arrow, {
-						x: 15,
-						y: 355
-					}, 0.1, {
-						ease: FlxEase.quadOut,
-						onComplete: function(twn:FlxTween)
-						{
-							arrowTween = null;
-						}
-					});
+					arrowX = 15;
+					arrowY = 355;
 			}
+			arrowTween = FlxTween.tween(arrow, {
+				x: arrowX,
+				y: arrowY
+			}, 0.1, {
+				ease: FlxEase.quadOut,
+				onComplete: function(twn:FlxTween)
+				{
+					arrowTween = null;
+				}
+			});
 		}
 
 		if (menuItems.members[Math.floor(curSelected)].alpha == 0.45)

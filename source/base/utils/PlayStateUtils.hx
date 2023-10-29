@@ -79,6 +79,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						}
 					}
 				case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional' | 'Delusion':
+					PlayState.redVignette.setFloat('time', 0.0);
 					if (!Init.trueSettings.get('Low Quality'))
 					{
 						PlayState.camGame.setFilters([
@@ -227,6 +228,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					[
 						new ShaderFilter(PlayState.dramaticCamMovement)
 					]);
+					for (i in PlayState.strumHUD) i.setFilters([new ShaderFilter(PlayState.grayScale)]);
 			}
 		}
 
@@ -348,32 +350,26 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.main.flashBGEffect(NORMAL, 0.75, 0.5, 'circOut');
 						FlxG.camera.zoom += 0.2;
 						PlayState.camHUD.zoom += 0.23;
-						for (i in PlayState.strumHUD) i.zoom += 0.23;
 					case 99 | 107 | 115 | 123 | 131 | 139 | 147 | 155 | 227 | 235 | 243 | 251 | 259 | 267 | 275 | 283 | 291 | 299 | 307 | 315 | 323 | 331 | 339 | 347:
 						PlayState.main.flashBGEffect(NORMAL, 0.3, 0.5, 'circOut');
 						FlxG.camera.zoom += 0.08;
 						PlayState.camHUD.zoom += 0.11;
-						for (i in PlayState.strumHUD) i.zoom += 0.11;
 					case 101 | 109 | 117 | 125 | 133 | 141 | 149 | 157 | 229 | 237 | 245 | 253 | 261 | 269 | 277 | 285 | 293 | 301 | 309 | 317 | 325 | 333 | 341 | 349:
 						PlayState.main.flashBGEffect(NORMAL, 0.4, 0.5, 'circOut');
 						FlxG.camera.zoom += 0.1;
 						PlayState.camHUD.zoom += 0.13;
-						for (i in PlayState.strumHUD) i.zoom += 0.13;
 					case 102 | 110 | 118 | 126 | 134 | 142 | 150 | 230 | 238 | 246 | 254 | 262 | 270 | 278 | 286 | 294 | 302 | 310 | 318 | 326 | 334 | 342 | 350:
 						PlayState.main.flashBGEffect(NORMAL, 0.55, 0.5, 'circOut');
 						FlxG.camera.zoom += 0.12;
 						PlayState.camHUD.zoom += 0.15;
-						for (i in PlayState.strumHUD) i.zoom += 0.15;
 					case 104 | 112 | 120 | 128 | 136 | 144 | 152 | 232 | 240 | 248 | 256 | 264 | 272 | 280 | 288 | 296 | 304 | 312 | 320 | 328 | 336 | 344:
 						PlayState.main.flashBGEffect(NORMAL, 0.6, 0.5, 'circOut');
 						FlxG.camera.zoom += 0.23;
 						PlayState.camHUD.zoom += 0.26;
-						for (i in PlayState.strumHUD) i.zoom += 0.26;
 					case 158:
 						PlayState.main.flashBGEffect(DARK, 0.85, 1.2, 'sineInOut');
 						FlxG.camera.zoom += 0.23;
 						PlayState.camHUD.zoom += 0.26;
-						for (i in PlayState.strumHUD) i.zoom += 0.26;
 					case 192 | 200 | 208 | 216:
 						PlayState.defaultCamZoom += 0.1;
 					case 366 | 382:
@@ -385,7 +381,6 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					case 416:
 						PlayState.camGame.visible = false;
 						PlayState.camHUD.visible = false;
-						for (i in PlayState.strumHUD) i.visible = false;
 				}
 			case 'Lunacy Legacy':
 				switch (curBeat)
@@ -394,23 +389,16 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					case 16 | 48: 
 						PlayState.defaultCamZoom = 0.9;
 						PlayState.camHUD.zoom += 0.2;
-						for (i in PlayState.strumHUD) i.zoom += 0.23;
 					case 20 | 44 | 60 | 132 | 142 | 164 | 174: PlayState.defaultCamZoom += 0.2;
 					case 24:
 						tweenCamera(0.7, 2, "quartInOut");
 						FlxTween.tween(PlayState.camGame, {alpha: 0}, 1.5, {ease: FlxEase.quartInOut});
-						FlxTween.tween(PlayState.camHUD, {alpha: 0}, 1.5, {ease: FlxEase.quartInOut});
-						for (i in PlayState.strumHUD) FlxTween.tween(i, {alpha: 0.4}, 1.5, {ease: FlxEase.quartInOut});
+						FlxTween.tween(PlayState.camHUD, {alpha: 0.15}, 2, {ease: FlxEase.quartInOut});
 					case 32:
 						PlayState.camGame.alpha = 1;
 						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.WHITE, 1.5);
 						PlayState.camHUD.alpha = 1;
 						PlayState.camHUD.zoom += 0.2;
-						for (i in PlayState.strumHUD)
-						{ 
-							i.alpha = 1;
-							i.zoom += 0.23;
-						}
 						PlayState.defaultCamZoom = 0.9;
 					case 64:
 						PlayState.defaultCamZoom = 1.15;
@@ -423,11 +411,9 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.defaultCamZoom = 0.78;
 						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.WHITE, 1.5);
 						PlayState.camHUD.alpha = 0.0001;
-						for (i in PlayState.strumHUD) i.alpha = 0.0001;
 					case 156 | 284:
 						tweenCamera(1, 1, "sineInOut");
 						FlxTween.tween(PlayState.camHUD, {alpha: 1}, 1.5, {ease: FlxEase.quartInOut});
-						for (i in PlayState.strumHUD) FlxTween.tween(i, {alpha: 1}, 1.5, {ease: FlxEase.quartInOut});
 					case 160: if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.BLACK, 1.5);
 					case 192: PlayState.defaultCamZoom += 0.25;
 					case 320:
@@ -442,7 +428,6 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					case 404:
 						FlxTween.tween(PlayState.camGame, {alpha: 0}, 1.5, {ease: FlxEase.quartInOut});
 						FlxTween.tween(PlayState.camHUD, {alpha: 0}, 1.5, {ease: FlxEase.quartInOut});
-						for (i in PlayState.strumHUD) FlxTween.tween(i, {alpha: 0}, 1.5, {ease: FlxEase.quartInOut});
 				}
 			case "Twisted Grins Legacy":
 				switch (curBeat)

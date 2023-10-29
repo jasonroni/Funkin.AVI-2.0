@@ -77,7 +77,7 @@ class DemolitionHUD extends FlxSpriteGroup
 	// display texts
 	public var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
 	public var diffDisplay:String = '[${CoolUtil.difficultyString}]';
-	public var engineDisplay:String = "Funkin.avi v2";
+	public var engineDisplay:String = "Funkin.avi v1.8.0";
 
 	// eep
 	public function new()

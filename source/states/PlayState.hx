@@ -1669,7 +1669,7 @@ class PlayState extends MusicBeatState
 
 			openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 
-			FlxG.sound.play(Paths.sound('$assetModifier/' + GameOverSubstate.deathNoise));
+			FlxG.sound.play(Paths.sound('$assetModifier/fnf_loss_sfx'));
 
 			#if DISCORD_RPC
 			#if DevBuild
@@ -2758,9 +2758,10 @@ class PlayState extends MusicBeatState
 		callFunc('createVideoCutscene', [name]);
 
 		inCutscene = true;
+		paused = true;
 	
 			var filepath:String = Paths.video(name);
-			if(!sys.FileSystem.exists(name))
+			if(!sys.FileSystem.exists(filepath))
 			{
 				FlxG.log.warn('Couldnt find video file: ' + name);
 				startAndEnd();
@@ -2770,7 +2771,7 @@ class PlayState extends MusicBeatState
 			var video:VideoHandler = new VideoHandler();
 				#if (hxCodec >= "3.0.0")
 				// Recent versions
-				video.play(name);
+				video.play(filepath);
 				video.onEndReached.add(function()
 				{
 					video.dispose();
@@ -2779,16 +2780,13 @@ class PlayState extends MusicBeatState
 				}, true);
 				#else
 				// Older versions
-				video.playVideo(name);
+				video.playVideo(filepath);
 				video.finishCallback = function()
 				{
 					startAndEnd();
 					return;
 				}
 				#end
-			FlxG.log.warn('Platform not supported!');
-			startAndEnd();
-			return;
 	}
 
 	// song end function at the end of the playstate lmao ironic I guess
@@ -2875,6 +2873,7 @@ class PlayState extends MusicBeatState
 
 	public function startAndEnd()
 	{
+		paused = false;
 		if(endingSong)
 			endSong();
 		else
