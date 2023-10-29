@@ -1,12 +1,7 @@
 var bg1:FlxSprite;
 var bg2:FlxSprite;
 
-var chrom:FlxRuntimeShader;
-var dramaticCam:FlxRuntimeShader;
-var monitorFilter:FlxRuntimeShader;
-var phase2Static:FlxRuntimeShader;
 var glitchBG:FlxRuntimeShader;
-var vignette:FlxRuntimeShader;
 
 var shaderTime:Float = 0;
 
@@ -16,22 +11,8 @@ function onCreate()
     PlayState.defaultCamZoom = 0.6;
 	PlayState.cameraSpeed = 0.9;
 
-    dramaticCam = new FlxRuntimeShader(Shaders.cameraMovement, null, 150);
-    monitorFilter = new FlxRuntimeShader(Shaders.monitorShader, null, 140);
-
     //Phase 2 shaders
-    chrom = new FlxRuntimeShader(Shaders.aberration, null, 150);
-    chrom.setFloat('aberration', 0.12);
-    chrom.setFloat('effectTime', 0.24);
-    phase2Static = new FlxRuntimeShader(File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
     glitchBG = new FlxRuntimeShader(File.getContent('./assets/shaders/vignetteGlitch.frag'), null, 130);
-    vignette = new FlxRuntimeShader(File.getContent('./assets/shaders/vignetteApparition.frag'), null, 120);
-
-    PlayState.camGame.setFilters(
-        [
-            new ShaderFilter(dramaticCam),
-            //new ShaderFilter(monitorFilter)
-        ]);
 
     bg1 = new FlxSprite(0, 50);
     bg1.frames = Paths.getSparrowAtlas('relapse1', 'data/stages/apartment/images');
@@ -52,50 +33,11 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 {
     if (PlayState.SONG.song == "Cycled Sins Legacy")
     {
-        if (curBeat == 128)
-        {
-            FlxTween.tween(PlayState.camHUD, {alpha: 0}, 1, {ease: FlxEase.sineInOut});
-            FlxTween.tween(PlayState.camGame, {alpha: 0}, 1.5, {ease: FlxEase.sineInOut});
-            FlxTween.tween(PlayState.dadStrums, {alpha: 0}, 1, {ease: FlxEase.sineInOut});
-        }
-        if (curBeat == 138)
-        {
-            FlxTween.tween(PlayState.camGame, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
-        }
-        if (curBeat == 142)
-        {
-            PlayState.camGame.alpha = 0;
-            PlayState.bfStrums.alpha = 0;
-        }
         if (curBeat == 144)
         {
-            PlayState.camGame.setFilters(
-                [
-                    new ShaderFilter(phase2Static),
-                    new ShaderFilter(vignette),
-                    new ShaderFilter(chrom),
-                    new ShaderFilter(dramaticCam),
-                    //new ShaderFilter(monitorFilter)
-                ]);
             bg1.visible = false;
             bg2.visible = true;
             bg2.shader = glitchBG;
-            PlayState.camGame.alpha = 1;
-            PlayState.camHUD.alpha = 1;
-            PlayState.bfStrums.alpha = 1;
-            PlayState.camGame.flash("red", 1.2);
-            FlxTween.tween(PlayState, {health: 0.1}, 1, {ease: FlxEase.sineInOut});
-        }
-        if (curBeat == 272)
-        {
-            FlxTween.tween(PlayState, {health: 0.1}, 20, {ease: FlxEase.quartInOut});
-            FlxTween.tween(PlayState.camHUD, {alpha: 0}, 1, {ease: FlxEase.sineInOut});
-            FlxTween.tween(PlayState.bfStrums, {alpha: 0}, 1, {ease: FlxEase.sineInOut, startDelay: 0.5});
-        }
-        if (curBeat == 332)
-        {
-            FlxTween.tween(PlayState.camHUD, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
-            FlxTween.tween(PlayState.bfStrums, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
         }
     }
 }
@@ -104,15 +46,8 @@ function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Characte
 {
     shaderTime += elapsed;
 
-    /*glitchBG.setFloat('time', shaderTime);
+    glitchBG.setFloat('time', shaderTime);
     glitchBG.setFloat('prob', shaderTime);
-
-    phase2Static.setFloat('uTime', shaderTime);
-    phase2Static.setFloat('iTime', shaderTime);
-
-    vignette.setFloat('time', shaderTime);
-
-    dramaticCam.setFloat('time', shaderTime);*/
 }
 
 function charStagePos(boyfriend:Character, gf:Character, dad:Character)

@@ -41,6 +41,7 @@ class StoryMenu extends MusicBeatState
 
 	var book:FlxSprite;
 	var spoopy:FlxSprite;
+	var ispy:FlxSprite;
 	var gradient:FlxSprite;
 
 	var difficultySelectors:FlxGroup;
@@ -86,24 +87,34 @@ class StoryMenu extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
+		spoopy = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/storymenu/spoopy'));
+		spoopy.scrollFactor.set(0, 0);
+		spoopy.setGraphicSize(Std.int(spoopy.width * 1.05));
+		spoopy.updateHitbox();
+		spoopy.scale.set(0.8, 0.8);
+		spoopy.screenCenter();
+		spoopy.antialiasing = true;
+		add(spoopy);
+
 		book = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/storymenu/lethimbook'));
 		book.scrollFactor.set(0, 0);
 		book.setGraphicSize(Std.int(book.width * 1.1));
 		book.updateHitbox();
 		book.screenCenter();
+		book.scale.set(0.8, 0.8);
 		book.antialiasing = true;
 		book.alpha = 1;
 		if (!Init.trueSettings.get('Disable Screen Shaders')) book.shader = blur;
 		add(book);
 
-		spoopy = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/storymenu/spoopy'));
-		spoopy.scrollFactor.set(0, 0);
-		spoopy.setGraphicSize(Std.int(spoopy.width * 1.05));
-		spoopy.updateHitbox();
-		spoopy.screenCenter();
-		spoopy.antialiasing = true;
-		spoopy.alpha = 0.05;
-		add(spoopy);
+		ispy = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/storymenu/i_spy'));
+		ispy.scrollFactor.set(0, 0);
+		ispy.updateHitbox();
+		ispy.screenCenter();
+		ispy.scale.set(0.8, 0.8);
+		ispy.antialiasing = true;
+		if (!Init.trueSettings.get('Disable Screen Shaders')) ispy.shader = blur;
+		add(ispy);
 
 		scoreText = new FlxText(10, 10, 0, "SCORE: 49324858", 36);
 		scoreText.setFormat(Paths.font("vcr"), 32);
@@ -114,7 +125,7 @@ class StoryMenu extends MusicBeatState
 
 		var rankText:FlxText = new FlxText(0, 10);
 		rankText.text = 'RANK: GREAT';
-		rankText.setFormat(Paths.font("vcr"), 32);
+		rankText.setFormat(Paths.font("DisneyFont"), 32);
 		rankText.size = scoreText.size;
 		rankText.screenCenter(X);
 
@@ -145,7 +156,9 @@ class StoryMenu extends MusicBeatState
 				weekThing.targetY = weekID;
 				grpWeekText.add(weekThing);
 
-				weekThing.screenCenter();
+				weekThing.x += 100;
+				weekThing.y += 400;
+				weekThing.scale.set(0.5, 0.5);
 				weekThing.antialiasing = true;
 				// weekThing.updateHitbox();
 
@@ -203,10 +216,9 @@ class StoryMenu extends MusicBeatState
 		//add(yellowBG);
 		add(grpWeekCharacters);
 
-		txtTracklist = new FlxText(FlxG.width * 0.05, yellowBG.x + yellowBG.height + 100, 0, "Tracks", 32);
-		txtTracklist.alignment = CENTER;
-		txtTracklist.font = rankText.font;
-		txtTracklist.color = 0xFFe55777;
+		txtTracklist = new FlxText(1070, 90, 0, "Tracks", 38);
+		txtTracklist.setFormat(Paths.font("DisneyFont"), 32, FlxColor.WHITE, RIGHT, OUTLINE, FlxColor.BLACK);
+		txtTracklist.borderSize = 2;
 		add(txtTracklist);
 		// add(rankText);
 		//add(scoreText);
@@ -433,13 +445,20 @@ class StoryMenu extends MusicBeatState
 
 		for (item in grpWeekText.members)
 		{
+			switch (curWeek)
+			{
+				case 0:
+					item.x = 20;
+				case 1:
+					item.x = -20;
+				case 2:
+					item.x = 150;
+			}
 			item.targetY = bullShit - curWeek;
 			if (item.targetY == 0 && !lockedWeek) {
 				item.alpha = 1;
-				item.scale.set(1, 1);
 			} else {
-				item.alpha = 0.6;
-				item.scale.set(0.7, 0.7);
+				item.alpha = 0;
 			}
 			bullShit++;
 		}
@@ -471,7 +490,16 @@ class StoryMenu extends MusicBeatState
 		txtTracklist.text = txtTracklist.text.toUpperCase();
 
 		txtTracklist.screenCenter(X);
-		txtTracklist.x -= FlxG.width * 0.35;
+
+		switch (curWeek)
+		{
+			case 0:
+				txtTracklist.x = 870;
+			case 1:
+				txtTracklist.x = 805;
+			case 2:
+				txtTracklist.x = 915;
+		}
 
 		intendedScore = ScoreUtils.getWeekScore(curWeek, curDifficulty);
 	}

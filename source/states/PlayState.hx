@@ -64,13 +64,10 @@ import flixel.sound.FlxSound;
 #if HXCPP_M32
 #else
 // This fixes 2.6.0 users
-#if (hxCodec >= "2.6.1")
-import hxcodec.VideoHandler;
-#elseif (hxCodec == "2.6.0")
-import VideoHandler;
-#else
-import vlc.MP4Handler;
-#end
+#if (hxCodec >= "3.0.0") import hxcodec.flixel.FlxVideo as VideoHandler;
+#elseif (hxCodec >= "2.6.1") import hxcodec.VideoHandler as VideoHandler;
+#elseif (hxCodec == "2.6.0") import VideoHandler;
+#else import vlc.MP4Handler as VideoHandler; #end
 #end
 #if desktop
 import base.dependency.Discord;
@@ -310,6 +307,8 @@ class PlayState extends MusicBeatState
 
 	var globalGradient:FlxSprite;
 
+	var isCamForced = false;
+
 	function resetStatics()
 	{
 		GameOverSubstate.resetDeathVariables();
@@ -363,7 +362,7 @@ class PlayState extends MusicBeatState
 
 		add(stageBuild.layers);
 
-		stageBGFlash = new FlxSprite(-800, -200).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFFFFFFF);
+		stageBGFlash = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 6, FlxG.height * 6, 0xFFFFFFFF);
 		stageBGFlash.alpha = 0.0001; // it's at this value so the game doesn't lag when it becomes visible
 		add(stageBGFlash);
 
@@ -1357,6 +1356,10 @@ class PlayState extends MusicBeatState
 		// haxe fault !!
 		if (colors == null) colors = [255, 255, 255, 1];
 
+		// due to the fact that some silly 19 year old guy called demo overuses the shit
+		// out of the zooms this has to exist in cases of emergency   - jason the silly !!
+		stageBGFlash.setPosition(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom);
+
 		if (!Init.trueSettings.get('Disable Flashing Lights') && stageBGFlash != null)
 		{
 			switch (flashType)
@@ -1571,9 +1574,6 @@ class PlayState extends MusicBeatState
 					}
 					lastSection = Std.int(curStep / 16);
 				}
-
-				if (!shootin) // just for safety so the game doesn't freak out
-					checkCamPosition();
 			}
 
 			Conductor.songPosition += elapsed * 1000;
@@ -1612,7 +1612,7 @@ class PlayState extends MusicBeatState
 
 		var char = cameraOnDad ? opponent : boyfriend;
 
-		if (char.animation.curAnim != null) 
+		if (char.animation.curAnim != null && !isCamForced) 
 		{
 			switch (char.animation.curAnim.name.substring(4))
 			{
@@ -1625,7 +1625,7 @@ class PlayState extends MusicBeatState
 
 				case 'LEFT' | 'LEFT-alt' | 'LEFTmiss':
 					camOffset[0] -= 40;
-					camOffset[2] -= 1.45;
+					camOffset[2] -= 1.3;
 
 				case 'DOWN' | 'DOWN-alt' | 'DOWNmiss':
 					camOffset[1] += 40;
@@ -1639,6 +1639,17 @@ class PlayState extends MusicBeatState
 		}
 
 		callFunc('postUpdate', [elapsed]);
+	}
+
+        public function moveCamera(isDad, forcePos, ?camX, ?camY)
+        {
+		isCamForced = forcePos;
+
+		if (!isCamForced) {
+			if (!shootin)
+			    checkCamPosition();
+		} else 
+			camFollow.setPosition(camX, camY);
 	}
 
 	private var isDead:Bool = false;
@@ -1658,7 +1669,7 @@ class PlayState extends MusicBeatState
 
 			openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 
-			FlxG.sound.play(Paths.sound('$assetModifier/' + GameOverSubstate.deathNoise));
+			FlxG.sound.play(Paths.sound('$assetModifier/fnf_loss_sfx'));
 
 			#if DISCORD_RPC
 			#if DevBuild
@@ -2629,6 +2640,7 @@ class PlayState extends MusicBeatState
 				camDisplaceX = 0;
 				camDisplaceY = 0;
 			}
+		         moveCamera(SONG.notes[Std.int(curStep / 16)].mustHitSection, isCamForced);
 		}
 
 		callFunc('sectionHit', [curSection]);
@@ -2741,28 +2753,41 @@ class PlayState extends MusicBeatState
 	/*
 		Extra functions and stuffs
 	 */
-	#if HXCPP_M32
-	#else
 	public function createVideoCutscene(name:String)
 	{
 		callFunc('createVideoCutscene', [name]);
 
 		inCutscene = true;
-
-		var filepath:String = Paths.video(name);
-		#if (hxCodec >= "2.6.0")
-		var video:VideoHandler = new VideoHandler();
-		#else
-		var video:MP4Handler = new MP4Handler();
-		#end
-		video.playVideo(filepath);
-		video.finishCallback = function()
-		{
-			startCountdown();
-			return;
-		}
+		paused = true;
+	
+			var filepath:String = Paths.video(name);
+			if(!sys.FileSystem.exists(filepath))
+			{
+				FlxG.log.warn('Couldnt find video file: ' + name);
+				startAndEnd();
+				return;
+			}
+	
+			var video:VideoHandler = new VideoHandler();
+				#if (hxCodec >= "3.0.0")
+				// Recent versions
+				video.play(filepath);
+				video.onEndReached.add(function()
+				{
+					video.dispose();
+					startAndEnd();
+					return;
+				}, true);
+				#else
+				// Older versions
+				video.playVideo(filepath);
+				video.finishCallback = function()
+				{
+					startAndEnd();
+					return;
+				}
+				#end
 	}
-	#end
 
 	// song end function at the end of the playstate lmao ironic I guess
 	function finishSong(ignoreOffset:Bool = false):Void
@@ -2844,6 +2869,15 @@ class PlayState extends MusicBeatState
 
 		checkGameJoltAchievement();
 		//
+	}
+
+	public function startAndEnd()
+	{
+		paused = false;
+		if(endingSong)
+			endSong();
+		else
+			startCountdown();
 	}
 
 	private function checkGameJoltAchievement():Void

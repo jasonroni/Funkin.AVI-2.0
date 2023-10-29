@@ -120,6 +120,8 @@ class ManIHateYouSoMuchYouMadeMuckneySad extends MusicBeatState
 
       if(!GameJoltAPI.checkTrophy(184288))
          GameJoltAPI.getTrophy(184288);
+
+      
    }
 
    override function update(e)
