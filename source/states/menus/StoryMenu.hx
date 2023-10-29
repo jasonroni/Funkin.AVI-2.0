@@ -62,7 +62,6 @@ class StoryMenu extends MusicBeatState
 		blur = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/gaussian.frag'), null, 140);
 		FlxG.camera.setFilters(
 			[
-				new openfl.filters.ShaderFilter(defaultShader),
 				new openfl.filters.ShaderFilter(defaultShader2)
 			]);
 
