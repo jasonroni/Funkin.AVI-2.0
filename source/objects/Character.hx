@@ -351,7 +351,7 @@ class Character extends FNFSprite
 	}
 
 	/**
-	 * [Generates a Character in the Forever Engine Feather Format]
+	 * [Generates a Character in the engine Format]
 	 * @param char returns the character that should be generated
 	 */
 	function generateChar(char:String = 'bf')

@@ -74,8 +74,7 @@ class Main extends Sprite
 		framerate: 60, // the game's default framerate
 		skipSplash: true, // whether to skip the flixel splash screen that appears on release mode
 		fullscreen: false, // whether the game starts at fullscreen mode
-		versionFE: "0.3.1", // version of Forever Engine Legacy
-		versionFF: "0.1", // version of Forever Engine Feather
+		version: "0.1", // version of the engine
 	};
 
 	public static var gjToastManager:GJToastManager;

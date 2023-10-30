@@ -199,6 +199,7 @@ class PlayState extends MusicBeatState
 	public static var cameraBumpSpeed:Float = 4;
 
 	// User Interface and Objects (Toggleable)
+	// uiHUD has the most werid initialization ever
 	public static var uiHUD:ClassHUD; // default HUD
 	public static var psychHUD:PsychHUD;
 	public static var vanillaHUD:VanillaHUD;
@@ -605,40 +606,41 @@ class PlayState extends MusicBeatState
 		// add the dialogue UI
 		FlxG.cameras.add(dialogueHUD, false);
 
-		uiHUD = new ClassHUD();
-		uiHUD.alpha = 0;
-		add(uiHUD);
-		uiHUD.cameras = [camHUD];
+		if (Init.trueSettings.get('HUD Style') == 'psych')
+		{
+			psychHUD = new PsychHUD();
+			psychHUD.alpha = 0;
+			add(psychHUD);
+			psychHUD.cameras = [camHUD];
+		} else if (Init.trueSettings.get('HUD Style') == 'demolition') {
+			demolitionHUD = new DemolitionHUD();
+			demolitionHUD.alpha = 0;
+			add(demolitionHUD);
+			demolitionHUD.cameras = [camHUD];
+		} else if (Init.trueSettings.get('HUD Style') == 'vanilla') {
+			vanillaHUD = new VanillaHUD();
+			vanillaHUD.alpha = 0;
+			add(vanillaHUD);
+			vanillaHUD.cameras = [camHUD];
+		} else if (Init.trueSettings.get('HUD Style') == 'kade') {
+			kadeHUD = new KadeHUD();
+			kadeHUD.alpha = 0;
+			add(kadeHUD);
+			kadeHUD.cameras = [camHUD];
+		}
 
-		psychHUD = new PsychHUD();
-		psychHUD.alpha = 0;
-		add(psychHUD);
-		psychHUD.cameras = [camHUD];
-
-		demolitionHUD = new DemolitionHUD();
-		demolitionHUD.alpha = 0;
-		add(demolitionHUD);
-		demolitionHUD.cameras = [camHUD];
-
-		vanillaHUD = new VanillaHUD();
-		vanillaHUD.alpha = 0;
-		add(vanillaHUD);
-		vanillaHUD.cameras = [camHUD];
-
-		kadeHUD = new KadeHUD();
-		kadeHUD.alpha = 0;
-		add(kadeHUD);
-		kadeHUD.cameras = [camHUD];
-
-		cycledSinsHUD = new CycledSinsHUD();
-		cycledSinsHUD.alpha = 0;
-		add(cycledSinsHUD);
-		cycledSinsHUD.cameras = [camHUD];
-
-		episode1HUD = new Episode1HUD();
-		episode1HUD.alpha = 0;
-		add(episode1HUD);
-		episode1HUD.cameras = [camHUD];
+		if (SONG.song.toLowerCase().replace('-', ' ') == 'cycled sins') {
+			cycledSinsHUD = new CycledSinsHUD();
+			cycledSinsHUD.alpha = 0;
+			add(cycledSinsHUD);
+			cycledSinsHUD.cameras = [camHUD];
+		} else if (SONG.song.toLowerCase().replace('-', ' ') == 'devilish deal' || SONG.song.toLowerCase().replace('-', ' ') == 'isolated'
+		|| SONG.song.toLowerCase().replace('-', ' ') == 'lunacy' || SONG.song.toLowerCase().replace('-', ' ') == 'delusional') {
+			episode1HUD = new Episode1HUD();
+			episode1HUD.alpha = 0;
+			add(episode1HUD);
+			episode1HUD.cameras = [camHUD];
+		}
 
 		if (Init.trueSettings.get('Judgement Recycling'))
 		{
@@ -3029,21 +3031,9 @@ class PlayState extends MusicBeatState
 		{
 			case 'cycled sins':
 				FlxTween.tween(cycledSinsHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
-				demolitionHUD.kill();
-				uiHUD.kill();
-				kadeHUD.kill();
-				vanillaHUD.kill();
-				psychHUD.kill();
-				episode1HUD.kill();
 
 			case 'devilish deal' | 'isolated' | 'lunacy' | 'delusional' | 'delusion':
 				FlxTween.tween(episode1HUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
-				demolitionHUD.kill();
-				uiHUD.kill();
-				kadeHUD.kill();
-				vanillaHUD.kill();
-				psychHUD.kill();
-				cycledSinsHUD.kill();
 
 			default:
 				checkHUDS();
@@ -3207,49 +3197,19 @@ class PlayState extends MusicBeatState
 		switch (Init.trueSettings.get('HUD Style').toLowerCase())
 		{
 			case 'psych': // psych engine fans gonna go nuts about this
-				FlxTween.tween(psychHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
-				demolitionHUD.kill();
-				uiHUD.kill();
-				kadeHUD.kill();
-				vanillaHUD.kill();
-				cycledSinsHUD.kill();
-				episode1HUD.kill();
+			if (Init.trueSettings.get('HUD Style') == 'psych' && psychHUD != null) FlxTween.tween(psychHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 
 			case 'demolition': // demoliton HUD
-				FlxTween.tween(demolitionHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
-				psychHUD.kill();
-				uiHUD.kill();
-				kadeHUD.kill();
-				vanillaHUD.kill();
-				cycledSinsHUD.kill();
-				episode1HUD.kill();
-
+			if (Init.trueSettings.get('HUD Style') == 'demolition' && demolitionHUD != null) FlxTween.tween(demolitionHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+			
 			case 'vanilla': // vanilla HUD
-				FlxTween.tween(vanillaHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
-				psychHUD.kill();
-				uiHUD.kill();
-				kadeHUD.kill();
-				demolitionHUD.kill();
-				cycledSinsHUD.kill();
-				episode1HUD.kill();
+			if (Init.trueSettings.get('HUD Style') == 'vanilla' && vanillaHUD != null)	FlxTween.tween(vanillaHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 
 			case 'kade': // Kade engine HUD
-				FlxTween.tween(kadeHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
-				psychHUD.kill();
-				uiHUD.kill();
-				vanillaHUD.kill();
-				demolitionHUD.kill();
-				cycledSinsHUD.kill();
-				episode1HUD.kill();
+			if (Init.trueSettings.get('HUD Style') == 'kade' && kadeHUD != null)	FlxTween.tween(kadeHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 
 			default: // forever HUD
-				FlxTween.tween(uiHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
-				demolitionHUD.kill();
-				psychHUD.kill();
-				kadeHUD.kill();
-				vanillaHUD.kill();
-				cycledSinsHUD.kill();
-				episode1HUD.kill();
+			if (Init.trueSettings.get('HUD Style') == 'forever' && uiHUD != null)	FlxTween.tween(uiHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 		}
 
 		return Init.trueSettings.get('HUD Style');

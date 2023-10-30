@@ -1,13 +1,13 @@
 @echo off
-title Forever Engine Feather - Start
-echo Welcome to the Forever Engine Feather Automatic Setup!
+title  - Start
+echo Welcome to the  Automatic Setup!
 TIMEOUT 3 >nul
 echo This will automatically install all of the needed libraries and dependencies for compiling.
 TIMEOUT 2 >nul
 pause
 cls
 
-title Forever Engine Feather Setup - Installing Haxe
+title  Setup - Installing Haxe
 echo Time to install Haxe - the open-source toolkit.
 TIMEOUT 2 >nul
 echo Make sure you download the latest version!
@@ -20,7 +20,7 @@ echo Press any key to continue once you have finished installing Haxe.
 pause >nul
 cls
 
-title Forever Engine Feather Setup - Installing HaxeFlixel
+title  Setup - Installing HaxeFlixel
 echo It is time to install the engine that Funkin' uses - HaxeFlixel.
 TIMEOUT 2 >nul
 echo Installing Haxeflixel...
@@ -37,7 +37,7 @@ echo Press any key to continue once you have finished installing HaxeFlixel.
 pause >nul
 cls
 
-title Forever Engine Feather Setup - Install Git
+title  Setup - Install Git
 echo Now, we have to install Git - software for distributed version control.
 TIMEOUT 2 >nul
 echo Make sure you download the latest version!
@@ -50,7 +50,7 @@ echo Press any key to contiue once you have finished installing Git.
 pause >nul
 cls
 
-title Forever Engine Feather Setup - Installing Additional Libraries
+title  Setup - Installing Additional Libraries
 echo After installing Haxe, HaxeFlixel and Git, it is time to install the additional libraries needed for compiling.
 TIMEOUT 2 >nul
 echo Press any key to install hxcpp-debug-server.
@@ -90,7 +90,7 @@ pause >nul
 cls
 
 
-title Forever Engine Feather Setup - Installing Windows Dependencies
+title  Setup - Installing Windows Dependencies
 echo Moving on from apps and libraries, it is time to install VSCommunity and the dependencies needed for compiling.
 TIMEOUT 2 >nul
 set /p menu="Would you like to install Visual Studio Community and components? [Y/N]"
@@ -101,14 +101,14 @@ set /p menu="Would you like to install Visual Studio Community and components? [
        cls
 
 :ProceedWithVSCommunityInstall
-title Forever Engine Feather Setup - Installing Windows Dependencies
+title  Setup - Installing Windows Dependencies
 set /p menu2="For which version of Windows would you like to install Visual Studio Community and components? [10/11]"
         if %menu2%==10 goto InstallVSCommunityWin10
         if %menu2%==11 goto InstallVSCommunityWin11
         cls
 
 :InstallVSCommunityWin10
-title Forever Engine Feather - Installing Visual Studio Community and Components (Windows 10)
+title  - Installing Visual Studio Community and Components (Windows 10)
 curl -# -O https://download.visualstudio.microsoft.com/download/pr/5c9aef4f-a79b-4b72-b379-14273860b285/58398a76f32a0149d38fba79bbf71b6084ccd4200ea665bf2bcd954cdc498c7f/vs_Community.exe
 vs_Community.exe --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --add Microsoft.VisualStudio.Component.Windows10SDK.20348
 del vs_Community.exe
@@ -117,7 +117,7 @@ pause >nul
 goto SkipVSCommunity
 
 :InstallVSCommunityWin11
-title Forever Engine Feather - Instaling Visual Studio Community and Components (Windows 11)
+title  - Instaling Visual Studio Community and Components (Windows 11)
 curl -# -O https://download.visualstudio.microsoft.com/download/pr/5c9aef4f-a79b-4b72-b379-14273860b285/58398a76f32a0149d38fba79bbf71b6084ccd4200ea665bf2bcd954cdc498c7f/vs_Community.exe
 vs_Community.exe --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --add Microsoft.VisualStudio.Component.Windows11SDK.22621
 del vs_Community.exe
@@ -127,7 +127,7 @@ goto SkipVSCommunity
 
 :SkipVSCommunity
 cls
-title Forever Engine Feather Setup - Success
+title  Setup - Success
 echo Setup successful. Press any key to exit.
 pause >nul
 exit

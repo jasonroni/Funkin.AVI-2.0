@@ -33,7 +33,7 @@ class Discord
 			details: "",
 			state: null,
 			largeImageKey: 'fef-logo',
-			largeImageText: "Forever Engine Feather"
+			largeImageText: "Funkin.AVI"
 		});
 	}
 

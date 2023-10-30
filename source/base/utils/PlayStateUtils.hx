@@ -1164,7 +1164,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.defaultCamZoom = 0.9;
 					case 220:
 						PlayState.defaultCamZoom = 0.95;
-					case 222 | 235 | 267 | 239 | 271 | 334:
+					case 222 | 267 | 239 | 271 | 334:
 						PlayState.defaultCamZoom = 1;
 
 					case 224 | 288:
@@ -1186,9 +1186,9 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					case 232 | 264:
 						if (!Init.trueSettings.get('Disable Flashing Lights'))
 							PlayState.camGame.flash(FlxColor.WHITE, 1.5);
-						PlayState.defaultCamZoom = 0.9;
+						PlayState.defaultCamZoom = 0.7;
 
-					case 233 | 266 | 412 | 240 | 272 | 300 | 304 | 336 | 248 | 280 | 328:
+					case 412 | 240 | 272 | 300 | 304 | 336 | 248 | 280 | 328:
 						PlayState.defaultCamZoom = 0.7;
 
 					case 320:

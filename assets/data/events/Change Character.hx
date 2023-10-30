@@ -24,11 +24,11 @@ function eventTrigger(params)
 		{
 			case 'bf', 'boyfriend', 'player', '0':
 				PlayState.boyfriend.setCharacter(770, 450, params[1]);
-				PlayState.uiHUD.iconP1.updateIcon(params[1], true);
-				PlayState.demolitionHUD.iconP1.updateIcon(params[1], true);
-				PlayState.psychHUD.iconP1.updateIcon(params[1], true);
-				PlayState.cycledSinsHUD.iconP1.updateIcon(params[1], true);
-				PlayState.episode1HUD.iconP1.updateIcon(params[1], true);
+				if (Init.trueSettings.get('HUD Style') == 'forever') PlayState.uiHUD.iconP1.updateIcon(params[1], true);
+				if (Init.trueSettings.get('HUD Style') == 'demolition') PlayState.demolitionHUD.iconP1.updateIcon(params[1], true);
+				if (Init.trueSettings.get('HUD Style') == 'psych') PlayState.psychHUD.iconP1.updateIcon(params[1], true);
+				if (PlayState.SONG.song == 'Cycled Sins') PlayState.cycledSinsHUD.iconP1.updateIcon(params[1], true);
+				if (PlayState.SONG.song == 'Isolated' || PlayState.SONG.song == 'Lunacy' || PlayState.SONG.song == 'Delusional' || PlayState.SONG.song == 'Devilish Deal') PlayState.episode1HUD.iconP1.updateIcon(params[1], false);
 				PlayState.boyfriend.dance(true);
 
 				if (PlayState.playerMap.get(params[1]) != null)
@@ -42,21 +42,21 @@ function eventTrigger(params)
 
 			default:
 				PlayState.opponent.setCharacter(100, 100, params[1]);
-				PlayState.uiHUD.iconP2.updateIcon(params[1], false);
-				PlayState.demolitionHUD.iconP2.updateIcon(params[1], false);
-				PlayState.psychHUD.iconP2.updateIcon(params[1], false);
-				PlayState.cycledSinsHUD.iconP2.updateIcon(params[1], false);
-				PlayState.episode1HUD.iconP2.updateIcon(params[1], false);
+				if (Init.trueSettings.get('HUD Style') == 'forever') PlayState.uiHUD.iconP2.updateIcon(params[1], false);
+				if (Init.trueSettings.get('HUD Style') == 'demolition') PlayState.demolitionHUD.iconP2.updateIcon(params[1], false);
+				if (Init.trueSettings.get('HUD Style') == 'psych') PlayState.psychHUD.iconP2.updateIcon(params[1], false);
+				if (PlayState.SONG.song == 'Cycled Sins') PlayState.cycledSinsHUD.iconP2.updateIcon(params[1], false);
+				if (PlayState.SONG.song == 'Isolated' || PlayState.SONG.song == 'Lunacy' || PlayState.SONG.song == 'Delusional' || PlayState.SONG.song == 'Devilish Deal') PlayState.episode1HUD.iconP2.updateIcon(params[1], false);
 				PlayState.opponent.dance(true);
 
 				if (PlayState.opponentMap.get(params[1]) != null)
 					PlayState.opponentMap.remove(params[1]);
 		}
-		PlayState.uiHUD.reloadHealthBar();
-		PlayState.demolitionHUD.reloadHealthBar();
-		PlayState.psychHUD.reloadHealthBar();
-		PlayState.cycledSinsHUD.reloadHealthBar();
-		PlayState.episode1HUD.reloadHealthBar();
+		if (Init.trueSettings.get('HUD Style') == 'forever') PlayState.uiHUD.reloadHealthBar();
+		if (Init.trueSettings.get('HUD Style') == 'demolition') PlayState.demolitionHUD.reloadHealthBar();
+		if (Init.trueSettings.get('HUD Style') == 'psych') PlayState.psychHUD.reloadHealthBar();
+		if (PlayState.SONG.song == 'Cycled Sins') PlayState.cycledSinsHUD.reloadHealthBar();
+		if (PlayState.SONG.song == 'Isolated' || PlayState.SONG.song == 'Lunacy' || PlayState.SONG.song == 'Delusional' || PlayState.SONG.song == 'Devilish Deal') PlayState.episode1HUD.reloadHealthBar();
 		PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent);
 	});
 }
