@@ -1,6 +1,6 @@
 package base.system;
 
-//please check CppAPI.hx
+// check CppAPI.hx
 #if windows
 @:buildXml('
 <target id="haxe">

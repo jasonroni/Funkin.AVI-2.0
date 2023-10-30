@@ -1,6 +1,6 @@
 package base.system;
 
-//taken from Wednesday Infidelity Because of This https://twitter.com/lunarcleint/status/1573550933530681344
+//taken from Wednesday Infidelity cus lunar allowed it lmao !! (https://twitter.com/lunarcleint/status/1573550933530681344)
 #if OnWindows
 class CppAPI
 {
@@ -24,29 +24,9 @@ class CppAPI
 		WindowsData.setWindowColorMode(LIGHT);
 	}
 
-	public static function setWindowOppacity(a:Float)
-	{
-		WindowsData.setWindowAlpha(a);
-	}
-
-	public static function _setWindowLayered()
-	{
-		WindowsData._setWindowLayered();
-	}
-
-    public static function doWindowTransparent()
-    {
-        WindowsSystem.setWindowOpacity();
-    }
-
     public static function sendNotification(title:String, desc:String)
     {
         WindowsSystem.sendNotification(title, desc);
-    }
-
-    public static function restoreWindowTransparency()
-    {
-        WindowsSystem.restoreWindowOpacity();
     }
 
     public static function setWindowIcon(file:String)

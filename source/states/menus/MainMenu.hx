@@ -393,14 +393,14 @@ class MainMenu extends MusicBeatState
 
 		// from the base game lol
 		var versionShit:FlxText = new FlxText(5, FlxG.height * 0.01, 0, 'Funkin.avi v1.8.0', 24);
-		versionShit.setFormat(Paths.font("DisneyFont"), 29, 0xFFFFFFFF, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		versionShit.setFormat(Paths.font("DisneyFont"), 30, 0xFFFFFFFF, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
 		versionShit.scrollFactor.set();
 		versionShit.cameras = [camHUD];
 		add(versionShit);
 
 		if (Init.trueSettings.get('FPS Counter') && Init.trueSettings.get('Memory Counter'))
 		{
-			versionShit.y = FlxG.height - 80;
+			versionShit.y = FlxG.height - 40;
 		}
 
 		if (logContent != null && logContent.length > 1)

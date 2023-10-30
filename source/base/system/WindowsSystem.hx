@@ -28,40 +28,6 @@ Code Has Been Done By Chromasen And Erizur For Dave And Bambi.
 class WindowsSystem
 {
     #if windows
-	@:functionCode('
-        HWND hWnd = GetActiveWindow();
-        res = SetWindowLong(hWnd, GWL_EXSTYLE, GetWindowLong(hWnd, GWL_EXSTYLE) | WS_EX_LAYERED);
-        if (res)
-        {
-            SetLayeredWindowAttributes(hWnd, RGB(1, 1, 1), 0, LWA_COLORKEY);
-        }
-    ')
-    #elseif linux
-    /*
-    REQUIRES IMPORTING X11 LIBRARIES (Xlib, Xutil, Xatom) to run, even tho it doesnt work
-    @:functionCode('
-        Display* display = XOpenDisplay(NULL);
-        Window wnd;
-        Atom property = XInternAtom(display, "_NET_WM_WINDOW_OPACITY", False);
-        int revert;
-        
-        if(property != None)
-        {
-            XGetInputFocus(display, &wnd, &revert);
-            unsigned long opacity = (0xff000000 / 0xffffffff) * 50;
-            XChangeProperty(display, wnd, property, XA_CARDINAL, 32, PropModeReplace, (unsigned char*)&opacity, 1);
-            XFlush(display);
-        }
-        XCloseDisplay(display);
-    ')
-    */
-    #end
-	static public function setWindowOpacity(res:Int = 0)   // Only works on windows, otherwise returns 0!
-	{
-		return res;
-	}
-
-    #if windows
     @:functionCode('
         NOTIFYICONDATA m_NID;
 
@@ -106,32 +72,4 @@ class WindowsSystem
     {
         return res;
     }
-
-    #if windows
-	@:functionCode('
-        HWND hWnd = GetActiveWindow();
-        res = SetWindowLong(hWnd, GWL_EXSTYLE, GetWindowLong(hWnd, GWL_EXSTYLE) ^ WS_EX_LAYERED);
-        if (res)
-        {
-            SetLayeredWindowAttributes(hWnd, RGB(1, 1, 1), 1, LWA_COLORKEY);
-        }
-    ')
-    #end
-	static public function restoreWindowOpacity(res:Int = 0)  // Only works on windows, otherwise returns 0!
-	{
-		return res;
-	}
-
-    #if windows
-    @:functionCode('
-        std::string p(getenv("APPDATA"));
-        p.append("\\\\Microsoft\\\\Windows\\\\Themes\\\\TranscodedWallpaper");
-
-        SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, (PVOID)p.c_str(), SPIF_UPDATEINIFILE);
-    ')
-    #end
-   /* static public function updateWallpaper() {  // Only works on windows, otherwise returns 0!
-        return null;
-    }*/
-    //fuck gamebanana rules, i wanted to make malfunction better *cries (jason)
 }

@@ -1276,8 +1276,20 @@ class PlayState extends MusicBeatState
 		});
 	}
 
+	/**
+	 * Manages the `lyrics` of the song in-game
+	 * @param icon Lyrics icon as string
+	 * @param text The lyrics text
+	 * @param font Lyric font
+	 * @param size Lyric size
+	 * @param duration Delay time to disappear
+	 * @param tweenType Tween ease (as string)
+	 * @param textDelay Text delay. The amount of seconds to type the next word
+	 * 
+	 * @author DEMOLITIONDON96 Ft. Jason
+	 */
 	public function manageLyrics(icon:String = 'bf', text:String = 'swaggers', font:String = 'vcr', size:Int = 15, duration:Float = 5,
-			tweenType:String = 'linear', textDelay:Float = 1)
+			tweenType:String = 'linear', textDelay:Float = 0.03)
 	{
 		lyricsIcon.updateIcon(icon, false);
 		if (!lyricsIcon.visible)
@@ -1288,7 +1300,7 @@ class PlayState extends MusicBeatState
 
 		lyrics.font = Paths.font(font);
 		lyrics.resetText(text);
-		lyrics.start(0.03); // currently placeholder time !!
+		lyrics.start(textDelay); // currently placeholder time !!
 
 		if (lyricsTween != null)
 			lyricsTween.cancel();
