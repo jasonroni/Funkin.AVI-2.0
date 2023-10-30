@@ -10,7 +10,6 @@ import flixel.FlxG;
 import flixel.FlxState;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.graphics.FlxGraphic;
-import flixel.system.FlxRes;
 import flixel.tweens.*;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
@@ -212,23 +211,6 @@ class Main extends Sprite
 		var _width:Int;
 		var _height:Int;
 
-		/**
-		 * returnWidth = true : resulted resolution is based on DESIGN_WIDTH
-		 * returnWidth = false : resulted resolution is based on DESIGN_HEIGHT
-		 */
-		var returnWidth:Bool = false;
-
-		if (returnWidth)
-		{
-			_height = DESIGN_HEIGHT;
-			_width = FlxRes.getOtherDimension(_height, returnWidth);
-		}
-		else
-		{
-			_width = DESIGN_WIDTH;
-			_height = FlxRes.getOtherDimension(_width);
-		}
-
 		if (game.zoom == -1.0)
 		{
 			var ratioX:Float = stageWidth / game.width;
@@ -241,7 +223,7 @@ class Main extends Sprite
 		FlxTransitionableState.skipNextTransIn = true;
 
 		// here we set up the base game
-		baseGame = new FNFGame(_width, _height, Init, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash, game.fullscreen);
+		baseGame = new FNFGame(game.width, game.height, Init, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash, game.fullscreen);
 		addChild(baseGame); // and create it afterwards
 		FlxGraphic.defaultPersist = false;
 

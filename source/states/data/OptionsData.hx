@@ -40,6 +40,7 @@ class OptionsData
 		{name: 'Memory Counter', type: "option"},
 		{name: 'Framerate Cap', type: "option"},
 		{name: 'Cursor Style', type: "option"},
+		{name: "GPU Caching", type: "option"}
 	];
 
 	/* == Accessibility Group == */

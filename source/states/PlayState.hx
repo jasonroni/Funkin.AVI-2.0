@@ -1,5 +1,6 @@
 package states;
 
+import base.utils.CamUtils;
 import flixel.addons.text.FlxTypeText;
 import base.dependency.FeatherDeps.Events;
 import base.dependency.FeatherDeps.ScriptHandler;
@@ -1038,15 +1039,10 @@ class PlayState extends MusicBeatState
 		if (cameraPos != 'none')
 		{
 			// lock camera according to your options;
-			updateSectionCamera(cameraPos, cameraPos == SONG.player1);
+			updateSectionCamera(cameraPos, cameraPos == 'bf');
 		}
 		else
-		{
-			if (!PlayState.SONG.notes[curSection].mustHitSection)
-				updateSectionCamera('dad');
-			else
-				updateSectionCamera('bf', true);
-		}
+			updateSectionCamera(SONG.notes[curSection].mustHitSection ? 'bf' : 'dad', SONG.notes[curSection].mustHitSection);
 	}
 
 	// stuff that isn't on PlayStateUtils cus the game hates me
@@ -1573,6 +1569,7 @@ class PlayState extends MusicBeatState
 						camDisplaceY = 0;
 					}
 					lastSection = Std.int(curStep / 16);
+					if (!shootin) checkCamPosition();
 				}
 			}
 
@@ -1638,18 +1635,17 @@ class PlayState extends MusicBeatState
 			camGame.angle = FlxMath.lerp(camGame.angle, 0 + camOffset[2], CoolUtil.boundTo(CoolUtil.boundTo(elapsed * 2.4 / 0.4, 0, 1) * cameraSpeed , 0, 1));
 		}
 
+		CamUtils.updateCamera(camGame, elapsed);
+		CamUtils.updateCamera(camHUD, elapsed);
+		CamUtils.updateCamera(camOther, elapsed);
+
 		callFunc('postUpdate', [elapsed]);
 	}
 
-        public function moveCamera(isDad, forcePos, ?camX, ?camY)
-        {
-		isCamForced = forcePos;
-
-		if (!isCamForced) {
-			if (!shootin)
-			    checkCamPosition();
-		} else 
-			camFollow.setPosition(camX, camY);
+	public function setCameraPos(isDad, forcePos, ?camX, ?camY)
+	{
+		isCamForced = true;
+		camFollow.setPosition(camX, camY);
 	}
 
 	private var isDead:Bool = false;
@@ -2640,7 +2636,7 @@ class PlayState extends MusicBeatState
 				camDisplaceX = 0;
 				camDisplaceY = 0;
 			}
-		         moveCamera(SONG.notes[Std.int(curStep / 16)].mustHitSection, isCamForced);
+		    if (!shootin) checkCamPosition();
 		}
 
 		callFunc('sectionHit', [curSection]);
