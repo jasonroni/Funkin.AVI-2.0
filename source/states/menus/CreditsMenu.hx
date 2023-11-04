@@ -146,14 +146,14 @@ class CreditsMenu extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		shaderTime += elapsed;
+		shaderTime = Conductor.songPosition / 1000;
 
 		if (!Init.trueSettings.get('Disable Screen Shaders'))
 		{
 			cool_1980_shader.setFloat('iTime', shaderTime);
 		}
 
-		ForeverTools.cameraBumpingZooms(FlxG.camera, 1);
+		ForeverTools.cameraBumpingZooms(FlxG.camera, 1, null, elapsed);
 
 		if (Controls.getPressEvent("ui_up"))
 		{

@@ -43,7 +43,7 @@ function onCreate()
 function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Character)
 	{
 			//Shader stuff
-			shaderTime += elapsed;
+			shaderTime = Conductor.songPosition / 1000;
 			staticS.setFloat('uTime', shaderTime);
 			staticS.setFloat('iTime', shaderTime);
 	}

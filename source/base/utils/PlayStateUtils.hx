@@ -14,6 +14,7 @@ import openfl.filters.ShaderFilter;
 /**
  * A class made for organize and separate all `PlayState` content
 */
+@:access(states.PlayState)
 class PlayStateUtils extends PlayState // extending the class itself incase crashes
 {
     public static var instance:PlayStateUtils = new PlayStateUtils();
@@ -2030,19 +2031,14 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.camGame.setFilters([new ShaderFilter(PlayState.monitorFilter)]);
 					}
 
-					for (goofyAhhUIS in PlayState.main.allUIs)
-					{
-						goofyAhhUIS.x += 80;
-						goofyAhhUIS.y = FlxMath.lerp(0, goofyAhhUIS.y, 1 - Main.framerateAdjust(0.05));
-					}
-					FlxTween.tween(PlayState, {health: 2}, 1);
+					PlayState.main.uhhTurnBackNormalOrSmth();
 				}
 		}
     }
 
     public function shaderAnims(elapsed:Float)
     {
-        PlayState.main.shaderAnim += elapsed;
+        PlayState.main.shaderAnim = Conductor.songPosition / 1000;
             switch (PlayState.SONG.song)
 			{
 				case 'Devilish Deal':

@@ -484,9 +484,9 @@ class ForeverTools
 	 * @param daZaza - Default Camera Zoom
 	 * @param forceZaza - Forced Paramaters for Zooming / Changing Angle
 	 */
-	inline public static function cameraBumpingZooms(leCam:FlxCamera, daZaza:Float = 1.05, ?forceZaza:Array<Float>)
+	inline public static function cameraBumpingZooms(leCam:FlxCamera, daZaza:Float = 1.05, ?forceZaza:Array<Float>, elapsed:Float)
 	{
-		var easeLerp = 1 - Main.framerateAdjust(0.05);
+		var easeLerp = CoolUtil.boundTo(1 - (elapsed * 3.125), 0, 1);
 
 		if (forceZaza == null)
 			forceZaza = [0, 0, 0, 0];

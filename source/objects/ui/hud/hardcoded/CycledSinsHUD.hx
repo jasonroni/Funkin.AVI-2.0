@@ -176,8 +176,8 @@ class CycledSinsHUD extends FlxSpriteGroup
         sanityTextBf.text = 'Sanity:\n$sanityBf';
         sanityTextDad.text = 'Sanity:\n$sanityDad';
 
-		iconP1.bop(0.15);
-		iconP2.bop(0.15);
+		iconP1.bop(elapsed);
+		iconP2.bop(elapsed);
 
 		/*if (autoplayMark.visible)
 		{
@@ -241,13 +241,13 @@ class CycledSinsHUD extends FlxSpriteGroup
 		{
 			if (iconP1.canBounce)
 			{
-				iconP1.setGraphicSize(Std.int(iconP1.width + 30));
+				iconP1.scale.set(1.15, 1.15);
 				iconP1.updateHitbox();
 			}
 
 			if (iconP2.canBounce)
 			{
-				iconP2.setGraphicSize(Std.int(iconP2.width + 30));
+				iconP2.scale.set(1.15, 1.15);
 				iconP2.updateHitbox();
 			}
 		}

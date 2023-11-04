@@ -249,8 +249,8 @@ class DemolitionHUD extends FlxSpriteGroup
 		iconP1.updateAnim(healthBar.percent);
 		iconP2.updateAnim(100 - healthBar.percent);
 
-		iconP1.bop(0.1);
-		iconP2.bop(0.1);
+		iconP1.bop(elapsed);
+		iconP2.bop(elapsed);
 
 		if (autoplayMark.visible)
 		{
@@ -338,13 +338,13 @@ class DemolitionHUD extends FlxSpriteGroup
 		{
 			if (iconP1.canBounce)
 			{
-				iconP1.setGraphicSize(Std.int(iconP1.width + 20));
+				iconP1.scale.set(1.05, 1.05);
 				iconP1.updateHitbox();
 			}
 
 			if (iconP2.canBounce)
 			{
-				iconP2.setGraphicSize(Std.int(iconP2.width + 20));
+				iconP2.scale.set(1.05, 1.05);
 				iconP2.updateHitbox();
 			}
 		}

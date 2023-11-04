@@ -105,7 +105,7 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 
 function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Character)
 {
-    	shaderTime += elapsed;
+    	shaderTime = Conductor.songPosition / 1000;
 
     	glitchBG.setFloat('time', shaderTime);
     	glitchBG.setFloat('prob', shaderTime);

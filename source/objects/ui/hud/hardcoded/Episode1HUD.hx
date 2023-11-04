@@ -319,17 +319,17 @@ class Episode1HUD extends FlxSpriteGroup
 		lunacyIcon.updateAnim(100 - healthBar.percent);
 		delusionalIcon.updateAnim(100 - healthBar.percent);
 
-		iconP1.bop(0.15);
-		iconP2.bop(0.15);
+		iconP1.bop(elapsed);
+		iconP2.bop(elapsed);
 
-		isolatedHappy.bop(0.25);
-		fakeBFLosingFrame.bop(0.25);
+		isolatedHappy.bop(elapsed + 0.2);
+		fakeBFLosingFrame.bop(elapsed + 0.2);
 		
-		demonBFIcon.bop(0.1);
-		lunacyIcon.bop(0.1);
+		demonBFIcon.bop(elapsed - 0.05);
+		lunacyIcon.bop(elapsed - 0.05);
 
-		minnieIcon.bop(0.2);
-		satanIconPulse.bop(0.35);
+		minnieIcon.bop(elapsed);
+		satanIconPulse.bop(elapsed + .08);
 
 		/*if (autoplayTxt.visible)
 		{
@@ -403,49 +403,49 @@ class Episode1HUD extends FlxSpriteGroup
 		{
 			if (iconP1.canBounce)
 			{
-				iconP1.setGraphicSize(Std.int(iconP1.width + 30));
+				iconP1.scale.set(1.15, 1.15);
 				iconP1.updateHitbox();
 			}
 
 			if (iconP2.canBounce)
 			{
-				iconP2.setGraphicSize(Std.int(iconP2.width + 30));
+				iconP2.scale.set(1.15, 1.15);
 				iconP2.updateHitbox();
 			}
 			
 			if (lunacyIcon.canBounce)
 			{
-				lunacyIcon.setGraphicSize(Std.int(lunacyIcon.width + 30));
+				lunacyIcon.scale.set(1.15, 1.15);
 				lunacyIcon.updateHitbox();
 			}
 
 			if (isolatedHappy.canBounce)
 			{
-				isolatedHappy.setGraphicSize(Std.int(isolatedHappy.width + 30));
+				isolatedHappy.scale.set(1.15, 1.15);
 				isolatedHappy.updateHitbox();
 			}
 
 			if (demonBFIcon.canBounce)
 			{
-				demonBFIcon.setGraphicSize(Std.int(demonBFIcon.width + 30));
+				demonBFIcon.scale.set(1.15, 1.15);
 				demonBFIcon.updateHitbox();
 			}
 
 			if (fakeBFLosingFrame.canBounce)
 			{
-				fakeBFLosingFrame.setGraphicSize(Std.int(fakeBFLosingFrame.width + 30));
+				fakeBFLosingFrame.scale.set(1.15, 1.15);
 				fakeBFLosingFrame.updateHitbox();
 			}
 
 			if (minnieIcon.canBounce)
 			{
-				minnieIcon.setGraphicSize(Std.int(minnieIcon.width + 30));
+				minnieIcon.scale.set(1.15, 1.15);
 				minnieIcon.updateHitbox();
 			}
 
 			if (satanIconPulse.canBounce)
 			{
-				satanIconPulse.setGraphicSize(Std.int(satanIconPulse.width + 50));
+				satanIconPulse.scale.set(1.15, 1.15);
 				satanIconPulse.updateHitbox();
 			}
 		}

@@ -154,8 +154,8 @@ class VanillaHUD extends FlxSpriteGroup
 		iconP1.updateAnim(healthBar.percent);
 		iconP2.updateAnim(100 - healthBar.percent);
 
-		iconP1.bop(0.15);
-		iconP2.bop(0.15);
+		iconP1.bop(elapsed);
+		iconP2.bop(elapsed);
 
 		if (autoplayMark.visible)
 		{
@@ -208,13 +208,13 @@ class VanillaHUD extends FlxSpriteGroup
 		{
 			if (iconP1.canBounce)
 			{
-				iconP1.setGraphicSize(Std.int(iconP1.width + 30));
+				iconP1.scale.set(1.15, 1.15);
 				iconP1.updateHitbox();
 			}
 
 			if (iconP2.canBounce)
 			{
-				iconP2.setGraphicSize(Std.int(iconP2.width + 30));
+				iconP2.scale.set(1.15, 1.15);
 				iconP2.updateHitbox();
 			}
 		}

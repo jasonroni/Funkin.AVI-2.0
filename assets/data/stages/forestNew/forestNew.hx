@@ -79,7 +79,7 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Character)
 {
 	// Shader stuff
-	shaderTime += elapsed;
+	shaderTime = Conductor.songPosition / 1000;
 	wobblyBG.setFloat('uTime', shaderTime);
 }
 

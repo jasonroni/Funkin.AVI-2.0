@@ -1604,9 +1604,9 @@ class PlayState extends MusicBeatState
 			var lerpVal = (elapsed * 2.4) * cameraSpeed;
 			camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 
-			ForeverTools.cameraBumpingZooms(FlxG.camera, defaultCamZoom, forceZoom);
+			ForeverTools.cameraBumpingZooms(FlxG.camera, defaultCamZoom, forceZoom, elapsed);
 			for (hud in allUIs)
-				ForeverTools.cameraBumpingZooms(hud, 1, forceZoom);
+				ForeverTools.cameraBumpingZooms(hud, 1, forceZoom, elapsed);
 
 			deathCheck();
 
@@ -1651,10 +1651,23 @@ class PlayState extends MusicBeatState
 
 		CamUtils.updateCamera(camGame, elapsed);
 		CamUtils.updateCamera(camHUD, elapsed);
+		for (theSillies in strumHUD) CamUtils.updateCamera(theSillies, elapsed);
 		CamUtils.updateCamera(camOther, elapsed);
 
 		callFunc('postUpdate', [elapsed]);
+
+		// yk i sometimes ask why we put sum stuff there n shit
+		uhhTurnBackNormalOrSmth = function () {
+			for (goofyAhhUIS in PlayState.main.allUIs)
+				{
+					goofyAhhUIS.x += 80;
+					goofyAhhUIS.y = FlxMath.lerp(0, goofyAhhUIS.y, CoolUtil.boundTo(elapsed * 2.4, 0, 1));
+				}
+				FlxTween.tween(PlayState, {health: 2}, 1);
+		}
 	}
+
+	public var uhhTurnBackNormalOrSmth:Void->Void;
 
 	public function setCameraPos(isDad, forcePos, ?camX, ?camY)
 	{
