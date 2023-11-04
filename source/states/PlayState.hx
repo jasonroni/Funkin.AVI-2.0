@@ -134,6 +134,7 @@ class PlayState extends MusicBeatState
 	public static var campaingMisses:Int = 0;
 	public static var health:Float = 1; // mario;
 	public static var healthDrain:Float = 0;
+	public var smoothyHealth:Float = 1; // IF YOU READ THIS ITS ONLY FOR MERCY !!
 	public static var thing:Int;
 
 	// Characters;
@@ -319,7 +320,7 @@ class PlayState extends MusicBeatState
 		ScoreUtils.resetAccuracy();
 		PlayState.SONG.validScore = true;
 		deaths = 0;
-		health = 0.5;
+		health = smoothyHealth = 0.5;
 
 		timedEvents = [];
 		moduleArray = [];
@@ -642,6 +643,13 @@ class PlayState extends MusicBeatState
 			episode1HUD.cameras = [camHUD];
 		}
 
+		if (SONG.song == 'Twisted Grins')
+		{
+			opponent.characterData.headBopSpeed = 4;
+			boyfriend.characterData.headBopSpeed = 4;
+			cameraBumpSpeed = 8;
+		}
+
 		if (Init.trueSettings.get('Judgement Recycling'))
 		{
 			judgementsGroup = new FlxTypedGroup<FNFSprite>();
@@ -907,7 +915,7 @@ class PlayState extends MusicBeatState
 			// RESET = Quick Game Over Screen
 			case "reset":
 				if (!startingSong && gameplayMode != STORY)
-					health = 0;
+					health = smoothyHealth = 0;
 			case "left" | "down" | "up" | "right":
 				var actions = ["left", "down", "up", "right"];
 				var index = actions.indexOf(action);
@@ -1437,6 +1445,8 @@ class PlayState extends MusicBeatState
 		stageBuild.stageUpdateConstant(elapsed, boyfriend, gf, opponent);
 
 		super.update(elapsed);
+
+		smoothyHealth = FlxMath.lerp(smoothyHealth, health, CoolUtil.boundTo(elapsed * 20, 0, 1));
 
 		if (FlxG.keys.justPressed.F5)
 			isDebugMode = true;

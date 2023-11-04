@@ -172,12 +172,20 @@ class KadeHUD extends FlxSpriteGroup
 	override public function update(elapsed:Float)
 	{
 		// pain, this is like the 7th attempt
-		healthBar.percent = (PlayState.health * 50); // so it doesn't make the mechanic worthless
+		var silly = PlayState.SONG.song == 'Mercy' ? PlayState.main.smoothyHealth : PlayState.health;
+		healthBar.percent = (silly * 50); // so it doesn't make the mechanic worthless
 		
 		var iconOffset:Int = 26;
 
-		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
-		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
+		if (PlayState.SONG.song == 'Mercy')
+		{
+			var percent:Float = 1 - (PlayState.main.smoothyHealth / 2);
+			iconP1.x = healthBar.x + (healthBar.width * percent) + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
+			iconP2.x = healthBar.x + (healthBar.width * percent) - (150 * iconP2.scale.x) / 2 - iconOffset * 2;	
+		} else {
+			iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
+			iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
+		}
 
 		iconP1.updateAnim(healthBar.percent);
 		iconP2.updateAnim(100 - healthBar.percent);
@@ -250,17 +258,20 @@ class KadeHUD extends FlxSpriteGroup
 	{
 		if (!Init.trueSettings.get('Reduced Movements'))
 		{
-			if (iconP1.canBounce)
-			{
-				iconP1.scale.set(1.15, 1.15);
-				iconP1.updateHitbox();
-			}
-
-			if (iconP2.canBounce)
-			{
-				iconP2.scale.set(1.15, 1.15);
-				iconP2.updateHitbox();
-			}
+			if (curBeat % ((PlayState.SONG.song == 'Twisted Grins') ? 2 : 1) == 0)
+				{
+					if (iconP1.canBounce)
+						{
+							iconP1.setGraphicSize(Std.int(iconP1.width + 20));
+							iconP1.updateHitbox();
+						}
+			
+						if (iconP2.canBounce)
+						{
+							iconP2.setGraphicSize(Std.int(iconP2.width + 20));
+							iconP2.updateHitbox();
+						}
+				}
 		}
 	}
 
