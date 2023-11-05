@@ -869,6 +869,8 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 				{
 					PlayState.camGame.zoom += 0.05;
 					PlayState.camHUD.zoom += 0.06;
+					for (demolitionCanWeForTheLoveOfFuckingGodJustRemoveStrumHUDForOnceAndStopBeenALazyAssBitchPleaseIBegYouLoveJason in PlayState.strumHUD)
+						demolitionCanWeForTheLoveOfFuckingGodJustRemoveStrumHUDForOnceAndStopBeenALazyAssBitchPleaseIBegYouLoveJason.zoom = PlayState.camHUD.zoom;
 				}
 			}
 
