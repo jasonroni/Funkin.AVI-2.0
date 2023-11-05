@@ -1372,7 +1372,7 @@ class PlayState extends MusicBeatState
 	public function flashBGEffect(flashType:FlashType, alpha:Float = 0.5, time:Float = 1, ease:String = 'linear', ?colors:Array<Int>) // TODO: Make this function shorter
 	{
 		// haxe fault !!
-		if (colors == null) colors = [255, 255, 255, 1];
+		if (colors == null) colors = [255, 255, 255];
 
 		// due to the fact that some silly 19 year old guy called demo overuses the shit
 		// out of the zooms this has to exist in cases of emergency   - jason the silly !!
@@ -1396,7 +1396,7 @@ class PlayState extends MusicBeatState
 					else
 						stageBGFlash.blend = ADD;
 
-					stageBGFlash.color = FlxColor.fromRGB(colors[0], colors[1], colors[2], colors[3]);
+					stageBGFlash.color = FlxColor.fromRGB(colors[0], colors[1], colors[2], 255);
 
 					if (BGFlashTween != null) // makes it so it won't look wonky, visually
 						BGFlashTween.cancel();

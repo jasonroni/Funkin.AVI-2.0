@@ -875,11 +875,6 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 			}
 
 			case 'Lunacy':
-				if (curBeat == 100 || curBeat == 108 || curBeat == 116 || curBeat == 124 || curBeat == 132 || curBeat == 140 || curBeat == 148)
-				{
-					PlayState.main.flashBGEffect(NORMAL, 0.5, 0.5, 'sineOut');
-				}
-
 				if (curBeat == 160 || curBeat == 230 || curBeat == 240 || curBeat == 248 || curBeat == 256 || curBeat == 262 || curBeat == 272
 					|| curBeat == 280 || curBeat == 280 || curBeat == 288 || curBeat == 296 || curBeat == 304 || curBeat == 312 || curBeat == 320
 					|| curBeat == 328 || curBeat == 336 || curBeat == 344 || curBeat == 352)
@@ -956,24 +951,6 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					});
 				}
 
-				if (curBeat == 100 || curBeat == 108 || curBeat == 116 || curBeat == 124 || curBeat == 132 || curBeat == 140 || curBeat == 148)
-				{
-					if (PlayState.main.chromTween != null)
-						PlayState.main.chromTween.cancel();
-
-					PlayState.main.chromEffect = 0.4;
-
-					PlayState.main.chromTween = FlxTween.tween(PlayState.main, {
-						chromEffect: 0.0001
-					}, 1, {
-						ease: FlxEase.sineOut,
-						onComplete: function(twn:FlxTween)
-						{
-							PlayState.main.chromTween = null;
-						}
-					});
-				}
-
 				if (curBeat == 156)
 				{
 					if (PlayState.main.chromTween != null)
@@ -1008,7 +985,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					});
 				}
 
-				if (curBeat == 160 || curBeat == 168 || curBeat == 176 || curBeat == 184 || curBeat == 192 || curBeat == 200 || curBeat == 208
+				/*if (curBeat == 160 || curBeat == 168 || curBeat == 176 || curBeat == 184 || curBeat == 192 || curBeat == 200 || curBeat == 208
 					|| curBeat == 216 || curBeat == 224 || curBeat == 232 || curBeat == 240 || curBeat == 248 || curBeat == 256 || curBeat == 264
 					|| curBeat == 272 || curBeat == 280 || curBeat == 288 || curBeat == 296 || curBeat == 304 || curBeat == 312 || curBeat == 320
 					|| curBeat == 328 || curBeat == 336 || curBeat == 344)
@@ -1124,7 +1101,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 							PlayState.main.chromTween = null;
 						}
 					});
-				}
+				}*/
 
 				if (curBeat >= 228 && curBeat <= 231 || curBeat >= 236 && curBeat <= 239 || curBeat >= 244 && curBeat <= 247 || curBeat >= 252
 					&& curBeat <= 255 || curBeat >= 260 && curBeat <= 263 || curBeat >= 168 && curBeat <= 171 || curBeat >= 276 && curBeat <= 279
@@ -1219,39 +1196,29 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 				{
 					// I'm NOT gonna have a fun time recoding all this for the BG dimming in and out later lmao
 
-					case 16: PlayState.camGame.fade(FlxColor.BLACK, 3);
+					case 16: PlayState.camGame.fade(FlxColor.BLACK, 3, true);
 
 					case 32:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.BLACK, 1.5);
-
-					case 38 | 46 | 54 | 62:
-						FlxG.camera.zoom += 0.065;
-
-					case 40 | 48 | 56:
-						PlayState.defaultCamZoom += 0.15;
+						tweenCamera(PlayState.camGame.zoom + .5, 16.5, 'sineInOut');
 
 					case 64:
 						if (!Init.trueSettings.get('Disable Flashing Lights'))
 							PlayState.camGame.flash(FlxColor.BLACK, 0.9);
-						PlayState.defaultCamZoom = 0.87;
 
-					case 70 | 78 | 86:
-						FlxG.camera.zoom += 0.045;
+					case 88:
+						tweenCamera(.75, 2.2, 'sineInOut');
 
-					case 72 | 80 | 88:
-						if (!Init.trueSettings.get('Disable Flashing Lights'))
-							PlayState.camGame.flash(FlxColor.BLACK, 0.9);
-						PlayState.defaultCamZoom += 0.15;
+						FlxTween.tween(PlayState.camHUD, {alpha: 1}, 5, {ease: FlxEase.sineOut});
+						for (i in PlayState.strumHUD)
+						{
+							FlxTween.tween(i, {alpha: 1}, 5, {ease: FlxEase.sineOut});
+						}
 
 					case 96:
 						PlayState.defaultCamZoom = 0.75;
 						if (!Init.trueSettings.get('Disable Flashing Lights'))
 							PlayState.camGame.flash(FlxColor.WHITE, 1.5);
-						FlxTween.tween(PlayState.camHUD, {alpha: 1}, 2, {ease: FlxEase.sineOut});
-						for (i in PlayState.strumHUD)
-						{
-							FlxTween.tween(i, {alpha: 1}, 1.5, {ease: FlxEase.sineOut});
-						}
 
 					case 128 | 256:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.WHITE, 1.5);
@@ -1348,8 +1315,8 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 							FlxTween.tween(i, {alpha: 0.25}, 8, {ease: FlxEase.sineInOut});
 						}
 						FlxTween.tween(PlayState, {health: 0.01}, 20);
-						if (globalGradient != null)
-							FlxTween.tween(globalGradient, {alpha: 0.8}, 10);
+						if (PlayState.main.globalGradient != null)
+							FlxTween.tween(PlayState.main.globalGradient, {alpha: 0.8}, 10);
 						FlxTween.tween(FlxG.camera, {zoom: 1.1}, 18, {startDelay: 2});
 
 					case 408:
