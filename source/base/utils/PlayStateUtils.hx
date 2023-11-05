@@ -10,6 +10,7 @@ import flixel.tweens.*;
 import flixel.FlxG;
 import states.PlayState;
 import openfl.filters.ShaderFilter;
+import objects.Character;
 
 /**
  * A class made for organize and separate all `PlayState` content
@@ -244,6 +245,12 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
     {
         switch (PlayState.SONG.song)
 		{
+			case 'Lunacy Legacy':
+				PlayState.opponentMap.set('mickey-lunacy-legacy', new Character().setCharacter(100, 100, 'mickey-lunacy-legacy'));
+
+			case 'Cycled Sins Legacy':
+				PlayState.opponentMap.set('relapse-gun-pixel', new Character().setCharacter(100, 100, 'relapse-gun-pixel'));
+
 			case 'Devilish Deal':
 				// Moves Player Notes on Opponent Side
 				if (!Init.trueSettings.get('Centered Notefield'))
@@ -269,6 +276,18 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 				}
 				PlayState.camGame.fade(FlxColor.BLACK, 0.0001);
 				PlayState.camHUD.alpha = 0.001;
+
+				if (PlayState.SONG.song == 'Lunacy')
+				{
+					PlayState.playerMap.set('bf-lunacy', new Character(true).setCharacter(770, 450, 'bf-lunacy'));
+					PlayState.opponentMap.set('lunamick-new', new Character().setCharacter(100, 100, 'lunamick-new'));
+				}
+				
+				if (PlayState.SONG.song == 'Delusional')
+				{
+					PlayState.playerMap.set('bf-demon', new Character(true).setCharacter(770, 450, 'bf-demon'));
+					PlayState.opponentMap.set('mickey-delusional', new Character().setCharacter(100, 100, 'mickey-delusional'));
+				}
 
 			case 'Mercy Legacy':
 				if (!Init.trueSettings.get('Disable Mechanics'))
@@ -404,6 +423,23 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					case 64:
 						PlayState.defaultCamZoom = 1.15;
 						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.BLACK, 2);
+						PlayState.opponent.setCharacter(100, 100, 'mickey-lunacy-legacy');
+						switch (Init.trueSettings.get("HUD Style"))
+						{
+							case 'demolition':
+								PlayState.demolitionHUD.iconP2.updateIcon('mickey-lunacy-legacy', false);
+							case 'psych':
+								PlayState.psychHUD.iconP2.updateIcon('mickey-lunacy-legacy', false);
+							case 'kade':
+								PlayState.kadeHUD.iconP2.updateIcon('mickey-lunacy-legacy', false);
+							case 'vanilla':
+								PlayState.vanillaHUD.iconP2.updateIcon('mickey-lunacy-legacy', false);
+						}
+						PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent);
+						PlayState.opponent.dance(true);
+
+						if (PlayState.opponentMap.get('mickey-lunacy-legacy') != null)
+							PlayState.opponentMap.remove('mickey-lunacy-legacy');
 					case 68 | 76 | 176: PlayState.defaultCamZoom -= 0.1;
 					case 72 | 134 | 144: PlayState.defaultCamZoom -= 0.15;
 					case 80: PlayState.defaultCamZoom = 1.1;
@@ -481,8 +517,25 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						FlxTween.tween(PlayState.dadStrums, {alpha: 0}, 1, {ease: FlxEase.sineInOut});
 					case 138: FlxTween.tween(PlayState.camGame, {alpha: 1}, 1, {ease: FlxEase.sineInOut});
 					case 142:
-						PlayState.camGame.alpha = 0;
-						PlayState.strumHUD[1].alpha = 0;
+						PlayState.camGame.visible = false;
+						PlayState.strumHUD[1].visible = false;
+						PlayState.opponent.setCharacter(100, 100, 'relapse-gun-pixel');
+						switch (Init.trueSettings.get("HUD Style"))
+						{
+							case 'demolition':
+								PlayState.demolitionHUD.iconP2.updateIcon('relapse-gun-pixel', false);
+							case 'psych':
+								PlayState.psychHUD.iconP2.updateIcon('relapse-gun-pixel', false);
+							case 'kade':
+								PlayState.kadeHUD.iconP2.updateIcon('relapse-gun-pixel', false);
+							case 'vanilla':
+								PlayState.vanillaHUD.iconP2.updateIcon('relapse-gun-pixel', false);
+						}
+						PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent);
+						PlayState.opponent.dance(true);
+
+						if (PlayState.opponentMap.get('relapse-gun-pixel') != null)
+							PlayState.opponentMap.remove('relapse-gun-pixel');
 					case 144:
 						PlayState.camGame.setFilters(
 						[
@@ -491,9 +544,9 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 							new ShaderFilter(PlayState.chromZoomShader),
 							new ShaderFilter(PlayState.dramaticCamMovement),
 						]);
-						PlayState.camGame.alpha = 1;
+						PlayState.camGame.visible = true;
 						PlayState.camHUD.alpha = 1;
-						PlayState.strumHUD[1].alpha = 1;
+						PlayState.strumHUD[1].visible = true;
 						PlayState.camGame.flash(FlxColor.RED, 1.2);
 						FlxTween.tween(PlayState, {health: 0.1}, 1, {ease: FlxEase.sineInOut});
 					case 272:
@@ -1203,10 +1256,26 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 
 					case 156:
 						PlayState.defaultCamZoom = 1.05;
+						PlayState.boyfriend.setCharacter(770, 450, 'bf-lunacy');
+						PlayState.episode1HUD.iconP1.updateIcon('bf-lunacy', true);
+						PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent);
+						PlayState.boyfriend.dance(true);
+
+						if (PlayState.playerMap.get('bf-lunacy') != null)
+							PlayState.playerMap.remove('bf-lunacy');
 
 					case 160:
 						PlayState.defaultCamZoom = 0.7;
 						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.BLACK, 1.5);
+						PlayState.opponent.setCharacter(100, 100, 'lunamick-new');
+						PlayState.episode1HUD.iconP2.updateIcon('lunamick-new', false);
+						PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent);
+						PlayState.opponent.dance(true);
+
+						if (PlayState.opponentMap.get('lunamick-new') != null)
+							PlayState.opponentMap.remove('lunamick-new');
+
+						PlayState.opponentMap.set('mickey-delu-intro', new Character().setCharacter(100, 100, 'mickey-delu-intro'));
 
 					case 192:
 						PlayState.defaultCamZoom = 0.75;
@@ -1299,6 +1368,13 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						{
 							i.alpha = 0;
 						}
+						PlayState.opponent.setCharacter(100, 100, 'mickey-delu-intro');
+						PlayState.episode1HUD.iconP2.updateIcon('mickey-delu-intro', false);
+						PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent);
+						PlayState.opponent.dance(true);
+
+						if (PlayState.opponentMap.get('mickey-delu-intro') != null)
+							PlayState.opponentMap.remove('mickey-delu-intro');
 
 					case 506:
 						FlxTween.tween(PlayState.camHUD, {alpha: 0.5}, 4, {ease: FlxEase.sineInOut});
@@ -1385,6 +1461,24 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					case 208:
 						PlayState.camGame.visible = false;
 						PlayState.defaultCamZoom = 1.3;
+						PlayState.opponent.setCharacter(100, 100, 'mickey-delusional');
+						PlayState.episode1HUD.iconP2.updateIcon('mickey-delusional', false);
+						PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent);
+						PlayState.opponent.dance(true);
+
+						if (PlayState.opponentMap.get('mickey-delusional') != null)
+							PlayState.opponentMap.remove('mickey-delusional');
+						
+						PlayState.opponentMap.set('death-part-1', new Character().setCharacter(100, 100, 'death-part-1'));
+
+						PlayState.boyfriend.setCharacter(770, 450, 'bf-demon');
+						PlayState.episode1HUD.iconP1.updateIcon('bf-demon', true);
+						PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent);
+						PlayState.boyfriend.dance(true);
+
+						if (PlayState.playerMap.get('bf-demon') != null)
+							PlayState.playerMap.remove('bf-demon');
+
 					// Mickey Screams Like A Bitch
 					case 212:
 						PlayState.main.chromEffect = 0.3;
@@ -1580,11 +1674,25 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						FlxTween.tween(PlayState.camHUD, {alpha: 0}, 2);
 						for (i in PlayState.strumHUD)
 							FlxTween.tween(i, {alpha: 0}, 2);
+						PlayState.opponent.setCharacter(100, 100, 'death-part-1');
+						PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent);
+						PlayState.opponent.dance(true);
+
+						if (PlayState.opponentMap.get('death-part-1') != null)
+							PlayState.opponentMap.remove('death-part-1');
+						
+						PlayState.opponentMap.set('death-part-2', new Character().setCharacter(100, 100, 'death-part-2'));
 						FlxG.sound.play(Paths.sound('funkinAVI/Mickey_fuckin_dying'));
 						PlayState.main.flashBGEffect(DARK, 0.5, 5);
 					case 1134:
 						PlayState.main.flashBGEffect(DARK, 1, 0.5, 'sineOut');
 					case 1136:
+						PlayState.opponent.setCharacter(100, 100, 'death-part-2');
+						PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent);
+						PlayState.opponent.dance(true);
+
+						if (PlayState.opponentMap.get('death-part-2') != null)
+							PlayState.opponentMap.remove('death-part-2');
 						PlayState.main.flashBGEffect(NORMAL, 1, 0.3, 'sineOut');
 					case 1144:
 						FlxTween.tween(PlayState.camGame, {alpha: 0}, 4);
@@ -1735,7 +1843,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					case 276:
 						if (!Init.trueSettings.get('Disable Mechanics')) FlxTween.tween(PlayState.main.inkFormWarning, {alpha: 0}, 2, {ease: FlxEase.sineInOut});
 
-					case 468: 
+					case 468:
 						FlxTween.tween(PlayState.bfStrums, {alpha: 0}, 4, {ease: FlxEase.sineInOut});
 						FlxTween.tween(PlayState.camHUD, {alpha: 0}, 4, {ease: FlxEase.sineInOut});
 						for (i in PlayState.strumHUD)
@@ -1743,7 +1851,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 							FlxTween.tween(i, {alpha: 0}, 1, {ease: FlxEase.sineInOut, startDelay: 3});
 						}
 						if (!Init.trueSettings.get('Disable Mechanics')) FlxTween.tween(PlayState.main.spaceBarCounter, {alpha: 0}, 2, {ease: FlxEase.sineInOut});
-						
+
 					// Final Stretch
 					case 498:
 						PlayState.camGame.alpha = 0;
@@ -1789,7 +1897,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.health -= 0.14;
 					else if (curBeat >= 452 && curBeat <= 467)
 						PlayState.health -= 0.17;
-				}
+									}
 
 			case 'Cycled Sins':
 				if (!Init.trueSettings.get("Disable Mechanics"))

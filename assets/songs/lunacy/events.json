@@ -1,28 +1,6 @@
 {
 	"events": [
 		[
-			"Change Character",
-			49707.4468085107,
-			[
-				[
-					"bf",
-					"bf-lunacy",
-					"0.001"
-				]
-			]
-		],
-		[
-			"Change Character",
-			50984.0425531915,
-			[
-				[
-					"dad",
-					"lunamick-new",
-					"0.001"
-				]
-			]
-		],
-		[
 			"Play Animation",
 			171063.829787234,
 			[
@@ -40,17 +18,6 @@
 				[
 					"bf",
 					"-alt"
-				]
-			]
-		],
-		[
-			"Change Character",
-			153191.489361702,
-			[
-				[
-					"dad",
-					"mickey-delu-intro",
-					"0.0001"
 				]
 			]
 		]
