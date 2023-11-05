@@ -2562,6 +2562,8 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		PlayStateUtils.instance.stepHitEvents(curStep);
+
 		callFunc('stepHit', [curStep]);
 	}
 
@@ -2645,7 +2647,7 @@ class PlayState extends MusicBeatState
 		}
 
 		// HARDCODED EVENTS HAVE MOVED TO PLAYSTATEUTILS.HX TO LOWER THE AMOUNT OF CODE IN THIS GOD FORSAKEN FILE AND TO MAKE IT LOOK MORE CLEAN
-		PlayStateUtils.instance.createEvents(curBeat);
+		PlayStateUtils.instance.beatHitEvents(curBeat);
 
 		callFunc('beatHit', [curBeat]);
 	}

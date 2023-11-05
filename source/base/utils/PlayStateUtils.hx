@@ -267,7 +267,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 				{
 					i.alpha = 0.001;
 				}
-				PlayState.camGame.alpha = 0.001;
+				PlayState.camGame.fade(FlxColor.BLACK, 0.0001);
 				PlayState.camHUD.alpha = 0.001;
 
 			case 'Mercy Legacy':
@@ -323,13 +323,13 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 
     /**
      * The Events handling system for hardcoded stuff you want to trigger in-game
-     *  but don't want anyone to actually mess with
+     * but don't want anyone to actually mess with
      * 
-     *  Pretty cool if I say so myself, ngl, fun as well
+     * Pretty cool if I say so myself, ngl, fun as well
      * 
      *  @author DEMOLITIONDON96 ft. Jason
      */
-    public function createEvents(curBeat:Int)
+    public function beatHitEvents(curBeat:Int)
     {
         switch (PlayState.SONG.song)
 		{
@@ -691,8 +691,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 			case 'Isolated':
 				switch (curBeat)
 				{
-					// Fixed Cam Stuff to not trigger before cutscene is even done
-					case 16: FlxTween.tween(PlayState.camGame, {alpha: 1}, 3, {ease: FlxEase.quadOut});
+					case 12: PlayState.camGame.fade(FlxColor.BLACK, 3, true);
 
 					case 30:
 						FlxTween.tween(PlayState.camHUD, {alpha: 1}, 3, {ease: FlxEase.quadOut});
@@ -701,8 +700,29 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 							FlxTween.tween(i, {alpha: 1}, 3, {ease: FlxEase.quadOut});
 						}
 
-					case 160 | 352:
+					case 88: 
+						tweenCamera(1.4, 3, 'sineInOut');
+						PlayState.main.flashBGEffect(NORMAL, 0.32, 1.2, 'linear', [194, 194, 194]);
+
+					case 95: 
+						PlayState.cameraSpeed += 3;
+						PlayState.main.updateSectionCamera('dad', false);
+
+					case 96:
+						PlayState.cameraSpeed -= 3;
+						PlayState.defaultCamZoom = 0.85;
+						tweenCamera(0.85, 0.4, 'expoOut');
+
+						if (!Init.trueSettings.get('Disable Flashing Lights'))
+							PlayState.camGame.flash(FlxColor.WHITE, 1.5);
+						PlayState.main.flashBGEffect(NORMAL, 0.4, 0.35, 'linear');
+
+					case 160: 
+						tweenCamera(1.3, 2, 'sineInOut');
 						PlayState.main.flashBGEffect(DARK, 0.85, 0.5, 'quartOut');
+
+					// this stuns mickey for some fucking reason ??
+					// case 183: PlayState.main.updateSectionCamera('dad', false);
 
 					case 184:
 						PlayState.main.flashBGEffect(DARK, 0.77, 0.5, 'quartOut');
@@ -710,41 +730,65 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					case 188:
 						PlayState.main.flashBGEffect(DARK, 0.6, 0.5, 'quartOut');
 
+					case 192: 
+						if (!Init.trueSettings.get('Disable Flashing Lights'))
+							PlayState.camGame.flash(FlxColor.WHITE, 1.5);
+						PlayState.main.flashBGEffect(NORMAL, 0.32, 0.35, 'linear', [194, 194, 194]);
+						
+						PlayState.defaultCamZoom = 1.25;
+
+					// same as dad
+					// case 199: PlayState.main.updateSectionCamera('bf', true);
+
+					// update after testing without the cam thing they rarely still stunned so idk what to do lmao
+
+					case 220: 
+						tweenCamera(0.85, 2, 'sineInOut');
+						PlayState.main.flashBGEffect(NORMAL, 0.32, 0.1, 'linear', [194, 194, 194]);
+
+					case 288:
+						PlayState.defaultCamZoom = 0.85;
+
+						if (!Init.trueSettings.get('Disable Flashing Lights'))
+							PlayState.camGame.flash(FlxColor.WHITE, 1.5);
+						PlayState.main.flashBGEffect(NORMAL, 0.4, 0.35, 'linear', [194, 194, 194]);
+
+					case 352:
+						PlayState.main.flashBGEffect(DARK, 0.85, 0.5, 'quartOut');
+						tweenCamera(1.07, 5, 'quadInOut');
+						PlayState.cameraSpeed -= 0.25;
+
 					case 376:
 						PlayState.main.flashBGEffect(DARK, 0, 4, 'quartInOut');
 
-					case 36 | 40 | 44 | 52 | 56 | 60 | 64 | 68 | 72 | 76 | 80 | 84 | 88 | 92:
-						PlayState.main.flashBGEffect(NORMAL, 0.32, 1.2, 'linear');
+					case 36 | 40 | 44 | 52 | 56 | 60 | 64 | 68 | 72 | 76 | 80 | 84 | 92:
+						PlayState.main.flashBGEffect(NORMAL, 0.32, 1.2, 'linear', [194, 194, 194]);
 
 					case 100 | 104 | 108 | 116 | 120 | 124 | 132 | 136 | 140 | 148 | 152 | 156 | 228 | 232 | 236 | 240 | 244 | 252 | 260 | 264 | 268 | 276 |
 						280 | 284 | 292 | 296 | 300 | 308 | 312 | 316 | 324 | 328 | 332 | 340 | 344 | 348:
-						PlayState.main.flashBGEffect(NORMAL, 0.4, 0.35, 'linear');
+						PlayState.main.flashBGEffect(NORMAL, 0.4, 0.35, 'linear', [194, 194, 194]);
 
 					case 98 | 102 | 106 | 110 | 114 | 118 | 122 | 126 | 130 | 134 | 138 | 142 | 146 | 150 | 154 | 158 | 226 | 230 | 234 | 238 | 242 | 246 |
 						250 | 254 | 258 | 262 | 266 | 270 | 274 | 278 | 282 | 286 | 290 | 294 | 298 | 302 | 306 | 310 | 314 | 318 | 322 | 326 | 330 | 334 |
 						338 | 342 | 346 | 350:
-						PlayState.main.flashBGEffect(NORMAL, 0.67, 0.35, 'linear');
+						PlayState.main.flashBGEffect(NORMAL, 0.67, 0.35, 'linear', [194, 194, 194]);
 
 					case 194 | 196 | 198 | 200 | 202 | 204 | 206 | 210 | 212 | 214 | 222:
-						PlayState.main.flashBGEffect(NORMAL, 0.32, 0.35, 'linear');
+						PlayState.main.flashBGEffect(NORMAL, 0.32, 0.35, 'linear', [194, 194, 194]);
 
-					case 216 | 217 | 218 | 219 | 220:
-						PlayState.main.flashBGEffect(NORMAL, 0.32, 0.1, 'linear');
+					case 216 | 217 | 218 | 219:
+						PlayState.main.flashBGEffect(NORMAL, 0.32, 0.1, 'linear', [194, 194, 194]);
+						PlayState.camHUD.zoom += 0.04;
 
-					case 192:
+					case 128 | 256:
 						if (!Init.trueSettings.get('Disable Flashing Lights'))
 							PlayState.camGame.flash(FlxColor.WHITE, 1.5);
-						PlayState.main.flashBGEffect(NORMAL, 0.32, 0.35, 'linear');
-
-					case 96 | 128 | 256 | 288:
-						if (!Init.trueSettings.get('Disable Flashing Lights'))
-							PlayState.camGame.flash(FlxColor.WHITE, 1.5);
-						PlayState.main.flashBGEffect(NORMAL, 0.4, 0.35, 'linear');
+						PlayState.main.flashBGEffect(NORMAL, 0.4, 0.35, 'linear', [194, 194, 194]);
 
 					case 48 | 336 | 304 | 272 | 112 | 144:
 						if (!Init.trueSettings.get('Disable Flashing Lights'))
 							PlayState.camGame.flash(FlxColor.BLACK, 1.5);
-						PlayState.main.flashBGEffect(NORMAL, 0.32, 1.2, 'linear');
+						PlayState.main.flashBGEffect(NORMAL, 0.32, 1.2, 'linear', [194, 194, 194]);
 
 					case 32:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.WHITE, 1.5);
@@ -758,13 +802,22 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						}
 
 					case 224:
-						PlayState.main.flashBGEffect(NORMAL, 0.4, 0.35, 'linear');
+						PlayState.main.flashBGEffect(NORMAL, 0.4, 0.35, 'linear', [194, 194, 194]);
 						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.WHITE, 1.5);
 
 					case 320:
-						PlayState.main.flashBGEffect(NORMAL, 0.4, 0.35, 'linear');
+						PlayState.main.flashBGEffect(NORMAL, 0.4, 0.35, 'linear', [194, 194, 194]);
 						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.WHITE, 1.5);
 				}
+
+			if ((curBeat > 96 && curBeat < 160) || (curBeat > 224 && curBeat < 352))
+			{
+				if (curBeat % 2 == 0)
+				{
+					PlayState.camGame.zoom += 0.05;
+					PlayState.camHUD.zoom += 0.06;
+				}
+			}
 
 			case 'Lunacy':
 				if (curBeat == 100 || curBeat == 108 || curBeat == 116 || curBeat == 124 || curBeat == 132 || curBeat == 140 || curBeat == 148)
@@ -1111,7 +1164,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 				{
 					// I'm NOT gonna have a fun time recoding all this for the BG dimming in and out later lmao
 
-					case 16: FlxTween.tween(PlayState.camGame, {alpha: 1}, 3, {ease: FlxEase.quadOut});
+					case 16: PlayState.camGame.fade(FlxColor.BLACK, 3);
 
 					case 32:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.BLACK, 1.5);
@@ -1262,7 +1315,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						}
 
 					case 540:
-						FlxTween.tween(PlayState.camGame, {alpha: 0}, 5, {ease: FlxEase.quartInOut});
+						PlayState.camGame.fade(FlxColor.BLACK, 5);
 				}
 
 			case 'Delusional':
@@ -1744,7 +1797,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					switch (curBeat)
 					{
 						// Intro Cam Shit
-						case 16: PlayState.camGame.alpha = 1;
+						case 16: PlayState.camGame.fade(0x000000, 0.0001, true);
 						case 32: tweenCamera(0.85, 5.5, 'quartInOut');
 						case 46:
 							tweenCamera(0.6, 0.6, 'sineInOut');
@@ -2033,6 +2086,22 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 				}
 		}
     }
+
+	/**
+	* Ditto as `beatHitEvents`, but with `curStep` use instead of `curBeat`
+	*/
+	public function stepHitEvents(curStep:Int)
+	{
+		switch (PlayState.SONG.song)
+		{
+			case 'Isolated': 
+				switch (curStep)
+				{
+					case 1150: 
+						PlayState.defaultCamZoom = PlayState.camGame.zoom = 1.2;
+				}
+		}
+	}
 
     public function shaderAnims(elapsed:Float)
     {
