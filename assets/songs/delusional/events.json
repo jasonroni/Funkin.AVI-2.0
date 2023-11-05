@@ -1,28 +1,6 @@
 {
 	"events": [
 		[
-			"Change Character",
-			71020.0772200773,
-			[
-				[
-					"bf",
-					"bf-demon",
-					"0.0001"
-				]
-			]
-		],
-		[
-			"Change Character",
-			71101.1583011583,
-			[
-				[
-					"dad",
-					"delusional-mickey",
-					"0.0001"
-				]
-			]
-		],
-		[
 			"Play Animation",
 			71189.1891891892,
 			[
@@ -41,28 +19,6 @@
 					"murder",
 					"dad",
 					"25"
-				]
-			]
-		],
-		[
-			"Change Character",
-			367157.951573272,
-			[
-				[
-					"dad",
-					"death-part-1",
-					"0.0001"
-				]
-			]
-		],
-		[
-			"Change Character",
-			383374.167789488,
-			[
-				[
-					"dad",
-					"death-part-2",
-					"0.0001"
 				]
 			]
 		],
