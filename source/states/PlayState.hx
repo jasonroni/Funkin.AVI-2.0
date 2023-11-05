@@ -1642,11 +1642,11 @@ class PlayState extends MusicBeatState
 
 				case 'RIGHT' | 'RIGHT-alt' | 'RIGHTmiss':
 					camOffset[0] += 40;
-					camOffset[2] += 1.3;
+					if (!SONG.song.endsWith('Legacy')) camOffset[2] += 1.3;
 
 				case 'LEFT' | 'LEFT-alt' | 'LEFTmiss':
 					camOffset[0] -= 40;
-					camOffset[2] -= 1.3;
+					if (!SONG.song.endsWith('Legacy')) camOffset[2] -= 1.3;
 
 				case 'DOWN' | 'DOWN-alt' | 'DOWNmiss':
 					camOffset[1] += 40;
