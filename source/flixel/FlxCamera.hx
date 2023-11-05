@@ -1555,7 +1555,7 @@ class FlxCamera extends FlxBasic
 	 */
 	public function flash(Color:FlxColor = FlxColor.WHITE, Duration:Float = 1, ?OnComplete:Void->Void, Force:Bool = false):Void
 	{
-		if (!Force && (_fxFlashAlpha > 0.0))
+		if (Init.trueSettings.get('Disable Flashing Lights') || (!Force && (_fxFlashAlpha > 0.0)))
 			return;
 
 		_fxFlashColor = Color;

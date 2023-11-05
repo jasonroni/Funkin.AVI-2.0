@@ -1655,6 +1655,8 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					case 56: PlayState.defaultCamZoom = 0.9;
 					case 64: PlayState.defaultCamZoom = 0.75;
 
+					case 128: tweenCamera(1.1, 9.7, 'quadInOut');
+
 					// Very Spooky Phase 2 Walt (real)
 					case 256:
 						FlxTween.tween(PlayState.camGame, {alpha: 0}, 1, {ease: FlxEase.sineInOut});
@@ -1680,17 +1682,19 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					case 276:
 						if (!Init.trueSettings.get('Disable Mechanics')) FlxTween.tween(PlayState.main.inkFormWarning, {alpha: 0}, 2, {ease: FlxEase.sineInOut});
 
-					// Final Stretch
-					case 494:
-						PlayState.camHUD.flash(FlxColor.WHITE, 3);
-						PlayState.camGame.visible = false;
-						FlxTween.tween(PlayState.bfStrums, {alpha: 0}, 1, {ease: FlxEase.sineInOut});
-						FlxTween.tween(PlayState.camHUD, {alpha: 0}, 1, {ease: FlxEase.sineInOut, startDelay: 3});
+					case 468: 
+						FlxTween.tween(PlayState.bfStrums, {alpha: 0}, 4, {ease: FlxEase.sineInOut});
+						FlxTween.tween(PlayState.camHUD, {alpha: 0}, 4, {ease: FlxEase.sineInOut});
 						for (i in PlayState.strumHUD)
 						{
 							FlxTween.tween(i, {alpha: 0}, 1, {ease: FlxEase.sineInOut, startDelay: 3});
 						}
 						if (!Init.trueSettings.get('Disable Mechanics')) FlxTween.tween(PlayState.main.spaceBarCounter, {alpha: 0}, 2, {ease: FlxEase.sineInOut});
+						
+					// Final Stretch
+					case 498:
+						PlayState.camGame.alpha = 0;
+						PlayState.camOther.flash(FlxColor.WHITE, 3);
 				}
 
 				if (!Init.trueSettings.get('Disable Mechanics'))
@@ -1732,12 +1736,6 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.health -= 0.14;
 					else if (curBeat >= 452 && curBeat <= 467)
 						PlayState.health -= 0.17;
-					else if (curBeat >= 468 && curBeat <= 475)
-						PlayState.health -= 0.21;
-					else if (curBeat >= 476 && curBeat <= 489)
-						PlayState.health -= 0.25;
-					else if (curBeat >= 490)
-						PlayState.health -= 0.02;
 				}
 
 			case 'Cycled Sins':
@@ -2711,7 +2709,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
         }
     
         /**
-        * # Camera Zoom Tween Fix
+        * ## Camera Zoom Tween Fix
         * 
         * Don't know why, but this was NEEDED to fix the zooming from breaking, smh.
         *

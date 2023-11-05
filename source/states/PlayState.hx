@@ -592,15 +592,7 @@ class PlayState extends MusicBeatState
 
 			allUIs.push(strumHUD[i]);
 			FlxG.cameras.add(strumHUD[i], false);
-			// set this strumline's camera to the designated camera
-			switch (curStage)
-			{
-				case 'theLoop' | 'forestOld':
-					strumLines.members[i].cameras = [camHUD];
-
-				default:
-					strumLines.members[i].cameras = [strumHUD[i]];
-			}
+			strumLines.members[i].cameras = [camHUD];
 		}
 		add(strumLines);
 
@@ -2125,10 +2117,7 @@ class PlayState extends MusicBeatState
 
 		for (i in 0...strumLines.length)
 		{
-			if (curStage == "theLoop" || curStage == "forestOld")
-				strumLines.members[i].splashNotes.cameras = [camHUD];
-			else
-				strumLines.members[i].splashNotes.cameras = [strumHUD[i]];
+			strumLines.members[i].splashNotes.cameras = [camHUD];
 		}
 
 		/*

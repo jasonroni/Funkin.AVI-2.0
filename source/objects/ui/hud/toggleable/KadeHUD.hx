@@ -262,13 +262,13 @@ class KadeHUD extends FlxSpriteGroup
 				{
 					if (iconP1.canBounce)
 						{
-							iconP1.setGraphicSize(Std.int(iconP1.width + 20));
+							iconP1.scale.set(1.2, 1.2);
 							iconP1.updateHitbox();
 						}
 			
 						if (iconP2.canBounce)
 						{
-							iconP2.setGraphicSize(Std.int(iconP2.width + 20));
+							iconP2.scale.set(1.2, 1.2);
 							iconP2.updateHitbox();
 						}
 				}

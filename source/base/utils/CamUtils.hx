@@ -47,7 +47,7 @@ class CamUtils
         rSkewX = rSkewX + (Math.sin(fxShakeI * 123) * FlxMath.bound(camera._fxShakeIntensity * 12, -4, 4) * www);
         rSkewY = rSkewY + (Math.cos(fxShakeI * 101) * FlxMath.bound(camera._fxShakeIntensity * 12, -1.5, 1.5) * www);
 
-        camera.angle = camera.angle + rAngle;
+        // camera.angle = camera.angle + rAngle;
         camera._flashOffset.x = (camera.width * 0.5) * scaleModeX * initialZoom - (x * scaleModeX);
         camera._flashOffset.y = (camera.height * 0.5) * scaleModeY * initialZoom - (y * scaleModeY);
     } 
