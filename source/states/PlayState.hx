@@ -62,8 +62,7 @@ import flixel.system.FlxSound;
 #else
 import flixel.sound.FlxSound;
 #end
-#if HXCPP_M32
-#else
+#if VIDEO_PLUGIN
 // This fixes 2.6.0 users
 #if (hxCodec >= "3.0.0") import hxcodec.flixel.FlxVideo as VideoHandler;
 #elseif (hxCodec >= "2.6.1") import hxcodec.VideoHandler as VideoHandler;
@@ -3343,8 +3342,7 @@ class PlayState extends MusicBeatState
 			logTrace(text, time, onConsole);
 		});
 
-		#if HXCPP_M32
-		#else
+		#if VIDEO_PLUGIN
 		// gonna be useful someday
 		setVar('playVideoCutscene', function(video:String, isEnd:Bool = false)
 		{

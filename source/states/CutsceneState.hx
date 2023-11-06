@@ -5,9 +5,7 @@ import flixel.FlxState;
 import states.PlayState;
 import flixel.FlxG;
 
-#if HXCPP_M32
-
-#else
+#if VIDEO_PLUGIN
 #if (hxCodec >= "2.6.1") 
 import hxcodec.VideoHandler;
 #elseif (hxCodec == "2.6.0")
