@@ -52,5 +52,6 @@ function onCreate()
 function charStagePos(boyfriend:Character, gf:Character, dad:Character)
 {
 	dad.setPosition(0, 0);
-    	boyfriend.setPosition(330, 300); //make sure to replace bf with a first-person pov variant
+    if (PlayState.SONG.song == 'Mercy') boyfriend.setPosition(330, 300); //make sure to replace bf with a first-person pov variant
+	else boyfriend.setPosition(380, 300); 
 }

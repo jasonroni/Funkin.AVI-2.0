@@ -496,8 +496,8 @@ class StoryMenu extends MusicBeatState
 		if (bookStuff.members[curWeek] != null)
 			bookStuff.members[curWeek].alpha = 1;
 
-		for (sillyBooks in bookStuff)
-			sillyBooks.angle = FlxG.random.float(-15, 18);
+		//for (sillyBooks in bookStuff)
+		//	sillyBooks.angle = FlxG.random.float(-15, 18);
 			
 		for (i in 0...grpWeekCharacters.length)
 			grpWeekCharacters.members[i].createCharacter(weekChars[i], true);

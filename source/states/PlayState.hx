@@ -1000,6 +1000,8 @@ class PlayState extends MusicBeatState
 				case 'schoolEvil':
 					getCenterX = char.getMidpoint().x - 200;
 					getCenterY = char.getMidpoint().y - 200;
+				case 'forestNew':
+					defaultCamZoom = .72;
 			}
 		}
 		else
@@ -1017,6 +1019,8 @@ class PlayState extends MusicBeatState
 						getCenterX = char.getMidpoint().x + 100;
 						getCenterY = char.getMidpoint().y - 100;
 					}
+				case 'forestNew':
+					defaultCamZoom = .67;
 			}
 		}
 
@@ -1592,8 +1596,8 @@ class PlayState extends MusicBeatState
 						camDisplaceY = 0;
 					}
 					lastSection = Std.int(curStep / 16);
-					if (!shootin) checkCamPosition();
 				}
+				if (!shootin) checkCamPosition();
 			}
 
 			Conductor.songPosition += elapsed * 1000;
@@ -1610,7 +1614,7 @@ class PlayState extends MusicBeatState
 					Conductor.lastPosition = Conductor.songPosition;
 			}
 
-			var lerpVal = (elapsed * 2.4) * cameraSpeed;
+			var lerpVal = CoolUtil.boundTo((elapsed * 2.4) * cameraSpeed, 0, 1);
 			camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 
 			ForeverTools.cameraBumpingZooms(FlxG.camera, defaultCamZoom, forceZoom, elapsed);
@@ -1658,10 +1662,10 @@ class PlayState extends MusicBeatState
 			camGame.angle = FlxMath.lerp(camGame.angle, 0 + camOffset[2], CoolUtil.boundTo(CoolUtil.boundTo(elapsed * 2.4 / 0.4, 0, 1) * cameraSpeed , 0, 1));
 		}
 
-		CamUtils.updateCamera(camGame, elapsed);
+		/*CamUtils.updateCamera(camGame, elapsed);
 		CamUtils.updateCamera(camHUD, elapsed);
 		for (theSillies in strumHUD) CamUtils.updateCamera(theSillies, elapsed);
-		CamUtils.updateCamera(camOther, elapsed);
+		CamUtils.updateCamera(camOther, elapsed);*/
 
 		callFunc('postUpdate', [elapsed]);
 
@@ -2674,7 +2678,6 @@ class PlayState extends MusicBeatState
 				camDisplaceX = 0;
 				camDisplaceY = 0;
 			}
-		    if (!shootin) checkCamPosition();
 		}
 
 		callFunc('sectionHit', [curSection]);

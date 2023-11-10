@@ -519,7 +519,7 @@ class TitleState extends states.MusicBeatState
 				case 13:
 					addMoreText('Funkin.avi');
 				case 14:
-					addMoreText('V2');
+					addMoreText('2.0');
 				case 15:
 					if(!isTweenCancelled)
 					fadeTween = FlxTween.tween(whiteFade, {alpha: 1}, 2, {ease: FlxEase.quartInOut});

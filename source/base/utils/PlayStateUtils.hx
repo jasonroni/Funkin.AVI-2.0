@@ -2119,6 +2119,10 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 				}
 
 			case 'Hunted':
+				if (curBeat == 176) {
+					tweenCamera(1.1, 4.1, 'sineInOut');
+					PlayState.dadStrums.forEach(strum -> FlxTween.tween(strum, {y: strum.y + 700}, 2.5, {ease: FlxEase.elasticIn}));
+				}
 				if (curBeat == 184)
 					PlayState.defaultCamZoom = 1.4;
 				if (curBeat == 190)
@@ -2159,7 +2163,16 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.camGame.setFilters([new ShaderFilter(PlayState.monitorFilter)]);
 					}
 
+					PlayState.dadStrums.forEach(strum -> FlxTween.tween(strum, {y: strum.y - 700}, 2.5, {ease: FlxEase.elasticOut}));
+
 					PlayState.main.uhhTurnBackNormalOrSmth();
+				}
+
+				if (((curBeat >= 64 && curBeat < 128) && curBeat % 2 == 0) || (curBeat >= 128 && curBeat < 256))
+				{
+					FlxG.camera.zoom += ((curBeat > 176 && curBeat < 184) ? 0 : .05);
+					PlayState.camHUD.zoom += .04;
+					for (manIShouldKms in PlayState.strumHUD) manIShouldKms.zoom += .04;
 				}
 		}
     }
