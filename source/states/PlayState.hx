@@ -1365,17 +1365,17 @@ class PlayState extends MusicBeatState
 	 * stage onto other stages I want to use it at, too much work!
 	 *
 	 * @param flashType - Defines how you want the BG flash handler to behave
-	 * @param alpha - the visiblity of your BG you want it to flash at
-	 * @param time - How long you want the tween to take
-	 * @param ease - Uses ForeverTools to handle the ease function, so I suggest looking at ForeverDeps.hx to see your options
-	 * @param colors - an array of the color values ([red, green, blue, alpha])
+	 * @param settings - A structure with the flashing options.
 	 *
 	 * @author DEMOLITIONDON96 ft. Jason
 	 */
-	public function flashBGEffect(flashType:FlashType, alpha:Float = 0.5, time:Float = 1, ease:String = 'linear', ?colors:Array<Int>) // TODO: Replace parameters with FlashingSettings
+	public function flashBGEffect(flashType:FlashType, settings:FlashingSettings)
 	{
-		// haxe fault !!
-		if (colors == null) colors = [255, 255, 255];
+		// null checkes
+		if (settings.colors == null) settings.colors = [255, 255, 255];
+		if (settings.timer == null) settings.timer = 3;
+		if (settings.ease == null) settings.ease = FlxEase.linear;
+		if (settings.alpha == null) settings.alpha = .5;
 
 		// due to the fact that some silly 19 year old guy called demo overuses the shit
 		// out of the zooms this has to exist in cases of emergency   - jason the silly !!
@@ -1386,26 +1386,26 @@ class PlayState extends MusicBeatState
 			switch (flashType)
 			{
 				case NORMAL:
-					if (alpha > 1 || alpha < 0) // prevents a crash from making a dumb mistake
+					if (settings.alpha > 1 || settings.alpha < 0) // prevents a crash from making a dumb mistake
 						stageBGFlash.alpha = 0.5;
 					else
-						stageBGFlash.alpha = alpha;
+						stageBGFlash.alpha = settings.alpha;
 
-					if (time <= 0) // another check to prevent a crash
-						time = 1;
+					if (settings.timer <= 0) // another check to prevent a crash
+						settings.timer = 1;
 
-					if (colors[0] == 0 && colors[1] == 0 && colors[2] == 0) // blend check cause it makes it look cool
+					if (settings.colors[0] == 0 && settings.colors[1] == 0 && settings.colors[2] == 0) // blend check cause it makes it look cool
 						stageBGFlash.blend = NORMAL;
 					else
 						stageBGFlash.blend = ADD;
 
-					stageBGFlash.color = FlxColor.fromRGB(colors[0], colors[1], colors[2], 255);
+					stageBGFlash.color = FlxColor.fromRGB(settings.colors[0], settings.colors[1], settings.colors[2], 255);
 
 					if (BGFlashTween != null) // makes it so it won't look wonky, visually
 						BGFlashTween.cancel();
 
-					BGFlashTween = FlxTween.tween(stageBGFlash, {alpha: 0}, time, {
-						ease: ForeverTools.returnTweenEase(ease),
+					BGFlashTween = FlxTween.tween(stageBGFlash, {alpha: 0}, settings.timer, {
+						ease: settings.ease,
 						onComplete: function(twn:FlxTween)
 						{
 							BGFlashTween = null;
@@ -1421,13 +1421,13 @@ class PlayState extends MusicBeatState
 						if (stageBGFlash.blend != NORMAL)
 							stageBGFlash.blend = NORMAL;
 
-						if (time <= 0)
-							time = 1;
+						if (settings.timer <= 0)
+							settings.timer = 1;
 
 						stageBGFlash.color = FlxColor.BLACK; // hardcoded to be black
 
-						BGFlashTween = FlxTween.tween(stageBGFlash, {alpha: alpha}, time, {
-							ease: ForeverTools.returnTweenEase(ease),
+						BGFlashTween = FlxTween.tween(stageBGFlash, {alpha: settings.alpha}, settings.timer, {
+							ease: settings.ease,
 							onComplete: function(twn:FlxTween)
 							{
 								BGFlashTween = null;

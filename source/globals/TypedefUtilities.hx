@@ -230,22 +230,22 @@ typedef FlashingSettings =
 	/**
 	* The visiblity of your background you want it to flash at
 	*/
-	var alpha:Float;
+	@:optional var alpha:Float;
 
 	/**
 	* How long you want the fade out transition to take
 	*/
-	var timer:Float;
+	@:optional var timer:Float;
 
 	/**
 	* Fade out transition easing
 	*/
-	var ease:(t:Float)->Float;
+	@:optional var ease:(t:Float)->Float;
 
 	/**
 	 * The array of the color values (RGB)
 	 */
-	var colors:Array<Int>;
+	 @:optional var colors:Array<Int>;
 }
 
 typedef DialogueFileDataDef =

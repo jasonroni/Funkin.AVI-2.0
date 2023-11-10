@@ -363,31 +363,31 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					case 68 | 88: PlayState.defaultCamZoom -= 0.15;
 					case 72 | 74 | 76 | 78 | 90 | 92 | 94: PlayState.defaultCamZoom += 0.09;
 					case 96 | 224:
-						PlayState.main.flashBGEffect(DARK, 0, 0.001, 'sineInOut');
+						PlayState.main.flashBGEffect(DARK, {alpha: 0, timer: 0.001, ease: FlxEase.sineInOut});
 						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.WHITE, 1);
 						PlayState.defaultCamZoom = 0.9;
 					case 98 | 106 | 114 | 122 | 130 | 138 | 146 | 154 | 226 | 234 | 242 | 250 | 258 | 266 | 274 | 282 | 290 | 298 | 306 | 314 | 322 | 330 | 338 | 346:
-						PlayState.main.flashBGEffect(NORMAL, 0.75, 0.5, 'circOut');
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.75, timer: 0.5, ease: FlxEase.circOut});
 						FlxG.camera.zoom += 0.2;
 						PlayState.camHUD.zoom += 0.23;
 					case 99 | 107 | 115 | 123 | 131 | 139 | 147 | 155 | 227 | 235 | 243 | 251 | 259 | 267 | 275 | 283 | 291 | 299 | 307 | 315 | 323 | 331 | 339 | 347:
-						PlayState.main.flashBGEffect(NORMAL, 0.3, 0.5, 'circOut');
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.3, timer: 0.5, ease: FlxEase.circOut});
 						FlxG.camera.zoom += 0.08;
 						PlayState.camHUD.zoom += 0.11;
 					case 101 | 109 | 117 | 125 | 133 | 141 | 149 | 157 | 229 | 237 | 245 | 253 | 261 | 269 | 277 | 285 | 293 | 301 | 309 | 317 | 325 | 333 | 341 | 349:
-						PlayState.main.flashBGEffect(NORMAL, 0.4, 0.5, 'circOut');
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.4, timer: 0.5, ease: FlxEase.circOut});
 						FlxG.camera.zoom += 0.1;
 						PlayState.camHUD.zoom += 0.13;
 					case 102 | 110 | 118 | 126 | 134 | 142 | 150 | 230 | 238 | 246 | 254 | 262 | 270 | 278 | 286 | 294 | 302 | 310 | 318 | 326 | 334 | 342 | 350:
-						PlayState.main.flashBGEffect(NORMAL, 0.55, 0.5, 'circOut');
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.55, timer: 0.5, ease: FlxEase.circOut});
 						FlxG.camera.zoom += 0.12;
 						PlayState.camHUD.zoom += 0.15;
 					case 104 | 112 | 120 | 128 | 136 | 144 | 152 | 232 | 240 | 248 | 256 | 264 | 272 | 280 | 288 | 296 | 304 | 312 | 320 | 328 | 336 | 344:
-						PlayState.main.flashBGEffect(NORMAL, 0.6, 0.5, 'circOut');
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.3, timer: 0.5, ease: FlxEase.circOut});
 						FlxG.camera.zoom += 0.23;
 						PlayState.camHUD.zoom += 0.26;
 					case 158:
-						PlayState.main.flashBGEffect(DARK, 0.85, 1.2, 'sineInOut');
+						PlayState.main.flashBGEffect(DARK, {alpha: 0.85, timer: 1.2, ease: FlxEase.sineInOut});
 						FlxG.camera.zoom += 0.23;
 						PlayState.camHUD.zoom += 0.26;
 					case 192 | 200 | 208 | 216:
@@ -455,13 +455,13 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					case 192: PlayState.defaultCamZoom += 0.25;
 					case 320:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.BLACK, 1);
-						PlayState.main.flashBGEffect(DARK, 0.85, 1, 'quartInOut');
+						PlayState.main.flashBGEffect(DARK, {alpha: 0.85, timer: 1, ease: FlxEase.quartInOut});
 						PlayState.defaultCamZoom += 0.2;
 					case 336: PlayState.defaultCamZoom -= 0.35;
 					case 368: tweenCamera(1.3, 8, "quartInOut");
 					case 400:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.BLACK, 1.5);
-						PlayState.main.flashBGEffect(DARK, 0, 1, "sineOut");
+						PlayState.main.flashBGEffect(DARK, {alpha: 0, timer: 1, ease: FlxEase.sineOut});
 					case 404:
 						FlxTween.tween(PlayState.camGame, {alpha: 0}, 1.5, {ease: FlxEase.quartInOut});
 						FlxTween.tween(PlayState.camHUD, {alpha: 0}, 1.5, {ease: FlxEase.quartInOut});
@@ -487,7 +487,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					case 159 | 308 | 340 | 376: PlayState.defaultCamZoom = 0.9;
 					case 160 | 228 | 404 | 472:
 						PlayState.defaultCamZoom = 0.9;
-						PlayState.main.flashBGEffect(DARK, 0, 0.5, 'quartOut');
+						PlayState.main.flashBGEffect(DARK, {alpha: 0, timer: 0.5, ease: FlxEase.quartOut});
 						if (Init.trueSettings.get("Screen Shake"))
 						{
 							PlayState.camGame.shake(0.01, 24);
@@ -495,7 +495,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 							for (i in PlayState.strumHUD) i.shake(0.004, 24);
 						}
 					case 224 | 468:
-						PlayState.main.flashBGEffect(DARK, 0.8, 0.5, 'quartOut');
+						PlayState.main.flashBGEffect(DARK, {alpha: 0.8, timer: 0.5, ease: FlxEase.quartOut});
 						PlayState.defaultCamZoom += 0.35;
 					case 292: PlayState.defaultCamZoom = 1.3;
 					case 336: PlayState.defaultCamZoom -= 0.1;
@@ -755,7 +755,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 
 					case 88: 
 						tweenCamera(1.4, 3, 'sineInOut');
-						PlayState.main.flashBGEffect(NORMAL, 0.32, 1.2, 'linear', [194, 194, 194]);
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.32, timer: 1.2, colors: [194, 194, 194]});
 
 					case 95: 
 						PlayState.cameraSpeed += 3;
@@ -768,25 +768,25 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 
 						if (!Init.trueSettings.get('Disable Flashing Lights'))
 							PlayState.camGame.flash(FlxColor.WHITE, 1.5);
-						PlayState.main.flashBGEffect(NORMAL, 0.4, 0.35, 'linear');
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.4, timer: 0.35});
 
 					case 160: 
 						tweenCamera(1.3, 2, 'sineInOut');
-						PlayState.main.flashBGEffect(DARK, 0.85, 0.5, 'quartOut');
+						PlayState.main.flashBGEffect(DARK, {alpha: 0.85, timer: 0.5, ease: FlxEase.quartOut});
 
 					// this stuns mickey for some fucking reason ??
 					// case 183: PlayState.main.updateSectionCamera('dad', false);
 
 					case 184:
-						PlayState.main.flashBGEffect(DARK, 0.77, 0.5, 'quartOut');
+						PlayState.main.flashBGEffect(DARK, {alpha: 0.77, timer: 0.5, ease: FlxEase.quartOut});
 
 					case 188:
-						PlayState.main.flashBGEffect(DARK, 0.6, 0.5, 'quartOut');
+						PlayState.main.flashBGEffect(DARK, {alpha: 0.6, timer: 0.5, ease: FlxEase.quartOut});
 
 					case 192: 
 						if (!Init.trueSettings.get('Disable Flashing Lights'))
 							PlayState.camGame.flash(FlxColor.WHITE, 1.5);
-						PlayState.main.flashBGEffect(NORMAL, 0.32, 0.35, 'linear', [194, 194, 194]);
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.32, timer: 0.35, colors: [194, 194, 194]});
 						
 						PlayState.defaultCamZoom = 1.25;
 
@@ -797,51 +797,51 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 
 					case 220: 
 						tweenCamera(0.85, 2, 'sineInOut');
-						PlayState.main.flashBGEffect(NORMAL, 0.32, 0.1, 'linear', [194, 194, 194]);
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.32, timer: 0.1, colors: [194, 194, 194]});
 
 					case 288:
 						PlayState.defaultCamZoom = 0.85;
 
 						if (!Init.trueSettings.get('Disable Flashing Lights'))
 							PlayState.camGame.flash(FlxColor.WHITE, 1.5);
-						PlayState.main.flashBGEffect(NORMAL, 0.4, 0.35, 'linear', [194, 194, 194]);
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.4, timer: 0.35, colors: [194, 194, 194]});
 
 					case 352:
-						PlayState.main.flashBGEffect(DARK, 0.85, 0.5, 'quartOut');
+						PlayState.main.flashBGEffect(DARK, {alpha: 0.85, timer: 0.5, ease: FlxEase.quartOut});
 						tweenCamera(1.07, 5, 'quadInOut');
 						PlayState.cameraSpeed -= 0.25;
 
 					case 376:
-						PlayState.main.flashBGEffect(DARK, 0, 4, 'quartInOut');
+						PlayState.main.flashBGEffect(DARK, {alpha: 0, timer: 4, ease: FlxEase.quartInOut});
 
 					case 36 | 40 | 44 | 52 | 56 | 60 | 64 | 68 | 72 | 76 | 80 | 84 | 92:
-						PlayState.main.flashBGEffect(NORMAL, 0.32, 1.2, 'linear', [194, 194, 194]);
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.32, timer: 1.2, colors: [194, 194, 194]});
 
 					case 100 | 104 | 108 | 116 | 120 | 124 | 132 | 136 | 140 | 148 | 152 | 156 | 228 | 232 | 236 | 240 | 244 | 252 | 260 | 264 | 268 | 276 |
 						280 | 284 | 292 | 296 | 300 | 308 | 312 | 316 | 324 | 328 | 332 | 340 | 344 | 348:
-						PlayState.main.flashBGEffect(NORMAL, 0.4, 0.35, 'linear', [194, 194, 194]);
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.4, timer: 0.35, colors: [194, 194, 194]});
 
 					case 98 | 102 | 106 | 110 | 114 | 118 | 122 | 126 | 130 | 134 | 138 | 142 | 146 | 150 | 154 | 158 | 226 | 230 | 234 | 238 | 242 | 246 |
 						250 | 254 | 258 | 262 | 266 | 270 | 274 | 278 | 282 | 286 | 290 | 294 | 298 | 302 | 306 | 310 | 314 | 318 | 322 | 326 | 330 | 334 |
 						338 | 342 | 346 | 350:
-						PlayState.main.flashBGEffect(NORMAL, 0.67, 0.35, 'linear', [194, 194, 194]);
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.67, timer: 0.35, colors: [194, 194, 194]});
 
 					case 194 | 196 | 198 | 200 | 202 | 204 | 206 | 210 | 212 | 214 | 222:
-						PlayState.main.flashBGEffect(NORMAL, 0.32, 0.35, 'linear', [194, 194, 194]);
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.32, timer: 0.35, colors: [194, 194, 194]});
 
 					case 216 | 217 | 218 | 219:
-						PlayState.main.flashBGEffect(NORMAL, 0.32, 0.1, 'linear', [194, 194, 194]);
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.32, timer: 0.1, colors: [194, 194, 194]});
 						PlayState.camHUD.zoom += 0.04;
 
 					case 128 | 256:
 						if (!Init.trueSettings.get('Disable Flashing Lights'))
 							PlayState.camGame.flash(FlxColor.WHITE, 1.5);
-						PlayState.main.flashBGEffect(NORMAL, 0.4, 0.35, 'linear', [194, 194, 194]);
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.4, timer: 0.35, colors: [194, 194, 194]});
 
 					case 48 | 336 | 304 | 272 | 112 | 144:
 						if (!Init.trueSettings.get('Disable Flashing Lights'))
 							PlayState.camGame.flash(FlxColor.BLACK, 1.5);
-						PlayState.main.flashBGEffect(NORMAL, 0.32, 1.2, 'linear', [194, 194, 194]);
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.32, timer: 1.2, colors: [194, 194, 194]});
 
 					case 32:
 						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.WHITE, 1.5);
@@ -855,11 +855,11 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						}
 
 					case 224:
-						PlayState.main.flashBGEffect(NORMAL, 0.4, 0.35, 'linear', [194, 194, 194]);
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.4, timer: 0.35, colors: [194, 194, 194]});
 						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.WHITE, 1.5);
 
 					case 320:
-						PlayState.main.flashBGEffect(NORMAL, 0.4, 0.35, 'linear', [194, 194, 194]);
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.4, timer: 0.35, colors: [194, 194, 194]});
 						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.WHITE, 1.5);
 				}
 
@@ -879,7 +879,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					|| curBeat == 280 || curBeat == 280 || curBeat == 288 || curBeat == 296 || curBeat == 304 || curBeat == 312 || curBeat == 320
 					|| curBeat == 328 || curBeat == 336 || curBeat == 344 || curBeat == 352)
 				{
-					PlayState.main.flashBGEffect(DARK, 0, 0.5, 'quadOut');
+					PlayState.main.flashBGEffect(DARK, {alpha: 0, timer: 0.5, ease: FlxEase.quadOut});
 				}
 
 				// Darkens BG
@@ -887,12 +887,12 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					|| curBeat == 276 || curBeat == 284 || curBeat == 292 || curBeat == 300 || curBeat == 308 || curBeat == 316 || curBeat == 324
 					|| curBeat == 332 || curBeat == 340 || curBeat == 348)
 				{
-					PlayState.main.flashBGEffect(DARK, 0.77, 0.5, 'quadOut');
+					PlayState.main.flashBGEffect(DARK, {alpha: 0.77, timer: 0.5, ease: FlxEase.quadOut});
 				}
 
 				if (curBeat == 424 || curBeat == 432 || curBeat == 440 || curBeat == 448 || curBeat == 456 || curBeat == 464 || curBeat == 472)
 				{
-					PlayState.main.flashBGEffect(NORMAL, 0.65, 1, 'sineOut');
+					PlayState.main.flashBGEffect(NORMAL, {alpha: 0.65, timer: 0.1, ease: FlxEase.sineOut});
 				}
 
 				if (curBeat == 32 || curBeat == 64)
@@ -1399,33 +1399,33 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.defaultCamZoom = 0.8;
 						FlxG.camera.fade(0x000000, 5, true);
 					case 152 | 170:
-						PlayState.main.flashBGEffect(DARK, 0.2, 0.3, 'quartInOut');
+						PlayState.main.flashBGEffect(DARK, {alpha: 0.2, timer: 0.3, ease: FlxEase.quartInOut});
 						PlayState.defaultCamZoom = 0.9;
 					case 154 | 172:
-						PlayState.main.flashBGEffect(DARK, 0.4, 0.3, 'quartInOut');
+						PlayState.main.flashBGEffect(DARK, {alpha: 0.4, timer: 0.3, ease: FlxEase.quartInOut});
 						PlayState.defaultCamZoom = 1;
 					case 156:
-						PlayState.main.flashBGEffect(DARK, 0.6, 0.3, 'quartInOut');
+						PlayState.main.flashBGEffect(DARK, {alpha: 0.6, timer: 0.3, ease: FlxEase.quartInOut});
 						PlayState.defaultCamZoom = 1.1;
 					case 158 | 174:
-						PlayState.main.flashBGEffect(DARK, 0.8, 0.3, 'quartInOut');
+						PlayState.main.flashBGEffect(DARK, {alpha: 0.8, timer: 0.3, ease: FlxEase.quartInOut});
 						PlayState.defaultCamZoom = 1.2;
 					case 160:
-						PlayState.main.flashBGEffect(DARK, 0, 0.3, 'quartInOut');
+						PlayState.main.flashBGEffect(DARK, {alpha: 0, timer: 0.3, ease: FlxEase.quartInOut});
 						PlayState.defaultCamZoom = 0.8;
 					case 168:
-						PlayState.main.flashBGEffect(DARK, 0.1, 0.3, 'quartInOut');
+						PlayState.main.flashBGEffect(DARK, {alpha: 0.1, timer: 0.3, ease: FlxEase.quartInOut});
 						PlayState.defaultCamZoom = 0.85;
 					case 176:
-						PlayState.main.flashBGEffect(DARK, 0, 0.3, 'quartInOut');
+						PlayState.main.flashBGEffect(DARK, {alpha: 0, timer: 0.3, ease: FlxEase.quartInOut});
 						PlayState.defaultCamZoom = 0.75;
 						PlayState.camGame.flash(FlxColor.WHITE, 1);
 					case 180 | 188 | 196:
 						PlayState.camGame.zoom += 0.3;
-						PlayState.main.flashBGEffect(NORMAL, 0.5, 0.35, 'linear');
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.5, timer: 0.35});
 					case 184 | 192 | 200:
 						PlayState.camGame.zoom += 0.15;
-						PlayState.main.flashBGEffect(NORMAL, 0.25, 0.35, 'linear');
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.25, timer: 0.35});
 					case 204: PlayState.defaultCamZoom = 1;
 					case 208:
 						PlayState.camGame.visible = false;
@@ -1652,9 +1652,9 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						
 						PlayState.opponentMap.set('death-part-2', new Character().setCharacter(100, 100, 'death-part-2'));
 						FlxG.sound.play(Paths.sound('funkinAVI/Mickey_fuckin_dying'));
-						PlayState.main.flashBGEffect(DARK, 0.5, 5);
+						PlayState.main.flashBGEffect(DARK, {timer: 5});
 					case 1134:
-						PlayState.main.flashBGEffect(DARK, 1, 0.5, 'sineOut');
+						PlayState.main.flashBGEffect(DARK, {alpha: 1, timer: 0.5, ease: FlxEase.sineOut});
 					case 1136:
 						PlayState.opponent.setCharacter(100, 100, 'death-part-2');
 						PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent);
@@ -1662,7 +1662,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 
 						if (PlayState.opponentMap.get('death-part-2') != null)
 							PlayState.opponentMap.remove('death-part-2');
-						PlayState.main.flashBGEffect(NORMAL, 1, 0.3, 'sineOut');
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 1, timer: 0.3, ease: FlxEase.sineOut});
 					case 1144:
 						FlxTween.tween(PlayState.camGame, {alpha: 0}, 4);
 				}
@@ -1674,7 +1674,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						FlxTween.tween(PlayState.camGame, {alpha: 1}, 2);
 					case 8:
 						PlayState.defaultCamZoom -= 0.08;
-						PlayState.main.flashBGEffect(NORMAL, 0.5, 0.35, 'linear');
+						PlayState.main.flashBGEffect(NORMAL, {timer: 0.35});
 						FlxTween.tween(PlayState.camHUD, {alpha: 1}, 0.4);
 						for (i in PlayState.strumHUD)
 							FlxTween.tween(i, {alpha: 1}, 0.3);
@@ -1682,34 +1682,34 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					case 24:
 						PlayState.camGame.zoom += 0.12;
 						PlayState.defaultCamZoom -= 0.2;
-						PlayState.main.flashBGEffect(NORMAL, 0.35, 0.45, 'circOut', [255, 135, 135, 1]);
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.35, timer: 0.45, ease: FlxEase.circOut, colors: [255, 135, 135]});
 					case 25 | 26 | 27 | 28 | 29 | 30 | 31 | 32 | 33 | 34 | 35 | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 50 | 51 | 52 | 53 | 54 | 55 | 56 | 57 | 58 | 59 | 60 | 61 | 62 | 63 | 64 | 65 | 66 | 67 | 68 | 69 | 70 | 71 | 137 | 138 | 139 | 140 | 141 | 142 | 143 | 144 | 145 | 146 | 147 | 148 | 149 | 150 | 151 | 152 | 153 | 154 | 155 | 156 | 157 | 158 | 159 | 160 | 161 | 162 | 163 | 164 | 165 | 166 | 167 | 168 | 169 | 170 | 171 | 172 | 173 | 174 | 175 | 176 | 177 | 178 | 179 | 180 | 181 | 182 | 183 | 184 | 185 | 186 | 187 | 188 | 189 | 190 | 191 | 192:
-						PlayState.main.flashBGEffect(NORMAL, 0.35, 0.45, 'circOut', [255, 135, 135, 1]);
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.35, timer: 0.45, ease: FlxEase.circOut, colors: [255, 135, 135]});
 						PlayState.camGame.zoom += 0.1;
 					case 72 | 73 | 74 | 75 | 76 | 77 | 78 | 79 | 80 | 81 | 82 | 83 | 84 | 85 | 86 | 87:
-						PlayState.main.flashBGEffect(NORMAL, 0.56, 0.45, 'circOut', [255, 135, 135, 1]);
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.56, timer: 0.45, ease: FlxEase.circOut, colors: [255, 135, 135]});
 						PlayState.camGame.zoom += 0.16;
 					case 88 | 89 | 90 | 91 | 92 | 93 | 94 | 95 | 96 | 97 | 98 | 99 | 100 | 101:
-						PlayState.main.flashBGEffect(NORMAL, 0.89, 0.45, 'circOut', [255, 135, 135, 1]);
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.89, timer: 0.45, ease: FlxEase.circOut, colors: [255, 135, 135]});
 						PlayState.camGame.zoom += 0.21;
 					case 36 | 134:
-						PlayState.main.flashBGEffect(DARK, 0.8, 0.21, 'sineOut');
+						PlayState.main.flashBGEffect(DARK, {alpha: 0.8, timer: 0.21, ease: FlxEase.sineOut});
 						PlayState.defaultCamZoom += 0.3;
 					case 40:
 						PlayState.defaultCamZoom -= 0.25;
-						PlayState.main.flashBGEffect(NORMAL, 0.6, 0.3, 'circOut', [255, 135, 135, 1]);
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.6, timer: 0.3, ease: FlxEase.circOut, colors: [255, 135, 135]});
 						PlayState.camGame.zoom += 0.16;
 					case 104 | 112 | 120 | 128:
 						PlayState.camGame.zoom += 0.25;
-						PlayState.main.flashBGEffect(NORMAL, 0.6, 0.3, 'circOut', [255, 135, 135, 1]);
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.6, timer: 0.3, ease: FlxEase.circOut, colors: [255, 135, 135]});
 					case 136:
-						PlayState.main.flashBGEffect(NORMAL, 0.35, 0.45, 'circOut', [255, 135, 135, 1]);
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.35, timer: 0.45, ease: FlxEase.circOut, colors: [255, 135, 135]});
 						PlayState.camGame.zoom += 0.1;
 						PlayState.defaultCamZoom += 0.11;
 					case 108 | 116:
-						PlayState.main.flashBGEffect(DARK, 0.2, 0.35, 'sineOut');
+						PlayState.main.flashBGEffect(DARK, {alpha: 0.2, timer: 0.35, ease: FlxEase.sineOut});
 					case 110 | 118:
-						PlayState.main.flashBGEffect(DARK, 0.5, 0.35, 'sineOut');
+						PlayState.main.flashBGEffect(DARK, {alpha: 0.5, timer: 0.35, ease: FlxEase.sineOut});
 				}
 
 				if (curBeat >= 72 && curBeat <= 87)
@@ -1991,7 +1991,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 				if (curBeat == 400 || curBeat == 404 || curBeat == 408 || curBeat == 412 || curBeat == 416 || curBeat == 420 || curBeat == 424
 					|| curBeat == 428)
 				{
-					PlayState.main.flashBGEffect(NORMAL, 0.32, 1.2, 'linear', [255, 0, 0, 1]);
+					PlayState.main.flashBGEffect(NORMAL, {alpha: 0.32, timer: 1.2, colors: [255, 0, 0]});
 					FlxG.camera.zoom += 0.1;
 				}
 
