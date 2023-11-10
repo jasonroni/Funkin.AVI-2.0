@@ -1,5 +1,6 @@
 package states.menus;
 
+import lime.app.Application;
 import base.dependency.Discord;
 import base.dependency.FeatherDeps.ScriptHandler;
 import base.song.Song;
@@ -392,7 +393,7 @@ class MainMenu extends MusicBeatState
 		updateSelection();
 
 		// from the base game lol
-		var versionShit:FlxText = new FlxText(5, FlxG.height * 0.01, 0, 'Funkin.avi v1.8.0', 24);
+		var versionShit:FlxText = new FlxText(5, FlxG.height * 0.01, 0, 'Funkin.avi v${Application.current.meta.get('version')}', 24);
 		versionShit.setFormat(Paths.font("DisneyFont"), 30, 0xFFFFFFFF, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
 		versionShit.scrollFactor.set();
 		versionShit.cameras = [camHUD];
