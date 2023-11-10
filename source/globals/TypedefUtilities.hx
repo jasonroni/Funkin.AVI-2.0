@@ -111,14 +111,6 @@ typedef SongCardData =
 	var opponentBlend:String;
 }
 
-typedef Credits = 
-{
-	var name:String;
-    var quote:String;
-    var profession:String;
-    var description:String;
-}
-
 /**
  * Typedef to create characters
  */
@@ -222,6 +214,38 @@ typedef BoxDataDef =
 	var doFlip:Null<Bool>;
 	var bgColor:Null<Array<Int>>;
 	var states:Null<Dynamic>;
+}
+
+typedef Utils = 
+{
+    text:String,
+    color:FlxColor,
+    boxWidth:Float,
+    boxHeight:Float,
+    boxColor:FlxColor
+}
+
+typedef FlashingSettings = 
+{
+	/**
+	* The visiblity of your background you want it to flash at
+	*/
+	var alpha:Float;
+
+	/**
+	* How long you want the fade out transition to take
+	*/
+	var timer:Float;
+
+	/**
+	* Fade out transition easing
+	*/
+	var ease:(t:Float)->Float;
+
+	/**
+	 * The array of the color values (RGB)
+	 */
+	var colors:Array<Int>;
 }
 
 typedef DialogueFileDataDef =

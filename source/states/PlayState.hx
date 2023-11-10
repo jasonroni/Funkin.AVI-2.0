@@ -1372,7 +1372,7 @@ class PlayState extends MusicBeatState
 	 *
 	 * @author DEMOLITIONDON96 ft. Jason
 	 */
-	public function flashBGEffect(flashType:FlashType, alpha:Float = 0.5, time:Float = 1, ease:String = 'linear', ?colors:Array<Int>) // TODO: Make this function shorter
+	public function flashBGEffect(flashType:FlashType, alpha:Float = 0.5, time:Float = 1, ease:String = 'linear', ?colors:Array<Int>) // TODO: Replace parameters with FlashingSettings
 	{
 		// haxe fault !!
 		if (colors == null) colors = [255, 255, 255];

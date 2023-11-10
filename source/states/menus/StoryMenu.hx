@@ -102,7 +102,7 @@ class StoryMenu extends MusicBeatState
 		book.setGraphicSize(Std.int(book.width * 1.1));
 		book.updateHitbox();
 		book.screenCenter();
-		book.scale.set(0.8, 0.8);
+		book.scale.set(0.85, 0.85);
 		book.antialiasing = true;
 		book.alpha = 1;
 		if (!Init.trueSettings.get('Disable Screen Shaders')) book.shader = blur;
