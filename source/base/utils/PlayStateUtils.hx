@@ -352,6 +352,16 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
     {
         switch (PlayState.SONG.song)
 		{
+			case 'Test':
+				switch (curBeat)
+				{
+					case 1:
+						cinematicBarControls(1, "cubeOut", 0, "add");
+					case 8:
+						cinematicBarControls(1, "cubeOut", 100, "move both");
+					case 16:
+						cinematicBarControls(1, "circInOut", 100, "bop both");
+				}
 			case 'Isolated Legacy':
 				switch (curBeat)
 				{
@@ -2817,16 +2827,16 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
             switch (controlType.toLowerCase())
             {
                 case "add" | "create":
-                    if (cinematicBars["top"] == null)
+                    if (PlayState.main.cinematicBars["top"] == null)
                     {
                         PlayState.main.cinematicBars["top"] = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
                         PlayState.main.cinematicBars["top"].screenCenter(X);
                         PlayState.main.cinematicBars["top"].cameras = [PlayState.camBars];
-                        PlayState.main.cinematicBars["top"].y = 0 - cinematicBars["top"].height; // offscreen
+                        PlayState.main.cinematicBars["top"].y = 0 - PlayState.main.cinematicBars["top"].height; // offscreen
                         PlayState.main.add(PlayState.main.cinematicBars["top"]);
                     }
     
-                    if (cinematicBars["bottom"] == null)
+                    if (PlayState.main.cinematicBars["bottom"] == null)
                     {
                         PlayState.main.cinematicBars["bottom"] = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
                         PlayState.main.cinematicBars["bottom"].screenCenter(X);
@@ -2842,28 +2852,48 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
                         PlayState.main.cinematicBars["bottom"].kill();
                     
                 case "movetop" | "move top":
-                    FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position}, speed, {ease: ForeverTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height}, speed, {ease: ForeverTools.returnTweenEase(ease)});
                     
                 case "movebottom" | "move bottom":
-                    FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: -position}, speed, {ease: ForeverTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position}, speed, {ease: ForeverTools.returnTweenEase(ease)});
                     
                 case "moveboth" | "move both":
-                    FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position}, speed, {ease: ForeverTools.returnTweenEase(ease)});
-                    FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: -position}, speed, {ease: ForeverTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height}, speed, {ease: ForeverTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position}, speed, {ease: ForeverTools.returnTweenEase(ease)});
                     
                 case "boptop" | "bop top":
-                    PlayState.main.cinematicBars["top"].y = position;
-                    FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - 20}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});
+                    PlayState.main.cinematicBars["top"].y = position - FlxG.height;
+                    FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height - 20}, 0.0001, {ease: ForeverTools.returnTweenEase(ease),
+						onComplete: function(twn:FlxTween)
+							{
+								FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});
+							}
+					});
                     
                 case "bopbottom" | "bop bottom":
-                    PlayState.main.cinematicBars["bottom"].y = -position;
-                    FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: -position + 20}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});
+                    PlayState.main.cinematicBars["bottom"].y = FlxG.height - position;
+                    FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position + 20}, 0.0001, {ease: ForeverTools.returnTweenEase(ease),
+						onComplete: function(twn:FlxTween)
+							{
+								FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});
+							}
+					});	
                     
                 case "bopboth" | "bop both":
-                    PlayState.main.cinematicBars["top"].y = position;
-                    PlayState.main.cinematicBars["bottom"].y = -position;
-                    FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - 20}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});
-                    FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: -position + 20}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});			
+                    PlayState.main.cinematicBars["top"].y = position - FlxG.height;
+                    PlayState.main.cinematicBars["bottom"].y = FlxG.height - position;
+                    FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height - 20}, 0.0001, {ease: ForeverTools.returnTweenEase(ease),
+						onComplete: function(twn:FlxTween)
+							{
+								FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});
+							}
+					});	
+                    FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position + 20}, 0.0001, {ease: ForeverTools.returnTweenEase(ease),
+						onComplete: function(twn:FlxTween)
+							{
+								FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});
+							}
+					});			
             }
         }
     
