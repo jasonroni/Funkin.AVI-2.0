@@ -108,14 +108,14 @@ class Episode1HUD extends FlxSpriteGroup
 	}
 	
 	// Hardcoded Icons
-	demonBFIcon = new HealthIcon('bf-demon', true);
+	demonBFIcon = new HealthIcon('bf-lunacy', true);
 	demonBFIcon.y = healthBar.y - (demonBFIcon.height / 2);
 	demonBFIcon.canBounce = true;
 	demonBFIcon.x = FlxG.width * 0.87;
 	demonBFIcon.visible = false;
 	add(demonBFIcon);
 
-	demonBFScary = new HealthIcon('bf-demon', true);
+	demonBFScary = new HealthIcon('bf-lunacy', true);
 	demonBFScary.animation.curAnim.curFrame = 1;
 	demonBFScary.y = healthBar.y - (demonBFScary.height / 2);
 	demonBFScary.canBounce = false;
@@ -251,7 +251,7 @@ class Episode1HUD extends FlxSpriteGroup
         updateScoreText();
 
 		//HOLY SHIT LUNACY GIMMICK!!!!!!!??!??!?!?!??!
-		if (PlayState.SONG.song == "Lunacy" && PlayState.boyfriend.curCharacter == 'bf-lunacy')
+		if (PlayState.SONG.song == "Lunacy" && PlayState.boyfriend.curCharacter == 'bf-lunacy' && !Init.trueSettings.get("Disable Mechanics"))
 		{
 			if (ScoreUtils.get_accuracy() < 90 && ScoreUtils.get_accuracy() >= 85)
 				PlayState.health -= 0.001;

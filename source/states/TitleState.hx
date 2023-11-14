@@ -544,6 +544,8 @@ class TitleState extends states.MusicBeatState
 		}
 			logoBl.angle = -4;
 			isTweenCancelled = true;
+			if (fadeTween != null) fadeTween.cancel();
+			whiteFade.alpha = 0;
 
 			new FlxTimer().start(0.01, function(tmr:FlxTimer)
 			{

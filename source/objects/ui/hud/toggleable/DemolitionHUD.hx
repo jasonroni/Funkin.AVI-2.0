@@ -24,6 +24,9 @@ class DemolitionHUD extends FlxSpriteGroup
 	public var timeBar:FlxBar;
 	public var songPercent:Float = 0;
 
+	//muckney health color lmao
+	public var muckneyColors:Array<Int> = [];
+
 	// mark variables
 	public var cornerMark:FlxText; // engine mark at the upper right corner
 	public var centerMark:FlxText; // song display name and difficulty at the center
@@ -77,7 +80,7 @@ class DemolitionHUD extends FlxSpriteGroup
 	// display texts
 	public var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
 	public var diffDisplay:String = '[${CoolUtil.difficultyString}]';
-	public var engineDisplay:String = "Funkin.avi v1.8.0";
+	public var engineDisplay:String = "Funkin.avi v2.0.0";
 
 	// eep
 	public function new()
@@ -238,6 +241,9 @@ class DemolitionHUD extends FlxSpriteGroup
 
 	override public function update(elapsed:Float)
 	{
+		if (PlayState.SONG.song == "Birthday")
+			muckneyHealthColorShitLol();
+
 		// pain, this is like the 7th attempt
 		var silly = PlayState.SONG.song == 'Mercy' ? PlayState.main.smoothyHealth : PlayState.health;
 		healthBar.percent = (silly * 50); // so it doesn't make the mechanic worthless
@@ -328,11 +334,22 @@ class DemolitionHUD extends FlxSpriteGroup
 		PlayState.updateRPC(false);
 	}
 
+	public function muckneyHealthColorShitLol()
+	{
+		muckneyColors = [FlxG.random.int(0, 255), FlxG.random.int(0, 255), FlxG.random.int(0, 255)];
+
+		if (!Init.trueSettings.get('Colored Health Bar'))
+			healthBar.createFilledBar(FlxColor.fromRGB(muckneyColors[0], muckneyColors[1], muckneyColors[2]), 0xFF66FF33 - 0xFFFF0000);
+		else
+			healthBar.createFilledBar(FlxColor.fromRGB(muckneyColors[0], muckneyColors[1], muckneyColors[2]),
+				FlxColor.fromRGB(Std.int(colorPlayer[0]), Std.int(colorPlayer[1]), Std.int(colorPlayer[2])));
+	}
+
+	var colorOpponent = PlayState.opponent.characterData.healthColor;
+	var colorPlayer = PlayState.boyfriend.characterData.healthColor;
+
 	public function reloadHealthBar()
 	{
-		var colorOpponent = PlayState.opponent.characterData.healthColor;
-		var colorPlayer = PlayState.boyfriend.characterData.healthColor;
-
 		if (!Init.trueSettings.get('Colored Health Bar'))
 			healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33 - 0xFFFF0000);
 		else

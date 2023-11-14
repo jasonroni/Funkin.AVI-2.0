@@ -2,8 +2,8 @@
 	"song": {
 		"speed": 2.6,
 		"stage": "clubhouse",
-		"player1": "bf-fake-new",
-		"player2": "mickey-new",
+		"player1": "everett-birthday",
+		"player2": "muckney",
 		"events": [],
 		"notes": [
 			{
@@ -6614,7 +6614,7 @@
 		],
 		"splashSkin": "noteSplashes",
 		"validScore": true,
-		"gfVersion": "gf",
+		"gfVersion": "lilith-birthday",
 		"bpm": 175,
 		"arrowSkin": "",
 		"needsVoices": true,

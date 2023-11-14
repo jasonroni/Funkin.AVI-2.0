@@ -1,89 +1,130 @@
-Hi, it's your dope little boi, demo here, and here is some cool little info that will help you understand exactly how these files work
+# Song Cards
 
+This is a new addition that is to come for this engine modification, by default, it'll load up as a black box in the center of your screen with VHS OSD Mono font displaying your song name and composer name (from your chart file) along with the icons of your current opponent and bf character.
 
+# How do you customize it?
 
+There is a new folder under the data folder called "cardData", that folder will contain your unique settings for the card you want to display on a specific song!
 
+A template has already been left there, so feel free to play with it [here](https://github.com/DEMOLITIONDON96/FE-Feather-Custom/blob/master/assets/data/cardData/example-card-data.json)
 
--GETTING STARTED-
+In order for it to take action and run your card settings, you must name it after the song you want to override the default settings for, kinda like how you would name a chart file.
 
-Alright, so first things first, you will have a file named "example-card-data.json" within this folder!
+# What do these setting names mean!?!?!?
 
-Inside this folder will have 7 different variables you can play around with!
+Well, this is what this section will be for, so let's go over them!
 
-The following variables being:
-- customArt
-- font
-- playerIcon
-- opponentIcon
-- playerOffset
-- opponentOffset
-- cardAlpha
+## Base Settings
 
-Now, this may seem a bit complicated, but it's actually SUPER simple to understand and use after reading this txt file entirely :)
+- **"customArt"** - loads in your image name and will replace the black box with the following image _[NOTE: This is the ONLY setting that CAN be done without a json, but MUST be named after your song or it won't load, every other option, isn't available without it]_
+- **"playerIcon"** - replaces the built-in icon loader for your bf icon with your custom icon instead _[YOUR ICON MUST BE SET UP THE SAME WAY AS IF IT WERE A CHARACTER, OR IT WILL RESULT IN A CRASH]_
+- **"opponentIcon"** - same thing as the previous setting but for the opponent icon
 
+## Extra Settings
 
+- **"cardAlpha"** - Determines what alpha value the card itself shall fade into instead of using alpha value: 1 when fading onto the screen
+- **"cardScale"** - Resizes the card if you want it to look different
+- **"cardOffsets"** - Initializes the offset upon loading in
+- **"isScreenCenter"** - For lazy people that like it in the center.
 
+## Animation Settings
 
+- **"isAnimated"** - Decides if the card will be animated, if true, you grant yourself access to all the other options within this setting category
+- **"animName"** - Gets your animation name from your xml _(xml is also named AFTER your image name under "customArt")_
+- **animFramerate"** - Customizes how fast your animation should be
+- **"isLooped"** - Determines whether your animation should loop or not
 
--CREATING A CUSTOM CARD-
+## Font Settings
 
-Okay, first things first, you'll notice that all the songs will by default load in:
-- a black box 
-- VCR OSD Mono as the font
-- reuses your health bar's existing icons
+- **"font"** - Replaces the default font with your font file in the folder
+- **"fontSize"** - Overrides the default size with the value inputted here
+- **"fontColor"** - Uses FlxColor.fromRGBFloat() to determine your new font color
+- **"fontAlignType"** - Overrides the center alignment with the value inputted here
+- **"fontScale"** - Just when you thought you couldn't get any fancier with the stylizing for the font
+- **"fontAlpha"** - Determines the visibility of your text when it fades on screen
+- **"fontOffset"** - Initializes the offset upon loading in
 
-How do you customize it?
+## Icon Settings
 
-Well, setting it up is SUPER easy!
+- **"playerOffset"/"opponentOffset"** - Overrides the default position of either icon when loaded in
+- **"playerScale"/"opponentScale"** - Rescales the icons when loaded in
+- **"playerAlpha"/"opponentAlpha"** - Determines the visibility of both icons when fading onto your screen
 
-Here's a step-to-step guide to setting it up:
+## Graphic Settings [DO NOT USE IF YOU HAVE A POTATO PC]
 
-1) Create a copy of the template json file and rename it after the song you want this card to load in (for example: satin-panties.json) [NOTE: it's just like naming a chart file for a song, keep that in mind!]
+- **"cardShader"/"playerShader"/"opponentShader"** - Optional value that'll apply a shader to either of the 3 assets
+- **"cardBlend"/"playerBlend"/"opponentBlend"** - Optional value that'll apply a different blend to either of the 3 assets
 
-2) Start playing with the variables given to ya!
+## Tween Settings
 
-3) Save the file, load up the song, and your final custom card will appear in front of you upon startup of the song you wanted it on
+- **"tweenIn"** - Loads in whatever ease type you prefer to use when fading in
+- **"tweenOut"** - Separate ease type if you want it to use a different ease when fading out
+- **"cardMoveIntro"/"playerMoveIntro"/"oppMoveIntro"/"fontMoveIntro"** - Moves the position of either offsets you initialized them in to a new position upon fading in
+- **"cardMoveOutro"/"playerMoveOutro"/"oppMoveOutro"/"fontMoveOutro"** - Moves either assets to a new position when fading out from either the initial offset or after your intro tween
 
-Simple, right?
+# An Example of a card file
 
+## File name: "dadbattle.json"
 
+    {
+	"baseSettings": {
+      		"customArt": "aiHorror",
+      		"playerIcon": "bf",
+      		"opponentIcon": "gf"
+  	},
 
+	"extraSettings": {
+		"cardAlpha": [0.75],
+		"cardScale": [3, 0.5],
+		"cardOffsets": [500, 300],
+		"isScreenCenter": false
+	},
 
+	"animationSettings": {
+		"isAnimated": false,
+		"animName": "your-animation-name-here",
+		"animFramerate": 24,
+		"isLooped": false
+	},
 
--VARIABLES AND WHAT THEY DO-
+	"fontSettings": {
+		"font": "VanillaExtractRegular",
+		"fontSize": [55],
+		"fontColor": [255, 0, 0, 255],
+		"fontAlignType": "center",
+		"fontScale": [4, 0.5],
+		"fontAlpha": [1],
+		"fontOffset": [450, 280]
+	},
 
-customArt - Replaces the default black box card with the name of the image you want (your image MUST be in the following directory: "assets/images/menus/Funkin_avi/card")
+	"iconSettings": {
+		"playerOffset": [850, 460],
+		"playerScale": [1, 1],
+		"playerAlpha": [1],
+		"opponentOffset": [260, 130],
+		"opponentScale": [1, 1],
+		"opponentAlpha": [1]
+	},
 
-font - Replaces the default font file (vcr) with the font you want it to use (your font MUST be a .ttf or .otf file AND be in the following directory: "assets/fonts")
+	"graphicSettings": {
+		"cardShader": null,
+		"playerShader": null,
+		"opponentShader": null,
+		"cardBlend": "normal",
+		"playerBlend": "normal",
+		"opponentBlend": "normal"
+	},
 
-playerIcon - Replaces the BF/Player icon loaded from the BF character in-game with your custom icon (Example: "mom", Directory: "assets/data/characters/mom") [IMPORTANT: YOUR CHARACTER FILE MUST HAVE AN IMAGE NAMED "icon.png" OR YOUR GAME WILL CRASH]
-
-opponentIcon - Does the same as "playerIcon" but for the Dad/Opponent Icon
-
-playerOffset - Replaces the default icon offset for the BF/Player Icon with your custom values (Example: [500, 500])
-
-opponentOffset - Does the same as "playerOffset" but for the Dad/Opponent Icon
-
-cardAlpha - Sets the alpha value of your custom card when it shows up (Example: [0.75])
-
-
-
-
-
-Alright, that's all you need to know, happy modding!
-
-
-
-
-- DEMOLITIONDON96
-
-
-
-
-
-
-
-
-
-
-
+	"tweenSettings": {
+		"tweenIn": "sineInOut",
+		"tweenOut": "sineInOut",
+		"cardMoveIntro": [330, 180],
+		"cardMoveOutro": [330, 180],
+		"playerMoveIntro": [850, 460],
+		"playerMoveOutro": [850, 460],
+		"oppMoveIntro": [260, 130],
+		"oppMoveOutro": [260, 130],
+		"fontMoveIntro": [450, 280],
+		"fontMoveOutro": [450, 280]
+	}
+    }

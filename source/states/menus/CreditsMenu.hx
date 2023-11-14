@@ -18,7 +18,7 @@ How it Works:
 
 * [Name of Contributor, Icon, Work They've Done, Description/Quote, X Value of Icon, Y Value of Icon, Size of Icon, Bool for in case someone has a stupidly long description]
 */
-private typedef CreditStuff = {
+typedef CreditStuff = {
 	devs:Array<Dynamic>
 }
 

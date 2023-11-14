@@ -1,4 +1,4 @@
 function songCutscene()
 {
-   game.createVideoCutscene("Episode1_Intro.avi");
+   game.createVideoCutscene("episode1REMASTER.avi");
 }

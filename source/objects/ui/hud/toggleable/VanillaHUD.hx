@@ -39,6 +39,9 @@ class VanillaHUD extends FlxSpriteGroup
 	public var diffDisplay:String = "";
 	public var engineDisplay:String = '';
 
+	//muckney health color lmao
+	public var muckneyColors:Array<Int> = [];
+
 	// eep
 	public function new()
 	{
@@ -143,6 +146,9 @@ class VanillaHUD extends FlxSpriteGroup
 
 	override public function update(elapsed:Float)
 	{
+		if (PlayState.SONG.song == "Birthday")
+			muckneyHealthColorShitLol();
+
 		// pain, this is like the 7th attempt
 		var silly = PlayState.SONG.song == 'Mercy' ? PlayState.main.smoothyHealth : PlayState.health;
 		healthBar.percent = (silly * 50); // so it doesn't make the mechanic worthless
@@ -196,10 +202,17 @@ class VanillaHUD extends FlxSpriteGroup
 		}
 
 		// update playstate
-		if(Init.trueSettings.get('HUD Style') == "forever")
+		if(Init.trueSettings.get('HUD Style') == "vanilla")
 		PlayState.detailsSub = scoreBar.text;
 		
 		PlayState.updateRPC(false);
+	}
+
+	public function muckneyHealthColorShitLol()
+	{
+		muckneyColors = [FlxG.random.int(0, 255), FlxG.random.int(0, 255), FlxG.random.int(0, 255)];
+	
+		healthBar.createFilledBar(FlxColor.fromRGB(muckneyColors[0], muckneyColors[1], muckneyColors[2]), 0xFF66FF33);
 	}
 
 	public function reloadHealthBar()

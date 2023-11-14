@@ -2631,6 +2631,11 @@ class PlayState extends MusicBeatState
 				Conductor.changeBPM(SONG.notes[curSection].bpm);
 		}
 
+		if (generatedMusic && PlayState.SONG.notes[Std.int(curSection)] != null)
+		{
+			if (!shootin) checkCamPosition();
+		}
+
 		if (uiHUD != null && uiHUD.exists)
 			uiHUD.beatHit(curBeat);
 		if (demolitionHUD != null && demolitionHUD.exists)
@@ -2678,6 +2683,7 @@ class PlayState extends MusicBeatState
 				camDisplaceX = 0;
 				camDisplaceY = 0;
 			}
+		    if (!shootin) checkCamPosition();
 		}
 
 		callFunc('sectionHit', [curSection]);

@@ -11762,7 +11762,7 @@
 		],
 		"charter": "DEMOLITIONDON96",
 		"needsVoices": true,
-		"stage": "Vault",
+		"stage": "vaultRoom",
 		"bpm": 120
 	}
 }

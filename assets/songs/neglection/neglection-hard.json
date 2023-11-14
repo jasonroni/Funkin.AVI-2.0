@@ -2,7 +2,7 @@
 	"song": {
 		"composer": "AttackPan",
 		"player1": "bf",
-		"player2": "placeholder",
+		"player2": "pnm",
 		"events": [
 			[
 				580.645161290322,
@@ -6756,7 +6756,7 @@
 		"charter": "DEMOLITIONDON96",
 		"splashSkin": "NoteSplashSkins/NOTE_splashes-Better",
 		"song": "Neglection",
-		"stage": "stage",
+		"stage": "treasureIsland",
 		"validScore": true,
 		"arrowSkin": "",
 		"needsVoices": true,

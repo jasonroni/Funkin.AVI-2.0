@@ -6,7 +6,7 @@ var aberrationTimer:Float = 0;
 
 function onCreate()
 {
-	spawnGirlfriend(false);
+	spawnGirlfriend(true);
 	PlayState.defaultCamZoom = 0.85;
 	PlayState.cameraSpeed = 1.35;
 
@@ -23,22 +23,14 @@ function onCreate()
 		new ShaderFilter(bloomEffect)
 	]);
 
-	var muckneysHouse:FNFSprite = new FNFSprite(-410, -100).loadGraphic(Paths.image('muckneybg', 'data/stages/clubhouse/images'));
-	muckneysHouse.scale.set(1.9, 1.8);
-	muckneysHouse.updateHitbox();
-	muckneysHouse.antialiasing = true;
-	muckneysHouse.scrollFactor.set(1, 1);
-	muckneysHouse.active = false;
-	add(muckneysHouse);
-
 	var clubhouse:FlxSprite = new FlxSprite(-410, -100);
-	clubhouse.frames = Paths.getSparrowAtlas('balloons', 'data/stages/clubhouse/images');
-	clubhouse.animation.addByPrefix('balloons bounce', 'balloons bounce', 10, true);
+	clubhouse.frames = Paths.getSparrowAtlas('daHouse', 'data/stages/clubhouse/images');
+	clubhouse.animation.addByPrefix('balloons bounce', 'daHouse idle', 12, true);
 	clubhouse.animation.play('balloons bounce');
-	clubhouse.scale.set(1.85, 1.75);
+	clubhouse.scale.set(1.15, 1.15);
 	clubhouse.updateHitbox();
 	clubhouse.antialiasing = true;
-	clubhouse.scrollFactor.set(1.1, 1.1);
+	clubhouse.scrollFactor.set(1, 1);
 	add(clubhouse);
 
 	var vignette:FNFSprite = new FNFSprite(-250, -140).loadGraphic(Paths.image('vignetteOverlay', 'data/stages/clubhouse/images'));
@@ -111,7 +103,8 @@ function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Characte
 
 function charStagePos(boyfriend:Character, gf:Character, dad:Character)
 {
-	dad.setPosition(100, 360);
-    boyfriend.setPosition(500, -30);
+	dad.setPosition(-240, -260);
+    boyfriend.setPosition(650, -360);
+	gf.setPosition(280, -410);
 }
 	

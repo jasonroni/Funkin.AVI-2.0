@@ -36,6 +36,9 @@ class PsychHUD extends FlxSpriteGroup
 	public var timeBar:FlxBar;
 	public var timeBarBG:AttachedSprite;
 
+	//muckney health color lmao
+	public var muckneyColors:Array<Int> = [];
+
 	// other
 	public var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop'; // fnf mods
 
@@ -180,6 +183,9 @@ class PsychHUD extends FlxSpriteGroup
 
 	override public function update(elapsed:Float)
 	{
+		if (PlayState.SONG.song == "Birthday")
+			muckneyHealthColorShitLol();
+
 		// pain, this is like the 7th attempt
 		var silly = PlayState.SONG.song == 'Mercy' ? PlayState.main.smoothyHealth : PlayState.health;
 		healthBar.percent = (silly * 50); // so it doesn't make the mechanic worthless
@@ -235,7 +241,7 @@ class PsychHUD extends FlxSpriteGroup
 
 	public function updateScoreText()
 	{
-		scoreBar.text = 'Score: ' + ScoreUtils.score + ' | Combo Breaks: ${ScoreUtils.misses} | Accuracy: ${ScoreUtils.returnAccuracy()}';
+		scoreBar.text = 'Score: ' + ScoreUtils.score + ' | Misses: ${ScoreUtils.misses} | Accuracy: ${ScoreUtils.returnAccuracy()}';
 
 		scoreBar.screenCenter(X);
 
@@ -256,11 +262,19 @@ class PsychHUD extends FlxSpriteGroup
 		PlayState.updateRPC(false);
 	}
 
+	public function muckneyHealthColorShitLol()
+	{
+		muckneyColors = [FlxG.random.int(0, 255), FlxG.random.int(0, 255), FlxG.random.int(0, 255)];
+	
+		healthBar.createFilledBar(FlxColor.fromRGB(muckneyColors[0], muckneyColors[1], muckneyColors[2]),
+		FlxColor.fromRGB(Std.int(colorPlayer[0]), Std.int(colorPlayer[1]), Std.int(colorPlayer[2])));
+	}
+
+	var colorOpponent = PlayState.opponent.characterData.healthColor;
+	var colorPlayer = PlayState.boyfriend.characterData.healthColor;
+
 	public function reloadHealthBar()
 	{
-		var colorOpponent = PlayState.opponent.characterData.healthColor;
-		var colorPlayer = PlayState.boyfriend.characterData.healthColor;
-
 		healthBar.createFilledBar(FlxColor.fromRGB(Std.int(colorOpponent[0]), Std.int(colorOpponent[1]), Std.int(colorOpponent[2])),
 		FlxColor.fromRGB(Std.int(colorPlayer[0]), Std.int(colorPlayer[1]), Std.int(colorPlayer[2])));
 	}

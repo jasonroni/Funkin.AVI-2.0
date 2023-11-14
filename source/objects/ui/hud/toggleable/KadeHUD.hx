@@ -30,6 +30,9 @@ class KadeHUD extends FlxSpriteGroup
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
 
+	//muckney health color lmao
+	public var muckneyColors:Array<Int> = [];
+
 	// other
 	public var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop'; // fnf mods
 
@@ -171,6 +174,9 @@ class KadeHUD extends FlxSpriteGroup
 
 	override public function update(elapsed:Float)
 	{
+		if (PlayState.SONG.song == "Birthday")
+			muckneyHealthColorShitLol();
+
 		// pain, this is like the 7th attempt
 		var silly = PlayState.SONG.song == 'Mercy' ? PlayState.main.smoothyHealth : PlayState.health;
 		healthBar.percent = (silly * 50); // so it doesn't make the mechanic worthless
@@ -247,6 +253,13 @@ class KadeHUD extends FlxSpriteGroup
 		PlayState.detailsSub = scoreBar.text;
 		
 		PlayState.updateRPC(false);
+	}
+
+	public function muckneyHealthColorShitLol()
+	{
+		muckneyColors = [FlxG.random.int(0, 255), FlxG.random.int(0, 255), FlxG.random.int(0, 255)];
+	
+		healthBar.createFilledBar(FlxColor.fromRGB(muckneyColors[0], muckneyColors[1], muckneyColors[2]), 0xFF66FF33);
 	}
 
 	public function reloadHealthBar()
