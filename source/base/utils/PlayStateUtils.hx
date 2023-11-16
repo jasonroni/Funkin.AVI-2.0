@@ -246,10 +246,10 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
         switch (PlayState.SONG.song)
 		{
 			case 'Lunacy Legacy':
-				PlayState.opponentMap.set('mickey-lunacy-legacy', new Character().setCharacter(100, 100, 'mickey-lunacy-legacy'));
+				addCharacterToMap('mickey-lunacy-legacy');
 
 			case 'Cycled Sins Legacy':
-				PlayState.opponentMap.set('relapse-gun-pixel', new Character().setCharacter(100, 100, 'relapse-gun-pixel'));
+				addCharacterToMap('relapse-gun-pixel');
 
 			case 'Devilish Deal':
 				// Moves Player Notes on Opponent Side
@@ -279,22 +279,22 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 
 				if (PlayState.SONG.song == 'Isolated')
 				{
-					PlayState.opponentMap.set('mickey-whistle', new Character().setCharacter(100, 100, 'mickey-whistle'));
+					addCharacterToMap('mickey-whistle');
 				}
 
 				if (PlayState.SONG.song == 'Lunacy')
 				{
-					PlayState.playerMap.set('bf-lunacy', new Character(true).setCharacter(770, 450, 'bf-lunacy'));
-					PlayState.opponentMap.set('lunamick-new', new Character().setCharacter(100, 100, 'lunamick-new'));
+					addCharacterToMap('bf-lunacy', true, [770, 450]);
+					addCharacterToMap('lunamick-new');
 				}
 				if (PlayState.SONG.song == 'Cycled Sins')
 				{
-					PlayState.opponentMap.set('relapse-gun-pixel', new Character().setCharacter(100, 100, 'relapse-gun-pixel'));
+					addCharacterToMap('relapse-gun-pixel');
 				}
 
 			case 'Delusional':
-					PlayState.playerMap.set('bf-demon', new Character(true).setCharacter(770, 450, 'bf-demon'));
-					PlayState.opponentMap.set('delusional-mickey', new Character().setCharacter(100, 100, 'delusional-mickey'));
+				addCharacterToMap('bf-demon', true, [770, 450]);
+				addCharacterToMap('delusional-mickey');
 
 			case 'Mercy Legacy':
 				if (!Init.trueSettings.get('Disable Mechanics'))
@@ -784,10 +784,8 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent);
 						PlayState.opponent.dance(true);
 
-						if (PlayState.opponentMap.get('mickey-whistle') != null)
-							PlayState.opponentMap.remove('mickey-whistle');
-
-						PlayState.opponentMap.set('mick-isolated-new', new Character().setCharacter(100, 100, 'mick-isolated-new'));
+						removeCharacterFromMap('mickey-whistle');
+						addCharacterToMap('mick-isolated-new');
 
 					// this stuns mickey for some fucking reason ??
 					// case 183: PlayState.main.updateSectionCamera('dad', false);
@@ -797,10 +795,8 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent);
 						PlayState.opponent.dance(true);
 
-						if (PlayState.opponentMap.get('mick-isolated-new') != null)
-							PlayState.opponentMap.remove('mick-isolated-new');
-
-						PlayState.opponentMap.set('mickey-whistle', new Character().setCharacter(100, 100, 'mickey-whistle'));
+						removeCharacterFromMap('mick-isolated-new');
+						addCharacterToMap('mickey-whistle');
 
 					case 184:
 						PlayState.main.flashBGEffect(DARK, {alpha: 0.77, timer: 0.5, ease: FlxEase.quartOut});
@@ -839,8 +835,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent);
 						PlayState.opponent.dance(true);
 
-						if (PlayState.opponentMap.get('mickey-whistle') != null)
-							PlayState.opponentMap.remove('mickey-whistle');
+						removeCharacterFromMap('mickey-whistle');
 
 						PlayState.opponentMap.set('mick-isolated-new', new Character().setCharacter(100, 100, 'mick-isolated-new'));
 
@@ -1263,8 +1258,9 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent);
 						PlayState.boyfriend.dance(true);
 
-						if (PlayState.playerMap.get('bf-lunacy') != null)
-							PlayState.playerMap.remove('bf-lunacy');
+						// wtf
+						/*if (PlayState.playerMap.get('bf-lunacy') != null)
+							PlayState.playerMap.remove('bf-lunacy');*/
 
 					case 160:
 						PlayState.defaultCamZoom = 0.7;
@@ -1274,10 +1270,12 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent);
 						PlayState.opponent.dance(true);
 
+						// wtf the sequel
+						/*
 						if (PlayState.opponentMap.get('lunamick-new') != null)
-							PlayState.opponentMap.remove('lunamick-new');
+							PlayState.opponentMap.remove('lunamick-new');*/
 
-						PlayState.opponentMap.set('mickey-delu-intro', new Character().setCharacter(100, 100, 'mickey-delu-intro'));
+						addCharacterToMap('mickey-delu-intro');
 
 					case 192:
 						PlayState.defaultCamZoom = 0.75;
@@ -1375,8 +1373,9 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent);
 						PlayState.opponent.dance(true);
 
-						if (PlayState.opponentMap.get('mickey-delu-intro') != null)
-							PlayState.opponentMap.remove('mickey-delu-intro');
+						// wtf 3 the fucks return
+						/*if (PlayState.opponentMap.get('mickey-delu-intro') != null)
+							PlayState.opponentMap.remove('mickey-delu-intro');*/
 
 					case 506:
 						FlxTween.tween(PlayState.camHUD, {alpha: 0.5}, 4, {ease: FlxEase.sineInOut});
@@ -1398,11 +1397,11 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 
 			case 'Delusional':
 				if (curBeat == 146)
-					PlayState.main.manageLyrics('bf-demon', 'Count the minutes...', 'disneyFreeplayFont', 30, 1.1, 'sineInOut');
+					PlayState.main.manageLyrics('bf-demon', 'Count the minutes...', 'disneyFreeplayFont', 30, 1.1, 'sineInOut', .05);
 				if (curBeat == 150)
-					PlayState.main.manageLyrics('bf-demon', "...of how long...", 'disneyFreeplayFont', 30, 1, 'sineInOut');
+					PlayState.main.manageLyrics('bf-demon', "...of how long...", 'disneyFreeplayFont', 30, 1, 'sineInOut', 0.04);
 				if (curBeat == 154)
-					PlayState.main.manageLyrics('bf-demon', "...this show will play!", 'disneyFreeplayFont', 30, 2.2, 'quartInOut');
+					PlayState.main.manageLyrics('bf-demon', "...this show will play!", 'disneyFreeplayFont', 30, 2.2, 'quartInOut', .07);
 				if (curBeat == 162)
 					PlayState.main.manageLyrics('bf-demon', "And remind yourself...", 'disneyFreeplayFont', 30, 1.3, 'sineInOut');
 				if (curBeat == 167)
@@ -1431,24 +1430,8 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					case 144:
 						PlayState.defaultCamZoom = 0.8;
 						FlxG.camera.fade(0x000000, 5, true);
-					case 152 | 170:
-						PlayState.main.flashBGEffect(DARK, {alpha: 0.2, timer: 0.3, ease: FlxEase.quartInOut});
-						PlayState.defaultCamZoom = 0.9;
-					case 154 | 172:
-						PlayState.main.flashBGEffect(DARK, {alpha: 0.4, timer: 0.3, ease: FlxEase.quartInOut});
-						PlayState.defaultCamZoom = 1;
-					case 156:
-						PlayState.main.flashBGEffect(DARK, {alpha: 0.6, timer: 0.3, ease: FlxEase.quartInOut});
-						PlayState.defaultCamZoom = 1.1;
-					case 158 | 174:
-						PlayState.main.flashBGEffect(DARK, {alpha: 0.8, timer: 0.3, ease: FlxEase.quartInOut});
+						PlayState.main.flashBGEffect(DARK, {alpha: 1, timer: 0.3, ease: FlxEase.quartInOut});
 						PlayState.defaultCamZoom = 1.2;
-					case 160:
-						PlayState.main.flashBGEffect(DARK, {alpha: 0, timer: 0.3, ease: FlxEase.quartInOut});
-						PlayState.defaultCamZoom = 0.8;
-					case 168:
-						PlayState.main.flashBGEffect(DARK, {alpha: 0.1, timer: 0.3, ease: FlxEase.quartInOut});
-						PlayState.defaultCamZoom = 0.85;
 					case 176:
 						PlayState.main.flashBGEffect(DARK, {alpha: 0, timer: 0.3, ease: FlxEase.quartInOut});
 						PlayState.defaultCamZoom = 0.75;
@@ -1477,9 +1460,6 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.episode1HUD.iconP1.updateIcon('bf-demon', true);
 						PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent);
 						PlayState.boyfriend.dance(true);
-
-						if (PlayState.playerMap.get('bf-demon') != null)
-							PlayState.playerMap.remove('bf-demon');
 						FlxTween.tween(PlayState.camHUD, {alpha: 1}, 1, {ease: FlxEase.quadOut});
 						for (i in PlayState.strumHUD)
 							FlxTween.tween(i, {alpha: 1}, 1, {ease: FlxEase.quadOut});
@@ -2982,4 +2962,36 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
                             Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + PlayState.SONG.song + " - Composed by: " + PlayState.SONG.composer + (paused ? ' {PAUSED}' : "");
                 }
             }
+
+	/**
+	 * Adds a character to the player's map.
+	 * @param isPlayer checks if the map to set is a player or not
+	 * @param name character name
+	 * @param position character's position as an array (x, y)
+	 */
+	public function addCharacterToMap(name:String, isPlayer:Bool = false, ?position:Array<Float>)
+	{
+		// checks if the character is already in the map
+		if (!isPlayer && PlayState.opponentMap.exists(name)) return;
+		if (isPlayer && PlayState.playerMap.exists(name)) return;
+
+		if (position == null) position = [100, 100];
+
+		var map = isPlayer ? PlayState.playerMap : PlayState.opponentMap;
+
+		map.set(name, new Character(isPlayer).setCharacter(position[0], position[1], name));
+	}
+
+	/**
+	 * Removes a character to the player's map.
+	 * @param name character name
+	 * @param isPlayer checks if the map to set is a player or not
+	 */
+	 public function removeCharacterFromMap(name:String, isPlayer:Bool = false)
+		{
+			var map = isPlayer ? PlayState.playerMap : PlayState.opponentMap;
+
+			if (map.get(name) != null && map.exists(name))
+				map.remove(name);
+		}
 }
