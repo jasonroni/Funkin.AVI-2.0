@@ -1406,21 +1406,21 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 				if (curBeat == 154)
 					PlayState.main.manageLyrics('bf-demon', "...this show will play!", 'disneyFreeplayFont', 30, 2.2, 'quartInOut', .07);
 				if (curBeat == 162)
-					PlayState.main.manageLyrics('bf-demon', "And remind yourself...", 'disneyFreeplayFont', 30, 1.3, 'sineInOut');
+					PlayState.main.manageLyrics('bf-demon', "And remind yourself...", 'disneyFreeplayFont', 30, 1.3, 'sineInOut', .05);
 				if (curBeat == 167)
-					PlayState.main.manageLyrics('bf-demon', "...no matter what's in...", 'disneyFreeplayFont', 30, 2, 'sineInOut');
+					PlayState.main.manageLyrics('bf-demon', "...no matter what's in...", 'disneyFreeplayFont', 30, 2, 'sineInOut', .06);
 				if (curBeat == 174)
-					PlayState.main.manageLyrics('bf-demon', "...THE WAY!", 'disneyFreeplayFont', 30, 1, 'circOut');
+					PlayState.main.manageLyrics('bf-demon', "...THE WAY!", 'disneyFreeplayFont', 30, 1, 'circOut', .035);
 				if (curBeat == 178)
-					PlayState.main.manageLyrics('bf-demon', "All your dreams...", 'disneyFreeplayFont', 30, 1, 'sineInOut');
+					PlayState.main.manageLyrics('bf-demon', "All your dreams...", 'disneyFreeplayFont', 30, 1, 'sineInOut', .04);
 				if (curBeat == 182)
-					PlayState.main.manageLyrics('bf-demon', "...ARE SO FAR OUT OF REACH!", 'disneyFreeplayFont', 30, 4, 'quartInOut');
+					PlayState.main.manageLyrics('bf-demon', "...ARE SO FAR OUT OF REACH!", 'disneyFreeplayFont', 30, 4, 'quartInOut', .055);
 				if (curBeat == 190)
-					PlayState.main.manageLyrics('bf-demon', "But if YOUR delusions...", 'disneyFreeplayFont', 30, 2.2, 'sineInOut');
+					PlayState.main.manageLyrics('bf-demon', "But if YOUR delusions...", 'disneyFreeplayFont', 30, 2.2, 'sineInOut', .045);
 				if (curBeat == 196)
-					PlayState.main.manageLyrics('bf-demon', "...still surround ya.", 'disneyFreeplayFont', 30, 1.3, "quartOut");
+					PlayState.main.manageLyrics('bf-demon', "...still surround ya.", 'disneyFreeplayFont', 30, 1.3, "quartOut", .045);
 				if (curBeat == 200)
-					PlayState.main.manageLyrics('bf-demon', "Let's LOOP 'ROUND ONCE MORE.", 'satanFont', 30, 3, "sineInOut");
+					PlayState.main.manageLyrics('bf-demon', "Let's LOOP 'ROUND ONCE MORE.", 'satanFont', 30, 3, "sineInOut", .065);
 
 				switch (curBeat)
 				{
@@ -1435,10 +1435,19 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						FlxG.camera.fade(0x000000, 5, true);
 						PlayState.main.flashBGEffect(DARK, {alpha: 1, timer: 0.3, ease: FlxEase.quartInOut});
 						PlayState.defaultCamZoom = 1.2;
+						PlayState.main.camDisplaceX -= 100;
+						PlayState.boyfriend.alpha = 0.0001;
+						FlxTween.tween(PlayState.boyfriend, {alpha: 1}, 6, {ease: ForeverTools.returnTweenEase('sineInOut')});
+						FlxTween.tween(PlayState.main, {camDisplaceX: PlayState.main.camDisplaceX + 100}, 12, {ease: FlxEase.sineInOut});
 					case 176:
 						PlayState.main.flashBGEffect(DARK, {alpha: 0, timer: 0.3, ease: FlxEase.quartInOut});
 						PlayState.defaultCamZoom = 0.75;
 						PlayState.camGame.flash(FlxColor.WHITE, 1);
+
+						// today in super r slur shit we have this cus i hate my life
+						FlxTween.tween(PlayState.main, {camDisplaceY: PlayState.main.camDisplaceY - 300}, .00000001, {onComplete: bensonFromRegularShow -> {
+							FlxTween.tween(PlayState.main, {camDisplaceY: PlayState.main.camDisplaceY + 300}, 7, {ease: FlxEase.sineInOut});
+						}});
 					case 180 | 188 | 196:
 						PlayState.camGame.zoom += 0.3;
 						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.5, timer: 0.35});

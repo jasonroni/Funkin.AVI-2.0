@@ -647,7 +647,7 @@ class MainMenu extends MusicBeatState
 		{
 			FlxG.switchState(new GameJoltLogin());
 		}
-		/*else if (FlxG.keys.justPressed.ONE)
+		else if (FlxG.keys.justPressed.ONE)
 		{
 			GameData.unlockEverything();
 			FlxG.sound.play(Paths.sound('funkinAVI/easterEggSound'));
@@ -655,7 +655,7 @@ class MainMenu extends MusicBeatState
 			save.saveAndLoad();
 			add(save);
 			new FlxTimer().start(3, _ -> save.fade(true));
-		}*/
+		}
 
 		if (Math.floor(curSelected) != lastCurSelected)
 			updateSelection();

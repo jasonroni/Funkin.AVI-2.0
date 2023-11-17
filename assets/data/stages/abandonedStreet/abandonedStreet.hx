@@ -281,6 +281,12 @@ function onCreate()
 
 			if (PlayState.SONG.song == 'Delusional') stageFront.alpha = 0.001;
 		}
+
+		if (PlayState.SONG.song == 'Delusional') {
+			PlayState.camGame.fade(0x000000, .0001);
+			PlayState.boyfriend.color = ForeverTools.returnColor('black');
+			PlayState.opponent.color = ForeverTools.returnColor('black');
+		}
 }
 
 function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
@@ -370,13 +376,20 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 	}
 	if (PlayState.SONG.song == 'Delusional')
 	{
+		if (curBeat == 1)
+		{
+			PlayState.camGame.fade(0x000000, 3, true);
+		}
 		if (curBeat == 32)
 		{
 			FlxTween.tween(fakeLightOfHope, {alpha: 0.001}, 1.7);
 			if (!lowQuality) FlxTween.tween(stageFront, {alpha: 1}, 1.5);
 		}
-		if (curBeat == 176 && rain != null && !lowQuality)
-			rain.alpha = 1;
+		if (curBeat == 176)
+		{
+			if (rain != null && !lowQuality)
+				rain.alpha = 1;
+		}
 		if (curBeat == 280)
 		{
 			if (!lowQuality)
@@ -395,7 +408,7 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 		{
 			FlxTween.tween(fireThing, {alpha: 1}, 1);
 			//smokeParticles.emitting = true;
-		}
+		} 
 		if (curBeat == 336)
 		{
 			if (!lowQuality)
