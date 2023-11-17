@@ -239,7 +239,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
     * Took a while to modify and fix to prevent crashing, but it works!
     * YIPPPEEEEEEE!!!!!
     * 
-    * @author DEMOLITIONDON96
+    * @author DEMOLITIONDON96 ft. Jason
     */
     public function songSetup()
     {
@@ -315,6 +315,9 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 				PlayState.camGame.alpha = 0.001;
 				PlayState.camHUD.alpha = 0.001;
 				PlayState.main.crashLivesCounter += 45;
+			case 'Birthday':
+				GameData.muckneyLock = 'beaten'; // instantly gives you birthday lel
+				GameData.saveShit();
 		}
 
 		switch (PlayState.curStage)

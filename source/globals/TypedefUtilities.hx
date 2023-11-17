@@ -218,12 +218,15 @@ typedef BoxDataDef =
 
 typedef Utils = 
 {
-    text:String,
-    color:FlxColor,
-    boxWidth:Float,
-    boxHeight:Float,
-    boxColor:FlxColor
-}
+    ?text:String,
+	?subText:String,
+	?font:String,
+    ?textColor:FlxColor,
+    ?boxWidth:Int,
+    ?boxHeight:Int,
+    ?boxColor:FlxColor,
+	?camera:flixel.FlxCamera
+} 
 
 typedef FlashingSettings = 
 {

@@ -1,5 +1,6 @@
 package states.menus;
 
+import objects.ui.MessageBox;
 import lime.app.Application;
 import base.dependency.Discord;
 import base.dependency.FeatherDeps.ScriptHandler;
@@ -98,6 +99,8 @@ class MainMenu extends MusicBeatState
 	var freeplayTxtTween:FlxTween;
 	var freeplayTxtTween2:FlxTween;
 	var freeplayTxtTween3:FlxTween;
+
+	var theBox:MessageBox;
 
 	var camGame:FlxCamera;
 	var camHUD:FlxCamera;
@@ -406,32 +409,14 @@ class MainMenu extends MusicBeatState
 
 		if (logContent != null && logContent.length > 1)
 			logTrace('$logContent', 3);
-
-		freeplayPopup = new FlxText(0, FlxG.height - 80, 0, 'Freeplay is Locked!', 24);
-		freeplayPopup.setFormat(Paths.font("DisneyFont"), 32, 0xFFFFFFFF, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
-		freeplayPopup.scrollFactor.set();
-		freeplayPopup.cameras = [camHUD];
-
-		freeplayPopupSub = new FlxText(0, freeplayPopup.y + 30, 0, 'Complete Episode 1 to Unlock this Menu!', 24);
-		freeplayPopupSub.setFormat(Paths.font("DisneyFont"), 24, 0xFFFFFFFF, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
-		freeplayPopupSub.scrollFactor.set();
-		freeplayPopupSub.cameras = [camHUD];
-
-		freeplayTxtBox = new FlxSprite(0, freeplayPopup.y).makeGraphic(360, 90, FlxColor.BLACK);
-		freeplayTxtBox.scrollFactor.set();
-		freeplayTxtBox.cameras = [camHUD];
-
-		freeplayTxtBox.alpha = 0;
-		freeplayPopup.alpha = 0;
-		freeplayPopupSub.alpha = 0;
-
-		freeplayTxtBox.x -= 400;
-		freeplayPopup.x -= 400;
-		freeplayPopupSub.x -= 400;
-
-		add(freeplayTxtBox);
-		add(freeplayPopup);
-		add(freeplayPopupSub);
+ 
+		theBox = new MessageBox(-400, FlxG.height - 80, {
+			text: 'Freeplay is Locked!', 
+			subText: 'Complete Episode 1 to Unlock this Menu!',
+			font: 'DisneyFont',
+			camera: camHUD
+		});
+		add(theBox);
 
 		if (!Init.trueSettings.get('Low Quality'))
 		{
@@ -662,7 +647,7 @@ class MainMenu extends MusicBeatState
 		{
 			FlxG.switchState(new GameJoltLogin());
 		}
-		else if (FlxG.keys.justPressed.ONE)
+		/*else if (FlxG.keys.justPressed.ONE)
 		{
 			GameData.unlockEverything();
 			FlxG.sound.play(Paths.sound('funkinAVI/easterEggSound'));
@@ -670,7 +655,7 @@ class MainMenu extends MusicBeatState
 			save.saveAndLoad();
 			add(save);
 			new FlxTimer().start(3, _ -> save.fade(true));
-		}
+		}*/
 
 		if (Math.floor(curSelected) != lastCurSelected)
 			updateSelection();
@@ -739,7 +724,7 @@ class MainMenu extends MusicBeatState
 
 		if (daChoice == 'freeplay')
 		{
-			if (GameData.episode1FPLock == 'unlocked')
+			if (GameData.episode1FPLock == 'unlocked' || GameData.muckneyLock == 'beaten')
 			{
 				flashThing = 1;
 				FlxTween.tween(this, {flashThing: 0}, 1);
@@ -775,78 +760,8 @@ class MainMenu extends MusicBeatState
 			}
 			else
 			{
-				if (freeplayTxtTween != null)
-					freeplayTxtTween.cancel();
-				if (freeplayTxtTween2 != null)
-					freeplayTxtTween2.cancel();
-				if (freeplayTxtTween3 != null)
-					freeplayTxtTween3.cancel();
-
-				freeplayPopup.text = "Freeplay is locked!";
-				freeplayPopupSub.text = "Complete Episode 1 to UNLOCK this menu!";
-
 				FlxG.sound.play(Paths.sound('base/menus/cancelMenu'));
-				// Okay, this should work better now
-				freeplayTxtTween = FlxTween.tween(freeplayPopup, {
-					alpha: 1,
-					x: 0
-				}, 0.8, {
-					ease: FlxEase.sineOut,
-					onComplete: function(twn:FlxTween)
-					{
-						freeplayTxtTween = FlxTween.tween(freeplayPopup, {
-							alpha: 0,
-							x: -400
-						}, 1.5, {
-							startDelay: 3,
-							ease: FlxEase.sineInOut,
-							onComplete: function(twn:FlxTween)
-							{
-								freeplayTxtTween = null;
-							}
-						});
-					}
-				});
-				freeplayTxtTween2 = FlxTween.tween(freeplayPopupSub, {
-					alpha: 1,
-					x: 0
-				}, 0.8, {
-					ease: FlxEase.sineOut,
-					onComplete: function(twn:FlxTween)
-					{
-						freeplayTxtTween2 = FlxTween.tween(freeplayPopupSub, {
-							alpha: 0,
-							x: -400
-						}, 1.5, {
-							startDelay: 3,
-							ease: FlxEase.sineInOut,
-							onComplete: function(twn:FlxTween)
-							{
-								freeplayTxtTween2 = null;
-							}
-						});
-					}
-				});
-				freeplayTxtTween3 = FlxTween.tween(freeplayTxtBox, {
-					alpha: 1,
-					x: 0
-				}, 0.8, {
-					ease: FlxEase.sineOut,
-					onComplete: function(twn:FlxTween)
-					{
-						freeplayTxtTween3 = FlxTween.tween(freeplayTxtBox, {
-							alpha: 0,
-							x: -400
-						}, 1.5, {
-							startDelay: 3,
-							ease: FlxEase.sineInOut,
-							onComplete: function(twn:FlxTween)
-							{
-								freeplayTxtTween3 = null;
-							}
-						});
-					}
-				});
+				theBox.sendMessage('Freeplay is locked!', 'Complete Episode 1 to Unlock this menu.');
 			}
 		}
 		else
