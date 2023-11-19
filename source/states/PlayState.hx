@@ -667,7 +667,7 @@ class PlayState extends MusicBeatState
 			if (stageBuild.messageText.length > 1)
 				logTrace(stageBuild.messageText, 3, true);
 		}
-		// Controls.keyEventTrigger.add(keyEventTrigger);
+	 	Controls.keyEventTrigger.add(keyEventTrigger);
 
 		//FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 		//FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
