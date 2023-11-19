@@ -517,10 +517,12 @@ function charStagePos(boyfriend:Character, gf:Character, dad:Character)
 			dad.setPosition(-870, -190);
 	}
 
-	if (boyfriend.curCharacter == 'bf-demon')
-		boyfriend.setPosition(550, 190);
-	else
-		boyfriend.setPosition(275, 50);
+	switch (boyfriend.curCharacter)
+	{
+		case 'bf-demon': boyfriend.setPosition(550, 190);
+		case 'bf-delu-intro': boyfriend.setPosition(750, 350);
+		default: boyfriend.setPosition(275, 50);
+	}
 }
 
 function summonWeedMakerLmfao()
