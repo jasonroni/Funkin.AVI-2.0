@@ -282,3 +282,7 @@ typedef BitchDetector =
 	var fakeBitchRemover:Int;
 	var finalBitchCount:String;
 }
+
+
+// prob gonna keep jsons and then hardcode it cus thats pretty smart
+typedef CharMenuThing = { info:Array<Dynamic> };

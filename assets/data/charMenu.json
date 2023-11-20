@@ -1,0 +1,8 @@
+{
+    "info": 
+	[
+		["Mickey Mouse (Isolated)", "isolatedMick", 20, 0, 0.35, "bla bla bla"],
+		["Mickey Mouse (Lunacy)", "lunaMick", 0, 20, 0.35, "bla bla bla"],
+		["Mickey Mouse (Delusional)", "deluMick", -40, -30, 0.39, "bla bla bla"]
+	]
+}
