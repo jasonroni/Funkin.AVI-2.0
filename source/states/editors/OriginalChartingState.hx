@@ -49,7 +49,7 @@ import openfl.utils.ByteArray;
 import states.MusicBeatState;
 
 /**
- * In case you dont like the forever engine chart editor, here's the base game one instead.
+ * In case you dont like the engine editor, here's the base game one instead.
 **/
 class OriginalChartingState extends MusicBeatState
 {

@@ -431,7 +431,7 @@ class ForeverAssets
 }
 
 /**
- * This class is used as an extension to many other forever engine stuffs, please don't delete it as it is not only exclusively used in forever engine
+ * This class is used as an extension to many other engine stuffs, please don't delete it as it is not only exclusively used in the engine
  * custom stuffs, and is instead used globally.
 **/
 class ForeverTools

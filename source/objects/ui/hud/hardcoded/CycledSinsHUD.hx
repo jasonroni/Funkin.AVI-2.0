@@ -39,7 +39,7 @@ class CycledSinsHUD extends FlxSpriteGroup
 	// display texts
 	public var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
 	public var diffDisplay:String = '[${CoolUtil.difficultyString}]';
-	public var engineDisplay:String = 'FOREVER ENGINE v0.3.1';
+	public var engineDisplay:String = '';
 
     var sanityTextDad:FlxText;
     var sanityTextBf:FlxText;

@@ -13,7 +13,6 @@ var tumbleWeed:FlxSprite;
 var streetDaytime:FlxSprite;
 var clouds:FlxSprite;
 var brightSky:FlxSprite;
-var cablesDayTime:FlxSprite;
 
 var streetRuins:FlxSprite;
 var fakeLightOfHope:FlxSprite;
@@ -251,17 +250,6 @@ function onCreate()
 			stageFront.scrollFactor.set(5, 2.6);
 			stageFront.active = false;
 			foreground.add(stageFront);
-
-			if (PlayState.SONG.song == 'Delusional' || PlayState.SONG.song == 'Delusion')
-			{
-				cablesDayTime = new FlxSprite(-3000, 130).loadGraphic(Paths.image('cablesDay', pathWay));
-				cablesDayTime.scale.set(9, 2.1);
-				cablesDayTime.updateHitbox();
-				cablesDayTime.antialiasing = true;
-				cablesDayTime.scrollFactor.set(5, 2.6);
-				foreground.add(cablesDayTime);
-				cablesDayTime.visible = false;
-			}
 			
 			rain = new FlxSprite(-550, -900);
 			rain.frames = Paths.getSparrowAtlas('rain', pathWay);
@@ -276,7 +264,6 @@ function onCreate()
 				streetDaytime.visible = true;
 				clouds.visible = true;
 				brightSky.visible = true;
-				cablesDayTime.visible = true;
 			}
 
 			if (PlayState.SONG.song == 'Delusional') stageFront.alpha = 0.001;
@@ -284,8 +271,6 @@ function onCreate()
 
 		if (PlayState.SONG.song == 'Delusional') {
 			PlayState.camGame.fade(0x000000, .0001);
-			PlayState.boyfriend.color = ForeverTools.returnColor('black');
-			PlayState.opponent.color = ForeverTools.returnColor('black');
 		}
 }
 
@@ -366,7 +351,6 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 			FlxTween.tween(streetDaytime, {alpha: 0}, 5);
 			FlxTween.tween(clouds, {alpha: 0}, 5);
 			FlxTween.tween(brightSky, {alpha: 0}, 5);
-			FlxTween.tween(cablesDayTime, {alpha: 0}, 5);
 		}
 		if (curBeat == 232)
 		{
@@ -380,7 +364,7 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 		{
 			PlayState.camGame.fade(0x000000, 3, true);
 		}
-		if (curBeat == 32)
+		if (curBeat == 64)
 		{
 			FlxTween.tween(fakeLightOfHope, {alpha: 0.001}, 1.7);
 			if (!lowQuality) FlxTween.tween(stageFront, {alpha: 1}, 1.5);
@@ -440,7 +424,6 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 						spr.alpha = 0;
 					});
 				rain.visible = false;
-				cablesDayTime.visible = true;
 				clouds.visible = true;
 				stageCurtains.visible = false;
 				stageFront.visible = false;
@@ -466,7 +449,6 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 					});
 				rain.visible = true;
 				clouds.visible = false;
-				cablesDayTime.visible = false;
 				stageCurtains.visible = true;
 			}
 			streetRuins.visible = true;
@@ -490,7 +472,6 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 						});
 					rain.visible = false;
 					clouds.visible = false;
-					cablesDayTime.visible = false;
 					stageCurtains.visible = true;
 				}
 				streetRuins.visible = false;

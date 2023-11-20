@@ -121,7 +121,7 @@ class MainMenu extends MusicBeatState
 		"You're gonna love the final song.",
 		"Malfunction isn't easy anymore, fuck you, skill issue B)",
 		"Happy Birthday Muckney!",
-		"Psych Engine basically corrupted all our shit, which is why it's on Forever Engine now.",
+		"Psych Engine basically corrupted all our shit, which is why it's on Another Engine now.",
 		"SOMEONE PLEASE GIVE MICKEY HIS FUCKING SANDWICH",
 		"Have fun, you'll be here for like an hour or longer.",
 		"10 Seconds before I shut your fucking game again >:(",

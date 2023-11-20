@@ -20,7 +20,7 @@ class AutoSaveWarningState extends FlxState
 		"I bet nobody's reading this...",
 		"This mod contains 40k+ lines of code.",
 		"The update wasn't suppose to be nearly 3 hours long at first.",
-		"This mod runs on Forever Engine now!",
+		"This mod runs on Another Engine that isn't Psych Engine now!",
 		"This mod was made by a group of 50 people!",
 		"Malfunction was originally NEVER suppose to be in the game.",
 		"Some characters showcased in the game are in fact original ideas!",
