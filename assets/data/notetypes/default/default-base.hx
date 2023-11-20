@@ -43,15 +43,15 @@ function generateReceptor(receptor)
 		case 1:
 			receptor.addOffset('confirm', 42 + offsetMiddleX, 36 + offsetMiddleY);
 			receptor.addOffset('static');
-			receptor.addOffset('pressed', -2, -2);
+			receptor.addOffset('pressed', -4, -4);
 		case 2:
 			receptor.addOffset('confirm', 36 + offsetMiddleX, 40 + offsetMiddleY);
 			receptor.addOffset('static');
-			receptor.addOffset('pressed', -2, -2);
+			receptor.addOffset('pressed', -5, -4);
 		case 3:
 			receptor.addOffset('confirm', 36 + offsetMiddleX, 36 + offsetMiddleY);
 			receptor.addOffset('static');
-			receptor.addOffset('pressed', -2, -2);
+			receptor.addOffset('pressed', -4, -4);
 	}
 	receptor.playAnim('static');
 }
