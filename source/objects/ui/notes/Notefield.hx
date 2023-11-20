@@ -74,7 +74,7 @@ class Notefield extends FlxTypedGroup<Note>
 			// painful math equation
 			daNote.x = strumline.receptors.members[Math.floor(daNote.noteData)].x
 				+ (Math.cos(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoX)
-				+ (Math.sin(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoY);
+				+ (Math.sin(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoY) + (PlayState.assetModifier == 'base' ? 10 : 0);
 
 			// also set note rotation
 			daNote.angle = -daNote.noteDirection;
