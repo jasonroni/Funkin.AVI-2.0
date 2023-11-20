@@ -76,6 +76,7 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 
 function charStagePos(boyfriend:Character, gf:Character, dad:Character)
 {
-	dad.setPosition(90, 60);
-    	boyfriend.setPosition(900, 530);
+    boyfriend.setPosition(900, 530);
+
+	if (dad.curCharacter == 'white-noise-new') dad.setPosition(-550, -400); else dad.setPosition(90, 60);
 }
