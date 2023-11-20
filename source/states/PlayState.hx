@@ -1006,6 +1006,7 @@ class PlayState extends MusicBeatState
 					getCenterY = char.getMidpoint().y - 200;
 				case 'forestNew':
 					defaultCamZoom = .72;
+				case 'vaultRoom': defaultCamZoom = .9;
 			}
 		}
 		else
@@ -1025,6 +1026,8 @@ class PlayState extends MusicBeatState
 					}
 				case 'forestNew':
 					defaultCamZoom = .67;
+					
+				case 'vaultRoom': defaultCamZoom = .7;
 			}
 		}
 
