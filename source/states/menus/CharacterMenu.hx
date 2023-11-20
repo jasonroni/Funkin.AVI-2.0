@@ -1,5 +1,6 @@
 package states.menus;
 
+import base.dependency.Discord;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxCamera;
@@ -35,6 +36,8 @@ class CharacterMenu extends MusicBeatState
     override public function create() {
         theJson = thejofsons();
         charArray = theJson.info;
+
+        openfl.Lib.application.window.title = 'Funkin.AVI - Character Menu';
 
         hud = cam = new FlxCamera();
         hud.bgColor.alpha = 0;
@@ -123,6 +126,10 @@ class CharacterMenu extends MusicBeatState
         character.offset.set(charArray[curSelected][2], charArray[curSelected][3]);
         character.setGraphicSize(Std.int(character.width * charArray[curSelected][4]));
         name.text = '< ${charArray[curSelected][0]} >';
+
+        #if DISCORD_RPC
+        Discord.changePresence('CHARACTER MENU', 'Checking ${charArray[curSelected][0]}', 'icon', 'mouse');
+        #end
     }
 
     private function thejofsons() 
