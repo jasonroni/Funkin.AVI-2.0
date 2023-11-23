@@ -224,7 +224,7 @@ class ForeverAssets
 	{
 		var uiReceptor:Receptor = new Receptor(x, y, receptorData);
 
-		var framesArg:String = "NOTE_assets";
+		var framesArg:String = "NOTE_assets" + (PlayState.assetModifier != 'pixel' ? '-${PlayState.noteSkinType}' : '');
 
 		switch (assetModifier)
 		{
@@ -276,7 +276,16 @@ class ForeverAssets
 					uiReceptor.animation.addByPrefix('confirm', stringSect + ' confirm', 24, false);
 
 					uiReceptor.antialiasing = true;
-					uiReceptor.setGraphicSize(Std.int(uiReceptor.width * 0.7));
+					switch (PlayState.noteSkinType)
+					{
+						case 'VANILLA':
+							uiReceptor.setGraphicSize(Std.int(uiReceptor.width * 0.7));
+						default:
+							if (uiReceptor.strumData == 0)
+								uiReceptor.setGraphicSize(Std.int(uiReceptor.width * 0.62));
+							else
+								uiReceptor.setGraphicSize(Std.int(uiReceptor.width * 0.6));
+					}
 
 					// set little offsets per note!
 					// so these had a little problem honestly and they make me wanna off(set) myself so the middle notes basically
@@ -295,9 +304,53 @@ class ForeverAssets
 						}
 					}
 
-					uiReceptor.addOffset('static');
-					uiReceptor.addOffset('pressed', -2, -2);
-					uiReceptor.addOffset('confirm', 36 + offsetMiddleX, 36 + offsetMiddleY);
+					switch (PlayState.noteSkinType)
+					{
+						case 'VANILLA':
+							uiReceptor.addOffset('static');
+							uiReceptor.addOffset('pressed', -2, -2);
+							uiReceptor.addOffset('confirm', 36 + offsetMiddleX, 36 + offsetMiddleY);
+						case 'CARTOON':
+							switch (uiReceptor.strumData)
+							{
+								case 0:
+									uiReceptor.addOffset('confirm', 49 + offsetMiddleX, 36 + offsetMiddleY);
+									uiReceptor.addOffset('static', 11, -5);
+									uiReceptor.addOffset('pressed', 9, -7);
+								case 1:
+									uiReceptor.addOffset('confirm', 42 + offsetMiddleX, 38 + offsetMiddleY);
+									uiReceptor.addOffset('static');
+									uiReceptor.addOffset('pressed', -4, -4);
+								case 2:
+									uiReceptor.addOffset('confirm', 36 + offsetMiddleX, 40 + offsetMiddleY);
+									uiReceptor.addOffset('static');
+									uiReceptor.addOffset('pressed', -5, -4);
+								case 3:
+									uiReceptor.addOffset('confirm', 36 + offsetMiddleX, 36 + offsetMiddleY);
+									uiReceptor.addOffset('static');
+									uiReceptor.addOffset('pressed', -4, -4);
+							}
+						default:
+							switch (uiReceptor.strumData)
+							{
+								case 0:
+									uiReceptor.addOffset('confirm', 49 + offsetMiddleX, 36 + offsetMiddleY);
+									uiReceptor.addOffset('static', 9, -5);
+									uiReceptor.addOffset('pressed', 6, -7);
+								case 1:
+									uiReceptor.addOffset('confirm', 42 + offsetMiddleX, 36 + offsetMiddleY);
+									uiReceptor.addOffset('static');
+									uiReceptor.addOffset('pressed', -4, -4);
+								case 2:
+									uiReceptor.addOffset('confirm', 36 + offsetMiddleX, 40 + offsetMiddleY);
+									uiReceptor.addOffset('static');
+									uiReceptor.addOffset('pressed', -5, -4);
+								case 3:
+									uiReceptor.addOffset('confirm', 36 + offsetMiddleX, 36 + offsetMiddleY);
+									uiReceptor.addOffset('static');
+									uiReceptor.addOffset('pressed', -4, -4);
+							}
+					}
 				}
 		}
 
@@ -310,12 +363,22 @@ class ForeverAssets
 	public static function generateArrow(framesArg, assetModifier, strumTime, noteData, noteType, ?isSustainNote:Bool = false, ?prevNote:Note = null):Note
 	{
 		if (framesArg == null || framesArg.length < 1)
-			framesArg = 'NOTE_assets';
+			framesArg = 'NOTE_assets' + (PlayState.assetModifier != 'pixel' ? '-${PlayState.noteSkinType}' : '');
 		var changeableSkin:String = Init.trueSettings.get("Note Skin");
 
 		var newNote:Note;
 
+		var scaleShit:Float = 0.7;
+
 		newNote = new Note(strumTime, noteData, noteType, prevNote, isSustainNote);
+
+		switch (PlayState.noteSkinType)
+		{
+			case 'VANILLA':
+				scaleShit = 0.7;
+			default:
+				scaleShit = 0.63;
+		}
 
 		try
 		{
@@ -342,7 +405,7 @@ class ForeverAssets
 
 			// load default so the game won't explode in front of you;
 			Note.resetNote(framesArg, changeableSkin, assetModifier, newNote);
-			newNote.setGraphicSize(Std.int(newNote.width * (assetModifier == "pixel" ? PlayState.daPixelZoom : 0.7)));
+			newNote.setGraphicSize(Std.int(newNote.width * (assetModifier == "pixel" ? PlayState.daPixelZoom : scaleShit)));
 			newNote.updateHitbox();
 		}
 

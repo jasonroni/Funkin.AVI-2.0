@@ -1,24 +1,15 @@
+
+
 function generateReceptor(receptor)
 {
 	var stringSect:String = Receptor.actions[receptor.strumData];
-	var skinType:String = 'lmao';
 
-	switch (PlayState.SONG.song)
-	{
-		default:
-			skinType = 'DEFAULTSKIN';
-	}
-
-	receptor.frames = Paths.getSparrowAtlas(getSkinPath("NOTE_assets-" + skinType, "default"), 'data/notetypes');
+	receptor.frames = Paths.getSparrowAtlas(getSkinPath("NOTE_assets-" + PlayState.main.noteSkinType, "default"), 'data/notetypes');
 
 	receptor.animation.addByPrefix('static', 'arrow' + stringSect.toUpperCase());
 	receptor.animation.addByPrefix('pressed', stringSect + ' press', 24, false);
 	receptor.animation.addByPrefix('confirm', stringSect + ' confirm', 24, false);
 
-	if (receptor.strumData == 0)
-		receptor.setGraphicSize(Std.int(receptor.width * 0.62));
-	else
-		receptor.setGraphicSize(Std.int(receptor.width * 0.6));
 	receptor.antialiasing = true;
 
 	var offsetMiddleX = 0;
@@ -33,26 +24,6 @@ function generateReceptor(receptor)
 			offsetMiddleY += 2;
 		}
 	}
-
-	switch (receptor.strumData)
-	{
-		case 0:
-			receptor.addOffset('confirm', 47 + offsetMiddleX, 36 + offsetMiddleY);
-			receptor.addOffset('static', 7, -5);
-			receptor.addOffset('pressed', 6, -7);
-		case 1:
-			receptor.addOffset('confirm', 42 + offsetMiddleX, 36 + offsetMiddleY);
-			receptor.addOffset('static');
-			receptor.addOffset('pressed', -4, -4);
-		case 2:
-			receptor.addOffset('confirm', 36 + offsetMiddleX, 40 + offsetMiddleY);
-			receptor.addOffset('static');
-			receptor.addOffset('pressed', -5, -4);
-		case 3:
-			receptor.addOffset('confirm', 36 + offsetMiddleX, 36 + offsetMiddleY);
-			receptor.addOffset('static');
-			receptor.addOffset('pressed', -4, -4);
-	}
 	receptor.playAnim('static');
 }
 
@@ -60,7 +31,6 @@ function generateNote(newNote)
 {
 	var stringSect = Receptor.colors[newNote.noteData];
 	var dirSect = Receptor.actions[newNote.noteData];
-	var skinType:String = 'lmao';
 
 	if (StringTools.startsWith(Init.trueSettings.get("Note Skin"), "quant"))
 	{
@@ -78,17 +48,15 @@ function generateNote(newNote)
 	else
 	{
 		// cool little thing I plan on doing to make the notes UI art different for certain songs
-		switch (PlayState.SONG.song)
-		{
-			default:
-				skinType = 'DEFAULTSKIN';
-		}
-		newNote.frames = Paths.getSparrowAtlas(getSkinPath('NOTE_assets-' + skinType, 'default'), 'data/notetypes');
+		newNote.frames = Paths.getSparrowAtlas(getSkinPath('NOTE_assets-' + PlayState.main.noteSkinType, 'default'), 'data/notetypes');
 		newNote.animation.addByPrefix(stringSect + 'Scroll', stringSect + '0');
 		newNote.playAnim(stringSect + 'Scroll');
 	}
 
-	newNote.setGraphicSize(Std.int(newNote.width * 0.63));
+	if (PlayState.main.noteSkinType == 'VANILLA')
+		newNote.setGraphicSize(Std.int(newNote.width * 0.7));
+	else
+		newNote.setGraphicSize(Std.int(newNote.width * 0.63));
 	newNote.antialiasing = true;
 	newNote.updateHitbox();
 }
@@ -96,7 +64,6 @@ function generateNote(newNote)
 function generateSustain(newNote)
 {
 	var stringSect = Receptor.colors[newNote.noteData];
-	var skinType:String = 'lmao';
 
 	if (StringTools.startsWith(Init.trueSettings.get("Note Skin"), "quant"))
 	{
@@ -118,16 +85,15 @@ function generateSustain(newNote)
 	else
 	{
 		// cool little thing I plan on doing to make the notes UI art different for certain songs
-		switch (PlayState.SONG.song)
-		{
-			default:
-				skinType = 'DEFAULTSKIN';
-		}
-		newNote.frames = Paths.getSparrowAtlas(getSkinPath('NOTE_assets-' + skinType, 'default'), 'data/notetypes');
+		newNote.frames = Paths.getSparrowAtlas(getSkinPath('NOTE_assets-' + PlayState.main.noteSkinType, 'default'), 'data/notetypes');
 		newNote.animation.addByPrefix(stringSect + 'holdend', stringSect + ' hold end');
 		newNote.animation.addByPrefix(stringSect + 'hold', stringSect + ' hold piece');
 		newNote.animation.addByPrefix('purpleholdend', 'pruple end hold'); // PA god dammit.
-		newNote.setGraphicSize(Std.int(newNote.width * 0.6));
+		if (PlayState.main.noteSkinType == 'VANILLA')
+			newNote.setGraphicSize(Std.int(newNote.width * 0.7));
+		
+		if (PlayState.main.noteSkinType == 'DEFAULTSKIN' || PlayState.main.noteSkinType == 'CARTOON')
+			newNote.setGraphicSize(Std.int(newNote.width * 0.63));
 
 		newNote.playAnim(stringSect + 'holdend');
 		if (newNote.prevNote != null && newNote.prevNote.isSustainNote)

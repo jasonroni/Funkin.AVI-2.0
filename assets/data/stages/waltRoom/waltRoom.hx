@@ -53,6 +53,8 @@ function charStagePos(boyfriend:Character, gf:Character, dad:Character)
 {
 	switch (dad.curCharacter)
 	{
+		case 'walt-true':
+			dad.setPosition(240, -200);
 		case 'walt-new':
 			dad.setPosition(220, -50);
 		default:

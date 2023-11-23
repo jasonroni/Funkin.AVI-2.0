@@ -312,6 +312,8 @@ class PlayState extends MusicBeatState
 
 	var isCamForced = false;
 
+	public static var noteSkinType:String = 'DEFAULTSKIN';
+
 	function resetStatics()
 	{
 		GameOverSubstate.resetDeathVariables();
@@ -450,6 +452,16 @@ class PlayState extends MusicBeatState
 		PlayStateUtils.instance.loadRPCIcon();
 		PlayStateUtils.instance.loadWindowTitleData();
 
+		switch (SONG.song)
+		{
+			case 'Isolated' | 'Devilish Deal' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Dentophobia' | 'Hunted':
+				noteSkinType = 'CARTOON';
+			case 'Isolated Old' | 'Isolated Legacy' | 'Isolated Beta' | 'Lunacy Legacy' | 'Delusional Legacy' | 'Mercy Legacy' | 'Twisted Grins Legacy' | 'Facade' | "Don't Cross!" | 'Birthday' | 'Delutrance':
+				noteSkinType = 'VANILLA';
+			default:
+				noteSkinType = 'DEFAULTSKIN';
+		}
+
 		FlxG.mouse.visible = false;
 
 		main = this;
@@ -572,8 +584,8 @@ class PlayState extends MusicBeatState
 		var placement = (FlxG.width / 2);
 		var height = (downscroll ? FlxG.height - 175 : 25);
 
-		dadStrums = new Strumline(placement - (FlxG.width / 4), height, [opponent], downscroll, false, true, checkTween(true), false, 4);
-		bfStrums = new Strumline(placement + (!centered ? (FlxG.width / 4) : 0), height, [boyfriend], downscroll, true, false, checkTween(false), true, 4);
+		dadStrums = new Strumline(placement - (FlxG.width / 4) - (noteSkinType != 'VANILLA' && assetModifier != 'pixel' ? 12 : 0), height + (assetModifier == 'pixel' ? 10 : 0), [opponent], downscroll, false, true, checkTween(true), false, 4);
+		bfStrums = new Strumline(placement + (!centered ? (FlxG.width / 4) : 0) - (noteSkinType != 'VANILLA' && assetModifier != 'pixel' ? 12 : 0), height + (assetModifier == 'pixel' ? 10 : 0), [boyfriend], downscroll, true, false, checkTween(false), true, 4);
 
 		if (curStage == 'waltRoom')
 			dadStrums.visible = false;

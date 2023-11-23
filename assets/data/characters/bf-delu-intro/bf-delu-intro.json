@@ -6,7 +6,7 @@
 				0
 			],
 			"indices": [],
-			"fps": 24,
+			"fps": 14,
 			"anim": "idle",
 			"loop": false,
 			"name": "Bf idle"
@@ -17,7 +17,7 @@
 				7
 			],
 			"indices": [],
-			"fps": 24,
+			"fps": 12,
 			"anim": "singLEFT",
 			"loop": false,
 			"name": "Bf note left"
@@ -25,10 +25,10 @@
 		{
 			"offsets": [
 				11,
-				-90
+				-73
 			],
 			"indices": [],
-			"fps": 24,
+			"fps": 12,
 			"anim": "singDOWN-alt",
 			"loop": false,
 			"name": "Bf note down demon"
@@ -36,7 +36,7 @@
 		{
 			"offsets": [
 				-8,
-				57
+				43
 			],
 			"indices": [],
 			"fps": 24,
@@ -50,7 +50,7 @@
 				10
 			],
 			"indices": [],
-			"fps": 24,
+			"fps": 12,
 			"anim": "singRIGHT",
 			"loop": false,
 			"name": "Bf note right"
@@ -58,7 +58,7 @@
 		{
 			"offsets": [
 				11,
-				-90
+				-73
 			],
 			"indices": [
 				0,
@@ -76,7 +76,7 @@
 				12,
 				13
 			],
-			"fps": 24,
+			"fps": 12,
 			"anim": "singDOWN",
 			"loop": false,
 			"name": "Bf note down"
@@ -84,7 +84,7 @@
 		{
 			"offsets": [
 				-8,
-				58
+				43
 			],
 			"indices": [
 				0,
@@ -102,7 +102,7 @@
 				12,
 				13
 			],
-			"fps": 24,
+			"fps": 12,
 			"anim": "singUP",
 			"loop": false,
 			"name": "Bf note up"
@@ -126,5 +126,5 @@
 		-10
 	],
 	"sing_duration": 6.1,
-	"scale": 1
+	"scale": 0.8
 }

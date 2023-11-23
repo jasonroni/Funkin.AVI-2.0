@@ -24,6 +24,7 @@ class Note extends FNFSprite
 	public var noteString:String = "";
 	public var noteSuffix:String = "";
 	public var noteTimer:Float = 0;
+	public var noteSkinType:String = 'DEFAULTSKIN';
 
 	public var canBeHit:Bool = false;
 	public var tooLate:Bool = false;
@@ -172,7 +173,7 @@ class Note extends FNFSprite
 					framesArg = 'arrows-pixels';
 			}
 			else
-				framesArg = 'NOTE_assets';
+				framesArg = 'NOTE_assets-' + states.PlayState.noteSkinType;
 		}
 
 		var stringSect = Receptor.colors[newNote.noteData];
