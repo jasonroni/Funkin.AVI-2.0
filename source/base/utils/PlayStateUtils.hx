@@ -1331,7 +1331,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.defaultCamZoom = 1.2;
 						PlayState.main.camDisplaceX -= 100;
 						PlayState.boyfriend.alpha = 0.0001;
-						FlxTween.tween(PlayState.boyfriend, {alpha: 1}, 6, {ease: ForeverTools.returnTweenEase('sineInOut')});
+						FlxTween.tween(PlayState.boyfriend, {alpha: 1}, 6, {ease: EngineTools.returnTweenEase('sineInOut')});
 						FlxTween.tween(PlayState.main, {camDisplaceX: PlayState.main.camDisplaceX + 100}, 12, {ease: FlxEase.sineInOut});
 					case 176:
 						PlayState.main.flashBGEffect(DARK, {alpha: 0, timer: 0.3, ease: FlxEase.quartInOut});
@@ -2205,14 +2205,14 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
                 }
                 else
                 {
-                    FlxTween.tween(PlayState.bfStrums.receptors.members[0], {x: 77}, time, {ease: ForeverTools.returnTweenEase(ease)});
-                    FlxTween.tween(PlayState.bfStrums.receptors.members[1], {x: 187}, time, {ease: ForeverTools.returnTweenEase(ease)});
-                    FlxTween.tween(PlayState.bfStrums.receptors.members[2], {x: 382}, time, {ease: ForeverTools.returnTweenEase(ease)});
-                    FlxTween.tween(PlayState.bfStrums.receptors.members[3], {x: 417}, time, {ease: ForeverTools.returnTweenEase(ease)});
-                    FlxTween.tween(PlayState.dadStrums.receptors.members[0], {x: 77 + 640}, time, {ease: ForeverTools.returnTweenEase(ease)});
-                    FlxTween.tween(PlayState.dadStrums.receptors.members[1], {x: 187 + 640}, time, {ease: ForeverTools.returnTweenEase(ease)});
-                    FlxTween.tween(PlayState.dadStrums.receptors.members[2], {x: 382 + 640}, time, {ease: ForeverTools.returnTweenEase(ease)});
-                    FlxTween.tween(PlayState.dadStrums.receptors.members[3], {x: 417 + 640}, time, {ease: ForeverTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.bfStrums.receptors.members[0], {x: 77}, time, {ease: EngineTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.bfStrums.receptors.members[1], {x: 187}, time, {ease: EngineTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.bfStrums.receptors.members[2], {x: 382}, time, {ease: EngineTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.bfStrums.receptors.members[3], {x: 417}, time, {ease: EngineTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.dadStrums.receptors.members[0], {x: 77 + 640}, time, {ease: EngineTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.dadStrums.receptors.members[1], {x: 187 + 640}, time, {ease: EngineTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.dadStrums.receptors.members[2], {x: 382 + 640}, time, {ease: EngineTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.dadStrums.receptors.members[3], {x: 417 + 640}, time, {ease: EngineTools.returnTweenEase(ease)});
                 }
             case 'swaprevert':
                 if (!canTween)
@@ -2228,14 +2228,14 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
                 }
                 else
                 {
-                    FlxTween.tween(PlayState.dadStrums.receptors.members[0], {x: 77}, time, {ease: ForeverTools.returnTweenEase(ease)});
-                    FlxTween.tween(PlayState.dadStrums.receptors.members[1], {x: 187}, time, {ease: ForeverTools.returnTweenEase(ease)});
-                    FlxTween.tween(PlayState.dadStrums.receptors.members[2], {x: 382}, time, {ease: ForeverTools.returnTweenEase(ease)});
-                    FlxTween.tween(PlayState.dadStrums.receptors.members[3], {x: 417}, time, {ease: ForeverTools.returnTweenEase(ease)});
-                    FlxTween.tween(PlayState.bfStrums.receptors.members[0], {x: 77 + 640}, time, {ease: ForeverTools.returnTweenEase(ease)});
-                    FlxTween.tween(PlayState.bfStrums.receptors.members[1], {x: 187 + 640}, time, {ease: ForeverTools.returnTweenEase(ease)});
-                    FlxTween.tween(PlayState.bfStrums.receptors.members[2], {x: 382 + 640}, time, {ease: ForeverTools.returnTweenEase(ease)});
-                    FlxTween.tween(PlayState.bfStrums.receptors.members[3], {x: 417 + 640}, time, {ease: ForeverTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.dadStrums.receptors.members[0], {x: 77}, time, {ease: EngineTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.dadStrums.receptors.members[1], {x: 187}, time, {ease: EngineTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.dadStrums.receptors.members[2], {x: 382}, time, {ease: EngineTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.dadStrums.receptors.members[3], {x: 417}, time, {ease: EngineTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.bfStrums.receptors.members[0], {x: 77 + 640}, time, {ease: EngineTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.bfStrums.receptors.members[1], {x: 187 + 640}, time, {ease: EngineTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.bfStrums.receptors.members[2], {x: 382 + 640}, time, {ease: EngineTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.bfStrums.receptors.members[3], {x: 417 + 640}, time, {ease: EngineTools.returnTweenEase(ease)});
                 }
             case 'rightscroll':
                 if (!canTween)
@@ -2738,46 +2738,46 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
                         PlayState.main.cinematicBars["bottom"].kill();
                     
                 case "movetop" | "move top":
-                    FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height}, speed, {ease: ForeverTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height}, speed, {ease: EngineTools.returnTweenEase(ease)});
                     
                 case "movebottom" | "move bottom":
-                    FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position}, speed, {ease: ForeverTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position}, speed, {ease: EngineTools.returnTweenEase(ease)});
                     
                 case "moveboth" | "move both":
-                    FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height}, speed, {ease: ForeverTools.returnTweenEase(ease)});
-                    FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position}, speed, {ease: ForeverTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height}, speed, {ease: EngineTools.returnTweenEase(ease)});
+                    FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position}, speed, {ease: EngineTools.returnTweenEase(ease)});
                     
                 case "boptop" | "bop top":
                     PlayState.main.cinematicBars["top"].y = position - FlxG.height;
-                    FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height - 20}, 0.0001, {ease: ForeverTools.returnTweenEase(ease),
+                    FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height - 20}, 0.0001, {ease: EngineTools.returnTweenEase(ease),
 						onComplete: function(twn:FlxTween)
 							{
-								FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});
+								FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height}, 0.5, {ease: EngineTools.returnTweenEase(ease)});
 							}
 					});
                     
                 case "bopbottom" | "bop bottom":
                     PlayState.main.cinematicBars["bottom"].y = FlxG.height - position;
-                    FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position + 20}, 0.0001, {ease: ForeverTools.returnTweenEase(ease),
+                    FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position + 20}, 0.0001, {ease: EngineTools.returnTweenEase(ease),
 						onComplete: function(twn:FlxTween)
 							{
-								FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});
+								FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position}, 0.5, {ease: EngineTools.returnTweenEase(ease)});
 							}
 					});	
                     
                 case "bopboth" | "bop both":
                     PlayState.main.cinematicBars["top"].y = position - FlxG.height;
                     PlayState.main.cinematicBars["bottom"].y = FlxG.height - position;
-                    FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height - 20}, 0.0001, {ease: ForeverTools.returnTweenEase(ease),
+                    FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height - 20}, 0.0001, {ease: EngineTools.returnTweenEase(ease),
 						onComplete: function(twn:FlxTween)
 							{
-								FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});
+								FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height}, 0.5, {ease: EngineTools.returnTweenEase(ease)});
 							}
 					});	
-                    FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position + 20}, 0.0001, {ease: ForeverTools.returnTweenEase(ease),
+                    FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position + 20}, 0.0001, {ease: EngineTools.returnTweenEase(ease),
 						onComplete: function(twn:FlxTween)
 							{
-								FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position}, 0.5, {ease: ForeverTools.returnTweenEase(ease)});
+								FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position}, 0.5, {ease: EngineTools.returnTweenEase(ease)});
 							}
 					});			
             }
@@ -2796,7 +2796,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
         */
         public function tweenCamera(zoom:Float = 0.9, time:Float = 0.6, ease:Null<String>):Void
         {
-            FlxTween.tween(PlayState.camGame, {zoom: zoom}, time, {ease: ForeverTools.returnTweenEase(ease), onComplete: e -> PlayState.defaultCamZoom = zoom});
+            FlxTween.tween(PlayState.camGame, {zoom: zoom}, time, {ease: EngineTools.returnTweenEase(ease), onComplete: e -> PlayState.defaultCamZoom = zoom});
         }
 
     public function loadWindowTitleData()

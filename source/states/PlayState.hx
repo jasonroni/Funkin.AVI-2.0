@@ -458,6 +458,8 @@ class PlayState extends MusicBeatState
 				noteSkinType = 'CARTOON';
 			case 'Isolated Old' | 'Isolated Legacy' | 'Isolated Beta' | 'Lunacy Legacy' | 'Delusional Legacy' | 'Mercy Legacy' | 'Twisted Grins Legacy' | 'Facade' | "Don't Cross!" | 'Birthday' | 'Delutrance':
 				noteSkinType = 'VANILLA';
+			case 'Mercy':
+				noteSkinType = 'MERCY';
 			default:
 				noteSkinType = 'DEFAULTSKIN';
 		}
@@ -619,27 +621,33 @@ class PlayState extends MusicBeatState
 		// add the dialogue UI
 		FlxG.cameras.add(dialogueHUD, false);
 
-		if (Init.trueSettings.get('HUD Style') == 'psych')
+		switch (Init.trueSettings.get('HUD Style'))
 		{
-			psychHUD = new PsychHUD();
-			psychHUD.alpha = 0;
-			add(psychHUD);
-			psychHUD.cameras = [camHUD];
-		} else if (Init.trueSettings.get('HUD Style') == 'demolition') {
-			demolitionHUD = new DemolitionHUD();
-			demolitionHUD.alpha = 0;
-			add(demolitionHUD);
-			demolitionHUD.cameras = [camHUD];
-		} else if (Init.trueSettings.get('HUD Style') == 'vanilla') {
-			vanillaHUD = new VanillaHUD();
-			vanillaHUD.alpha = 0;
-			add(vanillaHUD);
-			vanillaHUD.cameras = [camHUD];
-		} else if (Init.trueSettings.get('HUD Style') == 'kade') {
-			kadeHUD = new KadeHUD();
-			kadeHUD.alpha = 0;
-			add(kadeHUD);
-			kadeHUD.cameras = [camHUD];
+			case 'psych':
+				psychHUD = new PsychHUD();
+				psychHUD.alpha = 0;
+				add(psychHUD);
+				psychHUD.cameras = [camHUD];
+			case 'demolition':
+				demolitionHUD = new DemolitionHUD();
+				demolitionHUD.alpha = 0;
+				add(demolitionHUD);
+				demolitionHUD.cameras = [camHUD];
+			case 'vanilla':
+				vanillaHUD = new VanillaHUD();
+				vanillaHUD.alpha = 0;
+				add(vanillaHUD);
+				vanillaHUD.cameras = [camHUD];
+			case 'kade':
+				kadeHUD = new KadeHUD();
+				kadeHUD.alpha = 0;
+				add(kadeHUD);
+				kadeHUD.cameras = [camHUD];
+			default:
+				uiHUD = new ClassHUD();
+				uiHUD.alpha = 0;
+				add(uiHUD);
+				uiHUD.cameras = [camHUD];
 		}
 
 		if (SONG.song.toLowerCase().replace('-', ' ') == 'cycled sins') {
@@ -798,7 +806,7 @@ class PlayState extends MusicBeatState
 		spaceBarCounter.scrollFactor.set();
 
 		lyrics = new FlxTypeText(0, FlxG.height - 65, 0, '', 15);
-		lyrics.setFormat(Paths.font('vcr'), 30, FlxColor.WHITE, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		lyrics.setFormat(Paths.font('vcr'), 30, FlxColor.WHITE, EngineTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		lyrics.cameras = [camAlt];
 		lyrics.alpha = 0;
 		lyrics.borderSize = 4;
@@ -1343,12 +1351,12 @@ class PlayState extends MusicBeatState
 			'scale.y': 1,
 			alpha: 1
 		}, 0.5, {
-			ease: ForeverTools.returnTweenEase(tweenType),
+			ease: EngineTools.returnTweenEase(tweenType),
 			onComplete: function(twn:FlxTween)
 			{
 				iconTween = FlxTween.tween(lyricsIcon, {alpha: 0, 'scale.x': 0, 'scale.y': 0}, 0.25, {
 					startDelay: duration,
-					ease: ForeverTools.returnTweenEase(tweenType),
+					ease: EngineTools.returnTweenEase(tweenType),
 					onComplete: function(twn:FlxTween)
 					{
 						iconTween = null;
@@ -1361,12 +1369,12 @@ class PlayState extends MusicBeatState
 			size: size,
 			alpha: 1
 		}, 0.5, {
-			ease: ForeverTools.returnTweenEase(tweenType),
+			ease: EngineTools.returnTweenEase(tweenType),
 			onComplete: function(twn:FlxTween)
 			{
 				lyricsTween = FlxTween.tween(lyrics, {alpha: 0, size: 0}, 0.25, {
 					startDelay: duration,
-					ease: ForeverTools.returnTweenEase(tweenType),
+					ease: EngineTools.returnTweenEase(tweenType),
 					onComplete: function(twn:FlxTween)
 					{
 						lyricsTween = null;
@@ -1807,9 +1815,9 @@ class PlayState extends MusicBeatState
 			var lerpVal = CoolUtil.boundTo((elapsed * 2.4) * cameraSpeed, 0, 1);
 			camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 
-			ForeverTools.cameraBumpingZooms(FlxG.camera, defaultCamZoom, forceZoom, elapsed);
+			EngineTools.cameraBumpingZooms(FlxG.camera, defaultCamZoom, forceZoom, elapsed);
 			for (hud in allUIs)
-				ForeverTools.cameraBumpingZooms(hud, 1, forceZoom, elapsed);
+				EngineTools.cameraBumpingZooms(hud, 1, forceZoom, elapsed);
 
 			deathCheck();
 
@@ -2331,7 +2339,7 @@ class PlayState extends MusicBeatState
 
 		if (strumline.splashNotes != null)
 		{
-			var noteSplash:NoteSplash = ForeverAssets.generateNoteSplashes(strumline, assetModifier, changeableSkin, noteType, noteData);
+			var noteSplash:NoteSplash = EngineAssets.generateNoteSplashes(strumline, assetModifier, changeableSkin, noteType, noteData);
 			noteSplash.cameras = strumline.splashNotes.members[noteData].cameras;
 			return noteSplash;
 		}
@@ -2375,7 +2383,7 @@ class PlayState extends MusicBeatState
 		//
 		var rating:FNFSprite;
 
-		rating = ForeverAssets.generateRating(id, judgementsGroup, assetModifier, changeableSkin, 'UI');
+		rating = EngineAssets.generateRating(id, judgementsGroup, assetModifier, changeableSkin, 'UI');
 		rating.setPosition(rating.x + ratingPlacement.x, rating.y + ratingPlacement.y);
 
 		if (rating != null)
@@ -2389,7 +2397,7 @@ class PlayState extends MusicBeatState
 					lastRating.kill();
 				lastRating = rating;
 			}
-			ForeverTools.tweenJudgement(rating);
+			EngineTools.tweenJudgement(rating);
 		}
 
 		if (!preload)
@@ -2416,7 +2424,7 @@ class PlayState extends MusicBeatState
 		{
 			var timing:FNFSprite;
 
-			timing = ForeverAssets.generateTimings(ScoreUtils.judges[id].name, late, rating, judgementsGroup, assetModifier, changeableSkin, 'UI');
+			timing = EngineAssets.generateTimings(ScoreUtils.judges[id].name, late, rating, judgementsGroup, assetModifier, changeableSkin, 'UI');
 			timing.setPosition(rating.x + ratingPlacement.x, rating.y + ratingPlacement.y + 50);
 
 			if (!Init.trueSettings.get('Judgement Recycling'))
@@ -2439,7 +2447,7 @@ class PlayState extends MusicBeatState
 					lastTiming.kill();
 				lastTiming = timing;
 			}
-			ForeverTools.tweenJudgement(timing);
+			EngineTools.tweenJudgement(timing);
 		}
 
 		// COMBO
@@ -2461,7 +2469,7 @@ class PlayState extends MusicBeatState
 		for (scoreInt in 0...stringArray.length)
 		{
 			// numScore.loadGraphic(Paths.image('UI/' + pixelModifier + 'num' + stringArray[scoreInt]));
-			var numScore = ForeverAssets.generateCombo('combo', comboGroup, stringArray[scoreInt], (!negative ? ScoreUtils.perfectCombo : false),
+			var numScore = EngineAssets.generateCombo('combo', comboGroup, stringArray[scoreInt], (!negative ? ScoreUtils.perfectCombo : false),
 				assetModifier, changeableSkin, 'UI', negative, createdColor, scoreInt);
 			numScore.setPosition(numScore.x + comboPlacement.x, numScore.y + comboPlacement.y);
 			if (!Init.trueSettings.get('Judgement Recycling'))
@@ -2673,7 +2681,7 @@ class PlayState extends MusicBeatState
 					if (songSpeedTween != null)
 						songSpeedTween.cancel();
 					songSpeedTween = FlxTween.tween(this, {songSpeed: speed}, timer, {
-						ease: ForeverTools.returnTweenEase(params[2]),
+						ease: EngineTools.returnTweenEase(params[2]),
 						onComplete: function(twn:FlxTween)
 						{
 							songSpeedTween = null;
@@ -3145,7 +3153,7 @@ class PlayState extends MusicBeatState
 			FlxTransitionableState.skipNextTransOut = true;
 
 			PlayState.SONG = Song.loadFromJson(song.toLowerCase() + diff, song);
-			ForeverTools.killMusic([songMusic, songMusicNew, bf_vocals, opp_vocals, vocals]);
+			EngineTools.killMusic([songMusic, songMusicNew, bf_vocals, opp_vocals, vocals]);
 
 			// deliberately did not use the main.switchstate as to not unload the assets
 			FlxG.switchState(new PlayState());
@@ -3296,7 +3304,7 @@ class PlayState extends MusicBeatState
 				case 'delusionalStreet':
 					introGraphics.push(Paths.image('UI/funkinAVI/intro/satan-' + graphic));
 				/*case 'waltRoom' | 'colorlessSight':
-					introGraphics.push(Paths.image(ForeverTools.returnSkinAsset('$graphic', 'walt', changeableSkin, 'UI'))); */
+					introGraphics.push(Paths.image(EngineTools.returnSkinAsset('$graphic', 'walt', changeableSkin, 'UI'))); */
 				case 'apartment' | 'relapseNew':
 					introGraphics.push(Paths.image('UI/funkinAVI/intro/relapse-' + graphic));
 				case 'forestOld' | 'theLoop':
@@ -3304,7 +3312,7 @@ class PlayState extends MusicBeatState
 				case 'forbiddenRealm':
 					introGraphics.push(Paths.image('UI/funkinAVI/intro/mal-' + graphic));
 				default:
-					introGraphics.push(Paths.image(ForeverTools.returnSkinAsset('$graphic', assetModifier, changeableSkin, 'UI')));
+					introGraphics.push(Paths.image(EngineTools.returnSkinAsset('$graphic', assetModifier, changeableSkin, 'UI')));
 			}
 		}
 
@@ -3416,7 +3424,7 @@ class PlayState extends MusicBeatState
 					demolitionHUD.scoreBar.visible = !bfStrums.autoplay;
 				}
 
-			default: // forever HUD
+			default: // Engine HUD
 				if (uiHUD != null)
 				{
 					uiHUD.autoplayMark.visible = bfStrums.autoplay;
@@ -3443,8 +3451,8 @@ class PlayState extends MusicBeatState
 			case 'kade': // Kade engine HUD
 			if (Init.trueSettings.get('HUD Style') == 'kade' && kadeHUD != null)	FlxTween.tween(kadeHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 
-			default: // forever HUD
-			if (Init.trueSettings.get('HUD Style') == 'forever' && uiHUD != null)	FlxTween.tween(uiHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+			default: // Engine HUD
+			if (Init.trueSettings.get('HUD Style') == 'default' && uiHUD != null)	FlxTween.tween(uiHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 		}
 
 		return Init.trueSettings.get('HUD Style');
@@ -3462,7 +3470,7 @@ class PlayState extends MusicBeatState
 			case STORY:
 				GameData.completeEpisode();
 				Main.switchState(this, new StoryMenu());
-				ForeverTools.resetMenuMusic();
+				EngineTools.resetMenuMusic();
 				clearStored = true;
 			case FREEPLAY:
 				GameData.completeFPSong();

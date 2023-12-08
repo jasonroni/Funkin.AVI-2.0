@@ -135,8 +135,8 @@ class ScriptHandler extends SScript
 		set('Main', globals.Main);
 		set('Stage', objects.Stage);
 		set('FNFSprite', base.utils.FNFUtils.FNFSprite);
-		set('ForeverAssets', base.dependency.ForeverDeps.ForeverAssets);
-		set('ForeverTools', base.dependency.ForeverDeps.ForeverTools);
+		set('EngineAssets', base.dependency.EngineDeps.EngineAssets);
+		set('EngineTools', base.dependency.EngineDeps.EngineTools);
 
 		// CLASSES (FEATHER);
 		set('FeatherSprite', base.dependency.FeatherSprite);

@@ -2,7 +2,7 @@ function onCreate()
 {
 	spawnGirlfriend(false);
 
-	var whiteVoid:FlxSprite = new FlxSprite().makeGraphic(FlxG.width * 5, FlxG.height * 5, ForeverTools.returnColor('white'));
+	var whiteVoid:FlxSprite = new FlxSprite().makeGraphic(FlxG.width * 5, FlxG.height * 5, EngineTools.returnColor('white'));
 	whiteVoid.screenCenter();
 	add(whiteVoid);
 

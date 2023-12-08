@@ -97,7 +97,7 @@ class ScoreUtils
 		"judge four" => [45, 90, 135, 180],
 		"itg" => [43, 102, 135, 180],
 		"funkin" => [33.33, 91.67, 133.33, 166.67],
-		"forever" => [45, 90, 125, 150]
+		"default" => [45, 90, 125, 150]
 	];
 
 	public static var curRating:String = null;
@@ -303,7 +303,7 @@ class ScoreUtils
 		// this updates the most so uh
 		switch (Init.trueSettings.get('HUD Style').toLowerCase())
 		{
-			case 'forever':
+			case 'default':
 				PlayState.uiHUD.updateScoreText();
 			case 'demolition':
 				PlayState.demolitionHUD.updateScoreText();

@@ -59,7 +59,7 @@ Press SHIFT to disable flashing lights & shaders.\n
 Press ESCAPE to close the game.\n
 ^You have been warned...^",
 			32);
-		warnText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, ForeverTools.setTextAlign("center"));
+		warnText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, EngineTools.setTextAlign("center"));
 		warnText.screenCenter(Y);
                 warnText.applyMarkup(warnText.text, [redTextMarker]);
 		add(warnText);

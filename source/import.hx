@@ -9,7 +9,7 @@ import gamejolt.*;
 import globals.Paths;
 import globals.*; // using doesn't have '*' support
 import base.Controls;
-import base.dependency.ForeverDeps;
+import base.dependency.EngineDeps;
 import base.utils.CoolUtil;
 import flixel.addons.display.FlxRuntimeShader;
 import globals.TypedefUtilities;

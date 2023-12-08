@@ -37,12 +37,12 @@ class MessageBox extends FlxTypedGroup<FlxBasic>
         super();
 
         boxText = new FlxText(x, y, 0, utils.text, 24);
-		boxText.setFormat(Paths.font(utils.font), 32, 0xFFFFFFFF, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		boxText.setFormat(Paths.font(utils.font), 32, 0xFFFFFFFF, EngineTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
 		boxText.scrollFactor.set();
 		boxText.camera = utils.camera;
 
 		boxSubText = new FlxText(x, boxText.y + 30, 0, utils.subText, 24);
-		boxSubText.setFormat(Paths.font(utils.font), 24, 0xFFFFFFFF, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		boxSubText.setFormat(Paths.font(utils.font), 24, 0xFFFFFFFF, EngineTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
 		boxSubText.scrollFactor.set();
 		boxSubText.camera = utils.camera;
 

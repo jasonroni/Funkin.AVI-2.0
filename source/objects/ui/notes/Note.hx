@@ -180,7 +180,7 @@ class Note extends FNFSprite
 
 		if (assetModifier != 'pixel')
 		{
-			var skinAssetPath:String = ForeverTools.returnSkinAsset(framesArg, assetModifier, changeable, '${newNote.noteType}/skins', 'data/notetypes');
+			var skinAssetPath:String = EngineTools.returnSkinAsset(framesArg, assetModifier, changeable, '${newNote.noteType}/skins', 'data/notetypes');
 			newNote.frames = Paths.getSparrowAtlas(skinAssetPath, 'data/notetypes');
 
 			newNote.animation.addByPrefix(stringSect + 'Scroll', stringSect + '0');
@@ -194,7 +194,7 @@ class Note extends FNFSprite
 		{
 			if (newNote.isSustainNote)
 			{
-				var skinAssetPath:String = ForeverTools.returnSkinAsset(framesArg, assetModifier, changeable, '${newNote.noteType}/skins', 'data/notetypes');
+				var skinAssetPath:String = EngineTools.returnSkinAsset(framesArg, assetModifier, changeable, '${newNote.noteType}/skins', 'data/notetypes');
 				newNote.loadGraphic(Paths.image(skinAssetPath, 'data/notetypes'), true, 7, 6);
 
 				newNote.animation.add(stringSect + 'holdend', [pixelData[newNote.noteData]]);
@@ -202,7 +202,7 @@ class Note extends FNFSprite
 			}
 			else
 			{
-				var skinAssetPath:String = ForeverTools.returnSkinAsset(framesArg, assetModifier, changeable, '${newNote.noteType}/skins', 'data/notetypes');
+				var skinAssetPath:String = EngineTools.returnSkinAsset(framesArg, assetModifier, changeable, '${newNote.noteType}/skins', 'data/notetypes');
 				newNote.loadGraphic(Paths.image(skinAssetPath, 'data/notetypes'), true, 17, 17);
 				newNote.animation.add(stringSect + 'Scroll', [pixelData[newNote.noteData]], 12);
 				newNote.animation.play(stringSect + 'Scroll');

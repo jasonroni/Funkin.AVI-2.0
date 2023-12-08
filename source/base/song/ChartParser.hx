@@ -9,7 +9,7 @@ import states.PlayState;
 
 /**
  * This is the Chart Parser class. it loads in charts, but also exports charts, the chart parameters are based on the type of chart, 
- * say the base game type loads the base game's charts, the forever chart type loads a custom forever structure chart with custom features,
+ * say the base game type loads the base game's charts, the engine's chart type loads a custom structure chart with custom features,
  * and so on. This class will handle both saving and loading of charts with useful features and scripts that will make things much easier
  * to handle and load, as well as much more modular!
 **/
@@ -65,7 +65,7 @@ class ChartParser
 					daNoteData = FlxG.random.int(0,3);
 
 				// create the new note
-				var swagNote:Note = ForeverAssets.generateArrow(null, PlayState.assetModifier, daStrumTime, daNoteData, daNoteType);
+				var swagNote:Note = EngineAssets.generateArrow(null, PlayState.assetModifier, daStrumTime, daNoteData, daNoteType);
 
 				// define default note parameters
 				swagNote.noteType = daNoteType;
@@ -91,7 +91,7 @@ class ChartParser
 				for (susNote in 0...Math.floor(holdL / Conductor.stepCrochet))
 				{
 					oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
-					var sustainNote:Note = ForeverAssets.generateArrow(null, PlayState.assetModifier,
+					var sustainNote:Note = EngineAssets.generateArrow(null, PlayState.assetModifier,
 								daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteData, daNoteType, true, oldNote);
 					sustainNote.scrollFactor.set();
 

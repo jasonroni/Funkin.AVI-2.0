@@ -55,7 +55,7 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 		canZoom = true;
 
 		if(!Init.trueSettings.get('Disable Flashing Lights'))
-		PlayState.camGame.flash(ForeverTools.returnColor("white"), 1);
+		PlayState.camGame.flash(EngineTools.returnColor("white"), 1);
 	}
 
 	if(curBeat == 168)
@@ -66,7 +66,7 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 		canZoom = true;
 
 		if(!Init.trueSettings.get('Disable Flashing Lights'))
-		PlayState.camGame.flash(ForeverTools.returnColor("white"), 1);
+		PlayState.camGame.flash(EngineTools.returnColor("white"), 1);
 	}
 
 	if(curBeat == 356)
@@ -79,7 +79,7 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 			PlayState.defaultCamZoom = 0.85;
 
 			if(!Init.trueSettings.get('Disable Flashing Lights'))
-			PlayState.camGame.flash(ForeverTools.returnColor("white"), 1);
+			PlayState.camGame.flash(EngineTools.returnColor("white"), 1);
 		}
 
 	if(curBeat == 424)

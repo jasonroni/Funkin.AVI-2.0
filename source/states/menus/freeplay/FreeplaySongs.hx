@@ -523,7 +523,7 @@ class FreeplaySongs extends MusicBeatState
 		if (FlxG.sound.music != null && FlxG.sound.music.playing && !closedState && freeplayMenuList != 2)
 			Conductor.songPosition = FlxG.sound.music.time;
 
-		ForeverTools.cameraBumpingZooms(FlxG.camera, 1, null, elapsed);
+		EngineTools.cameraBumpingZooms(FlxG.camera, 1, null, elapsed);
 
 		if (musicNotes != null)
 			{

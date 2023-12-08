@@ -553,7 +553,7 @@ class CharacterOffsetEditor extends MusicBeatState
 
 			switch (char.characterType)
 			{
-				case FOREVER_FEATHER:
+				case DEFAULT:
 					characterErrorFormat = 'ERROR! No animations found on Script
 					\nmake sure the offsets exist on said script
 					\nTry: addOffset(\'animationName\', xPosition, yPosition);';

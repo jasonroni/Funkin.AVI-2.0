@@ -80,7 +80,7 @@ class Strumline extends FlxSpriteGroup
 			var addX:Int = PlayState.assetModifier == 'pixel' ? -35 : -20;
 			var addY:Int = PlayState.assetModifier == 'pixel' ? 40 : 25;
 
-			var receptor:Receptor = ForeverAssets.generateUIArrows(addX + xPos, yPos, i, PlayState.assetModifier);
+			var receptor:Receptor = EngineAssets.generateUIArrows(addX + xPos, yPos, i, PlayState.assetModifier);
 			receptor.ID = i;
 
 			receptor.x -= ((keyAmount / 2) * Note.swagWidth);

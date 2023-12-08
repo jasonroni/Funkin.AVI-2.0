@@ -1,62 +1,137 @@
-
-
 function generateReceptor(receptor)
 {
-	var stringSect:String = Receptor.actions[receptor.strumData];
+	// probably gonna revise this and make it possible to add other arrow types but for now it's just pixel and normal
+	var stringSect:String = '';
+	// call arrow type I think
+	stringSect = Receptor.actions[receptorData];
 
-	receptor.frames = Paths.getSparrowAtlas(getSkinPath("NOTE_assets-" + PlayState.main.noteSkinType, "default"), 'data/notetypes');
+	receptor.frames = Paths.getSparrowAtlas(EngineTools.returnSkinAsset('$framesArg', assetModifier, 'default',
+		'$noteType/skins', 'data/notetypes'),
+		'data/notetypes');
 
 	receptor.animation.addByPrefix('static', 'arrow' + stringSect.toUpperCase());
 	receptor.animation.addByPrefix('pressed', stringSect + ' press', 24, false);
 	receptor.animation.addByPrefix('confirm', stringSect + ' confirm', 24, false);
 
 	receptor.antialiasing = true;
+	switch (PlayState.noteSkinType)
+	{
+		case 'VANILLA':
+			receptor.setGraphicSize(Std.int(receptor.width * 0.7));
+		default:
+			if (receptor.strumData == 0)
+				receptor.setGraphicSize(Std.int(receptor.width * 0.62));
+			else
+				receptor.setGraphicSize(Std.int(receptor.width * 0.6));
+	}
+
+	// set little offsets per note!
+	// so these had a little problem honestly and they make me wanna off(set) myself so the middle notes basically
+	// have slightly different offsets than the side notes (which have the same offset)
 
 	var offsetMiddleX = 0;
 	var offsetMiddleY = 0;
-	if (receptor.strumData > 0 && receptor.strumData < 3)
+	if (receptorData > 0 && receptorData < 3)
 	{
 		offsetMiddleX = 2;
 		offsetMiddleY = 2;
-		if (receptor.strumData == 1)
+		if (receptorData == 1)
 		{
 			offsetMiddleX -= 1;
 			offsetMiddleY += 2;
 		}
 	}
+
+	switch (PlayState.noteSkinType)
+	{
+		case 'VANILLA':
+			receptor.addOffset('static');
+			receptor.addOffset('pressed', -2, -2);
+			receptor.addOffset('confirm', 36 + offsetMiddleX, 36 + offsetMiddleY);
+		case 'CARTOON':
+			switch (receptor.strumData)
+			{
+				case 0:
+					receptor.addOffset('confirm', 49 + offsetMiddleX, 36 + offsetMiddleY);
+					receptor.addOffset('static', 11, -5);
+					receptor.addOffset('pressed', 9, -7);
+				case 1:
+					receptor.addOffset('confirm', 42 + offsetMiddleX, 38 + offsetMiddleY);
+					receptor.addOffset('static');
+					receptor.addOffset('pressed', -4, -4);
+				case 2:
+					receptor.addOffset('confirm', 36 + offsetMiddleX, 40 + offsetMiddleY);
+					receptor.addOffset('static');
+					receptor.addOffset('pressed', -5, -4);
+				case 3:
+					receptor.addOffset('confirm', 36 + offsetMiddleX, 36 + offsetMiddleY);
+					receptor.addOffset('static');
+					receptor.addOffset('pressed', -4, -4);
+			}
+		case 'MERCY':
+			switch (receptor.strumData)
+			{
+				case 0:
+					receptor.addOffset('confirm', 49 + offsetMiddleX, 36 + offsetMiddleY);
+					receptor.addOffset('static', 9, -5);
+					receptor.addOffset('pressed', 11, -2);
+				case 1:
+					receptor.addOffset('confirm', 42 + offsetMiddleX, 36 + offsetMiddleY);
+					receptor.addOffset('static');
+					receptor.addOffset('pressed', 1, 1);
+				case 2:
+					receptor.addOffset('confirm', 36 + offsetMiddleX, 40 + offsetMiddleY);
+					receptor.addOffset('static');
+					receptor.addOffset('pressed', 1, 1);
+				case 3:
+					receptor.addOffset('confirm', 36 + offsetMiddleX, 36 + offsetMiddleY);
+					receptor.addOffset('static');
+					receptor.addOffset('pressed', 1, 1);
+			}
+		default:
+			switch (receptor.strumData)
+			{
+				case 0:
+					receptor.addOffset('confirm', 49 + offsetMiddleX, 36 + offsetMiddleY);
+					receptor.addOffset('static', 9, -5);
+					receptor.addOffset('pressed', 6, -7);
+				case 1:
+					receptor.addOffset('confirm', 42 + offsetMiddleX, 36 + offsetMiddleY);
+					receptor.addOffset('static');
+					receptor.addOffset('pressed', -4, -4);
+				case 2:
+					receptor.addOffset('confirm', 36 + offsetMiddleX, 40 + offsetMiddleY);
+					receptor.addOffset('static');
+					receptor.addOffset('pressed', -5, -4);
+				case 3:
+					receptor.addOffset('confirm', 36 + offsetMiddleX, 36 + offsetMiddleY);
+					receptor.addOffset('static');
+					receptor.addOffset('pressed', -4, -4);
+			}
+	}
 	receptor.playAnim('static');
 }
+
+var scaleShit:Float = 0.7;
 
 function generateNote(newNote)
 {
 	var stringSect = Receptor.colors[newNote.noteData];
 	var dirSect = Receptor.actions[newNote.noteData];
 
-	if (StringTools.startsWith(Init.trueSettings.get("Note Skin"), "quant"))
-	{
-		newNote.determineQuantIndex(newNote.strumTime, newNote);
+		switch (PlayState.noteSkinType)
+		{
+			case 'VANILLA':
+				scaleShit = 0.7;
+			default:
+				scaleShit = 0.63;
+		}
 
-		//
-		newNote.loadGraphic(Paths.image("default/skins/quant/base/NOTE_quants", 'data/notetypes'), true, 157, 157);
-		newNote.animation.add('leftScroll', [0 + (newNote.noteQuant * 4)]);
-		// LOL downscroll thats so funny to me
-		newNote.animation.add('downScroll', [1 + (newNote.noteQuant * 4)]);
-		newNote.animation.add('upScroll', [2 + (newNote.noteQuant * 4)]);
-		newNote.animation.add('rightScroll', [3 + (newNote.noteQuant * 4)]);
-		newNote.playAnim(dirSect + 'Scroll');
-	}
-	else
-	{
-		// cool little thing I plan on doing to make the notes UI art different for certain songs
-		newNote.frames = Paths.getSparrowAtlas(getSkinPath('NOTE_assets-' + PlayState.main.noteSkinType, 'default'), 'data/notetypes');
+		newNote.frames = Paths.getSparrowAtlas(getSkinPath('NOTE_assets-' + PlayState.noteSkinType, 'default'), 'data/notetypes');
 		newNote.animation.addByPrefix(stringSect + 'Scroll', stringSect + '0');
 		newNote.playAnim(stringSect + 'Scroll');
-	}
 
-	if (PlayState.main.noteSkinType == 'VANILLA')
-		newNote.setGraphicSize(Std.int(newNote.width * 0.7));
-	else
-		newNote.setGraphicSize(Std.int(newNote.width * 0.63));
+	newNote.setGraphicSize(Std.int(newNote.width * scaleShit));
 	newNote.antialiasing = true;
 	newNote.updateHitbox();
 }
@@ -65,40 +140,23 @@ function generateSustain(newNote)
 {
 	var stringSect = Receptor.colors[newNote.noteData];
 
-	if (StringTools.startsWith(Init.trueSettings.get("Note Skin"), "quant"))
-	{
-		newNote.determineQuantIndex(newNote.strumTime, newNote);
-		newNote.holdHeight = 0.862;
+	switch (PlayState.noteSkinType)
+		{
+			case 'VANILLA':
+				scaleShit = 0.7;
+			default:
+				scaleShit = 0.63;
+		}
 
-		//
-		newNote.loadGraphic(Paths.image("default/skins/quant/base/HOLD_quants", 'data/notetypes'), true, 109, 52);
-		newNote.animation.add('hold', [0 + (newNote.noteQuant * 4)]);
-		newNote.animation.add('holdend', [1 + (newNote.noteQuant * 4)]);
-		newNote.animation.add('rollhold', [2 + (newNote.noteQuant * 4)]);
-		newNote.animation.add('rollend', [3 + (newNote.noteQuant * 4)]);
-		newNote.setGraphicSize(Std.int(newNote.width * 0.7));
-
-		newNote.playAnim('holdend');
-		if (newNote.prevNote != null && newNote.prevNote.isSustainNote)
-			newNote.prevNote.playAnim('hold');
-	}
-	else
-	{
-		// cool little thing I plan on doing to make the notes UI art different for certain songs
-		newNote.frames = Paths.getSparrowAtlas(getSkinPath('NOTE_assets-' + PlayState.main.noteSkinType, 'default'), 'data/notetypes');
+		newNote.frames = Paths.getSparrowAtlas(getSkinPath('NOTE_assets-' + PlayState.noteSkinType, 'default'), 'data/notetypes');
 		newNote.animation.addByPrefix(stringSect + 'holdend', stringSect + ' hold end');
 		newNote.animation.addByPrefix(stringSect + 'hold', stringSect + ' hold piece');
 		newNote.animation.addByPrefix('purpleholdend', 'pruple end hold'); // PA god dammit.
-		if (PlayState.main.noteSkinType == 'VANILLA')
-			newNote.setGraphicSize(Std.int(newNote.width * 0.7));
-		
-		if (PlayState.main.noteSkinType == 'DEFAULTSKIN' || PlayState.main.noteSkinType == 'CARTOON')
-			newNote.setGraphicSize(Std.int(newNote.width * 0.63));
+		newNote.setGraphicSize(Std.int(newNote.width * scaleShit));
 
 		newNote.playAnim(stringSect + 'holdend');
 		if (newNote.prevNote != null && newNote.prevNote.isSustainNote)
 			newNote.prevNote.playAnim(stringSect + 'hold');
-	}
 
 	newNote.antialiasing = true;
 	newNote.updateHitbox();
@@ -146,5 +204,5 @@ function generateSplash(noteSplash, noteData)
 function getSkinPath(skin:String, path:String):String
 {
 	var noteSkin = Init.trueSettings.get("Note Skin");
-	return ForeverTools.returnSkinAsset(skin, 'base', noteSkin, 'default/skins', path);
+	return EngineTools.returnSkinAsset(skin, 'base', noteSkin, 'default/skins', path);
 }

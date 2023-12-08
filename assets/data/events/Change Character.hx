@@ -24,11 +24,11 @@ function loadedEventAction(params)
 			{
 				case 'bf', 'boyfriend', 'player', '0':
 					PlayState.boyfriend.setCharacter(770, 450, params[1]);
-					if (Init.trueSettings.get('HUD Style') == 'forever') PlayState.uiHUD.iconP1.updateIcon(params[1], true);
+					if (Init.trueSettings.get('HUD Style') == 'default') PlayState.uiHUD.iconP1.updateIcon(params[1], true);
 					if (Init.trueSettings.get('HUD Style') == 'demolition') PlayState.demolitionHUD.iconP1.updateIcon(params[1], true);
 					if (Init.trueSettings.get('HUD Style') == 'psych') PlayState.psychHUD.iconP1.updateIcon(params[1], true);
 					if (PlayState.SONG.song == 'Cycled Sins') PlayState.cycledSinsHUD.iconP1.updateIcon(params[1], true);
-					if (PlayState.SONG.song == 'Isolated' || PlayState.SONG.song == 'Lunacy' || PlayState.SONG.song == 'Delusional' || PlayState.SONG.song == 'Devilish Deal') PlayState.episode1HUD.iconP1.updateIcon(params[1], false);
+					if (PlayState.SONG.song == 'Isolated' || PlayState.SONG.song == 'Lunacy' || PlayState.SONG.song == 'Delusional' || PlayState.SONG.song == 'Devilish Deal') PlayState.episode1HUD.iconP1.updateIcon(params[1], true);
 					PlayState.boyfriend.dance(true);
 	
 					if (PlayState.playerMap.get(params[1]) != null)
@@ -42,7 +42,7 @@ function loadedEventAction(params)
 	
 				default:
 					PlayState.opponent.setCharacter(100, 100, params[1]);
-					if (Init.trueSettings.get('HUD Style') == 'forever') PlayState.uiHUD.iconP2.updateIcon(params[1], false);
+					if (Init.trueSettings.get('HUD Style') == 'default') PlayState.uiHUD.iconP2.updateIcon(params[1], false);
 					if (Init.trueSettings.get('HUD Style') == 'demolition') PlayState.demolitionHUD.iconP2.updateIcon(params[1], false);
 					if (Init.trueSettings.get('HUD Style') == 'psych') PlayState.psychHUD.iconP2.updateIcon(params[1], false);
 					if (PlayState.SONG.song == 'Cycled Sins') PlayState.cycledSinsHUD.iconP2.updateIcon(params[1], false);
@@ -52,7 +52,7 @@ function loadedEventAction(params)
 					if (PlayState.opponentMap.get(params[1]) != null)
 						PlayState.opponentMap.remove(params[1]);
 			}
-			if (Init.trueSettings.get('HUD Style') == 'forever') PlayState.uiHUD.reloadHealthBar();
+			if (Init.trueSettings.get('HUD Style') == 'default') PlayState.uiHUD.reloadHealthBar();
 			if (Init.trueSettings.get('HUD Style') == 'demolition') PlayState.demolitionHUD.reloadHealthBar();
 			if (Init.trueSettings.get('HUD Style') == 'psych') PlayState.psychHUD.reloadHealthBar();
 			if (PlayState.SONG.song == 'Cycled Sins') PlayState.cycledSinsHUD.reloadHealthBar();

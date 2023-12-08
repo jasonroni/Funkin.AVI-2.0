@@ -397,7 +397,7 @@ class MainMenu extends MusicBeatState
 
 		// from the base game lol
 		var versionShit:FlxText = new FlxText(5, FlxG.height * 0.01, 0, 'Funkin.avi v2.0.0', 24);
-		versionShit.setFormat(Paths.font("DisneyFont"), 30, 0xFFFFFFFF, ForeverTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		versionShit.setFormat(Paths.font("DisneyFont"), 30, 0xFFFFFFFF, EngineTools.setTextAlign('left'), FlxTextBorderStyle.OUTLINE, 0xFF000000);
 		versionShit.scrollFactor.set();
 		versionShit.cameras = [camHUD];
 		add(versionShit);
@@ -638,7 +638,7 @@ class MainMenu extends MusicBeatState
 			enterSelection();
 		}
 
-		// It actually makes sense since some pepole doesn't know we moved to forever or just think we ported the psych editor lol
+		// It actually makes sense since some pepole doesn't know we moved to a new engine or just think we ported the psych editor lol
 		if (FlxG.keys.justPressed.SEVEN)
 		{
 			Main.switchState(this, new states.menus.PsychDebugTrollState());

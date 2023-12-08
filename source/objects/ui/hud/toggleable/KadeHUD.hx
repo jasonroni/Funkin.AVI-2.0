@@ -43,7 +43,7 @@ class KadeHUD extends FlxSpriteGroup
 	// display texts
 	public var infoDisplay:String = "";
 	public var diffDisplay:String = "";
-	public var engineDisplay:String = '';
+	public var engineDisplay:String = 'Unnamed Engine PROTOTYPE BUILD';
 
 	public var timeTxt:FlxText;
 	public var timeBar:FlxBar;
@@ -63,7 +63,7 @@ class KadeHUD extends FlxSpriteGroup
 			barY = 64;
 
 		healthBarBG = new FlxSprite(0,
-			barY).loadGraphic(Paths.image(ForeverTools.returnSkinAsset('healthBar', PlayState.assetModifier, PlayState.changeableSkin, 'UI')));
+			barY).loadGraphic(Paths.image(EngineTools.returnSkinAsset('healthBar', PlayState.assetModifier, PlayState.changeableSkin, 'UI')));
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
 		add(healthBarBG);

@@ -1,29 +1,23 @@
+var scaleShit:Float = 0.7;
+
 function generateNote(newNote)
 {
 	var stringSect = Receptor.colors[newNote.noteData];
 	var dirSect = Receptor.actions[newNote.noteData];
 
-	if (StringTools.startsWith(Init.trueSettings.get("Note Skin"), "quant"))
-	{
-		newNote.determineQuantIndex(newNote.strumTime, newNote);
+		switch (PlayState.noteSkinType)
+		{
+			case 'VANILLA':
+				scaleShit = 0.7;
+			default:
+				scaleShit = 0.63;
+		}
 
-		//
-		newNote.loadGraphic(Paths.image("default/skins/quant/base/NOTE_quants", 'data/notetypes'), true, 157, 157);
-		newNote.animation.add('leftScroll', [0 + (newNote.noteQuant * 4)]);
-		// LOL downscroll thats so funny to me
-		newNote.animation.add('downScroll', [1 + (newNote.noteQuant * 4)]);
-		newNote.animation.add('upScroll', [2 + (newNote.noteQuant * 4)]);
-		newNote.animation.add('rightScroll', [3 + (newNote.noteQuant * 4)]);
-		newNote.playAnim(dirSect + 'Scroll');
-	}
-	else
-	{
-		newNote.frames = Paths.getSparrowAtlas(getSkinPath('NOTE_assets', 'default'), 'data/notetypes');
+		newNote.frames = Paths.getSparrowAtlas(getSkinPath('NOTE_assets-' + PlayState.noteSkinType, 'default'), 'data/notetypes');
 		newNote.animation.addByPrefix(stringSect + 'Scroll', stringSect + '0');
 		newNote.playAnim(stringSect + 'Scroll');
-	}
 
-	newNote.setGraphicSize(Std.int(newNote.width * 0.7));
+	newNote.setGraphicSize(Std.int(newNote.width * scaleShit));
 	newNote.antialiasing = true;
 	newNote.noAnim = true;
 	newNote.updateHitbox();
@@ -33,35 +27,23 @@ function generateSustain(newNote)
 {
 	var stringSect = Receptor.colors[newNote.noteData];
 
-	if (StringTools.startsWith(Init.trueSettings.get("Note Skin"), "quant"))
-	{
-		newNote.determineQuantIndex(newNote.strumTime, newNote);
-		newNote.holdHeight = 0.862;
+	switch (PlayState.noteSkinType)
+		{
+			case 'VANILLA':
+				scaleShit = 0.7;
+			default:
+				scaleShit = 0.63;
+		}
 
-		//
-		newNote.loadGraphic(Paths.image("default/skins/quant/base/HOLD_quants", 'data/notetypes'), true, 109, 52);
-		newNote.animation.add('hold', [0 + (newNote.noteQuant * 4)]);
-		newNote.animation.add('holdend', [1 + (newNote.noteQuant * 4)]);
-		newNote.animation.add('rollhold', [2 + (newNote.noteQuant * 4)]);
-		newNote.animation.add('rollend', [3 + (newNote.noteQuant * 4)]);
-		newNote.setGraphicSize(Std.int(newNote.width * 0.7));
-
-		newNote.playAnim('holdend');
-		if (newNote.prevNote != null && newNote.prevNote.isSustainNote)
-			newNote.prevNote.playAnim('hold');
-	}
-	else
-	{
-		newNote.frames = Paths.getSparrowAtlas(getSkinPath('NOTE_assets', 'default'), 'data/notetypes');
+		newNote.frames = Paths.getSparrowAtlas(getSkinPath('NOTE_assets-' + PlayState.noteSkinType, 'default'), 'data/notetypes');
 		newNote.animation.addByPrefix(stringSect + 'holdend', stringSect + ' hold end');
 		newNote.animation.addByPrefix(stringSect + 'hold', stringSect + ' hold piece');
 		newNote.animation.addByPrefix('purpleholdend', 'pruple end hold'); // PA god dammit.
-		newNote.setGraphicSize(Std.int(newNote.width * 0.7));
+		newNote.setGraphicSize(Std.int(newNote.width * scaleShit));
 
 		newNote.playAnim(stringSect + 'holdend');
 		if (newNote.prevNote != null && newNote.prevNote.isSustainNote)
 			newNote.prevNote.playAnim(stringSect + 'hold');
-	}
 
 	newNote.antialiasing = true;
 	newNote.noAnim = true;
@@ -110,5 +92,5 @@ function generateSplash(noteSplash, noteData)
 function getSkinPath(skin:String, path:String):String
 {
 	var noteSkin = Init.trueSettings.get("Note Skin");
-	return ForeverTools.returnSkinAsset(skin, 'base', noteSkin, 'default/skins', path);
+	return EngineTools.returnSkinAsset(skin, 'base', noteSkin, 'default/skins', path);
 }

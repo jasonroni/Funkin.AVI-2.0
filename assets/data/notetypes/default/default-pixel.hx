@@ -93,7 +93,7 @@ function generateSplash(noteSplash, noteData)
 function getSkinPath(skin:String, path:String):String
 {
 	var noteSkin = Init.trueSettings.get("Note Skin");
-	return ForeverTools.returnSkinAsset(skin, "pixel", noteSkin, 'default/skins', path);
+	return EngineTools.returnSkinAsset(skin, "pixel", noteSkin, 'default/skins', path);
 }
 
 function onHit(newNote)
