@@ -12,6 +12,10 @@
     <haxelib name="openfl" />
     <haxelib name="actuate" />
 
+    <haxelib name="flixel" />
+	<haxelib name="flixel-addons" />
+	<haxelib name="flixel-ui" />
+
     <haxelib name="haxeui-core" />
     <haxelib name="haxeui-openfl" />
 

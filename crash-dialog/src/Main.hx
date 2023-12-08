@@ -7,6 +7,7 @@ import haxe.ui.core.Component;
 import haxe.ui.ComponentBuilder;
 import sys.io.File;
 import sys.io.Process;
+import flixel.FlxG;
 
 class Main
 {
@@ -51,12 +52,13 @@ class Main
 			var path:String = args[0];
 			var contents:String = File.getContent(path);
 			var split:Array<String> = contents.split("\n");
+			var mainView:Component;
 
 			var app = new HaxeUIApp();
 
 			app.ready(function()
 			{
-				var mainView:Component = ComponentBuilder.fromFile("assets/main-view.xml");
+				mainView = FlxG.random.bool(18) ? ComponentBuilder.fromFile("assets/main-easteregg.xml") : ComponentBuilder.fromFile("assets/main-view.xml");
 				app.addComponent(mainView);
 
 				var messageLabel:Label = mainView.findComponent("message-label", Label);
