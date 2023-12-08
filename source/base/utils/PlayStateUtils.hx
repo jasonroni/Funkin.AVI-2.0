@@ -827,6 +827,11 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 			}
 
 			case 'Lunacy':
+				if (curBeat == 100 || curBeat == 108 || curBeat == 116 || curBeat == 124 || curBeat == 132 || curBeat == 140 || curBeat == 148)
+				{
+					PlayState.main.flashBGEffect(NORMAL, {alpha: 0.5, timer: 0.5, ease: FlxEase.sineOut});
+				}
+
 				if (curBeat == 160 || curBeat == 230 || curBeat == 240 || curBeat == 248 || curBeat == 256 || curBeat == 262 || curBeat == 272
 					|| curBeat == 280 || curBeat == 280 || curBeat == 288 || curBeat == 296 || curBeat == 304 || curBeat == 312 || curBeat == 320
 					|| curBeat == 328 || curBeat == 336 || curBeat == 344 || curBeat == 352)
@@ -903,6 +908,24 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					});
 				}
 
+				if (curBeat == 100 || curBeat == 108 || curBeat == 116 || curBeat == 124 || curBeat == 132 || curBeat == 140 || curBeat == 148)
+				{
+					if (PlayState.main.chromTween != null)
+						PlayState.main.chromTween.cancel();
+	
+					PlayState.main.chromEffect = 0.4;
+	
+					PlayState.main.chromTween = FlxTween.tween(PlayState.main, {
+						chromEffect: 0.0001
+					}, 1, {
+						ease: FlxEase.sineOut,
+						onComplete: function(twn:FlxTween)
+						{
+							PlayState.main.chromTween = null;
+						}
+					});
+				}
+
 				if (curBeat == 156)
 				{
 					if (PlayState.main.chromTween != null)
@@ -937,7 +960,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					});
 				}
 
-				/*if (curBeat == 160 || curBeat == 168 || curBeat == 176 || curBeat == 184 || curBeat == 192 || curBeat == 200 || curBeat == 208
+				if (curBeat == 160 || curBeat == 168 || curBeat == 176 || curBeat == 184 || curBeat == 192 || curBeat == 200 || curBeat == 208
 					|| curBeat == 216 || curBeat == 224 || curBeat == 232 || curBeat == 240 || curBeat == 248 || curBeat == 256 || curBeat == 264
 					|| curBeat == 272 || curBeat == 280 || curBeat == 288 || curBeat == 296 || curBeat == 304 || curBeat == 312 || curBeat == 320
 					|| curBeat == 328 || curBeat == 336 || curBeat == 344)
@@ -1053,7 +1076,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 							PlayState.main.chromTween = null;
 						}
 					});
-				}*/
+				}
 
 				if (curBeat >= 228 && curBeat <= 231 || curBeat >= 236 && curBeat <= 239 || curBeat >= 244 && curBeat <= 247 || curBeat >= 252
 					&& curBeat <= 255 || curBeat >= 260 && curBeat <= 263 || curBeat >= 168 && curBeat <= 171 || curBeat >= 276 && curBeat <= 279
