@@ -87,7 +87,6 @@ class MainMenu extends MusicBeatState
 
 	var arrowTween:FlxTween;
 
-	var arrowFlash:FlxRuntimeShader = new FlxRuntimeShader(File.getContent('./assets/shaders/whiteOverlayItem.frag'), null, 120);
 	var flashThing:Float = 0.0;
 
 	var firstStart:Bool = true;
@@ -324,8 +323,8 @@ class MainMenu extends MusicBeatState
 			arrow.scrollFactor.set(0, 0);
 
 			// i think colorTransform is better than a shader in this case. i don't know, i'm just doing theories
-			if (!Init.trueSettings.get('Disable Screen Shaders'))
-				arrow.shader = arrowFlash;
+			/*if (!Init.trueSettings.get('Disable Screen Shaders'))
+				arrow.shader = arrowFlash;*/
 			add(arrow);
 
 			gradient = new FlxSprite().loadGraphic(Paths.image('filters/gradient'));
@@ -482,8 +481,6 @@ class MainMenu extends MusicBeatState
 			});
 		}
 
-		arrowFlash.setFloat('progress', flashThing);
-
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 7.5, 0, 1);
 
 		if (FlxG.keys.justPressed.R)
@@ -497,6 +494,9 @@ class MainMenu extends MusicBeatState
 
 			FlxG.sound.play(Paths.sound('funkinAVI/oof'), 1, false, null, true, () -> redGradient.destroy());
 		}
+
+		// more optimized than tweens if i'm not wrong
+		arrow.setPosition(FlxMath.lerp(arrowX, arrow.x, CoolUtil.boundTo(1 - (elapsed * 15), 0, 1)), FlxMath.lerp(arrowY, arrow.y, CoolUtil.boundTo(1 - (elapsed * 15), 0, 1)));
 
 		if (FlxG.keys.justPressed.ANY)
 		{
@@ -732,8 +732,11 @@ class MainMenu extends MusicBeatState
 		{
 			if (GameData.episode1FPLock == 'unlocked' || GameData.muckneyLock == 'beaten')
 			{
-				flashThing = 1;
-				FlxTween.tween(this, {flashThing: 0}, 1);
+				for (sillies in [arrow, menuItems.members[Math.floor(curSelected)]])
+				{
+					sillies.setColorTransform(1, 1, 1, 1, 255, 255, 255, 255);
+					FlxTween.tween(sillies.colorTransform, {redOffset: 0, greenOffset: 0, blueOffset: 0}, 1);
+				}
 				selectedSomethin = true;
 				FlxG.sound.play(Paths.sound('base/menus/confirmMenu'));
 				FlxTween.tween(camGame, {zoom: 6}, 2, {ease: FlxEase.cubeInOut, startDelay: 0.5});
@@ -802,8 +805,12 @@ class MainMenu extends MusicBeatState
 								Main.switchState(this, new states.menus.OptionsMenu());
 						}
 					});
-					flashThing = 1;
-					FlxTween.tween(this, {flashThing: 0}, 1);
+
+					for (sillies in [arrow, menuItems.members[Math.floor(curSelected)]])
+					{
+						sillies.setColorTransform(1, 1, 1, 1, 255, 255, 255, 255);
+						FlxTween.tween(sillies.colorTransform, {redOffset: 0, greenOffset: 0, blueOffset: 0}, 1);
+					}
 					selectedSomethin = true;
 					FlxG.sound.play(Paths.sound('base/menus/confirmMenu'));
 					FlxTween.tween(camGame, {zoom: 6}, 2, {ease: FlxEase.cubeInOut, startDelay: 0.5});
@@ -847,7 +854,8 @@ class MainMenu extends MusicBeatState
 					arrowX = 15;
 					arrowY = 355;
 			}
-			arrowTween = FlxTween.tween(arrow, {
+
+			/*arrowTween = FlxTween.tween(arrow, {
 				x: arrowX,
 				y: arrowY
 			}, 0.1, {
@@ -856,13 +864,13 @@ class MainMenu extends MusicBeatState
 				{
 					arrowTween = null;
 				}
-			});
+			});*/
 		}
 
+		// don't use <, worst mistake of my carrer
 		if (menuItems.members[Math.floor(curSelected)].alpha == 0.45)
 		{
-			if (!Init.trueSettings.get('Disable Screen Shaders'))
-				menuItems.members[Math.floor(curSelected)].shader = arrowFlash;
+			menuItems.members[Math.floor(curSelected)].setColorTransform(1, 1, 1, 1, 0, 0, 0, 0);
 			menuItems.members[Math.floor(curSelected)].alpha = 1;
 		}
 
