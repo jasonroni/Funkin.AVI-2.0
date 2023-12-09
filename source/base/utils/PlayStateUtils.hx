@@ -2872,6 +2872,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
             switch (controlType.toLowerCase())
             {
                 case "add" | "create":
+					// idk if i should change this cus i dont wanna fuck up and i lazy to test them lol -sylinpix
                     if (PlayState.main.cinematicBars["top"] == null)
                     {
                         PlayState.main.cinematicBars["top"] = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);

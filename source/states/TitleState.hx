@@ -306,7 +306,9 @@ class TitleState extends states.MusicBeatState
 		add(credGroup);
 		textGroup = new FlxGroup();
 
-		blackScreen = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		blackScreen = new FlxSprite().makeGraphic(1, 1, FlxColor.BLACK);
+		blackScreen.scale.set(FlxG.width * 3, FlxG.height * 3);
+		blackScreen.scrollFactor.set();
 		credGroup.add(blackScreen);
 
 		credTextShit = new Alphabet(0, 0, "", true);
@@ -316,7 +318,9 @@ class TitleState extends states.MusicBeatState
 
 		FlxTween.tween(credTextShit, {y: credTextShit.y + 20}, 2.9, {ease: FlxEase.quadInOut, type: PINGPONG});
 
-		whiteFade = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFFFFFFF);
+		whiteFade = new FlxSprite().makeGraphic(1, 1, 0xFFFFFFFF);
+		whiteFade.scale.set(FlxG.width * 3, FlxG.height * 3);
+		whiteFade.scrollFactor.set();
 		whiteFade.alpha = 0;
 		add(whiteFade);
 
@@ -557,8 +561,8 @@ class TitleState extends states.MusicBeatState
 	        }, 0);
 
 			skippedIntro = true;
-		}
-
+	}
+	
 	function windowFixesAndEvents()
 		{
 			if(Application.current.window.title.contains("Funkin.avi - Hi, wanna see me glitch?"))

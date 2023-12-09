@@ -46,7 +46,8 @@ class WarningState extends states.MusicBeatState
 
                 coolInstance = this;
 
-                var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+                var bg:FlxSprite = new FlxSprite().makeGraphic(1, 1, FlxColor.BLACK);
+                bg.scale.set(FlxG.width * 5, FlxG.height * 5);
                 add(bg);
 
                 warnText = new FlxText(0, 0, FlxG.width,
@@ -64,7 +65,9 @@ Press ESCAPE to close the game.\n
                 warnText.applyMarkup(warnText.text, [redTextMarker]);
 		add(warnText);
 
-                blackFade = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+                // todo later on: use FlxG.camera.fade
+                blackFade = new FlxSprite().makeGraphic(1, 1, FlxColor.BLACK);
+                blackFade.scale.set(FlxG.width * 5, FlxG.height * 5);
 		add(blackFade);
 
                 var scratchStuff:FlxSprite = new FlxSprite();

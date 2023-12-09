@@ -365,8 +365,10 @@ class PlayState extends MusicBeatState
 
 		add(stageBuild.layers);
 
-		stageBGFlash = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 6, FlxG.height * 6, 0xFFFFFFFF);
+		stageBGFlash = new FlxSprite().makeGraphic(1, 1, 0xFFFFFFFF);
+		stageBGFlash.scale.set(FlxG.width * 3, FlxG.height * 3);
 		stageBGFlash.alpha = 0.0001; // it's at this value so the game doesn't lag when it becomes visible
+		stageBGFlash.scrollFactor.set();
 		add(stageBGFlash);
 
 		if (curStage == 'fuckingLine')
@@ -414,8 +416,10 @@ class PlayState extends MusicBeatState
 
 		add(stageBuild.layers);
 
-		stageBGFlash = new FlxSprite(-8000, -8000).makeGraphic(100000, 100000, 0xFFFFFFFF);
+		stageBGFlash = new FlxSprite().makeGraphic(1, 1, 0xFFFFFFFF);
+		stageBGFlash.scale.set(FlxG.width * 5, FlxG.height * 5);
 		stageBGFlash.alpha = 0.0001; // it's at this value so the game doesn't lag when it becomes visible
+		stageBGFlash.scrollFactor.set();
 		add(stageBGFlash);
 
 		add(opponent);
@@ -523,9 +527,10 @@ class PlayState extends MusicBeatState
 
 		// EVERYTHING SHOULD GO UNDER THIS, IF YOU PLAN ON SPAWNING SOMETHING LATER ADD IT TO STAGEBUILD OR FOREGROUND
 		// darken everything but the arrows and ui via a flxsprite
-		var darknessBG:FlxSprite = new FlxSprite(FlxG.width * -0.5, FlxG.height * -0.5).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
+		var darknessBG:FlxSprite = new FlxSprite(FlxG.width * -0.5, FlxG.height * -0.5).makeGraphic(1, 1, FlxColor.BLACK);
 		darknessBG.alpha = (100 - Init.trueSettings.get('Stage Opacity')) / 100;
 		darknessBG.scrollFactor.set(0, 0);
+		darknessBG.scale.set(FlxG.width, FlxG.height);
 		add(darknessBG);
 
 		// strum setup
@@ -727,16 +732,18 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		fade = new FlxSprite().makeGraphic(FlxG.width * 3, FlxG.height * 3, 0x000000);
+		fade = new FlxSprite().makeGraphic(1, 1, 0x000000);
 		fade.screenCenter();
 		fade.cameras = [camHUD];
+		fade.scale.set(FlxG.width, FlxG.height);
 		fade.alpha = 0;
 		add(fade);
 
 		waltScreenThing = new FlxSprite(-FlxG.width * FlxG.camera.zoom,
-			-FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+			-FlxG.height * FlxG.camera.zoom).makeGraphic(1, 1, 0xFF000000);
 		waltScreenThing.scrollFactor.set();
 		waltScreenThing.cameras = [camAlt];
+		waltScreenThing.scale.set(FlxG.width, FlxG.height);
 		waltScreenThing.alpha = 0;
 
 		if (Init.trueSettings.get('Display Song Cards'))
@@ -1386,7 +1393,7 @@ class PlayState extends MusicBeatState
 
 		// due to the fact that some silly 19 year old guy called demo overuses the shit
 		// out of the zooms this has to exist in cases of emergency   - jason the silly !!
-		stageBGFlash.setPosition(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom);
+		// stageBGFlash.setPosition(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom);
 
 		if (!Init.trueSettings.get('Disable Flashing Lights') && stageBGFlash != null)
 		{

@@ -72,7 +72,8 @@ function onCreate()
 	mickeyEmitter.start(false, FlxG.random.float(.125, .287), 100000);
 	mickeyEmitter.emitting = false;
 	
-	whiteBG = new FlxSprite(-800, -200).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFFFFFFF);
+	whiteBG = new FlxSprite(-800, -200).makeGraphic(1, 1, 0xFFFFFFFF);
+	whiteBG.scale.set(FlxG.width, FlxG.height);
 	whiteBG.alpha = 0.001;
 	whiteBG.active = false;
 	add(whiteBG);

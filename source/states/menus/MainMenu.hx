@@ -322,6 +322,8 @@ class MainMenu extends MusicBeatState
 			arrow.setGraphicSize(Std.int(arrow.width * 0.3));
 			arrow.screenCenter(X);
 			arrow.scrollFactor.set(0, 0);
+
+			// i think colorTransform is better than a shader in this case. i don't know, i'm just doing theories
 			if (!Init.trueSettings.get('Disable Screen Shaders'))
 				arrow.shader = arrowFlash;
 			add(arrow);

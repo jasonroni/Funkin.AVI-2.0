@@ -12,7 +12,8 @@ function onCreate()
   
 	var thePath:String = 'data/stages/staticVoid/images';
 
-	var whoaBlackBG:FlxSprite = new FlxSprite(0, 0).makeGraphic(2000, 2000, 0x000000);
+	var whoaBlackBG:FlxSprite = new FlxSprite(0, 0).makeGraphic(1, 1, 0x000000);
+	whoaBlackBG.scale.set(FlxG.width * 4, FlxG.height * 4);
 	whoaBlackBG.screenCenter();
 	add(whoaBlackBG);
 

@@ -45,7 +45,8 @@ class DisclaimerState extends MusicBeatState
         {
                 Application.current.window.title = 'Funkin.avi - DISCLAIMER';
 
-                var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+                var bg:FlxSprite = new FlxSprite().makeGraphic(1, 1, FlxColor.BLACK);
+                bg.scale.set(FlxG.width * 5, FlxG.height * 5);
                 add(bg);
 
                 warnText = new FlxText(0, 0, FlxG.width,
@@ -59,7 +60,9 @@ Press ENTER to continue.\nPress ESCAPE to close the game.\n\n^Last chance to tur
                 warnText.applyMarkup(warnText.text, [redTextMarker, grayTextMarker, cyanTextMarker]);
                 add(warnText);
 
-                blackFade = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+                 // todo later on: use FlxG.camera.fade
+                blackFade = new FlxSprite().makeGraphic(1, 1, FlxColor.BLACK);
+                blackFade.scale.set(FlxG.width * 5, FlxG.height * 5);
                 add(blackFade);
 
                 var scratchStuff:FlxSprite = new FlxSprite();

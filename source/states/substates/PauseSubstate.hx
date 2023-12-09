@@ -79,8 +79,9 @@ class PauseSubstate extends MusicBeatSubstate
 			mutex.release();
 		});
 
-		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		var bg:FlxSprite = new FlxSprite().makeGraphic(1, 1, FlxColor.BLACK);
 		bg.alpha = 0;
+		bg.scale.set(FlxG.width, FlxG.height);
 		bg.scrollFactor.set();
 		add(bg);
 
