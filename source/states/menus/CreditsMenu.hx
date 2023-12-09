@@ -153,7 +153,7 @@ class CreditsMenu extends MusicBeatState
 			cool_1980_shader.setFloat('iTime', shaderTime);
 		}
 
-		ForeverTools.cameraBumpingZooms(FlxG.camera, 1, null, elapsed);
+		EngineTools.cameraBumpingZooms(FlxG.camera, 1, null, elapsed);
 
 		if (Controls.getPressEvent("ui_up"))
 		{
@@ -176,7 +176,7 @@ class CreditsMenu extends MusicBeatState
 	{
 		super.destroy();
 
-		ForeverTools.resetMenuMusic();
+		EngineTools.resetMenuMusic();
 	}
 
 	function jsonStuff()

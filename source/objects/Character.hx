@@ -29,7 +29,7 @@ class Character extends FNFSprite
 	public var hasMissAnims:Bool = false;
 	public var danceIdle:Bool = false;
 
-	public var characterType:String = FOREVER_FEATHER;
+	public var characterType:String = DEFAULT;
 	public var characterData:CharacterData;
 
 	public var characterScripts:Array<ScriptHandler> = [];
@@ -363,7 +363,7 @@ class Character extends FNFSprite
 
 		if (!pushedChars.contains(char))
 		{
-			var script:ScriptHandler = new ScriptHandler(Paths.characterModule(char, 'config', FOREVER_FEATHER));
+			var script:ScriptHandler = new ScriptHandler(Paths.characterModule(char, 'config', DEFAULT));
 
 			if (script.interp == null)
 				trace("Something terrible occured! Skipping.");

@@ -55,7 +55,7 @@ as this is simply a project based on the creepypasta:\n+\"SUICIDEMOUSE.avi\".+\n
 certain songs in this modification of:\n#\"Friday Night Funkin'\".#\nIf you are squirmish about the sight or thought of ^blood^,\nthis mod isn't for you.\n\n
 Press ENTER to continue.\nPress ESCAPE to close the game.\n\n^Last chance to turn back...^",
                     32);
-		warnText.setFormat("VCR OSD Mono", 28, FlxColor.WHITE, ForeverTools.setTextAlign("center"));
+		warnText.setFormat("VCR OSD Mono", 28, FlxColor.WHITE, EngineTools.setTextAlign("center"));
                 warnText.screenCenter(Y);
                 warnText.applyMarkup(warnText.text, [redTextMarker, grayTextMarker, cyanTextMarker]);
                 add(warnText);

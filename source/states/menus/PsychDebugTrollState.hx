@@ -57,12 +57,12 @@ class PsychDebugTrollState extends MusicBeatState
 		add(eyes);
 	   
 		upText = new FlxText(0, 20, 0, 'Lmao, you thought this was on Psych Engine?', 32);
-		upText.setFormat(Paths.font('DisneyFont'), 50, ForeverTools.setTextAlign('center'), FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		upText.setFormat(Paths.font('DisneyFont'), 50, EngineTools.setTextAlign('center'), FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		upText.screenCenter(X);
 		add(upText);
 
 		downText = new FlxText(0, 560, 0, 'It\'s on Another Engine ya bum, silly Psych Engine kid.\n(Press ESC to leave)', 32);
-		downText.setFormat(Paths.font('DisneyFont'), 50, ForeverTools.setTextAlign('center'), FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		downText.setFormat(Paths.font('DisneyFont'), 50, EngineTools.setTextAlign('center'), FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		downText.screenCenter(X);
 		add(downText);
 

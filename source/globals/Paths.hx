@@ -465,7 +465,7 @@ class Paths
 		{
 			case PSYCH_ENGINE:
 				extension = '.json';
-			case FOREVER_FEATHER:
+			case DEFAULT:
 				// this is diabolic;
 				for (j in scriptExts)
 				{

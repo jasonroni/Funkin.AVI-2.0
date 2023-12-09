@@ -39,7 +39,8 @@ class ClassHUD extends FlxSpriteGroup
 	// display texts
 	public var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
 	public var diffDisplay:String = '[${CoolUtil.difficultyString}]';
-	public var engineDisplay:String = '';
+	public var engineDisplay:String = 'Funkin.avi v2.0.0';
+	public var engineSub:String = 'Unnamed Engine PROTOTYPE BUILD';
 
 	// eep
 	public function new()
@@ -53,7 +54,7 @@ class ClassHUD extends FlxSpriteGroup
 			barY = 64;
 
 		healthBarBG = new FlxSprite(0,
-			barY).loadGraphic(Paths.image(ForeverTools.returnSkinAsset('healthBar', PlayState.assetModifier, PlayState.changeableSkin, 'UI')));
+			barY).loadGraphic(Paths.image(EngineTools.returnSkinAsset('healthBar', PlayState.assetModifier, PlayState.changeableSkin, 'UI')));
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
 		add(healthBarBG);
@@ -212,7 +213,7 @@ class ClassHUD extends FlxSpriteGroup
 		}
 
 		// update playstate
-		if(Init.trueSettings.get('HUD Style') == "forever") //fix i think
+		if(Init.trueSettings.get('HUD Style') == "Engine") //fix i think
 			PlayState.detailsSub = scoreBar.text;
 
 		PlayState.updateRPC(false);

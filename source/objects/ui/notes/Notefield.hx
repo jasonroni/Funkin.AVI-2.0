@@ -42,6 +42,9 @@ class Notefield extends FlxTypedGroup<Note>
 
 	public function noteCalls(daNote:Note, strumline:Strumline)
 	{
+		// for specific skins
+		var skinOffset:Float = 0;
+
 		// set the notes x and y
 		var downscrollMultiplier:Float = (strumline.downscroll ? -1: 1) * (FlxMath.signOf(PlayState.main.songSpeed) * daNote.speedMult);
 
@@ -56,6 +59,16 @@ class Notefield extends FlxTypedGroup<Note>
 		var psuedoX = 25 + daNote.noteVisualOffset;
 
 		daNote.noteDirection = strumline.receptors.members[Math.floor(daNote.noteData)].strumDirection;
+
+		switch (PlayState.noteSkinType)
+		{
+			case 'MERCY':
+				skinOffset = 5;
+			case 'VANILLA':
+				skinOffset = 0;
+			default:
+				skinOffset = 10;
+		}
 
 		if (downscrollMultiplier == -1) // Downscroll
 			{
@@ -74,7 +87,7 @@ class Notefield extends FlxTypedGroup<Note>
 			// painful math equation
 			daNote.x = strumline.receptors.members[Math.floor(daNote.noteData)].x
 				+ (Math.cos(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoX)
-				+ (Math.sin(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoY) + (PlayState.assetModifier == 'base' ? 10 : 0);
+				+ (Math.sin(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoY) + skinOffset;
 
 			// also set note rotation
 			daNote.angle = -daNote.noteDirection;

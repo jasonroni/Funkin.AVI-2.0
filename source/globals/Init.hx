@@ -161,7 +161,7 @@ class Init extends FlxState
 			Selector,
 			"Chooses a UI Style for gameplay",
 			NOT_FORCED,
-			['demolition', 'vanilla', 'kade', 'psych']
+			['default', 'demolition', 'vanilla', 'kade', 'psych']
 		],
 		"UI Skin" => [
 			'default',
@@ -261,11 +261,11 @@ class Init extends FlxState
 			NOT_FORCED,
 		],
 		"Timing Preset" => [
-			'forever',
+			'default',
 			Selector,
 			"Chooses what preset should be used for Judgement Timing Windows.",
 			NOT_FORCED,
-			['forever', 'funkin', 'judge four', 'itg']
+			['default', 'funkin', 'judge four', 'itg']
 		],
 		"Display Miss Judgement" => [
 			true,

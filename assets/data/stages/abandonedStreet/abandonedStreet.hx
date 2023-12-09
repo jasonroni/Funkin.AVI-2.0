@@ -110,7 +110,7 @@ function onCreate()
 		fireThing2.frames = Paths.getSparrowAtlas('delusional-fire', pathWay);
 		fireThing2.animation.addByPrefix('burning', 'delusional-fire fire-idle', 16, true);
 		fireThing2.scrollFactor.set(0.8, 0.8);
-		fireThing2.blend = ForeverTools.returnBlendMode('add');
+		fireThing2.blend = EngineTools.returnBlendMode('add');
 		add(fireThing2);
 		fireThing2.animation.play('burning');
 
@@ -133,7 +133,7 @@ function onCreate()
 				smoke.animation.addByPrefix('smoke', spriteShit[i] + ' idle', 4, true);
 				smoke.scale.set(1.3, 1.35);
 				smoke.alpha = 0.001;
-				smoke.blend = ForeverTools.returnBlendMode('add');
+				smoke.blend = EngineTools.returnBlendMode('add');
 				smoke.animation.play('smoke');
 				switch (smoke.ID)
 				{
@@ -156,7 +156,7 @@ function onCreate()
 				smoke.animation.addByPrefix('smoke', spriteShitForeground[i] + ' idle', 4, true);
 				smoke.scale.set(1.6, 1.4);
 				smoke.alpha = 0.001;
-				smoke.blend = ForeverTools.returnBlendMode('add');
+				smoke.blend = EngineTools.returnBlendMode('add');
 				smoke.animation.play('smoke');
 				switch (smoke.ID)
 				{
@@ -174,7 +174,7 @@ function onCreate()
 			fireForeground.frames = Paths.getSparrowAtlas('delusional-fire', pathWay);
 			fireForeground.animation.addByPrefix('burningShit', 'delusional-fire fire-idle', 16, true);
 			fireForeground.scrollFactor.set(1.35, 1.18);
-			fireForeground.blend = ForeverTools.returnBlendMode('add');
+			fireForeground.blend = EngineTools.returnBlendMode('add');
 			foreground.add(fireForeground);
 			fireForeground.animation.play('burningShit');
 
@@ -301,7 +301,7 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 				if (fireTweenHandler != null)
 					fireTweenHandler.cancel();
 
-				fireTweenHandler = FlxTween.tween(fireThing, {alpha: 0.75, y: -250}, 0.35, {ease: ForeverTools.returnTweenEase('sineOut'), onComplete: function(twn:FlxTween)
+				fireTweenHandler = FlxTween.tween(fireThing, {alpha: 0.75, y: -250}, 0.35, {ease: EngineTools.returnTweenEase('sineOut'), onComplete: function(twn:FlxTween)
 					{
 						fireTweenHandler = null;
 					}
@@ -312,7 +312,7 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 				if (fireTweenHandler != null)
 					fireTweenHandler.cancel();
 
-				fireTweenHandler = FlxTween.tween(fireThing, {alpha: 0.0001, y: -80}, 0.35, {ease: ForeverTools.returnTweenEase('sineOut'), onComplete: function(twn:FlxTween)
+				fireTweenHandler = FlxTween.tween(fireThing, {alpha: 0.0001, y: -80}, 0.35, {ease: EngineTools.returnTweenEase('sineOut'), onComplete: function(twn:FlxTween)
 					{
 						fireTweenHandler = null;
 					}
@@ -323,7 +323,7 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 				if (fireTweenHandler != null)
 					fireTweenHandler.cancel();
 
-				fireTweenHandler = FlxTween.tween(fireThing, {alpha: 1, y: -350}, 19.5, {ease: ForeverTools.returnTweenEase('sineInOut'), onComplete: function(twn:FlxTween)
+				fireTweenHandler = FlxTween.tween(fireThing, {alpha: 1, y: -350}, 19.5, {ease: EngineTools.returnTweenEase('sineInOut'), onComplete: function(twn:FlxTween)
 					{
 						fireTweenHandler = null;
 					}
@@ -336,7 +336,7 @@ function onBeat(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
 			}
 			if (curBeat == 536)
 			{
-				fireTweenHandler = FlxTween.tween(fireThing, {alpha: 0, y: 0}, 1, {ease: ForeverTools.returnTweenEase('sineOut'), onComplete: function(twn:FlxTween)
+				fireTweenHandler = FlxTween.tween(fireThing, {alpha: 0, y: 0}, 1, {ease: EngineTools.returnTweenEase('sineOut'), onComplete: function(twn:FlxTween)
 					{
 						fireTweenHandler = null;
 					}
@@ -512,10 +512,10 @@ function summonWeedMakerLmfao()
 	{
 		tumbleWeed = new FlxSprite(1800, 490).loadGraphic(Paths.image('THELEGENDARYTUMBLEWEED', pathWay));
 		tumbleWeed.scale.set(0.6, 0.6);
-		FlxTween.tween(tumbleWeed, {angle: -360}, 0.5, {type: ForeverTools.returnTweenType('looping')});
+		FlxTween.tween(tumbleWeed, {angle: -360}, 0.5, {type: EngineTools.returnTweenType('looping')});
 		foreground.add(tumbleWeed);
 
-		FlxTween.tween(tumbleWeed, {y: 825}, 0.1, {ease: ForeverTools.returnTweenEase('sineInOut'), type: ForeverTools.returnTweenType('pingpong')});
+		FlxTween.tween(tumbleWeed, {y: 825}, 0.1, {ease: EngineTools.returnTweenEase('sineInOut'), type: EngineTools.returnTweenType('pingpong')});
 
 		FlxTween.tween(tumbleWeed, {x: -1200}, 2, {onComplete: function(twn:FlxTween)
 		{
@@ -525,10 +525,10 @@ function summonWeedMakerLmfao()
 	else
 	{
 		tumbleWeed = new FlxSprite(1800, 600).loadGraphic(Paths.image('Tumble_' + FlxG.random.int(0,1), pathWay));
-		FlxTween.tween(tumbleWeed, {angle: -360}, 1.7, {type: ForeverTools.returnTweenType('looping')});
+		FlxTween.tween(tumbleWeed, {angle: -360}, 1.7, {type: EngineTools.returnTweenType('looping')});
 		foreground.add(tumbleWeed);
 
-		FlxTween.tween(tumbleWeed, {y: 735}, 0.75, {ease: ForeverTools.returnTweenEase('sineIn'), type: ForeverTools.returnTweenType('pingpong')});
+		FlxTween.tween(tumbleWeed, {y: 735}, 0.75, {ease: EngineTools.returnTweenEase('sineIn'), type: EngineTools.returnTweenType('pingpong')});
 
 		FlxTween.tween(tumbleWeed, {x: -1200}, 5.6, {onComplete: function(twn:FlxTween)
 		{

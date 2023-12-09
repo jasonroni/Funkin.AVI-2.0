@@ -37,7 +37,7 @@ function onCreate()
 	funiLight.antialiasing = true;
 	funiLight.scrollFactor.set(1, 1);
 	funiLight.alpha = 0.6;
-	funiLight.blend = ForeverTools.returnBlendMode("add");
+	funiLight.blend = EngineTools.returnBlendMode("add");
 	funiLight.active = false;
 	foreground.add(funiLight);
 

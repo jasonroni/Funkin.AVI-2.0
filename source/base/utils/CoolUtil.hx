@@ -124,7 +124,7 @@ class CoolUtil
 
 	/** Quick Function to Fix Save Files for Flixel 5
 		if you are making a mod, you are gonna wanna change "Dunkin-Funkin" to something else
-		so Forever saves won't conflict with yours
+		so the engine saves won't conflict with yours
 		@BeastlyGabi
 	**/
 	public static function getSavePath(folder:String = 'Dunkin-Funkin'):String

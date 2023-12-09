@@ -81,40 +81,13 @@ class DemolitionHUD extends FlxSpriteGroup
 	public var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
 	public var diffDisplay:String = '[${CoolUtil.difficultyString}]';
 	public var engineDisplay:String = "Funkin.avi v2.0.0";
+	public var engineSub:String = "Unnamed Engine PROTOTYPE BUILD";
 
 	// eep
 	public function new()
 	{
 		// call the initializations and stuffs
 		super();
-		
-		/*// time bar stuff
-		timeBarBG = new FlxSprite(0, 0).loadGraphic(Paths.image(ForeverTools.returnSkinAsset('healthBar', PlayState.assetModifier, PlayState.changeableSkin, 'UI')));
-		timeBarBG.x = 600;
-		if (Init.trueSettings.get('Downscroll')) timeBarBG.y = 0.063 * FlxG.height; else timeBarBG.y = 673;
-		timeBarBG.scrollFactor.set();
-		
-		timeBar = new FlxBar(timeBarBG.x + 4, timeBarBG.y + 4, RIGHT_TO_LEFT, Std.int(timeBarBG.width - 8), Std.int(timeBarBG.height - 8));
-		timeBar.scrollFactor.set();
-		switch(PlayState.SONG.song)
-		{
-			case 'Bless':
-				timeBar.createFilledBar(0xFFFF0000, 0xFFFFF200);
-			case 'Scrapped':
-				timeBar.createFilledBar(0xFF0008FF, 0xFF11C700);
-			case 'Sink':
-				timeBar.createFilledBar(0xFF630000, 0xFFD70000);
-			case 'Invincible':
-				timeBar.createFilledBar(0xFF000000, 0xFF52627D);
-			case 'Neglection':
-				timeBar.createFilledBar(0xFF0088FF, 0xFFE2E2E2);
-			case 'Infitrigger':
-				timeBar.createFilledBar(0xFFFFFFFF, 0xFFD400FF);
-			case 'Mercy':
-				timeBar.createFilledBar(0xFFC78800, 0xFFFFF4BA);
-			default:
-				timeBar.createFilledBar(0xFF2E2E2E, 0xFFB7B7B7);
-		}*/
 		
 		if (Init.trueSettings.get('Downscroll')) songTime = new FlxText(-108, 655, 400, "", 32); else songTime = new FlxText(-108, 100, 400, "", 32);
 		songTime.setFormat(Paths.font("VanillaExtractRegular"), 13, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -128,7 +101,7 @@ class DemolitionHUD extends FlxSpriteGroup
 
 		// le healthbar setup
 		healthBarBG = new FlxSprite(0,
-			0).loadGraphic(Paths.image(ForeverTools.returnSkinAsset('healthBar-Long', PlayState.assetModifier, PlayState.changeableSkin, 'UI')));
+			0).loadGraphic(Paths.image(EngineTools.returnSkinAsset('healthBar-Long', PlayState.assetModifier, PlayState.changeableSkin, 'UI')));
 		healthBarBG.y = FlxG.height * 0.95;
 		healthBarBG.x = 230;
 		//healthBarBG.scale.set(1.6, 1);
