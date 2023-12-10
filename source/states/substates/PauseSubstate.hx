@@ -88,7 +88,7 @@ class PauseSubstate extends MusicBeatSubstate
 		disc = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/pause/disc'));
 		disc.setPosition(200, 0); // sets it off-screen
 		disc.origin.set(970, 558); // is it centered now?
-		FlxTween.tween(disc, {angle: 360}, 2.5, {type: FlxTweenType.LOOPING});
+		FlxTween.tween(disc, {angle: 360}, 2.5, {type: LOOPING});
 		add(disc);
 
 		var getArt:String = 'menus/Funkin_avi/pause/songs/';
@@ -273,16 +273,8 @@ class PauseSubstate extends MusicBeatSubstate
 										Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
 									}
 								default:
-									if (PlayState.SONG.song.endsWith('Legacy')) // me when StringTools optimizes the code
-									{
-										states.menus.freeplay.FreeplaySongs.freeplayMenuList = 2;
-										Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
-									}
-									else
-									{
-										states.menus.freeplay.FreeplaySongs.freeplayMenuList = 1;
-										Main.switchState(this, new states.menus.freeplay.FreeplaySongs()); // yeah, there's no way I'm making a case for EVERY fucking song in that menu, too much work!
-									}
+									states.menus.freeplay.FreeplaySongs.freeplayMenuList = PlayState.SONG.song.toLowerCase().endsWith('legacy') ? 2 : 1;
+									Main.switchState(this, new states.menus.freeplay.FreeplaySongs()); // yeah, there's no way I'm making a case for EVERY fucking song in that menu, too much work!
 							}
 					}
 			}
@@ -325,20 +317,20 @@ class PauseSubstate extends MusicBeatSubstate
 	 * *Song name here*
 	 * Artwork: artist here
 	 * Charting: charters here
-	 * Coding: coders here
+	 * Programming: programmers here
 	 * Music: composers here
 	 * ```
-	 * @return String
+	 * @return The `String` of the `credits.txt` file.
 	 */
 	function getSongPath():String
+	{
+		// checks file existence for prevent crashes
+		if(FileSystem.exists(Paths.getPath('songs/${PlayState.SONG.song.toLowerCase()}/credits.txt', TEXT)))
 		{
-			// checks file existence for prevent crashes
-			if(FileSystem.exists(Paths.getPath('songs/${PlayState.SONG.song.toLowerCase()}/credits.txt', TEXT)))
-				{
-					return Paths.getTextFile('songs/${PlayState.SONG.song.toLowerCase()}/credits.txt', TEXT);
-				} else {
-					// default text in case it does not exist
-					return Paths.getTextFile('data/defaultSongCredit.txt', TEXT);
-				}
+			return Paths.getTextFile('songs/${PlayState.SONG.song.toLowerCase()}/credits.txt', TEXT);
+		} else {
+			// default text in case it does not exist
+			return Paths.getTextFile('data/defaultSongCredit.txt', TEXT);
 		}
+	}
 }

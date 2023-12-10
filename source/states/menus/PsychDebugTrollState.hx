@@ -40,13 +40,17 @@ class PsychDebugTrollState extends MusicBeatState
       	bloom = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/bloom.frag'), null, 120);
       	monitor = new FlxRuntimeShader(Shaders.monitorFilter, null, 140);
 
-      	noBitchCam.setFilters([
-          	new openfl.filters.ShaderFilter(bloom),
-			new openfl.filters.ShaderFilter(monitor)
-        ]);
+		// me when the uhhhh
+      	if (!Init.trueSettings.get('Disable Screen Shaders'))
+		{
+			noBitchCam.setFilters([
+				new openfl.filters.ShaderFilter(bloom),
+			 	new openfl.filters.ShaderFilter(monitor)
+		  	]);
+		}
 
-        background = new FlxSprite(0, 0).makeGraphic(FlxG.width, 1000, FlxColor.BLACK);
-		background.scale.set(5, 5);
+        background = new FlxSprite(0, 0).makeGraphic(1, 1, FlxColor.BLACK);
+		background.scale.set(FlxG.width * 4, FlxG.height * 4);
         background.cameras = [bgCam];
 
       	var eyes:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menus/Funkin_avi/NEWmenu/HahaSadBoi'));
@@ -66,29 +70,25 @@ class PsychDebugTrollState extends MusicBeatState
 		downText.screenCenter(X);
 		add(downText);
 
-        var scratchStuff:FlxSprite = new FlxSprite();
-		scratchStuff.frames = Paths.getSparrowAtlas('filters/scratchShit');
-		scratchStuff.animation.addByPrefix('idle', 'scratch thing 1', 24, true);
-		scratchStuff.animation.play('idle');
-		scratchStuff.screenCenter();
-		scratchStuff.scale.x = 1.1;
-		scratchStuff.scale.y = 1.1;
-		add(scratchStuff);
+		if(!Init.trueSettings.get('Low Quality')) {
+			var scratchStuff:FlxSprite = new FlxSprite();
+			scratchStuff.frames = Paths.getSparrowAtlas('filters/scratchShit');
+			scratchStuff.animation.addByPrefix('idle', 'scratch thing 1', 24, true);
+			scratchStuff.animation.play('idle');
+			scratchStuff.screenCenter();
+			scratchStuff.scale.x = 1.1;
+			scratchStuff.scale.y = 1.1;
+			add(scratchStuff);
 
-		var grain:FlxSprite = new FlxSprite();
-		grain.frames = Paths.getSparrowAtlas('filters/Grainshit');
-		grain.animation.addByPrefix('idle', 'grains 1', 24, true);
-		grain.animation.play('idle');
-		grain.screenCenter();
-		grain.scale.x = 1.1;
-		grain.scale.y = 1.1;
-		add(grain);
-
-		if(Init.trueSettings.get('Low Quality'))
-			{
-				grain.destroy();
-				scratchStuff.destroy();
-			}
+			var grain:FlxSprite = new FlxSprite();
+			grain.frames = Paths.getSparrowAtlas('filters/Grainshit');
+			grain.animation.addByPrefix('idle', 'grains 1', 24, true);
+			grain.animation.play('idle');
+			grain.screenCenter();
+			grain.scale.x = 1.1;
+			grain.scale.y = 1.1;
+			add(grain);
+		}
    }
 
    override public function update(elapsed:Float) 

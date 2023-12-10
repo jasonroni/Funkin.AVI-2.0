@@ -155,8 +155,81 @@ class Paths
 				FlxG.bitmap.remove(graphic);
 			}
 		}
+
+		// remove the cached strings
+		currentStrings.clear();
+
 		// idk if this does anything.
 		// THANK YOU MALICIOUS BUNNY!!
+	}
+
+	// https://github.com/riconuts/troll-engine/blob/main/source/Paths.hx
+	// btw this is probably gonna be the return of language support
+	// (but good edition)
+
+	static public var currentStrings:Map<String,String> = [];
+
+	public static function getAllStrings()
+	{
+		currentStrings.clear();
+
+		for (filePath in Paths.getFolders("data"))
+		{
+			var file = filePath + "strings.txt";
+			if (!FileSystem.exists(file)) continue;
+
+			var stringsText:String = null;
+			if (FileSystem.exists(file))
+				File.getContent(file);
+
+			var daLines = stringsText.trim().split("\n");
+
+			for(shit in daLines){
+				var splitted = shit.split("=");
+				var thisKey = splitted.shift();
+
+				if (!currentStrings.exists(thisKey))
+					currentStrings.set(thisKey, splitted.join("=").trim().replace('\\n', '\n'));
+			}
+		}
+	}
+
+	public static function getString(key:String):String
+	{
+		if (currentStrings.exists(key))
+			return currentStrings.get(key);
+		
+		// currentStrings.set(key, '');
+
+		for (filePath in Paths.getFolders("data"))
+		{
+			var file = filePath + "strings.txt";
+			if (!FileSystem.exists(file)) continue;
+
+			//trace(filePath);
+			var stringsText:String = FileSystem.exists(file) ? File.getContent(file) : null;
+			
+			var daLines = stringsText.trim().split("\n");
+
+			for(shit in daLines){
+				var splitted = shit.split("=");
+				var thisKey = splitted.shift();
+				if (thisKey == key){
+					currentStrings.set(key, splitted.join("=").trim().replace('\\n', '\n'));
+					return currentStrings.get(key);
+				}
+			}
+		}
+
+		trace('$key has no attached value');
+		return key;
+	}
+
+	inline static public function getFolders(dir:String){
+		var foldersToCheck:Array<String> = [];
+		foldersToCheck.push(Paths.getPreloadPath('$dir/'));
+
+		return foldersToCheck;
 	}
 
 	public static function returnGraphic(key:String, ?folder:String, ?library:String, ?gpuRender:Bool = false)

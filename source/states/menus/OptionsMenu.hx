@@ -22,11 +22,14 @@ class OptionsMenu extends BaseOptions
 
 		defaultShader = new FlxRuntimeShader(Shaders.grayScale, null, 140);
 		defaultShader2 = new FlxRuntimeShader(Shaders.monitorFilter, null, 140);
-		FlxG.camera.setFilters(
-			[
-				new openfl.filters.ShaderFilter(defaultShader),
-				new openfl.filters.ShaderFilter(defaultShader2)
-			]);
+
+		if (!Init.trueSettings.get('Disable Screen Shaders')) {
+			FlxG.camera.setFilters(
+				[
+					new openfl.filters.ShaderFilter(defaultShader),
+					new openfl.filters.ShaderFilter(defaultShader2)
+				]);
+		}
 
 		bg = new FlxSprite().loadGraphic(Paths.image('menus/base/menuDesat'));
 		bg.scrollFactor.set(0, 0.18);
