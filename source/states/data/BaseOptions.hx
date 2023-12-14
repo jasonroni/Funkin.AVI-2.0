@@ -1,5 +1,7 @@
 package states.data;
 
+import flixel.FlxSprite;
+import openfl.filters.BitmapFilter;
 import base.dependency.Discord;
 import flixel.FlxBasic;
 import flixel.FlxG;
@@ -306,6 +308,20 @@ class BaseOptions extends MusicBeatState
 
 			// save the setting
 			Init.saveSettings();
+
+			var filter:Array<BitmapFilter> = Init.trueSettings.get('Disable Screen Shaders') ? [] : [new openfl.filters.ShaderFilter(new FlxRuntimeShader(Shaders.grayScale, null, 140)), new openfl.filters.ShaderFilter(new FlxRuntimeShader(Shaders.monitorFilter, null, 140))];
+
+			switch (alphabetGroup.members[curSelected].text)
+			{
+				case 'Disable Screen Shaders': FlxG.camera.setFilters(filter);
+
+				// i dont think this is working
+				case 'Disable Antialiasing': forEachOfType(FlxSprite, (sprite:FlxSprite) -> { 
+					sprite.antialiasing = !Init.trueSettings.get('Disable Antialiasing');
+				});
+
+				case 'Screen Shake': if (Init.trueSettings.get('Screen Shake')) FlxG.camera.shake(0.007, 1);
+			}
 		}
 	}
 
@@ -373,6 +389,8 @@ class BaseOptions extends MusicBeatState
 
 			Init.trueSettings.set(selector.name, selector.chosenOptionString);
 			Init.saveSettings();
+
+			if (selector.name == 'Cursor Style') FlxG.mouse.load(Paths.image('UI/funkinAVI/mouses/${selector.chosenOptionString}').bitmap);
 
 			// trace('${selector.name} is: ${selector.chosenOptionString}');
 		}

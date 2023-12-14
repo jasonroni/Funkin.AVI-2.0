@@ -436,25 +436,23 @@ class FreeplaySongs extends MusicBeatState
 			grain.scale.y = 1.1;
 			add(grain);
 
-			gradient = new FlxSprite().loadGraphic(Paths.image('UI/gimmicks/gradient'));
-			gradient.screenCenter();
-			gradient.setGraphicSize(Std.int(gradient.width * 0.8));
-	 		add(gradient);
+			if (freeplayMenuList != 2)
+			{
+				gradient = new FlxSprite().loadGraphic(Paths.image('UI/gimmicks/gradient'));
+				gradient.screenCenter();
+				gradient.setGraphicSize(Std.int(gradient.width * 0.8));
+				add(gradient);
 
-			coolFilter = new FlxSprite().loadGraphic(Paths.image(path + 'thing'));
-			coolFilter.screenCenter();
-			add(coolFilter);
+				coolFilter = new FlxSprite().loadGraphic(Paths.image(path + 'thing'));
+				coolFilter.screenCenter();
+				add(coolFilter);
+
+				gradient.cameras = [camHUD];
+				coolFilter.cameras = [camHUD];
+			}
 
 			scratchStuff.cameras = [camHUD];
 			grain.cameras = [camHUD];
-			gradient.cameras = [camHUD];
-			coolFilter.cameras = [camHUD];
-
-			if (freeplayMenuList == 2)
-			{ 
-				gradient.destroy();
-				coolFilter.destroy();
-			}
 		}
 	}
 

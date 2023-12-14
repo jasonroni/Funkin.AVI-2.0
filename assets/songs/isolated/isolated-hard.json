@@ -6511,7 +6511,7 @@
 		"song": "Isolated",
 		"stage": "abandonedStreet",
 		"needsVoices": true,
-		"validScore": false,
+		"validScore": true,
 		"bpm": 165,
 		"speed": 2.6
 	}

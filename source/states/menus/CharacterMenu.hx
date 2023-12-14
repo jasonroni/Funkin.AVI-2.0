@@ -1,5 +1,6 @@
 package states.menus;
 
+import flixel.tweens.FlxTween;
 import base.dependency.Discord;
 import flixel.util.FlxColor;
 import flixel.FlxG;
@@ -94,6 +95,12 @@ class CharacterMenu extends MusicBeatState
         add(control);
 
         super.create();
+
+        control.y -= 5;
+        name.y -= 2;
+
+        FlxTween.tween(control, {y: control.y + 10}, 3, {type: 4});
+        FlxTween.tween(name, {y: name.y + 4}, 2, {type: 4});
 
         changeSelection();
     }

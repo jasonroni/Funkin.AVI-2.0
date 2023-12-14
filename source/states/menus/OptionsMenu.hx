@@ -1,5 +1,6 @@
 package states.menus;
 
+import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -13,21 +14,15 @@ class OptionsMenu extends BaseOptions
 	var bg:FlxSprite;
 	var infoText:FlxText;
 
-	var defaultShader:FlxRuntimeShader;
-	var defaultShader2:FlxRuntimeShader;
-
 	override public function create()
 	{
 		super.create();
 
-		defaultShader = new FlxRuntimeShader(Shaders.grayScale, null, 140);
-		defaultShader2 = new FlxRuntimeShader(Shaders.monitorFilter, null, 140);
-
 		if (!Init.trueSettings.get('Disable Screen Shaders')) {
 			FlxG.camera.setFilters(
 				[
-					new openfl.filters.ShaderFilter(defaultShader),
-					new openfl.filters.ShaderFilter(defaultShader2)
+					new openfl.filters.ShaderFilter(new FlxRuntimeShader(Shaders.grayScale, null, 140)),
+					new openfl.filters.ShaderFilter(new FlxRuntimeShader(Shaders.monitorFilter, null, 140))
 				]);
 		}
 
@@ -154,5 +149,7 @@ class OptionsMenu extends BaseOptions
 		}
 		else
 			infoText.text = '';
+
+		FlxG.mouse.visible = activeGroup[curSelected].name == 'Cursor Style';
 	}
 }

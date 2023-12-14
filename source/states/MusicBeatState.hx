@@ -1,5 +1,6 @@
 package states;
 
+import flixel.FlxSprite;
 import base.song.Conductor;
 import base.utils.FNFUtils.FNFTransition;
 import flixel.FlxCamera;
@@ -34,6 +35,8 @@ class MusicBeatState extends modcharting.ModchartMusicBeatState
 	// class create event
 	override function create()
 	{
+		FlxSprite.defaultAntialiasing = !Init.trueSettings.get("Disable Antialiasing");
+		
 		// dump
 		var clearPlayState = (PlayState.clearStored && !Std.isOfType(this, states.PlayState));
 		if ((clearPlayState))

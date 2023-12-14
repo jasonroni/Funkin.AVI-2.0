@@ -169,6 +169,7 @@ class CreditsMenu extends MusicBeatState
 			Main.switchState(this, new MainMenu());
 			Conductor.changeBPM(50); // changes back to titlescreen bpm
 			FlxG.sound.playMusic(Paths.music('freakyMenu'), 1); // resets music back to menu music
+			FlxG.sound.music.fadeIn();
 		}
 	}
 
