@@ -150,6 +150,6 @@ class OptionsMenu extends BaseOptions
 		else
 			infoText.text = '';
 
-		FlxG.mouse.visible = activeGroup[curSelected].name == 'Cursor Style';
+		FlxG.mouse.visible = activeGroup[curSelected].name == 'Cursor Style' || activeGroup[curSelected].name == 'Use System Cursor';
 	}
 }

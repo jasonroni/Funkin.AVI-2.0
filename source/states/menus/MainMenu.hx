@@ -1,5 +1,8 @@
 package states.menus;
 
+import lime.ui.MouseCursor;
+import openfl.ui.Mouse;
+import openfl.events.MouseEvent;
 import objects.ui.MessageBox;
 import lime.app.Application;
 import base.dependency.Discord;
@@ -208,6 +211,8 @@ class MainMenu extends MusicBeatState
 		FlxG.cameras.setDefaultDrawTarget(camGame, true);
 
 		Paths.clearUnusedMemory();
+
+		FlxG.stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
 
 		super.create();
 
@@ -691,6 +696,12 @@ class MainMenu extends MusicBeatState
 		super.update(elapsed);
 	}
 
+	override function destroy() {
+		super.destroy();
+
+		FlxG.stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+	}
+
 	// corny ass functions for mouse usage grah
 	function changeSelection(selection:Int)
 	{
@@ -739,6 +750,7 @@ class MainMenu extends MusicBeatState
 				}
 				selectedSomethin = true;
 				FlxG.sound.play(Paths.sound('base/menus/confirmMenu'));
+				FlxG.stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
 				FlxTween.tween(camGame, {zoom: 6}, 2, {ease: FlxEase.cubeInOut, startDelay: 0.5});
 
 				menuItems.forEach(function(spr:FlxSprite)
@@ -805,7 +817,7 @@ class MainMenu extends MusicBeatState
 								Main.switchState(this, new states.menus.OptionsMenu());
 						}
 					});
-
+					FlxG.stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
 					for (sillies in [arrow, menuItems.members[Math.floor(curSelected)]])
 					{
 						sillies.setColorTransform(1, 1, 1, 1, 255, 255, 255, 255);
@@ -877,5 +889,17 @@ class MainMenu extends MusicBeatState
 		menuItems.members[Math.floor(curSelected)].updateHitbox();
 
 		lastCurSelected = Math.floor(curSelected);
+	}
+
+	function onMouseMove(r)
+	{
+		for (items in menuItems)
+			if (FlxG.mouse.overlaps(items))
+			{
+				Mouse.cursor = BUTTON;
+				return;
+			}
+
+		Mouse.cursor = AUTO;
 	}
 }

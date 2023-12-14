@@ -321,6 +321,12 @@ class BaseOptions extends MusicBeatState
 				});
 
 				case 'Screen Shake': if (Init.trueSettings.get('Screen Shake')) FlxG.camera.shake(0.007, 1);
+
+				case 'Use System Cursor': 
+					if (Init.trueSettings.get('Use System Cursor'))
+						FlxG.mouse.useSystemCursor = true;
+					else
+						FlxG.mouse.load(Paths.image('UI/funkinAVI/mouses/${Init.trueSettings.get('Cursor Style')}').bitmap);
 			}
 		}
 	}
@@ -390,7 +396,7 @@ class BaseOptions extends MusicBeatState
 			Init.trueSettings.set(selector.name, selector.chosenOptionString);
 			Init.saveSettings();
 
-			if (selector.name == 'Cursor Style') FlxG.mouse.load(Paths.image('UI/funkinAVI/mouses/${selector.chosenOptionString}').bitmap);
+			if (selector.name == 'Cursor Style' && !Init.trueSettings.get('Use System Cursor')) FlxG.mouse.load(Paths.image('UI/funkinAVI/mouses/${selector.chosenOptionString}').bitmap);
 
 			// trace('${selector.name} is: ${selector.chosenOptionString}');
 		}

@@ -214,6 +214,12 @@ class Init extends FlxState
 			"Enables Ghost Tapping, allowing you to press inputs without missing.",
 			NOT_FORCED
 		],
+		'Use System Cursor' => [
+			false,
+			Checkmark,
+			"If checked, disables the custom cursors and replace them with the system cursor instead.",
+			NOT_FORCED
+		],
 		'Centered Notefield' => [false, Checkmark, "Center the notes, disables the enemy's notes."],
 		'Skip Text' => [
 			'freeplay only',
@@ -343,7 +349,7 @@ class Init extends FlxState
 
 		// Some additional changes to default HaxeFlixel settings, both for ease of debugging and usability.
 		FlxG.fixedTimestep = false; // This ensures that the game is not tied to the FPS
-		FlxG.mouse.useSystemCursor = false;
+		FlxG.mouse.useSystemCursor = Init.trueSettings.get('Use System Cursor');
 		FlxG.mouse.visible = false; // Hide mouse on start
 
 		Main.switchState(this, cast Type.createInstance(Main.game.initialState, []));
