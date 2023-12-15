@@ -19,6 +19,7 @@ import objects.Character;
 class PlayStateUtils extends PlayState // extending the class itself incase crashes
 {
     public static var instance:PlayStateUtils = new PlayStateUtils();
+	var thingE:Float;
 
     /*
     * A function made to initialize your shaders with, only for song-specific initiation atm
@@ -241,6 +242,13 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
     * 
     * @author DEMOLITIONDON96 ft. Jason
     */
+
+	override public function update(elapsed:Float)
+		{
+			thingE = elapsed;
+			super.update(elapsed);
+		}
+
     public function songSetup()
     {
         switch (PlayState.SONG.song)
@@ -2773,37 +2781,17 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
                     
                 case "boptop" | "bop top":
                     PlayState.main.cinematicBars["top"].y = position - FlxG.height;
-                    FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height - 20}, 0.0001, {ease: EngineTools.returnTweenEase(ease),
-						onComplete: function(twn:FlxTween)
-							{
-								FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height}, 0.5, {ease: EngineTools.returnTweenEase(ease)});
-							}
-					});
+					PlayState.main.cinematicBars["top"].y = FlxMath.lerp(PlayState.main.cinematicBars["top"].y - 20, PlayState.main.cinematicBars["top"].y, CoolUtil.boundTo(1 - (thingE * 3.125), 0, 1));
                     
                 case "bopbottom" | "bop bottom":
                     PlayState.main.cinematicBars["bottom"].y = FlxG.height - position;
-                    FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position + 20}, 0.0001, {ease: EngineTools.returnTweenEase(ease),
-						onComplete: function(twn:FlxTween)
-							{
-								FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position}, 0.5, {ease: EngineTools.returnTweenEase(ease)});
-							}
-					});	
+					PlayState.main.cinematicBars["bottom"].y = FlxMath.lerp(PlayState.main.cinematicBars["bottom"].y + 20, PlayState.main.cinematicBars["bottom"].y, CoolUtil.boundTo(1 - (thingE * 3.125), 0, 1));		
                     
                 case "bopboth" | "bop both":
                     PlayState.main.cinematicBars["top"].y = position - FlxG.height;
                     PlayState.main.cinematicBars["bottom"].y = FlxG.height - position;
-                    FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height - 20}, 0.0001, {ease: EngineTools.returnTweenEase(ease),
-						onComplete: function(twn:FlxTween)
-							{
-								FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height}, 0.5, {ease: EngineTools.returnTweenEase(ease)});
-							}
-					});	
-                    FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position + 20}, 0.0001, {ease: EngineTools.returnTweenEase(ease),
-						onComplete: function(twn:FlxTween)
-							{
-								FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position}, 0.5, {ease: EngineTools.returnTweenEase(ease)});
-							}
-					});			
+					PlayState.main.cinematicBars["top"].y = FlxMath.lerp(PlayState.main.cinematicBars["top"].y - 20, PlayState.main.cinematicBars["top"].y, CoolUtil.boundTo(1 - (thingE * 3.125), 0, 1));
+					PlayState.main.cinematicBars["bottom"].y = FlxMath.lerp(PlayState.main.cinematicBars["bottom"].y + 20, PlayState.main.cinematicBars["bottom"].y, CoolUtil.boundTo(1 - (thingE * 3.125), 0, 1));		
             }
         }
     
