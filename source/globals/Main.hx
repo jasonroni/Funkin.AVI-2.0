@@ -1,6 +1,5 @@
 package globals;
 
-import openfl.events.Event;
 import base.*;
 import base.Overlay.Console;
 import base.dependency.Discord;
@@ -14,7 +13,6 @@ import flixel.graphics.FlxGraphic;
 import flixel.tweens.*;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import lime.graphics.Image.fromFile;
 import gamejolt.GameJolt;
 import haxe.CallStack;
 import haxe.Json;
@@ -186,41 +184,15 @@ class Main extends Sprite
 	public static function main():Void
 		Lib.current.addChild(new Main());
 
+	// calls a function to set the game up
 	public function new()
 	{
 		super();
 
-		if (stage != null)
-		{
-			init();
-		}
-		else
-		{
-			addEventListener(Event.ADDED_TO_STAGE, init);
-		}
-	}
-
-	private function init(?E:Event):Void
-	{
-		if (hasEventListener(Event.ADDED_TO_STAGE))
-		{
-			removeEventListener(Event.ADDED_TO_STAGE, init);
-		}
-
-		setupGame();
-	}
-
-	function setupGame()
-	{
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
 
 		#if desktop
 		Gc.enable(true);
-		#end
-
-		#if linux
-		var icon = fromFile("icon.png");
-		Lib.current.stage.window.setIcon(icon);
 		#end
 
 		/**
@@ -234,6 +206,9 @@ class Main extends Sprite
 		// define the state bounds
 		var stageWidth:Int = Lib.current.stage.stageWidth;
 		var stageHeight:Int = Lib.current.stage.stageHeight;
+
+		var _width:Int;
+		var _height:Int;
 
 		if (game.zoom == -1.0)
 		{
@@ -256,7 +231,7 @@ class Main extends Sprite
 		{
 			optimizeGame(true);
 			GameData.saveShit();
-			if (!Init.trueSettings.get('Use System Cursor')) FlxG.mouse.load('assets/images/UI/funkinAVI/mouses/${Init.trueSettings.get('Cursor Style')}.png');
+			FlxG.mouse.load('assets/images/UI/funkinAVI/mouses/${Init.trueSettings.get('Cursor Style')}.png');
 		});
 		FlxG.signals.preStateSwitch.add(() ->
 		{

@@ -157,11 +157,11 @@ class Init extends FlxState
 			['StepMania', 'FNF']
 		],
 		"HUD Style" => [
-			'demolition',
+			'spectra',
 			Selector,
 			"Chooses a UI Style for gameplay",
 			NOT_FORCED,
-			['default', 'demolition', 'vanilla', 'kade', 'psych']
+			['classic', 'spectra', 'vanilla', 'kade', 'psych']
 		],
 		"UI Skin" => [
 			'default',

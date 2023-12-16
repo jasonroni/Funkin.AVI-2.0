@@ -2837,39 +2837,27 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
                 }
             }
 
-	/*
-	this functions suck i don't feel like it's helping at all lols
-													- jason
 	/**
-	 * Adds a character to the player's map.
-	 * @param isPlayer checks if the map to set is a player or not
-	 * @param name character name
-	 * @param position character's position as an array (x, y)
-	 
-	public function addCharacterToMap(name:String, isPlayer:Bool = false, ?position:Array<Float>)
+	 * ## Built-in Settings Fix
+	 * 
+	 * made in case the annoying bitches that played the v1.8 demo don't bother changing settings and assumed they're all good to go and have a skill issue crashing cause they didn't check
+	 * 
+	 * @author DEMOLITIONDON96
+	 */
+	public function migrateSettings()
 	{
-		// checks if the character is already in the map
-		if (!isPlayer && PlayState.opponentMap.exists(name)) return;
-		if (isPlayer && PlayState.playerMap.exists(name)) return;
-
-		if (position == null) position = [100, 100];
-
-		var map = isPlayer ? PlayState.playerMap : PlayState.opponentMap;
-
-		map.set(name, new Character(isPlayer).setCharacter(position[0], position[1], name));
-	}
-
-	/**
-	 * Removes a character to the player's map.
-	 * @param name character name
-	 * @param isPlayer checks if the map to set is a player or not
-	 
-	 public function removeCharacterFromMap(name:String, isPlayer:Bool = false)
+		switch (Init.trueSettings.get('HUD Style'))
 		{
-			var map = isPlayer ? PlayState.playerMap : PlayState.opponentMap;
-
-			if (map.get(name) != null)
-				map.remove(name);
+			case 'demoltion':
+				Init.trueSettings.set('HUD Style', 'spectra');
+			case 'forever' | 'default':
+				Init.trueSettings.set('HUD Style', 'classic');
 		}
-	*/
+		switch (Init.trueSettings.get('Timing Preset'))
+		{
+			case 'forever':
+				Init.trueSettings.set('Timing Preset', 'default');
+		}
+		Init.saveSettings();
+	}
 }

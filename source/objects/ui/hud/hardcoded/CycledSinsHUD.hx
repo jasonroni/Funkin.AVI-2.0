@@ -221,6 +221,9 @@ class CycledSinsHUD extends FlxSpriteGroup
 				timingsMap[i].x = (5 + (!left ? (FlxG.width - 10) : 0) - (!left ? (6 * counterTextSize) : 0));
 			}
 		}
+		
+		PlayState.detailsSub = scoreBar.text;
+		PlayState.updateRPC(false);
 	}
 
 	public function reloadHealthBar()
