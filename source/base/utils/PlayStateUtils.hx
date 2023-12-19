@@ -19,7 +19,7 @@ import objects.Character;
 class PlayStateUtils extends PlayState // extending the class itself incase crashes
 {
     public static var instance:PlayStateUtils = new PlayStateUtils();
-	var thingE:Float;
+	public var thingE:Float;
 
     /*
     * A function made to initialize your shaders with, only for song-specific initiation atm
@@ -242,12 +242,6 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
     * 
     * @author DEMOLITIONDON96 ft. Jason
     */
-
-	override public function update(elapsed:Float)
-		{
-			thingE = elapsed;
-			super.update(elapsed);
-		}
 
     public function songSetup()
     {
@@ -695,6 +689,10 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					});
 				}
 			case 'Isolated':
+				var beatBopArray:Array<Int> = [32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80, 84, 88, 92];
+				var beatBopArray2:Array<Int> = [168, 172, 176, 184, 188];
+				var beatBopArray3:Array<Int> = [194, 196, 198, 200, 202, 204, 206, 208, 210, 212, 214, 216, 217, 218, 219, 220, 221, 222, 223];
+
 				switch (curBeat)
 				{
 					case 12: PlayState.camGame.fade(FlxColor.BLACK, 3, true);
@@ -823,16 +821,51 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.WHITE, 1.5);
 				}
 
-			if ((curBeat > 96 && curBeat < 160) || (curBeat > 224 && curBeat < 352))
-			{
-				if (curBeat % 2 == 0)
+				if (curBeat == 1)
 				{
-					PlayState.camGame.zoom += 0.05;
-					PlayState.camHUD.zoom += 0.06;
-					for (demolitionCanWeForTheLoveOfFuckingGodJustRemoveStrumHUDForOnceAndStopBeenALazyAssBitchPleaseIBegYouLoveJason in PlayState.strumHUD)
-						demolitionCanWeForTheLoveOfFuckingGodJustRemoveStrumHUDForOnceAndStopBeenALazyAssBitchPleaseIBegYouLoveJason.zoom = PlayState.camHUD.zoom;
+					cinematicBarControls("add", 0.0001, 'linear', 0);
+					cinematicBarControls("moveboth", 0.0001, 'linear', 130);
 				}
-			}
+				if (curBeat == 28)
+					cinematicBarControls("moveboth", 1, 'circInOut', 65);
+				for (i in 0...beatBopArray.length)
+					if (curBeat == beatBopArray[i])
+						cinematicBarControls('bopboth', 1, 'quartOut', 32, 33);
+				if (curBeat == 96)
+					cinematicBarControls('moveboth', 0.3, 'sineOut', 0);
+				if (curBeat == 160 || curBeat == 352)
+					cinematicBarControls('moveboth', 1, 'circOut', 140);
+				if (curBeat == 164 || curBeat == 180)
+					cinematicBarControls('bopboth', 0.85, 'quartOut', 125, 15);
+				for (i in 0...beatBopArray2.length)
+					if (curBeat == beatBopArray2[i])
+						cinematicBarControls('bopboth', 1, 'quartOut', 90, 60);
+				if (curBeat == 192)
+					cinematicBarControls('moveboth', 0.7, 'sineOut', 85);
+				for (i in 0...beatBopArray3.length)
+					if (curBeat == beatBopArray3[i])
+						cinematicBarControls('bopboth', 0.3, 'sineOut', 40, 45);
+				if (curBeat == 224)
+					cinematicBarControls('moveboth', 0.3, 'quartOut', 0);
+				if (curBeat == 287)
+					cinematicBarControls('moveboth', 0.0001, 'linear', 100);
+				if (curBeat == 288)
+					cinematicBarControls('moveboth', 0.75, 'circOut', 0);
+				if (curBeat == 376)
+					cinematicBarControls('moveboth', 3, 'sineInOut', 0);
+				if (curBeat == 415)
+					cinematicBarControls('moveboth', 0.63, 'circInOut', 600);
+
+				if ((curBeat > 96 && curBeat < 160) || (curBeat > 224 && curBeat < 352))
+				{
+					if (curBeat % 2 == 0)
+					{
+						PlayState.camGame.zoom += 0.05;
+						PlayState.camHUD.zoom += 0.06;
+						for (demolitionCanWeForTheLoveOfFuckingGodJustRemoveStrumHUDForOnceAndStopBeenALazyAssBitchPleaseIBegYouLoveJason in PlayState.strumHUD)
+							demolitionCanWeForTheLoveOfFuckingGodJustRemoveStrumHUDForOnceAndStopBeenALazyAssBitchPleaseIBegYouLoveJason.zoom = PlayState.camHUD.zoom;
+					}
+				}
 
 			case 'Lunacy':
 				if (curBeat == 100 || curBeat == 108 || curBeat == 116 || curBeat == 124 || curBeat == 132 || curBeat == 140 || curBeat == 148)
@@ -2116,6 +2149,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 				{
 					case 1150: 
 						PlayState.defaultCamZoom = PlayState.camGame.zoom = 1.2;
+						cinematicBarControls('moveboth', 0.0001, 'linear', 155);
 				}
 		}
 	}
@@ -2739,7 +2773,11 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 	*
 	* WORK IN PROGRESS, NOT FINAL
 	*/		
-	function cinematicBarControls(speed:Float, ease:String = "circInOut", position:Float = 0, controlType:String = "add")
+
+	public var topBarTwn:FlxTween;
+	public var bottomBarTwn:FlxTween;
+
+	public function cinematicBarControls(controlType:String = "add", speed:Float, ease:String = "circInOut", position:Float = 0, bopValue:Float = 0)
         {
             switch (controlType.toLowerCase())
             {
@@ -2765,33 +2803,73 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
                     
                 case "remove" | "kill" | "delete":
                     if (PlayState.main.cinematicBars["top"] != null)
+					{
                         PlayState.main.cinematicBars["top"].kill();
+						PlayState.main.cinematicBars["top"] = null;
+					}
                     if (PlayState.main.cinematicBars["bottom"] != null)
+					{
                         PlayState.main.cinematicBars["bottom"].kill();
+						PlayState.main.cinematicBars["bottom"] = null;
+					}
                     
                 case "movetop" | "move top":
-                    FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height}, speed, {ease: EngineTools.returnTweenEase(ease)});
+					if (topBarTwn != null)
+						topBarTwn.cancel();
+
+                    topBarTwn = FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height}, speed, {ease: EngineTools.returnTweenEase(ease), onComplete: function(twn:FlxTween)
+					{
+						topBarTwn = null;
+					}});
                     
                 case "movebottom" | "move bottom":
-                    FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position}, speed, {ease: EngineTools.returnTweenEase(ease)});
+					if (bottomBarTwn != null)
+						bottomBarTwn.cancel();
+
+                    bottomBarTwn = FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position}, speed, {ease: EngineTools.returnTweenEase(ease), onComplete: function(twn:FlxTween)
+					{
+						bottomBarTwn = null;
+					}});
                     
                 case "moveboth" | "move both":
-                    FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height}, speed, {ease: EngineTools.returnTweenEase(ease)});
-                    FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position}, speed, {ease: EngineTools.returnTweenEase(ease)});
+					if (topBarTwn != null)
+						topBarTwn.cancel();
+					if (bottomBarTwn != null)
+						bottomBarTwn.cancel();
+
+                    topBarTwn = FlxTween.tween(PlayState.main.cinematicBars["top"], {y: position - FlxG.height}, speed, {ease: EngineTools.returnTweenEase(ease), onComplete: function(twn:FlxTween)
+					{
+						topBarTwn = null;
+					}});
+                    bottomBarTwn = FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: FlxG.height - position}, speed, {ease: EngineTools.returnTweenEase(ease), onComplete: function(twn:FlxTween)
+					{
+						bottomBarTwn = null;
+					}});
                     
                 case "boptop" | "bop top":
                     PlayState.main.cinematicBars["top"].y = position - FlxG.height;
-					PlayState.main.cinematicBars["top"].y = FlxMath.lerp(PlayState.main.cinematicBars["top"].y - 20, PlayState.main.cinematicBars["top"].y, CoolUtil.boundTo(1 - (thingE * 3.125), 0, 1));
+					FlxTween.tween(PlayState.main.cinematicBars["top"], {y: (position - FlxG.height) + bopValue}, speed, {ease: EngineTools.returnTweenEase(ease)});
                     
                 case "bopbottom" | "bop bottom":
                     PlayState.main.cinematicBars["bottom"].y = FlxG.height - position;
-					PlayState.main.cinematicBars["bottom"].y = FlxMath.lerp(PlayState.main.cinematicBars["bottom"].y + 20, PlayState.main.cinematicBars["bottom"].y, CoolUtil.boundTo(1 - (thingE * 3.125), 0, 1));		
+					FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: (FlxG.height - position) - bopValue}, speed, {ease: EngineTools.returnTweenEase(ease)});
                     
                 case "bopboth" | "bop both":
+					if (topBarTwn != null)
+						topBarTwn.cancel();
+					if (bottomBarTwn != null)
+						bottomBarTwn.cancel();
+
                     PlayState.main.cinematicBars["top"].y = position - FlxG.height;
                     PlayState.main.cinematicBars["bottom"].y = FlxG.height - position;
-					PlayState.main.cinematicBars["top"].y = FlxMath.lerp(PlayState.main.cinematicBars["top"].y - 20, PlayState.main.cinematicBars["top"].y, CoolUtil.boundTo(1 - (thingE * 3.125), 0, 1));
-					PlayState.main.cinematicBars["bottom"].y = FlxMath.lerp(PlayState.main.cinematicBars["bottom"].y + 20, PlayState.main.cinematicBars["bottom"].y, CoolUtil.boundTo(1 - (thingE * 3.125), 0, 1));		
+					topBarTwn = FlxTween.tween(PlayState.main.cinematicBars["top"], {y: (position - FlxG.height) + bopValue}, speed, {ease: EngineTools.returnTweenEase(ease), onComplete: function(twn:FlxTween)
+					{
+						topBarTwn = null;
+					}});
+					bottomBarTwn = FlxTween.tween(PlayState.main.cinematicBars["bottom"], {y: (FlxG.height - position) - bopValue}, speed, {ease: EngineTools.returnTweenEase(ease), onComplete: function(twn:FlxTween)
+					{
+						bottomBarTwn = null;
+					}});
             }
         }
     

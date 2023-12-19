@@ -512,8 +512,8 @@ class PlayState extends MusicBeatState
 		FlxG.cameras.reset(camGame);
 
 		// HUD Camera so HUD objects stay on screen
-		FlxG.cameras.add(camHUD, false);
 		FlxG.cameras.add(camBars, false);
+		FlxG.cameras.add(camHUD, false);
 		FlxG.cameras.add(camOther, false);
 		FlxG.cameras.add(camScratch, false);
 		allUIs.push(camHUD);
@@ -1667,6 +1667,8 @@ class PlayState extends MusicBeatState
 
 		stageBuild.stageUpdateConstant(elapsed, boyfriend, gf, opponent);
 
+		PlayStateUtils.instance.thingE = elapsed;
+
 		super.update(elapsed);
 
 		smoothyHealth = FlxMath.lerp(smoothyHealth, health, CoolUtil.boundTo(elapsed * 20, 0, 1));
@@ -1882,10 +1884,10 @@ class PlayState extends MusicBeatState
 			camGame.angle = FlxMath.lerp(camGame.angle, 0 + camOffset[2], CoolUtil.boundTo(CoolUtil.boundTo(elapsed * 2.4 / 0.4, 0, 1) * cameraSpeed , 0, 1));
 		}
 
-		/*CamUtils.updateCamera(camGame, elapsed);
+		CamUtils.updateCamera(camGame, elapsed);
 		CamUtils.updateCamera(camHUD, elapsed);
 		for (theSillies in strumHUD) CamUtils.updateCamera(theSillies, elapsed);
-		CamUtils.updateCamera(camOther, elapsed);*/
+		CamUtils.updateCamera(camOther, elapsed);
 
 		callFunc('postUpdate', [elapsed]);
 
