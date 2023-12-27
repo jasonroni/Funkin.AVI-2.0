@@ -193,7 +193,6 @@ class Episode1HUD extends FlxSpriteGroup
 	songTxt.screenCenter(X);
 	add(songTxt);
 
-	if(autoplayTxt != null) {
 		autoplayTxt = new FlxText(-5, scoreTxt.y, FlxG.width - 800, '[Autoplay]\n', 32);
 		autoplayTxt.setFormat(Paths.font("DisneyFont"), 32, FlxColor.WHITE, CENTER);
 		autoplayTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2.3);
@@ -232,7 +231,6 @@ class Episode1HUD extends FlxSpriteGroup
 				add(textAsset);
 			}
 		}
-    }
   }
   
  	var counterTextSize:Int = 18;
@@ -331,11 +329,11 @@ class Episode1HUD extends FlxSpriteGroup
 		minnieIcon.bop(elapsed);
 		satanIconPulse.bop(elapsed + .08);
 
-		/*if (autoplayTxt.visible)
+		if (autoplayTxt.visible)
 		{
 			autoplaySine += 180 * (elapsed / 4);
 			autoplayTxt.alpha = 1 - Math.sin((Math.PI * autoplaySine) / 80);
-		}*/
+		}
 	}
 
 	public static var divider:String = " - ";
@@ -373,6 +371,9 @@ class Episode1HUD extends FlxSpriteGroup
 				timingsMap[i].x = (5 + (!left ? (FlxG.width - 10) : 0) - (!left ? (6 * counterTextSize) : 0));
 			}
 		}
+
+		PlayState.detailsSub = scoreTxt.text;
+		PlayState.updateRPC(false);
 	}
 
 	public function reloadHealthBar()

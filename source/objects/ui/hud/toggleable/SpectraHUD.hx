@@ -13,7 +13,7 @@ import flixel.util.FlxSort;
 import flixel.util.FlxStringUtil;
 import states.PlayState;
 
-class DemolitionHUD extends FlxSpriteGroup
+class SpectraHUD extends FlxSpriteGroup
 {
 	// bar variables
 	public var scoreBar:FlxText;
@@ -29,6 +29,7 @@ class DemolitionHUD extends FlxSpriteGroup
 
 	// mark variables
 	public var cornerMark:FlxText; // engine mark at the upper right corner
+	public var cornerSub:FlxText;
 	public var centerMark:FlxText; // song display name and difficulty at the center
 	public var autoplayMark:FlxText; // botplay/autoplay indicator at the center
 	public var playingTxt:FlxText;
@@ -81,7 +82,7 @@ class DemolitionHUD extends FlxSpriteGroup
 	public var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
 	public var diffDisplay:String = '[${CoolUtil.difficultyString}]';
 	public var engineDisplay:String = "Funkin.avi v2.0.0";
-	public var engineSub:String = "Unnamed Engine PROTOTYPE BUILD";
+	public var engineSub:String = "Spectra Engine [PROTOTYPE BUILD]";
 
 	// eep
 	public function new()
@@ -140,6 +141,13 @@ class DemolitionHUD extends FlxSpriteGroup
 		if (Init.trueSettings.get('Downscroll')) cornerMark.setPosition(0, 685); else cornerMark.setPosition(0, 8);
 		cornerMark.screenCenter(X);
 		add(cornerMark);
+
+		cornerSub = new FlxText(0, 0, 0, engineSub);
+		cornerSub.setFormat(Paths.font('VanillaExtractRegular'), 6, FlxColor.WHITE);
+		cornerSub.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
+		cornerSub.setPosition(cornerMark.x, cornerMark.y + 23);
+		cornerSub.screenCenter(X);
+		add(cornerSub);
 
 		// i am very original
 		playingTxt = new FlxText(50, (Init.trueSettings.get('Downscroll') ? FlxG.height - 120 : 50), 0, 'Playing:');
@@ -301,7 +309,7 @@ class DemolitionHUD extends FlxSpriteGroup
 		}
 
 		// update playstate
-		if(Init.trueSettings.get('HUD Style') == "demolition")
+		if(Init.trueSettings.get('HUD Style') == "spectra")
 		PlayState.detailsSub = scoreBar.text;
 		
 		PlayState.updateRPC(false);

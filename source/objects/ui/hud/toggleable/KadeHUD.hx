@@ -43,7 +43,7 @@ class KadeHUD extends FlxSpriteGroup
 	// display texts
 	public var infoDisplay:String = "";
 	public var diffDisplay:String = "";
-	public var engineDisplay:String = 'Unnamed Engine PROTOTYPE BUILD';
+	public var engineDisplay:String = 'Funkin.avi v2.0.0 - Spectra Engine PROTOTYPE BUILD';
 
 	public var timeTxt:FlxText;
 	public var timeBar:FlxBar;
@@ -89,9 +89,9 @@ class KadeHUD extends FlxSpriteGroup
 		add(scoreBar);
 
 		cornerMark = new FlxText(0, 0, 0, engineDisplay);
-		cornerMark.setFormat(Paths.font('vcr'), 18, FlxColor.WHITE);
-		cornerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
-		cornerMark.setPosition(FlxG.width - (cornerMark.width + 5), 5);
+		cornerMark.setFormat(Paths.font('vcr'), 12, FlxColor.WHITE);
+		cornerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
+		cornerMark.setPosition(0, FlxG.height * 0.97);
 		add(cornerMark);
 
 		centerMark = new FlxText(0, (Init.trueSettings.get('Downscroll') ? FlxG.height - 40 : 10), 0, '');

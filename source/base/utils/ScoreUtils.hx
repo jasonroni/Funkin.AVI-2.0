@@ -301,16 +301,30 @@ class ScoreUtils
 			curCombo = 'SDCB';
 
 		// this updates the most so uh
-		switch (Init.trueSettings.get('HUD Style').toLowerCase())
+
+		if (!PlayState.isCustomHUD)
 		{
-			case 'default':
-				PlayState.uiHUD.updateScoreText();
-			case 'demolition':
-				PlayState.demolitionHUD.updateScoreText();
-			case 'psych':
-				PlayState.psychHUD.updateScoreText();
-			default:
-				PlayState.uiHUD.updateScoreText();
+			switch (Init.trueSettings.get('HUD Style').toLowerCase())
+			{
+				case 'default':
+					PlayState.uiHUD.updateScoreText();
+				case 'spectra':
+					PlayState.spectraHUD.updateScoreText();
+				case 'psych':
+					PlayState.psychHUD.updateScoreText();
+				default:
+					PlayState.uiHUD.updateScoreText();
+			}
+		}
+		else
+		{
+			switch (PlayState.SONG.song)
+			{
+				case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional':
+					PlayState.episode1HUD.updateScoreText();
+				case 'Cycled Sins':
+					PlayState.cycledSinsHUD.updateScoreText();
+			}
 		}
 		//PlayState.uiHUD.colorHighlight(curRating);
 	}

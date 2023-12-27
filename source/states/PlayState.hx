@@ -205,7 +205,7 @@ class PlayState extends MusicBeatState
 	public static var psychHUD:PsychHUD;
 	public static var vanillaHUD:VanillaHUD;
 	public static var kadeHUD:KadeHUD;
-	public static var demolitionHUD:DemolitionHUD;
+	public static var spectraHUD:SpectraHUD;
 
 	// Hardcoded HUDs
 	public static var cycledSinsHUD:CycledSinsHUD;
@@ -311,6 +311,8 @@ class PlayState extends MusicBeatState
 	var globalGradient:FlxSprite;
 
 	var isCamForced = false;
+
+	public static var isCustomHUD:Bool = false;
 
 	public static var noteSkinType:String = 'DEFAULTSKIN';
 
@@ -421,6 +423,8 @@ class PlayState extends MusicBeatState
 		stageBGFlash = new FlxSprite().makeGraphic(1, 1, 0xFFFFFFFF);
 		stageBGFlash.scale.set(FlxG.width * 5, FlxG.height * 5);
 		stageBGFlash.alpha = 0.0001; // it's at this value so the game doesn't lag when it becomes visible
+		stageBGFlash.x -= 750;
+		stageBGFlash.y -= 450;
 		stageBGFlash.scrollFactor.set();
 		add(stageBGFlash);
 
@@ -452,6 +456,7 @@ class PlayState extends MusicBeatState
 	{
 		super.create();
 
+		PlayStateUtils.instance.migrateSettings();
 		GameData.setFreeplayData();
 		PlayStateUtils.instance.loadRPCIcon();
 		PlayStateUtils.instance.loadWindowTitleData();
@@ -466,6 +471,12 @@ class PlayState extends MusicBeatState
 				noteSkinType = 'MERCY';
 			default:
 				noteSkinType = 'DEFAULTSKIN';
+		}
+
+		switch (SONG.song)
+		{
+			case 'Isolated' | 'Luancy' | 'Delusional' | 'Devilish Deal' | 'Cycled Sins':
+				isCustomHUD = true;
 		}
 
 		FlxG.mouse.visible = false;
@@ -501,8 +512,8 @@ class PlayState extends MusicBeatState
 		FlxG.cameras.reset(camGame);
 
 		// HUD Camera so HUD objects stay on screen
-		FlxG.cameras.add(camHUD, false);
 		FlxG.cameras.add(camBars, false);
+		FlxG.cameras.add(camHUD, false);
 		FlxG.cameras.add(camOther, false);
 		FlxG.cameras.add(camScratch, false);
 		allUIs.push(camHUD);
@@ -626,46 +637,50 @@ class PlayState extends MusicBeatState
 		// add the dialogue UI
 		FlxG.cameras.add(dialogueHUD, false);
 
-		switch (Init.trueSettings.get('HUD Style'))
+		if (!isCustomHUD)
 		{
-			case 'psych':
-				psychHUD = new PsychHUD();
-				psychHUD.alpha = 0;
-				add(psychHUD);
-				psychHUD.cameras = [camHUD];
-			case 'demolition':
-				demolitionHUD = new DemolitionHUD();
-				demolitionHUD.alpha = 0;
-				add(demolitionHUD);
-				demolitionHUD.cameras = [camHUD];
-			case 'vanilla':
-				vanillaHUD = new VanillaHUD();
-				vanillaHUD.alpha = 0;
-				add(vanillaHUD);
-				vanillaHUD.cameras = [camHUD];
-			case 'kade':
-				kadeHUD = new KadeHUD();
-				kadeHUD.alpha = 0;
-				add(kadeHUD);
-				kadeHUD.cameras = [camHUD];
-			default:
-				uiHUD = new ClassHUD();
-				uiHUD.alpha = 0;
-				add(uiHUD);
-				uiHUD.cameras = [camHUD];
+			switch (Init.trueSettings.get('HUD Style'))
+			{
+				case 'psych':
+					psychHUD = new PsychHUD();
+					psychHUD.alpha = 0;
+					add(psychHUD);
+					psychHUD.cameras = [camHUD];
+				case 'spectra':
+					spectraHUD = new SpectraHUD();
+					spectraHUD.alpha = 0;
+					add(spectraHUD);
+					spectraHUD.cameras = [camHUD];
+				case 'vanilla':
+					vanillaHUD = new VanillaHUD();
+					vanillaHUD.alpha = 0;
+					add(vanillaHUD);
+					vanillaHUD.cameras = [camHUD];
+				case 'kade':
+					kadeHUD = new KadeHUD();
+					kadeHUD.alpha = 0;
+					add(kadeHUD);
+					kadeHUD.cameras = [camHUD];
+				default:
+					uiHUD = new ClassHUD();
+					uiHUD.alpha = 0;
+					add(uiHUD);
+					uiHUD.cameras = [camHUD];
+			}
 		}
 
-		if (SONG.song.toLowerCase().replace('-', ' ') == 'cycled sins') {
-			cycledSinsHUD = new CycledSinsHUD();
-			cycledSinsHUD.alpha = 0;
-			add(cycledSinsHUD);
-			cycledSinsHUD.cameras = [camHUD];
-		} else if (SONG.song.toLowerCase().replace('-', ' ') == 'devilish deal' || SONG.song.toLowerCase().replace('-', ' ') == 'isolated'
-		|| SONG.song.toLowerCase().replace('-', ' ') == 'lunacy' || SONG.song.toLowerCase().replace('-', ' ') == 'delusional') {
-			episode1HUD = new Episode1HUD();
-			episode1HUD.alpha = 0;
-			add(episode1HUD);
-			episode1HUD.cameras = [camHUD];
+		switch (SONG.song)
+		{
+			case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional':
+				episode1HUD = new Episode1HUD();
+				episode1HUD.alpha = 0;
+				add(episode1HUD);
+				episode1HUD.cameras = [camHUD];
+			case 'Cycled Sins':
+				cycledSinsHUD = new CycledSinsHUD();
+				cycledSinsHUD.alpha = 0;
+				add(cycledSinsHUD);
+				cycledSinsHUD.cameras = [camHUD];
 		}
 
 		if (SONG.song == 'Twisted Grins')
@@ -1652,6 +1667,8 @@ class PlayState extends MusicBeatState
 
 		stageBuild.stageUpdateConstant(elapsed, boyfriend, gf, opponent);
 
+		PlayStateUtils.instance.thingE = elapsed;
+
 		super.update(elapsed);
 
 		smoothyHealth = FlxMath.lerp(smoothyHealth, health, CoolUtil.boundTo(elapsed * 20, 0, 1));
@@ -1767,8 +1784,8 @@ class PlayState extends MusicBeatState
 							// cycledSinsHUD.autoplayMark.visible = bfStrums.autoplay;
 							// cycledSinsHUD.scoreBar.visible = !bfStrums.autoplay;
 							case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional':
-							// episode1HUD.autoplayMark.visible = bfStrums.autoplay;
-							// episode1HUD.scoreBar.visible = !bfStrums.autoplay;
+							episode1HUD.autoplayTxt.visible = bfStrums.autoplay;
+							episode1HUD.scoreTxt.visible = !bfStrums.autoplay;
 							default:
 								checkAutoplayText();
 						}
@@ -1867,10 +1884,10 @@ class PlayState extends MusicBeatState
 			camGame.angle = FlxMath.lerp(camGame.angle, 0 + camOffset[2], CoolUtil.boundTo(CoolUtil.boundTo(elapsed * 2.4 / 0.4, 0, 1) * cameraSpeed , 0, 1));
 		}
 
-		/*CamUtils.updateCamera(camGame, elapsed);
+		CamUtils.updateCamera(camGame, elapsed);
 		CamUtils.updateCamera(camHUD, elapsed);
 		for (theSillies in strumHUD) CamUtils.updateCamera(theSillies, elapsed);
-		CamUtils.updateCamera(camOther, elapsed);*/
+		CamUtils.updateCamera(camOther, elapsed);
 
 		callFunc('postUpdate', [elapsed]);
 
@@ -2843,8 +2860,8 @@ class PlayState extends MusicBeatState
 
 		if (uiHUD != null && uiHUD.exists)
 			uiHUD.beatHit(curBeat);
-		if (demolitionHUD != null && demolitionHUD.exists)
-			demolitionHUD.beatHit(curBeat);
+		if (spectraHUD != null && spectraHUD.exists)
+			spectraHUD.beatHit(curBeat);
 		if (psychHUD != null && psychHUD.exists)
 			psychHUD.beatHit(curBeat);
 		if (vanillaHUD != null && vanillaHUD.exists)
@@ -3425,10 +3442,10 @@ class PlayState extends MusicBeatState
 				}
 
 			case 'demolition': // demoliton HUD
-				if (demolitionHUD != null)
+				if (spectraHUD != null)
 				{
-					demolitionHUD.autoplayMark.visible = bfStrums.autoplay;
-					demolitionHUD.scoreBar.visible = !bfStrums.autoplay;
+					spectraHUD.autoplayMark.visible = bfStrums.autoplay;
+					spectraHUD.scoreBar.visible = !bfStrums.autoplay;
 				}
 
 			default: // Engine HUD
@@ -3449,8 +3466,8 @@ class PlayState extends MusicBeatState
 			case 'psych': // psych engine fans gonna go nuts about this
 			if (Init.trueSettings.get('HUD Style') == 'psych' && psychHUD != null) FlxTween.tween(psychHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 
-			case 'demolition': // demoliton HUD
-			if (Init.trueSettings.get('HUD Style') == 'demolition' && demolitionHUD != null) FlxTween.tween(demolitionHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+			case 'spectra': // spectra HUD
+			if (Init.trueSettings.get('HUD Style') == 'spectra' && spectraHUD != null) FlxTween.tween(spectraHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 			
 			case 'vanilla': // vanilla HUD
 			if (Init.trueSettings.get('HUD Style') == 'vanilla' && vanillaHUD != null)	FlxTween.tween(vanillaHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
@@ -3459,7 +3476,7 @@ class PlayState extends MusicBeatState
 			if (Init.trueSettings.get('HUD Style') == 'kade' && kadeHUD != null)	FlxTween.tween(kadeHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 
 			default: // Engine HUD
-			if (Init.trueSettings.get('HUD Style') == 'default' && uiHUD != null)	FlxTween.tween(uiHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
+			if (Init.trueSettings.get('HUD Style') == 'classic' && uiHUD != null)	FlxTween.tween(uiHUD, {alpha: 1}, (Conductor.crochet * 2) / 1000, {startDelay: (Conductor.crochet / 1000)});
 		}
 
 		return Init.trueSettings.get('HUD Style');

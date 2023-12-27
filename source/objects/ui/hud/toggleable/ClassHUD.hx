@@ -20,6 +20,7 @@ class ClassHUD extends FlxSpriteGroup
 
 	// mark variables
 	public var cornerMark:FlxText; // engine mark at the upper right corner
+	public var cornerSub:FlxText;
 	public var centerMark:FlxText; // song display name and difficulty at the center
 	public var autoplayMark:FlxText; // botplay/autoplay indicator at the center
 
@@ -84,6 +85,12 @@ class ClassHUD extends FlxSpriteGroup
 		cornerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		cornerMark.setPosition(FlxG.width - (cornerMark.width + 5), 5);
 		add(cornerMark);
+
+		cornerSub = new FlxText(0, 0, 0, engineSub);
+		cornerSub.setFormat(Paths.font('vcr'), 8, FlxColor.WHITE);
+		cornerSub.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
+		cornerSub.setPosition(FlxG.width - (cornerSub.width + 5), cornerMark.y + 30);
+		add(cornerSub);
 
 		centerMark = new FlxText(0, (Init.trueSettings.get('Downscroll') ? FlxG.height - 40 : 10), 0, '- $infoDisplay $diffDisplay -');
 		centerMark.setFormat(Paths.font('vcr'), 24, FlxColor.WHITE);
@@ -213,7 +220,7 @@ class ClassHUD extends FlxSpriteGroup
 		}
 
 		// update playstate
-		if(Init.trueSettings.get('HUD Style') == "Engine") //fix i think
+		if(Init.trueSettings.get('HUD Style') == "classic") //fix i think
 			PlayState.detailsSub = scoreBar.text;
 
 		PlayState.updateRPC(false);
