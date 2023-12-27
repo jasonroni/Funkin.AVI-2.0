@@ -120,10 +120,10 @@ class FreeplaySongs extends MusicBeatState
 		{
 			case 0: // Story Songs Menu
 				{
-					smilesShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
-					defaultShader2 = new FlxRuntimeShader(Shaders.monitorFilter, null, 140);
+					smilesShader = new FlxRuntimeShader(null, null, 120);
+					defaultShader2 = new FlxRuntimeShader(null, null, 140);
 					mercyShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/vhs.frag'), null, 130);
-					mercyShader2 = new FlxRuntimeShader(Shaders.cameraMovement, null, 150);
+					mercyShader2 = new FlxRuntimeShader(null, null, 150);
 					chromAberration = new FlxRuntimeShader(Shaders.aberration, null, 150);
 					chromAberration.setFloat('aberration', 0.12);
 					chromAberration.setFloat('effectTime', 0.24);

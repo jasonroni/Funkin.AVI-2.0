@@ -1,5 +1,7 @@
 package states.menus.freeplay;
 
+import openfl.ui.Mouse;
+import openfl.events.MouseEvent;
 import base.dependency.Discord;
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -55,6 +57,7 @@ class FreeplayCategories extends MusicBeatState {
 	];
 	
    	 override function create(){
+		FlxG.stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
 
 		super.create();
 
@@ -338,5 +341,23 @@ class FreeplayCategories extends MusicBeatState {
 
 		catDesc.resetText(catDescString[curSelected]);
 		catDesc.start(0.02, true);
+	}
+
+	override function destroy() {
+		super.destroy();
+
+		FlxG.stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+	}
+
+	function onMouseMove(r)
+	{
+		for (items in grpCats)
+			if (FlxG.mouse.overlaps(items))
+			{
+				Mouse.cursor = BUTTON;
+				return;
+			}
+
+		Mouse.cursor = AUTO;
 	}
 }

@@ -254,16 +254,13 @@ class Main extends Sprite
 		FlxG.signals.gameResized.add(onResizeGame);
 		FlxG.signals.postStateSwitch.add(() ->
 		{
-			optimizeGame(true);
 			GameData.saveShit();
 			if (!Init.trueSettings.get('Use System Cursor')) FlxG.mouse.load('assets/images/UI/funkinAVI/mouses/${Init.trueSettings.get('Cursor Style')}.png');
 		});
 		FlxG.signals.preStateSwitch.add(() ->
 		{
-			optimizeGame(false);
 			GameData.loadShit();
 		});
-		FlxG.signals.focusLost.add(() -> gc()); // they don't know
 
 		FlxGraphic.defaultPersist = false;
 
@@ -464,6 +461,7 @@ class Main extends Sprite
 		destroyGame();
 	}
 
+	// i fucking hate this bullshit it sucks ass but it rarely works :sob:
 	public static function optimizeGame(post:Bool = false)
 	{
 		if (!post)
@@ -510,7 +508,7 @@ class Main extends Sprite
 		for (cam in FlxG.cameras.list)
 		{
 			@:privateAccess
-			if (cam != null && (cam._filters != null || cam._filters != []))
+			if (cam != null && (cam.filters != null || cam.filters != []))
 				fixShaderSize(cam);
 		}
 	}

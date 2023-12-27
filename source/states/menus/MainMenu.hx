@@ -801,23 +801,26 @@ class MainMenu extends MusicBeatState
 				}
 				else
 				{
+					FlxG.stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
 					FlxFlicker.flicker(spr, 1, flashValue, false, false, function(flick:FlxFlicker)
 					{
 						switch (daChoice)
 						{
 							case 'story_mode':
 								FlxG.mouse.visible = false;
+								Mouse.cursor = AUTO;
 								Main.switchState(this, new states.menus.StoryMenu());
 							case 'credits':
 								FlxG.mouse.visible = false;
+								Mouse.cursor = AUTO;
 								Main.switchState(this, new states.menus.CreditsMenu());
 							case 'options':
 								transIn = FlxTransitionableState.defaultTransIn;
 								transOut = FlxTransitionableState.defaultTransOut;
+								Mouse.cursor = AUTO;
 								Main.switchState(this, new states.menus.OptionsMenu());
 						}
 					});
-					FlxG.stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
 					for (sillies in [arrow, menuItems.members[Math.floor(curSelected)]])
 					{
 						sillies.setColorTransform(1, 1, 1, 1, 255, 255, 255, 255);
