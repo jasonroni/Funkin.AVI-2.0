@@ -1770,12 +1770,12 @@ class PlayState extends MusicBeatState
 			if (startedCountdown)
 			{
 				// pause the game if the game is allowed to pause and enter is pressed
-				if (Controls.getPressEvent("pause") && canPause)
+				if (Controls.justPressed('pause') && canPause)
 					pauseGame();
 
 				if (gameplayMode != STORY)
 				{
-					if (Controls.getPressEvent("autoplay"))
+					if (Controls.justPressed("autoplay"))
 					{
 						PlayState.SONG.validScore = false;
 						bfStrums.autoplay = !bfStrums.autoplay;

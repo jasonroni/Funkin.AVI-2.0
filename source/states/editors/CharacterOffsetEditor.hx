@@ -743,8 +743,8 @@ class CharacterSelectorSubstate extends MusicBeatSubstate
 	{
 		super.update(elapsed);
 
-		var upP = Controls.getPressEvent("ui_up");
-		var downP = Controls.getPressEvent("ui_down");
+		var upP = Controls.justPressed("ui_up");
+		var downP = Controls.justPressed("ui_down");
 
 		if (characters.length > 1)
 		{
@@ -766,7 +766,7 @@ class CharacterSelectorSubstate extends MusicBeatSubstate
 				changeStageSelection(-1 * FlxG.mouse.wheel);
 		}
 
-		if (Controls.getPressEvent("accept") || FlxG.mouse.justPressed)
+		if (Controls.justPressed("accept") || FlxG.mouse.justPressed)
 		{
 			var editorInstance = CharacterOffsetEditor.instance;
 			var daSelected = grpChars.members[curSelected].text;
@@ -795,7 +795,7 @@ class CharacterSelectorSubstate extends MusicBeatSubstate
 			close();
 		}
 
-		if (Controls.getPressEvent("back") || FlxG.mouse.justPressedRight)
+		if (Controls.justPressed("back") || FlxG.mouse.justPressedRight)
 			close();
 	}
 

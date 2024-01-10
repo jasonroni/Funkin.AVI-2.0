@@ -177,10 +177,10 @@ class FreeplayCategories extends MusicBeatState {
 
     override public function update(elapsed:Float){
 
-		var up = Controls.getPressEvent("ui_left", "pressed");
-		var down = Controls.getPressEvent("ui_right", "pressed");
-		var up_p = Controls.getPressEvent("ui_left");
-		var down_p = Controls.getPressEvent("ui_right");
+		var up = Controls.pressed('ui_left');
+		var down = Controls.pressed('ui_right');
+		var up_p = Controls.justPressed('ui_left');
+		var down_p = Controls.justPressed("ui_right");
 		var controlArray:Array<Bool> = [up, down, up_p, down_p];
 
 		arrowFlash.setFloat('progress', flashThing);
@@ -202,10 +202,15 @@ class FreeplayCategories extends MusicBeatState {
 
 					if (i > 1)
 					{
-						if (i == 2 && curSelected != 0)
+						if (i == 2)
 							changeValue -= 1;
-						else if (i == 3 && curSelected != 2)
+						else if (i == 3)
 							changeValue += 1;
+
+						if (curSelected < 0)
+							curSelected = 2;
+						if (curSelected >= 2)
+							curSelected = -1; // WHY IS IT -1??!??!?!??!!??!?!
 
 						FlxG.sound.play(Paths.sound('base/menus/scrollMenu'));
 					}

@@ -155,16 +155,16 @@ class CreditsMenu extends MusicBeatState
 
 		EngineTools.cameraBumpingZooms(FlxG.camera, 1, null, elapsed);
 
-		if (Controls.getPressEvent("ui_up"))
+		if (Controls.justPressed("ui_up"))
 		{
 			changeSelection(-1);
 		}
-		else if (Controls.getPressEvent("ui_down"))
+		else if (Controls.justPressed("ui_down"))
 		{
 			changeSelection(1);
 		}
 
-		if (Controls.getPressEvent("back"))
+		if (Controls.justPressed("back"))
 		{
 			Main.switchState(this, new MainMenu());
 			Conductor.changeBPM(50); // changes back to titlescreen bpm

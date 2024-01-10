@@ -24,6 +24,8 @@ class Controls
 	// used by playstate for main controls;
 	public static var keyEventTrigger:Event<BindCall> = new Event<BindCall>();
 
+	public static var instance:Controls;
+
 	public static var defaultActions:Map<String, Array<FlxKey>> = [
 		// NOTE KEYS
 		"left" => [FlxKey.LEFT, FlxKey.A],
@@ -74,9 +76,9 @@ class Controls
 		"volMute" => 20,
 	];
 
-	public static var actions:Map<String, Array<Key>> = [];
+	public static var actions:Map<String, Array<FlxKey>> = [];
 
-	public static var keysHeld:Array<Key> = [];
+	public static var keysHeld:Array<FlxKey> = [];
 
 	public static function init()
 	{
@@ -134,7 +136,7 @@ class Controls
 		}
 	}
 
-	inline private static function catchKeys(key:Key):Array<String>
+	inline private static function catchKeys(key:FlxKey):Array<String>
 	{
 		//
 		if (key == null)
@@ -150,7 +152,7 @@ class Controls
 		return gottenKeys;
 	}
 
-	inline public static function getKeyState(key:Key):KeyState
+	inline public static function getKeyState(key:FlxKey):KeyState
 	{
 		//
 		return keysHeld.contains(key) ? PRESSED : RELEASED;
@@ -197,6 +199,18 @@ class Controls
 		}
 
 		return false;
+	}
+
+	public static function justPressed(key:String)
+	{
+		var result:Bool = (FlxG.keys.anyJustPressed(defaultActions[key]) == true);
+		return result;
+	}
+
+	public static function pressed(key:String)
+	{
+		var result:Bool = (FlxG.keys.anyPressed(defaultActions[key]) == true);
+		return result;
 	}
 
 	inline public static function addActionKey(action:String, keys:Array<Key>)

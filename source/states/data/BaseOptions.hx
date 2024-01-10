@@ -296,7 +296,7 @@ class BaseOptions extends MusicBeatState
 	 */
 	public function updateCheckmarks()
 	{
-		if (Controls.getPressEvent("accept"))
+		if (Controls.justPressed("accept"))
 		{
 			FlxG.sound.play(Paths.sound('base/menus/scrollMenu'));
 
@@ -339,14 +339,14 @@ class BaseOptions extends MusicBeatState
 		//
 		var selector:Selector = attachmentsMap.get(alphabetGroup.members[curSelected]);
 
-		if (!Controls.getPressEvent("ui_left", "pressed"))
+		if (!Controls.pressed("ui_left"))
 			selector.selectorPlay('left');
-		if (!Controls.getPressEvent("ui_right", "pressed"))
+		if (!Controls.pressed("ui_right"))
 			selector.selectorPlay('right');
 
-		if (Controls.getPressEvent("ui_left"))
+		if (Controls.justPressed("ui_left"))
 			updateSelector(selector, -1);
-		if (Controls.getPressEvent("ui_right"))
+		if (Controls.justPressed("ui_right"))
 			updateSelector(selector, 1);
 	}
 

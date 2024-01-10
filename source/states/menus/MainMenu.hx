@@ -471,10 +471,10 @@ class MainMenu extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		var up = Controls.getPressEvent("ui_up", "pressed");
-		var down = Controls.getPressEvent("ui_down", "pressed");
-		var up_p = Controls.getPressEvent("ui_up");
-		var down_p = Controls.getPressEvent("ui_down");
+		var up = Controls.pressed("ui_up");
+		var down = Controls.pressed("ui_down");
+		var up_p = Controls.justPressed("ui_up");
+		var down_p = Controls.justPressed("ui_down");
 		var controlArray:Array<Bool> = [up, down, up_p, down_p];
 
 		if (!CoolUtil.findCoreFile())
@@ -632,7 +632,7 @@ class MainMenu extends MusicBeatState
 		if (!Init.trueSettings.get('Disable Screen Shaders'))
 			darkFilter.setFloat('iTime', elapsed);
 
-		if ((Controls.getPressEvent("back")) && (!selectedSomethin))
+		if ((Controls.justPressed("back")) && (!selectedSomethin))
 		{
 			//
 			selectedSomethin = true;
@@ -640,7 +640,7 @@ class MainMenu extends MusicBeatState
 			Main.switchState(this, new TitleState());
 		}
 
-		if ((Controls.getPressEvent("accept")) && (!selectedSomethin))
+		if ((Controls.justPressed("accept")) && (!selectedSomethin))
 		{
 			enterSelection();
 		}
