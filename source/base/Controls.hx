@@ -24,28 +24,28 @@ class Controls
 	// used by playstate for main controls;
 	public static var keyEventTrigger:Event<BindCall> = new Event<BindCall>();
 
-	public static var defaultActions:Map<String, Array<Key>> = [
+	public static var defaultActions:Map<String, Array<FlxKey>> = [
 		// NOTE KEYS
-		"left" => [Keyboard.LEFT, Keyboard.A],
-		"down" => [Keyboard.DOWN, Keyboard.S],
-		"up" => [Keyboard.UP, Keyboard.W],
-		"right" => [Keyboard.RIGHT, Keyboard.D],
+		"left" => [FlxKey.LEFT, FlxKey.A],
+		"down" => [FlxKey.DOWN, FlxKey.S],
+		"up" => [FlxKey.UP, FlxKey.W],
+		"right" => [FlxKey.RIGHT, FlxKey.D],
 		// UI KEYS
-		"ui_left" => [Keyboard.LEFT, Keyboard.A],
-		"ui_down" => [Keyboard.DOWN, Keyboard.S],
-		"ui_up" => [Keyboard.UP, Keyboard.W],
-		"ui_right" => [Keyboard.RIGHT, Keyboard.D],
-		"accept" => [Keyboard.ENTER, Keyboard.SPACE],
-		"pause" => [Keyboard.ENTER, Keyboard.P],
-		"back" => [Keyboard.ESCAPE, Keyboard.BACKSPACE],
+		"ui_left" => [FlxKey.LEFT, FlxKey.A],
+		"ui_down" => [FlxKey.DOWN, FlxKey.S],
+		"ui_up" => [FlxKey.UP, FlxKey.W],
+		"ui_right" => [FlxKey.RIGHT, FlxKey.D],
+		"accept" => [FlxKey.ENTER, FlxKey.SPACE],
+		"pause" => [FlxKey.ENTER, FlxKey.P],
+		"back" => [FlxKey.ESCAPE, FlxKey.BACKSPACE],
 		// MISC GAME KEYS
-		"reset" => [Keyboard.R, Keyboard.END],
-		"autoplay" => [Keyboard.NUMBER_6],
-		"skip" => [Keyboard.SHIFT, Keyboard.END],
+		"reset" => [FlxKey.R, FlxKey.END],
+		"autoplay" => [FlxKey.SIX],
+		"skip" => [FlxKey.SHIFT, FlxKey.END],
 		//
-		"volUp" => [Keyboard.EQUAL, Keyboard.NUMPAD_ADD],
-		"volDown" => [Keyboard.MINUS, Keyboard.NUMPAD_MULTIPLY],
-		"volMute" => [Keyboard.NUMBER_0, Keyboard.NUMPAD_0],
+		"volUp" => [FlxKey.PLUS, FlxKey.PLUS],
+		"volDown" => [FlxKey.MINUS, FlxKey.MINUS],
+		"volMute" => [FlxKey.ZERO, FlxKey.NUMPADZERO],
 	];
 
 	// thing to sort by key ID idk i'm a dummy @BeastlyGhost
