@@ -293,6 +293,12 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 				PlayState.camHUD.alpha = 0.001;
 				PlayState.main.crashLivesCounter += 45;
 			case 'Birthday':
+				for (i in PlayState.strumHUD)
+				{
+					i.alpha = 0.001;
+				}
+				PlayState.camGame.fade(FlxColor.BLACK, 0.0001);
+				PlayState.camHUD.alpha = 0.001;
 				GameData.muckneyLock = 'beaten'; // instantly gives you birthday lel
 				GameData.saveShit();
 		}
@@ -1711,6 +1717,87 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 				{
 					case 64: FlxTween.tween(PlayState.opponent, {alpha: 1}, 10);
 					case 424: FlxTween.tween(PlayState.opponent, {alpha: 0}, 5);
+				}
+
+			case 'Birthday':
+				switch (curBeat)
+				{
+					case 2: PlayState.camGame.fade(FlxColor.BLACK, 3, true);
+					case 32: PlayState.defaultCamZoom = 1.18;
+					case 60:
+						PlayState.cameraSpeed = 0.5;
+						PlayState.defaultCamZoom = 0.85;
+						FlxTween.tween(PlayState.camHUD, {alpha: 1}, 3);
+						for (i in PlayState.strumHUD)
+							FlxTween.tween(i, {alpha: 1}, 3);
+					case 64:
+						PlayState.camGame.flash(FlxColor.WHITE, 1);
+						PlayState.cameraSpeed = 1;
+					case 192:
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.7, timer: 1, colors: [66, 224, 245]});
+						FlxG.camera.zoom += 0.09;
+						PlayState.camHUD.zoom += 0.08;
+						for (i in PlayState.strumHUD)
+							i.zoom += 0.08;
+						PlayState.defaultCamZoom = 1;
+						PlayState.cameraSpeed = 0.7;
+					case 204 | 205 | 221 | 222 | 223 | 236 | 237 | 253 | 254 | 255: PlayState.defaultCamZoom += 0.1;
+					case 206 | 238: PlayState.defaultCamZoom = 1;
+					case 224:
+						PlayState.defaultCamZoom = 1;
+						PlayState.main.flashBGEffect(NORMAL, {alpha: 0.7, timer: 1, colors: [119, 247, 96]});
+						FlxG.camera.zoom += 0.09;
+						PlayState.camHUD.zoom += 0.08;
+						for (i in PlayState.strumHUD)
+							i.zoom += 0.08;
+					case 256: PlayState.defaultCamZoom = 0.85;
+					case 320: tweenCamera(1, 1.5, 'sineInOut');
+					case 336:
+						tweenCamera(1.3, 2.8, 'quartInOut');
+						PlayState.main.offsetTwn = FlxTween.tween(PlayState.main, {camDisplaceX: PlayState.main.camDisplaceX - 150}, 3, {ease: FlxEase.sineInOut, onComplete: function(twn:FlxTween)
+						{
+							PlayState.main.offsetTwn = null;
+						}});
+					case 348:
+						if (PlayState.main.offsetTwn != null)
+							PlayState.main.offsetTwn.cancel();
+						tweenCamera(1, 1.2, 'quartInOut');
+						PlayState.main.offsetTwn = FlxTween.tween(PlayState.main, {camDisplaceX: PlayState.main.camDisplaceX + 100}, 1.2, {ease: FlxEase.sineInOut, onComplete: function(twn:FlxTween)
+							{
+								PlayState.main.offsetTwn = null;
+							}});
+					case 351: FlxTween.tween(PlayState.opponent, {'scale.x': 0}, 0.3, {ease: FlxEase.quartInOut, onComplete: function(twn:FlxTween)
+						{
+							FlxTween.tween(PlayState.opponent, {'scale.x': 1}, 0.3, {ease: FlxEase.quartOut});
+						}});
+					case 416: FlxTween.tween(PlayState.boyfriend, {'scale.y': 0}, 0.5, {ease: FlxEase.quartInOut, onComplete: function(twn:FlxTween)
+						{
+							FlxTween.tween(PlayState.boyfriend, {'scale.y': 1.2}, 0.5, {ease: FlxEase.quartOut});
+						}});
+					case 476: tweenCamera(0.85, 2, 'quartInOut');
+					case 477: FlxTween.tween(PlayState.opponent, {'scale.x': 0}, 0.3, {ease: FlxEase.quartInOut, onComplete: function(twn:FlxTween)
+						{
+							FlxTween.tween(PlayState.opponent, {'scale.x': 0.6}, 0.3, {ease: FlxEase.quartOut});
+						}});
+					case 481: FlxTween.tween(PlayState.boyfriend, {'scale.y': 0}, 0.7, {ease: FlxEase.quartInOut, onComplete: function(twn:FlxTween)
+						{
+							FlxTween.tween(PlayState.boyfriend, {'scale.y': 0.6}, 0.7, {ease: FlxEase.quartOut});
+						}});
+					case 536 | 540 | 544: PlayState.defaultCamZoom += 0.18;
+					case 548: tweenCamera(0.8, 2, 'sineOut');
+					case 552:
+						PlayState.camGame.visible = false;
+						PlayState.camHUD.visible = false;
+						for (i in PlayState.strumHUD)
+							i.visible = false;
+						PlayState.camOther.flash(FlxColor.WHITE, 3);
+				}
+				if (curBeat >= 64 && curBeat <= 191 || curBeat >= 256 && curBeat <= 319)
+				{
+					FlxG.camera.zoom += 0.07;
+					PlayState.camHUD.zoom += 0.06;
+					for (i in PlayState.strumHUD)
+						i.zoom += 0.06;
 				}
 
 			case 'Mercy Legacy':

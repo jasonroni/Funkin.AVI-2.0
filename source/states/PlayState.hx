@@ -307,6 +307,7 @@ class PlayState extends MusicBeatState
 	var blurHUDTween:FlxTween;
 	var staticTween:FlxTween;
 	var vignetteTween:FlxTween;
+	var offsetTwn:FlxTween;
 
 	var globalGradient:FlxSprite;
 
@@ -364,9 +365,6 @@ class PlayState extends MusicBeatState
 		boyfriend.setCharacter(0, 0, SONG.player1);
 
 		// add characters
-		if (stageBuild.spawnGirlfriend)
-			add(gf);
-
 		add(stageBuild.layers);
 
 		stageBGFlash = new FlxSprite().makeGraphic(1, 1, 0xFFFFFFFF);
@@ -374,6 +372,9 @@ class PlayState extends MusicBeatState
 		stageBGFlash.alpha = 0.0001; // it's at this value so the game doesn't lag when it becomes visible
 		stageBGFlash.scrollFactor.set();
 		add(stageBGFlash);
+
+		if (stageBuild.spawnGirlfriend)
+			add(gf);
 
 		if (curStage == 'fuckingLine')
 		{
@@ -415,9 +416,6 @@ class PlayState extends MusicBeatState
 		remove(stageBuild.foreground);
 
 		// add characters
-		if (stageBuild.spawnGirlfriend)
-			add(gf);
-
 		add(stageBuild.layers);
 
 		stageBGFlash = new FlxSprite().makeGraphic(1, 1, 0xFFFFFFFF);
@@ -427,6 +425,9 @@ class PlayState extends MusicBeatState
 		stageBGFlash.y -= 450;
 		stageBGFlash.scrollFactor.set();
 		add(stageBGFlash);
+
+		if (stageBuild.spawnGirlfriend)
+			add(gf);
 
 		add(opponent);
 		add(boyfriend);
