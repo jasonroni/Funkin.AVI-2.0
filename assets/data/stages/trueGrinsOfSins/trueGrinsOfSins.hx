@@ -57,7 +57,7 @@ function onUpdate(elapsed:Float, boyfriend:Character, gf:Character, dad:Characte
 function charStagePos(boyfriend:Character, gf:Character, dad:Character)
 {
 	boyfriend.setPosition(1300, 400);
-	dad.setPosition(130, 480);
+	dad.setPosition(0, 0);
 }
 
 
