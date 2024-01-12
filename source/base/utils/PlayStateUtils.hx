@@ -731,16 +731,6 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						tweenCamera(1.3, 2, 'sineInOut');
 						PlayState.main.flashBGEffect(DARK, {alpha: 0.85, timer: 0.5, ease: FlxEase.quartOut});
 
-					case 179 | 371:
-						PlayState.opponent.setCharacter(100, 100, 'mick-isolated-new');
-						PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent);
-						PlayState.opponent.dance(true);
-
-						if (PlayState.opponentMap.get('mick-isolated-new') != null)
-							PlayState.opponentMap.remove('mick-isolated-new');
-
-						PlayState.opponentMap.set('mickey-whistle', new Character(false).setCharacter(100, 100, 'mickey-whistle'));
-
 					case 184:
 						PlayState.main.flashBGEffect(DARK, {alpha: 0.77, timer: 0.5, ease: FlxEase.quartOut});
 
@@ -1343,6 +1333,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						{
 							i.alpha = 0;
 						}
+						PlayState.main.camDisplaceX += 100;
 	
 					case 506:
 						FlxTween.tween(PlayState.camHUD, {alpha: 0.5}, 4, {ease: FlxEase.sineInOut});

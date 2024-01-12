@@ -18,6 +18,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 	public var layers:FlxTypedGroup<FlxBasic>;
 
 	public var spawnGirlfriend:Bool = true;
+	public var spawnSecondaryOpponent:Bool = false;
 	public var hideBoyfriend:Bool = false;
 
 	public var stageScript:ScriptHandler;
@@ -85,25 +86,26 @@ class Stage extends FlxTypedGroup<FlxBasic>
 		});
 	}
 
-	public function dadPosition(curStage:String, boyfriend:Character, gf:Character, dad:Character, camPos:FlxPoint):Void
-		callFunc('onPostCreate', [boyfriend, gf, dad]);
+	public function dadPosition(curStage:String, boyfriend:Character, gf:Character, dad:Character, mom:Character, camPos:FlxPoint):Void
+		callFunc('onPostCreate', [boyfriend, gf, dad, mom]);
 
-	public function repositionPlayers(curStage:String, boyfriend:Character, gf:Character, dad:Character)
+	public function repositionPlayers(curStage:String, boyfriend:Character, gf:Character, dad:Character, mom:Character)
 	{
 		boyfriend.setPosition(770, 450);
 		dad.setPosition(100, 100);
+		mom.setPosition(150, 50);
 		gf.setPosition(300, 100);
-		callFunc('charStagePos', [boyfriend, gf, dad]);
+		callFunc('charStagePos', [boyfriend, gf, dad, mom]);
 	}
 
-	public function stageUpdate(curBeat:Int, boyfriend:Character, gf:Character, dad:Character)
-		callFunc('onBeat', [curBeat, boyfriend, gf, dad]);
+	public function stageUpdate(curBeat:Int, boyfriend:Character, gf:Character, dad:Character, mom:Character)
+		callFunc('onBeat', [curBeat, boyfriend, gf, dad, mom]);
 
-	public function stageUpdateSteps(curStep:Int, boyfriend:Character, gf:Character, dad:Character)
-		callFunc('onStep', [curStep, boyfriend, gf, dad]);
+	public function stageUpdateSteps(curStep:Int, boyfriend:Character, gf:Character, dad:Character, mom:Character)
+		callFunc('onStep', [curStep, boyfriend, gf, dad, mom]);
 
-	public function stageUpdateConstant(elapsed:Float, boyfriend:Character, gf:Character, dad:Character)
-		callFunc('onUpdate', [elapsed, boyfriend, gf, dad]);
+	public function stageUpdateConstant(elapsed:Float, boyfriend:Character, gf:Character, dad:Character, mom:Character)
+		callFunc('onUpdate', [elapsed, boyfriend, gf, dad, mom]);
 
 	override public function add(Object:FlxBasic):FlxBasic
 	{
@@ -138,6 +140,10 @@ class Stage extends FlxTypedGroup<FlxBasic>
 		{
 			hideBoyfriend = hidden;
 		});
+		setVar('spawnSecondaryOpponent', function(lmao:Bool)
+		{
+			spawnSecondaryOpponent = lmao;
+		});
 		if (PlayState.SONG != null)
 			setVar('songName', PlayState.SONG.song.toLowerCase());
 
@@ -168,6 +174,20 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			setVar('dadOpponentData', PlayState.opponent.characterData);
 			setVar('opponentData', PlayState.opponent.characterData);
 		}
+
+		if (PlayState.opponentSecondary != null)
+			{
+				setVar('mom', PlayState.opponentSecondary);
+				setVar('momOpponent', PlayState.opponentSecondary);
+				setVar('opponentSecondary', PlayState.opponentSecondary);
+				setVar('momName', PlayState.opponentSecondary.curCharacter);
+				setVar('momOpponentName', PlayState.opponentSecondary.curCharacter);
+				setVar('opponentSecondaryName', PlayState.opponentSecondary.curCharacter);
+	
+				setVar('momData', PlayState.opponentSecondary.characterData);
+				setVar('momOpponentData', PlayState.opponentSecondary.characterData);
+				setVar('opponentSecondaryData', PlayState.opponentSecondary.characterData);
+			}
 
 		if (PlayState.gf != null)
 		{

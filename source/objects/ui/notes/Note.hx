@@ -6,6 +6,7 @@ import base.utils.FNFUtils.FNFSprite;
 import base.utils.ScoreUtils;
 import flixel.FlxSprite;
 import objects.ui.notes.Strumline.Receptor;
+import flixel.math.FlxRect;
 
 class Note extends FNFSprite
 {
@@ -18,6 +19,7 @@ class Note extends FNFSprite
 	public var noAnim:Bool = false;
 
 	public var mustPress:Bool = false;
+	public var isMomNote:Bool = false;
 	public var noteData:Int = 0;
 
 	public var noteType:String = 'default';
@@ -141,6 +143,14 @@ class Note extends FNFSprite
 		super.update(elapsed);
 
 		updateSustainScale();
+
+		if (isMomNote)
+		{
+			canBeHit = false;
+	
+			if (strumTime <= Conductor.songPosition)
+				wasGoodHit = true;
+		}
 
 		if (mustPress)
 		{

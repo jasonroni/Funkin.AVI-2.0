@@ -30,10 +30,14 @@ class ChartParser
 
 				// check the base section
 				var gottaHitNote:Bool = section.mustHitSection;
+				var isMomNote:Bool = false;
 
 				// if the note is on the other side, flip the base section of the note
 				if (songNotes[1] > 3)
 					gottaHitNote = !section.mustHitSection;
+
+				if (songNotes[1] > 7)
+					isMomNote = true;
 
 				// define the note that comes before (previous note)
 				var oldNote:Note;
@@ -71,6 +75,7 @@ class ChartParser
 				swagNote.noteType = daNoteType;
 				swagNote.noteSpeed = songData.speed;
 				swagNote.mustPress = gottaHitNote;
+				swagNote.isMomNote = isMomNote;
 
 				// set animation parameters for notes!
 				swagNote.noteSuffix = songNotes[4];

@@ -100,6 +100,7 @@ class OriginalChartingState extends MusicBeatState
 
 	var leftIcon:HealthIcon;
 	var rightIcon:HealthIcon;
+	var player3Icon:HealthIcon;
 
 	var playTicksBf:FlxUICheckBox = null;
 	var playTicksDad:FlxUICheckBox = null;
@@ -157,11 +158,11 @@ class OriginalChartingState extends MusicBeatState
 		#end
 		#end
 
-		bpmTxt = new FlxText(1000, 50, 0, "", 16);
+		bpmTxt = new FlxText(1150, 50, 0, "", 16);
 		bpmTxt.scrollFactor.set();
 		add(bpmTxt);
 
-		strumLine = new FlxSprite(0, 50).makeGraphic(Std.int(FlxG.width / 2), 4);
+		strumLine = new FlxSprite(gridBG.x, 50).makeGraphic(Std.int((FlxG.width / 2) + 120), 4);
 		add(strumLine);
 
 		dummyArrow = new FlxSprite().makeGraphic(GRID_SIZE, GRID_SIZE);
@@ -177,7 +178,7 @@ class OriginalChartingState extends MusicBeatState
 		UI_box = new FlxUITabMenu(null, tabs, true);
 
 		UI_box.resize(300, 400);
-		UI_box.x = FlxG.width / 2 + 50;
+		UI_box.x = FlxG.width / 2 + 190;
 		UI_box.y = 20;
 		add(UI_box);
 
@@ -383,6 +384,16 @@ class OriginalChartingState extends MusicBeatState
 		assetModifierDropDown.selectedLabel = _song.assetModifier;
 		blockPressDropDown.push(assetModifierDropDown);
 
+		var player3DropDown = new FlxUIDropDownMenu(assetModifierDropDown.x, assetModifierDropDown.y + 40, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true),
+			function(character:String)
+			{
+				_song.player3 = characters[Std.parseInt(character)];
+				updateHeads(true);
+			});
+		player3DropDown.dropDirection = Down;
+		player3DropDown.selectedLabel = _song.player3;
+		blockPressDropDown.push(player3DropDown);
+
 		playTicksBf = new FlxUICheckBox(check_mute_inst.x, check_mute_inst.y + 25, null, null, 'Play Hitsounds (Boyfriend - in editor)', 100);
 		playTicksBf.checked = false;
 
@@ -414,6 +425,8 @@ class OriginalChartingState extends MusicBeatState
 		tab_group_song.add(assetModifierDropDown);
 		tab_group_song.add(new FlxText(stageDropDown.x, stageDropDown.y - 15, 0, 'Stage:'));
 		tab_group_song.add(stageDropDown);
+		tab_group_song.add(new FlxText(player3DropDown.x, player3DropDown.y -15, 0, 'Opponent 2:'));
+		tab_group_song.add(player3DropDown);
 
 		UI_box.addGroup(tab_group_song);
 		UI_box.scrollFactor.set();
@@ -706,10 +719,13 @@ class OriginalChartingState extends MusicBeatState
 	{
 		gridGroup.clear();
 
-		gridBG = FlxGridOverlay.create(GRID_SIZE, GRID_SIZE, GRID_SIZE * 9, GRID_SIZE * 16);
+		gridBG = FlxGridOverlay.create(GRID_SIZE, GRID_SIZE, GRID_SIZE * 13, GRID_SIZE * 16);
 		gridGroup.add(gridBG);
 
 		var gridBlackLine:FlxSprite = new FlxSprite(gridBG.x + gridBG.width - (GRID_SIZE * 4)).makeGraphic(2, Std.int(gridBG.height), FlxColor.BLACK);
+		gridGroup.add(gridBlackLine);
+		
+		var gridBlackLine:FlxSprite = new FlxSprite(gridBG.x + gridBG.width - (GRID_SIZE * 8)).makeGraphic(2, Std.int(gridBG.height), FlxColor.BLACK);
 		gridGroup.add(gridBlackLine);
 
 		var gridBlackLine:FlxSprite = new FlxSprite(gridBG.x + GRID_SIZE).makeGraphic(2, Std.int(gridBG.height), FlxColor.BLACK);
@@ -1116,7 +1132,7 @@ class OriginalChartingState extends MusicBeatState
 
 		// real thanks for the help with this ShadowMario, you are the best @BeastlyGhost
 		var playedSound:Array<Bool> = [];
-		for (i in 0...8)
+		for (i in 0...12)
 			playedSound.push(false);
 		curRenderedNotes.forEachAlive(function(note:Note)
 		{
@@ -1302,14 +1318,15 @@ class OriginalChartingState extends MusicBeatState
 			generateHeads();
 		if (!_song.notes[curSection].mustHitSection)
 		{
-			leftIcon.setPosition(gridBG.width / 2, -100);
+			leftIcon.setPosition(gridBG.width / 3, -100);
 			rightIcon.setPosition(0, -100);
 		}
 		else
 		{
 			leftIcon.setPosition(0, -100);
-			rightIcon.setPosition(gridBG.width / 2, -100);
+			rightIcon.setPosition(gridBG.width / 3, -100);
 		}
+		player3Icon.setPosition(gridBG.width / 1.5, -100);
 	}
 
 	function generateHeads()
@@ -1324,25 +1341,37 @@ class OriginalChartingState extends MusicBeatState
 			rightIcon.destroy();
 			remove(rightIcon);
 		}
+		if (player3Icon != null)
+		{
+			player3Icon.destroy();
+			remove(player3Icon);
+		}
 		var boyfriend:objects.Boyfriend = new objects.Boyfriend();
 		var opponent:objects.Character = new objects.Character();
+		var opponentSecondary:objects.Character = new objects.Character();
 
 		boyfriend.setCharacter(0, 0, _song.player1);
 		opponent.setCharacter(0, 0, _song.player2);
+		opponentSecondary.setCharacter(0, 0, _song.player3);
 
 		leftIcon = new HealthIcon(boyfriend.characterData.icon);
 		rightIcon = new HealthIcon(opponent.characterData.icon);
+		player3Icon = new HealthIcon(opponentSecondary != null ? opponentSecondary.characterData.icon : 'placeholder');
 		leftIcon.scrollFactor.set(1, 1);
 		rightIcon.scrollFactor.set(1, 1);
+		player3Icon.scrollFactor.set(1, 1);
 
 		leftIcon.setGraphicSize(0, 45);
 		rightIcon.setGraphicSize(0, 45);
+		player3Icon.setGraphicSize(0, 45);
 
 		add(leftIcon);
 		add(rightIcon);
+		add(player3Icon);
 
 		boyfriend.destroy();
 		opponent.destroy();
+		opponentSecondary.destroy();
 
 		updateHeads();
 	}
@@ -1414,6 +1443,8 @@ class OriginalChartingState extends MusicBeatState
 
 			if (i[1] > 3)
 				note.mustPress = !note.mustPress;
+			if (i[1] > 7)
+				note.isMomNote = !note.isMomNote;
 
 			curRenderedNotes.add(note);
 
@@ -1610,7 +1641,7 @@ class OriginalChartingState extends MusicBeatState
 		curSelectedNote = _song.notes[curSection].sectionNotes[_song.notes[curSection].sectionNotes.length - 1];
 
 		if (FlxG.keys.pressed.CONTROL)
-			_song.notes[curSection].sectionNotes.push([noteStrum, (noteData + 4) % 8, noteSus, noteType]);
+			_song.notes[curSection].sectionNotes.push([noteStrum, (noteData + 4) % 12, noteSus, noteType]);
 
 		updateGrid();
 		updateNoteUI();

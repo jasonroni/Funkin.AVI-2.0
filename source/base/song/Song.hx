@@ -18,6 +18,7 @@ class Song
 
 	public var player1:String = 'bf';
 	public var player2:String = 'dad';
+	public var player3:String = 'mom';
 	public var gfVersion:String = 'gf';
 	
 	public function new(song, notes, bpm)
@@ -48,6 +49,7 @@ class Song
 				song: "ERROR, CHECK YOUR CHART JSON!",
 				player1: "placeholder",
 				player2: "placeholder",
+				player3: "placeholder",
 				gfVersion: "placeholder",
 				stage: "",
 				speed: 1,
@@ -72,6 +74,7 @@ class Song
 				song: oldSong.song,
 				player1: oldSong.player1,
 				player2: oldSong.player2,
+				player3: oldSong.player3,
 				gfVersion: oldSong.gfVersion,
 				stage: oldSong.stage,
 				speed: oldSong.speed,

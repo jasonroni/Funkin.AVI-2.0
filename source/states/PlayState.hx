@@ -139,12 +139,14 @@ class PlayState extends MusicBeatState
 
 	// Characters;
 	public static var opponent:Character;
+	public static var opponentSecondary:Character;
 	public static var gf:Character;
 	public static var boyfriend:Boyfriend;
 
 	// used by events, stores characters and character names in maps;
 	public static var playerMap:Map<String, Character> = new Map();
 	public static var opponentMap:Map<String, Character> = new Map();
+	public static var opponentSecondaryMap:Map<String, Character> = new Map();
 	public static var spectatorMap:Map<String, Character> = new Map();
 
 	// Custom;
@@ -225,6 +227,7 @@ class PlayState extends MusicBeatState
 	// strumlines
 	public static var dadStrums:Strumline;
 	public static var bfStrums:Strumline;
+	public static var momStrums:Strumline;
 
 	public static var strumLines:FlxTypedGroup<Strumline>;
 	public static var strumHUD:Array<FlxCamera> = [];
@@ -355,12 +358,14 @@ class PlayState extends MusicBeatState
 	public function generateCharacters()
 	{
 		opponent = new Character();
+		opponentSecondary = new Character();
 		boyfriend = new Boyfriend();
 		gf = new Character();
 
 		gf.setCharacter(0, 0, SONG.gfVersion);
 		gf.scrollFactor.set(0.95, 0.95);
 
+		opponentSecondary.setCharacter(0, 0, SONG.player3);
 		opponent.setCharacter(0, 0, SONG.player2);
 		boyfriend.setCharacter(0, 0, SONG.player1);
 
@@ -375,6 +380,9 @@ class PlayState extends MusicBeatState
 
 		if (stageBuild.spawnGirlfriend)
 			add(gf);
+
+		if (stageBuild.spawnSecondaryOpponent)
+			add(opponentSecondary);
 
 		if (curStage == 'fuckingLine')
 		{
@@ -396,10 +404,12 @@ class PlayState extends MusicBeatState
 		add(stageBuild.foreground);
 
 		// force them to dance
+		opponentSecondary.dance();
 		opponent.dance();
 		gf.dance();
 		boyfriend.dance();
 
+		opponentSecondary.antialiasing = !opponentSecondary.curCharacter.endsWith('-pixel');
 		opponent.antialiasing = !opponent.curCharacter.endsWith('-pixel');
 		gf.antialiasing = !gf.curCharacter.endsWith('-pixel');
 		boyfriend.antialiasing = !boyfriend.curCharacter.endsWith('-pixel');
@@ -410,6 +420,7 @@ class PlayState extends MusicBeatState
 	public function regenerateCharacters()
 	{
 		remove(gf);
+		remove(opponentSecondary);
 		remove(opponent);
 		remove(boyfriend);
 		remove(stageBuild.layers);
@@ -429,16 +440,21 @@ class PlayState extends MusicBeatState
 		if (stageBuild.spawnGirlfriend)
 			add(gf);
 
+		if (stageBuild.spawnSecondaryOpponent)
+			add(opponentSecondary);
+
 		add(opponent);
 		add(boyfriend);
 
 		add(stageBuild.foreground);
 
 		// force them to dance
+		opponentSecondary.dance();
 		opponent.dance();
 		gf.dance();
 		boyfriend.dance();
 
+		opponentSecondary.antialiasing = !opponentSecondary.curCharacter.endsWith('-pixel');
 		opponent.antialiasing = !opponent.curCharacter.endsWith('-pixel');
 		gf.antialiasing = !gf.curCharacter.endsWith('-pixel');
 		boyfriend.antialiasing = !boyfriend.curCharacter.endsWith('-pixel');
@@ -448,8 +464,8 @@ class PlayState extends MusicBeatState
 
 	public function repositionChars()
 	{
-		stageBuild.repositionPlayers(curStage, boyfriend, gf, opponent);
-		stageBuild.dadPosition(curStage, boyfriend, gf, opponent, new FlxPoint(gf.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100));
+		stageBuild.repositionPlayers(curStage, boyfriend, gf, opponent, opponentSecondary);
+		stageBuild.dadPosition(curStage, boyfriend, gf, opponent, opponentSecondary, new FlxPoint(gf.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100));
 	}
 
 	// at the beginning of the playstate
@@ -602,17 +618,26 @@ class PlayState extends MusicBeatState
 
 		var placement = (FlxG.width / 2);
 		var height = (downscroll ? FlxG.height - 175 : 25);
+		var backwardsHeight = (!downscroll ? FlxG.height - 175 : 25);
 
 		dadStrums = new Strumline(placement - (FlxG.width / 4) - (noteSkinType != 'VANILLA' && assetModifier != 'pixel' ? 12 : 0), height + (assetModifier == 'pixel' ? 10 : 0), [opponent], downscroll, false, true, checkTween(true), false, 4);
 		bfStrums = new Strumline(placement + (!centered ? (FlxG.width / 4) : 0) - (noteSkinType != 'VANILLA' && assetModifier != 'pixel' ? 12 : 0), height + (assetModifier == 'pixel' ? 10 : 0), [boyfriend], downscroll, true, false, checkTween(false), true, 4);
+		momStrums = new Strumline(placement - (PlayState.noteSkinType != 'VANILLA' && PlayState.assetModifier != 'pixel' ? 12 : 0), backwardsHeight + (PlayState.assetModifier == 'pixel' ? 10 : 0), [opponentSecondary], !downscroll, false, true, checkTween(true), false, 4);
 
 		if (curStage == 'waltRoom')
+		{
 			dadStrums.visible = false;
+			momStrums.visible = false;
+		}
 		else
+		{
 			dadStrums.visible = !centered;
+			momStrums.visible = /*opponentSecondary != null ? !centered :*/ false;
+		}
 
 		strumLines.add(dadStrums);
 		strumLines.add(bfStrums);
+		strumLines.add(momStrums);
 
 		strumHUD = [];
 		for (i in 0...strumLines.length)
@@ -892,8 +917,7 @@ class PlayState extends MusicBeatState
 				var previousTime:Float = Conductor.songPosition;
 				if (SONG.instType == "Legacy" || SONG.instType == null)
 					Conductor.songPosition = songMusic.time;
-
-				if (SONG.instType == "New")
+				else
 					Conductor.songPosition = songMusicNew.time;
 				// improved this a little bit, maybe its a lil
 				var possibleNoteList:Array<Note> = [];
@@ -1003,12 +1027,21 @@ class PlayState extends MusicBeatState
 					note.updateHitbox();
 				}
 			}
+			for (note in momStrums.allNotes)
+			{
+				if (note.customScrollspeed && note.isSustainNote && !note.animation.curAnim.name.endsWith('end'))
+					{
+						note.scale.y *= ratio;
+						note.updateHitbox();
+					}
+			}
 		}
 		songSpeed = value;
 		return value;
 	}
 
 	var cameraOnDad = false;
+	var cameraOnMom = false;
 
 	public function updateSectionCamera(value:String, isPlayer:Bool = false)
 	{
@@ -1022,12 +1055,19 @@ class PlayState extends MusicBeatState
 			case 'bf':
 				char = boyfriend;
 				cameraOnDad = false;
+				cameraOnMom = false;
 			case 'dad':
 				char = opponent;
 				cameraOnDad = true;
+				cameraOnMom = false;
+			case 'mom':
+				char = opponentSecondary;
+				cameraOnDad = false;
+				cameraOnMom = true;
 			case 'gf':
 				char = gf;
 				cameraOnDad = SONG.notes[Std.int(curStep / 16)].mustHitSection;
+				cameraOnMom = SONG.notes[Std.int(curStep / 16)].mustHitSection;
 		}
 
 		var getCenterX = isPlayer ? char.getMidpoint().x - 100 : char.getMidpoint().x + 100;
@@ -1069,8 +1109,15 @@ class PlayState extends MusicBeatState
 					}
 				case 'forestNew':
 					defaultCamZoom = .67;
-					
 				case 'vaultRoom': defaultCamZoom = .7;
+				case 'abandonedStreet':
+					switch (opponent.curCharacter)
+					{
+						case 'lunamick-new':
+							camDisplaceX = 4 * camGame.zoom/defaultCamZoom;
+						case 'mickey-delu-intro':
+							camDisplaceX = 20 * camGame.zoom/defaultCamZoom;
+					}
 			}
 		}
 
@@ -1666,7 +1713,7 @@ class PlayState extends MusicBeatState
 		if (canaddshaders) 
 			PlayStateUtils.instance.shaderAnims(elapsed);
 
-		stageBuild.stageUpdateConstant(elapsed, boyfriend, gf, opponent);
+		stageBuild.stageUpdateConstant(elapsed, boyfriend, gf, opponent, opponentSecondary);
 
 		PlayStateUtils.instance.thingE = elapsed;
 
@@ -1847,7 +1894,7 @@ class PlayState extends MusicBeatState
 			deathCheck();
 
 			// spawn in the notes from the array
-			notesGroup.callNotes(bfStrums, dadStrums, strumLines);
+			notesGroup.callNotes(bfStrums, dadStrums, momStrums, strumLines);
 
 			noteCalls();
 			parseEventColumn();
@@ -2078,6 +2125,14 @@ class PlayState extends MusicBeatState
 					PlayState.opp_vocals.volume = 1;
 
 				PlayStateUtils.instance.opponentNoteHit();
+			}
+
+			if (strumline == momStrums)
+			{
+				if (PlayState.opp_vocals != null)
+					PlayState.opp_vocals.volume = 1;
+
+				//PlayStateUtils.instance.oppSecondaryNoteHit();
 			}
 
 			callFunc(coolNote.mustPress ? 'goodNoteHit' : 'opponentNoteHit', [coolNote, strumline]);
@@ -2878,7 +2933,7 @@ class PlayState extends MusicBeatState
 		charactersDance(curBeat);
 
 		// stage stuffs
-		stageBuild.stageUpdate(curBeat, boyfriend, gf, opponent);
+		stageBuild.stageUpdate(curBeat, boyfriend, gf, opponent, opponentSecondary);
 
 		for (strumline in strumLines)
 		{
@@ -3624,6 +3679,20 @@ class PlayState extends MusicBeatState
 			setVar('opponentData', opponent.characterData);
 		}
 
+		if (opponentSecondary != null)
+		{
+			setVar('mom', opponentSecondary);
+			setVar('momOpponent', opponentSecondary);
+			setVar('opponentSecondary', opponentSecondary);
+			setVar('momName', opponentSecondary.curCharacter);
+			setVar('momOpponentName', opponentSecondary.curCharacter);
+			setVar('opponentSecondaryName', opponentSecondary.curCharacter);
+
+			setVar('momData', opponentSecondary.characterData);
+			setVar('momOpponentData', opponentSecondary.characterData);
+			setVar('opponentSecondaryData', opponentSecondary.characterData);
+		}
+
 		if (gf != null)
 		{
 			setVar('gf', gf);
@@ -3642,6 +3711,8 @@ class PlayState extends MusicBeatState
 			setVar('bfStrums', bfStrums);
 		if (dadStrums != null)
 			setVar('dadStrums', dadStrums);
+		if (momStrums != null)
+			setVar('momStrums', momStrums);
 		if (strumLines != null)
 			setVar('strumLines', strumLines);
 		if (allUIs != null)
