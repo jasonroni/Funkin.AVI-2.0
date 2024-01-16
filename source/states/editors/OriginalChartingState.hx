@@ -158,7 +158,7 @@ class OriginalChartingState extends MusicBeatState
 		#end
 		#end
 
-		bpmTxt = new FlxText(1150, 50, 0, "", 16);
+		bpmTxt = new FlxText(1110, 50, 0, "", 16);
 		bpmTxt.scrollFactor.set();
 		add(bpmTxt);
 
@@ -178,7 +178,7 @@ class OriginalChartingState extends MusicBeatState
 		UI_box = new FlxUITabMenu(null, tabs, true);
 
 		UI_box.resize(300, 400);
-		UI_box.x = FlxG.width / 2 + 190;
+		UI_box.x = FlxG.width / 2 + 150;
 		UI_box.y = 20;
 		add(UI_box);
 
@@ -497,6 +497,7 @@ class OriginalChartingState extends MusicBeatState
 
 	var stepperLength:FlxUINumericStepper;
 	var check_mustHitSection:FlxUICheckBox;
+	var check_isMomSection:FlxUICheckBox;
 	var check_changeBPM:FlxUICheckBox;
 	var stepperSectionBPM:FlxUINumericStepper;
 	var check_altAnim:FlxUICheckBox;
@@ -531,7 +532,7 @@ class OriginalChartingState extends MusicBeatState
 			for (i in 0..._song.notes[curSection].sectionNotes.length)
 			{
 				var note = _song.notes[curSection].sectionNotes[i];
-				note[1] = (note[1] + 4) % 8;
+				note[1] = (note[1] + 4) % 12;
 				_song.notes[curSection].sectionNotes[i] = note;
 				updateGrid();
 			}
@@ -540,6 +541,9 @@ class OriginalChartingState extends MusicBeatState
 		check_mustHitSection = new FlxUICheckBox(10, 30, null, null, "Must hit section", 100);
 		check_mustHitSection.name = 'check_mustHit';
 		check_mustHitSection.checked = true;
+
+		check_isMomSection = new FlxUICheckBox(150, 30, null, null, "Is mom section", 100);
+		check_isMomSection.name = 'check_isMom';
 
 		check_altAnim = new FlxUICheckBox(10, 400, null, null, "Alt Animation", 100);
 		check_altAnim.name = 'check_altAnim';
@@ -551,6 +555,7 @@ class OriginalChartingState extends MusicBeatState
 		tab_group_section.add(stepperSectionBPM);
 		tab_group_section.add(stepperCopy);
 		tab_group_section.add(check_mustHitSection);
+		tab_group_section.add(check_isMomSection);
 		tab_group_section.add(check_altAnim);
 		tab_group_section.add(check_changeBPM);
 		tab_group_section.add(copyButton);
@@ -759,6 +764,9 @@ class OriginalChartingState extends MusicBeatState
 			{
 				case 'Must hit section':
 					_song.notes[curSection].mustHitSection = check.checked;
+					updateHeads();
+				case 'Is mom section':
+					_song.notes[curSection].isMomSection = check.checked;
 					updateHeads();
 				case 'Change BPM':
 					_song.notes[curSection].changeBPM = check.checked;
@@ -1138,7 +1146,7 @@ class OriginalChartingState extends MusicBeatState
 		{
 			if (note.strumTime < songMusic.time)
 			{
-				var data:Int = note.noteData % 4;
+				var data:Int = note.noteData % 8;
 
 				if (songMusic.playing && !playedSound[data] && note.noteData > -1 && note.strumTime >= lastSongPos
 				   	|| songMusicNew.playing && !playedSound[data] && note.noteData > -1 && note.strumTime >= lastSongPos)
@@ -1305,6 +1313,7 @@ class OriginalChartingState extends MusicBeatState
 
 		stepperLength.value = sec.lengthInSteps;
 		check_mustHitSection.checked = sec.mustHitSection;
+		check_isMomSection.checked = sec.isMomSection;
 		check_altAnim.checked = sec.altAnim;
 		check_changeBPM.checked = sec.changeBPM;
 		stepperSectionBPM.value = sec.bpm;
@@ -1316,17 +1325,30 @@ class OriginalChartingState extends MusicBeatState
 	{
 		if (regenIcons)
 			generateHeads();
-		if (!_song.notes[curSection].mustHitSection)
+		if (!_song.notes[curSection].mustHitSection && !_song.notes[curSection].isMomSection)
 		{
 			leftIcon.setPosition(gridBG.width / 3, -100);
 			rightIcon.setPosition(0, -100);
+			player3Icon.setPosition(gridBG.width / 1.5, -100);
+		}
+		else if (_song.notes[curSection].isMomSection && !_song.notes[curSection].mustHitSection)
+		{
+			leftIcon.setPosition(gridBG.width / 3, -100);
+			rightIcon.setPosition(gridBG.width / 1.5, -100);
+			player3Icon.setPosition(0, -100);
+		}
+		else if (!_song.notes[curSection].isMomSection && _song.notes[curSection].mustHitSection)
+		{
+			leftIcon.setPosition(0, -100);
+			rightIcon.setPosition(gridBG.width / 3, -100);
+			player3Icon.setPosition(gridBG.width / 1.5, -100);
 		}
 		else
 		{
 			leftIcon.setPosition(0, -100);
-			rightIcon.setPosition(gridBG.width / 3, -100);
+			rightIcon.setPosition(gridBG.width / 1.5, -100);
+			player3Icon.setPosition(gridBG.width / 3, -100);
 		}
-		player3Icon.setPosition(gridBG.width / 1.5, -100);
 	}
 
 	function generateHeads()
@@ -1440,6 +1462,7 @@ class OriginalChartingState extends MusicBeatState
 			note.x = Math.floor(daNoteInfo * GRID_SIZE + GRID_SIZE);
 			note.y = Math.floor(getYfromStrum((daStrumTime - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[curSection].lengthInSteps)));
 			note.mustPress = _song.notes[curSection].mustHitSection;
+			note.isMomNote = _song.notes[curSection].isMomSection;
 
 			if (i[1] > 3)
 				note.mustPress = !note.mustPress;
@@ -1475,6 +1498,7 @@ class OriginalChartingState extends MusicBeatState
 			bpm: _song.bpm,
 			changeBPM: false,
 			mustHitSection: true,
+			isMomSection: false,
 			sectionNotes: [],
 			typeOfSection: 0,
 			altAnim: false
@@ -1501,6 +1525,9 @@ class OriginalChartingState extends MusicBeatState
 
 		if (data > -1 && note.mustPress != _song.notes[curSection].mustHitSection)
 			data += 4;
+
+		if (data > -1 && note.isMomNote != _song.notes[curSection].isMomSection)
+			data += 8;
 
 		if (data > -1)
 		{

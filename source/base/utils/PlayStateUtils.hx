@@ -2160,6 +2160,8 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 				if (curBeat == 176) {
 					tweenCamera(1.1, 4.1, 'sineInOut');
 					PlayState.dadStrums.forEach(strum -> FlxTween.tween(strum, {y: strum.y + 700}, 2.5, {ease: FlxEase.elasticIn}));
+					FlxTween.tween(PlayState.strumHUD[0], {alpha: 0.0001}, 2.5);
+					if (!Init.trueSettings.get('Centered Notefield')) PlayState.bfStrums.forEach(strum -> FlxTween.tween(strum, {x: strum.x - 320}, 2.5, {ease: FlxEase.elasticInOut}));
 				}
 				if (curBeat == 184)
 					PlayState.defaultCamZoom = 1.4;
@@ -2202,6 +2204,8 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					}
 
 					PlayState.dadStrums.forEach(strum -> FlxTween.tween(strum, {y: strum.y - 700}, 2.5, {ease: FlxEase.elasticOut}));
+					FlxTween.tween(PlayState.strumHUD[0], {alpha: 1}, 2.5);
+					if (!Init.trueSettings.get('Centered Notefield')) PlayState.bfStrums.forEach(strum -> FlxTween.tween(strum, {x: strum.x + 320}, 2.5, {ease: FlxEase.elasticInOut}));
 
 					PlayState.main.uhhTurnBackNormalOrSmth();
 				}

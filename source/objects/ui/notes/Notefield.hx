@@ -21,14 +21,14 @@ class Notefield extends FlxTypedGroup<Note>
 		if ((members[0] != null) && ((members[0].strumTime - Conductor.songPosition) < 3500))
 		{
 			var dunceNote:Note = members[0];
-			var strumline:Strumline = (dunceNote.mustPress ? dunceNote.isMomNote ? strum2 : strum : mustPressStrum);
+			var strumline:Strumline;
 
 
 			PlayState.main.callFunc('noteSpawn', [dunceNote, dunceNote.noteData, dunceNote.noteType, dunceNote.isSustainNote]);
 
 			// push note to its correct strumline
 			groupStrums.members[
-				Math.floor((dunceNote.noteData + (dunceNote.mustPress ? 4 : 0)) / strumline.keyAmount)
+				Math.floor((dunceNote.noteData + (dunceNote.mustPress ? 4 : dunceNote.isMomNote ? 8 : 0)) / strumline.keyAmount)
 			].addNote(dunceNote);
 			members.splice(members.indexOf(dunceNote), 1);
 		}

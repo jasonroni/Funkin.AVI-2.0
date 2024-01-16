@@ -142,6 +142,7 @@ class Section
 	public var sectionBeats:Float = 4;
 	public var typeOfSection:Int = 0;
 	public var mustHitSection:Bool = true;
+	public var isMomSection:Bool = true;
 
 	public function new(lengthInSteps:Int = 16, sectionBeats:Float = 4)
 	{

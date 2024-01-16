@@ -30,14 +30,14 @@ class ChartParser
 
 				// check the base section
 				var gottaHitNote:Bool = section.mustHitSection;
-				var isMomNote:Bool = false;
+				var isMomNote:Bool = section.isMomSection;
 
 				// if the note is on the other side, flip the base section of the note
 				if (songNotes[1] > 3)
 					gottaHitNote = !section.mustHitSection;
 
 				if (songNotes[1] > 7)
-					isMomNote = true;
+					isMomNote = !section.isMomSection;
 
 				// define the note that comes before (previous note)
 				var oldNote:Note;
@@ -102,6 +102,7 @@ class ChartParser
 
 					unspawnNotes.push(sustainNote);
 					sustainNote.mustPress = gottaHitNote;
+					sustainNote.isMomNote = isMomNote;
 				}
 			}
 		}

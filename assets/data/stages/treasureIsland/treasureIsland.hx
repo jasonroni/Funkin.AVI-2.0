@@ -12,6 +12,6 @@ function onCreate()
 
 function charStagePos(boyfriend:Character, gf:Character, dad:Character)
 {
-    boyfriend.setPosition(1080, 370);
+    boyfriend.setPosition(1080, 310);
     dad.setPosition(0, 190);
 }

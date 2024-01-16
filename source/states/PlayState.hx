@@ -632,7 +632,7 @@ class PlayState extends MusicBeatState
 		else
 		{
 			dadStrums.visible = !centered;
-			momStrums.visible = /*opponentSecondary != null ? !centered :*/ false;
+			momStrums.visible = stageBuild.spawnSecondaryOpponent ? !centered : false;
 		}
 
 		strumLines.add(dadStrums);
@@ -2143,11 +2143,13 @@ class PlayState extends MusicBeatState
 
 			coolNote.noteHit();
 
+			var charColor:FlxColor = SONG.song == 'Neglection' ? 0xFFF2CC9D : 0xFFFFFFFF;
+
 			for (character in strumline.characters)
 			{
 				// reset color if it's not white;
-				if (character.color != 0xFFFFFFFF)
-					character.color = 0xFFFFFFFF;
+				if (character.color != charColor)
+					character.color = character == opponent ? 0xFFFFFFFF : charColor;
 				if (!coolNote.noAnim)
 					characterPlayAnimation(coolNote, character);
 			}

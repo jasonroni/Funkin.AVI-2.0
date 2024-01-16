@@ -256,20 +256,19 @@ class Character extends FNFSprite
 	/**
 	 * FOR GF DANCING SHIT
 	 */
+	var charColor:flixel.util.FlxColor = states.PlayState.SONG.song == 'Neglection' ? 0xFFF2CC9D : 0xFFFFFFFF;
 	public function dance(?forced:Bool = false)
 	{
 		if (!debugMode && animation.curAnim != null && !specialAnim)
 		{
-			// reset color if it's not white;
-			if (color != 0xFFFFFFFF)
-				color = 0xFFFFFFFF;
-
 			specialAnim = false;
 
 			var curCharSimplified:String = simplifyCharacter();
 			switch (curCharSimplified)
 			{
 				case 'gf':
+					if (color != charColor)
+						color = charColor;
 					if ((!animation.curAnim.name.startsWith('hair')) && (!animation.curAnim.name.startsWith('sad')))
 					{
 						danced = !danced;
@@ -279,9 +278,14 @@ class Character extends FNFSprite
 						else
 							playAnim('danceLeft', forced);
 					}
+				case 'pnm':
+					if (color != 0xFFFFFFFF)
+						color = 0xFFFFFFFF;
+					playAnim('idle$idleSuffix', forced);
 				default:
 					// Left/right dancing, think Skid & Pump
-
+					if (color != charColor)
+						color = charColor;
 					if (animation.getByName('danceLeft') != null && animation.getByName('danceRight') != null)
 					{
 						danced = !danced;

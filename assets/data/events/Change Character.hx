@@ -63,7 +63,7 @@ function eventTrigger(params)
 		if (Init.trueSettings.get('HUD Style') == 'vanilla' && PlayState.vanillaHUD != null && PlayState.vanillaHUD.exists) PlayState.vanillaHUD.reloadHealthBar();
 		if (PlayState.SONG.song == 'Cycled Sins') PlayState.cycledSinsHUD.reloadHealthBar();
 		if (PlayState.SONG.song == 'Devilish Deal' || PlayState.SONG.song == 'Isolated' || PlayState.SONG.song == 'Lunacy' || PlayState.SONG.song == 'Delusional') PlayState.episode1HUD.reloadHealthBar();
-		PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent);
+		PlayState.stageBuild.repositionPlayers(PlayState.curStage, PlayState.boyfriend, PlayState.gf, PlayState.opponent, PlayState.opponentSecondary);
 	});
 }
 
