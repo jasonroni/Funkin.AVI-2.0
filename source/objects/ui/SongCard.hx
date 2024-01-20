@@ -98,10 +98,8 @@ class SongCard extends FlxSpriteGroup
   	{
     		switch (PlayState.SONG.song)
     		{
-        		case 'Isolated' | 'Lunacy' | 'Hunted' | 'Hunted Legacy' | "Isolated Legacy" | 'Lunacy Legacy' | 'Delusional Legacy':
+        		case 'Hunted Legacy' | "Isolated Legacy" | 'Lunacy Legacy' | 'Delusional Legacy':
          	 		fontStuff = "DisneyFont";
-        		case 'Delusional':
-          			fontStuff = "satanFont";
 				case 'Bless':
 					fontStuff = "MagicOwlFont";
 				case 'Birthday':
@@ -120,6 +118,7 @@ class SongCard extends FlxSpriteGroup
 				default: 
 					fontStuff = "vcr";
 			}
+			artFile = CoolUtil.spaceToDash(PlayState.SONG.song.toLowerCase());
 	}
 	
 	 public function new()
@@ -257,41 +256,55 @@ class SongCard extends FlxSpriteGroup
 		   }
 		   else
 		   {
-				opponentIcon = new HealthIcon(oIconName, false);
-				opponentIcon.x = 260;
-				opponentIcon.y = 130;
+				switch (PlayState.SONG.song)
+				{
+					case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional' | 'Hunted':
+						cardSprite.loadGraphic(Paths.image('menus/Funkin_avi/card/${fileName}'));
+						cardSprite.x -= 540;
+						cardSprite.y += 150;
+					default:
+						opponentIcon = new HealthIcon(oIconName, false);
+						opponentIcon.x = 260;
+						opponentIcon.y = 130;
 
-				playerIcon = new HealthIcon(pIconName, true);
-				playerIcon.x = 850;
-		   		playerIcon.y = 460;
+						playerIcon = new HealthIcon(pIconName, true);
+						playerIcon.x = 850;
+						playerIcon.y = 460;
 
-				if (!FileSystem.exists('./assets/images/cardSkins/${fileName}.png'))
-					cardSprite.makeGraphic(600, 350, 0xFF000000);
-			  	else
-					cardSprite.loadGraphic(Paths.image('cardSkins/${fileName}'));
+						if (!FileSystem.exists('./assets/images/menus/Funkin_avi/card/${fileName}.png'))
+							cardSprite.makeGraphic(600, 350, 0xFF000000);
+						else
+							cardSprite.loadGraphic(Paths.image('menus/Funkin_avi/card/${fileName}'));
 
-				  cardSprite.screenCenter();
+						cardSprite.screenCenter();
 
-				 cardTxt = new FlxText(cardSprite.x, cardSprite.y, 0, '- ${songTitle} -\nBy: ${composer}');
-			 	 cardTxt.setFormat(Paths.font(fontStuff), 42, FlxColor.WHITE, CENTER);
-				 cardTxt.screenCenter();
+						cardTxt = new FlxText(cardSprite.x, cardSprite.y, 0, '- ${songTitle} -\nBy: ${composer}');
+						cardTxt.setFormat(Paths.font(fontStuff), 42, FlxColor.WHITE, CENTER);
+						cardTxt.screenCenter();
+				}
 		   }
 
 		   cardSprite.alpha = 0.001;
-
-		   opponentIcon.animation.curAnim.curFrame = 2;
-		   opponentIcon.alpha = 0.001;
-
-		   playerIcon.animation.curAnim.curFrame = 2;
-		   playerIcon.alpha = 0.001;
-
-		   cardTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
-		   cardTxt.alpha = 0.001;
-
 		   add(cardSprite);
-		   add(cardTxt);
-		   add(opponentIcon);
-		   add(playerIcon);
+
+		   switch (PlayState.SONG.song)
+		   {
+				case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional' | 'Hunted':
+					//nothing
+				default:
+					opponentIcon.animation.curAnim.curFrame = 2;
+					opponentIcon.alpha = 0.001;
+
+					playerIcon.animation.curAnim.curFrame = 2;
+					playerIcon.alpha = 0.001;
+
+					cardTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
+					cardTxt.alpha = 0.001;
+
+					add(cardTxt);
+					add(opponentIcon);
+					add(playerIcon);
+		   }
 	 }
   
 	  // This is a function in case you want the card to show up later in the song instead of instantly
@@ -406,30 +419,48 @@ class SongCard extends FlxSpriteGroup
 		}
 		else
 		{
-			FlxTween.tween(cardSprite, {alpha: 1}, 1.5, {ease: FlxEase.sineInOut, startDelay: delaySet,
-						onComplete: function(twn:FlxTween)
-						{
-							FlxTween.tween(cardSprite, {alpha: 0}, 1.5, {ease: FlxEase.sineInOut, startDelay: 3.5});
-						}
-				});
-			FlxTween.tween(opponentIcon, {alpha: 1}, 2.2, {ease: FlxEase.sineInOut, startDelay: delaySet,
-						onComplete: function(twn:FlxTween)
-						{
-							FlxTween.tween(opponentIcon, {alpha: 0}, 2.2, {ease: FlxEase.sineInOut, startDelay: 3.5});
-						}
-				});
-			FlxTween.tween(playerIcon, {alpha: 1}, 2.2, {ease: FlxEase.sineInOut, startDelay: delaySet,
-						onComplete: function(twn:FlxTween)
-						{
-							FlxTween.tween(playerIcon, {alpha: 0}, 2.2, {ease: FlxEase.sineInOut, startDelay: 3.5});
-						}
-				});
-			FlxTween.tween(cardTxt, {alpha: 1}, 2, {ease: FlxEase.sineInOut, startDelay: delaySet,
-						onComplete: function(twn:FlxTween)
-						{
-							FlxTween.tween(cardTxt, {alpha: 0}, 2, {ease: FlxEase.sineInOut, startDelay: 3.5});
-						}
-				});
+			switch (PlayState.SONG.song)
+			{
+				case 'Isolated' | 'Lunacy' | 'Delusional' | 'Devilish Deal' | 'Hunted':
+					FlxTween.tween(cardSprite, {
+						alpha: 1,
+						x: cardSprite.x + 540
+					}, 1.5, {ease: FlxEase.sineInOut, startDelay: delaySet,
+								onComplete: function(twn:FlxTween)
+								{
+									FlxTween.tween(cardSprite, {x: cardSprite.x - 540}, 1.5, {ease: FlxEase.sineInOut, startDelay: 3.5, onComplete: function(twn:FlxTween)
+									{
+										cardSprite.kill();
+										cardSprite.destroy();
+									}});
+								}
+						});
+				default:
+					FlxTween.tween(cardSprite, {alpha: 1}, 1.5, {ease: FlxEase.sineInOut, startDelay: delaySet,
+								onComplete: function(twn:FlxTween)
+								{
+									FlxTween.tween(cardSprite, {alpha: 0}, 1.5, {ease: FlxEase.sineInOut, startDelay: 3.5});
+								}
+						});
+					FlxTween.tween(opponentIcon, {alpha: 1}, 2.2, {ease: FlxEase.sineInOut, startDelay: delaySet,
+								onComplete: function(twn:FlxTween)
+								{
+									FlxTween.tween(opponentIcon, {alpha: 0}, 2.2, {ease: FlxEase.sineInOut, startDelay: 3.5});
+								}
+						});
+					FlxTween.tween(playerIcon, {alpha: 1}, 2.2, {ease: FlxEase.sineInOut, startDelay: delaySet,
+								onComplete: function(twn:FlxTween)
+								{
+									FlxTween.tween(playerIcon, {alpha: 0}, 2.2, {ease: FlxEase.sineInOut, startDelay: 3.5});
+								}
+						});
+					FlxTween.tween(cardTxt, {alpha: 1}, 2, {ease: FlxEase.sineInOut, startDelay: delaySet,
+								onComplete: function(twn:FlxTween)
+								{
+									FlxTween.tween(cardTxt, {alpha: 0}, 2, {ease: FlxEase.sineInOut, startDelay: 3.5});
+								}
+						});
+			}
 		}
 	  }
   

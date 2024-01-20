@@ -492,7 +492,7 @@ class PlayState extends MusicBeatState
 
 		switch (SONG.song)
 		{
-			case 'Isolated' | 'Luancy' | 'Delusional' | 'Devilish Deal' | 'Cycled Sins':
+			case 'Isolated' | 'Lunacy' | 'Delusional' | 'Devilish Deal' | 'Cycled Sins':
 				isCustomHUD = true;
 		}
 
@@ -1715,8 +1715,6 @@ class PlayState extends MusicBeatState
 
 		stageBuild.stageUpdateConstant(elapsed, boyfriend, gf, opponent, opponentSecondary);
 
-		PlayStateUtils.instance.thingE = elapsed;
-
 		super.update(elapsed);
 
 		smoothyHealth = FlxMath.lerp(smoothyHealth, health, CoolUtil.boundTo(elapsed * 20, 0, 1));
@@ -1826,9 +1824,9 @@ class PlayState extends MusicBeatState
 					{
 						PlayState.SONG.validScore = false;
 						bfStrums.autoplay = !bfStrums.autoplay;
-						switch (SONG.song.toLowerCase().replace('-', ' '))
+						switch (SONG.song)
 						{
-							case 'cycled sins':
+							case 'Cycled Sins':
 							// cycledSinsHUD.autoplayMark.visible = bfStrums.autoplay;
 							// cycledSinsHUD.scoreBar.visible = !bfStrums.autoplay;
 							case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional':
