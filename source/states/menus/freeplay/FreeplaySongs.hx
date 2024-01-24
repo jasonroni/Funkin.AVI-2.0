@@ -20,6 +20,7 @@ import openfl.filters.BitmapFilter;
 import openfl.filters.ShaderFilter;
 import openfl.media.Sound;
 import states.MusicBeatState;
+import states.substates.PauseSubstate;
 import sys.FileSystem;
 import sys.thread.Mutex;
 import sys.thread.Thread;
@@ -736,6 +737,7 @@ class FreeplaySongs extends MusicBeatState
 
 		// set up color stuffs
 		mainColor = songs[curSelected].color;
+		PauseSubstate.colorSetup = songs[curSelected].color;
 
 		// song switching stuffs
 		var bullShit:Int = 0;

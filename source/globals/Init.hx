@@ -116,6 +116,12 @@ class Init extends FlxState
 			NOT_FORCED//,
 			//['Off', 'Default', 'Ultra']
 		],
+		'Enable Pause Countdown' => [
+			true,
+			Checkmark,
+			'Whether or not you want a countdown upon resuming game.',
+			NOT_FORCED
+		],
 		'Disable Flashing Lights' => [
 			false,
 			Checkmark,

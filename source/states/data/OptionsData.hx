@@ -36,6 +36,7 @@ class OptionsData
 		//
 		{name: 'Auto Pause', type: "option"},
 		{name: 'Skip Text', type: "option"},
+		{name: 'Enable Pause Countdown', type: "option"},
 		{name: 'FPS Counter', type: "option"},
 		{name: 'Memory Counter', type: "option"},
 		{name: 'Framerate Cap', type: "option"},

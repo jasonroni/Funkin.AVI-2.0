@@ -184,8 +184,6 @@ class MainMenu extends MusicBeatState
 	var defaultShader2:FlxRuntimeShader;
 	var darkFilter:FlxRuntimeShader;
 
-	var randomWindowText:Int = FlxG.random.int(0, 49);
-
 	public var logContent:String;
 
 	public function new(?logContent:String)

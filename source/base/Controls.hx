@@ -139,8 +139,8 @@ class Controls
 	inline private static function catchKeys(key:FlxKey):Array<String>
 	{
 		//
-		if (key == null)
-			return [];
+		/*if (key == null)
+			return [];*/
 
 		var gottenKeys:Array<String> = [];
 		for (action => keys in actions)

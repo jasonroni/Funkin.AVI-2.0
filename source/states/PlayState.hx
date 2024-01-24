@@ -316,6 +316,8 @@ class PlayState extends MusicBeatState
 
 	var isCamForced = false;
 
+	public static var pauseCountEnabled:Bool = false;
+
 	public static var isCustomHUD:Bool = false;
 
 	public static var noteSkinType:String = 'DEFAULTSKIN';
@@ -327,6 +329,7 @@ class PlayState extends MusicBeatState
 
 		ScoreUtils.resetAccuracy();
 		PlayState.SONG.validScore = true;
+		pauseCountEnabled = false;
 		deaths = 0;
 		health = smoothyHealth = 0.5;
 
@@ -3481,6 +3484,9 @@ class PlayState extends MusicBeatState
 				songPosCount--;
 				countdownPos++;
 			}
+
+			if (songPosCount == 0)
+				pauseCountEnabled = Init.trueSettings.get("Enable Pause Countdown");
 
 			callFunc('countdownTick', [countdownPos]);
 		}, 5);

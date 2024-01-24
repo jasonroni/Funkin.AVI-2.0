@@ -11,6 +11,7 @@ import flixel.FlxG;
 import states.PlayState;
 import openfl.filters.ShaderFilter;
 import objects.Character;
+import states.substates.PauseSubstate;
 
 /**
  * A class made for organize and separate all `PlayState` content
@@ -20,6 +21,21 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 {
     public static var instance:PlayStateUtils = new PlayStateUtils();
 	public var thingE:Float;
+	var satanSpeaks:Array<String> = [
+		"Have fun,",
+		"Let's play one more game...",
+		"Welcome to the end.",
+		"Are you having fun?",
+		"Hello, " + PauseSubstate.yourName + ".",
+		"And so, his fate is sealed once more...",
+		"Good luck.",
+		"The end is near...",
+		"The sight of hell brings back its viewers...",
+		"Let's make his death a worthy show.",
+		"You've come far, " + PauseSubstate.yourName + "...",
+		"Don't think about quitting now, " + PauseSubstate.yourName + "...",
+		"Don't leave yet..."
+	];
 
     /*
     * A function made to initialize your shaders with, only for song-specific initiation atm
@@ -272,6 +288,9 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 				}
 				PlayState.camGame.fade(FlxColor.BLACK, 0.0001);
 				PlayState.camHUD.alpha = 0.001;
+
+			case 'Delusional':
+				PlatformUtil.sendNotification('Hello.', satanSpeaks[FlxG.random.int(0, satanSpeaks.length - 1)], 1);
 
 			case 'Mercy Legacy':
 				if (!Init.trueSettings.get('Disable Mechanics'))

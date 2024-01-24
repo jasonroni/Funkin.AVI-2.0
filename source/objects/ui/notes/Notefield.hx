@@ -23,6 +23,11 @@ class Notefield extends FlxTypedGroup<Note>
 			var dunceNote:Note = members[0];
 			var strumline:Strumline;
 
+			// fuck you game, i'mma figure out a way to make it not require this shit later
+			if (dunceNote.noteType == 'opponent2Note')
+				strumline = strum2;
+			else
+				strumline = (dunceNote.mustPress ? strum : mustPressStrum);
 
 			PlayState.main.callFunc('noteSpawn', [dunceNote, dunceNote.noteData, dunceNote.noteType, dunceNote.isSustainNote]);
 

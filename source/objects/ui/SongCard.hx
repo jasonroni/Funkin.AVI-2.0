@@ -258,7 +258,7 @@ class SongCard extends FlxSpriteGroup
 		   {
 				switch (PlayState.SONG.song)
 				{
-					case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional' | 'Hunted':
+					case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional' | 'Hunted' | 'Bless' | 'Twisted Grins' | 'Neglection':
 						cardSprite.loadGraphic(Paths.image('menus/Funkin_avi/card/${fileName}'));
 						cardSprite.x -= 540;
 						cardSprite.y += 150;
@@ -289,7 +289,7 @@ class SongCard extends FlxSpriteGroup
 
 		   switch (PlayState.SONG.song)
 		   {
-				case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional' | 'Hunted':
+				case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional' | 'Hunted' | 'Bless' | 'Twisted Grins' | 'Neglection':
 					//nothing
 				default:
 					opponentIcon.animation.curAnim.curFrame = 2;
@@ -421,7 +421,7 @@ class SongCard extends FlxSpriteGroup
 		{
 			switch (PlayState.SONG.song)
 			{
-				case 'Isolated' | 'Lunacy' | 'Delusional' | 'Devilish Deal' | 'Hunted':
+				case 'Isolated' | 'Lunacy' | 'Delusional' | 'Devilish Deal' | 'Hunted' | 'Bless' | 'Twisted Grins' | 'Neglection':
 					FlxTween.tween(cardSprite, {
 						alpha: 1,
 						x: cardSprite.x + 540
