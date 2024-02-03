@@ -126,8 +126,8 @@ class FreeplaySongs extends MusicBeatState
 					mercyShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/vhs.frag'), null, 130);
 					mercyShader2 = new FlxRuntimeShader(Shaders.cameraMovement, null, 150);
 					chromAberration = new FlxRuntimeShader(Shaders.aberration, null, 150);
-					chromAberration.setFloat('aberration', 0.12);
-					chromAberration.setFloat('effectTime', 0.24);
+					chromAberration.setFloat('aberration', 0.07);
+					chromAberration.setFloat('effectTime', 0.005);
 
 					if (GameData.episode1FPLock == 'unlocked')
 					{
@@ -155,8 +155,8 @@ class FreeplaySongs extends MusicBeatState
 					getBlessed = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/bloom.frag'), null, 120);
 					glitchyStuff = new FlxRuntimeShader(Shaders.vignetteGlitch, null, 130);
 					chromAberration = new FlxRuntimeShader(Shaders.aberration, null, 150);
-					chromAberration.setFloat('aberration', 0.12);
-					chromAberration.setFloat('effectTime', 0.24);
+					chromAberration.setFloat('aberration', 0.07);
+					chromAberration.setFloat('effectTime', 0.005);
 					mercyShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/vhs.frag'), null, 130);
 					mercyShader2 = new FlxRuntimeShader(Shaders.cameraMovement, null, 150);
 					urFucked = new FlxRuntimeShader(Shaders.theBlurOf87, null, 150);
@@ -356,6 +356,10 @@ class FreeplaySongs extends MusicBeatState
 			// using a FlxGroup is too much fuss!
 			iconArray.push(icon);
 			add(icon);
+			// when haces tus momos en geometry dash
+			// la 2.2 es hoy oiste RobTop
+			// but te terminan baneando
+			// ooooh mi FIRE IN THE HOLE
 			FlxTween.tween(icon, {x: icon.x - 700}, 2.2, {ease: FlxEase.sineInOut, startDelay: 1});
 			FlxTween.tween(songText2, {x: songText2.x - 700}, 2.2, {ease: FlxEase.sineInOut, startDelay: 1});
 			FlxTween.tween(songText2, {y: songText2.y + 300}, 1.5, {ease: FlxEase.sineInOut, startDelay: 3});
@@ -437,7 +441,7 @@ class FreeplaySongs extends MusicBeatState
 			grain.scale.y = 1.1;
 			add(grain);
 
-			if (freeplayMenuList != 2)
+			if (freeplayMenuList != 2 && !Init.trueSettings.get('Low Quality'))
 			{
 				gradient = new FlxSprite().loadGraphic(Paths.image('UI/gimmicks/gradient'));
 				gradient.screenCenter();
@@ -807,87 +811,55 @@ class FreeplaySongs extends MusicBeatState
 				switch (songs[curSelected].name.toLowerCase())
 				{
 					case 'hunted': 
-						FlxG.camera.setFilters([new ShaderFilter(defaultShader2)]);
 						// pretty sure you know why
 						remove(delutranceBg);
 						add(bg);
 
 					case 'bless':
-						if(Init.trueSettings.get('Low Quality')) {
-						FlxG.camera.setFilters(
-							[
-								new ShaderFilter(defaultShader2)
-							]);
-						} else {
+						if(!Init.trueSettings.get('Low Quality')) {
 							FlxG.camera.setFilters(
 								[
 									new ShaderFilter(getBlessed), 
-									new ShaderFilter(defaultShader2)
 								]);
 						}
 
 					case 'malfunction':
-						if(Init.trueSettings.get('Low Quality')) {
-							FlxG.camera.setFilters(
-								[
-									new ShaderFilter(defaultShader2)
-								]);
-						} else {
+						if(!Init.trueSettings.get('Low Quality')) {
 							FlxG.camera.setFilters(
 								[
 									new ShaderFilter(glitchyStuff), 
 									new ShaderFilter(chromAberration),
-									new ShaderFilter(defaultShader2)
 								]);
 						}
 						FlxG.camera.shake(0.01, 0.001);
 
 					case "don't-cross!":
-						if(Init.trueSettings.get('Low Quality')) {
-						FlxG.camera.setFilters(
-							[
-								new ShaderFilter(defaultShader2)
-							]);
-						} else {
+						if(!Init.trueSettings.get('Low Quality')) {
 							FlxG.camera.setFilters(
 								[
 									new ShaderFilter(chromAberration),
-									new ShaderFilter(urFucked),
-									new ShaderFilter(defaultShader2)
-								]);
+									new ShaderFilter(urFucked)								]);
 						}
 
 						if(Init.trueSettings.get('Screen Shake'))
 						FlxG.camera.shake(0.015, FlxMath.MAX_VALUE_FLOAT);
 
 					case 'scrapped':
-						if(Init.trueSettings.get('Low Quality')) {
-						FlxG.camera.setFilters(
-							[
-								new ShaderFilter(defaultShader2)
-							]);
-						} else {
+						if(!Init.trueSettings.get('Low Quality')) {
 							FlxG.camera.setFilters(
 								[
 									new ShaderFilter(smilesShader),
 									new ShaderFilter(chromAberration),
-									new ShaderFilter(defaultShader2)
 								]);
 						}
 						FlxG.camera.shake(0.01, 0.001);
 
 					case 'cycled-sins':
-						if(Init.trueSettings.get('Low Quality')) {
-							FlxG.camera.setFilters(
-								[
-									new ShaderFilter(defaultShader2)
-								]);
-						} else {
+						if(!Init.trueSettings.get('Low Quality')) {
 							FlxG.camera.setFilters(
 								[
 									new ShaderFilter(chromAberration),
 									new ShaderFilter(mercyShader2),
-									new ShaderFilter(defaultShader2)
 								]);
 						}
 						// pretty sure you know why
@@ -895,24 +867,16 @@ class FreeplaySongs extends MusicBeatState
 						add(bg);
 
 					case 'twisted-grins' | 'resentment' | 'mortiferum-risus':
-						if(Init.trueSettings.get('Low Quality'))
-							FlxG.camera.setFilters([new ShaderFilter(defaultShader2)]);
-						else
-							FlxG.camera.setFilters([new ShaderFilter(smilesShader), new ShaderFilter(defaultShader2)]);
+						if(!Init.trueSettings.get('Low Quality'))
+							FlxG.camera.setFilters([new ShaderFilter(smilesShader)]);
 
 					case 'mercy' | 'affliction':
 						if(!Init.trueSettings.get('Low Quality')) {
 						FlxG.camera.setFilters(
 							[
 								new ShaderFilter(mercyShader),
-								new ShaderFilter(mercyShader2),
-								new ShaderFilter(defaultShader2)
+								new ShaderFilter(mercyShader2)
 							]);
-						} else {
-							FlxG.camera.setFilters(
-								[
-									new ShaderFilter(defaultShader2)
-								]);
 						}
 					
 					case 'birthday':
@@ -922,21 +886,12 @@ class FreeplaySongs extends MusicBeatState
 							{
 								FlxG.camera.setFilters(
 								[
-									new ShaderFilter(defaultShader2)
-								]);
-							}
-							else
-							{
-								FlxG.camera.setFilters(
-								[
-									new ShaderFilter(chromAberration),
-									new ShaderFilter(defaultShader2)
+									new ShaderFilter(chromAberration)
 								]);
 							}
 						}
 						else
 						{
-							FlxG.camera.setFilters([new ShaderFilter(defaultShader2)]);
 							FlxG.camera.shake(0.01, 0.001);
 						}
 						// fixing a bug of delulu bg not disappearing, and no, im not gonna use alpha
@@ -945,18 +900,15 @@ class FreeplaySongs extends MusicBeatState
 					
 					case 'devilish-deal' | 'delusional':
 						if(!Init.trueSettings.get('Low Quality'))
-							FlxG.camera.setFilters([new ShaderFilter(chromAberration), new ShaderFilter(defaultShader2)]);
-						else
-							FlxG.camera.setFilters([new ShaderFilter(defaultShader2)]);
+							FlxG.camera.setFilters([new ShaderFilter(chromAberration)]);
 						FlxG.camera.shake(0.01, 0.001);
 
 					case 'delutrance': 
-						FlxG.camera.setFilters([new ShaderFilter(defaultShader2), new ShaderFilter(pixelShader)]);
+						FlxG.camera.setFilters([ new ShaderFilter(pixelShader)]);
 						remove(bg);
 						add(delutranceBg);
 
 					default:
-						FlxG.camera.setFilters([new ShaderFilter(defaultShader2)]);
 						FlxG.camera.shake(0.01, 0.001);
 						remove(delutranceBg);
 						add(bg);

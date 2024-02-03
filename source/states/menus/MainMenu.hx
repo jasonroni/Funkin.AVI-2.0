@@ -660,10 +660,6 @@ class MainMenu extends MusicBeatState
 		{
 			GameData.unlockEverything();
 			FlxG.sound.play(Paths.sound('funkinAVI/easterEggSound'));
-			var save:AutoSaveLogo = new AutoSaveLogo('autoSave', FlxG.width * 0.78, FlxG.height * 0.69);
-			save.saveAndLoad();
-			add(save);
-			new FlxTimer().start(3, _ -> save.fade(true));
 		}
 
 		if (Math.floor(curSelected) != lastCurSelected)

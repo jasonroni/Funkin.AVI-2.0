@@ -422,9 +422,6 @@ class GameJoltLogin extends states.MusicBeatState
             trace(usernameBox.text);
             trace(tokenBox.text);
             GameJoltAPI.authDaUser(usernameBox.text,tokenBox.text,true);
-            var save:AutoSaveLogo = new AutoSaveLogo('autoSave', FlxG.width * 0.78, FlxG.height * 0.69).saveAndLoad();
-            add(save);
-            new FlxTimer().start(3, _ -> save.fade(true));
         });
 
         helpBox = new FlxButton(0, 550, "GameJolt Token", function()

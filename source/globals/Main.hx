@@ -72,7 +72,7 @@ class Main extends Sprite
 		width: 1280, // game window width
 		height: 720, // game window height
 		zoom: -1.0, // defines the game's state bounds, -1.0 usually means automatic setup
-		initialState: AutoSaveWarningState, // state the game should start at
+		initialState: states.TitleState, // state the game should start at
 		framerate: 60, // the game's default framerate
 		skipSplash: true, // whether to skip the flixel splash screen that appears on release mode
 		fullscreen: false, // whether the game starts at fullscreen mode
@@ -252,15 +252,6 @@ class Main extends Sprite
 		FlxGraphic.defaultPersist = false;
 
 		FlxG.signals.gameResized.add(onResizeGame);
-		FlxG.signals.postStateSwitch.add(() ->
-		{
-			GameData.saveShit();
-			if (!Init.trueSettings.get('Use System Cursor')) FlxG.mouse.load('assets/images/UI/funkinAVI/mouses/${Init.trueSettings.get('Cursor Style')}.png');
-		});
-		FlxG.signals.preStateSwitch.add(() ->
-		{
-			GameData.loadShit();
-		});
 
 		FlxGraphic.defaultPersist = false;
 

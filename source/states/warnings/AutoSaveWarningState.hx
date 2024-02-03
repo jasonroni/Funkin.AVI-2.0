@@ -32,6 +32,18 @@ class AutoSaveWarningState extends FlxState
 
 	var saveDetectorImage:AutoSaveLogo;
 
+	public static function load()
+	{
+		GameData.loadShit(); // Collect Any Data
+		GameData.lockinIt(); // Now add missing data for any new stuff
+		CoolUtil.createCoreFile();
+		#if windows
+		base.system.CppAPI.darkMode();
+		#end
+		Init.loadControls();
+		Init.loadSettings();
+	}
+
 	override function create()
 	{
 		CoolUtil.createCoreFile();

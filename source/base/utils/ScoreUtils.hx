@@ -312,6 +312,8 @@ class ScoreUtils
 					PlayState.spectraHUD.updateScoreText();
 				case 'psych':
 					PlayState.psychHUD.updateScoreText();
+				case 'vanilla':
+					PlayState.vanillaHUD.updateScoreText();
 				default:
 					PlayState.uiHUD.updateScoreText();
 			}

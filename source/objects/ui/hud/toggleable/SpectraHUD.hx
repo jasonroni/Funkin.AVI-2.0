@@ -68,6 +68,7 @@ class SpectraHUD extends FlxSpriteGroup
 	];
 
 	// icons
+	// todo make them more up n viceversa for upscroll
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
 
@@ -81,8 +82,10 @@ class SpectraHUD extends FlxSpriteGroup
 	// display texts
 	public var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
 	public var diffDisplay:String = '[${CoolUtil.difficultyString}]';
-	public var engineDisplay:String = "Funkin.avi v2.0.0";
-	public var engineSub:String = "Spectra Engine [PROTOTYPE BUILD]";
+
+	// fuck you cringy ahh texts
+	public var engineDisplay:String = /*"Funkin.avi v2.0.0"*/ "";
+	public var engineSub:String = /*"Spectra Engine [PROTOTYPE BUILD]"*/ "";
 
 	// eep
 	public function new()
@@ -90,8 +93,9 @@ class SpectraHUD extends FlxSpriteGroup
 		// call the initializations and stuffs
 		super();
 		
-		if (Init.trueSettings.get('Downscroll')) songTime = new FlxText(-108, 655, 400, "", 32); else songTime = new FlxText(-108, 100, 400, "", 32);
-		songTime.setFormat(Paths.font("VanillaExtractRegular"), 13, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		// this one is good so it stays :))
+		songTime = new FlxText(-108, Init.trueSettings.get('Downscroll') ? 685 : 60, 400, "", 32);
+		songTime.setFormat(Paths.font("VanillaExtractRegular"), 26, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		if (!Init.trueSettings.get('Centered Notefield')) songTime.screenCenter(X);
 		songTime.scrollFactor.set();
 		songTime.borderSize = 2;
@@ -149,15 +153,16 @@ class SpectraHUD extends FlxSpriteGroup
 		cornerSub.screenCenter(X);
 		add(cornerSub);
 
-		// i am very original
-		playingTxt = new FlxText(50, (Init.trueSettings.get('Downscroll') ? FlxG.height - 120 : 50), 0, 'Playing:');
+		// i am very original -demo
+		// haha no - the jay of sons
+		playingTxt = new FlxText(50, (Init.trueSettings.get('Downscroll') ? FlxG.height - 120 : 50), 0, '');
 		playingTxt.setFormat(Paths.font('VanillaExtractRegular'), 16, FlxColor.WHITE);
 		playingTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		playingTxt.alpha = 0.4;
 		if (!Init.trueSettings.get('Centered Notefield')) playingTxt.screenCenter(X);
 		add(playingTxt);
 
-		centerMark = new FlxText(50, (Init.trueSettings.get('Downscroll') ? FlxG.height - 100 : 70), 0, '$infoDisplay');
+		centerMark = new FlxText(50, (Init.trueSettings.get('Downscroll') ? FlxG.height - 100 : 70), 0, '');
 		centerMark.setFormat(Paths.font('VanillaExtractRegular'), 24, FlxColor.WHITE);
 		centerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		centerMark.alpha = 0.4;
