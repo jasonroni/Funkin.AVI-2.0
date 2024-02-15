@@ -1736,7 +1736,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.cameraSpeed = 50;
 						PlayState.main.camDisplaceX += 100;
 					case 8:
-						PlayState.camOther.fade(FlxColor.BLACK, 5, true);
+						PlayState.camBars.fade(FlxColor.BLACK, 5, true);
 						FlxTween.tween(PlayState.main, {camDisplaceX: 0}, 3, {ease: FlxEase.circOut});
 					case 32:
 						PlayState.defaultCamZoom = 1.5;
@@ -1771,7 +1771,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 			case 'Birthday':
 				switch (curBeat)
 				{
-					case 2: PlayState.camGame.fade(FlxColor.BLACK, 3, true);
+					case 2: PlayState.camBars.fade(FlxColor.BLACK, 3, true);
 					case 32: PlayState.defaultCamZoom = 1.18;
 					case 60:
 						PlayState.cameraSpeed = 0.5;
