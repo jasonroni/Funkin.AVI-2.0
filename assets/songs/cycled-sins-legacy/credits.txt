@@ -1,5 +1,4 @@
-Cycled Sins (Legacy)
-Artwork: reality
-Charting: DEMOLITIONDON96 & PhantomNexus
-Programming: DEMOLITIONDON96
+Art: reality
+Chart: DEMOLITIONDON96 & PhantomNexus
+Code: DEMOLITIONDON96
 Music: JBlitz

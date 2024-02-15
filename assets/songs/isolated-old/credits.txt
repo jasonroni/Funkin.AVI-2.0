@@ -1,5 +1,4 @@
-Isolated (Old)
-Artwork: Domingo
-Charting: DEMOLITIONDON96
-Programming: DEMOLITIONDON96
+Art: Domingo
+Chart: DEMOLITIONDON96
+Code: DEMOLITIONDON96
 Music: Toko

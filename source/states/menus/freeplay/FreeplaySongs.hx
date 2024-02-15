@@ -176,7 +176,7 @@ class FreeplaySongs extends MusicBeatState
 						
 					if (GameData.episodeSFPLock == 'unlocked')
 					{
-						addSong('Laugh-Track', 3, (GameData.rickyLock != 'unlocked' && GameData.rickyLock != 'beaten' ? 'untouched-song' : 'placeholder'), FlxColor.fromRGB(181, 0, 0), 'Toko', 'HARD', FlxColor.fromRGB(255, 187, 187));
+						addSong('Laugh-Track', 3, (GameData.rickyLock != 'unlocked' && GameData.rickyLock != 'beaten' ? 'untouched-song' : 'placeholder'), FlxColor.fromRGB(181, 0, 0), 'PualTheUnTruest', 'HARD', FlxColor.fromRGB(255, 187, 187));
 						addSong('Bless', 3, (GameData.blessLock != 'unlocked' && GameData.blessLock != 'beaten' ? 'untouched-song' : 'white-noise'), FlxColor.WHITE, 'END_SELLA', 'HARD', FlxColor.fromRGB(255, 187, 187));
 						addSong('Scrapped', 3, (GameData.scrappedLock != 'unlocked' && GameData.scrappedLock != 'beaten' ? 'untouched-song' : 'rs'), FlxColor.fromRGB(0, 0, 0), 'FR3SHMoure', 'HARD', FlxColor.fromRGB(255, 187, 187));
 						addSong("Don't-Cross!", 3, (GameData.crossinLock != 'unlocked' && GameData.crossinLock != 'beaten' ? 'untouched-song' : 'dctl-mickey'), FlxColor.fromRGB(255, 0, 0), 'Toko', 'GOOD LUCK', FlxColor.fromRGB(201, 0, 0));
@@ -187,7 +187,7 @@ class FreeplaySongs extends MusicBeatState
 						addSong('War-Dilemma', 3, (GameData.warLock != 'unlocked' && GameData.warLock != 'beaten' ? 'untouched-song' : 'placeholder'), FlxColor.fromRGB(204, 41, 103), 'Sayan Sama & obscurity', 'HARD', FlxColor.fromRGB(255, 187, 187));
 						addSong('Neglection', 3, (GameData.pnmLock != 'unlocked' && GameData.pnmLock != 'beaten' ? 'untouched-song' : 'pnm'), FlxColor.fromRGB(117, 86, 27), 'AttackPan', 'NORMAL', FlxColor.fromRGB(255, 220, 220));
 						addSong('Cycled-Sins', 3, (GameData.sinsLock != 'unlocked' && GameData.sinsLock != 'beaten' ? 'untouched-song' : 'relapse-new-pixel'), FlxColor.fromRGB(105, 30, 30), 'JBlitz', 'HARD', FlxColor.fromRGB(255, 187, 187)); //messing with the saves for this later
-						addSong('Test', 3, 'fat-mickey', FlxColor.ORANGE, 'Unknown', 'FATISH', FlxColor.YELLOW);
+						addSong('Whimsical-Bar-Blues', 3, 'mick-isolated-new', FlxColor.fromRGB(133, 190, 255), 'inneaux & Sayan Sama', 'NORMAL', FlxColor.fromRGB(255, 220, 220));
 					}
 					
 					if (GameData.canAddMalfunction)
@@ -892,6 +892,7 @@ class FreeplaySongs extends MusicBeatState
 						}
 						else
 						{
+							FlxG.camera.setFilters([]);
 							FlxG.camera.shake(0.01, 0.001);
 						}
 						// fixing a bug of delulu bg not disappearing, and no, im not gonna use alpha
@@ -909,6 +910,7 @@ class FreeplaySongs extends MusicBeatState
 						add(delutranceBg);
 
 					default:
+						FlxG.camera.setFilters([]); // fixed it yay
 						FlxG.camera.shake(0.01, 0.001);
 						remove(delutranceBg);
 						add(bg);

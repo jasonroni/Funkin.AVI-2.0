@@ -1,5 +1,4 @@
-Mercy (Legacy)
-Artwork: ?JDrive
-Charting: DEMOLITIONDON96
-Programming: DEMOLITIONDON96
+Art: ?JDrive
+Chart: DEMOLITIONDON96
+Code: DEMOLITIONDON96
 Music: obscurity.

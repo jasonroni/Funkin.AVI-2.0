@@ -1,5 +1,4 @@
-Unknown
-Artwork: Unknown
-Charting: Unknown
-Programming: Unknown
+Art: Unknown
+Chart: Unknown
+Code: Unknown
 Music: Unknown

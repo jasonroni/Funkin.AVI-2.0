@@ -1,5 +1,4 @@
-Lunacy (Legacy)
-Artwork: Domingo
-Charting: obscurity.
-Programming: DEMOLITIONDON96
+Art: Domingo
+Chart: obscurity.
+Code: DEMOLITIONDON96
 Music: obscurity.

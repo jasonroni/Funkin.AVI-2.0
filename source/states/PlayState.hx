@@ -83,8 +83,9 @@ enum GameMode
 
 enum FlashType
 {
-	NORMAL;
-	DARK;
+	BG_FLASH;
+	BG_DARK;
+	CAM_FLASH_FANCY;
 }
 
 class PlayState extends MusicBeatState
@@ -277,6 +278,9 @@ class PlayState extends MusicBeatState
 	var stageBGFlash:FlxSprite;
 	var BGFlashTween:FlxTween;
 
+	var blendFlash:FlxSprite;
+	var flashTween:FlxTween;
+
 	// Hunted Gimmick
 	var camHudMoves:Bool = false;
 
@@ -376,8 +380,10 @@ class PlayState extends MusicBeatState
 		add(stageBuild.layers);
 
 		stageBGFlash = new FlxSprite().makeGraphic(1, 1, 0xFFFFFFFF);
-		stageBGFlash.scale.set(FlxG.width * 3, FlxG.height * 3);
+		stageBGFlash.scale.set(FlxG.width * 5, FlxG.height * 5);
 		stageBGFlash.alpha = 0.0001; // it's at this value so the game doesn't lag when it becomes visible
+		stageBGFlash.x -= 750;
+		stageBGFlash.y -= 450;
 		stageBGFlash.scrollFactor.set();
 		add(stageBGFlash);
 
@@ -405,6 +411,15 @@ class PlayState extends MusicBeatState
 			boyfriend.alpha = 0.001;
 
 		add(stageBuild.foreground);
+
+		blendFlash = new FlxSprite().makeGraphic(1, 1, 0xFFFFFFFF);
+		blendFlash.scale.set(FlxG.width * 5, FlxG.height * 5);
+		blendFlash.alpha = 0.0001;
+		blendFlash.blend = ADD;
+		blendFlash.x -= 750;
+		blendFlash.y -= 450;
+		blendFlash.scrollFactor.set();
+		add(blendFlash);
 
 		// force them to dance
 		opponentSecondary.dance();
@@ -450,6 +465,15 @@ class PlayState extends MusicBeatState
 		add(boyfriend);
 
 		add(stageBuild.foreground);
+
+		blendFlash = new FlxSprite().makeGraphic(1, 1, 0xFFFFFFFF);
+		blendFlash.scale.set(FlxG.width * 5, FlxG.height * 5);
+		blendFlash.alpha = 0.0001;
+		blendFlash.blend = ADD;
+		blendFlash.x -= 750;
+		blendFlash.y -= 450;
+		blendFlash.scrollFactor.set();
+		add(blendFlash);
 
 		// force them to dance
 		opponentSecondary.dance();
@@ -497,6 +521,8 @@ class PlayState extends MusicBeatState
 		{
 			case 'Isolated' | 'Lunacy' | 'Delusional' | 'Devilish Deal' | 'Cycled Sins':
 				isCustomHUD = true;
+			default:
+				isCustomHUD = false;
 		}
 
 		FlxG.mouse.visible = false;
@@ -1469,7 +1495,7 @@ class PlayState extends MusicBeatState
 	 *
 	 * @author DEMOLITIONDON96 ft. Jason
 	 */
-	public function flashBGEffect(flashType:FlashType, settings:FlashingSettings)
+	public function camFlashSystem(flashType:FlashType, settings:FlashingSettings)
 	{
 		// null checkes
 		if (settings.colors == null) settings.colors = [255, 255, 255];
@@ -1485,7 +1511,7 @@ class PlayState extends MusicBeatState
 		{
 			switch (flashType)
 			{
-				case NORMAL:
+				case BG_FLASH:
 					if (settings.alpha > 1 || settings.alpha < 0) // prevents a crash from making a dumb mistake
 						stageBGFlash.alpha = 0.5;
 					else
@@ -1512,7 +1538,7 @@ class PlayState extends MusicBeatState
 						}
 					});
 
-				case DARK:
+				case BG_DARK:
 					if (stageBGFlash != null)
 					{
 						if (BGFlashTween != null)
@@ -1531,6 +1557,34 @@ class PlayState extends MusicBeatState
 							onComplete: function(twn:FlxTween)
 							{
 								BGFlashTween = null;
+							}
+						});
+					}
+				
+				case CAM_FLASH_FANCY:
+					if (blendFlash != null)
+					{
+						if (settings.alpha > 1 || settings.alpha < 0) // prevents a crash from making a dumb mistake
+							blendFlash.alpha = 0.5;
+						else
+							blendFlash.alpha = settings.alpha;
+	
+						if (settings.timer <= 0) // another check to prevent a crash
+							settings.timer = 1;
+	
+						if (settings.colors[0] == 0 && settings.colors[1] == 0 && settings.colors[2] == 0) // turn it to white, cause I can
+							blendFlash.color = FlxColor.WHITE;
+
+						if (flashTween != null)
+							flashTween.cancel();
+
+						blendFlash.color = FlxColor.fromRGB(settings.colors[0], settings.colors[1], settings.colors[2], 255);
+
+						flashTween = FlxTween.tween(blendFlash, {alpha: 0}, settings.timer, {
+							ease: settings.ease,
+							onComplete: function(twn:FlxTween)
+							{
+								flashTween = null;
 							}
 						});
 					}
