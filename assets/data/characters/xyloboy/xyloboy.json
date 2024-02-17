@@ -2,7 +2,7 @@
 	"animations": [
 		{
 			"offsets": [
-				0,
+				5,
 				0
 			],
 			"indices": [],
@@ -18,9 +18,9 @@
 			],
 			"indices": [],
 			"fps": 24,
-			"anim": "singDOWN",
+			"anim": "singLEFT",
 			"loop": false,
-			"name": "down"
+			"name": "right"
 		},
 		{
 			"offsets": [
@@ -47,13 +47,35 @@
 		{
 			"offsets": [
 				0,
+				197
+			],
+			"indices": [],
+			"fps": 24,
+			"anim": "singDOWN",
+			"loop": false,
+			"name": "down"
+		},
+		{
+			"offsets": [
+				0,
 				0
 			],
 			"indices": [],
 			"fps": 24,
-			"anim": "singRIGHTmiss",
+			"anim": "singUPmiss",
 			"loop": false,
-			"name": "missleft"
+			"name": "missup"
+		},
+		{
+			"offsets": [
+				0,
+				0
+			],
+			"indices": [],
+			"fps": 24,
+			"anim": "singDOWNmiss",
+			"loop": false,
+			"name": "missdown"
 		},
 		{
 			"offsets": [
@@ -73,58 +95,28 @@
 			],
 			"indices": [],
 			"fps": 24,
-			"anim": "singLEFT",
+			"anim": "singRIGHTmiss",
 			"loop": false,
-			"name": "right"
-		},
-		{
-			"offsets": [
-				0,
-				0
-			],
-			"indices": [
-				4,
-				5,
-				6,
-				0,
-				1,
-				2,
-				3
-			],
-			"fps": 24,
-			"anim": "singDOWNmiss",
-			"loop": false,
-			"name": "missdown"
-		},
-		{
-			"offsets": [
-				0,
-				0
-			],
-			"indices": [],
-			"fps": 24,
-			"anim": "singUPmiss",
-			"loop": false,
-			"name": "missup"
+			"name": "missleft"
 		}
 	],
 	"no_antialiasing": false,
-	"image": "characters/xyloboy",
+	"image": "characters/xyloboy-new",
 	"position": [
 		0,
-		0
+		350
 	],
-	"healthicon": "face",
+	"healthicon": "bf-pixel",
 	"flip_x": true,
 	"healthbar_colors": [
-		161,
-		161,
-		161
+		200,
+		200,
+		200
 	],
 	"camera_position": [
-		-280,
-		-40
+		-50,
+		-60
 	],
-	"sing_duration": 6.1,
-	"scale": 1.2
+	"sing_duration": 4,
+	"scale": 1
 }
