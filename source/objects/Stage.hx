@@ -128,7 +128,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 	public var spawnGirlfriend:Bool = true;
 	public var spawnSecondaryOpponent:Bool = false;
 	public var hideBoyfriend:Bool = false;
-	public var lowQuality:Bool = Init.trueSettings.get("Low Quality");
+	public var lowQuality:Bool = false;
 
 	public var stageScript:ScriptHandler;
 
@@ -176,6 +176,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 
 	public function createStage(curStage:String)
 	{
+		lowQuality = Init.trueSettings.get("Low Quality"); //pissy wissy
 		switch (curStage)
 		{
 			case 'abandonedStreet':
