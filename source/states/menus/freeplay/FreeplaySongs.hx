@@ -810,11 +810,6 @@ class FreeplaySongs extends MusicBeatState
 			{
 				switch (songs[curSelected].name.toLowerCase())
 				{
-					case 'hunted': 
-						// pretty sure you know why
-						remove(delutranceBg);
-						add(bg);
-
 					case 'bless':
 						if(!Init.trueSettings.get('Low Quality')) {
 							FlxG.camera.setFilters(
@@ -838,7 +833,8 @@ class FreeplaySongs extends MusicBeatState
 							FlxG.camera.setFilters(
 								[
 									new ShaderFilter(chromAberration),
-									new ShaderFilter(urFucked)								]);
+									new ShaderFilter(urFucked)
+								]);
 						}
 
 						if(Init.trueSettings.get('Screen Shake'))

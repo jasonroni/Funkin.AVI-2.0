@@ -1,16 +1,16 @@
 package base.utils;
 
-import lime.app.Application;
-import flixel.util.FlxTimer;
-import flixel.util.FlxColor;
-import flixel.FlxSprite;
 import base.song.Conductor;
+import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.math.FlxMath;
 import flixel.tweens.*;
-import flixel.FlxG;
-import states.PlayState;
-import openfl.filters.ShaderFilter;
+import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
+import lime.app.Application;
 import objects.Character;
+import openfl.filters.ShaderFilter;
+import states.PlayState;
 import states.substates.PauseSubstate;
 
 /**
@@ -883,6 +883,45 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 				}
 
 			case 'Lunacy':
+				var beatArray1:Array<Int> = [38, 40, 46, 48, 54, 56, 62];
+				var beatArray2:Array<Int> = [70, 72, 78, 80, 86, 88];
+				var beatArray3:Array<Int> = [224, 230, 240, 248, 256, 262, 272, 280, 288, 296, 304, 312, 320, 328, 336, 344];
+				var beatArray4:Array<Int> = [228, 238, 244, 252, 260, 270, 276, 284, 292, 300, 308, 316, 324, 332, 340, 348];
+
+				if (curBeat == 1)
+					{
+						cinematicBarControls("add", 0.0001, 'linear', 0);
+						cinematicBarControls("moveboth", 0.0001, 'linear', 60);
+					}
+					if (curBeat == 32)
+						cinematicBarControls("moveboth", 1.2, "circOut", 120);
+					if (curBeat == 64)
+						cinematicBarControls("moveboth", 1.2, "circOut", 190);
+					if (curBeat == 90)
+						cinematicBarControls("moveboth", 2, "circInOut", 0);
+					for (i in 0...beatArray1.length)
+						if (curBeat == beatArray1[i])
+							cinematicBarControls("bopboth", 0.5, "quartOut", 100, 20);
+					for (i in 0...beatArray2.length)
+						if (curBeat == beatArray2[i])
+							cinematicBarControls("bopboth", 0.5, "quartOut", 170, 20);
+					if (curBeat == 156)
+						cinematicBarControls("moveboth", 0.4, "circOut", 120);
+					if (curBeat == 160)
+						cinematicBarControls("moveboth", 1, "circOut", 80);
+					if (curBeat == 192)
+						cinematicBarControls("moveboth", 10, "circInOut", 180);
+					for (i in 0...beatArray3.length)
+						if (curBeat == beatArray3[i])
+							cinematicBarControls("moveboth", 0.5, "circOut", 60);
+					for (i in 0...beatArray4.length)
+						if (curBeat == beatArray4[i])
+							cinematicBarControls("moveboth", 0.15, "circOut", 130);
+					if (curBeat == 352)
+						cinematicBarControls("moveboth", 2, "circOut", 50);
+					if (curBeat == 480)
+						cinematicBarControls("moveboth", 0.0001, 'linear', 110);
+
 				if (curBeat == 100 || curBeat == 108 || curBeat == 116 || curBeat == 124 || curBeat == 132 || curBeat == 140 || curBeat == 148)
 				{
 					PlayState.main.camFlashSystem(BG_FLASH, {alpha: 0.5, timer: 0.5, ease: FlxEase.sineOut});
@@ -905,7 +944,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 
 				if (curBeat == 424 || curBeat == 432 || curBeat == 440 || curBeat == 448 || curBeat == 456 || curBeat == 464 || curBeat == 472)
 				{
-					PlayState.main.camFlashSystem(BG_FLASH, {alpha: 0.65, timer: 0.1, ease: FlxEase.sineOut});
+					PlayState.main.camFlashSystem(BG_FLASH, {alpha: 0.65, timer: 0.6, ease: FlxEase.sineOut});
 				}
 
 				if (curBeat == 32 || curBeat == 64)
@@ -1230,12 +1269,12 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					case 16: PlayState.camBars.fade(FlxColor.BLACK, 3, true);
 
 					case 32:
-						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.BLACK, 1.5);
+						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camBars.flash(FlxColor.BLACK, 1.5);
 						tweenCamera(PlayState.camGame.zoom + .5, 16.5, 'sineInOut');
 
 					case 64:
 						if (!Init.trueSettings.get('Disable Flashing Lights'))
-							PlayState.camGame.flash(FlxColor.BLACK, 0.9);
+							PlayState.camBars.flash(FlxColor.BLACK, 0.9);
 
 					case 88:
 						tweenCamera(.75, 2.2, 'sineInOut');
@@ -1249,17 +1288,17 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					case 96:
 						PlayState.defaultCamZoom = 0.75;
 						if (!Init.trueSettings.get('Disable Flashing Lights'))
-							PlayState.camGame.flash(FlxColor.WHITE, 1.5);
+							PlayState.camBars.flash(FlxColor.WHITE, 1.5);
 
 					case 128 | 256:
-						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.WHITE, 1.5);
+						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camBars.flash(FlxColor.WHITE, 1.5);
 
 					case 156:
 						PlayState.defaultCamZoom = 1.05;
 
 					case 160:
 						PlayState.defaultCamZoom = 0.7;
-						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.BLACK, 1.5);
+						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camBars.flash(FlxColor.BLACK, 1.5);
 
 					case 192:
 						PlayState.defaultCamZoom = 0.75;
@@ -1277,7 +1316,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					case 224 | 288:
 						PlayState.defaultCamZoom = 0.75;
 						if (!Init.trueSettings.get('Disable Flashing Lights'))
-							PlayState.camGame.flash(FlxColor.WHITE, 1.5);
+							PlayState.camBars.flash(FlxColor.WHITE, 1.5);
 						FlxTween.tween(PlayState.camHUD, {alpha: 0}, 3, {ease: FlxEase.sineInOut});
 						for (i in PlayState.strumHUD)
 						{
@@ -1292,7 +1331,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 
 					case 232 | 264:
 						if (!Init.trueSettings.get('Disable Flashing Lights'))
-							PlayState.camGame.flash(FlxColor.WHITE, 1.5);
+							PlayState.camBars.flash(FlxColor.WHITE, 1.5);
 						PlayState.defaultCamZoom = 0.7;
 
 					case 412 | 240 | 272 | 300 | 304 | 336 | 248 | 280 | 328:
@@ -1300,7 +1339,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 
 					case 320:
 						if (!Init.trueSettings.get('Disable Flashing Lights'))
-							PlayState.camGame.flash(FlxColor.WHITE, 1.5);
+							PlayState.camBars.flash(FlxColor.WHITE, 1.5);
 						PlayState.defaultCamZoom = 0.7;
 
 					case 254:
@@ -1342,11 +1381,11 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 							FlxTween.tween(i, {alpha: 0.36}, 4, {ease: FlxEase.sineInOut});
 						}
 
-					case 416: if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camGame.flash(FlxColor.WHITE, 1.5);
+					case 416: if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camBars.flash(FlxColor.WHITE, 1.5);
 
 					case 480:
 						if (!Init.trueSettings.get('Disable Flashing Lights'))
-							PlayState.camGame.flash(FlxColor.BLACK, 1.5);
+							PlayState.camBars.flash(FlxColor.BLACK, 1.5);
 						PlayState.camHUD.alpha = 0;
 						for (i in PlayState.strumHUD)
 						{
@@ -1398,15 +1437,16 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 
 				switch (curBeat)
 				{
+					case 1: PlayState.camBars.fade(FlxColor.BLACK, 2, true);
 					case 132: PlayState.defaultCamZoom = 1.3;
 					case 136:
-						FlxG.camera.fade();
+						PlayState.camBars.fade();
 						for (daUIs in PlayState.main.allUIs)
 							FlxTween.tween(daUIs, {alpha: 0}, 3);
 					// BF Starts Singing Some Lyrics
 					case 144:
 						PlayState.defaultCamZoom = 0.8;
-						FlxG.camera.fade(0x000000, 5, true);
+						PlayState.camBars.fade(0x000000, 5, true);
 						PlayState.main.camFlashSystem(BG_DARK, {alpha: 1, timer: 0.3, ease: FlxEase.quartInOut});
 						PlayState.defaultCamZoom = 1.2;
 						PlayState.main.camDisplaceX -= 100;
@@ -1821,7 +1861,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						}});
 					case 416: FlxTween.tween(PlayState.boyfriend, {'scale.y': 0}, 0.5, {ease: FlxEase.quartInOut, onComplete: function(twn:FlxTween)
 						{
-							FlxTween.tween(PlayState.boyfriend, {'scale.y': 1.2}, 0.5, {ease: FlxEase.quartOut});
+							FlxTween.tween(PlayState.boyfriend, {'scale.y': 1}, 0.5, {ease: FlxEase.quartOut});
 						}});
 					case 476: tweenCamera(0.85, 2, 'quartInOut');
 					case 477: FlxTween.tween(PlayState.opponent, {'scale.x': 0}, 0.3, {ease: FlxEase.quartInOut, onComplete: function(twn:FlxTween)
@@ -1972,7 +2012,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					switch (curBeat)
 					{
 						// Intro Cam Shit
-						case 16: PlayState.camGame.fade(0x000000, 0.0001, true);
+						case 16: PlayState.camBars.fade(0x000000, 0.0001, true);
 						case 32: tweenCamera(0.85, 5.5, 'quartInOut');
 						case 46:
 							tweenCamera(0.6, 0.6, 'sineInOut');
@@ -2212,6 +2252,32 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 
 						// Ight Jason, the fun part's all yours
 						// The fun begins 0_0
+				}
+
+			case 'Neglection':
+				switch (curBeat)
+				{
+					case 256:
+						FlxTween.tween(PlayState.camHUD, {alpha: 0}, 0.5);
+                        for (i in PlayState.strumHUD)
+                            {
+                                FlxTween.tween(i, {alpha: 0}, 0.5);
+                            }
+					case 257:
+						FlxTween.tween(PlayState.boyfriend, {alpha: 0.0001}, 0.5);
+						PlayState.camBars.fade(FlxColor.BLACK, 0.3);
+					case 260:
+						PlayState.camBars.fade(FlxColor.BLACK, 1, true);
+					case 264:
+						FlxTween.tween(PlayState.camHUD, {alpha: 1}, 0.5);
+                        for (i in PlayState.strumHUD)
+                            {
+                                FlxTween.tween(i, {alpha: 1}, 0.5);
+                            }
+					case 328: PlayState.camGame.visible = false;
+					case 332: 
+						PlayState.camGame.visible = true;
+						PlayState.boyfriend.alpha = 1;
 				}
 
 			case 'Hunted':

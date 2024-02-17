@@ -278,7 +278,7 @@ class Character extends FNFSprite
 						else
 							playAnim('danceLeft', forced);
 					}
-				case 'pnm':
+				case 'pnm' | 'pnmfirstpov':
 					if (color != 0xFFFFFFFF)
 						color = 0xFFFFFFFF;
 					playAnim('idle$idleSuffix', forced);
