@@ -373,34 +373,18 @@ class StoryMenu extends MusicBeatState
 			PlayState.gameplayMode = STORY;
 			selectedWeek = true;
 
-			var song:String = PlayState.storyPlaylist[0];
-			var diff:String = '-' + CoolUtil.difficultyFromNumber(curDifficulty);
+			PlayState.SONG = Song.loadFromJson('delutrance-hard', 'delutrance');
 
-			if (!sys.FileSystem.exists(Paths.songJson(song, song + '-' + CoolUtil.defaultDifficulty.toLowerCase())))
-				CoolUtil.defaultDifficulty = '';
+			PlayState.gameplayMode = STORY;
+			PlayState.storyDifficulty = curDifficulty;
 
-			if (curDifficulty == 1)
-				diff = CoolUtil.defaultDifficulty;
-
-			if (song != null && diff != null)
+			new flixel.util.FlxTimer().start(1, function(e)
 			{
-				PlayState.SONG = Song.loadFromJson(song.toLowerCase() + diff, song);
-				CoolUtil.difficultyString = CoolUtil.difficultyFromNumber(curDifficulty);
+				if (FlxG.sound.music != null)
+					FlxG.sound.music.stop();
 
-				PlayState.storyDifficulty = curDifficulty;
-				PlayState.storyWeek = curWeek;
-				PlayState.campaignScore = 0;
-
-				new FlxTimer().start(1, function(tmr:FlxTimer)
-				{
-					Main.switchState(this, new PlayState());
-				});
-			}
-			else
-			{
-				stopspamming = false;
-				selectedWeek = false;
-			}
+				Main.switchState(this, new PlayState());
+			});
 		}
 	}
 
