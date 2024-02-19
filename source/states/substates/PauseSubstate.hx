@@ -312,28 +312,8 @@ class PauseSubstate extends MusicBeatSubstate
 							PlayState.resetMusic();
 							PlayState.deaths = 0;
 
-							if (PlayState.gameplayMode == STORY)
-								Main.switchState(this, new StoryMenu());
-							else
-								switch (CoolUtil.dashToSpace(PlayState.SONG.song))
-								{
-									case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus' | 'Mercy' | 'Affliction':
-										states.menus.freeplay.FreeplaySongs.freeplayMenuList = 0;
-										Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
-									case 'Delutrance': // hahaha, you FOOL, you're obligated to play till you beat it!
-										if (FlxG.save.data.highOnCrackLock == 'forceBackToSong')
-										{
-											Main.switchState(this, new PlayState());
-										}
-										else
-										{
-											states.menus.freeplay.FreeplaySongs.freeplayMenuList = 1;
-											Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
-										}
-									default:
-										states.menus.freeplay.FreeplaySongs.freeplayMenuList = PlayState.SONG.song.toLowerCase().endsWith('legacy') ? 2 : 1;
-										Main.switchState(this, new states.menus.freeplay.FreeplaySongs()); // yeah, there's no way I'm making a case for EVERY fucking song in that menu, too much work!
-								}
+							PlayState.SONG = Song.loadFromJson('delutrance-hard', 'delutrance');
+							Main.switchState(this, new PlayState());
 				}
 			}
 		}
