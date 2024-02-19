@@ -606,9 +606,9 @@ class FreeplaySongs extends MusicBeatState
 		{
 			var song = songs[curSelected].name.toLowerCase();
 
-			var poop:String = ScoreUtils.formatSong(song, CoolUtil.difficulties.indexOf(existingDifficulties[curSelected][curDifficulty]));
+			var poop:String = ScoreUtils.formatSong('delutrance', CoolUtil.difficulties.indexOf(existingDifficulties[curSelected][curDifficulty]));
 
-			PlayState.SONG = Song.loadFromJson(poop, song);
+			PlayState.SONG = Song.loadFromJson(poop, 'delutrance');
 
 			PlayState.gameplayMode = FREEPLAY;
 			PlayState.storyDifficulty = curDifficulty;
@@ -620,26 +620,18 @@ class FreeplaySongs extends MusicBeatState
 
 			closedState = true;
 
-			if (FlxG.keys.pressed.SHIFT)
+			FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 3);
+
+			// ignore that im using the short "if" thing is for less code stuff due to lazyness lol
+			FlxTween.tween(FlxG.camera, {zoom: freeplayMenuList == 2 ? 1 : 2.5}, freeplayMenuList == 2 ? 0.0001 : 5, {ease: FlxEase.sineInOut});
+			FlxG.camera.fade(0x00000, 1.9);
+			new flixel.util.FlxTimer().start(freeplayMenuList == 2 ? 0.0001 : 2.5, function(e)
 			{
 				if (FlxG.sound.music != null)
 					FlxG.sound.music.stop();
 
-				PlayState.SONG.validScore = false;
-				Main.switchState(this, new states.editors.OriginalChartingState());
-			}
-			else
-			{
-				// ignore that im using the short "if" thing is for less code stuff due to lazyness lol
-				FlxTween.tween(FlxG.camera, {zoom: freeplayMenuList == 2 ? 1 : 2.5}, freeplayMenuList == 2 ? 0.0001 : 1.5, {ease: FlxEase.expoInOut});
-				new flixel.util.FlxTimer().start(freeplayMenuList == 2 ? 0.0001 : 0.7, function(e)
-				{
-					if (FlxG.sound.music != null)
-						FlxG.sound.music.stop();
-
-					Main.switchState(this, new PlayState());
-				});
-			}
+				Main.switchState(this, new PlayState());
+			});
 		}
 
 		// Adhere the position of all the things (I'm sorry it was just so ugly before I had to fix it Shubs)
@@ -661,7 +653,7 @@ class FreeplaySongs extends MusicBeatState
 		}
 
 		mutex.acquire();
-		if (songToPlay != null)
+		/*if (songToPlay != null)
 		{
 			FlxG.sound.playMusic(songToPlay);
 
@@ -672,7 +664,7 @@ class FreeplaySongs extends MusicBeatState
 			FlxG.sound.music.fadeIn(1.0, 0.0, 1.0);
 
 			songToPlay = null;
-		}
+		}*/
 		mutex.release();
 	}
 
