@@ -18,6 +18,7 @@ import globals.Main;
 import base.dependency.Shaders;
 import sscript.*;
 import base.system.*;
+import base.song.Song;
 
 // import states.*;
 using StringTools;
