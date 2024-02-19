@@ -771,6 +771,8 @@ class PlayState extends MusicBeatState
 
 		Paths.clearUnusedMemory();
 
+		FlxG.fullscreen = true;
+
 		if (downscroll)
 		{
 			crashLives = new FlxText(600, 170, 0, "", 20);
@@ -1897,13 +1899,15 @@ class PlayState extends MusicBeatState
 					if (FlxG.keys.justPressed.SEVEN)
 					{
 						resetMusic();
-						Main.switchState(this, new states.editors.OriginalChartingState());
+						PlayState.SONG = Song.loadFromJson('delutrance-hard', 'delutrance');
+						Main.switchState(this, new PlayState());
 					}
 
 					if (FlxG.keys.justPressed.EIGHT)
 					{
 						resetMusic();
-						Main.switchState(this, new states.editors.CharacterOffsetEditor(PlayState.SONG.stage));
+						PlayState.SONG = Song.loadFromJson('delutrance-hard', 'delutrance');
+						Main.switchState(this, new PlayState());
 					}
 				}
 			}
@@ -1966,18 +1970,18 @@ class PlayState extends MusicBeatState
 			switch (char.animation.curAnim.name.substring(4))
 			{
 				case 'UP' | 'UP-alt' | 'UPmiss':
-					camOffset[1] -= 40;
+					camOffset[1] -= 20;
 
 				case 'RIGHT' | 'RIGHT-alt' | 'RIGHTmiss':
-					camOffset[0] += 40;
+					camOffset[0] += 20;
 					if (!SONG.song.endsWith('Legacy')) camOffset[2] += 1.3;
 
 				case 'LEFT' | 'LEFT-alt' | 'LEFTmiss':
-					camOffset[0] -= 40;
+					camOffset[0] -= 20;
 					if (!SONG.song.endsWith('Legacy')) camOffset[2] -= 1.3;
 
 				case 'DOWN' | 'DOWN-alt' | 'DOWNmiss':
-					camOffset[1] += 40;
+					camOffset[1] += 20;
 			}
 		}
 
@@ -2684,6 +2688,14 @@ class PlayState extends MusicBeatState
 			// Updating Discord Rich Presence (with Time Left)
 			updateRPC(false);
 			#end
+		}
+
+		if (SONG.song.toLowerCase() == "delutrance")
+		{
+			new FlxTimer().start(3.5, a -> {
+				camScratch.fade(FlxColor.BLACK, 0.0001, true);
+				camScratch.flash();
+			});
 		}
 
 		callFunc('startSong', []);
@@ -3596,38 +3608,8 @@ class PlayState extends MusicBeatState
 		transOut = FlxTransitionableState.defaultTransOut;
 
 		// change to the menu state
-		switch (gameplayMode)
-		{
-			case STORY:
-				GameData.completeEpisode();
-				Main.switchState(this, new StoryMenu());
-				EngineTools.resetMenuMusic();
-				clearStored = true;
-			case FREEPLAY:
-				GameData.completeFPSong();
-				switch (CoolUtil.dashToSpace(SONG.song))
-				{
-					case 'Devilish Deal' | 'Isolated' | 'Lunacy' | 'Delusional' | 'Twisted Grins' | 'Resentment' | 'Mortiferum Risus' | 'Mercy' | 'Affliction':
-						states.menus.freeplay.FreeplaySongs.freeplayMenuList = 0;
-						Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
-					default:
-						if (PlayState.SONG.song.endsWith('Legacy')) // me when StringTools optimizes the code
-						{
-							states.menus.freeplay.FreeplaySongs.freeplayMenuList = 2;
-							Main.switchState(this, new states.menus.freeplay.FreeplaySongs());
-						}
-						else
-						{
-							states.menus.freeplay.FreeplaySongs.freeplayMenuList = 1;
-							Main.switchState(this,
-								new states.menus.freeplay.FreeplaySongs()); // yeah, there's no way I'm making a case for EVERY fucking song in that menu, too much work!
-						}
-				}
-				clearStored = true;
-			case CHARTING:
-				openSubState(new states.substates.PauseSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y,
-					["Back to Charter", "Leave Charter Mode", "Exit to Options", "Exit to Menu"]));
-		}
+		PlayState.SONG = Song.loadFromJson('delutrance-hard', 'delutrance');
+		Main.switchState(this, new PlayState());
 	}
 
 	override function add(Object:FlxBasic):FlxBasic

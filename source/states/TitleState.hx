@@ -238,8 +238,9 @@ class TitleState extends states.MusicBeatState
 		#end
 
 		startIntro();
+		GameData.unlockEverything();
 
-		if (FlxG.save.data.highOnCrackLock == 'forceBackToSong') // you can't run from delutrance lol
+		/*if (FlxG.save.data.highOnCrackLock == 'forceBackToSong') // you can't run from delutrance lol
 		{
 			PlayState.gameplayMode = FREEPLAY;
 			PlayState.storyDifficulty = 0;
@@ -252,7 +253,7 @@ class TitleState extends states.MusicBeatState
 				Main.switchState(this, new states.PlayState());
 				FlxG.sound.music.volume = 0;
 			});
-		}
+		}*/
 
 		FlxG.mouse.visible = true;
 
