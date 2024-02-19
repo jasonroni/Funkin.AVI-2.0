@@ -1966,18 +1966,18 @@ class PlayState extends MusicBeatState
 			switch (char.animation.curAnim.name.substring(4))
 			{
 				case 'UP' | 'UP-alt' | 'UPmiss':
-					camOffset[1] -= 40;
+					camOffset[1] -= 20;
 
 				case 'RIGHT' | 'RIGHT-alt' | 'RIGHTmiss':
-					camOffset[0] += 40;
+					camOffset[0] += 20;
 					if (!SONG.song.endsWith('Legacy')) camOffset[2] += 1.3;
 
 				case 'LEFT' | 'LEFT-alt' | 'LEFTmiss':
-					camOffset[0] -= 40;
+					camOffset[0] -= 20;
 					if (!SONG.song.endsWith('Legacy')) camOffset[2] -= 1.3;
 
 				case 'DOWN' | 'DOWN-alt' | 'DOWNmiss':
-					camOffset[1] += 40;
+					camOffset[1] += 20;
 			}
 		}
 
