@@ -799,8 +799,12 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				bg.animation.play("lmao");
 
 				totallyAwsomeShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/pixelate.frag'), null, 140);
-				totallyAwsomeShader.setFloat('size', 7.5);
-				if(!Init.trueSettings.get('Disable Screen Shaders')) FlxG.game.setFilters([new ShaderFilter(totallyAwsomeShader)]);
+				totallyAwsomeShader.setFloat('size', 3.5);
+				if(!Init.trueSettings.get('Disable Screen Shaders'))
+				{
+					PlayState.camGame.setFilters([new ShaderFilter(totallyAwsomeShader)]);
+					@:privateAccess for(ui in PlayState.main.allUIs) ui.setFilters([new ShaderFilter(totallyAwsomeShader)]);
+				}
 			case 'apartment':
 				spawnGirlfriend = false;
 				PlayState.defaultCamZoom = 0.6;
