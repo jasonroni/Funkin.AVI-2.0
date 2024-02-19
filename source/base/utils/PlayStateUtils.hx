@@ -289,6 +289,9 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 				PlayState.camBars.fade(FlxColor.BLACK, 0.0001);
 				PlayState.camHUD.alpha = 0.001;
 
+			case 'Delutrance':
+				PlayState.camScratch.fade(FlxColor.BLACK, 0.0001);
+
 			case 'Delusional':
 				PlatformUtil.sendNotification('Hello.', satanSpeaks[FlxG.random.int(0, satanSpeaks.length - 1)], 1);
 
@@ -1804,8 +1807,10 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 
 				if (curBeat >= 96 && curBeat <= 192)
 				{
-					FlxG.camera.zoom += 0.18;
-					PlayState.main.camFlashSystem(BG_FLASH, {alpha: 0.15, ease: FlxEase.sineOut, timer: 0.35, colors: [255, 0, 0]});
+					FlxG.camera.zoom += 0.035;
+					for (likeuhhyeahstopmakingcamgamezoomstoohighyeah in PlayState.main.allUIs) 
+						likeuhhyeahstopmakingcamgamezoomstoohighyeah.zoom += .03;
+					//PlayState.main.camFlashSystem(BG_FLASH, {alpha: 0.15, ease: FlxEase.sineOut, timer: 0.35, colors: [255, 0, 0]});
 				}
 
 			case 'Birthday':
@@ -2730,10 +2735,22 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
                 {
                     if (PlayState.health > 0.4)
                         PlayState.health -= 0.01;
-                    PlayState.camGame.shake(0.005, 0.07);
+
+					for (hmmsweetstrumsyeah in PlayState.strumHUD) 
+					{
+						hmmsweetstrumsyeah.angle = PlayState.camHUD.angle = FlxG.random.float(-1.5, 1.5);
+						FlxTween.tween(hmmsweetstrumsyeah, {angle: 0}, .025);
+						FlxTween.tween(PlayState.camHUD, {angle: 0}, .025);
+					}
+					PlayState.camGame.shake(0.0035, 0.05);
+					PlayState.camHUD.shake(0.002, 0.035);
+                    for (i in PlayState.strumHUD)
+                        i.shake(0.002, 0.035);
+                    
+					/*PlayState.camGame.shake(0.005, 0.07);
                     PlayState.camHUD.shake(0.010, 0.07);
                     for (i in PlayState.strumHUD)
-                        i.shake(0.010, 0.07);
+                        i.shake(0.010, 0.07);*/
                 }
                 
             case 'Malfunction':
@@ -3105,7 +3122,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 
     public function loadWindowTitleData()
             {
-                switch (PlayState.gameplayMode)
+                /*switch (PlayState.gameplayMode)
                 {
                     case STORY:
                         switch (PlayState.SONG.song)
@@ -3126,7 +3143,8 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
                             Application.current.window.title = 'malsquare.hx - CHEATER MODE ACTIVATED: ' + PlayState.SONG.song + " - Composed by: I CAN SEE YOU CHEATING! - [!CHEATER DETECTED!]" + (paused ? ' {PAUSED}' : "");
                         else
                             Application.current.window.title = 'Funkin.avi - TESTING MODE: ' + PlayState.SONG.song + " - Composed by: " + PlayState.SONG.composer + (paused ? ' {PAUSED}' : "");
-                }
+                }*/
+				Application.current.window.title = 'Funkin.avi';
             }
 
 	/**
