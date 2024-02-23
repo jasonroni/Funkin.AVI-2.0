@@ -499,7 +499,7 @@ class MainMenu extends MusicBeatState
 		}
 
 		// more optimized than tweens if i'm not wrong
-		arrow.setPosition(FlxMath.lerp(arrowX, arrow.x, CoolUtil.boundTo(1 - (elapsed * 15), 0, 1)), FlxMath.lerp(arrowY, arrow.y, CoolUtil.boundTo(1 - (elapsed * 15), 0, 1)));
+		if (arrow != null) arrow.setPosition(FlxMath.lerp(arrowX, arrow.x, CoolUtil.boundTo(1 - (elapsed * 15), 0, 1)), FlxMath.lerp(arrowY, arrow.y, CoolUtil.boundTo(1 - (elapsed * 15), 0, 1)));
 
 		if (FlxG.keys.justPressed.ANY)
 		{
@@ -739,8 +739,11 @@ class MainMenu extends MusicBeatState
 			{
 				for (sillies in [arrow, menuItems.members[Math.floor(curSelected)]])
 				{
-					sillies.setColorTransform(1, 1, 1, 1, 255, 255, 255, 255);
-					FlxTween.tween(sillies.colorTransform, {redOffset: 0, greenOffset: 0, blueOffset: 0}, 1);
+					if (sillies != null)
+					{
+						sillies.setColorTransform(1, 1, 1, 1, 255, 255, 255, 255);
+						FlxTween.tween(sillies.colorTransform, {redOffset: 0, greenOffset: 0, blueOffset: 0}, 1);
+					}
 				}
 				selectedSomethin = true;
 				FlxG.sound.play(Paths.sound('base/menus/confirmMenu'));
@@ -817,8 +820,11 @@ class MainMenu extends MusicBeatState
 					});
 					for (sillies in [arrow, menuItems.members[Math.floor(curSelected)]])
 					{
-						sillies.setColorTransform(1, 1, 1, 1, 255, 255, 255, 255);
-						FlxTween.tween(sillies.colorTransform, {redOffset: 0, greenOffset: 0, blueOffset: 0}, 1);
+						if (sillies != null)
+						{
+							sillies.setColorTransform(1, 1, 1, 1, 255, 255, 255, 255);
+							FlxTween.tween(sillies.colorTransform, {redOffset: 0, greenOffset: 0, blueOffset: 0}, 1);
+						}
 					}
 					selectedSomethin = true;
 					FlxG.sound.play(Paths.sound('base/menus/confirmMenu'));

@@ -177,6 +177,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 	public function createStage(curStage:String)
 	{
 		lowQuality = Init.trueSettings.get("Low Quality"); //pissy wissy
+
 		switch (curStage)
 		{
 			case 'abandonedStreet':
@@ -1068,7 +1069,176 @@ class Stage extends FlxTypedGroup<FlxBasic>
 	{
 		switch (curStage)
 		{
-			case 'adandonedStreet':
+			case 'abandonedStreet':
+				switch (PlayState.SONG.song)
+					{
+						case 'Lunacy':
+							if (!lowQuality)
+								{
+									if (curBeat == 228 || curBeat == 238 || curBeat == 244 || curBeat == 252 || curBeat == 260 || curBeat == 270 || curBeat == 276 || curBeat == 284 || curBeat == 292 || curBeat == 300 || curBeat == 308 || curBeat == 316 || curBeat == 324 || curBeat == 332 || curBeat == 340 || curBeat == 248)
+									{
+										if (fireTweenHandler != null)
+											fireTweenHandler.cancel();
+						
+										fireTweenHandler = FlxTween.tween(fireThing, {alpha: 0.75, y: -250}, 0.35, {ease: EngineTools.returnTweenEase('sineOut'), onComplete: function(twn:FlxTween)
+											{
+												fireTweenHandler = null;
+											}
+										});
+									}
+									if (curBeat == 230 || curBeat == 240 || curBeat == 248 || curBeat == 256 || curBeat == 262 || curBeat == 272 || curBeat == 280 || curBeat == 288 || curBeat == 296 || curBeat == 304 || curBeat == 312 || curBeat == 320 || curBeat == 328 || curBeat == 336 || curBeat == 344 || curBeat == 352)
+									{
+										if (fireTweenHandler != null)
+											fireTweenHandler.cancel();
+						
+										fireTweenHandler = FlxTween.tween(fireThing, {alpha: 0.0001, y: -80}, 0.35, {ease: EngineTools.returnTweenEase('sineOut'), onComplete: function(twn:FlxTween)
+											{
+												fireTweenHandler = null;
+											}
+										});
+									}
+									if (curBeat == 416)
+									{
+										if (fireTweenHandler != null)
+											fireTweenHandler.cancel();
+						
+										fireTweenHandler = FlxTween.tween(fireThing, {alpha: 1, y: -350}, 19.5, {ease: EngineTools.returnTweenEase('sineInOut'), onComplete: function(twn:FlxTween)
+											{
+												fireTweenHandler = null;
+											}
+										});
+									}
+									if (curBeat == 480)
+									{
+										fireThing.alpha = 0.35;
+										fireThing.y = -120;
+									}
+									if (curBeat == 536)
+									{
+										fireTweenHandler = FlxTween.tween(fireThing, {alpha: 0, y: 0}, 1, {ease: EngineTools.returnTweenEase('sineOut'), onComplete: function(twn:FlxTween)
+											{
+												fireTweenHandler = null;
+											}
+										});
+									}
+								}
+						case 'Delusional':
+							if (curBeat == 64)
+								{
+									FlxTween.tween(fakeLightOfHope, {alpha: 0.001}, 1.7);
+									if (!lowQuality) FlxTween.tween(stageFront, {alpha: 1}, 1.5);
+								}
+								if (curBeat == 176)
+								{
+									if (rain != null && !lowQuality)
+										rain.alpha = 1;
+								}
+								if (curBeat == 280)
+								{
+									if (!lowQuality)
+									{
+										smokeShit.forEach(function(spr:FlxSprite)
+										{
+											FlxTween.tween(spr, {alpha: 0.55}, 1.5);
+										});
+										smokeFore.forEach(function(spr:FlxSprite)
+											{
+												FlxTween.tween(spr, {alpha: 0.55}, 1.5);
+										});
+									}
+								}
+								if (curBeat == 312)
+								{
+									FlxTween.tween(fireThing, {alpha: 1}, 1);
+									//smokeParticles.emitting = true;
+								} 
+								if (curBeat == 336)
+								{
+									if (!lowQuality)
+									{
+										smokeShit.forEach(function(spr:FlxSprite)
+										{
+											FlxTween.tween(spr, {alpha: 0.25}, 1.5);
+										});
+										smokeFore.forEach(function(spr:FlxSprite)
+										{
+												FlxTween.tween(spr, {alpha: 0.25}, 1.5);
+										});
+									}
+								}
+								if (curBeat == 474) // load daytime street assets
+								{
+									colorsOrSmthElse.visible = false;
+									//smokeParticles.emitting = false;
+									fireThing.alpha = 0;
+									floor.visible = false;
+									if (!lowQuality)
+									{
+										smokeShit.forEach(function(spr:FlxSprite)
+											{
+												spr.alpha = 0;
+											});
+											smokeFore.forEach(function(spr:FlxSprite)
+											{
+												spr.alpha = 0;
+											});
+										rain.visible = false;
+										clouds.visible = true;
+										stageCurtains.visible = false;
+										stageFront.visible = false;
+									}
+									brightSky.visible = true;
+									streetDaytime.visible = true;
+								}
+								if (curBeat == 740) // go back to the street in a even more decayed state
+								{
+									fireThing2.alpha = 0.75;
+									//smokeParticles.emitting = true;
+									//fireParticles.emitting = true;
+									if (!lowQuality)
+									{
+										fireForeground.alpha = 0.6;
+										smokeShit.forEach(function(spr:FlxSprite)
+											{
+												spr.alpha = 0.7;
+											});
+											smokeFore.forEach(function(spr:FlxSprite)
+											{
+												spr.alpha = 0.74;
+											});
+										rain.visible = true;
+										clouds.visible = false;
+										stageCurtains.visible = true;
+									}
+									streetRuins.visible = true;
+									fakeLightOfHope.alpha = 0.5;
+									brightSky.visible = false;
+									streetDaytime.visible = false;
+								}
+								if (curBeat == 1136)
+								{
+									fireThing2.alpha = 0;
+									if (!lowQuality)
+										{
+											fireForeground.alpha = 0;
+											smokeShit.forEach(function(spr:FlxSprite)
+												{
+													spr.alpha = 0;
+												});
+												smokeFore.forEach(function(spr:FlxSprite)
+												{
+													spr.alpha = 0;
+												});
+											rain.visible = false;
+											clouds.visible = false;
+											stageCurtains.visible = true;
+										}
+										streetRuins.visible = false;
+										fakeLightOfHope.alpha = 0;
+										brightSky.visible = false;
+										streetDaytime.visible = false;
+								}
+							}
 				if (!lowQuality)
 					{
 						if (FlxG.random.bool(3))
@@ -1085,59 +1255,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 						}
 					}
 				
-					if (PlayState.SONG.song == 'Lunacy')
-					{
-						if (!lowQuality)
-						{
-							if (curBeat == 228 || curBeat == 238 || curBeat == 244 || curBeat == 252 || curBeat == 260 || curBeat == 270 || curBeat == 276 || curBeat == 284 || curBeat == 292 || curBeat == 300 || curBeat == 308 || curBeat == 316 || curBeat == 324 || curBeat == 332 || curBeat == 340 || curBeat == 248)
-							{
-								if (fireTweenHandler != null)
-									fireTweenHandler.cancel();
-				
-								fireTweenHandler = FlxTween.tween(fireThing, {alpha: 0.75, y: -250}, 0.35, {ease: EngineTools.returnTweenEase('sineOut'), onComplete: function(twn:FlxTween)
-									{
-										fireTweenHandler = null;
-									}
-								});
-							}
-							if (curBeat == 230 || curBeat == 240 || curBeat == 248 || curBeat == 256 || curBeat == 262 || curBeat == 272 || curBeat == 280 || curBeat == 288 || curBeat == 296 || curBeat == 304 || curBeat == 312 || curBeat == 320 || curBeat == 328 || curBeat == 336 || curBeat == 344 || curBeat == 352)
-							{
-								if (fireTweenHandler != null)
-									fireTweenHandler.cancel();
-				
-								fireTweenHandler = FlxTween.tween(fireThing, {alpha: 0.0001, y: -80}, 0.35, {ease: EngineTools.returnTweenEase('sineOut'), onComplete: function(twn:FlxTween)
-									{
-										fireTweenHandler = null;
-									}
-								});
-							}
-							if (curBeat == 416)
-							{
-								if (fireTweenHandler != null)
-									fireTweenHandler.cancel();
-				
-								fireTweenHandler = FlxTween.tween(fireThing, {alpha: 1, y: -350}, 19.5, {ease: EngineTools.returnTweenEase('sineInOut'), onComplete: function(twn:FlxTween)
-									{
-										fireTweenHandler = null;
-									}
-								});
-							}
-							if (curBeat == 480)
-							{
-								fireThing.alpha = 0.35;
-								fireThing.y = -120;
-							}
-							if (curBeat == 536)
-							{
-								fireTweenHandler = FlxTween.tween(fireThing, {alpha: 0, y: 0}, 1, {ease: EngineTools.returnTweenEase('sineOut'), onComplete: function(twn:FlxTween)
-									{
-										fireTweenHandler = null;
-									}
-								});
-							}
-						}
-					}
-					if (PlayState.SONG.song == 'Delusion')
+					/*if (PlayState.SONG.song == 'Delusion')
 					{
 						if (curBeat == 24)
 						{
@@ -1150,129 +1268,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 							fakeLightOfHope.visible = true;
 							streetRuins.visible = true;
 						}
-					}
-					if (PlayState.SONG.song == 'Delusional')
-					{
-						if (curBeat == 1)
-						{
-							PlayState.camGame.fade(0x000000, 3, true);
-						}
-						if (curBeat == 64)
-						{
-							FlxTween.tween(fakeLightOfHope, {alpha: 0.001}, 1.7);
-							if (!lowQuality) FlxTween.tween(stageFront, {alpha: 1}, 1.5);
-						}
-						if (curBeat == 176)
-						{
-							if (rain != null && !lowQuality)
-								rain.alpha = 1;
-						}
-						if (curBeat == 280)
-						{
-							if (!lowQuality)
-							{
-								smokeShit.forEach(function(spr:FlxSprite)
-								{
-									FlxTween.tween(spr, {alpha: 0.55}, 1.5);
-								});
-								smokeFore.forEach(function(spr:FlxSprite)
-									{
-										FlxTween.tween(spr, {alpha: 0.55}, 1.5);
-								});
-							}
-						}
-						if (curBeat == 312)
-						{
-							FlxTween.tween(fireThing, {alpha: 1}, 1);
-							//smokeParticles.emitting = true;
-						} 
-						if (curBeat == 336)
-						{
-							if (!lowQuality)
-							{
-								smokeShit.forEach(function(spr:FlxSprite)
-								{
-									FlxTween.tween(spr, {alpha: 0.25}, 1.5);
-								});
-								smokeFore.forEach(function(spr:FlxSprite)
-								{
-										FlxTween.tween(spr, {alpha: 0.25}, 1.5);
-								});
-							}
-						}
-						if (curBeat == 474) // load daytime street assets
-						{
-							colorsOrSmthElse.visible = false;
-							//smokeParticles.emitting = false;
-							fireThing.alpha = 0;
-							floor.visible = false;
-							if (!lowQuality)
-							{
-								smokeShit.forEach(function(spr:FlxSprite)
-									{
-										spr.alpha = 0;
-									});
-									smokeFore.forEach(function(spr:FlxSprite)
-									{
-										spr.alpha = 0;
-									});
-								rain.visible = false;
-								clouds.visible = true;
-								stageCurtains.visible = false;
-								stageFront.visible = false;
-							}
-							brightSky.visible = true;
-							streetDaytime.visible = true;
-						}
-						if (curBeat == 740) // go back to the street in a even more decayed state
-						{
-							fireThing2.alpha = 0.75;
-							//smokeParticles.emitting = true;
-							//fireParticles.emitting = true;
-							if (!lowQuality)
-							{
-								fireForeground.alpha = 0.6;
-								smokeShit.forEach(function(spr:FlxSprite)
-									{
-										spr.alpha = 0.7;
-									});
-									smokeFore.forEach(function(spr:FlxSprite)
-									{
-										spr.alpha = 0.74;
-									});
-								rain.visible = true;
-								clouds.visible = false;
-								stageCurtains.visible = true;
-							}
-							streetRuins.visible = true;
-							fakeLightOfHope.alpha = 0.5;
-							brightSky.visible = false;
-							streetDaytime.visible = false;
-						}
-						if (curBeat == 1136)
-						{
-							fireThing2.alpha = 0;
-							if (!lowQuality)
-								{
-									fireForeground.alpha = 0;
-									smokeShit.forEach(function(spr:FlxSprite)
-										{
-											spr.alpha = 0;
-										});
-										smokeFore.forEach(function(spr:FlxSprite)
-										{
-											spr.alpha = 0;
-										});
-									rain.visible = false;
-									clouds.visible = false;
-									stageCurtains.visible = true;
-								}
-								streetRuins.visible = false;
-								fakeLightOfHope.alpha = 0;
-								brightSky.visible = false;
-								streetDaytime.visible = false;
-						}
-					}
+					}*/
 			case 'forestNew':
 				if (!Init.trueSettings.get('Disable Screen Shaders'))
 					{

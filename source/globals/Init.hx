@@ -346,6 +346,9 @@ class Init extends FlxState
 
 		loadSettings();
 
+		GameData.loadShit();
+		GameData.lockinIt();
+
 		Main.updateFramerate(trueSettings.get("Framerate Cap"));
 
 		#if !neko

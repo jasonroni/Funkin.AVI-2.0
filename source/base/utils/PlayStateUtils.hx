@@ -1,16 +1,16 @@
 package base.utils;
 
-import base.song.Conductor;
-import flixel.FlxG;
+import lime.app.Application;
+import flixel.util.FlxTimer;
+import flixel.util.FlxColor;
 import flixel.FlxSprite;
+import base.song.Conductor;
 import flixel.math.FlxMath;
 import flixel.tweens.*;
-import flixel.util.FlxColor;
-import flixel.util.FlxTimer;
-import lime.app.Application;
-import objects.Character;
-import openfl.filters.ShaderFilter;
+import flixel.FlxG;
 import states.PlayState;
+import openfl.filters.ShaderFilter;
+import objects.Character;
 import states.substates.PauseSubstate;
 
 /**
@@ -1412,6 +1412,78 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 				}
 
 			case 'Delusional':
+				var beatShit1:Array<Int> = [752, 760, 768, 772, 776, 784, 792, 800, 804, 808, 824, 836, 856, 868];
+				var beatShit2:Array<Int> = [812, 828, 844, 860];
+				var beatShit3:Array<Int> = [816, 832, 848, 864];
+				if (curBeat == 1)
+				{
+					cinematicBarControls("create", 1);
+					cinematicBarControls("moveboth", 0.0001, 'linear', 100);
+				}
+				if (curBeat == 32)
+					cinematicBarControls("moveboth", 2, 'circOut', 120);
+				if (curBeat == 64)
+					cinematicBarControls("moveboth", 2, 'circInOut', 75);
+				if (curBeat ==128 || curBeat == 1072)
+					cinematicBarControls("moveboth", 1, "circOut", 90);
+				if (curBeat == 132)
+					cinematicBarControls("moveboth", 2, "circOut", 180);
+				if (curBeat == 144)
+					cinematicBarControls("moveboth", 0.0001, 'linear', 70);
+				if (curBeat == 152 || curBeat == 168)
+					cinematicBarControls("moveboth", 0.5, 'circOut', 80);
+				if (curBeat == 154 || curBeat == 172)
+					cinematicBarControls("moveboth", 0.5, 'circOut', 90);
+				if (curBeat == 156 || curBeat == 288 || curBeat == 320)
+					cinematicBarControls("moveboth", 0.5, 'circOut', 100);
+				if (curBeat == 158 || curBeat == 296 || curBeat == 328)
+					cinematicBarControls("moveboth", 0.5, 'circOut', 110);
+				if (curBeat == 160)
+					cinematicBarControls("moveboth", 1, 'circOut', 70);
+				if (curBeat == 176)
+					cinematicBarControls("moveboth", 2, 'circOut', 0);
+				if (curBeat == 280 || curBeat == 312)
+					cinematicBarControls("moveboth", 1.5, 'circOut', 90);
+				if (curBeat == 304 || curBeat == 336 || curBeat == 356 || curBeat == 388)
+					cinematicBarControls("moveboth", 0.5, 'circOut', 120);
+				if (curBeat == 308 || curBeat == 358 || curBeat == 390)
+					cinematicBarControls("moveboth", 0.5, 'circOut', 130);
+				if (curBeat == 338)
+					cinematicBarControls("moveboth", 1, 'circOut', 80);
+				if (curBeat == 344 || curBeat == 360 || curBeat == 392)
+					cinematicBarControls("moveboth", 1, 'circOut', 100);
+				if (curBeat == 408)
+					cinematicBarControls("moveboth", 2, 'circOut', 140);
+				if (curBeat == 470)
+					cinematicBarControls("moveboth", 0.65, 'backIn', 380);
+				if (curBeat == 480)
+					cinematicBarControls("moveboth", 10, 'linear', 70);
+				if (curBeat == 744)
+					cinematicBarControls("moveboth", 0.0001, 'linear', 120);
+				for (bounceYouStupidBitch in 0...beatShit1.length)
+					if (curBeat == beatShit1[bounceYouStupidBitch])
+						cinematicBarControls("bopboth", 0.5, "circOut", 90, 30);
+				for (helloEverybodyMyNameIsMarkiplierAndWelcomeToFiveNightsAtFreddysAnIndieHorrorGameThatYouGuysSuggestedInMassAndISawYamimashPlayedItAndHeSaidItWasReallyReallyGoodSoImEagerToSeeWhatIsUp in 0...beatShit2.length)
+					if (curBeat == beatShit2[helloEverybodyMyNameIsMarkiplierAndWelcomeToFiveNightsAtFreddysAnIndieHorrorGameThatYouGuysSuggestedInMassAndISawYamimashPlayedItAndHeSaidItWasReallyReallyGoodSoImEagerToSeeWhatIsUp])
+						cinematicBarControls("moveboth", 0.8, "circIn", 185);
+				for (youreCringe in 0...beatShit3.length)
+					if (curBeat == beatShit3[youreCringe])
+						cinematicBarControls("moveboth", 0.8, "circOut", 120);
+				if (curBeat == 872)
+					cinematicBarControls("moveboth", 2.5, "circInOut", 180);
+				if (curBeat == 880 || curBeat == 1040)
+					cinematicBarControls("moveboth", 1, "circOut", 100);
+				if (curBeat == 944 || curBeat == 1056)
+					cinematicBarControls("moveboth", 1.5, "circOut", 120);
+				if (curBeat == 1008 || curBeat == 1064)
+					cinematicBarControls("moveboth", 1, "circOut", 140);
+				if (curBeat == 1024)
+					cinematicBarControls("moveboth", 1, "circOut", 160);
+				if (curBeat == 1030)
+					cinematicBarControls("moveboth", 1, "circOut", 180);
+				if (curBeat == 1136)
+					cinematicBarControls("kill", 0);
+
 				if (curBeat == 146)
 					PlayState.main.manageLyrics('bf-demon', 'Count the minutes...', 'disneyFreeplayFont', 30, 1.1, 'sineInOut', .05);
 				if (curBeat == 150)
@@ -1470,14 +1542,14 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.main.camFlashSystem(BG_FLASH, {alpha: 0.25, timer: 0.35});
 					case 204: PlayState.defaultCamZoom = 1;
 					case 208:
-						PlayState.camGame.fade(0x00000, .000001);
+						PlayState.camBars.fade(0x00000, .000001);
 						PlayState.defaultCamZoom = 1.3;
 
 					// Mickey Screams Like A Bitch
 					case 212:
 						PlayState.main.chromEffect = 0.3;
 						PlayState.main.chromTween = FlxTween.tween(PlayState.main, {chromEffect: 1}, 1.2);
-						PlayState.camGame.fade(0x00000, .000001, true);
+						PlayState.camBars.fade(0x00000, .000001, true);
 						PlayState.defaultCamZoom = 0.75;
 						PlayState.camGame.shake(0.01, 1.2);
 					// The Drop Starts
@@ -1804,10 +1876,8 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 
 				if (curBeat >= 96 && curBeat <= 192)
 				{
-					FlxG.camera.zoom += 0.035;
-					for (likeuhhyeahstopmakingcamgamezoomstoohighyeah in PlayState.main.allUIs) 
-						likeuhhyeahstopmakingcamgamezoomstoohighyeah.zoom += .03;
-					//PlayState.main.camFlashSystem(BG_FLASH, {alpha: 0.15, ease: FlxEase.sineOut, timer: 0.35, colors: [255, 0, 0]});
+					FlxG.camera.zoom += 0.18;
+					PlayState.main.camFlashSystem(BG_FLASH, {alpha: 0.15, ease: FlxEase.sineOut, timer: 0.35, colors: [255, 0, 0]});
 				}
 
 			case 'Birthday':
@@ -2732,22 +2802,10 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
                 {
                     if (PlayState.health > 0.4)
                         PlayState.health -= 0.01;
-
-					for (hmmsweetstrumsyeah in PlayState.strumHUD) 
-					{
-						hmmsweetstrumsyeah.angle = PlayState.camHUD.angle = FlxG.random.float(-1.5, 1.5);
-						FlxTween.tween(hmmsweetstrumsyeah, {angle: 0}, .025);
-						FlxTween.tween(PlayState.camHUD, {angle: 0}, .025);
-					}
-					PlayState.camGame.shake(0.0035, 0.05);
-					PlayState.camHUD.shake(0.002, 0.035);
-                    for (i in PlayState.strumHUD)
-                        i.shake(0.002, 0.035);
-                    
-					/*PlayState.camGame.shake(0.005, 0.07);
+                    PlayState.camGame.shake(0.005, 0.07);
                     PlayState.camHUD.shake(0.010, 0.07);
                     for (i in PlayState.strumHUD)
-                        i.shake(0.010, 0.07);*/
+                        i.shake(0.010, 0.07);
                 }
                 
             case 'Malfunction':
