@@ -11,6 +11,7 @@ import flixel.util.FlxGradient;
 import base.song.Conductor;
 import openfl.filters.ShaderFilter;
 import flixel.math.FlxPoint;
+import flixel.util.FlxColor;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import states.PlayState;
@@ -420,7 +421,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 					}
 			case 'forestNew':
 				// Literally what Goofy is seeing right about now lmfao
-				wobblyBG = new FlxRuntimeShader(sys.io.File.getContent("./assets/shaders/weebleWobble.frag"), null, 120);
+				wobblyBG = new FlxRuntimeShader(Shaders.acidTrip, null, 120);
 
 				wobblyBG.setFloat('uSpeed', 1.0);
 				wobblyBG.setFloat('uFrequency', 1.0);
@@ -578,8 +579,8 @@ class Stage extends FlxTypedGroup<FlxBasic>
 
 				accessPath = PlayState.SONG.song == 'Malfunction Legacy' ? 'PixelMouse' : 'malfunctionBG-NEW';
 				
-				staticBG = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/tvStatic.frag'), null, 120);
-				glitchBG = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/vignetteGlitch.frag'), null, 130);
+				staticBG = new FlxRuntimeShader(Shaders.tvStatic, null, 120);
+				glitchBG = new FlxRuntimeShader(Shaders.vignetteGlitch, null, 130);
 
 				fuckingsquares = new FlxSprite(-750, -850);
 				fuckingsquares.loadGraphic(Paths.image(accessPath, 'data/stages/forbiddenRealm/images'));
@@ -799,7 +800,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				add(bg);
 				bg.animation.play("lmao");
 
-				totallyAwsomeShader = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/pixelate.frag'), null, 140);
+				totallyAwsomeShader = new FlxRuntimeShader(Shaders.unregisteredHyperCam2Quality, null, 140);
 				totallyAwsomeShader.setFloat('size', 7.5);
 				if(!Init.trueSettings.get('Disable Screen Shaders')) FlxG.game.setFilters([new ShaderFilter(totallyAwsomeShader)]);
 			case 'apartment':
@@ -808,7 +809,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				PlayState.cameraSpeed = 0.9;
 
 				//Phase 2 shaders
-				glitchBG = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/vignetteGlitch.frag'), null, 130);
+				glitchBG = new FlxRuntimeShader(Shaders.vignetteGlitch, null, 130);
 
 				bg1 = new FlxSprite(0, 50);
 				bg1.frames = Paths.getSparrowAtlas('relapse1', 'data/stages/apartment/images');
@@ -1214,6 +1215,53 @@ class Stage extends FlxTypedGroup<FlxBasic>
 									fakeLightOfHope.alpha = 0.5;
 									brightSky.visible = false;
 									streetDaytime.visible = false;
+								}
+								if (curBeat == 744 || curBeat == 752 || curBeat == 760 || curBeat == 768 || curBeat == 772 || curBeat == 776 || curBeat == 784 || curBeat == 792 || curBeat == 800 || curBeat == 804 ||
+									curBeat == 808 || curBeat == 816 || curBeat == 824 || curBeat == 832 || curBeat == 836 || curBeat == 840 || curBeat == 848 || curBeat == 856 || curBeat == 864 || curBeat == 868 ||
+									curBeat == 880 || curBeat == 884 || curBeat == 888 || curBeat == 892 || curBeat == 896 || curBeat == 900 || curBeat == 904 || curBeat == 908 || curBeat == 913 || curBeat == 916 ||
+									curBeat == 920 || curBeat == 924 || curBeat == 929 || curBeat == 933 || curBeat == 936 || curBeat == 940 || curBeat == 944 || curBeat == 948 || curBeat == 952 || curBeat == 956 ||
+									curBeat == 960 || curBeat == 964 || curBeat == 968 || curBeat == 972 || curBeat == 976 || curBeat == 980 || curBeat == 984 || curBeat == 988 || curBeat == 993 || curBeat == 997 ||
+									curBeat == 1000 || curBeat == 1004)
+								{
+									fakeLightOfHope.alpha = 1;
+									FlxTween.tween(fakeLightOfHope, {alpha: 0.5}, 0.85);
+								}
+								if (curBeat == 872)
+								{
+									FlxTween.tween(fakeLightOfHope, {alpha: 1, color: FlxColor.RED}, 2, {ease: FlxEase.circInOut});
+									FlxTween.tween(fireThing2, {color: FlxColor.RED}, 2, {ease: FlxEase.circInOut});
+									FlxTween.tween(fireForeground, {color: FlxColor.RED}, 2, {ease: FlxEase.circInOut});
+									FlxTween.tween(rain, {color: FlxColor.RED}, 2, {ease: FlxEase.circInOut});
+									FlxTween.tween(streetRuins, {color: FlxColor.RED}, 2, {ease: FlxEase.circInOut});
+									smokeShit.forEach(function(spr:FlxSprite)
+									{
+										FlxTween.tween(spr, {color: FlxColor.RED}, 2, {ease: FlxEase.circInOut});
+									});
+									smokeFore.forEach(function(spr:FlxSprite)
+									{
+										FlxTween.tween(spr, {color: FlxColor.RED}, 2, {ease: FlxEase.circInOut});
+									});
+								}
+								if (curBeat == 880)
+								{
+									FlxTween.tween(fakeLightOfHope, {color: FlxColor.WHITE}, 0.5, {ease: FlxEase.circOut});
+									FlxTween.tween(fireThing2, {color: FlxColor.fromRGB(252, 193, 141)}, 0.5, {ease: FlxEase.circOut});
+									FlxTween.tween(fireForeground, {color: FlxColor.fromRGB(255, 171, 138)}, 0.5, {ease: FlxEase.circOut});
+									FlxTween.tween(rain, {color: FlxColor.fromRGB(252, 141, 141)}, 0.5, {ease: FlxEase.circOut});
+									FlxTween.tween(streetRuins, {color: FlxColor.WHITE}, 0.5, {ease: FlxEase.circOut});
+									smokeShit.forEach(function(spr:FlxSprite)
+									{
+										FlxTween.tween(spr, {color: FlxColor.WHITE}, 0.5, {ease: FlxEase.circOut});
+									});
+									smokeFore.forEach(function(spr:FlxSprite)
+									{
+										FlxTween.tween(spr, {color: FlxColor.WHITE}, 0.5, {ease: FlxEase.circOut});
+									});
+								}
+								if (curBeat == 1008)
+								{
+									FlxTween.tween(fakeLightOfHope, {alpha: 0}, 2);
+									FlxTween.tween(fireThing2, {alpha: 1}, 2);
 								}
 								if (curBeat == 1136)
 								{

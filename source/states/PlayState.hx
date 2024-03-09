@@ -300,6 +300,7 @@ class PlayState extends MusicBeatState
 	public static var delusionalShift:FlxRuntimeShader = new FlxRuntimeShader(Shaders.delusionalShift, null, 120);
 	public static var redVignette:FlxRuntimeShader = new FlxRuntimeShader(Shaders.redFromAngryBirds, null, 120);
 	public static var waltStatic:FlxRuntimeShader = new FlxRuntimeShader(Shaders.vhsFilter, null, 130);
+	public static var heatWaveEffect:FlxRuntimeShader = new FlxRuntimeShader(Shaders.heatWave, null, 120);
 
 	var chromEffect:Float = 0.0001;
 	var blurEffect:Float = 0.0;
@@ -635,7 +636,7 @@ class PlayState extends MusicBeatState
 		FlxG.camera.zoom = defaultCamZoom;
 		FlxG.camera.focusOn(camFollow.getPosition());
 
-		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
+		//FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
 
 		// initialize ui elements
 		startingSong = true;

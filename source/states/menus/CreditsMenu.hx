@@ -108,7 +108,7 @@ class CreditsMenu extends MusicBeatState
 
 		super.create();
 
-		cool_1980_shader = new FlxRuntimeShader(File.getContent('./assets/shaders/1980_shader.frag'), null, 140);
+		cool_1980_shader = new FlxRuntimeShader(Shaders.filter1990, null, 140);
 
 		if (!Init.trueSettings.get('Disable Screen Shaders'))
 			FlxG.camera.setFilters([

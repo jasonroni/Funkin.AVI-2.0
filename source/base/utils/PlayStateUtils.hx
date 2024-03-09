@@ -1705,6 +1705,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
                             {
                                 PlayState.camGame.setFilters([
                                     new ShaderFilter(PlayState.dramaticCamMovement),
+									new ShaderFilter(PlayState.heatWaveEffect),
                                     new ShaderFilter(PlayState.bloomEffect),
                                     new ShaderFilter(PlayState.monitorFilter),
                                     new ShaderFilter(PlayState.chromZoomShader),
@@ -1736,6 +1737,20 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
                                     ]);
                             }
 						}
+					case 880 | 884 | 888 | 892 | 896 | 900 | 904 | 908 | 913 | 916 | 920 | 924 | 929 | 933 | 936 | 940 | 944 | 948 | 952 | 956 | 960 | 964 | 968 | 972 | 976 | 980 | 984 | 988 | 993 | 997 | 1000 | 1004:
+						PlayState.main.camFlashSystem(CAM_FLASH_FANCY, {alpha: 0.135, timer: 0.85, colors: [255, 0, 0]});
+					// The part where shit gets serious, Evilrette/Satan starts the solo
+					case 1008:
+						tweenCamera(1.35, 7, "quartInOut");
+						PlayState.main.camFlashSystem(CAM_FLASH_FANCY, {alpha: 0.4, timer: 2, colors: [255, 0, 0]});
+						PlayState.main.camFlashSystem(BG_DARK, {alpha: 0.8, timer: 6, ease: FlxEase.quartInOut});
+						FlxTween.tween(PlayState.main, {camDisplaceX: PlayState.main.camDisplaceX + 150, camDisplaceY: PlayState.main.camDisplaceY + 50}, 4.3, {ease: FlxEase.quartInOut});
+					// camera moves over to Mickey realizing he was never gonna win
+					case 1024:
+						FlxTween.tween(PlayState.main, {camDisplaceX: PlayState.main.camDisplaceX - 850, camDisplaceY: PlayState.main.camDisplaceY - 70}, 1.5, {ease: FlxEase.circInOut});
+					case 1040:
+						PlayState.main.camFlashSystem(BG_DARK, {alpha: 0, timer: 1, ease: FlxEase.circOut});
+						PlayState.defaultCamZoom = 0.85;
 					case 1086:
 						FlxTween.tween(PlayState.camHUD, {alpha: 0}, 2);
 						for (i in PlayState.strumHUD)
@@ -1746,6 +1761,23 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.main.camFlashSystem(BG_DARK, {alpha: 1, timer: 0.5, ease: FlxEase.sineOut});
 					case 1136:
 						PlayState.main.camFlashSystem(BG_FLASH, {alpha: 1, timer: 0.3, ease: FlxEase.sineOut});
+						if (PlayState.main.canaddshaders)
+							{
+								if (!Init.trueSettings.get("Low Quality"))
+								{
+									PlayState.camGame.setFilters([
+										new ShaderFilter(PlayState.dramaticCamMovement),
+										new ShaderFilter(PlayState.bloomEffect),
+										new ShaderFilter(PlayState.monitorFilter)
+									]);
+								}
+								else
+								{
+									PlayState.camGame.setFilters([
+										new ShaderFilter(PlayState.monitorFilter)
+									]);
+								}
+							}
 					case 1144:
 						FlxTween.tween(PlayState.camGame, {alpha: 0}, 4);
 				}
@@ -2460,8 +2492,12 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					PlayState.chromNormalShader.setFloat('rOffset', PlayState.main.chromEffect / 45);
 					PlayState.chromNormalShader.setFloat('bOffset', -PlayState.main.chromEffect / 45);
 					PlayState.dramaticCamMovement.setFloat('time', PlayState.main.shaderAnim);
-					PlayState.delusionalShift.setFloat('iTime', PlayState.main.shaderAnim);
-					PlayState.delusionalShift.setFloat('uTime', PlayState.main.shaderAnim);
+					if (PlayState.SONG.song == "Delusional")
+					{
+						PlayState.delusionalShift.setFloat('iTime', PlayState.main.shaderAnim);
+						PlayState.delusionalShift.setFloat('uTime', PlayState.main.shaderAnim);
+						PlayState.heatWaveEffect.setFloat("iTime", PlayState.main.shaderAnim);
+					}
 
 				case 'Delusion':
 					PlayState.chromZoomShader.setFloat('aberration', PlayState.main.chromEffect);

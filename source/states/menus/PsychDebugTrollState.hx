@@ -37,7 +37,7 @@ class PsychDebugTrollState extends MusicBeatState
 
       	super.create();
 
-      	bloom = new FlxRuntimeShader(sys.io.File.getContent('./assets/shaders/bloom.frag'), null, 120);
+      	bloom = new FlxRuntimeShader(Shaders.bloom, null, 120);
       	monitor = new FlxRuntimeShader(Shaders.monitorFilter, null, 140);
 
 		// me when the uhhhh
