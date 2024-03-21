@@ -1415,13 +1415,13 @@ enum abstract Shaders(String) from String to String
 	    float time = iTime * 2.0;
 	    
 	    // Create large, incidental noise waves
-	    float noise = max(0.0, snoise(vec2(time, uv.y * 0.3)) - 0.3) * (1.0 / 0.7);
+	    float noise = max(0.0, snoise(vec2(time, uv.y * 0.1)) - 0.3) * (1.0 / 0.7);
 	    
 	    // Offset by smaller, constant noise waves
 	    noise = noise + (snoise(vec2(time*10.0, uv.y * 2.4)) - 0.5) * 0.15;
 	    
 	    // Apply the noise as x displacement for every line
-	    float xpos = uv.x - noise * noise * 0.25;
+	    float xpos = uv.x - noise * noise * 0.15;
 		fragColor = texture(iChannel0, vec2(xpos, uv.y));
 	    
 	    // Mix in some random interference for lines
