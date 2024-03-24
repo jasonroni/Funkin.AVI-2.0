@@ -1230,33 +1230,39 @@ class Stage extends FlxTypedGroup<FlxBasic>
 								{
 									FlxTween.tween(fakeLightOfHope, {alpha: 1, color: FlxColor.RED}, 2, {ease: FlxEase.circInOut});
 									FlxTween.tween(fireThing2, {color: FlxColor.RED}, 2, {ease: FlxEase.circInOut});
-									FlxTween.tween(fireForeground, {color: FlxColor.RED}, 2, {ease: FlxEase.circInOut});
-									FlxTween.tween(rain, {color: FlxColor.RED}, 2, {ease: FlxEase.circInOut});
 									FlxTween.tween(streetRuins, {color: FlxColor.RED}, 2, {ease: FlxEase.circInOut});
-									smokeShit.forEach(function(spr:FlxSprite)
+									if (!lowQuality)
 									{
-										FlxTween.tween(spr, {color: FlxColor.RED}, 2, {ease: FlxEase.circInOut});
-									});
-									smokeFore.forEach(function(spr:FlxSprite)
-									{
-										FlxTween.tween(spr, {color: FlxColor.RED}, 2, {ease: FlxEase.circInOut});
-									});
+										FlxTween.tween(fireForeground, {color: FlxColor.RED}, 2, {ease: FlxEase.circInOut});
+										FlxTween.tween(rain, {color: FlxColor.RED}, 2, {ease: FlxEase.circInOut});
+										smokeShit.forEach(function(spr:FlxSprite)
+										{
+											FlxTween.tween(spr, {color: FlxColor.RED}, 2, {ease: FlxEase.circInOut});
+										});
+										smokeFore.forEach(function(spr:FlxSprite)
+										{
+											FlxTween.tween(spr, {color: FlxColor.RED}, 2, {ease: FlxEase.circInOut});
+										});
+									}
 								}
 								if (curBeat == 880)
 								{
 									FlxTween.tween(fakeLightOfHope, {color: FlxColor.WHITE}, 0.5, {ease: FlxEase.circOut});
 									FlxTween.tween(fireThing2, {color: FlxColor.fromRGB(252, 193, 141)}, 0.5, {ease: FlxEase.circOut});
-									FlxTween.tween(fireForeground, {color: FlxColor.fromRGB(255, 171, 138)}, 0.5, {ease: FlxEase.circOut});
-									FlxTween.tween(rain, {color: FlxColor.fromRGB(252, 141, 141)}, 0.5, {ease: FlxEase.circOut});
 									FlxTween.tween(streetRuins, {color: FlxColor.WHITE}, 0.5, {ease: FlxEase.circOut});
-									smokeShit.forEach(function(spr:FlxSprite)
+									if (!lowQuality)
 									{
-										FlxTween.tween(spr, {color: FlxColor.WHITE}, 0.5, {ease: FlxEase.circOut});
-									});
-									smokeFore.forEach(function(spr:FlxSprite)
-									{
-										FlxTween.tween(spr, {color: FlxColor.WHITE}, 0.5, {ease: FlxEase.circOut});
-									});
+										FlxTween.tween(fireForeground, {color: FlxColor.fromRGB(255, 171, 138)}, 0.5, {ease: FlxEase.circOut});
+										FlxTween.tween(rain, {color: FlxColor.fromRGB(252, 141, 141)}, 0.5, {ease: FlxEase.circOut});
+										smokeShit.forEach(function(spr:FlxSprite)
+										{
+											FlxTween.tween(spr, {color: FlxColor.WHITE}, 0.5, {ease: FlxEase.circOut});
+										});
+										smokeFore.forEach(function(spr:FlxSprite)
+										{
+											FlxTween.tween(spr, {color: FlxColor.WHITE}, 0.5, {ease: FlxEase.circOut});
+										});
+									}
 								}
 								if (curBeat == 1008)
 								{

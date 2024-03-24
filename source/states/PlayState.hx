@@ -2965,6 +2965,17 @@ class PlayState extends MusicBeatState
 			return;
 		}
 
+		if (generatedMusic && PlayState.SONG.notes[Std.int(curSection)] != null)
+		{
+			var lastMustHit:Bool = PlayState.SONG.notes[Std.int(lastSection)].mustHitSection;
+			if (PlayState.SONG.notes[Std.int(curSection)].mustHitSection != lastMustHit)
+			{
+				camDisplaceX = 0;
+				camDisplaceY = 0;
+			}
+			if (!shootin) checkCamPosition();
+		}
+
 		if ((FlxG.camera.zoom < 1.35 && curBeat % cameraBumpSpeed == 0) && (!Init.trueSettings.get('Reduced Movements')))
 		{
 			FlxG.camera.zoom += 0.015;
@@ -3025,7 +3036,7 @@ class PlayState extends MusicBeatState
 	{
 		super.sectionHit();
 
-		if (generatedMusic && PlayState.SONG.notes[Std.int(curSection)] != null)
+		/*if (generatedMusic && PlayState.SONG.notes[Std.int(curSection)] != null)
 		{
 			var lastMustHit:Bool = PlayState.SONG.notes[Std.int(lastSection)].mustHitSection;
 			if (PlayState.SONG.notes[Std.int(curSection)].mustHitSection != lastMustHit)
@@ -3034,7 +3045,7 @@ class PlayState extends MusicBeatState
 				camDisplaceY = 0;
 			}
 		    if (!shootin) checkCamPosition();
-		}
+		}*/
 
 		if (SONG.notes[curSection].changeBPM)
 		{
