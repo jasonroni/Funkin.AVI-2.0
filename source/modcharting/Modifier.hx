@@ -2,7 +2,6 @@ package modcharting;
 
 import flixel.tweens.FlxEase;
 import flixel.math.FlxMath;
-import modcharting.PlayfieldRenderer.NotePositionData;
 import flixel.FlxG;
 
 #if LEATHER
@@ -10,23 +9,11 @@ import states.PlayState;
 import game.Note;
 import game.StrumNote;
 import game.Conductor;
-#elseif FOREVER_LEGACY
-import states.PlayState;
-import objects.ui.notes.*;
-import objects.ui.notes.Strumline.Receptor;
-import base.song.Conductor;
 #else 
-import PlayState;
-import Note;
+import base.song.Conductor;
+import states.PlayState;
+import objects.ui.notes.Note;
 #end
-
-//import haxe.macro.Context;
-//import haxe.macro.Expr;
-
-
-
-
-
 
 enum ModifierType
 {
@@ -47,18 +34,6 @@ class ModifierSubValue
     }
 }
 
-/*
-class ModifierListMacro 
-{
-    macro static public function fromBaseClass():Array<Field>
-    {
-      //trace(Context.getLocalClass().toString());
-      return null;
-    }
-}
-
-
-@:autoBuild(ModifierListMacro.fromBaseClass())*/
 class Modifier
 {
     public var baseValue:Float = 0;
@@ -82,17 +57,17 @@ class Modifier
     }    
     public function getNotePath(noteData:NotePositionData, lane:Int, curPos:Float, pf:Int)
     {
-        if (checkPlayField(pf) && currentValue != baseValue && checkLane(lane))
+        if (currentValue != baseValue)
             noteMath(noteData, lane, curPos, pf);
     }
     public function getStrumPath(noteData:NotePositionData, lane:Int, pf:Int)
     {
-        if (checkPlayField(pf) && currentValue != baseValue && checkLane(lane))
-            strumMath(noteData, lane, pf);        
+        if (currentValue != baseValue)
+            strumMath(noteData, lane, pf);
     }
     public function getIncomingAngle(lane:Int, curPos:Float, pf:Int):Array<Float>
     {
-        if (checkPlayField(pf) && currentValue != baseValue && checkLane(lane))
+        if (currentValue != baseValue)
             return incomingAngleMath(lane, curPos, pf); 
         return [0,0];       
     }
@@ -100,7 +75,7 @@ class Modifier
     //cur pos is how close the note is to the strum, need to edit for boost and accel
     public function getNoteCurPos(lane:Int, curPos:Float, pf:Int)
     {
-        if (checkPlayField(pf) && currentValue != baseValue && checkLane(lane))
+        if (currentValue != baseValue)
             curPos = curPosMath(lane, curPos, pf);  
         return curPos;      
     }
@@ -110,8 +85,8 @@ class Modifier
     public function getNoteDist(noteDist:Float, lane:Int, curPos:Float, pf:Int)
     {
 
-        if (checkPlayField(pf) && currentValue != baseValue && checkLane(lane))
-            noteDist = noteDistMath(noteDist, lane, curPos, pf);  
+        if (currentValue != baseValue)
+            noteDist = noteDistMath(noteDist, lane, curPos, pf);
 
         return noteDist; 
     }
@@ -125,11 +100,11 @@ class Modifier
     public dynamic function noteDistMath(noteDist:Float, lane:Int, curPos:Float, pf:Int):Float { return noteDist; }
     public dynamic function setupSubValues() {}
 
-    function checkPlayField(pf:Int):Bool //returns true if should display on current playfield
+    public function checkPlayField(pf:Int):Bool //returns true if should display on current playfield
     {
         return (playfield == -1) || (pf == playfield);
     }
-    function checkLane(lane:Int):Bool //returns true if should display on current lane
+    public function checkLane(lane:Int):Bool //returns true if should display on current lane
     {
         switch(type)
         {
@@ -739,7 +714,7 @@ class EaseCurveModifier extends Modifier
     public var easeFunc = FlxEase.linear;
     public function setEase(ease:String)
     {
-        easeFunc = PlayfieldRenderer.getFlxEaseByString(ease);
+        easeFunc = ModchartUtil.getFlxEaseByString(ease);
     }
 }
 

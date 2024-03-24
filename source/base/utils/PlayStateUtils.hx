@@ -21,6 +21,8 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 {
     public static var instance:PlayStateUtils = new PlayStateUtils();
 	public var thingE:Float;
+	var boundValue:Float = 0;
+	var drainValue:Float = 0;
 	var satanSpeaks:Array<String> = [
 		"Have fun,",
 		"Let's play one more game...",
@@ -546,7 +548,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					case 8: FlxTween.tween(PlayState.camGame, {alpha: 1}, 4.5, {ease: FlxEase.sineOut});
 
 					case 16:
-						PlayState.main.manageLyrics('placeholder', 'In the rain...', 'satanFont', 30, 2, 'sineInOut', 0.1);
+						PlayState.main.manageLyrics('placeholder', 'In the Stage.rain...', 'satanFont', 30, 2, 'sineInOut', 0.1);
 
 					case 20:
 						PlayState.main.manageLyrics('placeholder', '...Looking so blue...', 'satanFont', 30, 3.2, 'sineInOut', 0.08);
@@ -1297,6 +1299,8 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.defaultCamZoom = 1.05;
 
 					case 160:
+						boundValue = 1.25;
+						drainValue = 0.015;
 						PlayState.defaultCamZoom = 0.7;
 						if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camBars.flash(FlxColor.BLACK, 1.5);
 
@@ -1384,6 +1388,8 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					case 416: if (!Init.trueSettings.get('Disable Flashing Lights')) PlayState.camBars.flash(FlxColor.WHITE, 1.5);
 
 					case 480:
+						boundValue = 1;
+						drainValue = 0.02;
 						if (!Init.trueSettings.get('Disable Flashing Lights'))
 							PlayState.camBars.flash(FlxColor.BLACK, 1.5);
 						PlayState.camHUD.alpha = 0;
@@ -1391,6 +1397,8 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						{
 							i.alpha = 0;
 						}
+
+					case 481:
 						PlayState.main.camDisplaceX += 100;
 	
 					case 506:
@@ -1509,7 +1517,10 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 
 				switch (curBeat)
 				{
-					case 1: PlayState.camBars.fade(FlxColor.BLACK, 2, true);
+					case 1: 
+						boundValue = 1;
+						drainValue = 0.02;
+						PlayState.camBars.fade(FlxColor.BLACK, 2, true);
 					case 132: PlayState.defaultCamZoom = 1.3;
 					case 136:
 						PlayState.camBars.fade();
@@ -1547,6 +1558,8 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 
 					// Mickey Screams Like A Bitch
 					case 212:
+						boundValue = 0.6;
+						drainValue = 0.025;
 						PlayState.main.chromEffect = 0.3;
 						PlayState.main.chromTween = FlxTween.tween(PlayState.main, {chromEffect: 1}, 1.2);
 						PlayState.camBars.fade(0x00000, .000001, true);
@@ -1627,6 +1640,8 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.defaultCamZoom = 0.8;
 						PlayState.main.chromTween = FlxTween.tween(PlayState.main, {chromEffect: 0.1}, 0.6, {ease: FlxEase.quadOut});
 					case 472:
+						boundValue = 2;
+						drainValue = 0;
 						PlayState.camGame.visible = false;
 						PlayState.camHUD.visible = false;
 						for (i in PlayState.strumHUD)
@@ -1680,6 +1695,8 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						for (i in PlayState.strumHUD)
 							FlxTween.tween(i, {alpha: 0.0001}, 5, {ease: FlxEase.quartInOut});
 					case 740:
+						boundValue = 0.45;
+						drainValue = 0.032;
 						PlayState.defaultCamZoom = 0.5;
                         PlayState.dadStrums.receptors.members[0].x = 77;
                         PlayState.dadStrums.receptors.members[1].x = 187;
@@ -1741,13 +1758,15 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 						PlayState.main.camFlashSystem(CAM_FLASH_FANCY, {alpha: 0.135, timer: 0.85, colors: [255, 0, 0]});
 					// The part where shit gets serious, Evilrette/Satan starts the solo
 					case 1008:
+						boundValue = 1.5;
+						drainValue = 0.01;
 						tweenCamera(1.35, 7, "quartInOut");
 						PlayState.main.camFlashSystem(CAM_FLASH_FANCY, {alpha: 0.4, timer: 2, colors: [255, 0, 0]});
 						PlayState.main.camFlashSystem(BG_DARK, {alpha: 0.8, timer: 6, ease: FlxEase.quartInOut});
 						FlxTween.tween(PlayState.main, {camDisplaceX: PlayState.main.camDisplaceX + 150, camDisplaceY: PlayState.main.camDisplaceY + 50}, 4.3, {ease: FlxEase.quartInOut});
 					// camera moves over to Mickey realizing he was never gonna win
 					case 1024:
-						FlxTween.tween(PlayState.main, {camDisplaceX: PlayState.main.camDisplaceX - 850, camDisplaceY: PlayState.main.camDisplaceY - 70}, 1.5, {ease: FlxEase.circInOut});
+						FlxTween.tween(PlayState.main, {camDisplaceX: PlayState.main.camDisplaceX - 950, camDisplaceY: PlayState.main.camDisplaceY - 70}, 1.5, {ease: FlxEase.circInOut});
 					case 1040:
 						PlayState.main.camFlashSystem(BG_DARK, {alpha: 0, timer: 1, ease: FlxEase.circOut});
 						PlayState.defaultCamZoom = 0.85;
@@ -1908,10 +1927,8 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 
 				if (curBeat >= 96 && curBeat <= 192)
 				{
-					FlxG.camera.zoom += 0.035;
-					for (likeuhhyeahstopmakingcamgamezoomstoohighyeah in PlayState.main.allUIs) 
-						likeuhhyeahstopmakingcamgamezoomstoohighyeah.zoom += .03;
-					//PlayState.main.camFlashSystem(BG_FLASH, {alpha: 0.15, ease: FlxEase.sineOut, timer: 0.35, colors: [255, 0, 0]});
+					FlxG.camera.zoom += 0.18;
+					PlayState.main.camFlashSystem(BG_FLASH, {alpha: 0.15, ease: FlxEase.sineOut, timer: 0.35, colors: [255, 0, 0]});
 				}
 
 			case 'Birthday':
@@ -2806,34 +2823,10 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
         {
         switch (PlayState.SONG.song)
         {  
-            case 'Lunacy':
+            case 'Lunacy' | 'Delusional':
                 if (!Init.trueSettings.get('Disable Mechanics'))
-                {
-                    if (PlayState.opponent.curCharacter == 'lunamick-new')
-                    {
-                        if (PlayState.health > 1.25)
-                            PlayState.health -= 0.015;
-                    }
-                    else if (PlayState.opponent.curCharacter == 'mickey-delu-intro')
-                    {
-                        if (PlayState.health > 1)
-                            PlayState.health -= 0.02;
-                    }
-                }
-            case 'Delusional':
-                if (!Init.trueSettings.get('Disable Mechanics'))
-                {
-                        if (PlayState.opponent.curCharacter == 'delusional-mickey')
-                        {
-                            if (PlayState.health > 0.6)
-                                PlayState.health -= 0.025;
-                        }
-                        else if (PlayState.opponent.curCharacter == 'mickey-delu-intro')
-                        {
-                            if (PlayState.health > 1)
-                                PlayState.health -= 0.02;
-                        }
-                }
+                     if (PlayState.health > boundValue)
+                        PlayState.health -= drainValue;
                 
             case 'Laugh Track':
                 if (Init.trueSettings.get('Screen Shake'))
@@ -2856,6 +2849,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
                     PlayState.camHUD.shake(0.010, 0.07);
                     for (i in PlayState.strumHUD)
                         i.shake(0.010, 0.07);*/
+                        i.shake(0.010, 0.07);
                 }
                 
             case 'Malfunction':

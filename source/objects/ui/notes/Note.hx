@@ -11,7 +11,7 @@ import flixel.math.FlxRect;
 class Note extends FNFSprite
 {
  	//add these 2 variables for the renderer
- 	public var mesh:flixel.FlxStrip = null; 
+ 	public var mesh:modcharting.SustainStrip = null; 
  	public var z:Float = 0;
 
 	public var strumTime:Float = 0;
@@ -59,6 +59,7 @@ class Note extends FNFSprite
 	public var offsetX:Float = 0;
 	public var offsetY:Float = 0;
 
+	public var tail:Array<Note> = []; // for sustains
 	public var parentNote:Note;
 	public var childrenNotes:Array<Note> = [];
 

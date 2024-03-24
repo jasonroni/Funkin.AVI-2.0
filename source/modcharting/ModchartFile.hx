@@ -8,10 +8,13 @@ import lime.utils.Assets;
 import states.PlayState;
 import game.Note;
 import game.Conductor;
-#elseif FOREVER_LEGACY
+#if polymod
+import polymod.backends.PolymodAssets;
+#end
+#else
 import states.PlayState;
-import objects.ui.notes.*;
-import objects.ui.notes.Strumline.Receptor;
+import objects.ui.notes.Note;
+import base.song.Conductor;
 #end
 #if sys
 import sys.io.File;
@@ -85,10 +88,12 @@ class ModchartFile
         {
             #if LEATHER
             var filePath = Paths.json("song data/" + folder + '/modchart');
+            folderShit = PolymodAssets.getPath(filePath.replace("modchart.json", "customMods/"));
             #else 
             var filePath = Paths.json(folder + '/modchart');
-            #end
             folderShit = filePath.replace("modchart.json", "customMods/");
+            #end
+            
             //trace(filePath);
             #if sys
             if(FileSystem.exists(filePath))
@@ -110,11 +115,13 @@ class ModchartFile
                 //trace("folder le exists");
                 for (file in FileSystem.readDirectory(folderShit))
                 {
+                    //trace(file);
                     if(file.endsWith('.hx')) //custom mods!!!!
                     {
                         var scriptStr = File.getContent(folderShit + file);
                         var script = new CustomModifierScript(scriptStr);
                         customModifiers.set(file.replace(".hx", ""), script);
+                        //trace('loaded custom mod: ' + file);
                     }
                 }
             }
@@ -137,14 +144,14 @@ class ModchartFile
     {
         if (data == null || renderer == null)
             return;
-        renderer.modifiers.clear();
-        renderer.loadDefaultModifiers();
+        renderer.modifierTable.clear();
         for (i in data.modifiers)
         {
             ModchartFuncs.startMod(i[MOD_NAME], i[MOD_CLASS], i[MOD_TYPE], Std.parseInt(i[MOD_PF]), renderer.instance);
             if (i[MOD_LANE] != null)
                 ModchartFuncs.setModTargetLane(i[MOD_NAME], i[MOD_LANE], renderer.instance);
         }
+        renderer.modifierTable.reconstructTable();
     }
     public function loadPlayfields()
     {
@@ -153,13 +160,13 @@ class ModchartFile
 
         renderer.playfields = [];
         for (i in 0...data.playfields)
-            renderer.addNewplayfield(0,0,0);
+            renderer.addNewPlayfield(0,0,0,1);
     }
     public function loadEvents()
     {
         if (data == null || renderer == null)
             return;
-        renderer.events = [];
+        renderer.eventManager.clearEvents();
         for (i in data.events)
         {
             if (i[EVENT_REPEAT] == null) //add repeat data if it doesnt exist
@@ -240,7 +247,7 @@ class CustomModifierScript
         interp.variables.set('ModifierSubValue', Modifier.ModifierSubValue);
         interp.variables.set('BeatXModifier', Modifier.BeatXModifier);
         interp.variables.set('NoteMovement', NoteMovement);
-        interp.variables.set('NotePositionData', PlayfieldRenderer.NotePositionData);
+        interp.variables.set('NotePositionData', NotePositionData);
         interp.variables.set('ModchartFile', ModchartFile);
         interp.variables.set('FlxG', flixel.FlxG);
 		interp.variables.set('FlxSprite', flixel.FlxSprite);
@@ -250,9 +257,9 @@ class CustomModifierScript
 		interp.variables.set('FlxTween', flixel.tweens.FlxTween);
 		interp.variables.set('FlxEase', flixel.tweens.FlxEase);
 		interp.variables.set('PlayState', PlayState);
-		interp.variables.set('game', #if FOREVER_LEGACY PlayState.main #else PlayState.instance #end);
+		interp.variables.set('game', PlayState.main);
 		interp.variables.set('Paths', Paths);
-		interp.variables.set('Conductor', #if FOREVER_LEGACY base.song.Conductor #else Conductor #end);
+		interp.variables.set('Conductor', Conductor);
         interp.variables.set('StringTools', StringTools);
         interp.variables.set('Note', Note);
 

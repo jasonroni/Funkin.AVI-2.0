@@ -8,17 +8,11 @@ import flixel.FlxG;
 #if LEATHER
 import states.PlayState;
 import game.Note;
-#elseif FOREVER_LEGACY
-import states.PlayState;
-import objects.ui.notes.*;
-import objects.ui.notes.Strumline.Receptor;
-#else 
-import PlayState;
-import Note;
-#end
 
-import modcharting.ModchartEditorState;
-import modcharting.ModchartEditorState.ModchartEditorEvent;
+#else 
+import states.PlayState;
+import objects.ui.notes.Note;
+#end
 
 using StringTools;
 
@@ -26,6 +20,7 @@ class NoteMovement
 {
     public static var keyCount = 4;
     public static var playerKeyCount = 4;
+    public static var totalKeyCount = 8;
     public static var arrowScale:Float = 0.7;
     public static var arrowSize:Float = 112;
     public static var defaultStrumX:Array<Float> = [];
@@ -41,17 +36,15 @@ class NoteMovement
         defaultStrumY = []; 
         defaultScale = [];
         arrowSizes = [];
-        keyCount = #if (LEATHER || KADE) PlayState.strumLineNotes.length-PlayState.playerStrums.length #elseif FOREVER_LEGACY PlayState.dadStrums.length-PlayState.bfStrums.length #else game.strumLineNotes.length-game.playerStrums.length #end; //base game doesnt have opponent strums as group
-        playerKeyCount = #if (LEATHER || KADE) PlayState.playerStrums.length #elseif FOREVER_LEGACY PlayState.bfStrums.length #else game.playerStrums.length #end;
+        keyCount = #if (LEATHER || KADE) PlayState.strumLineNotes.length-PlayState.playerStrums.length #else PlayState.strumLines.length-PlayState.bfStrums.length #end; //base game doesnt have opponent strums as group
+        playerKeyCount = #if (LEATHER || KADE) PlayState.playerStrums.length #else PlayState.bfStrums.length #end;
 
-        for (i in #if (LEATHER || KADE) 0...PlayState.strumLineNotes.members.length #elseif FOREVER_LEGACY 0...PlayState.strumLines.members.length #else 0...game.strumLineNotes.members.length #end)
+        for (i in #if (LEATHER || KADE) 0...PlayState.strumLineNotes.members.length #else 0...PlayState.dadStrums.members.length #end)
         {
             #if (LEATHER || KADE) 
             var strum = PlayState.strumLineNotes.members[i];
-            #elseif FOREVER_LEGACY
-            var strum = PlayState.strumLines.members[i];
             #else 
-            var strum = game.strumLineNotes.members[i];
+            var strum = PlayState.strumLines.members[i];
             #end
             defaultStrumX.push(strum.x);
             defaultStrumY.push(strum.y);
@@ -67,8 +60,8 @@ class NoteMovement
         #if LEATHER
         leatherEngineOffsetStuff.clear();
         #end
+        totalKeyCount = keyCount + playerKeyCount;
     }
-    // commented out cause this little bitch wouldn't stop complaining about the ModchartEditorState not being found
     /*public static function getDefaultStrumPosEditor(game:ModchartEditorState)
     {
         #if ((PSYCH || LEATHER) && !DISABLE_MODCHART_EDITOR)
@@ -104,38 +97,11 @@ class NoteMovement
         daNote.y = defaultStrumY[lane];
         daNote.z = 0;
 
-        //daNote.zScaledOffsetX = daNote.offsetX; //using actual offset so it matches with the perspective math bullshit
-        //daNote.zScaledOffsetY = daNote.offsetY;
-
         var pos = ModchartUtil.getCartesianCoords3D(incomingAngleX,incomingAngleY, curPos*noteDist);
         daNote.y += pos.y;
         daNote.x += pos.x;
         daNote.z += pos.z;
-
-        //if (noteDist > 0)
-            //fixDownscrollSustains(daNote, scrollSpeed); //will prob rewrite rendering soon
-
-        //var targetNotePos = 
     }
-
-    /*private static function fixDownscrollSustains(daNote:Note, scrollSpeed:Float)
-    {
-        var songSpeed = scrollSpeed;
-        var fakeCrochet = getFakeCrochet();
-        var offsetThingy:Float = 0;
-        if (daNote.animation.curAnim.name.endsWith('end')) {
-            offsetThingy += 10.5 * (fakeCrochet / 400) * 1.5 * songSpeed + (46 * (songSpeed - 1));
-            offsetThingy -= 46 * (1 - (fakeCrochet / 600)) * songSpeed;
-            if(PlayState.isPixelStage) {
-                offsetThingy += 8 + (6 - daNote.originalHeightForCalcs) * PlayState.daPixelZoom;
-            } else {
-                offsetThingy -= 19;
-            }
-        }
-        offsetThingy += ((Note.swagWidth) / 2) - (60.5 * (songSpeed - 1));
-        offsetThingy += 27.5 * ((lastBpm / 100) - 1) * (songSpeed - 1);
-        //daNote.zScaledOffsetY += offsetThingy;
-    }*/
 
     public static function getLaneDiffFromCenter(lane:Int)
     {

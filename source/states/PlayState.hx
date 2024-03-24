@@ -56,6 +56,10 @@ import states.menus.*;
 import states.substates.GameOverSubstate;
 import sys.io.File;
 
+import modcharting.ModchartFuncs;
+import modcharting.NoteMovement;
+import modcharting.PlayfieldRenderer;
+
 using StringTools;
 
 #if (flixel <= "5.2.2")
@@ -569,6 +573,9 @@ class PlayState extends MusicBeatState
 		if (SONG == null)
 			SONG = Song.loadFromJson('test', 'test');
 
+		Conductor.mapBPMChanges(SONG);
+		Conductor.changeBPM(SONG.bpm);
+
 		curStage = "";
 		if (SONG.stage != null)
 			curStage = SONG.stage;
@@ -612,26 +619,6 @@ class PlayState extends MusicBeatState
 
 		// set the camera position to the center of the stage
 		camPos.set(gf.x + (gf.frameWidth / 2), gf.y + (gf.frameHeight / 2));
-
-		// create the game camera
-		camFollow = new FlxObject(0, 0, 1, 1);
-		camFollow.setPosition(camPos.x, camPos.y);
-		camFollowPos = new FlxObject(0, 0, 1, 1);
-		camFollowPos.setPosition(camPos.x, camPos.y);
-		// check if the camera was following someone previously
-		if (prevCamFollow != null)
-		{
-			camFollow = prevCamFollow;
-			prevCamFollow = null;
-		}
-
-		add(camFollow);
-		add(camFollowPos);
-
-		// actually set the camera up
-		FlxG.camera.follow(camFollowPos, LOCKON, 1);
-		FlxG.camera.zoom = defaultCamZoom;
-		FlxG.camera.focusOn(camFollow.getPosition());
 
 		//FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
 
@@ -686,6 +673,30 @@ class PlayState extends MusicBeatState
 			}
 		}
 		add(strumLines);
+
+		/*playfieldRenderer = new PlayfieldRenderer(strumLines, notesGroup, this);
+		playfieldRenderer.cameras = [camHUD];
+		add(playfieldRenderer);*/
+
+		// create the game camera
+		camFollow = new FlxObject(0, 0, 1, 1);
+		camFollow.setPosition(camPos.x, camPos.y);
+		camFollowPos = new FlxObject(0, 0, 1, 1);
+		camFollowPos.setPosition(camPos.x, camPos.y);
+		// check if the camera was following someone previously
+		if (prevCamFollow != null)
+		{
+			camFollow = prevCamFollow;
+			prevCamFollow = null;
+		}
+
+		add(camFollow);
+		add(camFollowPos);
+
+		// actually set the camera up
+		FlxG.camera.follow(camFollowPos, LOCKON, 1);
+		FlxG.camera.zoom = defaultCamZoom;
+		FlxG.camera.focusOn(camFollow.getPosition());
 
 		// add the dialogue UI
 		FlxG.cameras.add(dialogueHUD, false);
@@ -942,10 +953,8 @@ class PlayState extends MusicBeatState
 			if (generatedMusic && !boyfriend.stunned && !endingSong)
 			{
 				var previousTime:Float = Conductor.songPosition;
-				if (SONG.instType == "Legacy" || SONG.instType == null)
 					Conductor.songPosition = songMusic.time;
-				else
-					Conductor.songPosition = songMusicNew.time;
+					//Conductor.songPosition = songMusicNew.time;
 				// improved this a little bit, maybe its a lil
 				var possibleNoteList:Array<Note> = [];
 				var pressedNotes:Array<Note> = [];
@@ -2221,7 +2230,7 @@ class PlayState extends MusicBeatState
 
 				for (myRating in 0...ScoreUtils.judges.length)
 				{
-					var myThreshold:Float = ScoreUtils.judges[myRating].timing;
+					var myThreshold:Float = (Conductor.safeZoneOffset / 50) + ScoreUtils.judges[myRating].timing;
 					if (noteDiff <= myThreshold && (myThreshold < lowestThreshold))
 					{
 						foundRating = myRating;
@@ -2847,11 +2856,7 @@ class PlayState extends MusicBeatState
 			bf_vocals.pause();
 			opp_vocals.pause();
 
-			if (SONG.instType == "Legacy" || SONG.instType == null)
-				Conductor.songPosition = songMusic.time;
-
-			if (SONG.instType == "New")
-				Conductor.songPosition = songMusicNew.time;
+			Conductor.songPosition = songMusic.time;
 
 			vocals.time = Conductor.songPosition;
 			bf_vocals.time = Conductor.songPosition;
@@ -2864,17 +2869,15 @@ class PlayState extends MusicBeatState
 		}
 	}
 
+	var lastStepHit:Int = -1;
 	override function stepHit()
 	{
 		super.stepHit();
-		///*
-		if (SONG.instType == "Legacy" || SONG.instType == null)
-			if (songMusic.time >= Conductor.songPosition + 20)
-				resyncVocals();
 
-		if (SONG.instType == "New")
-			if (songMusicNew.time <= Conductor.songPosition + 20)
+			if (songMusic.time >= Conductor.songPosition + 20)
+			{
 				resyncVocals();
+			}
 		//*/
 
 		for (strumline in strumLines)
@@ -2909,7 +2912,13 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		if(curStep == lastStepHit) {
+			return;
+		}
+
 		PlayStateUtils.instance.stepHitEvents(curStep);
+
+		lastStepHit = curStep;
 
 		callFunc('stepHit', [curStep]);
 	}
@@ -2946,9 +2955,15 @@ class PlayState extends MusicBeatState
 		}
 	}
 
+	var lastBeatHit:Int = -1;
 	override function beatHit()
 	{
 		super.beatHit();
+
+		if(lastBeatHit >= curBeat) {
+			//trace('BEAT HIT: ' + curBeat + ', LAST HIT: ' + lastBeatHit);
+			return;
+		}
 
 		if ((FlxG.camera.zoom < 1.35 && curBeat % cameraBumpSpeed == 0) && (!Init.trueSettings.get('Reduced Movements')))
 		{
@@ -3001,6 +3016,8 @@ class PlayState extends MusicBeatState
 		// HARDCODED EVENTS HAVE MOVED TO PLAYSTATEUTILS.HX TO LOWER THE AMOUNT OF CODE IN THIS GOD FORSAKEN FILE AND TO MAKE IT LOOK MORE CLEAN
 		PlayStateUtils.instance.beatHitEvents(curBeat);
 
+		lastBeatHit = curBeat;
+
 		callFunc('beatHit', [curBeat]);
 	}
 
@@ -3017,6 +3034,11 @@ class PlayState extends MusicBeatState
 				camDisplaceY = 0;
 			}
 		    if (!shootin) checkCamPosition();
+		}
+
+		if (SONG.notes[curSection].changeBPM)
+		{
+			Conductor.changeBPM(SONG.notes[curSection].bpm);
 		}
 
 		callFunc('sectionHit', [curSection]);

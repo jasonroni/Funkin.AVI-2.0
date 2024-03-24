@@ -1,5 +1,6 @@
 package modcharting;
 
+import flixel.tweens.FlxEase;
 import flixel.math.FlxMath;
 import flixel.math.FlxAngle;
 import openfl.geom.Vector3D;
@@ -8,14 +9,14 @@ import flixel.FlxG;
 #if LEATHER
 import states.PlayState;
 import game.Note;
-#elseif FOREVER_LEGACY
-import states.PlayState;
-import objects.ui.notes.*;
-import objects.ui.notes.Strumline.Receptor;
+import game.Conductor;
 #else 
-import PlayState;
-import Note;
+import states.PlayState;
+import objects.ui.notes.Note;
+import base.song.Conductor;
 #end
+
+using StringTools;
 
 class ModchartUtil
 {
@@ -78,7 +79,7 @@ class ModchartUtil
         #if LEATHER
         return PlayState.SONG.ui_Skin == 'pixel';
         #elseif FOREVER_LEGACY
-        return PlayState.assetModifier == 'pixel';
+        return PlayState.SONG.assetModifier == 'pixel';
         #else
         return PlayState.isPixelStage;
         #end
@@ -155,9 +156,6 @@ class ModchartUtil
 
         //TODO: maybe try using actual matrix???
 
-        
-        
-        
         var newz = pos.z - 1;
         var zRange = zNear - zFar;
         var tanHalfFOV = FlxMath.fastSin(FOV*0.5)/FlxMath.fastCos(FOV*0.5); //faster tan
@@ -217,5 +215,73 @@ class ModchartUtil
         pos.z *= radius;
 
         return pos;
+    }
+
+    public static function getFlxEaseByString(?ease:String = '') {
+		switch(ease.toLowerCase().trim()) {
+			case 'backin': return FlxEase.backIn;
+			case 'backinout': return FlxEase.backInOut;
+			case 'backout': return FlxEase.backOut;
+			case 'bouncein': return FlxEase.bounceIn;
+			case 'bounceinout': return FlxEase.bounceInOut;
+			case 'bounceout': return FlxEase.bounceOut;
+			case 'circin': return FlxEase.circIn;
+			case 'circinout': return FlxEase.circInOut;
+			case 'circout': return FlxEase.circOut;
+			case 'cubein': return FlxEase.cubeIn;
+			case 'cubeinout': return FlxEase.cubeInOut;
+			case 'cubeout': return FlxEase.cubeOut;
+			case 'elasticin': return FlxEase.elasticIn;
+			case 'elasticinout': return FlxEase.elasticInOut;
+			case 'elasticout': return FlxEase.elasticOut;
+			case 'expoin': return FlxEase.expoIn;
+			case 'expoinout': return FlxEase.expoInOut;
+			case 'expoout': return FlxEase.expoOut;
+			case 'quadin': return FlxEase.quadIn;
+			case 'quadinout': return FlxEase.quadInOut;
+			case 'quadout': return FlxEase.quadOut;
+			case 'quartin': return FlxEase.quartIn;
+			case 'quartinout': return FlxEase.quartInOut;
+			case 'quartout': return FlxEase.quartOut;
+			case 'quintin': return FlxEase.quintIn;
+			case 'quintinout': return FlxEase.quintInOut;
+			case 'quintout': return FlxEase.quintOut;
+			case 'sinein': return FlxEase.sineIn;
+			case 'sineinout': return FlxEase.sineInOut;
+			case 'sineout': return FlxEase.sineOut;
+			case 'smoothstepin': return FlxEase.smoothStepIn;
+			case 'smoothstepinout': return FlxEase.smoothStepInOut;
+			case 'smoothstepout': return FlxEase.smoothStepInOut;
+			case 'smootherstepin': return FlxEase.smootherStepIn;
+			case 'smootherstepinout': return FlxEase.smootherStepInOut;
+			case 'smootherstepout': return FlxEase.smootherStepOut;
+		}
+		return FlxEase.linear;
+	}
+
+
+    public static function getTimeFromBeat(beat:Float)
+    {
+        var totalTime:Float = 0;
+        var curBpm = Conductor.bpm;
+        if (PlayState.SONG != null)
+            curBpm = PlayState.SONG.bpm;
+        for (i in 0...Math.floor(beat))
+        {
+            if (Conductor.bpmChangeMap.length > 0)
+            {
+                for (j in 0...Conductor.bpmChangeMap.length)
+                {
+                    if (totalTime >= Conductor.bpmChangeMap[j].songTime)
+                        curBpm = Conductor.bpmChangeMap[j].bpm;
+                }
+            }
+            totalTime += (60/curBpm)*1000;
+        }
+
+        var leftOverBeat = beat - Math.floor(beat);
+        totalTime += (60/curBpm)*1000*leftOverBeat;
+
+        return totalTime;
     }
 }

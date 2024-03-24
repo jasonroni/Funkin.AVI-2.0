@@ -29,7 +29,11 @@ import flixel.addons.display.FlxGridOverlay;
 import flixel.math.FlxMath;
 import flixel.FlxSprite;
 import flixel.util.FlxSort;
+#if (flixel < "5.3.0")
 import flixel.system.FlxSound;
+#else
+import flixel.sound.FlxSound;
+#end
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxCamera;
 import flixel.FlxG;
@@ -59,15 +63,10 @@ import utilities.NoteVariables;
 import states.LoadingState;
 import states.MusicBeatState;
 import substates.MusicBeatSubstate;
-#elseif FOREVER_LEGACY
-import states.PlayState;
-import states.MusicBeatState.*;
-import base.song.Song;
-import base.song.SongFormat.SwagSection;
 #else
-import Section.SwagSection;
-import Song.SwagSong;
-import MusicBeatSubstate;
+import base.song.SongFormat.SwagSection;
+import base.song.SongFormat.SwagSong;
+import states.MusicBeatState.MusicBeatSubstate;
 #end
 
 
@@ -738,7 +737,7 @@ class ModchartEditorState extends MusicBeatState
         }
         if (dirtyUpdateModifiers)
         {
-            playfieldRenderer.modifiers.clear();
+            playfieldRenderer.modifierTable.clear();
             playfieldRenderer.modchart.loadModifiers();
             dirtyUpdateEvents = true;
             dirtyUpdateModifiers = false;
@@ -746,9 +745,8 @@ class ModchartEditorState extends MusicBeatState
         if (dirtyUpdateEvents)
         {
             FlxTween.globalManager.completeAll();
-            playfieldRenderer.events = [];
-            for (mod in playfieldRenderer.modifiers)
-                mod.reset();
+            playfieldRenderer.eventManager.clearEvents();
+            playfieldRenderer.modifierTable.resetMods();
             playfieldRenderer.modchart.loadEvents();
             dirtyUpdateEvents = false;
             playfieldRenderer.update(0);
@@ -809,7 +807,7 @@ class ModchartEditorState extends MusicBeatState
 		"\nStep: " + curStep + "\n";
 
         var leText = "Active Modifiers: \n";
-        for (modName => mod in playfieldRenderer.modifiers)
+        for (modName => mod in playfieldRenderer.modifierTable.modifiers)
         {
             if (mod.currentValue != mod.baseValue)
             {
@@ -1231,9 +1229,9 @@ class ModchartEditorState extends MusicBeatState
     function updateSubModList(modName:String)
     {
         subMods = [""];
-        if (playfieldRenderer.modifiers.exists(modName))
+        if (playfieldRenderer.modifierTable.modifiers.exists(modName))
         {
-            for (subModName => subMod in playfieldRenderer.modifiers.get(modName).subValues)
+            for (subModName => subMod in playfieldRenderer.modifierTable.modifiers.get(modName).subValues)
             {
                 subMods.push(subModName);
             }

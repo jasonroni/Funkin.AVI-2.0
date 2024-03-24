@@ -107,6 +107,7 @@ class Notefield extends FlxTypedGroup<Note>
 
 				if (Init.trueSettings.get('Downscroll'))
 				{
+					daNote.flipY = true;
 					if(daNote.y - daNote.offsetY * daNote.scale.y + daNote.height >= center)
 					{
 						swagRect.width = daNote.frameWidth;
