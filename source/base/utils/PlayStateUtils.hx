@@ -548,7 +548,7 @@ class PlayStateUtils extends PlayState // extending the class itself incase cras
 					case 8: FlxTween.tween(PlayState.camGame, {alpha: 1}, 4.5, {ease: FlxEase.sineOut});
 
 					case 16:
-						PlayState.main.manageLyrics('placeholder', 'In the Stage.rain...', 'satanFont', 30, 2, 'sineInOut', 0.1);
+						PlayState.main.manageLyrics('placeholder', 'In the rain...', 'satanFont', 30, 2, 'sineInOut', 0.1);
 
 					case 20:
 						PlayState.main.manageLyrics('placeholder', '...Looking so blue...', 'satanFont', 30, 3.2, 'sineInOut', 0.08);
