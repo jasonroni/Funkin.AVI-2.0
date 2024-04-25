@@ -37,6 +37,14 @@ typedef SongMetadata =
 }
 
 /**
+ * Pause Menu Data
+ */
+typedef PauseData =
+{
+	var settings:Array<Dynamic>;
+}
+
+/**
  * Judgement System
  */
 typedef Judgement =

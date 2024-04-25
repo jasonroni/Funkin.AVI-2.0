@@ -8,7 +8,9 @@ import flixel.FlxSprite;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.text.FlxText;
+import flixel.FlxCamera;
 import flixel.tweens.*;
+import flixel.FlxObject;
 import flixel.util.FlxColor;
 import openfl.filters.ShaderFilter;
 import sys.io.File;
@@ -27,6 +29,8 @@ class CreditsMenu extends MusicBeatState
 	public static var creditArray:Array<Dynamic>;
 
 	var curSelected:Int = 0;
+
+	var fuckingCam:FlxCamera; //game crashes without it for some fucking reason after playing a song
 
 	var creditIconSprite:FlxSprite;
 	var creditDescText:FlxText;
@@ -49,6 +53,11 @@ class CreditsMenu extends MusicBeatState
 
 	override function create()
 	{
+		fuckingCam = new FlxCamera(); // Main camera for objects and stuff
+
+		FlxG.cameras.reset(fuckingCam);
+		FlxG.cameras.setDefaultDrawTarget(fuckingCam, true);
+
 		FlxG.stage.window.title = "Funkin.avi - Credits";
 
 		path = 'menus/Funkin_avi/credits';
@@ -184,11 +193,10 @@ class CreditsMenu extends MusicBeatState
 	{
 		daJson = File.getContent(Paths.getPath('data/credits.json', TEXT, null));
 
-		if (daJson != null && daJson.length > 0) {
+		if (daJson != null && daJson.length > 0)
 			return cast Json.parse(daJson);
-		}
-
-		return null;
+		else 
+			return null;
 	}
 
 	private function changeSelection(newSelect:Int = 0)
