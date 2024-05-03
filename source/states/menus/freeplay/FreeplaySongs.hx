@@ -150,7 +150,7 @@ class FreeplaySongs extends MusicBeatState
 						addSong('Affliction', 3, 'walt', FlxColor.fromRGB(66, 63, 36), 'ForFurtherNotice', 'HARD', FlxColor.fromRGB(255, 187, 187));
 					}
 
-	          			addSong('Mickey goes delusional and dies: the song', 3, 'delusional-mickey', FlxColor.fromRGB(79, 32, 32), 'FR3SHMoure', 'INSANE', FlxColor.fromRGB(255, 110, 110));
+	          			addSong('Mickey goes delusional and dies: the song', 3, 'delusional-mickey', FlxColor.fromRGB(79, 32, 32), 'FR3SHMoure', 'Extreme Demon', FlxColor.fromRGB(255, 110, 110));
 				}
 			case 1: // Extras Menu
 				{		
